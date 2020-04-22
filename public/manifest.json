@@ -1,0 +1,57 @@
+{
+  "name": "SP Editor",
+  "homepage_url": "https://microsoftedge.microsoft.com/addons/detail/affnnhcbfmcbbdlcadgkdbfafigmjdkk",
+  "version": "6.0.4",
+  "description": "Create and update SharePoint Online/SP2013/SP2016/SP2019 css/js files, inject files to web, manage web/list properties, list Webhook",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    "bundles/system.js",
+    "bundles/common.es5.umd.bundle.js",
+    "bundles/config-store.es5.umd.bundle.js",
+    "bundles/graph.es5.umd.bundle.js",
+    "bundles/logging.es5.umd.bundle.js",
+    "bundles/odata.es5.umd.bundle.js",
+    "bundles/pnpjs.es5.umd.bundle.js",
+    "bundles/sp-addinhelpers.es5.umd.bundle.js",
+    "bundles/sp-clientsvc.es5.umd.bundle.js",
+    "bundles/sp.es5.umd.bundle.js",
+    "bundles/sp-taxonomy.es5.umd.bundle.js",
+    "bundles/adaljsclient.es5.umd.bundle.js"
+  ],
+  "devtools_page": "devtools.html",
+  "background": {
+    "scripts": [
+      "chrome/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "all_frames": true,
+      "js": [
+        "chrome/content.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "storage",
+    "https://*/*",
+    "http://*/*",
+    "tabs",
+    "downloads"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "manifest_version": 2
+}
