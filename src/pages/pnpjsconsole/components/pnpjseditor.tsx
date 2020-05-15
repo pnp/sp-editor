@@ -43,7 +43,7 @@ const PnPjsEditor = () => {
 
   const { isDark } = useSelector((state: IRootState) => state.home)
 
-  const COMMON_CONFIG: monaco.editor.IStandaloneEditorConstructionOptions = pnpjsMonacoConfigs()
+  const COMMON_CONFIG: monaco.editor.IEditorOptions = pnpjsMonacoConfigs()
 
   useEffect(() => {
     const resizeListener = () => {

@@ -7,11 +7,11 @@ import {
   IonToggle,
   IonToolbar,
 } from '@ionic/react'
+import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from 'office-ui-fabric-react'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
-import { fabricDark, fabricDefault } from '../fabricThemes'
 import { IRootState } from '../store'
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions'
 
@@ -23,7 +23,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
 
   const toggleDarkTheme = () => {
     document.body.classList.toggle('dark', !isDark)
-    dispatch(setTheme(!isDark ? fabricDark : fabricDefault))
+    dispatch(setTheme(!isDark ? DarkCustomizations : DefaultCustomizations))
     dispatch(setDarkMode(!isDark))
   }
 
@@ -99,6 +99,12 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                   name: 'Webhooks',
                   url: '/webhooks',
                   key: 'key7',
+                  disabled: true,
+                },
+                {
+                  name: 'Api tester',
+                  url: '/apitester',
+                  key: 'key17',
                   disabled: true,
                 },
                 {

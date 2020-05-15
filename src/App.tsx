@@ -33,10 +33,11 @@ import {
   Customizer,
 } from 'office-ui-fabric-react/lib/Utilities'
 
+import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingSpinner from './components/loadingSpinner'
 import MessageBar from './components/messageBar'
-import { fabricDark, fabricDefault } from './fabricThemes'
+import ApiTester from './pages/apitester'
 import ListProperties from './pages/listproperties'
 import Webhooks from './pages/webhooks'
 import WebProperties from './pages/webproperties'
@@ -55,7 +56,7 @@ const App = () => {
 
     const toggleDarkTheme = (shouldAdd: boolean) => {
       document.body.classList.toggle('dark', shouldAdd)
-      dispatch(setTheme(shouldAdd ? fabricDark : fabricDefault))
+      dispatch(setTheme(shouldAdd ? DarkCustomizations : DefaultCustomizations))
       dispatch(setDarkMode(shouldAdd))
     }
 
@@ -82,6 +83,7 @@ const App = () => {
                   <Route path='/webproperties' component={WebProperties} />
                   <Route path='/listproperties' component={ListProperties} />
                   <Route path='/webhooks' component={Webhooks} />
+                  <Route path='/apitester' component={ApiTester} />
                 </Switch>
                 <LoadingSpinner />
                 <MessageBar />
