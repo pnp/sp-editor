@@ -73,31 +73,33 @@ export function addAndInstallApp(...args: any) {
       Title: string,
     }
 
-    const catalog = $pnp.sp.web.getAppCatalog()
-    catalog.filter(`ProductId eq '${spScriptLinksAppId}'`).get().then(app => {
-      if (app.length === 0) {
-        fetch(url).then(response => {
-          response.blob().then(blob => {
-            catalog.add('sp-scriptlinks.sppkg', blob, true).then(r => {
-              $pnp.sp.web.getAppCatalog()
-                .getAppById(spScriptLinksAppId).install()
-                .then(() => postMessage('App added to AppCatalog and installed to site succesfully'))
+    $pnp.sp.getTenantAppCatalogWeb().then(appCatweb => {
+      const catalog = appCatweb.getAppCatalog()
+      catalog.filter(`ProductId eq '${spScriptLinksAppId}'`).get().then(app => {
+        if (app.length === 0) {
+          fetch(url).then(response => {
+            response.blob().then(blob => {
+              catalog.add('sp-scriptlinks.sppkg', blob, true).then(r => {
+                catalog.getAppById(spScriptLinksAppId).deploy()
+                  .then(() => $pnp.sp.web.getAppCatalog()
+                    .getAppById(spScriptLinksAppId).install()
+                    .then(() => postMessage('App added to AppCatalog and installed to site succesfully')))
+              })
             })
           })
-        })
-      } else {
-        catalog.getAppById(spScriptLinksAppId)().then((spApp: IAppInfo) => {
-          if (spApp.InstalledVersion === '') {
-            catalog.getAppById(spScriptLinksAppId).install().then(() => postMessage('App Installed succesfully'))
-          } else if (spApp.InstalledVersion < spApp.AppCatalogVersion) {
-            spApp.upgrade().then(() => postMessage(`App upgraded succesfully to version ${spApp.InstalledVersion}`))
-          } else {
-            postMessage('App already installed to this site')
-          }
-        })
-      }
+        } else {
+          catalog.getAppById(spScriptLinksAppId)().then((spApp: IAppInfo) => {
+            if (spApp.InstalledVersion === '') {
+              catalog.getAppById(spScriptLinksAppId).install().then(() => postMessage('App Installed succesfully'))
+            } else if (spApp.InstalledVersion < spApp.AppCatalogVersion) {
+              spApp.upgrade().then(() => postMessage(`App upgraded succesfully to version ${spApp.InstalledVersion}`))
+            } else {
+              postMessage('App already installed to this site')
+            }
+          })
+        }
+      })
     })
-
   })
 
 }
