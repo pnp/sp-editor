@@ -88,11 +88,11 @@ export function addAndInstallApp(...args: any) {
             })
           })
         } else {
-          catalog.getAppById(spScriptLinksAppId)().then((spApp: IAppInfo) => {
+          $pnp.sp.web.getAppCatalog().getAppById(spScriptLinksAppId)().then((spApp: IAppInfo) => {
             if (spApp.InstalledVersion === '') {
-              catalog.getAppById(spScriptLinksAppId).install().then(() => postMessage('App Installed succesfully'))
+              $pnp.sp.web.getAppCatalog().getAppById(spScriptLinksAppId).install().then(() => postMessage('App Installed succesfully'))
             } else if (spApp.InstalledVersion < spApp.AppCatalogVersion) {
-              spApp.upgrade().then(() => postMessage(`App upgraded succesfully to version ${spApp.InstalledVersion}`))
+              $pnp.sp.web.getAppCatalog().getAppById(spScriptLinksAppId).upgrade().then(() => postMessage(`App upgraded succesfully to version ${spApp.InstalledVersion}`))
             } else {
               postMessage('App already installed to this site')
             }

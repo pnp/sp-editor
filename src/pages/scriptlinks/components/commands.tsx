@@ -42,7 +42,7 @@ const ScriptLinkCommands = () => {
       farItems={[
         {
           key: 'app',
-          text: 'ScriptLinks App',
+          text: 'Modern ScriptLinks App',
           cacheKey: 'myCacheKey',
           iconProps: { iconName: 'AppIconDefault' },
           subMenuProps: {
