@@ -102,6 +102,12 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                   disabled: true,
                 },
                 {
+                  name: 'Api tester',
+                  url: '/apitester',
+                  key: 'key17',
+                  disabled: true,
+                },
+                {
                   name: 'Files',
                   url: '/files',
                   key: 'key4',

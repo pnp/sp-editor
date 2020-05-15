@@ -5,9 +5,11 @@ import * as actions from '../../../store/scriptlinks/actions'
 import { INewScriptLink, IScriptLink, ScriptLinksActions } from '../../../store/scriptlinks/types'
 import { exescript } from '../../../utilities/chromecommon'
 import { getPnpjsPath, getSystemjsPath, spDelay } from '../../../utilities/utilities'
+import { addAndInstallApp } from './addandinstallapp'
 import { createCustomAction } from './createscriptlink'
 import { deleteCustomActions } from './deletescriptlinks'
 import { getCustomActions } from './getscriptlinks'
+import { unInstallAppFromWeb } from './uninstallappfromweb'
 import { updateCustomAction } from './updatescriptlink'
 import { updateCacheCustomAction } from './updatescriptlinkcache'
 
@@ -287,4 +289,106 @@ export async function cacheScriptLinks(dispatch: Dispatch<ScriptLinksActions | H
   let script = `${getPnpjsPath()} ${getSystemjsPath()} ${exescript} ${updateCacheCustomAction}`
   script += ` ${exescript.name}(${updateCacheCustomAction.name}, '${encodeURIComponent(JSON.stringify(payload)).replace(/'/g, '%27')}');`
   chrome.devtools.inspectedWindow.eval(script)
+}
+
+export async function installApp(dispatch: Dispatch<ScriptLinksActions | HomeActions>) {
+
+  dispatch(rootActions.setLoading(true));
+  // add listener to receive the results from inspectedPage
+  (window as any).port.onMessage.addListener(function installAppCallback(message: any) {
+
+    if (
+      typeof message !== 'object' ||
+      message === null ||
+      message === undefined ||
+      message.source === undefined
+    ) {
+      return
+    }
+
+    switch (message.function) {
+      case addAndInstallApp.name:
+        if (message.success) {
+          /* on success */
+          dispatch(rootActions.setAppMessage({
+            showMessage: true,
+            message: message.result,
+            color: MessageBarColors.success,
+          }))
+          // hide loading component
+          dispatch(rootActions.setLoading(false))
+        } else {
+          /* on error */
+          // hide loading component
+          dispatch(rootActions.setLoading(false))
+          // show error message
+          dispatch(rootActions.setAppMessage({
+            showMessage: true,
+            message: message.errorMessage,
+            color: MessageBarColors.danger,
+          }))
+        }
+        // remove listener
+        (window as any).port.onMessage.removeListener(installAppCallback)
+        break
+    }
+  })
+  const url = chrome.runtime.getURL('bundles/sp-scriptlinks.sppkg')
+
+  // execute script in inspectedWindow
+  let script = `${getPnpjsPath()} ${getSystemjsPath()} ${exescript} ${addAndInstallApp}`
+  script += ` ${exescript.name}(${addAndInstallApp.name}, '${url}');`
+  chrome.devtools.inspectedWindow.eval(script)
+
+}
+
+export async function unInstallApp(dispatch: Dispatch<ScriptLinksActions | HomeActions>) {
+
+  dispatch(rootActions.setLoading(true));
+  // add listener to receive the results from inspectedPage
+  (window as any).port.onMessage.addListener(function unInstallAppCallback(message: any) {
+
+    if (
+      typeof message !== 'object' ||
+      message === null ||
+      message === undefined ||
+      message.source === undefined
+    ) {
+      return
+    }
+
+    switch (message.function) {
+      case unInstallAppFromWeb.name:
+        if (message.success) {
+          /* on success */
+          dispatch(rootActions.setAppMessage({
+            showMessage: true,
+            message: message.result,
+            color: MessageBarColors.success,
+          }))
+          // hide loading component
+          dispatch(rootActions.setLoading(false))
+        } else {
+          /* on error */
+          // hide loading component
+          dispatch(rootActions.setLoading(false))
+          // show error message
+          dispatch(rootActions.setAppMessage({
+            showMessage: true,
+            message: message.errorMessage,
+            color: MessageBarColors.danger,
+          }))
+        }
+        // remove listener
+        (window as any).port.onMessage.removeListener(unInstallAppCallback)
+        break
+    }
+  })
+  const url = chrome.runtime.getURL('bundles/sp-scriptlinks.sppkg')
+
+  // execute script in inspectedWindow
+  let script = `${getPnpjsPath()} ${getSystemjsPath()} ${exescript} ${unInstallAppFromWeb}`
+  script += ` ${exescript.name}(${unInstallAppFromWeb.name}, '${url}');`
+  chrome.devtools.inspectedWindow.eval(script)
+
 }

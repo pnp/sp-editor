@@ -59,7 +59,7 @@ export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
   new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
 
 export const pnpjsMonacoConfigs = () => {
-  const COMMON_CONFIG: monaco.editor.IStandaloneEditorConstructionOptions = {
+  const COMMON_CONFIG: monaco.editor.IEditorOptions = {
     lineNumbers: 'on',
     roundedSelection: true,
     scrollBeyondLastLine: false,
@@ -68,6 +68,9 @@ export const pnpjsMonacoConfigs = () => {
     renderIndentGuides: true,
     suggestOnTriggerCharacters: true,
     colorDecorators: true,
+    minimap: {
+      enabled: true,
+    },
     // automaticLayout: true,
   }
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({

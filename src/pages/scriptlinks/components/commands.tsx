@@ -3,6 +3,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setConfirmCacheDialog, setConfirmRemoveDialog, setNewPanel } from '../../../store/scriptlinks/actions'
+import { installApp, unInstallApp } from '../chrome/chrome-actions'
 
 const ScriptLinkCommands = () => {
   const dispatch = useDispatch()
@@ -36,6 +37,34 @@ const ScriptLinkCommands = () => {
             dispatch(setConfirmCacheDialog(false))
           },
           disabled: selectedItems.length < 1,
+        },
+      ]}
+      farItems={[
+        {
+          key: 'app',
+          text: 'ScriptLinks App',
+          cacheKey: 'myCacheKey',
+          iconProps: { iconName: 'AppIconDefault' },
+          subMenuProps: {
+            items: [
+              {
+                key: 'addApp',
+                text: 'Install',
+                iconProps: { iconName: 'AppIconDefaultAdd' },
+                onClick: () => {
+                  installApp(dispatch)
+                },
+              },
+              {
+                key: 'removeApp',
+                text: 'Uninstall',
+                iconProps: { iconName: 'Delete' },
+                onClick: () => {
+                  unInstallApp(dispatch)
+                },
+              },
+            ],
+          },
         },
       ]}
     />

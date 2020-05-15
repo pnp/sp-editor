@@ -37,6 +37,7 @@ import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-sampl
 import { useDispatch, useSelector } from 'react-redux'
 import LoadingSpinner from './components/loadingSpinner'
 import MessageBar from './components/messageBar'
+import ApiTester from './pages/apitester'
 import ListProperties from './pages/listproperties'
 import Webhooks from './pages/webhooks'
 import WebProperties from './pages/webproperties'
@@ -82,6 +83,7 @@ const App = () => {
                   <Route path='/webproperties' component={WebProperties} />
                   <Route path='/listproperties' component={ListProperties} />
                   <Route path='/webhooks' component={Webhooks} />
+                  <Route path='/apitester' component={ApiTester} />
                 </Switch>
                 <LoadingSpinner />
                 <MessageBar />
