@@ -142,7 +142,7 @@ const WebHooksList = () => {
             showEmptyGroups: true,
           }}
           // onRenderItemColumn={this._onRenderColumn}
-          compact={true}
+          compact={false}
         />
       </ScrollablePane>
 

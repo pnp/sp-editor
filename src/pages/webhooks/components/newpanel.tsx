@@ -96,7 +96,7 @@ const WebhooksNewPanel = () => {
   return (
     <Panel
       isOpen={newpanel}
-      type={PanelType.smallFixedFar}
+      type={PanelType.largeFixed}
       onDismiss={() => { dispatch(setNewPanel(false))}}
       isLightDismiss={true}
       isFooterAtBottom={true}
@@ -112,7 +112,7 @@ const WebhooksNewPanel = () => {
           className={controlClass.control}
           isRequired={false}
           firstDayOfWeek={DayOfWeek.Monday}
-          strings={DayPickerStrings}
+         // strings={DayPickerStrings}
           placeholder='Select a date...'
           ariaLabel='Select a date'
           minDate={today}

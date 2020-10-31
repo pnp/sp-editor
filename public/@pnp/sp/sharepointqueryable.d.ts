@@ -42,8 +42,9 @@ export declare class _SharePointQueryable<GetType = any> extends Queryable<GetTy
      * @param factory Constructor used to create the new instance
      * @param additionalPath Any additional path to include in the clone
      * @param includeBatch If true this instance's batch will be added to the cloned instance
+     * @param includeQuery If true all of the query values will be copied to the cloned instance
      */
-    clone<T extends ISharePointQueryable>(factory: (...args: any[]) => T, additionalPath?: string, includeBatch?: boolean): T;
+    clone<T extends ISharePointQueryable>(factory: (...args: any[]) => T, additionalPath?: string, includeBatch?: boolean, includeQuery?: boolean): T;
     /**
      * The default action for this object (unless overridden spGet)
      *
@@ -119,14 +120,14 @@ export declare const SharePointQueryableInstance: ISPInvokableFactory<ISharePoin
 /**
  * Adds the a delete method to the tagged class taking no parameters and calling spPostDelete
  */
-export declare function deleteable(t: string): (this: ISharePointQueryable<any>) => Promise<void>;
+export declare function deleteable(t: string): (this: ISharePointQueryable) => Promise<void>;
 export interface IDeleteable {
     /**
      * Delete this instance
      */
     delete(): Promise<void>;
 }
-export declare function deleteableWithETag(t: string): (this: ISharePointQueryable<any>, eTag?: string) => Promise<void>;
+export declare function deleteableWithETag(t: string): (this: ISharePointQueryable, eTag?: string) => Promise<void>;
 export interface IDeleteableWithETag {
     /**
      * Delete this instance

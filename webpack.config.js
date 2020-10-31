@@ -208,7 +208,7 @@ module.exports = [{
       minimize: false
     },
   },
-  {
+  /*{
     // adaljsclient.es5.umd.bundle.js
     entry: "./pnpjs-sources/index-adaljsclient.ts",
     mode: "production",
@@ -237,7 +237,7 @@ module.exports = [{
     optimization: {
       minimize: false
     },
-  },
+  },*/
   {
     // pnpjs.es5.umd.bundle.js
     entry: "./pnpjs-sources/index-pnpjs.ts",
