@@ -6,6 +6,8 @@
       "declaration": false,
       "strict": false,
       "baseUrl": "./",
+      "jsx": "react",
+      "noFallthroughCasesInSwitch": true,
     },
     "exclude": [
         "build",
@@ -14,4 +16,3 @@
         "node_modules"
     ]
   }
-  

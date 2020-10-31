@@ -107,7 +107,7 @@ const ScriptLinkList = () => {
       isSorted: sortkey === 'ScriptSrc',
       isSortedDescending: scriptSrcAsc,
       key: 'ScriptSrc',
-      maxWidth: 350,
+      // maxWidth: 350,
       minWidth: 210,
       name: 'ScriptSrc',
       onColumnClick,
@@ -122,7 +122,7 @@ const ScriptLinkList = () => {
       isSortedDescending: scopeAsc,
       key: 'Scope',
       maxWidth: 350,
-      minWidth: 210,
+      minWidth: 100,
       name: 'Scope',
       onColumnClick,
     },
@@ -145,7 +145,7 @@ const ScriptLinkList = () => {
       <ScrollablePane>
         <MarqueeSelection selection={selection} isEnabled={true}>
           <DetailsList
-            layoutMode={DetailsListLayoutMode.fixedColumns}
+            layoutMode={DetailsListLayoutMode.justified}
             onShouldVirtualize={() => false}
             selection={selection}
             items={scriptlinks}

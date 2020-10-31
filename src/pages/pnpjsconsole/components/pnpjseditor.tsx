@@ -150,7 +150,7 @@ const PnPjsEditor = () => {
             ${execme(prepnp, ecode)}
             ${exescript.name}(execme);`
 
-            console.log(script)
+            // console.log(script)
 
             // execute the code
             chrome.devtools.inspectedWindow.eval(script)

@@ -7,6 +7,8 @@ import { pnpJSConsoleReducer } from './pnpjsconsole/reducers'
 import { IPnPjsConsoleState } from './pnpjsconsole/types'
 import { scriptLinksReducer } from './scriptlinks/reducers'
 import { IScriptLinksState } from './scriptlinks/types'
+import { spshootReducer } from './spshoot/reducers'
+import { ISPShootState } from './spshoot/types'
 import { webHooksReducer } from './webhooks/reducers'
 import { IWebHooksState } from './webhooks/types'
 import { webPropertiesReducer } from './webproperties/reducers'
@@ -19,6 +21,7 @@ export interface IRootState {
   webProperties: IWebPropertiesState
   webHooks: IWebHooksState
   listProperties: IListPropertiesState
+  spshoot: ISPShootState
 }
 
 const store = createStore<IRootState, any, any, any>(
@@ -29,6 +32,7 @@ const store = createStore<IRootState, any, any, any>(
     webProperties: webPropertiesReducer,
     webHooks: webHooksReducer,
     listProperties: listPropertiesReducer,
+    spshoot: spshootReducer,
   }))
 
 export default store

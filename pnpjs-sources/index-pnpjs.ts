@@ -1,5 +1,5 @@
 export * from '../node_modules/@pnp/pnpjs'
-export * from '../node_modules/@pnp/adaljsclient'
+// export * from '../node_modules/@pnp/adaljsclient'
 
 export * from '../node_modules/@pnp/logging'
 export * from '../node_modules/@pnp/common'

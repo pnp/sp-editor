@@ -85,26 +85,26 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                   key: 'key8',
                 },
                 {
-                  name: 'Web properties',
+                  name: 'Web Properties',
                   url: '/webproperties',
                   key: 'key5',
                 },
                 {
-                  name: 'List properties',
+                  name: 'List Properties',
                   url: '/listproperties',
                   key: 'key6',
+                  disabled: false,
+                },
+                {
+                  name: 'SP Shooter',
+                  url: '/spshooter',
+                  key: 'key17',
                   disabled: false,
                 },
                 {
                   name: 'Webhooks',
                   url: '/webhooks',
                   key: 'key7',
-                  disabled: true,
-                },
-                {
-                  name: 'Api tester',
-                  url: '/apitester',
-                  key: 'key17',
                   disabled: true,
                 },
                 {

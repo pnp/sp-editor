@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,78 +99,87 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return safeGlobal; });
-// export either window or global
-var safeGlobal = typeof global === "undefined" ? window : global;
+/* harmony import */ var _collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+/* harmony import */ var _libconfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RuntimeConfig", function() { return _libconfig__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(1)))
+/* harmony import */ var _net__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mergeOptions", function() { return _net__WEBPACK_IMPORTED_MODULE_2__["a"]; });
+
+/* harmony import */ var _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "PnPClientStorage")) __webpack_require__.d(__webpack_exports__, "PnPClientStorage", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["PnPClientStorage"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "assign")) __webpack_require__.d(__webpack_exports__, "assign", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["assign"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "combine")) __webpack_require__.d(__webpack_exports__, "combine", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["combine"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "dateAdd")) __webpack_require__.d(__webpack_exports__, "dateAdd", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["dateAdd"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "getGUID")) __webpack_require__.d(__webpack_exports__, "getGUID", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["getGUID"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "hOP")) __webpack_require__.d(__webpack_exports__, "hOP", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["hOP"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "isArray")) __webpack_require__.d(__webpack_exports__, "isArray", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["isArray"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "isFunc")) __webpack_require__.d(__webpack_exports__, "isFunc", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["isFunc"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "jsS")) __webpack_require__.d(__webpack_exports__, "jsS", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["jsS"]; });
+
+/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "objectDefinedNotNull")) __webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["objectDefinedNotNull"]; });
+
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PnPClientStorage", function() { return _storage__WEBPACK_IMPORTED_MODULE_4__["a"]; });
+
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "assign", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combine", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["b"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateAdd", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getGUID", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hOP", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["f"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["g"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isFunc", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["h"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "jsS", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["i"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["j"]; });
+
+/* harmony import */ var _safe_global__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5);
+
+
+
+
+
+
+
+
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "Batch", function() { return /* reexport */ batch_Batch; });
-__webpack_require__.d(__webpack_exports__, "CachingOptions", function() { return /* reexport */ caching_CachingOptions; });
-__webpack_require__.d(__webpack_exports__, "CachingParserWrapper", function() { return /* reexport */ CachingParserWrapper; });
-__webpack_require__.d(__webpack_exports__, "addProp", function() { return /* reexport */ addProp; });
-__webpack_require__.d(__webpack_exports__, "invokableFactory", function() { return /* reexport */ invokableFactory; });
-__webpack_require__.d(__webpack_exports__, "pipelineBinder", function() { return /* reexport */ pipelineBinder; });
-__webpack_require__.d(__webpack_exports__, "defaultPipelineBinder", function() { return /* reexport */ defaultPipelineBinder; });
-__webpack_require__.d(__webpack_exports__, "ODataParser", function() { return /* reexport */ parsers_ODataParser; });
-__webpack_require__.d(__webpack_exports__, "TextParser", function() { return /* reexport */ parsers_TextParser; });
-__webpack_require__.d(__webpack_exports__, "BlobParser", function() { return /* reexport */ parsers_BlobParser; });
-__webpack_require__.d(__webpack_exports__, "JSONParser", function() { return /* reexport */ parsers_JSONParser; });
-__webpack_require__.d(__webpack_exports__, "BufferParser", function() { return /* reexport */ parsers_BufferParser; });
-__webpack_require__.d(__webpack_exports__, "LambdaParser", function() { return /* reexport */ parsers_LambdaParser; });
-__webpack_require__.d(__webpack_exports__, "HttpRequestError", function() { return /* reexport */ parsers_HttpRequestError; });
-__webpack_require__.d(__webpack_exports__, "setResult", function() { return /* reexport */ setResult; });
-__webpack_require__.d(__webpack_exports__, "pipe", function() { return /* reexport */ pipe; });
-__webpack_require__.d(__webpack_exports__, "requestPipelineMethod", function() { return /* reexport */ requestPipelineMethod; });
-__webpack_require__.d(__webpack_exports__, "PipelineMethods", function() { return /* reexport */ pipeline_PipelineMethods; });
-__webpack_require__.d(__webpack_exports__, "getDefaultPipeline", function() { return /* reexport */ getDefaultPipeline; });
-__webpack_require__.d(__webpack_exports__, "cloneQueryableData", function() { return /* reexport */ cloneQueryableData; });
-__webpack_require__.d(__webpack_exports__, "Queryable", function() { return /* reexport */ queryable_Queryable; });
-__webpack_require__.d(__webpack_exports__, "body", function() { return /* reexport */ body; });
-__webpack_require__.d(__webpack_exports__, "headers", function() { return /* reexport */ request_builders_headers; });
-__webpack_require__.d(__webpack_exports__, "extendGlobal", function() { return /* reexport */ extendGlobal; });
-__webpack_require__.d(__webpack_exports__, "extendObj", function() { return /* reexport */ extendObj; });
-__webpack_require__.d(__webpack_exports__, "extendFactory", function() { return /* reexport */ extendFactory; });
-__webpack_require__.d(__webpack_exports__, "clearGlobalExtensions", function() { return /* reexport */ clearGlobalExtensions; });
-__webpack_require__.d(__webpack_exports__, "enableExtensions", function() { return /* reexport */ enableExtensions; });
-__webpack_require__.d(__webpack_exports__, "disableExtensions", function() { return /* reexport */ disableExtensions; });
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/util.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getCtxCallback; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return dateAdd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return combine; });
+/* unused harmony export getRandomString */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getGUID; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isFunc; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return objectDefinedNotNull; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return isArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return assign; });
+/* unused harmony export isUrlAbsolute */
+/* unused harmony export stringIsNullOrEmpty */
+/* unused harmony export sanitizeGuid */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return jsS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return hOP; });
+/* unused harmony export getHashCode */
 /**
  * Gets a callback function which will maintain context across async calls.
  * Allows for the calling pattern getCtxCallback(thisobj, method, methodarg1, methodarg2, ...)
@@ -305,7 +314,7 @@ function isArray(array) {
  * @param filter If provided allows additional filtering on what properties are copied (propName: string) => boolean
  *
  */
-function util_assign(target, source, noOverwrite, filter) {
+function assign(target, source, noOverwrite, filter) {
     if (noOverwrite === void 0) { noOverwrite = false; }
     if (filter === void 0) { filter = function () { return true; }; }
     if (!objectDefinedNotNull(source)) {
@@ -387,149 +396,48 @@ function getHashCode(s) {
 }
 // tslint:enable:no-bitwise
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/collections.js
 
-/**
- * Used to calculate the object properties, with polyfill if needed
- */
-var objectEntries = isFunc(Object.entries) ? Object.entries : function (o) { return Object.keys(o).map(function (k) { return [k, o[k]]; }); };
-/**
- * Converts the supplied object to a map
- *
- * @param o The object to map
- */
-function objectToMap(o) {
-    if (o !== undefined && o !== null) {
-        return new Map(objectEntries(o));
-    }
-    return new Map();
-}
-/**
- * Merges to Map instances together, overwriting values in target with matching keys, last in wins
- *
- * @param target map into which the other maps are merged
- * @param maps One or more maps to merge into the target
- */
-function mergeMaps(target) {
-    var maps = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        maps[_i - 1] = arguments[_i];
-    }
-    for (var i = 0; i < maps.length; i++) {
-        maps[i].forEach(function (v, k) {
-            target.set(k, v);
-        });
-    }
-    return target;
-}
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/libconfig.js
-
-function setup(config) {
-    RuntimeConfig.assign(config);
-}
-// lable mapping for known config values
-var libconfig_s = [
-    "defaultCachingStore",
-    "defaultCachingTimeoutSeconds",
-    "globalCacheDisable",
-    "enableCacheExpiration",
-    "cacheExpirationIntervalMilliseconds",
-    "spfxContext",
-    "ie11",
-];
-var libconfig_RuntimeConfigImpl = /** @class */ (function () {
-    function RuntimeConfigImpl(_v) {
-        if (_v === void 0) { _v = new Map(); }
-        this._v = _v;
-        // setup defaults
-        this._v.set(libconfig_s[0], "session");
-        this._v.set(libconfig_s[1], 60);
-        this._v.set(libconfig_s[2], false);
-        this._v.set(libconfig_s[3], false);
-        this._v.set(libconfig_s[4], 750);
-        this._v.set(libconfig_s[5], null);
-        this._v.set(libconfig_s[6], false);
-    }
-    /**
-     *
-     * @param config The set of properties to add to the globa configuration instance
-     */
-    RuntimeConfigImpl.prototype.assign = function (config) {
-        this._v = mergeMaps(this._v, objectToMap(config));
-    };
-    RuntimeConfigImpl.prototype.get = function (key) {
-        return this._v.get(key);
-    };
-    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingStore", {
-        get: function () {
-            return this.get(libconfig_s[0]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingTimeoutSeconds", {
-        get: function () {
-            return this.get(libconfig_s[1]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "globalCacheDisable", {
-        get: function () {
-            return this.get(libconfig_s[2]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "enableCacheExpiration", {
-        get: function () {
-            return this.get(libconfig_s[3]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "cacheExpirationIntervalMilliseconds", {
-        get: function () {
-            return this.get(libconfig_s[4]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "spfxContext", {
-        get: function () {
-            return this.get(libconfig_s[5]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "ie11", {
-        get: function () {
-            return this.get(libconfig_s[6]);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return RuntimeConfigImpl;
-}());
-
-var _runtimeConfig = new libconfig_RuntimeConfigImpl();
-var RuntimeConfig = _runtimeConfig;
-
-// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __extends; });
+/* unused harmony export __assign */
+/* unused harmony export __rest */
+/* unused harmony export __decorate */
+/* unused harmony export __param */
+/* unused harmony export __metadata */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __awaiter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __generator; });
+/* unused harmony export __createBinding */
+/* unused harmony export __exportStar */
+/* unused harmony export __values */
+/* unused harmony export __read */
+/* unused harmony export __spread */
+/* unused harmony export __spreadArrays */
+/* unused harmony export __await */
+/* unused harmony export __asyncGenerator */
+/* unused harmony export __asyncDelegator */
+/* unused harmony export __asyncValues */
+/* unused harmony export __makeTemplateObject */
+/* unused harmony export __importStar */
+/* unused harmony export __importDefault */
+/* unused harmony export __classPrivateFieldGet */
+/* unused harmony export __classPrivateFieldSet */
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
@@ -585,10 +493,11 @@ function __metadata(metadataKey, metadataValue) {
 }
 
 function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
@@ -621,19 +530,28 @@ function __generator(thisArg, body) {
     }
 }
 
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
 function __exportStar(m, exports) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 }
 
 function __values(o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
     if (m) return m.call(o);
-    return {
+    if (o && typeof o.length === "number") return {
         next: function () {
             if (o && i >= o.length) o = void 0;
             return { value: o && o[i++], done: !o };
         }
     };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 
 function __read(o, n) {
@@ -702,11 +620,17 @@ function __makeTemplateObject(cooked, raw) {
     return cooked;
 };
 
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 }
 
@@ -714,15 +638,198 @@ function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-// EXTERNAL MODULE: ./node_modules/@pnp/common/safe-global.js
-var safe_global = __webpack_require__(0);
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/net.js
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export setup */
+/* unused harmony export RuntimeConfigImpl */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RuntimeConfig; });
+/* harmony import */ var _collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+
+function setup(config) {
+    RuntimeConfig.assign(config);
+}
+// lable mapping for known config values
+var s = [
+    "defaultCachingStore",
+    "defaultCachingTimeoutSeconds",
+    "globalCacheDisable",
+    "enableCacheExpiration",
+    "cacheExpirationIntervalMilliseconds",
+    "spfxContext",
+    "ie11",
+];
+var RuntimeConfigImpl = /** @class */ (function () {
+    function RuntimeConfigImpl(_v) {
+        if (_v === void 0) { _v = new Map(); }
+        this._v = _v;
+        // setup defaults
+        this._v.set(s[0], "session");
+        this._v.set(s[1], 60);
+        this._v.set(s[2], false);
+        this._v.set(s[3], false);
+        this._v.set(s[4], 750);
+        this._v.set(s[5], null);
+        this._v.set(s[6], false);
+    }
+    /**
+     *
+     * @param config The set of properties to add to the globa configuration instance
+     */
+    RuntimeConfigImpl.prototype.assign = function (config) {
+        this._v = Object(_collections__WEBPACK_IMPORTED_MODULE_0__[/* mergeMaps */ "a"])(this._v, Object(_collections__WEBPACK_IMPORTED_MODULE_0__[/* objectToMap */ "b"])(config));
+    };
+    RuntimeConfigImpl.prototype.get = function (key) {
+        return this._v.get(key);
+    };
+    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingStore", {
+        get: function () {
+            return this.get(s[0]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingTimeoutSeconds", {
+        get: function () {
+            return this.get(s[1]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "globalCacheDisable", {
+        get: function () {
+            return this.get(s[2]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "enableCacheExpiration", {
+        get: function () {
+            return this.get(s[3]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "cacheExpirationIntervalMilliseconds", {
+        get: function () {
+            return this.get(s[4]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "spfxContext", {
+        get: function () {
+            return this.get(s[5]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(RuntimeConfigImpl.prototype, "ie11", {
+        get: function () {
+            return this.get(s[6]);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return RuntimeConfigImpl;
+}());
+
+var _runtimeConfig = new RuntimeConfigImpl();
+var RuntimeConfig = _runtimeConfig;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return objectToMap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mergeMaps; });
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+/**
+ * Used to calculate the object properties, with polyfill if needed
+ */
+var objectEntries = Object(_util__WEBPACK_IMPORTED_MODULE_0__[/* isFunc */ "h"])(Object.entries) ? Object.entries : function (o) { return Object.keys(o).map(function (k) { return [k, o[k]]; }); };
+/**
+ * Converts the supplied object to a map
+ *
+ * @param o The object to map
+ */
+function objectToMap(o) {
+    if (o !== undefined && o !== null) {
+        return new Map(objectEntries(o));
+    }
+    return new Map();
+}
+/**
+ * Merges to Map instances together, overwriting values in target with matching keys, last in wins
+ *
+ * @param target map into which the other maps are merged
+ * @param maps One or more maps to merge into the target
+ */
+function mergeMaps(target) {
+    var maps = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        maps[_i - 1] = arguments[_i];
+    }
+    for (var i = 0; i < maps.length; i++) {
+        maps[i].forEach(function (v, k) {
+            target.set(k, v);
+        });
+    }
+    return target;
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return safeGlobal; });
+// export either window or global
+var safeGlobal = typeof global === "undefined" ? window : global;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(9)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export mergeHeaders */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mergeOptions; });
+/* unused harmony export getADALResource */
+/* unused harmony export FetchClient */
+/* unused harmony export BearerTokenFetchClient */
+/* unused harmony export SPFxAdalClient */
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _safe_global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
 
 
 
 function mergeHeaders(target, source) {
-    if (objectDefinedNotNull(source)) {
+    if (Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "j"])(source)) {
         var temp = new Request("", { headers: source });
         temp.headers.forEach(function (value, name) {
             target.append(name, value);
@@ -730,9 +837,9 @@ function mergeHeaders(target, source) {
     }
 }
 function mergeOptions(target, source) {
-    if (objectDefinedNotNull(source)) {
-        var headers = util_assign(target.headers || {}, source.headers);
-        target = util_assign(target, source);
+    if (Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "j"])(source)) {
+        var headers = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* assign */ "a"])(target.headers || {}, source.headers);
+        target = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* assign */ "a"])(target, source);
         target.headers = headers;
     }
 }
@@ -748,11 +855,11 @@ function getADALResource(url) {
 /**
  * Makes requests using the global/window fetch API
  */
-var net_FetchClient = /** @class */ (function () {
+var FetchClient = /** @class */ (function () {
     function FetchClient() {
     }
     FetchClient.prototype.fetch = function (url, options) {
-        return safe_global["a" /* safeGlobal */].fetch(url, options);
+        return _safe_global__WEBPACK_IMPORTED_MODULE_2__[/* safeGlobal */ "a"].fetch(url, options);
     };
     return FetchClient;
 }());
@@ -760,8 +867,8 @@ var net_FetchClient = /** @class */ (function () {
 /**
  * Makes requests using the fetch API adding the supplied token to the Authorization header
  */
-var net_BearerTokenFetchClient = /** @class */ (function (_super) {
-    __extends(BearerTokenFetchClient, _super);
+var BearerTokenFetchClient = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __extends */ "b"])(BearerTokenFetchClient, _super);
     function BearerTokenFetchClient(_token) {
         var _this = _super.call(this) || this;
         _this._token = _token;
@@ -774,7 +881,7 @@ var net_BearerTokenFetchClient = /** @class */ (function (_super) {
         set: function (token) {
             this._token = token;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     BearerTokenFetchClient.prototype.fetch = function (url, options) {
@@ -786,13 +893,13 @@ var net_BearerTokenFetchClient = /** @class */ (function (_super) {
         return _super.prototype.fetch.call(this, url, options);
     };
     return BearerTokenFetchClient;
-}(net_FetchClient));
+}(FetchClient));
 
 /**
  * Client wrapping the aadTokenProvider available from SPFx >= 1.6
  */
-var net_SPFxAdalClient = /** @class */ (function (_super) {
-    __extends(SPFxAdalClient, _super);
+var SPFxAdalClient = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __extends */ "b"])(SPFxAdalClient, _super);
     /**
      *
      * @param context provide the appropriate SPFx Context object
@@ -809,9 +916,9 @@ var net_SPFxAdalClient = /** @class */ (function (_super) {
      * @param options Any options
      */
     SPFxAdalClient.prototype.fetch = function (url, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
             var token;
-            return __generator(this, function (_a) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getToken(getADALResource(url))];
                     case 1:
@@ -828,9 +935,9 @@ var net_SPFxAdalClient = /** @class */ (function (_super) {
      * @param resource Resource for which a token is to be requested (ex: https://graph.microsoft.com)
      */
     SPFxAdalClient.prototype.getToken = function (resource) {
-        return __awaiter(this, void 0, void 0, function () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
             var provider;
-            return __generator(this, function (_a) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.context.aadTokenProviderFactory.getTokenProvider()];
                     case 1:
@@ -841,10 +948,26 @@ var net_SPFxAdalClient = /** @class */ (function (_super) {
         });
     };
     return SPFxAdalClient;
-}(net_BearerTokenFetchClient));
+}(BearerTokenFetchClient));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/storage.js
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export PnPClientStorageWrapper */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PnPClientStorage; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _libconfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
 
 
 
@@ -852,7 +975,7 @@ var net_SPFxAdalClient = /** @class */ (function (_super) {
  * A wrapper class to provide a consistent interface to browser based storage
  *
  */
-var storage_PnPClientStorageWrapper = /** @class */ (function () {
+var PnPClientStorageWrapper = /** @class */ (function () {
     /**
      * Creates a new instance of the PnPClientStorageWrapper class
      *
@@ -865,7 +988,7 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
         this.enabled = this.test();
         // if the cache timeout is enabled call the handler
         // this will clear any expired items and set the timeout function
-        if (RuntimeConfig.enableCacheExpiration) {
+        if (_libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].enableCacheExpiration) {
             this.cacheExpirationHandler();
         }
     }
@@ -882,7 +1005,7 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
             return null;
         }
         var o = this.store.getItem(key);
-        if (!objectDefinedNotNull(o)) {
+        if (!Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "j"])(o)) {
             return null;
         }
         var persistable = JSON.parse(o);
@@ -924,9 +1047,9 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
      * @param expire Optional, if provided the expiration of the item, otherwise the default is used
      */
     PnPClientStorageWrapper.prototype.getOrPut = function (key, getter, expire) {
-        return __awaiter(this, void 0, void 0, function () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
             var o;
-            return __generator(this, function (_a) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.enabled) {
@@ -948,9 +1071,9 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
      * Deletes any expired items placed in the store by the pnp library, leaves other items untouched
      */
     PnPClientStorageWrapper.prototype.deleteExpired = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
             var i, key;
-            return __generator(this, function (_a) {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.enabled) {
@@ -997,13 +1120,13 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
     PnPClientStorageWrapper.prototype.createPersistable = function (o, expire) {
         if (expire === undefined) {
             // ensure we are by default inline with the global library setting
-            var defaultTimeout = RuntimeConfig.defaultCachingTimeoutSeconds;
+            var defaultTimeout = _libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].defaultCachingTimeoutSeconds;
             if (this.defaultTimeoutMinutes > 0) {
                 defaultTimeout = this.defaultTimeoutMinutes * 60;
             }
-            expire = dateAdd(new Date(), "second", defaultTimeout);
+            expire = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* dateAdd */ "c"])(new Date(), "second", defaultTimeout);
         }
-        return jsS({ pnp: 1, expiration: expire, value: o });
+        return Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* jsS */ "i"])({ pnp: 1, expiration: expire, value: o });
     };
     /**
      * Deletes expired items added by this library in this.store and sets a timeout to call itself
@@ -1015,7 +1138,7 @@ var storage_PnPClientStorageWrapper = /** @class */ (function () {
         }
         this.deleteExpired().then(function (_) {
             // call ourself in the future
-            setTimeout(getCtxCallback(_this, _this.cacheExpirationHandler), RuntimeConfig.cacheExpirationIntervalMilliseconds);
+            setTimeout(Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* getCtxCallback */ "d"])(_this, _this.cacheExpirationHandler), _libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].cacheExpirationIntervalMilliseconds);
         }).catch(console.error);
     };
     return PnPClientStorageWrapper;
@@ -1033,7 +1156,7 @@ var MemoryStorage = /** @class */ (function () {
         get: function () {
             return this._store.size;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     MemoryStorage.prototype.clear = function () {
@@ -1074,11 +1197,11 @@ var PnPClientStorage = /** @class */ (function () {
          */
         get: function () {
             if (this._local === null) {
-                this._local = new storage_PnPClientStorageWrapper(typeof (localStorage) === "undefined" ? new MemoryStorage() : localStorage);
+                this._local = new PnPClientStorageWrapper(typeof (localStorage) === "undefined" ? new MemoryStorage() : localStorage);
             }
             return this._local;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(PnPClientStorage.prototype, "session", {
@@ -1087,30 +1210,91 @@ var PnPClientStorage = /** @class */ (function () {
          */
         get: function () {
             if (this._session === null) {
-                this._session = new storage_PnPClientStorageWrapper(typeof (sessionStorage) === "undefined" ? new MemoryStorage() : sessionStorage);
+                this._session = new PnPClientStorageWrapper(typeof (sessionStorage) === "undefined" ? new MemoryStorage() : sessionStorage);
             }
             return this._session;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return PnPClientStorage;
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/index.js
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "Batch", function() { return /* reexport */ batch_Batch; });
+__webpack_require__.d(__webpack_exports__, "CachingOptions", function() { return /* reexport */ caching_CachingOptions; });
+__webpack_require__.d(__webpack_exports__, "CachingParserWrapper", function() { return /* reexport */ CachingParserWrapper; });
+__webpack_require__.d(__webpack_exports__, "addProp", function() { return /* reexport */ addProp; });
+__webpack_require__.d(__webpack_exports__, "invokableFactory", function() { return /* reexport */ invokableFactory; });
+__webpack_require__.d(__webpack_exports__, "pipelineBinder", function() { return /* reexport */ pipelineBinder; });
+__webpack_require__.d(__webpack_exports__, "defaultPipelineBinder", function() { return /* reexport */ defaultPipelineBinder; });
+__webpack_require__.d(__webpack_exports__, "ODataParser", function() { return /* reexport */ parsers_ODataParser; });
+__webpack_require__.d(__webpack_exports__, "TextParser", function() { return /* reexport */ parsers_TextParser; });
+__webpack_require__.d(__webpack_exports__, "BlobParser", function() { return /* reexport */ parsers_BlobParser; });
+__webpack_require__.d(__webpack_exports__, "JSONParser", function() { return /* reexport */ parsers_JSONParser; });
+__webpack_require__.d(__webpack_exports__, "BufferParser", function() { return /* reexport */ parsers_BufferParser; });
+__webpack_require__.d(__webpack_exports__, "LambdaParser", function() { return /* reexport */ parsers_LambdaParser; });
+__webpack_require__.d(__webpack_exports__, "HttpRequestError", function() { return /* reexport */ parsers_HttpRequestError; });
+__webpack_require__.d(__webpack_exports__, "setResult", function() { return /* reexport */ setResult; });
+__webpack_require__.d(__webpack_exports__, "pipe", function() { return /* reexport */ pipe; });
+__webpack_require__.d(__webpack_exports__, "requestPipelineMethod", function() { return /* reexport */ requestPipelineMethod; });
+__webpack_require__.d(__webpack_exports__, "PipelineMethods", function() { return /* reexport */ pipeline_PipelineMethods; });
+__webpack_require__.d(__webpack_exports__, "getDefaultPipeline", function() { return /* reexport */ getDefaultPipeline; });
+__webpack_require__.d(__webpack_exports__, "cloneQueryableData", function() { return /* reexport */ cloneQueryableData; });
+__webpack_require__.d(__webpack_exports__, "Queryable", function() { return /* reexport */ queryable_Queryable; });
+__webpack_require__.d(__webpack_exports__, "body", function() { return /* reexport */ request_builders_body; });
+__webpack_require__.d(__webpack_exports__, "headers", function() { return /* reexport */ headers; });
+__webpack_require__.d(__webpack_exports__, "extendGlobal", function() { return /* reexport */ extendGlobal; });
+__webpack_require__.d(__webpack_exports__, "extendObj", function() { return /* reexport */ extendObj; });
+__webpack_require__.d(__webpack_exports__, "extendFactory", function() { return /* reexport */ extendFactory; });
+__webpack_require__.d(__webpack_exports__, "clearGlobalExtensions", function() { return /* reexport */ clearGlobalExtensions; });
+__webpack_require__.d(__webpack_exports__, "enableExtensions", function() { return /* reexport */ enableExtensions; });
+__webpack_require__.d(__webpack_exports__, "disableExtensions", function() { return /* reexport */ disableExtensions; });
 
-
+// EXTERNAL MODULE: ./node_modules/@pnp/common/index.js
+var common = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/batch.js
 
 var batch_Batch = /** @class */ (function () {
     function Batch(_batchId) {
-        if (_batchId === void 0) { _batchId = getGUID(); }
+        if (_batchId === void 0) { _batchId = Object(common["getGUID"])(); }
         this._batchId = _batchId;
         this._reqs = [];
         this._deps = [];
@@ -1121,7 +1305,7 @@ var batch_Batch = /** @class */ (function () {
         get: function () {
             return this._batchId;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Batch.prototype, "requests", {
@@ -1132,7 +1316,7 @@ var batch_Batch = /** @class */ (function () {
             // we sort these each time this is accessed
             return this._reqs.sort(function (info1, info2) { return info1.index - info2.index; });
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -1214,8 +1398,8 @@ var batch_Batch = /** @class */ (function () {
 
 var caching_CachingOptions = /** @class */ (function () {
     function CachingOptions(key, storeName, expiration) {
-        if (storeName === void 0) { storeName = RuntimeConfig.defaultCachingStore; }
-        if (expiration === void 0) { expiration = dateAdd(new Date(), "second", RuntimeConfig.defaultCachingTimeoutSeconds); }
+        if (storeName === void 0) { storeName = common["RuntimeConfig"].defaultCachingStore; }
+        if (expiration === void 0) { expiration = Object(common["dateAdd"])(new Date(), "second", common["RuntimeConfig"].defaultCachingTimeoutSeconds); }
         this.key = key;
         this.storeName = storeName;
         this.expiration = expiration;
@@ -1229,10 +1413,10 @@ var caching_CachingOptions = /** @class */ (function () {
                 return CachingOptions.storage.session;
             }
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
-    CachingOptions.storage = new PnPClientStorage();
+    CachingOptions.storage = new common["PnPClientStorage"]();
     return CachingOptions;
 }());
 
@@ -1274,12 +1458,242 @@ function addProp(target, name, factory, path) {
     });
 }
 
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
+
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-extensions.js
 
 
 var _enableExtensions = false;
-var globaExtensions = [];
-var ObjExtensionsSym = Symbol("__extensions");
+var globalExtensions = [];
+var factoryExtensions = new Map();
+var ObjExtensionsSym = Symbol.for("43f7a601");
 /**
  * Creates global extensions across all invokable objects
  *
@@ -1287,7 +1701,7 @@ var ObjExtensionsSym = Symbol("__extensions");
  */
 var extendGlobal = function (e) {
     _enableExtensions = true;
-    extendCol(globaExtensions, e);
+    extendCol(globalExtensions, e);
 };
 /**
  * Applies the supplied extensions to a single instance
@@ -1311,13 +1725,21 @@ var extendObj = function (target, extensions) {
  */
 var extendFactory = function (factory, extensions) {
     _enableExtensions = true;
-    if (factory.__proto__[ObjExtensionsSym] === undefined) {
-        factory.__proto__[ObjExtensionsSym] = [];
+    // factoryExtensions
+    var proto = Reflect.getPrototypeOf(factory);
+    if (!Reflect.has(proto, ObjExtensionsSym)) {
+        Reflect.defineProperty(proto, ObjExtensionsSym, {
+            value: Object(common["getGUID"])(),
+        });
     }
-    extendCol(factory.__proto__[ObjExtensionsSym], extensions);
+    var key = proto[ObjExtensionsSym];
+    if (!factoryExtensions.has(key)) {
+        factoryExtensions.set(key, []);
+    }
+    extendCol(factoryExtensions.get(key), extensions);
 };
 function extendCol(a, e) {
-    if (isArray(e)) {
+    if (Object(common["isArray"])(e)) {
         // @ts-ignore
         a.push.apply(a, __spread(e));
     }
@@ -1330,7 +1752,7 @@ function extendCol(a, e) {
  * Clears all global extensions
  */
 var clearGlobalExtensions = function () {
-    globaExtensions.length = 0;
+    globalExtensions.length = 0;
 };
 /**
  * Disables all extensions
@@ -1352,8 +1774,10 @@ var enableExtensions = function () {
  */
 var applyFactoryExtensions = function (factory, args) {
     var o = factory(args);
-    if (factory.__proto__[ObjExtensionsSym]) {
-        o = extendObj(o, factory.__proto__[ObjExtensionsSym]);
+    var proto = Reflect.getPrototypeOf(factory);
+    if (Reflect.has(proto, ObjExtensionsSym)) {
+        var extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
+        o = extendObj(o, extensions);
     }
     return o;
 };
@@ -1369,11 +1793,11 @@ function extensionOrDefault(op, or, target) {
             extensions.push.apply(extensions, __spread(Reflect.get(target, ObjExtensionsSym)));
         }
         // second we need to process any global extensions
-        extensions.push.apply(extensions, __spread(globaExtensions));
+        extensions.push.apply(extensions, __spread(globalExtensions));
         for (var i = 0; i < extensions.length; i++) {
             var extension = extensions[i];
             var result = undefined;
-            if (isFunc(extension)) {
+            if (Object(common["isFunc"])(extension)) {
                 // this extension is a function which we call
                 result = extension.apply(void 0, __spread([op, target], rest));
             }
@@ -1417,7 +1841,7 @@ var invokableBinder = function (invoker) { return function (constructor) {
             Reflect.setPrototypeOf(r, constructor.prototype);
             return r;
         };
-        if (RuntimeConfig.ie11) {
+        if (common["RuntimeConfig"].ie11) {
             return factory(args);
         }
         else {
@@ -1513,15 +1937,15 @@ var parsers_ODataParser = /** @class */ (function () {
      */
     ODataParser.prototype.parseODataJSON = function (json) {
         var result = json;
-        if (hOP(json, "d")) {
-            if (hOP(json.d, "results")) {
+        if (Object(common["hOP"])(json, "d")) {
+            if (Object(common["hOP"])(json.d, "results")) {
                 result = json.d.results;
             }
             else {
                 result = json.d;
             }
         }
-        else if (hOP(json, "value")) {
+        else if (Object(common["hOP"])(json, "value")) {
             result = json.value;
         }
         return result;
@@ -1568,7 +1992,7 @@ var parsers_BufferParser = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     BufferParser.prototype.parseImpl = function (r, resolve) {
-        if (isFunc(r.arrayBuffer)) {
+        if (Object(common["isFunc"])(r.arrayBuffer)) {
             r.arrayBuffer().then(resolve);
         }
         else {
@@ -1625,6 +2049,13 @@ var parsers_HttpRequestError = /** @class */ (function (_super) {
 
 
 function cloneQueryableData(source) {
+    var body;
+    // this handles bodies that cannot be JSON encoded (Blob, etc)
+    // Note however, even bodies that can be serialized will not be cloned.
+    if (source.options && source.options.body) {
+        body = source.options.body;
+        source.options.body = "-";
+    }
     var s = JSON.stringify(source, function (key, value) {
         switch (key) {
             case "query":
@@ -1661,9 +2092,9 @@ function cloneQueryableData(source) {
                 return value;
         }
     });
-    // this handles bodies that cannot be JSON encoded (Blob, etc)
-    if (source.options && source.options.body) {
-        parsed.options.body = source.options.body;
+    if (body) {
+        parsed.options.body = body;
+        source.options.body = body;
     }
     return parsed;
 }
@@ -1685,13 +2116,13 @@ var queryable_Queryable = /** @class */ (function () {
             return this._data;
         },
         set: function (value) {
-            this._data = Object.assign({}, cloneQueryableData(this.data), cloneQueryableData(value));
+            this._data = Object.assign({}, this.data, cloneQueryableData(value));
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
-    * Gets the currentl url
+    * Gets the current url
     *
     */
     Queryable.prototype.toUrl = function () {
@@ -1714,7 +2145,7 @@ var queryable_Queryable = /** @class */ (function () {
         get: function () {
             return this.data.query;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -1723,7 +2154,7 @@ var queryable_Queryable = /** @class */ (function () {
      * @param options custom options
      */
     Queryable.prototype.configure = function (options) {
-        mergeOptions(this.data.options, options);
+        Object(common["mergeOptions"])(this.data.options, options);
         return this;
     };
     /**
@@ -1732,7 +2163,7 @@ var queryable_Queryable = /** @class */ (function () {
      * @param o Instance from which options should be taken
      */
     Queryable.prototype.configureFrom = function (o) {
-        mergeOptions(this.data.options, o.data.options);
+        Object(common["mergeOptions"])(this.data.options, o.data.options);
         return this;
     };
     /**
@@ -1741,7 +2172,7 @@ var queryable_Queryable = /** @class */ (function () {
      * @param options Defines the options used when caching this request
      */
     Queryable.prototype.usingCaching = function (options) {
-        if (!RuntimeConfig.globalCacheDisable) {
+        if (!common["RuntimeConfig"].globalCacheDisable) {
             this.data.useCaching = true;
             if (options !== undefined) {
                 this.data.cachingOptions = options;
@@ -1768,7 +2199,7 @@ var queryable_Queryable = /** @class */ (function () {
      * @param pathPart The string to append
      */
     Queryable.prototype.append = function (pathPart) {
-        this.data.url = combine(this.data.url, pathPart);
+        this.data.url = Object(common["combine"])(this.data.url, pathPart);
     };
     /**
      * Adds this query to the supplied batch
@@ -1785,7 +2216,7 @@ var queryable_Queryable = /** @class */ (function () {
         if (this.hasBatch) {
             throw Error("This query is already part of a batch.");
         }
-        if (objectDefinedNotNull(batch)) {
+        if (Object(common["objectDefinedNotNull"])(batch)) {
             batch.track(this);
         }
         return this;
@@ -1794,7 +2225,7 @@ var queryable_Queryable = /** @class */ (function () {
      * Blocks a batch call from occuring, MUST be cleared by calling the returned function
     */
     Queryable.prototype.addBatchDependency = function () {
-        if (objectDefinedNotNull(this.data.batch)) {
+        if (Object(common["objectDefinedNotNull"])(this.data.batch)) {
             return this.data.batch.addDependency();
         }
         return function () { return null; };
@@ -1805,9 +2236,9 @@ var queryable_Queryable = /** @class */ (function () {
          *
          */
         get: function () {
-            return objectDefinedNotNull(this.data.batch);
+            return Object(common["objectDefinedNotNull"])(this.data.batch);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Queryable.prototype, "batch", {
@@ -1818,7 +2249,7 @@ var queryable_Queryable = /** @class */ (function () {
         get: function () {
             return this.hasBatch ? this.data.batch : null;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Queryable.prototype, "parentUrl", {
@@ -1829,7 +2260,7 @@ var queryable_Queryable = /** @class */ (function () {
         get: function () {
             return this.data.parentUrl;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -1839,7 +2270,12 @@ var queryable_Queryable = /** @class */ (function () {
      * @param settings [Optional] Settings controlling how clone is applied
      */
     Queryable.prototype.cloneTo = function (target, settings) {
-        if (settings === void 0) { settings = { includeBatch: true }; }
+        if (settings === void 0) { settings = {}; }
+        // default values for settings
+        settings = Object(common["assign"])({
+            includeBatch: true,
+            includeQuery: false,
+        }, settings);
         target.data = Object.assign({}, cloneQueryableData(this.data), {
             batch: null,
             cloneParentCacheOptions: null,
@@ -1848,6 +2284,9 @@ var queryable_Queryable = /** @class */ (function () {
         target.configureFrom(this);
         if (settings.includeBatch) {
             target.inBatch(this.batch);
+        }
+        if (settings.includeQuery && this.query.size > 0) {
+            this.query.forEach(function (v, k) { return target.query.set(k, v); });
         }
         if (this.data.useCaching) {
             target.data.cloneParentWasCaching = true;
@@ -1877,7 +2316,7 @@ var Logger = /** @class */ (function () {
         set: function (value) {
             Logger.instance.activeLogLevel = value;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Logger, "instance", {
@@ -1887,7 +2326,7 @@ var Logger = /** @class */ (function () {
             }
             return Logger._instance;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -1915,7 +2354,7 @@ var Logger = /** @class */ (function () {
         get: function () {
             return Logger.instance.count;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
@@ -1976,7 +2415,7 @@ var LoggerImpl = /** @class */ (function () {
         get: function () {
             return this.subscribers.length;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     LoggerImpl.prototype.write = function (message, level) {
@@ -2132,7 +2571,7 @@ function pipe(context) {
         throw e;
     });
     if (context.isBatched) {
-        // this will block the batch's execute method from returning until the child requets have been resolved
+        // this will block the batch's execute method from returning until the child requests have been resolved
         context.batch.addResolveBatchDependency(promise);
     }
     return promise;
@@ -2150,7 +2589,7 @@ function requestPipelineMethod(alwaysRun) {
                 args[_i] = arguments[_i];
             }
             // if we have a result already in the pipeline, pass it along and don't call the tagged method
-            if (!alwaysRun && args.length > 0 && hOP(args[0], "hasResult") && args[0].hasResult) {
+            if (!alwaysRun && args.length > 0 && Object(common["hOP"])(args[0], "hasResult") && args[0].hasResult) {
                 Logger.write("[" + args[0].requestId + "] (" + (new Date()).getTime() + ") Skipping request pipeline method " + propertyKey + ", existing result in pipeline.", 0 /* Verbose */);
                 return Promise.resolve(args[0]);
             }
@@ -2190,7 +2629,7 @@ var pipeline_PipelineMethods = /** @class */ (function () {
                 Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Caching is enabled for request, checking cache...", 1 /* Info */);
                 var cacheOptions = new caching_CachingOptions(context.url.toLowerCase());
                 if (context.cachingOptions !== undefined) {
-                    cacheOptions = util_assign(cacheOptions, context.cachingOptions);
+                    cacheOptions = Object(common["assign"])(cacheOptions, context.cachingOptions);
                 }
                 // we may not have a valid store
                 if (cacheOptions.store !== null) {
@@ -2203,11 +2642,11 @@ var pipeline_PipelineMethods = /** @class */ (function () {
                             message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Value returned from cache.",
                         });
                         // ensure we clear any held batch dependency we are resolving from the cache
-                        if (isFunc(context.batchDependency)) {
+                        if (Object(common["isFunc"])(context.batchDependency)) {
                             context.batchDependency();
                         }
                         // handle the case where a parser needs to take special actions with a cached result
-                        if (hOP(context.parser, "hydrate")) {
+                        if (Object(common["hOP"])(context.parser, "hydrate")) {
                             data = context.parser.hydrate(data);
                         }
                         return setResult(context, data).then(function (ctx) { return resolve(ctx); });
@@ -2230,7 +2669,7 @@ var pipeline_PipelineMethods = /** @class */ (function () {
             if (context.isBatched) {
                 var p = context.batch.add(context);
                 // we release the dependency here to ensure the batch does not execute until the request is added to the batch
-                if (isFunc(context.batchDependency)) {
+                if (Object(common["isFunc"])(context.batchDependency)) {
                     context.batchDependency();
                 }
                 Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Batching request in batch " + context.batch.batchId + ".", 1 /* Info */);
@@ -2241,7 +2680,7 @@ var pipeline_PipelineMethods = /** @class */ (function () {
                 Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Sending request.", 1 /* Info */);
                 // we are not part of a batch, so proceed as normal
                 var client = context.clientFactory();
-                var opts = util_assign(context.options || {}, { method: context.method });
+                var opts = Object(common["assign"])(context.options || {}, { method: context.method });
                 client.fetch(context.url, opts)
                     .then(function (response) { return context.parser.parse(response); })
                     .then(function (result) { return setResult(context, result); })
@@ -2319,14 +2758,14 @@ function pipelineBinder(pipes) {
                     cloneParentCacheOptions: null,
                     cloneParentWasCaching: false,
                     hasResult: false,
-                    isBatched: objectDefinedNotNull(o.batch),
+                    isBatched: Object(common["objectDefinedNotNull"])(o.batch),
                     method: method,
                     options: null,
                     parentUrl: "",
                     parser: new parsers_ODataParser(),
                     pipes: pipes.slice(0),
                     query: new Map(),
-                    requestId: getGUID(),
+                    requestId: Object(common["getGUID"])(),
                     url: "",
                     useCaching: /^get$/i.test(o.method) && o.useCaching,
                 }, cloneQueryableData(o)));
@@ -2338,10 +2777,10 @@ var defaultPipelineBinder = pipelineBinder(getDefaultPipeline());
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/request-builders.js
 
-function body(o, previous) {
-    return Object.assign({ body: jsS(o) }, previous);
+function request_builders_body(o, previous) {
+    return Object.assign({ body: Object(common["jsS"])(o) }, previous);
 }
-function request_builders_headers(o, previous) {
+function headers(o, previous) {
     return Object.assign({ headers: o }, previous);
 }
 

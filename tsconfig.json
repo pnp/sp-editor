@@ -17,13 +17,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react"
   },
   "include": [
     "src"
   ],
   "exclude": [
     "public",
-    "public/chrome"
+    "public/chrome",
+    "node_modules"
   ]
 }

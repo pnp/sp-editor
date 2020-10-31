@@ -17,7 +17,7 @@ const MessageBar = () => {
         dispatch(setAppMessage({ ...appMessage, showMessage: false }))
       }}
       message={appMessage.message}
-      duration={2000}
+      duration={4000}
       color={appMessage.color}
       position={'bottom'}
       buttons={[{ text: 'Close', role: 'close' }]}

@@ -15,7 +15,7 @@ gulp.task('clean', (done) => {
     'public/@pnp/odata/**/*',
     'public/@pnp/pnpjs/**/*',
     'public/@pnp/sp/**/*',
-    'app/@pnp/adaljsclient/**/*',
+    // 'app/@pnp/adaljsclient/**/*',
     'public/vs/**/*',
     'public/@pnp/sp-addinhelpers/**/*',
     'public/@pnp/sp-clientsvc/**/*',
@@ -32,7 +32,7 @@ gulp.task('clean', (done) => {
     'public/bundles/sp-clientsvc.es5.umd.bundle.js',
     'public/bundles/sp-taxonomy.es5.umd.bundle.js',
     'public/bundles/sp.es5.umd.bundle.js',
-    'public/bundles/adaljsclient.es5.umd.bundle.js',
+    // 'public/bundles/adaljsclient.es5.umd.bundle.js',
   ], done);
 });
 
@@ -119,15 +119,15 @@ gulp.task('copy:sp-addinhelpers', (done) => {
   done();
 });
 
-gulp.task('copy:adaljsclient', (done) => {
-  console.log("Copy @pnp/adaljsclient");
-  gulp.src('./node_modules/@pnp/adaljsclient/**/*.d.ts')
-    .pipe(gulp.dest('./public/@pnp/adaljsclient/'))
-  gulp.src('./dist/adaljsclient.es5.umd.bundle.js')
-    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
-    .pipe(gulp.dest('./public/bundles/'))
-  done();
-});
+//  gulp.task('copy:adaljsclient', (done) => {
+//    console.log("Copy @pnp/adaljsclient");
+//    gulp.src('./node_modules/@pnp/adaljsclient/**/*.d.ts')
+//      .pipe(gulp.dest('./public/@pnp/adaljsclient/'))
+//    gulp.src('./dist/adaljsclient.es5.umd.bundle.js')
+//      .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+//      .pipe(gulp.dest('./public/bundles/'))
+//    done();
+//  });
 
 gulp.task('copy:sp-clientsvc', (done) => {
   console.log("Copy @pnp/sp-clientsvc");
@@ -177,7 +177,7 @@ gulp.task('default',
     'copy:odata',
     'copy:pnpjs',
     'copy:sp',
-    'copy:adaljsclient',
+    // 'copy:adaljsclient',
     'copy:sp-addinhelpers',
     'copy:sp-clientsvc',
     'copy:sp-taxonomy',
