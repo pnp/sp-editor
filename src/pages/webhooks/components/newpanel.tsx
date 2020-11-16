@@ -1,89 +1,81 @@
+import { dateAdd } from '@pnp/pnpjs'
 import {
   DatePicker,
-   DayOfWeek,
-   Dropdown,
-   IDatePickerStrings,
-   IDropdownOption,
-   IOverlayProps,
-   mergeStyleSets,
-   Panel,
-   PanelType,
-   PrimaryButton,
-   Stack,
-   TextField,
+  DayOfWeek,
+  Dropdown,
+  IDropdownOption,
+  IOverlayProps,
+  mergeStyleSets,
+  Panel,
+  PanelType,
+  PrimaryButton,
+  Stack,
+  TextField,
 } from 'office-ui-fabric-react'
-// import { addScriptLink } from '../chrome/chrome-actions'
-import { addMonths, addYears } from 'office-ui-fabric-react/lib/utilities/dateMath/DateMath'
-import React, { useState } from 'react'
+import { addDays } from 'office-ui-fabric-react/lib/utilities/dateMath/DateMath'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
-// import { INewScriptLink } from '../../../store/scriptlinks/types'
 import { setNewPanel } from '../../../store/webhooks/actions'
+import { INewWebHook } from '../../../store/webhooks/types'
+import { addWebHook } from '../chrome/chrome-actions'
 
 const WebhooksNewPanel = () => {
 
-  const { newpanel } = useSelector((state: IRootState) => state.webHooks)
+  const { newpanel, lists } = useSelector((state: IRootState) => state.webHooks)
 
   const dispatch = useDispatch()
-/*
-  const [ newItem, setNewItem ] = useState<INewScriptLink>({
-    Url: '',
-    Sequence: 0,
-    Scope: 2,
+
+  const initDate = () => {
+    const now = new Date()
+    // now.setUTCHours(0, 0, 0, 0)
+    const expirationDate = addDays(now, 179).toISOString() // expire in 6 months
+    return expirationDate
+  }
+
+  const [newItem, setNewItem] = useState<INewWebHook>({
+    ListId: '',
+    HookUrl: '',
+    ClientState: '',
+    expirationDate: '',
   })
-*/
+
+  const [times, setTimes] = useState<any>({
+    min: '',
+    max: '',
+  })
+
   const { isDark } = useSelector((state: IRootState) => state.home)
   const panelOverlayProps: IOverlayProps = { isDarkThemed: isDark }
+
+  useEffect(() => {
+    const curday: Date = new Date(Date.now())
+    setNewItem({
+      ListId: '',
+      HookUrl: '',
+      ClientState: '',
+      expirationDate: initDate(),
+    })
+    setTimes({
+      min: addDays(curday, 0),
+      max: addDays(curday, 179),
+    })
+  }, [newpanel])
 
   const _onRenderNewFooterContent = () => {
 
     return (
       <PrimaryButton
         onClick={() => {
-         /* if (newItem && newItem.Url && newItem.Sequence && newItem.Scope) {
-            // addScriptLink(dispatch, newItem)
-          }*/
+          if (newItem && newItem.ListId && newItem.HookUrl && newItem.expirationDate) {
+            addWebHook(dispatch, newItem)
+          }
         }
         }
         style={{ marginRight: '8px' }}
         text={'Add'}
-        // disabled={!valid}
       />
     )
-  }
-
-  const sequenceValidator = (value: string): string => {
-    return +value > -1 && +value < 65537 ? '' : `The value specified must be between 0 and 65536 inclusively.`
-  }
-
-  const today: Date = new Date(Date.now())
-  const minDate: Date = addMonths(today, -1)
-  const maxDate: Date = addMonths(today, 6)
-  const description = `When date boundaries are set (via minDate and maxDate props) the DatePicker will not allow
-  out-of-bounds dates to be picked or entered. In this example, the allowed dates are
-  ${minDate.toLocaleDateString()}-${maxDate.toLocaleDateString()}`
-
-  const DayPickerStrings: IDatePickerStrings = {
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-
-    shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-
-    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-
-    shortDays: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-
-    goToToday: 'Go to today',
-    prevMonthAriaLabel: 'Go to previous month',
-    nextMonthAriaLabel: 'Go to next month',
-    prevYearAriaLabel: 'Go to previous year',
-    nextYearAriaLabel: 'Go to next year',
-    closeButtonAriaLabel: 'Close date picker',
-
-    isRequiredErrorMessage: 'Field is required.',
-
-    invalidInputErrorMessage: 'Invalid date format.',
-
-    isOutOfBoundsErrorMessage: `Date must be between ${minDate.toLocaleDateString()}-${maxDate.toLocaleDateString()}`,
   }
 
   const controlClass = mergeStyleSets({
@@ -93,65 +85,84 @@ const WebhooksNewPanel = () => {
     },
   })
 
+  const onFormatDate = (date: Date | undefined): string => {
+    let formattedDate: string = ''
+    if (date !== undefined && date) {
+      // const fixTime = new Date()
+      date.setHours(times.min.getHours())
+      date.setMinutes(times.min.getMinutes())
+      date.setSeconds(times.min.getSeconds())
+      date.setMilliseconds(times.min.getMilliseconds())
+      formattedDate = dateAdd(date, 'minute', date.getTimezoneOffset() * -1)?.toISOString() ?? ''
+    }
+
+    return formattedDate
+  }
+
   return (
     <Panel
       isOpen={newpanel}
-      type={PanelType.largeFixed}
-      onDismiss={() => { dispatch(setNewPanel(false))}}
+      type={PanelType.smallFixedFar}
+      onDismiss={() => { dispatch(setNewPanel(false)) }}
       isLightDismiss={true}
       isFooterAtBottom={true}
-      headerText='Add ScriptLink'
+      headerText='Add webhook'
       closeButtonAriaLabel='Close'
       onRenderFooterContent={_onRenderNewFooterContent}
       overlayProps={panelOverlayProps}
     >
       {/* Panel new form */}
       < Stack >
+        <Dropdown
+          label='Resource'
+          placeholder='Select list'
+          options={lists}
+          selectedKey={newItem.ListId}
+          onChange={(event, option?: IDropdownOption) =>
+            setNewItem({ ...newItem, ListId: option ? option.key.toString() : newItem.ListId })
+          }
+          required
+        />
         <DatePicker
           label='Expiration date'
           className={controlClass.control}
-          isRequired={false}
+          isRequired={true}
           firstDayOfWeek={DayOfWeek.Monday}
-         // strings={DayPickerStrings}
           placeholder='Select a date...'
           ariaLabel='Select a date'
-          minDate={today}
-          maxDate={maxDate}
+          minDate={times.min}
+          maxDate={times.max}
           allowTextInput={true}
+          formatDate={(d) => onFormatDate(d)}
+          // defaultValue={times.max}
+          value={new Date(newItem.expirationDate)}
+          onSelectDate={(date: Date | null | undefined): void => {
+            if (date !== undefined && date) {
+              setNewItem({ ...newItem, expirationDate: dateAdd(date!, 'minute', date!.getTimezoneOffset() * -1)?.toISOString() ?? '' })
+            }
+          }}
         />
         <TextField
-          label='Url'
-          description='Url of the file to be injected.'
-          placeholder='~sitecollection/Style Library/custom.js'
+          label='Server notification URL'
+          description='Your service endpoint URL. SharePoint sends an HTTP POST to this endpoint when events occur in the specified resource.'
+          placeholder=''
           multiline
           autoAdjustHeight
-         // value={newItem.Url}
-         /* onChange={(event, newValue?: string) =>
-            setNewItem({ ...newItem, Url: newValue ? newValue : '' })
-          }*/
+          required
+          rows={5}
+          onChange={(event, newValue?: string) =>
+            setNewItem({ ...newItem, HookUrl: newValue ? newValue : '' })
+          }
         />
         <TextField
-          label='Sequence'
-          description='The sequence of the scriplink'
-          styles={{ fieldGroup: { width: 100 } }}
-          type={'number'}
-         // value={newItem.Sequence.toString()}
-         /* onChange={(event, newValue?: string) =>
-            setNewItem({ ...newItem, Sequence: newValue ? +newValue : 0 })
-          }*/
-          onGetErrorMessage={sequenceValidator}
-        />
-        <Dropdown
-          label='Select scope'
-          placeholder='Select an option'
-          options={[
-            { key: 2, text: 'Site Collection' },
-            { key: 3, text: 'Current Web' },
-          ]}
-         /* selectedKey={newItem.Scope}
-          onChange={(event, option?: IDropdownOption) =>
-            setNewItem({ ...newItem, Scope: option ? +option.key : newItem.Scope })
-          }*/
+          label='Client State'
+          description='An opaque string passed back to the client on all notifications. You can use this for validating notifications, tagging different subscriptions, or other reasons.'
+          placeholder=''
+          autoAdjustHeight
+          rows={5}
+          onChange={(event, newValue?: string) =>
+            setNewItem({ ...newItem, ClientState: newValue ? newValue : '' })
+          }
         />
       </Stack >
     </Panel >

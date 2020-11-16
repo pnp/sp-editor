@@ -3377,7 +3377,7 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                         }
                         if (!headers.has("X-ClientService-ClientTag")) {
                             methodName = tag.getClientTag(headers);
-                            clientTag = "PnPCoreJS:2.0.11:" + methodName;
+                            clientTag = "PnPCoreJS:2.0.12:" + methodName;
                             if (clientTag.length > 32) {
                                 clientTag = clientTag.substr(0, 32);
                             }
@@ -4163,7 +4163,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                                 headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
                             }
                             if (!headers.has("X-ClientService-ClientTag")) {
-                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.0.11:batch");
+                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.0.12:batch");
                             }
                             // write headers into batch body
                             headers.forEach(function (value, name) {
@@ -5215,20 +5215,23 @@ var types_List = /** @class */ (function (_super) {
      * Returns the data for the specified query view
      *
      * @param parameters The parameters to be used to render list data as JSON string.
-     * @param overrideParameters The parameters that are used to override and extend the regular SPRenderListDataParameters.
-     * @param queryParams Allows setting of query parameters
+     * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
+     * @param query Allows setting of query parameters
      */
-    _List.prototype.renderListDataAsStream = function (parameters, overrideParameters, queryParams) {
-        if (overrideParameters === void 0) { overrideParameters = null; }
-        if (queryParams === void 0) { queryParams = new Map(); }
+    _List.prototype.renderListDataAsStream = function (parameters, overrideParams, query) {
+        if (overrideParams === void 0) { overrideParams = null; }
+        if (query === void 0) { query = new Map(); }
         if (Object(common["hOP"])(parameters, "RenderOptions") && Object(common["isArray"])(parameters.RenderOptions)) {
             parameters.RenderOptions = parameters.RenderOptions.reduce(function (v, c) { return v + c; });
         }
         var bodyOptions = { parameters: Object(common["assign"])(metadata("SP.RenderListDataParameters"), parameters) };
-        if (Object(common["objectDefinedNotNull"])(overrideParameters)) {
-            bodyOptions = Object(common["assign"])(bodyOptions, { overrideParameters: Object(common["assign"])(metadata("SP.RenderListDataOverrideParameters"), overrideParameters) });
+        if (Object(common["objectDefinedNotNull"])(overrideParams)) {
+            bodyOptions = Object(common["assign"])(bodyOptions, { overrideParameters: Object(common["assign"])(metadata("SP.RenderListDataOverrideParameters"), overrideParams) });
         }
         var clone = this.clone(List, "RenderListDataAsStream", true, true);
+        if (query && query.size > 0) {
+            query.forEach(function (v, k) { return clone.query.set(k, v); });
+        }
         return spPost(clone, request_builders_body(bodyOptions));
     };
     /**
@@ -5309,6 +5312,35 @@ var types_List = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/, Object(common["hOP"])(res, "AddValidateUpdateItemUsingPath") ? res.AddValidateUpdateItemUsingPath : res];
+                }
+            });
+        });
+    };
+    /**
+     * Gets the parent information for this item's list and web
+     */
+    _List.prototype.getParentInfos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var urlInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")()];
+                    case 1:
+                        urlInfo = _a.sent();
+                        return [2 /*return*/, {
+                                List: {
+                                    Id: urlInfo.Id,
+                                    RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
+                                    RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
+                                    RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
+                                },
+                                ParentWeb: {
+                                    Id: urlInfo.ParentWeb.Id,
+                                    ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
+                                    ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
+                                    Url: urlInfo.ParentWeb.Url,
+                                },
+                            }];
                 }
             });
         });
@@ -5722,6 +5754,38 @@ var types_Item = /** @class */ (function (_super) {
         return spPost(this.clone(Item, "validateupdatelistitem"), request_builders_body({ formValues: formValues, bNewDocumentUpdate: bNewDocumentUpdate }));
     };
     /**
+     * Gets the parent information for this item's list and web
+     */
+    _Item.prototype.getParentInfos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var urlInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.select("Id", "ParentList/Id", "ParentList/RootFolder/UniqueId", "ParentList/RootFolder/ServerRelativeUrl", "ParentList/RootFolder/ServerRelativePath", "ParentList/ParentWeb/Id", "ParentList/ParentWeb/Url", "ParentList/ParentWeb/ServerRelativeUrl", "ParentList/ParentWeb/ServerRelativePath").expand("ParentList", "ParentList/RootFolder", "ParentList/ParentWeb")()];
+                    case 1:
+                        urlInfo = _a.sent();
+                        return [2 /*return*/, {
+                                Item: {
+                                    Id: urlInfo.Id,
+                                },
+                                ParentList: {
+                                    Id: urlInfo.ParentList.Id,
+                                    RootFolderServerRelativePath: urlInfo.ParentList.RootFolder.ServerRelativePath,
+                                    RootFolderServerRelativeUrl: urlInfo.ParentList.RootFolder.ServerRelativeUrl,
+                                    RootFolderUniqueId: urlInfo.ParentList.RootFolder.UniqueId,
+                                },
+                                ParentWeb: {
+                                    Id: urlInfo.ParentList.ParentWeb.Id,
+                                    ServerRelativePath: urlInfo.ParentList.ParentWeb.ServerRelativePath,
+                                    ServerRelativeUrl: urlInfo.ParentList.ParentWeb.ServerRelativeUrl,
+                                    Url: urlInfo.ParentList.ParentWeb.Url,
+                                },
+                            }];
+                }
+            });
+        });
+    };
+    /**
      * Ensures we have the proper list item entity type name, either from the value provided or from the list
      *
      * @param candidatelistItemEntityTypeFullName The potential type name
@@ -5978,13 +6042,13 @@ var types_Files = /** @class */ (function (_super) {
         if (shouldOverWrite === void 0) { shouldOverWrite = true; }
         if (chunkSize === void 0) { chunkSize = 10485760; }
         return __awaiter(this, void 0, void 0, function () {
-            var file;
+            var info, file;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, spPost(this.clone(Files, "add(overwrite=" + shouldOverWrite + ",url='" + escapeQueryStrValue(url) + "')", false))];
                     case 1:
-                        _a.sent();
-                        file = this.getByName(url);
+                        info = _a.sent();
+                        file = File("_api/web/getFileByServerRelativeUrl('" + info.ServerRelativeUrl + "')");
                         return [4 /*yield*/, file.setContentChunked(content, progress, chunkSize)];
                     case 2: return [2 /*return*/, _a.sent()];
                 }
@@ -7695,7 +7759,7 @@ var types_ClientsidePage = /** @class */ (function (_super) {
     _ClientsidePage.prototype.save = function (publish) {
         if (publish === void 0) { publish = true; }
         return __awaiter(this, void 0, void 0, function () {
-            var origImgUrl, site, web, imgFile, siteId_1, webId_1, imgId_1, listId_1, webUrl_1, batch, f, saveBody, bannerImageUrlValue, updater, r;
+            var serverRelativePath, imgInfo_1, webUrl_1, web, batch, f, saveBody, bannerImageUrlValue, updater, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -7703,51 +7767,39 @@ var types_ClientsidePage = /** @class */ (function (_super) {
                             throw Error("The id for this page is null. If you want to create a new page, please use ClientSidePage.Create");
                         }
                         if (!this._bannerImageDirty) return [3 /*break*/, 2];
-                        origImgUrl = this.json.BannerImageUrl;
-                        if (Object(common["isUrlAbsolute"])(origImgUrl)) {
-                            // do our best to make this a server relative url by removing the x.sharepoint.com part
-                            origImgUrl = origImgUrl.replace(/^https?:\/\/[a-z0-9\.]*?\.[a-z]{2,3}\//i, "/");
-                        }
-                        site = Site(extractWebUrl(this.toUrl()));
+                        serverRelativePath = this.bannerImageUrl;
                         web = Web(extractWebUrl(this.toUrl()));
-                        imgFile = web.getFileByServerRelativePath(origImgUrl.replace(/%20/ig, " "));
-                        siteId_1 = "";
-                        webId_1 = "";
-                        imgId_1 = "";
-                        listId_1 = "";
-                        webUrl_1 = "";
                         batch = web.createBatch();
-                        site.select("Id", "Url").inBatch(batch)().then(function (r1) { return siteId_1 = r1.Id; });
-                        web.select("Id", "Url").inBatch(batch)().then(function (r2) { webId_1 = r2.Id; webUrl_1 = r2.Url; });
-                        imgFile.listItemAllFields.select("UniqueId", "ParentList/Id").expand("ParentList").inBatch(batch)()
-                            .then(function (r3) { imgId_1 = r3.UniqueId; listId_1 = r3.ParentList.Id; });
+                        web.getFileByServerRelativePath(serverRelativePath.replace(/%20/ig, " "))
+                            .select("ListId", "WebId", "UniqueId", "Name", "SiteId").inBatch(batch)().then(function (r1) { return imgInfo_1 = r1; });
+                        web.select("Url").inBatch(batch)().then(function (r2) { return webUrl_1 = r2.Url; });
                         // we know the .then calls above will run before execute resolves, ensuring the vars are set
                         return [4 /*yield*/, batch.execute()];
                     case 1:
                         // we know the .then calls above will run before execute resolves, ensuring the vars are set
                         _a.sent();
                         f = SharePointQueryable(webUrl_1, "_layouts/15/getpreview.ashx");
-                        f.query.set("guidSite", "" + siteId_1);
-                        f.query.set("guidWeb", "" + webId_1);
-                        f.query.set("guidFile", "" + imgId_1);
+                        f.query.set("guidSite", "" + imgInfo_1.SiteId);
+                        f.query.set("guidWeb", "" + imgInfo_1.WebId);
+                        f.query.set("guidFile", "" + imgInfo_1.UniqueId);
                         this.bannerImageUrl = f.toUrlAndQuery();
                         if (!Object(common["objectDefinedNotNull"])(this._layoutPart.serverProcessedContent)) {
                             this._layoutPart.serverProcessedContent = {};
                         }
-                        this._layoutPart.serverProcessedContent.imageSources = { imageSource: origImgUrl };
+                        this._layoutPart.serverProcessedContent.imageSources = { imageSource: serverRelativePath };
                         if (!Object(common["objectDefinedNotNull"])(this._layoutPart.serverProcessedContent.customMetadata)) {
                             this._layoutPart.serverProcessedContent.customMetadata = {};
                         }
                         this._layoutPart.serverProcessedContent.customMetadata.imageSource = {
-                            listId: listId_1,
-                            siteId: siteId_1,
-                            uniqueId: imgId_1,
-                            webId: webId_1,
+                            listId: imgInfo_1.ListId,
+                            siteId: imgInfo_1.SiteId,
+                            uniqueId: imgInfo_1.UniqueId,
+                            webId: imgInfo_1.WebId,
                         };
-                        this._layoutPart.properties.webId = webId_1;
-                        this._layoutPart.properties.siteId = siteId_1;
-                        this._layoutPart.properties.listId = listId_1;
-                        this._layoutPart.properties.uniqueId = imgId_1;
+                        this._layoutPart.properties.webId = imgInfo_1.WebId;
+                        this._layoutPart.properties.siteId = imgInfo_1.SiteId;
+                        this._layoutPart.properties.listId = imgInfo_1.ListId;
+                        this._layoutPart.properties.uniqueId = imgInfo_1.UniqueId;
                         _a.label = 2;
                     case 2:
                         if (!!this.json.IsPageCheckedOutToCurrentUser) return [3 /*break*/, 4];
@@ -7926,6 +7978,10 @@ var types_ClientsidePage = /** @class */ (function (_super) {
      * @param bannerProps Additional properties to control display of the banner
      */
     _ClientsidePage.prototype.setBannerImage = function (url, props) {
+        if (Object(common["isUrlAbsolute"])(url)) {
+            // do our best to make this a server relative url by removing the x.sharepoint.com part
+            url = url.replace(/^https?:\/\/[a-z0-9\.]*?\.[a-z]{2,3}\//i, "/");
+        }
         this.json.BannerImageUrl = url;
         this._bannerImageDirty = true;
         /*
@@ -7954,6 +8010,36 @@ var types_ClientsidePage = /** @class */ (function (_super) {
                 this._layoutPart.properties.altText = props.altText;
             }
         }
+    };
+    /**
+     * Sets the banner image url from an external source. You must call save to persist the changes
+     *
+     * @param url absolute url of the external file
+     * @param props optional set of properties to control display of the banner image
+     */
+    _ClientsidePage.prototype.setBannerImageFromExternalUrl = function (url, props) {
+        return __awaiter(this, void 0, void 0, function () {
+            var fileUrl, pageName, filename, request, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        fileUrl = new URL(url);
+                        pageName = this.json.FileName.replace(/\.[^/.]+$/, "");
+                        filename = fileUrl.pathname.split(/[\\\/]/i).pop();
+                        request = initFrom(this, "_api/sitepages/AddImageFromExternalUrl");
+                        request.query.set("imageFileName", "'" + encodeURIComponent(filename) + "'");
+                        request.query.set("pageName", "'" + encodeURIComponent(pageName) + "'");
+                        request.query.set("externalUrl", "'" + encodeURIComponent(url) + "'");
+                        request.select("ServerRelativeUrl");
+                        return [4 /*yield*/, spPost(request)];
+                    case 1:
+                        result = _a.sent();
+                        // set with the newly created relative url
+                        this.setBannerImage(result.ServerRelativeUrl, props);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Sets the authors for this page from the supplied list of user integer ids
@@ -8534,9 +8620,6 @@ var types_ClientsideText = /** @class */ (function (_super) {
             return this.data.innerHTML;
         },
         set: function (value) {
-            if (!value.startsWith("<p>")) {
-                value = "<p>" + value + "</p>";
-            }
             this.data.innerHTML = value;
         },
         enumerable: false,
@@ -8930,20 +9013,19 @@ var types_Folder = /** @class */ (function (_super) {
      */
     _Folder.prototype.moveTo = function (destUrl) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
+            var urlInfo, uri;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getParentInfos()];
                     case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(Folder(webBaseUrl, "/_api/SP.MoveCopyUtil.MoveFolder()"), request_builders_body({
-                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl,
-                                srcUrl: "" + hostUrl + srcUrl,
+                        urlInfo = _a.sent();
+                        uri = new URL(urlInfo.ParentWeb.Url);
+                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolder()"), request_builders_body({
+                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl),
+                                srcUrl: Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl),
                             }))];
                     case 2:
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -8959,16 +9041,15 @@ var types_Folder = /** @class */ (function (_super) {
     _Folder.prototype.moveByPath = function (destUrl, KeepBoth) {
         if (KeepBoth === void 0) { KeepBoth = false; }
         return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
+            var urlInfo, uri;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getParentInfos()];
                     case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(Folder(webBaseUrl, "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl),
+                        urlInfo = _a.sent();
+                        uri = new URL(urlInfo.ParentWeb.Url);
+                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
+                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl)),
                                 options: {
                                     KeepBoth: KeepBoth,
                                     ResetAuthorAndCreatedOnCopy: true,
@@ -8977,10 +9058,10 @@ var types_Folder = /** @class */ (function (_super) {
                                         type: "SP.MoveCopyOptions",
                                     },
                                 },
-                                srcPath: toResourcePath(Object(common["isUrlAbsolute"])(srcUrl) ? srcUrl : "" + hostUrl + srcUrl),
+                                srcPath: toResourcePath(Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
                             }))];
                     case 2:
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -8993,20 +9074,19 @@ var types_Folder = /** @class */ (function (_super) {
      */
     _Folder.prototype.copyTo = function (destUrl) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
+            var urlInfo, uri;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getParentInfos()];
                     case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(Folder(webBaseUrl, "/_api/SP.MoveCopyUtil.CopyFolder()"), request_builders_body({
-                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl,
-                                srcUrl: "" + hostUrl + srcUrl,
+                        urlInfo = _a.sent();
+                        uri = new URL(urlInfo.ParentWeb.Url);
+                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolder()"), request_builders_body({
+                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl),
+                                srcUrl: Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl),
                             }))];
                     case 2:
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -9022,16 +9102,15 @@ var types_Folder = /** @class */ (function (_super) {
     _Folder.prototype.copyByPath = function (destUrl, KeepBoth) {
         if (KeepBoth === void 0) { KeepBoth = false; }
         return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
+            var urlInfo, uri;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getParentInfos()];
                     case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(Folder(webBaseUrl, "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl),
+                        urlInfo = _a.sent();
+                        uri = new URL(urlInfo.ParentWeb.Url);
+                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
+                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl)),
                                 options: {
                                     KeepBoth: KeepBoth,
                                     ResetAuthorAndCreatedOnCopy: true,
@@ -9040,10 +9119,10 @@ var types_Folder = /** @class */ (function (_super) {
                                         type: "SP.MoveCopyOptions",
                                     },
                                 },
-                                srcPath: toResourcePath(Object(common["isUrlAbsolute"])(srcUrl) ? srcUrl : "" + hostUrl + srcUrl),
+                                srcPath: toResourcePath(Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
                             }))];
                     case 2:
-                        _b.sent();
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -9074,6 +9153,38 @@ var types_Folder = /** @class */ (function (_super) {
                     case 1:
                         _a.sent();
                         return [2 /*return*/, this.folders.getByName(leafPath)];
+                }
+            });
+        });
+    };
+    /**
+     * Gets the parent information for this folder's list and web
+     */
+    _Folder.prototype.getParentInfos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var urlInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl", "ListItemAllFields/ParentList/Id", "ListItemAllFields/ParentList/RootFolder/UniqueId", "ListItemAllFields/ParentList/RootFolder/ServerRelativeUrl", "ListItemAllFields/ParentList/RootFolder/ServerRelativePath", "ListItemAllFields/ParentList/ParentWeb/Id", "ListItemAllFields/ParentList/ParentWeb/Url", "ListItemAllFields/ParentList/ParentWeb/ServerRelativeUrl", "ListItemAllFields/ParentList/ParentWeb/ServerRelativePath").expand("ListItemAllFields/ParentList", "ListItemAllFields/ParentList/RootFolder", "ListItemAllFields/ParentList/ParentWeb")()];
+                    case 1:
+                        urlInfo = _a.sent();
+                        return [2 /*return*/, {
+                                Folder: {
+                                    ServerRelativeUrl: urlInfo.ServerRelativeUrl,
+                                },
+                                ParentList: {
+                                    Id: urlInfo.ListItemAllFields.ParentList.Id,
+                                    RootFolderServerRelativePath: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativePath,
+                                    RootFolderServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativeUrl,
+                                    RootFolderUniqueId: urlInfo.ListItemAllFields.ParentList.RootFolder.UniqueId,
+                                },
+                                ParentWeb: {
+                                    Id: urlInfo.ListItemAllFields.ParentList.ParentWeb.Id,
+                                    ServerRelativePath: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativePath,
+                                    ServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativeUrl,
+                                    Url: urlInfo.ListItemAllFields.ParentList.ParentWeb.Url,
+                                },
+                            }];
                 }
             });
         });
@@ -9173,13 +9284,11 @@ types_List.prototype.getDefaultColumnValues = function () {
                     tags = matches === null ? [] : matches.map(function (t) { return t.trim(); });
                     // now we need to turn these tags of form into objects
                     // <a href="/sites/dev/My%20Title"><DefaultValue FieldName="TextField">Test</DefaultValue></a>
-                    return [2 /*return*/, tags.map(function (t) {
-                            var m = /<a href="(.*?)"><DefaultValue FieldName="(.*?)">(.*?)<\/DefaultValue>/ig.exec(t);
-                            // if things worked our captures are:
+                    return [2 /*return*/, tags.reduce(function (defVals, t) {
+                            var m = /<a href="(.*?)">/ig.exec(t);
+                            // if things worked out captures are:
                             // 0: whole string
                             // 1: ENCODED server relative path
-                            // 2: Field internal name
-                            // 3: Default value as string
                             if (m.length < 1) {
                                 // this indicates an error somewhere, but we have no way to meaningfully recover
                                 // perhaps the way the tags are stored has changed on the server? Check that first.
@@ -9187,12 +9296,27 @@ types_List.prototype.getDefaultColumnValues = function () {
                                 return null;
                             }
                             // return the parsed out values
-                            return {
-                                name: m[2],
-                                path: decodeURIComponent(m[1]),
-                                value: m[3],
-                            };
-                        }).filter(function (v) { return v !== null; })];
+                            var subMatches = t.match(/<DefaultValue.*?<\/DefaultValue>/ig);
+                            var subTags = subMatches === null ? [] : subMatches.map(function (st) { return st.trim(); });
+                            subTags.map(function (st) {
+                                var sm = /<DefaultValue FieldName="(.*?)">(.*?)<\/DefaultValue>/ig.exec(st);
+                                // if things worked out captures are:
+                                // 0: whole string
+                                // 1: Field internal name
+                                // 2: Default value as string
+                                if (sm.length < 1) {
+                                    Logger.write("Could not parse default column value from '" + st + "'", 2 /* Warning */);
+                                }
+                                else {
+                                    defVals.push({
+                                        name: sm[1],
+                                        path: decodeURIComponent(m[1]),
+                                        value: sm[2],
+                                    });
+                                }
+                            });
+                            return defVals;
+                        }, []).filter(function (v) { return v !== null; })];
             }
         });
     });
@@ -9242,6 +9366,7 @@ types_List.prototype.setDefaultColumnValues = function (defaults) {
                                 }
                                 break;
                             case "Taxonomy":
+                            case "TaxonomyFieldType":
                                 if (Object(common["isArray"])(fieldDefault.value)) {
                                     throw Error("The type '" + fieldDef.TypeAsString + "' does not support multiple values.");
                                 }
@@ -9250,6 +9375,7 @@ types_List.prototype.setDefaultColumnValues = function (defaults) {
                                 }
                                 break;
                             case "TaxonomyMulti":
+                            case "TaxonomyFieldTypeMulti":
                                 if (Object(common["isArray"])(fieldDefault.value)) {
                                     value = fieldDefault.value.map(function (v) { return v.wssId + ";#" + v.termName + "|" + v.termId; }).join(";#");
                                 }

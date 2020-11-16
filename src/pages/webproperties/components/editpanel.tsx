@@ -66,6 +66,7 @@ const WebPropertiesEditPanel = () => {
             value={editItem ? editItem.key : ''}
             readOnly
             disabled
+            required
           />
           <TextField
             label='Property Value'

@@ -141,7 +141,6 @@ export function createWebProperty(...args: any) {
               const propertyBag = allProps.find((el) => el.key === 'vti_indexedpropertykeys')
 
               if (!propertyBag && !indexed) {
-                console.log('not indexing the property')
                 postMessage()
               } else {
                 if (indexed) {

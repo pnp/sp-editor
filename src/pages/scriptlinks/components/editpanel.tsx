@@ -65,6 +65,7 @@ const ScriptLinksEditPanel = () => {
               onChange={(event, newValue?: string) =>
                 dispatch(setSelectedItem({ ...selectedItem, Url: newValue ? newValue : '' }))
               }
+              required
             // TODO: do proper validation
             />
             <TextField
@@ -77,6 +78,7 @@ const ScriptLinksEditPanel = () => {
                 dispatch(setSelectedItem({ ...selectedItem, Sequence: newValue ? +newValue : selectedItem.Sequence }))
               }
               onGetErrorMessage={sequenceValidator}
+              required
             // TODO: do proper casting & validation
             />
             <Dropdown

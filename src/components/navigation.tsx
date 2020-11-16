@@ -105,7 +105,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                   name: 'Webhooks',
                   url: '/webhooks',
                   key: 'key7',
-                  disabled: true,
+                  disabled: false,
                 },
                 {
                   name: 'Files',

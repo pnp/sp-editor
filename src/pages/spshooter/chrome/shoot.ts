@@ -78,7 +78,6 @@ export function shoot(...args: any) {
           } else {
             postMessage(json)
           }
-          console.log(json)
         }).catch(error => {
           response.text().then(text => {
             window.postMessage(JSON.stringify({
@@ -88,7 +87,6 @@ export function shoot(...args: any) {
               errorMessage: error.message,
               source: 'chrome-sp-editor',
             }), '*')
-            // postMessage({ error: error.message, response: text })
           })
         })
       })

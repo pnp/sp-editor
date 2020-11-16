@@ -1,3 +1,4 @@
+import { IGroup } from 'office-ui-fabric-react'
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
 
@@ -6,7 +7,7 @@ export type WebHooksActions = ActionType<typeof actions>
 export interface IWebHook {
   listTitle: string
   listId: string
-  clientState: string
+  clientState?: string
   expirationDateTime: string
   id: string
   notificationUrl: string
@@ -15,12 +16,20 @@ export interface IWebHook {
 }
 
 export interface IWebHookLists {
-  listTitle: string
-  listId: string
+  key: string
+  text: string
+}
+
+export interface INewWebHook {
+  ListId: string
+  HookUrl: string
+  ClientState: string
+  expirationDate: string
 }
 
 export interface IWebHooksState {
   webhooks: IWebHook[],
+  webhooksGroups: IGroup[],
   lists: IWebHookLists[],
   loading: boolean,
   editpanel: boolean,
@@ -43,4 +52,5 @@ export enum Constants {
   WH_SELECTED_ITEMS = 'WH_SELECTED_ITEMS',
   WH_SET_CONFIRM_REMOVE_DIALOG = 'WH_SET_CONFIRM_REMOVE_DIALOG',
   WH_SET_CONFIRM_EDIT_DIALOG = 'WH_SET_CONFIRM_EDIT_DIALOG',
+  WH_SET_ITEMS_GROUPS = 'WH_SET_ITEMS_GROUPS',
 }

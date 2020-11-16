@@ -2,6 +2,11 @@
   "extends": [
     "tslint-react-recommended"
   ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules"
+    ]
+  },
   "rules": {
     "ordered-imports": [
       true
