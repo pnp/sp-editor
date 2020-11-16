@@ -59,8 +59,8 @@ const ListPropertiesCommands = () => {
             key: 'search',
             onRender: () => <SearchBox
               placeholder='Filter properties'
-              onFocus={() => console.log('onFocus called')}
-              onBlur={() => console.log('onBlur called')}
+              // onFocus={() => console.log('onFocus called')}
+              // onBlur={() => console.log('onBlur called')}
               iconProps={{ iconName: 'Filter' }}
               styles={{ root: { width: 300, paddingLeft: '6px' } }}
               onChange={(ev, value) => dispatch(setSearchString(value ? value : ''))}

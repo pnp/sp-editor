@@ -2,12 +2,12 @@ import { CommandBar } from 'office-ui-fabric-react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
-import { setNewPanel } from '../../../store/webhooks/actions'
+import { setConfirmRemoveDialog, setNewPanel } from '../../../store/webhooks/actions'
 
 const WebhooksCommands = () => {
 
   const dispatch = useDispatch()
-  const { selectedItems } = useSelector((state: IRootState) => state.webHooks)
+  const { selectedItem } = useSelector((state: IRootState) => state.webHooks)
 
   return (
     <CommandBar
@@ -28,9 +28,9 @@ const WebhooksCommands = () => {
           key: 'deleteRow',
           text: 'Remove',
           iconProps: { iconName: 'Delete' },
-          disabled: selectedItems.length < 1,
+          disabled: selectedItem ? false : true,
           onClick: () => {
-
+            dispatch(setConfirmRemoveDialog(false))
           },
         },
       ]}

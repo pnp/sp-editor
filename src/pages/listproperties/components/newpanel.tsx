@@ -76,6 +76,7 @@ const ListPropertiesNewPanel = () => {
           onChange={(event, newValue?: string) =>
             setNewItem({ ...newItem, key: newValue ? newValue : '' })
           }
+          required
         />
         <TextField
           label='Property Value'

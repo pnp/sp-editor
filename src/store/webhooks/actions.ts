@@ -1,3 +1,4 @@
+import { IGroup } from 'office-ui-fabric-react'
 import { action } from 'typesafe-actions'
 import { Constants, IWebHook, IWebHookLists } from './types'
 
@@ -46,5 +47,11 @@ export function setConfirmEditDialog(confirmedit: boolean) {
 export function setConfirmRemoveDialog(confirmremove: boolean) {
   return action(Constants.WH_SET_CONFIRM_REMOVE_DIALOG, {
     confirmremove,
+  })
+}
+
+export function setItemsGroups(webhooksGroups: IGroup[]) {
+  return action(Constants.WH_SET_ITEMS_GROUPS, {
+    webhooksGroups,
   })
 }

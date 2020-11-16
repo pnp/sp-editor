@@ -101,7 +101,7 @@ export async function addScriptLink(dispatch: Dispatch<ScriptLinksActions | Home
           // set success message
           dispatch(rootActions.setAppMessage({
             showMessage: true,
-            message: 'SciprLink added succesfully!',
+            message: 'ScriptLink added succesfully!',
             color: MessageBarColors.success,
           }))
         } else {

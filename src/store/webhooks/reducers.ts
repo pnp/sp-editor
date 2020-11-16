@@ -2,6 +2,7 @@ import { Constants, IWebHooksState, WebHooksActions } from './types'
 
 const init: IWebHooksState = {
   webhooks: [],
+  webhooksGroups: [],
   lists: [],
   loading: false,
   editpanel: false,
@@ -29,6 +30,8 @@ export function webHooksReducer(state: IWebHooksState = init, action: WebHooksAc
     case Constants.WH_SET_CONFIRM_EDIT_DIALOG:
       return { ...state, ...action.payload }
     case Constants.WH_SET_CONFIRM_REMOVE_DIALOG:
+      return { ...state, ...action.payload }
+    case Constants.WH_SET_ITEMS_GROUPS:
       return { ...state, ...action.payload }
     default:
       return state

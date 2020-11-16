@@ -3335,7 +3335,7 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                         }
                         if (!headers.has("X-ClientService-ClientTag")) {
                             methodName = tag.getClientTag(headers);
-                            clientTag = "PnPCoreJS:2.0.11:" + methodName;
+                            clientTag = "PnPCoreJS:2.0.12:" + methodName;
                             if (clientTag.length > 32) {
                                 clientTag = clientTag.substr(0, 32);
                             }
@@ -4121,7 +4121,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                                 headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
                             }
                             if (!headers.has("X-ClientService-ClientTag")) {
-                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.0.11:batch");
+                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.0.12:batch");
                             }
                             // write headers into batch body
                             headers.forEach(function (value, name) {
@@ -5222,20 +5222,23 @@ var types_List = /** @class */ (function (_super) {
      * Returns the data for the specified query view
      *
      * @param parameters The parameters to be used to render list data as JSON string.
-     * @param overrideParameters The parameters that are used to override and extend the regular SPRenderListDataParameters.
-     * @param queryParams Allows setting of query parameters
+     * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
+     * @param query Allows setting of query parameters
      */
-    _List.prototype.renderListDataAsStream = function (parameters, overrideParameters, queryParams) {
-        if (overrideParameters === void 0) { overrideParameters = null; }
-        if (queryParams === void 0) { queryParams = new Map(); }
+    _List.prototype.renderListDataAsStream = function (parameters, overrideParams, query) {
+        if (overrideParams === void 0) { overrideParams = null; }
+        if (query === void 0) { query = new Map(); }
         if (Object(common["hOP"])(parameters, "RenderOptions") && Object(common["isArray"])(parameters.RenderOptions)) {
             parameters.RenderOptions = parameters.RenderOptions.reduce(function (v, c) { return v + c; });
         }
         var bodyOptions = { parameters: Object(common["assign"])(metadata("SP.RenderListDataParameters"), parameters) };
-        if (Object(common["objectDefinedNotNull"])(overrideParameters)) {
-            bodyOptions = Object(common["assign"])(bodyOptions, { overrideParameters: Object(common["assign"])(metadata("SP.RenderListDataOverrideParameters"), overrideParameters) });
+        if (Object(common["objectDefinedNotNull"])(overrideParams)) {
+            bodyOptions = Object(common["assign"])(bodyOptions, { overrideParameters: Object(common["assign"])(metadata("SP.RenderListDataOverrideParameters"), overrideParams) });
         }
         var clone = this.clone(List, "RenderListDataAsStream", true, true);
+        if (query && query.size > 0) {
+            query.forEach(function (v, k) { return clone.query.set(k, v); });
+        }
         return spPost(clone, request_builders_body(bodyOptions));
     };
     /**
@@ -5316,6 +5319,35 @@ var types_List = /** @class */ (function (_super) {
                     case 1:
                         res = _a.sent();
                         return [2 /*return*/, Object(common["hOP"])(res, "AddValidateUpdateItemUsingPath") ? res.AddValidateUpdateItemUsingPath : res];
+                }
+            });
+        });
+    };
+    /**
+     * Gets the parent information for this item's list and web
+     */
+    _List.prototype.getParentInfos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var urlInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")()];
+                    case 1:
+                        urlInfo = _a.sent();
+                        return [2 /*return*/, {
+                                List: {
+                                    Id: urlInfo.Id,
+                                    RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
+                                    RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
+                                    RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
+                                },
+                                ParentWeb: {
+                                    Id: urlInfo.ParentWeb.Id,
+                                    ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
+                                    ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
+                                    Url: urlInfo.ParentWeb.Url,
+                                },
+                            }];
                 }
             });
         });
@@ -5756,6 +5788,38 @@ var types_Item = /** @class */ (function (_super) {
     _Item.prototype.validateUpdateListItem = function (formValues, bNewDocumentUpdate) {
         if (bNewDocumentUpdate === void 0) { bNewDocumentUpdate = false; }
         return spPost(this.clone(Item, "validateupdatelistitem"), request_builders_body({ formValues: formValues, bNewDocumentUpdate: bNewDocumentUpdate }));
+    };
+    /**
+     * Gets the parent information for this item's list and web
+     */
+    _Item.prototype.getParentInfos = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var urlInfo;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.select("Id", "ParentList/Id", "ParentList/RootFolder/UniqueId", "ParentList/RootFolder/ServerRelativeUrl", "ParentList/RootFolder/ServerRelativePath", "ParentList/ParentWeb/Id", "ParentList/ParentWeb/Url", "ParentList/ParentWeb/ServerRelativeUrl", "ParentList/ParentWeb/ServerRelativePath").expand("ParentList", "ParentList/RootFolder", "ParentList/ParentWeb")()];
+                    case 1:
+                        urlInfo = _a.sent();
+                        return [2 /*return*/, {
+                                Item: {
+                                    Id: urlInfo.Id,
+                                },
+                                ParentList: {
+                                    Id: urlInfo.ParentList.Id,
+                                    RootFolderServerRelativePath: urlInfo.ParentList.RootFolder.ServerRelativePath,
+                                    RootFolderServerRelativeUrl: urlInfo.ParentList.RootFolder.ServerRelativeUrl,
+                                    RootFolderUniqueId: urlInfo.ParentList.RootFolder.UniqueId,
+                                },
+                                ParentWeb: {
+                                    Id: urlInfo.ParentList.ParentWeb.Id,
+                                    ServerRelativePath: urlInfo.ParentList.ParentWeb.ServerRelativePath,
+                                    ServerRelativeUrl: urlInfo.ParentList.ParentWeb.ServerRelativeUrl,
+                                    Url: urlInfo.ParentList.ParentWeb.Url,
+                                },
+                            }];
+                }
+            });
+        });
     };
     /**
      * Ensures we have the proper list item entity type name, either from the value provided or from the list

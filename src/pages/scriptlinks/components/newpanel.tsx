@@ -75,6 +75,7 @@ const ScriptLinksNewPanel = () => {
           onChange={(event, newValue?: string) =>
             setNewItem({ ...newItem, Url: newValue ? newValue : '' })
           }
+          required
         />
         <TextField
           label='Sequence'
@@ -86,6 +87,7 @@ const ScriptLinksNewPanel = () => {
             setNewItem({ ...newItem, Sequence: newValue ? +newValue : 0 })
           }
           onGetErrorMessage={sequenceValidator}
+          required
         />
         <Dropdown
           label='Select scope'
@@ -98,6 +100,7 @@ const ScriptLinksNewPanel = () => {
           onChange={(event, option?: IDropdownOption) =>
             setNewItem({ ...newItem, Scope: option ? +option.key : newItem.Scope })
           }
+          required
         />
       </Stack >
     </Panel >

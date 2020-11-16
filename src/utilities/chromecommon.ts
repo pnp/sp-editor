@@ -35,7 +35,7 @@ export function exescript(this: any, script: any) {
         function: script.name,
         success: false,
         result: null,
-        errorMessage: '1 Could not get _spPageContextInfo, propably because this is not a SharePoint site..',
+        errorMessage: 'Could not get _spPageContextInfo, propably because this is not a SharePoint site..',
         source: 'chrome-sp-editor',
       }), '*')
     }

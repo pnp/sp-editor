@@ -3186,7 +3186,7 @@ var graphhttpclient_GraphHttpClient = /** @class */ (function () {
         }
         if (!headers.has("SdkVersion")) {
             // this marks the requests for understanding by the service
-            headers.append("SdkVersion", "PnPCoreJS/2.0.11");
+            headers.append("SdkVersion", "PnPCoreJS/2.0.12");
         }
         var opts = Object(common["assign"])(options, { headers: headers });
         return this.fetchRaw(url, opts);
@@ -3436,15 +3436,6 @@ var graphqueryable_GraphQueryable = /** @class */ (function (_super) {
         return this;
     };
     /**
-     * Gets a parent for this instance as specified
-     *
-     * @param factory The contructor for the class to create
-     */
-    _GraphQueryable.prototype.getParent = function (factory, baseUrl, path) {
-        if (baseUrl === void 0) { baseUrl = this.parentUrl; }
-        return new factory(baseUrl, path);
-    };
-    /**
      * Clones this queryable into a new queryable instance of T
      * @param factory Constructor used to create the new instance
      * @param additionalPath Any additional path to include in the clone
@@ -3455,6 +3446,15 @@ var graphqueryable_GraphQueryable = /** @class */ (function (_super) {
         if (includeBatch === void 0) { includeBatch = true; }
         if (includeQuery === void 0) { includeQuery = false; }
         return _super.prototype.cloneTo.call(this, factory(this, additionalPath), { includeBatch: includeBatch, includeQuery: includeQuery });
+    };
+    /**
+     * Gets a parent for this instance as specified
+     *
+     * @param factory The contructor for the class to create
+     */
+    _GraphQueryable.prototype.getParent = function (factory, baseUrl, path) {
+        if (baseUrl === void 0) { baseUrl = this.parentUrl; }
+        return new factory(baseUrl, path);
     };
     return _GraphQueryable;
 }(queryable_Queryable));
@@ -4180,7 +4180,7 @@ var Groups = graphInvokableFactory(types_Groups);
  * @param end end time
  */
 function calendarView(start, end) {
-    var query = GraphQueryableCollection(this, "calendarView");
+    var query = this.clone(GraphQueryableCollection, "calendarView");
     query.query.set("startDateTime", encodeURIComponent(start));
     query.query.set("endDateTime", encodeURIComponent(end));
     return query;
@@ -5194,7 +5194,7 @@ var types_Drive = /** @class */ (function (_super) {
     });
     Object.defineProperty(_Drive.prototype, "list", {
         get: function () {
-            return GraphQueryableInstance(this, "list");
+            return this.clone(GraphQueryableInstance, "list");
         },
         enumerable: false,
         configurable: true
@@ -5263,7 +5263,7 @@ var types_Root = /** @class */ (function (_super) {
     };
     Object.defineProperty(_Root.prototype, "thumbnails", {
         get: function () {
-            return GraphQueryableCollection(this, "thumbnails");
+            return this.clone(GraphQueryableCollection, "thumbnails");
         },
         enumerable: false,
         configurable: true
@@ -5293,14 +5293,14 @@ var types_DriveItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(_DriveItem.prototype, "thumbnails", {
         get: function () {
-            return GraphQueryableCollection(this, "thumbnails");
+            return this.clone(GraphQueryableCollection, "thumbnails");
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(_DriveItem.prototype, "versions", {
         get: function () {
-            return GraphQueryableCollection(this, "versions");
+            return this.clone(GraphQueryableCollection, "versions");
         },
         enumerable: false,
         configurable: true
@@ -5402,7 +5402,7 @@ var types_OneNote = /** @class */ (function (_super) {
     });
     Object.defineProperty(_OneNote.prototype, "pages", {
         get: function () {
-            return GraphQueryableCollection(this, "pages");
+            return this.clone(GraphQueryableCollection, "pages");
         },
         enumerable: false,
         configurable: true
