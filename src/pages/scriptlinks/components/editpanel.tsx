@@ -11,7 +11,7 @@ import {
   PrimaryButton,
   Stack,
   TextField,
-} from 'office-ui-fabric-react'
+} from '@fluentui/react'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'

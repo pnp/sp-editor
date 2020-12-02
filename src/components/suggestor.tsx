@@ -1,4 +1,4 @@
-import { TextField } from 'office-ui-fabric-react'
+import { TextField } from '@fluentui/react'
 import React, { useRef, useState } from 'react'
 import getCaretCoordinates from 'textarea-caret'
 

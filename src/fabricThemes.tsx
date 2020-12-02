@@ -1,5 +1,5 @@
-import { createTheme } from 'office-ui-fabric-react/lib/Styling'
-import { ICustomizations } from 'office-ui-fabric-react/lib/Utilities'
+import { createTheme } from '@fluentui/react/lib/Styling'
+import { ICustomizations } from '@fluentui/react/lib/Utilities'
 export const fabricDark: ICustomizations = {
   settings: {
     theme: createTheme({

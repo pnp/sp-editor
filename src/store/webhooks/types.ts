@@ -1,4 +1,4 @@
-import { IGroup } from 'office-ui-fabric-react'
+import { IGroup } from '@fluentui/react'
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
 

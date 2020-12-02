@@ -28,10 +28,10 @@ import '@ionic/react/css/text-transformation.css'
 /* Theme variables */
 import './theme/variables.css'
 
-import { Fabric } from 'office-ui-fabric-react'
+import { Fabric } from '@fluentui/react'
 import {
   Customizer,
-} from 'office-ui-fabric-react/lib/Utilities'
+} from '@fluentui/react/lib/Utilities'
 
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { useDispatch, useSelector } from 'react-redux'

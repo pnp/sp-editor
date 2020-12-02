@@ -1,4 +1,4 @@
-import { ICustomizations } from 'office-ui-fabric-react'
+import { ICustomizations } from '@fluentui/react'
 import { action } from 'typesafe-actions'
 import { Constants, IAppMessage } from './types'
 

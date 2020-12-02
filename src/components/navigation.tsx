@@ -8,7 +8,7 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from 'office-ui-fabric-react'
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from '@fluentui/react'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'

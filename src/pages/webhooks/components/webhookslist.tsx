@@ -11,7 +11,7 @@ import {
   SelectionMode,
   Sticky,
   StickyPositionType,
-} from 'office-ui-fabric-react'
+} from '@fluentui/react'
 
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

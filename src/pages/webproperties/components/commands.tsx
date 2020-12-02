@@ -1,4 +1,4 @@
-import { CommandBar, SearchBox } from 'office-ui-fabric-react'
+import { CommandBar, SearchBox } from '@fluentui/react'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
