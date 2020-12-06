@@ -152,7 +152,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
 // find all import lines from code
 export const getImportModules = (content: string) => {
   const importTexts: string[] = []
-  const imports = content.match(/(import|from).*(@pnp|microsoft).*/g)
+  const imports = content.match(/(import|from).*(@microsoft|msal).*/g)
   if (imports) {
     imports.forEach(iText => {
       const match = iText.match(/(["'])(.*?[^\\])\1/g)
@@ -185,7 +185,7 @@ export const locations = (substringx: any, stringx: string) => {
 }
 
 export const getExportRows = (content: string, path: string) => {
-  const libs = content.match(/("(\.|@)|'(\.|@)).*\/.*("|')/g)
+  const libs = content.match(/("(\.|@|m)|'(\.|@|m)).*\/.*("|')/g)
   if (libs) {
     const exportTexts: string[] = []
     libs.forEach(eText => {

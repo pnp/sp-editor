@@ -32,6 +32,8 @@ gulp.task('clean', (done) => {
     'public/bundles/sp-clientsvc.es5.umd.bundle.js',
     'public/bundles/sp-taxonomy.es5.umd.bundle.js',
     'public/bundles/sp.es5.umd.bundle.js',
+    'public/bundles/graph-sdk.es5.umd.bundle.js',
+    'public/bundles/msal.js',
     // 'public/bundles/adaljsclient.es5.umd.bundle.js',
   ], done);
 });
@@ -156,6 +158,26 @@ gulp.task('copy:microsoft-graph-types', (done) => {
   done();
 });
 
+gulp.task('copy:microsoft-graph-client', (done) => {
+  console.log("Copy @microsoft/microsoft-graph-client");
+  gulp.src(['./node_modules/@microsoft/microsoft-graph-client/lib/es/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/microsoft-graph-client/'))
+  gulp.src('./dist/graph-sdk.es5.umd.bundle.js')
+  .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+  .pipe(gulp.dest('./public/bundles/'))
+    done();
+});
+
+gulp.task('copy:msal', (done) => {
+  console.log("Copy msal");
+  gulp.src(['./node_modules/msal/lib-es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/msal/'))
+  gulp.src('./node_modules/msal/dist/msal.js')
+    .pipe(rename('msal.js'))
+    .pipe(gulp.dest('./public/bundles/'))
+    done();
+});
+
 gulp.task('copy:monaco-editor', (done) => {
   console.log("Copy monaco-editor");
   gulp.src('./node_modules/monaco-editor/min/**/*')
@@ -182,5 +204,7 @@ gulp.task('default',
     'copy:sp-clientsvc',
     'copy:sp-taxonomy',
     'copy:microsoft-graph-types',
+    'copy:microsoft-graph-client',
+    'copy:msal',
     'copy:monaco-editor',
   ]));

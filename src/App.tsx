@@ -43,6 +43,7 @@ import Webhooks from './pages/webhooks'
 import WebProperties from './pages/webproperties'
 import { IRootState } from './store'
 import { setDarkMode, setTheme } from './store/home/actions'
+import GraphSDKConsole from './pages/graphsdkconsole'
 
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -84,6 +85,7 @@ const App = () => {
                   <Route path='/listproperties' component={ListProperties} />
                   <Route path='/webhooks' component={Webhooks} />
                   <Route path='/spshooter' component={SPShooter} />
+                  <Route path='/graphsdkconsole' component={GraphSDKConsole} />
                 </Switch>
                 <LoadingSpinner />
                 <MessageBar />
