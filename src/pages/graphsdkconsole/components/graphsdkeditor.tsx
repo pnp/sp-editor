@@ -9,8 +9,8 @@ import {
 } from 'typescript'
 import { IRootState } from '../../../store'
 import { setLoading } from '../../../store/home/actions'
-import { setCode } from '../../../store/pnpjsconsole/actions'
-import { IDefinitions } from '../../../store/pnpjsconsole/types'
+import { setCode } from '../../../store/graphsdkconsole/actions'
+import { IDefinitions } from '../../../store/graphsdkconsole/types'
 import { exescript } from '../../../utilities/chromecommon'
 import { fetchDefinitions } from '../utils/util'
 import {
@@ -28,14 +28,14 @@ import {
   mod_pnpjs,
   mod_sp,
   mod_taxonomy,
-  pnpjsMonacoConfigs,
+  GraphSDKConsoleMonacoConfigs,
   sj,
 } from './utils'
 
 const GraphSDKEditor = () => {
   const dispatch = useDispatch()
   const [ initialized, setInitialized ] = useState(false)
-  const { definitions, code } = useSelector((state: IRootState) => state.pnpjsconsole)
+  const { definitions, code } = useSelector((state: IRootState) => state.graphsdkconsole)
   const stateCode = code
   const editor = useRef<null | monaco.editor.IStandaloneCodeEditor>(null)
   const outputDiv = useRef<null | HTMLDivElement>(null)
@@ -43,7 +43,7 @@ const GraphSDKEditor = () => {
 
   const { isDark } = useSelector((state: IRootState) => state.home)
 
-  const COMMON_CONFIG: monaco.editor.IEditorOptions = pnpjsMonacoConfigs()
+  const COMMON_CONFIG: monaco.editor.IEditorOptions = GraphSDKConsoleMonacoConfigs()
 
   useEffect(() => {
     const resizeListener = () => {

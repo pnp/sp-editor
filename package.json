@@ -4,11 +4,11 @@
   "private": true,
   "dependencies": {
     "@fluentui/date-time-utilities": "^7.9.0",
-    "@fluentui/react": "^7.153.3",
+    "@fluentui/react": "^7.153.4",
     "@ionic/react": "^5.5.1",
     "@ionic/react-router": "^5.5.1",
     "@microsoft/microsoft-graph-client": "^2.2.1",
-    "@uifabric/theme-samples": "^7.1.51",
+    "@uifabric/theme-samples": "^7.1.52",
     "cra-build-watch": "^3.4.0",
     "gsap": "^3.5.1",
     "ionicons": "^5.2.3",

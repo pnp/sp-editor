@@ -1,6 +1,6 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { IDefinitions } from '../../../store/pnpjsconsole/types'
+import { IDefinitions } from '../../../store/graphsdkconsole/types'
 
 export const getDirectory = (dirEntry: DirectoryEntry, path: string): Promise<DirectoryEntry> => {
   return new Promise(resolve => dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry)))
@@ -58,7 +58,7 @@ export const loadDefinitions = async (
 export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
   new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
 
-export const pnpjsMonacoConfigs = () => {
+export const GraphSDKConsoleMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {
     lineNumbers: 'on',
     roundedSelection: true,
@@ -91,16 +91,69 @@ export const pnpjsMonacoConfigs = () => {
 
 export const initCode = () => {
   const code = `
-// CTRL/CMD + D to execute the code
-import { sp } from "@pnp/sp";
-import "@pnp/sp/webs";
+/*
+  Hit 'ctrl + d' or 'cmd + d' to run the code
+*/
+import {
+  UserAgentApplication,
+  Configuration,
+  AuthenticationParameters,
+} from 'msal'
+
+import {
+  MSALAuthenticationProviderOptions,
+  ImplicitMSALAuthenticationProvider,
+  Client,
+  ClientOptions,
+} from '@microsoft/microsoft-graph-client'
 
 // wrapping the code inside self-excecuting async function
 // enables you to use await expression
 (async () => {
+  /*
+    - If you wish to use your own app (V2) remember to add
+        "chrome-extension://ecblfcmjnbbgaojblcpmjoamegpbodhd/app/panel.html"
+      as redirectUrl
+  */
+  const msalConfig: Configuration = {
+    auth: {
+      clientId: "20d34c96-396e-4bf0-a008-472ef10a5099", // SP Editor azure ad multitenant app
+      redirectUri: "chrome-extension://ecblfcmjnbbgaojblcpmjoamegpbodhd/app/panel.html",
+    },
+    cache: {
+      cacheLocation: 'sessionStorage',
+    }
+  };
 
-  const { Title } = await sp.web.select("Title")()
-  console.log(\`Web title: \${Title}\`);
+  // scopes needed in your graph query
+  const graphScopes = [
+    "user.read",
+    "mail.send"
+  ];
+
+  const msalApplication = new UserAgentApplication(msalConfig);
+  const msalOptions = new MSALAuthenticationProviderOptions(graphScopes);
+  const authProvider = new ImplicitMSALAuthenticationProvider(msalApplication, msalOptions);
+
+  const authParams: AuthenticationParameters = {
+    scopes: graphScopes,
+    prompt: 'select_account',
+  };
+  /* uncomment to switch account
+  await msalApplication.loginPopup(authParams);
+  */
+
+  const options: ClientOptions = {
+    authProvider,
+  };
+
+  const client = Client.initWithMiddleware(options);
+
+  let userDetails = await client.api("/me")
+    .select('displayName')
+    .get();
+
+  console.log(userDetails)
 
 })().catch(console.log)
 `
