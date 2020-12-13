@@ -111,14 +111,14 @@ import {
 // enables you to use await expression
 (async () => {
   /*
-    - If you wish to use your own app (V2) remember to add
-        "chrome-extension://ecblfcmjnbbgaojblcpmjoamegpbodhd/app/panel.html"
+    - If you wish to use your own Azure AD App, remember to add
+        "chrome-extension://affnnhcbfmcbbdlcadgkdbfafigmjdkk/app/panel.html"
       as redirectUrl
   */
   const msalConfig: Configuration = {
     auth: {
       clientId: "20d34c96-396e-4bf0-a008-472ef10a5099", // SP Editor azure ad multitenant app
-      redirectUri: "chrome-extension://ecblfcmjnbbgaojblcpmjoamegpbodhd/app/panel.html",
+      redirectUri: "chrome-extension://affnnhcbfmcbbdlcadgkdbfafigmjdkk/index.html",
     },
     cache: {
       cacheLocation: 'sessionStorage',
@@ -160,6 +160,16 @@ import {
   return code.substring(code.indexOf('\n') + 1)
 }
 
+
+export const initResult = () => {
+  const code = `
+/*
+  console.log() will output here
+*/
+`;
+  return code.substring(code.indexOf("\n") + 1);
+};
+
 export const execme = (prepnp: string[], ecode: string[]) => {
   return `
 var execme = function execme() {
@@ -185,17 +195,8 @@ export const fixImports = (lines: string[], ecode: string[]) => {
       // fix imports
       const lineRe = line.match('var (.*) = require')
       let mod = -1
-      mod = line.indexOf('@pnp/common') > -1 ? 0 : mod
-      mod = line.indexOf('@pnp/config-store') > -1 ? 1 : mod
-      mod = line.indexOf('@pnp/graph') > -1 ? 2 : mod
-      mod = line.indexOf('@pnp/logging') > -1 ? 3 : mod
-      mod = line.indexOf('@pnp/odata') > -1 ? 4 : mod
-      mod = line.indexOf('@pnp/pnpjs') > -1 ? 5 : mod
-      mod = line.indexOf('@pnp/sp-addinhelpers') > -1 ? 6 : mod
-      mod = line.indexOf('@pnp/sp-clientsvc') > -1 ? 7 : mod
-      mod = line.indexOf('@pnp/sp-taxonomy') > -1 ? 9 : mod
-      mod = line.indexOf('@pnp/adaljsclient') > -1 ? 10 : mod
-      mod = mod === -1 && line.indexOf('@pnp/sp') > -1 ? 8 : mod
+      mod = line.indexOf('msal') > -1 ? 0 : mod
+      mod = line.indexOf('@microsoft/microsoft-graph-client') > -1 ? 1 : mod
       prepnp.push(`var ${lineRe![1]} = modules[${mod}];`)
     }
   })
@@ -296,15 +297,6 @@ export const getDefinitionsInUse = (codeWithOutComments: string, definitions: ID
   return currentLibs
 }
 
-export const mod_common = `var mod_common = '${chrome.extension.getURL('bundles/common.es5.umd.bundle.js')}';`
-export const mod_config = `var mod_config = '${chrome.extension.getURL('bundles/config-store.es5.umd.bundle.js')}';`
-export const mod_graph = `var mod_graph = '${chrome.extension.getURL('bundles/graph.es5.umd.bundle.js')}';`
-export const mod_logging = `var mod_logging = '${chrome.extension.getURL('bundles/logging.es5.umd.bundle.js')}';`
-export const mod_odata = `var mod_odata = '${chrome.extension.getURL('bundles/odata.es5.umd.bundle.js')}';`
-export const mod_pnpjs = `var mod_pnpjs = '${chrome.extension.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
-export const mod_addin = `var mod_addin = '${chrome.extension.getURL('bundles/sp-addinhelpers.es5.umd.bundle.js')}';`
-export const mod_client = `var mod_client = '${chrome.extension.getURL('bundles/sp-clientsvc.es5.umd.bundle.js')}';`
-export const mod_taxonomy = `var mod_taxonomy = '${chrome.extension.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
-export const mod_sp = `var mod_sp = '${chrome.extension.getURL('bundles/sp.es5.umd.bundle.js')}';`
-export const mod_adaljs = `var mod_adaljs = '${chrome.extension.getURL('bundles/adaljsclient.es5.umd.bundle.js')}';`
 export const sj = `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
+export const mod_msal = `var mod_msal = '${chrome.extension.getURL('bundles/msal.js')}';`
+export const mod_graph_sdk = `var mod_graph_sdk = '${chrome.extension.getURL('bundles/graph-sdk.es5.umd.bundle.js')}';`

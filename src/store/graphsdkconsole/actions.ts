@@ -7,6 +7,12 @@ export function setCode(code: string) {
   })
 }
 
+export function setResult(result: string) {
+  return action(Constants.GC_SET_RESULT, {
+    result,
+  })
+}
+
 export function setDefinitions(definitions: IDefinitions[]) {
   return action(Constants.GC_SET_DEFINITIONS, {
     definitions,

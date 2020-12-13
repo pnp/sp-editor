@@ -35,7 +35,6 @@ import {
 
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { useDispatch, useSelector } from 'react-redux'
-import LoadingSpinner from './components/loadingSpinner'
 import MessageBar from './components/messageBar'
 import ListProperties from './pages/listproperties'
 import SPShooter from './pages/spshooter'
@@ -48,54 +47,54 @@ import GraphSDKConsole from './pages/graphsdkconsole'
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
 
 const App = () => {
+  const { theme } = useSelector((state: IRootState) => state.home);
 
-  const { theme } = useSelector((state: IRootState) => state.home)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-
     const toggleDarkTheme = (shouldAdd: boolean) => {
-      document.body.classList.toggle('dark', shouldAdd)
-      dispatch(setTheme(shouldAdd ? DarkCustomizations : DefaultCustomizations))
-      dispatch(setDarkMode(shouldAdd))
-    }
+      document.body.classList.toggle("dark", shouldAdd);
+      dispatch(
+        setTheme(shouldAdd ? DarkCustomizations : DefaultCustomizations)
+      );
+      dispatch(setDarkMode(shouldAdd));
+    };
 
     // toggleDarkTheme(prefersDark.matches)
     // this will set the theme according the system preferences
     // now we default to dark (true)
-    toggleDarkTheme(true)
-    prefersDark.addListener(mediaQuery => toggleDarkTheme(mediaQuery.matches))
-  }, [dispatch])
+    toggleDarkTheme(true);
+    prefersDark.addListener((mediaQuery) =>
+      toggleDarkTheme(mediaQuery.matches)
+    );
+  }, [dispatch]);
 
   return (
     <IonApp>
       <Fabric>
         <Customizer {...theme}>
           <IonReactRouter>
-            <IonSplitPane contentId='main'>
-              <FabricNav />
-              <IonPage id='main'>
-                <Switch>
-                  <Route exact path='/' component={HomePage} />
-                  <Route exact path='/index.html' component={HomePage} />
-                  <Route path='/scriptlinks' component={ScriptLinks} />
-                  <Route path='/pnpjsconsole' component={PnPjsConsole} />
-                  <Route path='/webproperties' component={WebProperties} />
-                  <Route path='/listproperties' component={ListProperties} />
-                  <Route path='/webhooks' component={Webhooks} />
-                  <Route path='/spshooter' component={SPShooter} />
-                  <Route path='/graphsdkconsole' component={GraphSDKConsole} />
-                </Switch>
-                <LoadingSpinner />
-                <MessageBar />
-              </IonPage>
-            </IonSplitPane>
+            <FabricNav />
+            <IonPage id="main">
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/index.html" component={HomePage} />
+                <Route path="/scriptlinks" component={ScriptLinks} />
+                <Route path="/pnpjsconsole" component={PnPjsConsole} />
+                <Route path="/webproperties" component={WebProperties} />
+                <Route path="/listproperties" component={ListProperties} />
+                <Route path="/webhooks" component={Webhooks} />
+                <Route path="/spshooter" component={SPShooter} />
+                <Route path="/graphsdkconsole" component={GraphSDKConsole} />
+                <Route path="/mgtconsole"  />
+              </Switch>
+              <MessageBar />
+            </IonPage>
           </IonReactRouter>
         </Customizer>
       </Fabric>
     </IonApp>
-  )
-}
+  );
+};
 
 export default App
