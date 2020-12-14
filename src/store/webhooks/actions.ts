@@ -1,4 +1,4 @@
-import { IGroup } from 'office-ui-fabric-react'
+import { IGroup } from '@fluentui/react'
 import { action } from 'typesafe-actions'
 import { Constants, IWebHook, IWebHookLists } from './types'
 

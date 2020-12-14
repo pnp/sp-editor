@@ -1,4 +1,6 @@
 import { combineReducers, createStore } from 'redux'
+import { GraphSDKConsoleReducer } from './graphsdkconsole/reducers'
+import { IGraphSDKConsoleState } from './graphsdkconsole/types'
 import { homeReducer } from './home/reducers'
 import { IHomeState } from './home/types'
 import { listPropertiesReducer } from './listproperties/reducers'
@@ -22,6 +24,7 @@ export interface IRootState {
   webHooks: IWebHooksState
   listProperties: IListPropertiesState
   spshoot: ISPShootState
+  graphsdkconsole: IGraphSDKConsoleState
 }
 
 const store = createStore<IRootState, any, any, any>(
@@ -33,6 +36,7 @@ const store = createStore<IRootState, any, any, any>(
     webHooks: webHooksReducer,
     listProperties: listPropertiesReducer,
     spshoot: spshootReducer,
+    graphsdkconsole: GraphSDKConsoleReducer
   }))
 
 export default store

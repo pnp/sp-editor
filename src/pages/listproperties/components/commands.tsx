@@ -1,4 +1,4 @@
-import { CommandBar, Dropdown, IDropdownOption, ResponsiveMode, SearchBox } from 'office-ui-fabric-react'
+import { CommandBar, Dropdown, IDropdownOption, ResponsiveMode, SearchBox } from '@fluentui/react'
 import React, { FormEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'

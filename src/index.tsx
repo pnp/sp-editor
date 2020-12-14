@@ -1,4 +1,4 @@
-import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
+import { initializeIcons } from '@fluentui/react/lib/Icons'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'

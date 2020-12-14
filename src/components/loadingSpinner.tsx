@@ -5,7 +5,7 @@ import {
   Spinner,
   SpinnerSize,
   Stack,
-} from 'office-ui-fabric-react'
+} from '@fluentui/react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { IRootState } from '../store'

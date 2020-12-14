@@ -8,7 +8,7 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from 'office-ui-fabric-react'
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from '@fluentui/react'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -77,12 +77,17 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                 {
                   name: 'Scriptlinks',
                   url: '/scriptlinks',
-                  key: 'key3',
+                  key: 'key2',
                 },
                 {
                   name: 'PnP JS Console',
                   url: '/pnpjsconsole',
-                  key: 'key8',
+                  key: 'key3',
+                },
+                {
+                  name: 'Graph SDK Console',
+                  url: '/graphsdkconsole',
+                  key: 'key4',
                 },
                 {
                   name: 'Web Properties',
@@ -98,61 +103,61 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                 {
                   name: 'SP Shooter',
                   url: '/spshooter',
-                  key: 'key17',
+                  key: 'key7',
                   disabled: false,
                 },
                 {
                   name: 'Webhooks',
                   url: '/webhooks',
-                  key: 'key7',
+                  key: 'key8',
                   disabled: false,
                 },
                 {
                   name: 'Files',
                   url: '/files',
-                  key: 'key4',
+                  key: 'key9',
                   disabled: true,
                 },
                 {
                   name: 'Search',
                   url: '/search',
-                  key: 'key9',
+                  key: 'key10',
                   disabled: true,
                 },
                 {
                   name: 'Page editor',
                   url: '/pageeditor',
-                  key: 'key10',
+                  key: 'key11',
                   disabled: true,
                 },
                 {
                   name: 'File editor',
                   url: '/fileeditor',
-                  key: 'key11',
+                  key: 'key12',
                   disabled: true,
                 },
                 {
                   name: 'Modern properties',
                   url: '/modernproperties',
-                  key: 'key12',
+                  key: 'key13',
                   disabled: true,
                 },
                 {
                   name: 'Site designs',
                   url: '/sitedesigns',
-                  key: 'key13',
+                  key: 'key14',
                   disabled: true,
                 },
                 {
                   name: 'Site scripts',
                   url: '/sitescripts',
-                  key: 'key14',
+                  key: 'key15',
                   disabled: true,
                 },
                 {
                   name: 'App catalog',
                   url: '/appcatalog',
-                  key: 'key15',
+                  key: 'key16',
                   disabled: true,
                 },
               ],

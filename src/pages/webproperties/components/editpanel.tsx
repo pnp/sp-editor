@@ -10,7 +10,7 @@ import {
   Stack,
   TextField,
   Toggle,
-} from 'office-ui-fabric-react'
+} from '@fluentui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'

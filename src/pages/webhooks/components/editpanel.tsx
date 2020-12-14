@@ -14,8 +14,8 @@ import {
   PrimaryButton,
   Stack,
   TextField,
-} from 'office-ui-fabric-react'
-import { addDays } from 'office-ui-fabric-react/lib/utilities/dateMath/DateMath'
+} from '@fluentui/react'
+import { addDays } from '@fluentui/date-time-utilities'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'

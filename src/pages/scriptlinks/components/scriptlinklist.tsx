@@ -12,10 +12,10 @@ import {
   SelectionMode,
   Sticky,
   StickyPositionType,
-} from 'office-ui-fabric-react'
+} from '@fluentui/react'
 import {
   Selection,
-} from 'office-ui-fabric-react/lib/utilities/selection'
+} from '@fluentui/react/lib/Utilities'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'

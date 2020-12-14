@@ -1,4 +1,4 @@
-import { ICustomizations } from 'office-ui-fabric-react/lib/Utilities'
+import { ICustomizations } from '@fluentui/react/lib/Utilities'
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
 

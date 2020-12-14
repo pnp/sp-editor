@@ -195,10 +195,8 @@ export const getExportRows = (content: string, path: string) => {
         const splitIndex = locations('/', path)
         if (lib.startsWith('./')) {
           const jee = splitIndex[splitIndex.length - 1]
-          if (jee) {
-            const lib1 = path.substring(0, jee + 1) + lib.substring(2)
-            exportTexts.push(lib1)
-          }
+          const lib1 = path.substring(0, jee! + 1) + lib.substring(2)
+          exportTexts.push(lib1)
         } else if (lib.startsWith('../../')) {
           const jee = splitIndex[splitIndex.length - 3]
           if (jee) {
