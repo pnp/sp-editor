@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import PnPjsConsole from './pages/pnpjsconsole'
 
-import { IonApp, IonPage, IonSplitPane } from '@ionic/react'
+import { IonApp, IonPage } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import './App.css'
 import { FabricNav } from './components/navigation'
@@ -43,6 +43,7 @@ import WebProperties from './pages/webproperties'
 import { IRootState } from './store'
 import { setDarkMode, setTheme } from './store/home/actions'
 import GraphSDKConsole from './pages/graphsdkconsole'
+import MGTConsole from './pages/mgtconsole'
 
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -86,7 +87,7 @@ const App = () => {
                 <Route path="/webhooks" component={Webhooks} />
                 <Route path="/spshooter" component={SPShooter} />
                 <Route path="/graphsdkconsole" component={GraphSDKConsole} />
-                <Route path="/mgtconsole"  />
+                <Route path="/mgtconsole" component={MGTConsole} />
               </Switch>
               <MessageBar />
             </IonPage>

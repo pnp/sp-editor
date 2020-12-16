@@ -1,0 +1,257 @@
+/// <reference types='../../../../node_modules/monaco-editor/monaco' />
+
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { IonButton } from '@ionic/react'
+import { useDispatch, useSelector } from 'react-redux'
+import ts, {
+  CompilerOptions,
+  getDefaultCompilerOptions,
+  transpileModule,
+} from 'typescript'
+import { IRootState } from '../../../store'
+import { setLoading } from '../../../store/home/actions'
+import { setCode, setResult } from '../../../store/mgtconsole/actions'
+import { IDefinitions } from '../../../store/mgtconsole/types'
+import { fetchDefinitions } from '../utils/util'
+import {
+  fixImports,
+  getDefinitionsInUse,
+  GraphSDKConsoleMonacoConfigs,
+
+} from './utils'
+import { Stack } from '@fluentui/react'
+import { LiveError, LivePreview, LiveProvider } from 'react-live';
+import { PeoplePicker, People, Login, Agenda, Todo, Person } from '@microsoft/mgt-react';
+import { LoginType, MsalProvider, Providers } from '@microsoft/mgt';
+import {
+  UserAgentApplication,
+  Configuration,
+  AuthenticationParameters,
+} from 'msal'
+import {
+  MSALAuthenticationProviderOptions,
+  ImplicitMSALAuthenticationProvider,
+  Client,
+  ClientOptions,
+} from '@microsoft/microsoft-graph-client'
+import { ProviderState } from '@microsoft/mgt-element';
+
+const MGTEditor = () => {
+  const dispatch = useDispatch();
+  const [grapgEditorInitialized, setGrapgEditorInitialized] = useState(false);
+
+  const { definitions, code } = useSelector(
+    (state: IRootState) => state.mgtconsole
+  );
+  // const stateCode = code;
+
+  const grapheditor = useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
+
+  const grapgsdkEditorDiv = useRef<null | HTMLDivElement>(null);
+
+  const completionItems = useRef<null | monaco.IDisposable>(null);
+
+  const { isDark } = useSelector((state: IRootState) => state.home);
+
+  const COMMON_CONFIG: monaco.editor.IEditorOptions = GraphSDKConsoleMonacoConfigs();
+
+  useEffect(() => {
+    const resizeListener = () => {
+      if (grapheditor && grapheditor.current) {
+        grapheditor.current.layout();
+      }
+    };
+    window.addEventListener("resize", resizeListener);
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, []);
+
+  const initGraphEditor = useCallback(() => {
+    const filePrefix = 'file:///';
+    const filename = 'main.tsx';
+    if (grapgsdkEditorDiv.current) {
+      grapheditor.current = monaco.editor.create(grapgsdkEditorDiv.current, {
+        model: monaco.editor.createModel(
+          code,
+          "typescript",
+          // @ts-ignore: this is the only way to make it work
+          monaco.Uri.file(filename)
+        ),
+        ...COMMON_CONFIG,
+      });
+
+      const codeWOComments = grapheditor
+        .current!.getModel()!
+        .getValue()
+        .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, "");
+      const curLibs: IDefinitions[] = getDefinitionsInUse(
+        codeWOComments,
+        definitions
+      );
+      const koko = curLibs.map(dmodule => {
+        dmodule.filePath = 'file:///node_modules/' + dmodule.filePath
+        return dmodule;
+      })
+      monaco.languages.typescript.typescriptDefaults.setExtraLibs(koko);
+      // console.log(monaco.languages.typescript.typescriptDefaults.getExtraLibs())
+      if (grapheditor && grapheditor.current) {
+        // adds auto-complete for @pnp module imports
+        completionItems.current = monaco.languages.registerCompletionItemProvider(
+          "typescript",
+          {
+            triggerCharacters: ["@", "/"],
+            provideCompletionItems: (model, position) => {
+              const textUntilPosition = model.getValueInRange({
+                startLineNumber: position.lineNumber,
+                startColumn: 1,
+                endLineNumber: position.lineNumber,
+                endColumn: position.column,
+              });
+
+              const importText = textUntilPosition.substring(
+                textUntilPosition.indexOf("@")
+              );
+              const moduleDepth = importText.split("/");
+              const suggestions: any[] = [];
+              definitions.forEach((file) => {
+                if (file.filePath.indexOf(importText) > -1) {
+                  const depthIndex = file.filePath
+                    .split("/", moduleDepth.length)
+                    .join("/").length;
+                  const importedModule = file.filePath
+                    .substring(0, depthIndex)
+                    .replace(".d.ts", "");
+                  if (!suggestions.find((o) => o.label === importedModule)) {
+                    suggestions.push({
+                      label: importedModule,
+                      insertText: importedModule.replace(importText, ""),
+                      kind: monaco.languages.CompletionItemKind.Module,
+                    });
+                  }
+                }
+              });
+              return {
+                suggestions,
+              };
+            },
+          }
+        );
+
+        grapheditor.current.onDidChangeModelContent((x) => {
+          const codeWithOutComments = grapheditor
+            .current!.getModel()!
+            .getValue()
+            .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, "");
+
+          const currentLibs: IDefinitions[] = getDefinitionsInUse(
+            codeWithOutComments,
+            definitions
+          );
+          // @ts-ignore: getExtraLibs() not defined in monaco.d.ts
+          const extralibs = monaco.languages.typescript.typescriptDefaults.getExtraLibs();
+          if (currentLibs.length !== Object.keys(extralibs).length) {
+            currentLibs.forEach(dmodule => dmodule.filePath = 'file:///node_modules/' + dmodule.filePath.replace('file:///node_modules/', '') )
+            monaco.languages.typescript.typescriptDefaults.setExtraLibs(currentLibs);
+            // console.log(monaco.languages.typescript.typescriptDefaults.getExtraLibs())
+          }
+        });
+
+        // tslint:disable-next-line:no-bitwise
+        grapheditor.current.addCommand(
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D,
+          () => {
+            try {
+              const model = grapheditor.current!.getModel()!.getValue();
+              const compilerOptions: CompilerOptions = getDefaultCompilerOptions();
+              const js = transpileModule(model, {
+                compilerOptions: { module: ts.ModuleKind.ES2015, jsx: ts.JsxEmit.React },
+              });
+              console.log(js.outputText)
+              let koko = js.outputText
+              const imports = js.outputText.match(/(import|from).*(@microsoft|msal|react|@pnp).*/g)
+              if (imports) {
+                imports.forEach(iText => {
+                  koko = koko.replace(iText, '')
+                })
+              }
+              console.log(koko)
+              dispatch(setCode(koko));
+            } catch (e) {
+              console.log(e);
+            }
+          }
+        );
+        // trigget resize to make editor visible (bug in monaco 0.20.0?)
+        setTimeout(() => {
+          window.dispatchEvent(new Event("resize"));
+        }, 1);
+      }
+    }
+  }, [COMMON_CONFIG, dispatch, definitions, code]);
+
+  // this will run always when the isDark changes
+  useEffect(() => {
+    monaco.editor.setTheme(isDark ? "vs-dark" : "vs");
+  }, [isDark]);
+
+  // this will run when the compunent unmounts
+  useEffect(() => {
+    return () => {
+      // cleaning models
+      const models = grapheditor.current!.getModel()!.getValue();
+      completionItems.current?.dispose();
+      dispatch(setCode(models));
+      monaco.languages.typescript.typescriptDefaults.setExtraLibs([]);
+      monaco.editor.getModels().forEach((model) => model.dispose());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (definitions.length === 0 && !grapgEditorInitialized) {
+      fetchDefinitions(dispatch);
+    } else if (definitions.length > 0 && !grapgEditorInitialized) {
+      setGrapgEditorInitialized(true);
+      initGraphEditor();
+    }
+  }, [definitions, dispatch, initGraphEditor, grapgEditorInitialized]);
+
+  const scope = {
+    PeoplePicker,
+    People,
+    useState,
+    Login,
+    MsalProvider,
+    Providers,
+    LoginType,
+    MSALAuthenticationProviderOptions,
+    ImplicitMSALAuthenticationProvider,
+    Client,
+    UserAgentApplication,
+    Agenda,
+    useEffect,
+    ProviderState,
+    Todo,
+    Person,
+    IonButton,
+    React,
+  };
+
+
+    return (
+      <LiveProvider code={code} scope={scope}>
+        <Stack grow horizontal style={{ height: "100%" }}>
+          <div
+            ref={grapgsdkEditorDiv}
+            style={{ width: "60%", height: "100%" }}
+          />
+          <Stack>
+            <LivePreview className="viewer" />
+            <LiveError className="error" />
+          </Stack>
+        </Stack>
+      </LiveProvider>
+    );
+};
+
+export default MGTEditor

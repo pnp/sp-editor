@@ -113,6 +113,12 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
                   disabled: false,
                 },
                 {
+                  name: 'MGT Console',
+                  url: '/mgtconsole',
+                  key: 'key17',
+                  disabled: false,
+                },
+                {
                   name: 'Files',
                   url: '/files',
                   key: 'key9',
