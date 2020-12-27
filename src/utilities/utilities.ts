@@ -1,3 +1,5 @@
+import { IDefinitions } from '../store/home/types'
+
 export const getSystemjsPath = (): string => {
   return `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
 }
@@ -23,3 +25,56 @@ export const createGroupData = (arr: any[], by: string) => {
   })
   return groupData
 }
+
+// match filenames to definitions
+export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
+  const resolvedMods: IDefinitions[] = []
+  if (files && files.length > 0) {
+    files.forEach((file) => {
+      const modl = definitions.find(
+        (mod) =>
+          mod.filePath === file ||
+          mod.filePath === `${file}.d.ts` ||
+          mod.filePath === `${file}/index.d.ts`,
+      )
+      if (modl) {
+        const koko = { ...modl }
+        resolvedMods.push(koko)
+      } else {
+        console.log('not found', file)
+      }
+    })
+  }
+  return resolvedMods
+}
+
+export const getDirectory = (dirEntry: DirectoryEntry, path: string): Promise<DirectoryEntry> => {
+  return new Promise(resolve => dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry)))
+}
+
+export const readDirRecursive = async (
+  entry: DirectoryEntry,
+  files: DirectoryEntry[] = [],
+) => {
+  const entries = await readEntries(entry)
+
+  for (const key in entries) {
+    if (entries[key].isDirectory) {
+      await readDirRecursive(entries[key] as DirectoryEntry, files)
+    } else {
+      files.push(entries[key])
+    }
+  }
+
+  return files
+}
+
+export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
+  return new Promise(resolve => {
+    const reader = dir.createReader()
+    reader.readEntries(entries => resolve(entries as any))
+  })
+}
+
+export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
+  new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))

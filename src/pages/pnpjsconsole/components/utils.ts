@@ -1,34 +1,7 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { IDefinitions } from '../../../store/pnpjsconsole/types'
-
-export const getDirectory = (dirEntry: DirectoryEntry, path: string): Promise<DirectoryEntry> => {
-  return new Promise(resolve => dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry)))
-}
-
-export const readDirRecursive = async (
-  entry: DirectoryEntry,
-  files: DirectoryEntry[] = [],
-) => {
-  const entries = await readEntries(entry)
-
-  for (const key in entries) {
-    if (entries[key].isDirectory) {
-      await readDirRecursive(entries[key] as DirectoryEntry, files)
-    } else {
-      files.push(entries[key])
-    }
-  }
-
-  return files
-}
-
-export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
-  return new Promise(resolve => {
-    const reader = dir.createReader()
-    reader.readEntries(entries => resolve(entries as any))
-  })
-}
+import { IDefinitions } from '../../../store/home/types'
+import { getDirectory, readDirRecursive, resolveFiles } from '../../../utilities/utilities'
 
 export const loadDefinitions = async (
   directoryEntry: DirectoryEntry,
@@ -55,9 +28,6 @@ export const loadDefinitions = async (
   })
 }
 
-export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
-  new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
-
 export const pnpjsMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {
     lineNumbers: 'on',
@@ -77,8 +47,8 @@ export const pnpjsMonacoConfigs = () => {
     noSemanticValidation: false,
     noSyntaxValidation: false,
   })
-  monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-    target: monaco.languages.typescript.ScriptTarget.ES5,
+  monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+    target: monaco.languages.typescript.ScriptTarget.Latest,
     allowNonTsExtensions: true,
     moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     module: monaco.languages.typescript.ModuleKind.CommonJS,
@@ -162,21 +132,6 @@ export const getImportModules = (content: string) => {
     })
   }
   return Array.from(new Set(importTexts))
-}
-
-// match filenames to definitions
-export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
-  const resolvedMods: IDefinitions[] = []
-  if (files && files.length > 0) {
-    files.forEach(file => {
-      const modl = definitions.find(mod =>
-        mod.filePath === file || mod.filePath === `${file}.d.ts` || mod.filePath === `${file}/index.d.ts`)
-      if (modl) {
-        resolvedMods.push(modl)
-      }
-    })
-  }
-  return resolvedMods
 }
 
 export const locations = (substringx: any, stringx: string) => {

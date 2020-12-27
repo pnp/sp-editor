@@ -1,5 +1,6 @@
 import { action } from 'typesafe-actions'
-import { Constants, IDefinitions } from './types'
+import { IDefinitions } from '../home/types'
+import { Constants } from './types'
 
 export function setCode(code: string) {
   return action(Constants.GC_SET_CODE, {

@@ -1,3 +1,4 @@
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from '@fluentui/react'
 import {
   IonButton,
   IonButtons,
@@ -8,7 +9,6 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from '@fluentui/react'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RouteComponentProps, withRouter } from 'react-router'
@@ -18,7 +18,109 @@ import { setDarkMode, setLoading, setTheme } from '../store/home/actions'
 export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
 
   const dispatch = useDispatch()
-  const [selectedKey, setSelectedKey] = useState('key1')
+
+  const navLinks = [
+    {
+      name: 'Home',
+      url: '/',
+      key: 'key1',
+    },
+    {
+      name: 'Scriptlinks',
+      url: '/scriptlinks',
+      key: 'key2',
+    },
+    {
+      name: 'PnP JS Console',
+      url: '/pnpjsconsole',
+      key: 'key3',
+    },
+    {
+      name: 'Graph SDK Console',
+      url: '/graphsdkconsole',
+      key: 'key4',
+    },
+    {
+      name: 'Web Properties',
+      url: '/webproperties',
+      key: 'key5',
+    },
+    {
+      name: 'List Properties',
+      url: '/listproperties',
+      key: 'key6',
+      disabled: false,
+    },
+    {
+      name: 'SP Shooter',
+      url: '/spshooter',
+      key: 'key7',
+      disabled: false,
+    },
+    {
+      name: 'Webhooks',
+      url: '/webhooks',
+      key: 'key8',
+      disabled: false,
+    },
+    {
+      name: 'MGT React Playground',
+      url: '/mgtconsole',
+      key: 'key17',
+      disabled: false,
+    },
+    {
+      name: 'Files',
+      url: '/files',
+      key: 'key9',
+      disabled: true,
+    },
+    {
+      name: 'Search',
+      url: '/search',
+      key: 'key10',
+      disabled: true,
+    },
+    {
+      name: 'Page editor',
+      url: '/pageeditor',
+      key: 'key11',
+      disabled: true,
+    },
+    {
+      name: 'File editor',
+      url: '/fileeditor',
+      key: 'key12',
+      disabled: true,
+    },
+    {
+      name: 'Modern properties',
+      url: '/modernproperties',
+      key: 'key13',
+      disabled: true,
+    },
+    {
+      name: 'Site designs',
+      url: '/sitedesigns',
+      key: 'key14',
+      disabled: true,
+    },
+    {
+      name: 'Site scripts',
+      url: '/sitescripts',
+      key: 'key15',
+      disabled: true,
+    },
+    {
+      name: 'App catalog',
+      url: '/appcatalog',
+      key: 'key16',
+      disabled: true,
+    },
+  ]
+
+  const currentLink = navLinks.find(x => x.url === history.location.pathname)
+  const [selectedKey, setSelectedKey] = useState(currentLink?.key ?? 'key1')
   const { isDark } = useSelector((state: IRootState) => state.home)
 
   const toggleDarkTheme = () => {
@@ -36,14 +138,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
               <IonToggle onClick={toggleDarkTheme} color='success' checked={isDark}/>
             </TooltipHost>
             <TooltipHost content='Reload SP Editor' delay={TooltipDelay.zero} >
-              <IonButton
-                onClick={() =>
-                  (document.location.href =
-                    document.location.protocol !== 'chrome-extension:'
-                      ? document.location.origin
-                      : document.location.origin + '/index.html')
-                }
-              >
+              <IonButton onClick={() => document.location.reload()}>
                 <FontIcon iconName='Refresh' />
               </IonButton>
             </TooltipHost>
@@ -68,105 +163,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
           }}
           groups={[
             {
-              links: [
-                {
-                  name: 'Home',
-                  url: '/',
-                  key: 'key1',
-                },
-                {
-                  name: 'Scriptlinks',
-                  url: '/scriptlinks',
-                  key: 'key2',
-                },
-                {
-                  name: 'PnP JS Console',
-                  url: '/pnpjsconsole',
-                  key: 'key3',
-                },
-                {
-                  name: 'Graph SDK Console',
-                  url: '/graphsdkconsole',
-                  key: 'key4',
-                },
-                {
-                  name: 'Web Properties',
-                  url: '/webproperties',
-                  key: 'key5',
-                },
-                {
-                  name: 'List Properties',
-                  url: '/listproperties',
-                  key: 'key6',
-                  disabled: false,
-                },
-                {
-                  name: 'SP Shooter',
-                  url: '/spshooter',
-                  key: 'key7',
-                  disabled: false,
-                },
-                {
-                  name: 'Webhooks',
-                  url: '/webhooks',
-                  key: 'key8',
-                  disabled: false,
-                },
-                {
-                  name: 'MGT Console',
-                  url: '/mgtconsole',
-                  key: 'key17',
-                  disabled: false,
-                },
-                {
-                  name: 'Files',
-                  url: '/files',
-                  key: 'key9',
-                  disabled: true,
-                },
-                {
-                  name: 'Search',
-                  url: '/search',
-                  key: 'key10',
-                  disabled: true,
-                },
-                {
-                  name: 'Page editor',
-                  url: '/pageeditor',
-                  key: 'key11',
-                  disabled: true,
-                },
-                {
-                  name: 'File editor',
-                  url: '/fileeditor',
-                  key: 'key12',
-                  disabled: true,
-                },
-                {
-                  name: 'Modern properties',
-                  url: '/modernproperties',
-                  key: 'key13',
-                  disabled: true,
-                },
-                {
-                  name: 'Site designs',
-                  url: '/sitedesigns',
-                  key: 'key14',
-                  disabled: true,
-                },
-                {
-                  name: 'Site scripts',
-                  url: '/sitescripts',
-                  key: 'key15',
-                  disabled: true,
-                },
-                {
-                  name: 'App catalog',
-                  url: '/appcatalog',
-                  key: 'key16',
-                  disabled: true,
-                },
-              ],
+              links: navLinks,
             },
           ]}
         />

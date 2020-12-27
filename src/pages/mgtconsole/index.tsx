@@ -8,13 +8,13 @@ import MGTEditor from './components/mgteditor'
 const MGTConsole = () => {
   return (
     <IonPage>
-      <Header title={"Microsoft Graph Toolkit Console"} />
+      <Header title={'MGT React Playground'} />
       <IonContent>
         <LoadingSpinner />
         <MGTEditor />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default MGTConsole

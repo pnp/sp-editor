@@ -4,6 +4,8 @@ import { TemplateContext, ComponentMediaQuery } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import * as MicrosoftGraphBeta from '@microsoft/microsoft-graph-types-beta';
 export declare type AgendaProps = {
+    className?: string;
+    id?: string;
     date?: string;
     groupId?: string;
     days?: number;
@@ -17,6 +19,8 @@ export declare type AgendaProps = {
     eventClick?: (e: Event) => void;
 };
 export declare type GetProps = {
+    className?: string;
+    id?: string;
     resource?: string;
     scopes?: string[];
     version?: string;
@@ -30,6 +34,8 @@ export declare type GetProps = {
     dataChange?: (e: Event) => void;
 };
 export declare type LoginProps = {
+    className?: string;
+    id?: string;
     userDetails?: IDynamicPerson;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
@@ -40,6 +46,8 @@ export declare type LoginProps = {
     logoutCompleted?: (e: Event) => void;
 };
 export declare type PeoplePickerProps = {
+    className?: string;
+    id?: string;
     groupId?: string;
     type?: PersonType;
     groupType?: GroupType;
@@ -55,6 +63,8 @@ export declare type PeoplePickerProps = {
     selectionChanged?: (e: Event) => void;
 };
 export declare type PeopleProps = {
+    className?: string;
+    id?: string;
     groupId?: string;
     userIds?: string[];
     people?: IDynamicPerson[];
@@ -66,6 +76,8 @@ export declare type PeopleProps = {
     mediaQuery?: ComponentMediaQuery;
 };
 export declare type PersonCardProps = {
+    className?: string;
+    id?: string;
     personDetails?: IDynamicPerson;
     personQuery?: string;
     userId?: string;
@@ -79,6 +91,8 @@ export declare type PersonCardProps = {
     mediaQuery?: ComponentMediaQuery;
 };
 export declare type PersonProps = {
+    className?: string;
+    id?: string;
     config?: MgtPersonConfig;
     personQuery?: string;
     userId?: string;
@@ -97,6 +111,8 @@ export declare type PersonProps = {
     mediaQuery?: ComponentMediaQuery;
 };
 export declare type TasksProps = {
+    className?: string;
+    id?: string;
     res?: TasksStringResource;
     isNewTaskVisible?: boolean;
     readOnly?: boolean;
@@ -117,12 +133,16 @@ export declare type TasksProps = {
     taskRemoved?: (e: Event) => void;
 };
 export declare type TeamsChannelPickerProps = {
+    className?: string;
+    id?: string;
     selectedItem?: SelectedChannel;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     selectionChanged?: (e: Event) => void;
 };
 export declare type TodoProps = {
+    className?: string;
+    id?: string;
     taskFilter?: TodoFilter;
     readOnly?: boolean;
     hideHeader?: boolean;

@@ -1,9 +1,16 @@
 import { action } from 'typesafe-actions'
-import { Constants, IDefinitions } from './types'
+import { IDefinitions } from '../home/types'
+import { Constants } from './types'
 
 export function setCode(code: string) {
   return action(Constants.MGT_SET_CODE, {
     code,
+  })
+}
+
+export function setTranspiled(transpiled: string) {
+  return action(Constants.MGT_SET_TRANSPILED, {
+    transpiled,
   })
 }
 

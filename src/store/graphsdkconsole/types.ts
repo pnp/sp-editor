@@ -1,17 +1,13 @@
 import { ActionType } from 'typesafe-actions'
+import { IDefinitions } from '../home/types'
 import * as actions from './actions'
 
 export type GraphSDKConsoleActions = ActionType<typeof actions>
 
 export interface IGraphSDKConsoleState {
   code: string,
-  result: string;
+  result: string,
   definitions: IDefinitions[],
-}
-
-export interface IDefinitions {
-  content: string,
-  filePath: string
 }
 
 export enum Constants {

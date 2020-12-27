@@ -9,8 +9,8 @@ import {
 } from 'typescript'
 import { IRootState } from '../../../store'
 import { setLoading } from '../../../store/home/actions'
+import { IDefinitions } from '../../../store/home/types'
 import { setCode } from '../../../store/pnpjsconsole/actions'
-import { IDefinitions } from '../../../store/pnpjsconsole/types'
 import { exescript } from '../../../utilities/chromecommon'
 import { fetchDefinitions } from '../utils/util'
 import {
@@ -64,14 +64,22 @@ const PnPjsEditor = () => {
           stateCode,
           'typescript',
           // @ts-ignore: this is the only way to make it work
-          new monaco.Uri('index.ts'),
+          monaco.Uri.file('index.ts'),
         ),
         ...COMMON_CONFIG,
       })
 
       const codeWOComments = editor.current!.getModel()!.getValue().replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
-      const curLibs: IDefinitions[] = getDefinitionsInUse(codeWOComments, definitions)
-      monaco.languages.typescript.typescriptDefaults.setExtraLibs(curLibs)
+      const curLibs: IDefinitions[] = getDefinitionsInUse(
+        codeWOComments,
+        definitions,
+      )
+      const koko = curLibs.map(dmodule => {
+        dmodule.filePath = 'file:///node_modules/' + dmodule.filePath
+        return dmodule
+      })
+      monaco.languages.typescript.typescriptDefaults.setExtraLibs(koko)
+
       if (editor && editor.current) {
         // adds auto-complete for @pnp module imports
         completionItems.current = monaco.languages.registerCompletionItemProvider('typescript', {
@@ -113,6 +121,7 @@ const PnPjsEditor = () => {
           // @ts-ignore: getExtraLibs() not defined in monaco.d.ts
           const extralibs = monaco.languages.typescript.typescriptDefaults.getExtraLibs()
           if (currentLibs.length !== Object.keys(extralibs).length) {
+            currentLibs.forEach(dmodule => dmodule.filePath = 'file:///node_modules/' + dmodule.filePath.replace('file:///node_modules/', ''))
             monaco.languages.typescript.typescriptDefaults.setExtraLibs(currentLibs)
           }
         })

@@ -10,7 +10,7 @@ import ListPropertiesNewPanel from './components/newpanel'
 const ListProperties = () => {
   return (
     <IonPage>
-      <Header title={"List Properties"} />
+      <Header title={'List Properties'} />
       {/* Actions menu */}
       <ListPropertiesCommands />
       <IonContent>
@@ -23,7 +23,7 @@ const ListProperties = () => {
         <ListPropertiesNewPanel />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default ListProperties

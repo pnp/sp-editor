@@ -10,7 +10,7 @@ import ScriptLinkList from './components/scriptlinklist'
 const ScriptLinks = () => {
   return (
     <IonPage>
-      <Header title={"ScriptLinks"} />
+      <Header title={'ScriptLinks'} />
       {/* Actions menu */}
       <ScriptLinkCommands />
       <IonContent>
@@ -23,7 +23,7 @@ const ScriptLinks = () => {
         <ScriptLinksNewPanel />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default ScriptLinks

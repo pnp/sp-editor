@@ -315,5 +315,6 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @param people - array of people returned from query to Graph
      */
     private filterPeople;
+    private handleSectionScroll;
 }
 //# sourceMappingURL=mgt-people-picker.d.ts.map
