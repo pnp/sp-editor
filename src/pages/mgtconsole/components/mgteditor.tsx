@@ -1,19 +1,19 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { Dropdown, IComboBoxOption, SelectableOptionMenuItemType, Stack } from '@fluentui/react'
+import {
+  Dropdown,
+  IComboBoxOption,
+  SelectableOptionMenuItemType,
+  Stack,
+} from '@fluentui/react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { LiveError, LivePreview, LiveProvider } from 'react-live'
 import { useDispatch, useSelector } from 'react-redux'
-import ts, {
-  transpileModule,
-} from 'typescript'
+import ts, { transpileModule } from 'typescript'
 import { IRootState } from '../../../store'
 import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
 import { fetchDefinitions } from '../utils/util'
-import {
-  getDefinitionsInUse,
-  GraphSDKConsoleMonacoConfigs,
-} from './utils'
+import { getDefinitionsInUse, GraphSDKConsoleMonacoConfigs } from './utils'
 
 /* Preview component imports */
 import * as PREVIEW_MGT from '@microsoft/mgt'
@@ -21,7 +21,9 @@ import * as PREVIEW_MGT_ELEMENT from '@microsoft/mgt-element'
 import * as PREVIEW_MGT_REACT from '@microsoft/mgt-react'
 import * as PREVIEW_MSAL from 'msal'
 import * as PREVIEW_REACT from 'react'
-import { IDefinitions } from '../../../store/home/types'
+import { setAppMessage } from '../../../store/home/actions'
+import { IDefinitions, MessageBarColors } from '../../../store/home/types'
+import { ErrorBoundary } from './ErrorBoundary'
 
 const MGTEditor = () => {
   const dispatch = useDispatch()
@@ -53,6 +55,113 @@ const MGTEditor = () => {
     }
   }, [])
 
+  const transpileIt = useCallback(() => {
+    try {
+      const model = grapheditor.current!.getModel()!
+
+      const owner = model.getModeId()
+      const markers = monaco.editor.getModelMarkers({ owner })
+
+      const errors: string[] = []
+      markers.forEach((mark) => {
+        if (mark.severity === 8) {
+          errors.push(mark.message)
+        }
+      })
+
+      if (errors.length === 0) {
+        const modelValue = model.getValue()
+        const js = transpileModule(modelValue, {
+          compilerOptions: {
+            module: ts.ModuleKind.CommonJS,
+            jsx: ts.JsxEmit.React,
+          },
+        })
+
+        let preview_code = js.outputText
+        const requires = js.outputText.match(/(var ).*( = require).*/g)
+
+        const reqs: string[] = []
+        if (requires) {
+          requires.forEach((iText) => {
+            preview_code = preview_code.replace(iText, '')
+            reqs.push(iText)
+          })
+        }
+        reqs
+          .sort((a, b) => b.length - a.length)
+          .forEach((req) => {
+            const match = req.match('var (.*) = require')
+            if (match!.input!.indexOf('require("@microsoft/mgt-react') > -1) {
+              preview_code = preview_code.replaceAll(
+                match![1] + '.default',
+                'preview_mgt_react.'.toUpperCase(),
+              )
+              preview_code = preview_code.replaceAll(
+                match![1],
+                'preview_mgt_react'.toUpperCase(),
+              )
+            } else if (
+              match!.input!.indexOf('require(”@microsoft/mgt-element') > -1
+            ) {
+              preview_code = preview_code.replaceAll(
+                match![1] + '.default.',
+                'preview_mgt_element.'.toUpperCase(),
+              )
+              preview_code = preview_code.replaceAll(
+                match![1],
+                'preview_mgt_element'.toUpperCase(),
+              )
+            } else if (match!.input!.indexOf('require("@microsoft/mgt') > -1) {
+              preview_code = preview_code.replaceAll(
+                match![1] + '.default.',
+                'preview_mgt.'.toUpperCase(),
+              )
+              preview_code = preview_code.replaceAll(
+                match![1],
+                'preview_mgt'.toUpperCase(),
+              )
+            } else if (match!.input!.indexOf('require("react"') > -1) {
+              preview_code = preview_code.replaceAll(
+                match![1] + '.default.',
+                'preview_react.'.toUpperCase(),
+              )
+              preview_code = preview_code.replaceAll(
+                match![1],
+                'preview_react'.toUpperCase(),
+              )
+            } else if (match!.input!.indexOf('require("msal"') > -1) {
+              preview_code = preview_code.replaceAll(
+                match![1] + '.default.',
+                'preview_msal.'.toUpperCase(),
+              )
+              preview_code = preview_code.replaceAll(
+                match![1],
+                'preview_msal'.toUpperCase(),
+              )
+            }
+          })
+
+        preview_code = preview_code.replaceAll('"use strict";', '')
+        preview_code = preview_code.replaceAll(
+          'Object.defineProperty(exports, "__esModule", { value: true });',
+          '',
+        )
+        dispatch(setTranspiled(preview_code))
+      } else {
+        dispatch(
+          setAppMessage({
+            showMessage: true,
+            message: errors.join('\n'),
+            color: MessageBarColors.danger,
+          }),
+        )
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }, [dispatch])
+
   const initGraphEditor = useCallback(() => {
     const filename = 'main.tsx'
     if (grapgsdkEditorDiv.current) {
@@ -74,7 +183,7 @@ const MGTEditor = () => {
         codeWOComments,
         definitions,
       )
-      const koko = curLibs.map(dmodule => {
+      const koko = curLibs.map((dmodule) => {
         dmodule.filePath = 'file:///node_modules/' + dmodule.filePath
         return dmodule
       })
@@ -136,95 +245,22 @@ const MGTEditor = () => {
 
           const extralibs = monaco.languages.typescript.typescriptDefaults.getExtraLibs()
           if (currentLibs.length !== Object.keys(extralibs).length) {
-            currentLibs.forEach(dmodule => dmodule.filePath = 'file:///node_modules/' + dmodule.filePath.replace('file:///node_modules/', ''))
-            monaco.languages.typescript.typescriptDefaults.setExtraLibs(currentLibs)
+            currentLibs.forEach(
+              (dmodule) =>
+                (dmodule.filePath =
+                  'file:///node_modules/' +
+                  dmodule.filePath.replace('file:///node_modules/', '')),
+            )
+            monaco.languages.typescript.typescriptDefaults.setExtraLibs(
+              currentLibs,
+            )
           }
         })
 
         grapheditor.current.addCommand(
           // tslint:disable-next-line:no-bitwise
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D,
-          () => {
-            try {
-              const model = grapheditor.current!.getModel()!.getValue()
-              const js = transpileModule(model, {
-                compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.React },
-              })
-
-              let preview_code = js.outputText
-              console.log(preview_code)
-              const requires = js.outputText.match(/(var ).*( = require).*/g)
-
-              const reqs: string[] = []
-              if (requires) {
-                requires.forEach((iText) => {
-                  preview_code = preview_code.replace(iText, '')
-                  reqs.push(iText)
-                })
-              }
-              reqs.sort((a, b) => b.length - a.length).forEach((req) => {
-                const match = req.match('var (.*) = require')
-                if (
-                  match!.input!.indexOf('require("@microsoft/mgt-react') > -1
-                ) {
-                  preview_code = preview_code.replaceAll(
-                    match![1] + '.default',
-                    'preview_mgt_react.'.toUpperCase(),
-                  )
-                  preview_code = preview_code.replaceAll(
-                    match![1],
-                    'preview_mgt_react'.toUpperCase(),
-                  )
-                } else if (
-                  match!.input!.indexOf('require(”@microsoft/mgt-element') > -1
-                ) {
-                  preview_code = preview_code.replaceAll(
-                    match![1] + '.default.',
-                    'preview_mgt_element.'.toUpperCase(),
-                  )
-                  preview_code = preview_code.replaceAll(
-                    match![1],
-                    'preview_mgt_element'.toUpperCase(),
-                  )
-                } else if (
-                  match!.input!.indexOf('require("@microsoft/mgt') > -1
-                ) {
-                  preview_code = preview_code.replaceAll(
-                    match![1] + '.default.',
-                    'preview_mgt.'.toUpperCase(),
-                  )
-                  preview_code = preview_code.replaceAll(
-                    match![1],
-                    'preview_mgt'.toUpperCase(),
-                  )
-                } else if (match!.input!.indexOf('require("react"') > -1) {
-                  preview_code = preview_code.replaceAll(
-                    match![1] + '.default.',
-                    'preview_react.'.toUpperCase(),
-                  )
-                  preview_code = preview_code.replaceAll(
-                    match![1],
-                    'preview_react'.toUpperCase(),
-                  )
-                } else if (match!.input!.indexOf('require("msal"') > -1) {
-                  preview_code = preview_code.replaceAll(
-                    match![1] + '.default.',
-                    'preview_msal.'.toUpperCase(),
-                  )
-                  preview_code = preview_code.replaceAll(
-                    match![1],
-                    'preview_msal'.toUpperCase(),
-                  )
-                }
-              })
-
-              preview_code = preview_code.replaceAll('"use strict";', '')
-              preview_code = preview_code.replaceAll('Object.defineProperty(exports, "__esModule", { value: true });', '')
-              dispatch(setTranspiled(preview_code))
-            } catch (e) {
-              console.log(e)
-            }
-          },
+          () => transpileIt(),
         )
         // trigget resize to make editor visible (bug in monaco 0.20.0?)
         setTimeout(() => {
@@ -232,12 +268,17 @@ const MGTEditor = () => {
         }, 1)
       }
     }
-  }, [COMMON_CONFIG, dispatch, definitions, code])
+  }, [COMMON_CONFIG, definitions, code, transpileIt])
 
   // this will run always when the isDark changes
   useEffect(() => {
     monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
   }, [isDark])
+
+  useEffect(() => {
+    // grapheditor.current?.setValue(code)
+    // transpileIt()
+  }, [code, transpileIt])
 
   // this will run when the compunent unmounts
   useEffect(() => {
@@ -261,52 +302,15 @@ const MGTEditor = () => {
   }, [definitions, dispatch, initGraphEditor, grapgEditorInitialized])
 
   const comboBoxBasicOptions: IComboBoxOption[] = [
-    { key: 'Header1', text: 'First heading', itemType: SelectableOptionMenuItemType.Header },
+    {
+      key: 'Header1',
+      text: 'First heading',
+      itemType: SelectableOptionMenuItemType.Header,
+    },
     { key: 'A', text: 'Option A' },
     { key: 'B', text: 'Option B' },
     { key: 'C', text: 'Option C' },
     { key: 'D', text: 'Option D' },
-    { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
-    { key: 'Header2', text: 'Second heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'E', text: 'Option E' },
-    { key: 'F', text: 'Option F', disabled: true },
-    { key: 'G', text: 'Option G' },
-    { key: 'H', text: 'Option H' },
-    { key: 'I', text: 'Option I' },
-    { key: 'J', text: 'Option J' },
-    { key: 'Header1', text: 'First heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'A', text: 'Option A' },
-    { key: 'B', text: 'Option B' },
-    { key: 'C', text: 'Option C' },
-    { key: 'D', text: 'Option D' },
-    { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
-    { key: 'Header2', text: 'Second heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'E', text: 'Option E' },
-    { key: 'F', text: 'Option F', disabled: true },
-    { key: 'G', text: 'Option G' },
-    { key: 'H', text: 'Option H' },
-    { key: 'I', text: 'Option I' },
-    { key: 'J', text: 'Option J' },
-    { key: 'Header1', text: 'First heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'A', text: 'Option A' },
-    { key: 'B', text: 'Option B' },
-    { key: 'C', text: 'Option C' },
-    { key: 'D', text: 'Option D' },
-    { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
-    { key: 'Header2', text: 'Second heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'E', text: 'Option E' },
-    { key: 'F', text: 'Option F', disabled: true },
-    { key: 'G', text: 'Option G' },
-    { key: 'H', text: 'Option H' },
-    { key: 'I', text: 'Option I' },
-    { key: 'J', text: 'Option J' },
-    { key: 'Header1', text: 'First heading', itemType: SelectableOptionMenuItemType.Header },
-    { key: 'A', text: 'Option A' },
-    { key: 'B', text: 'Option B' },
-    { key: 'C', text: 'Option C' },
-    { key: 'D', text: 'Option D' },
-    { key: 'divider', text: '-', itemType: SelectableOptionMenuItemType.Divider },
-    { key: 'Header2', text: 'Second heading', itemType: SelectableOptionMenuItemType.Header },
   ]
 
   const scope = {
@@ -319,18 +323,26 @@ const MGTEditor = () => {
 
   return (
     <LiveProvider code={transpiled} scope={scope}>
-      <Dropdown
-        placeholder='Select sample:'
-        options={comboBoxBasicOptions}
-        style={{ width: '60%' }}
-      />
       <Stack grow horizontal style={{ height: '100%' }}>
-        <div ref={grapgsdkEditorDiv} style={{ width: '60%', height: '100%' }} />
-        <Stack>
-          <LivePreview
-            className='viewer'
-            style={{ border: '1px', borderColor: 'blue' }}
+        <Stack style={{ width: '60%' }}>
+          <Dropdown
+            placeholder='Select sample:'
+            options={comboBoxBasicOptions}
+            onChange={(ev, option) => {
+              if (option) {
+                dispatch(setCode('//jotain kommenttia'))
+              }
+            }}
           />
+          <div
+            ref={grapgsdkEditorDiv}
+            style={{ width: '100%', height: 'calc(100vh - 90px)' }}
+          />
+        </Stack>
+        <Stack style={{ marginLeft: '10px' }}>
+          <ErrorBoundary>
+            <LivePreview className='viewer' />
+          </ErrorBoundary>
           <LiveError
             className='error'
             hidden={transpiled && transpiled.length > 0 ? false : true}

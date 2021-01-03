@@ -17,6 +17,7 @@ export function unInstallAppFromWeb(...args: any) {
         headers: {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
         },
       },
     })

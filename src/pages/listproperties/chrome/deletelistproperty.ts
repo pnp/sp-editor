@@ -52,6 +52,7 @@ export function deleteListProperty(...args: any) {
         headers: {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
         },
       },
     })

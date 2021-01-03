@@ -41,7 +41,7 @@ export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
         const koko = { ...modl }
         resolvedMods.push(koko)
       } else {
-        console.log('not found', file)
+        // console.log('not found', file)
       }
     })
   }
