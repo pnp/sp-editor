@@ -2,8 +2,7 @@
 
 import {
   Dropdown,
-  IComboBoxOption,
-  SelectableOptionMenuItemType,
+  IDropdownOption,
   Stack,
 } from '@fluentui/react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -23,6 +22,7 @@ import * as PREVIEW_MSAL from 'msal'
 import * as PREVIEW_REACT from 'react'
 import { setAppMessage } from '../../../store/home/actions'
 import { IDefinitions, MessageBarColors } from '../../../store/home/types'
+import { componentSnippets } from './componentSnippets'
 import { ErrorBoundary } from './ErrorBoundary'
 
 const MGTEditor = () => {
@@ -266,6 +266,7 @@ const MGTEditor = () => {
         setTimeout(() => {
           window.dispatchEvent(new Event('resize'))
         }, 1)
+        transpileIt()
       }
     }
   }, [COMMON_CONFIG, definitions, code, transpileIt])
@@ -274,11 +275,6 @@ const MGTEditor = () => {
   useEffect(() => {
     monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
   }, [isDark])
-
-  useEffect(() => {
-    // grapheditor.current?.setValue(code)
-    // transpileIt()
-  }, [code, transpileIt])
 
   // this will run when the compunent unmounts
   useEffect(() => {
@@ -301,17 +297,19 @@ const MGTEditor = () => {
     }
   }, [definitions, dispatch, initGraphEditor, grapgEditorInitialized])
 
-  const comboBoxBasicOptions: IComboBoxOption[] = [
-    {
-      key: 'Header1',
-      text: 'First heading',
-      itemType: SelectableOptionMenuItemType.Header,
-    },
-    { key: 'A', text: 'Option A' },
-    { key: 'B', text: 'Option B' },
-    { key: 'C', text: 'Option C' },
-    { key: 'D', text: 'Option D' },
-  ]
+  const changeModel = (
+    event: React.FormEvent<HTMLDivElement>,
+    option?: IDropdownOption | undefined,
+  ) => {
+    if (option) {
+      const componentSnippet = componentSnippets.find((components) => components.option.key === option.key)
+
+      if (componentSnippet && componentSnippet.snippet) {
+        grapheditor.current?.setValue(componentSnippet.snippet)
+        transpileIt()
+      }
+    }
+  }
 
   const scope = {
     PREVIEW_REACT,
@@ -327,12 +325,8 @@ const MGTEditor = () => {
         <Stack style={{ width: '60%' }}>
           <Dropdown
             placeholder='Select sample:'
-            options={comboBoxBasicOptions}
-            onChange={(ev, option) => {
-              if (option) {
-                dispatch(setCode('//jotain kommenttia'))
-              }
-            }}
+            options={componentSnippets.map(componentSnippet => componentSnippet.option)}
+            onChange={changeModel}
           />
           <div
             ref={grapgsdkEditorDiv}
