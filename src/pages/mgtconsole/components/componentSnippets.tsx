@@ -34,7 +34,7 @@ import { Providers } from '@microsoft/mgt-element'
   },
   {
     option: {
-      key: 'login-tepmlates',
+      key: 'login-templates',
       text: 'Login component with custom teplates',
       itemType: SelectableOptionMenuItemType.Normal,
     },
@@ -119,6 +119,100 @@ import React from 'react'
       <FlyOutDetails template='flyout-person-details' />
       <FlyOutCommands template='flyout-commands' />
     </Login>
+  )
+}
+`.trim(),
+  },
+  {
+    option: {
+      key: 'login-msal',
+      text: 'Login component with msal configuration',
+      itemType: SelectableOptionMenuItemType.Normal,
+    },
+    snippet: `
+import { LoginType, MsalProvider, MsalUserAgentApplicationConfig } from '@microsoft/mgt'
+import { Providers } from '@microsoft/mgt-element'
+import { Login } from '@microsoft/mgt-react'
+import { UserAgentApplication } from 'msal'
+import React from 'react'
+
+() => {
+
+  const msalConf: MsalUserAgentApplicationConfig = {
+    userAgentApplication: new UserAgentApplication({
+      auth: {
+        clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
+      },
+      cache: {
+        cacheLocation: 'localStorage',
+      },
+    }),
+    loginType: LoginType.Popup,
+    scopes: [
+      'calendars.read',
+      'user.read',
+      'openid',
+      'profile',
+      'people.read',
+      'user.readbasic.all',
+    ],
+  }
+
+  Providers.globalProvider = new MsalProvider(msalConf)
+
+  return (
+    <Login className={'mgt-dark'} />
+  )
+}
+`.trim(),
+  },
+  {
+    option: {
+      key: 'login-events',
+      text: 'Login component events',
+      itemType: SelectableOptionMenuItemType.Normal,
+    },
+    snippet: `
+import { LoginType, MsalProvider } from '@microsoft/mgt'
+import { Providers } from '@microsoft/mgt-element'
+import { Login } from '@microsoft/mgt-react'
+import React, { useState } from 'react'
+
+() => {
+
+  Providers.globalProvider = new MsalProvider({
+    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
+    loginType: LoginType.Popup,
+  })
+
+  const [events, setEvents] = useState([])
+
+  const logEvent = (s: Event) => {
+    setEvents((logs) => logs.concat(s.type))
+  }
+
+  const EventWriter = () => {
+    return (
+      <ol>
+        {events.map((event) => (
+          <li>{event}</li>
+        ))}
+      </ol>
+    )
+  }
+
+  return (
+    <>
+      <Login
+        className={'mgt-dark'}
+        loginInitiated={logEvent}
+        loginCompleted={logEvent}
+        loginFailed={logEvent}
+        logoutInitiated={logEvent}
+        logoutCompleted={logEvent}
+      />
+      <EventWriter />
+    </>
   )
 }
 `.trim(),
