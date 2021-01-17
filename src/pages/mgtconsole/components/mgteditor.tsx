@@ -5,48 +5,49 @@ import {
   IDropdownOption,
   Stack,
 } from '@fluentui/react'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { LiveError, LivePreview, LiveProvider } from 'react-live'
-import { useDispatch, useSelector } from 'react-redux'
-import ts, { transpileModule } from 'typescript'
-import { IRootState } from '../../../store'
-import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
-import { fetchDefinitions } from '../utils/util'
-import { getDefinitionsInUse, GraphSDKConsoleMonacoConfigs } from './utils'
 
 /* Preview component imports */
 import * as PREVIEW_MGT from '@microsoft/mgt'
 import * as PREVIEW_MGT_ELEMENT from '@microsoft/mgt-element'
 import * as PREVIEW_MGT_REACT from '@microsoft/mgt-react'
 import * as PREVIEW_MSAL from 'msal'
+
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import * as PREVIEW_REACT from 'react'
+import { LiveError, LivePreview, LiveProvider } from 'react-live'
+import { useDispatch, useSelector } from 'react-redux'
+import ts, { transpileModule } from 'typescript'
+import { IRootState } from '../../../store'
 import { setAppMessage } from '../../../store/home/actions'
 import { IDefinitions, MessageBarColors } from '../../../store/home/types'
+import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
+import { fetchDefinitions } from '../utils/util'
 import { componentSnippets } from './componentSnippets'
 import { ErrorBoundary } from './ErrorBoundary'
+import { getDefinitionsInUse, MGTPlaygroundMonacoConfigs, parseClassComponent, parseModules } from './utils'
 
 const MGTEditor = () => {
   const dispatch = useDispatch()
-  const [grapgEditorInitialized, setGrapgEditorInitialized] = useState(false)
+  const [mgtEditorInitialized, setMGTEditorInitialized] = useState(false)
 
-  const { definitions, code, transpiled } = useSelector(
+  const { definitions, transpiled } = useSelector(
     (state: IRootState) => state.mgtconsole,
   )
 
-  const grapheditor = useRef<null | monaco.editor.IStandaloneCodeEditor>(null)
+  const mgtEditorRef = useRef<null | monaco.editor.IStandaloneCodeEditor>(null)
 
-  const grapgsdkEditorDiv = useRef<null | HTMLDivElement>(null)
+  const mgtEditorDiv = useRef<null | HTMLDivElement>(null)
 
   const completionItems = useRef<null | monaco.IDisposable>(null)
 
   const { isDark } = useSelector((state: IRootState) => state.home)
 
-  const COMMON_CONFIG: monaco.editor.IEditorOptions = GraphSDKConsoleMonacoConfigs()
+  const COMMON_CONFIG: monaco.editor.IEditorOptions = MGTPlaygroundMonacoConfigs()
 
   useEffect(() => {
     const resizeListener = () => {
-      if (grapheditor && grapheditor.current) {
-        grapheditor.current.layout()
+      if (mgtEditorRef && mgtEditorRef.current) {
+        mgtEditorRef.current.layout()
       }
     }
     window.addEventListener('resize', resizeListener)
@@ -57,7 +58,7 @@ const MGTEditor = () => {
 
   const transpileIt = useCallback(() => {
     try {
-      const model = grapheditor.current!.getModel()!
+      const model = mgtEditorRef.current!.getModel()!
 
       const owner = model.getModeId()
       const markers = monaco.editor.getModelMarkers({ owner })
@@ -79,74 +80,17 @@ const MGTEditor = () => {
         })
 
         let preview_code = js.outputText
-        const requires = js.outputText.match(/(var ).*( = require).*/g)
 
-        const reqs: string[] = []
-        if (requires) {
-          requires.forEach((iText) => {
-            preview_code = preview_code.replace(iText, '')
-            reqs.push(iText)
-          })
-        }
-        reqs
-          .sort((a, b) => b.length - a.length)
-          .forEach((req) => {
-            const match = req.match('var (.*) = require')
-            if (match!.input!.indexOf('require("@microsoft/mgt-react') > -1) {
-              preview_code = preview_code.replaceAll(
-                match![1] + '.default',
-                'preview_mgt_react.'.toUpperCase(),
-              )
-              preview_code = preview_code.replaceAll(
-                match![1],
-                'preview_mgt_react'.toUpperCase(),
-              )
-            } else if (
-              match!.input!.indexOf('require(”@microsoft/mgt-element') > -1
-            ) {
-              preview_code = preview_code.replaceAll(
-                match![1] + '.default.',
-                'preview_mgt_element.'.toUpperCase(),
-              )
-              preview_code = preview_code.replaceAll(
-                match![1],
-                'preview_mgt_element'.toUpperCase(),
-              )
-            } else if (match!.input!.indexOf('require("@microsoft/mgt') > -1) {
-              preview_code = preview_code.replaceAll(
-                match![1] + '.default.',
-                'preview_mgt.'.toUpperCase(),
-              )
-              preview_code = preview_code.replaceAll(
-                match![1],
-                'preview_mgt'.toUpperCase(),
-              )
-            } else if (match!.input!.indexOf('require("react"') > -1) {
-              preview_code = preview_code.replaceAll(
-                match![1] + '.default.',
-                'preview_react.'.toUpperCase(),
-              )
-              preview_code = preview_code.replaceAll(
-                match![1],
-                'preview_react'.toUpperCase(),
-              )
-            } else if (match!.input!.indexOf('require("msal"') > -1) {
-              preview_code = preview_code.replaceAll(
-                match![1] + '.default.',
-                'preview_msal.'.toUpperCase(),
-              )
-              preview_code = preview_code.replaceAll(
-                match![1],
-                'preview_msal'.toUpperCase(),
-              )
-            }
-          })
+        // console.log(preview_code)
+        preview_code = parseModules(preview_code)
 
-        preview_code = preview_code.replaceAll('"use strict";', '')
         preview_code = preview_code.replaceAll(
           'Object.defineProperty(exports, "__esModule", { value: true });',
           '',
         )
+        preview_code = parseClassComponent(preview_code)
+
+       // console.log(preview_code)
         dispatch(setTranspiled(preview_code))
       } else {
         dispatch(
@@ -162,20 +106,19 @@ const MGTEditor = () => {
     }
   }, [dispatch])
 
-  const initGraphEditor = useCallback(() => {
-    const filename = 'main.tsx'
-    if (grapgsdkEditorDiv.current) {
-      grapheditor.current = monaco.editor.create(grapgsdkEditorDiv.current, {
+  const initMGTEditor = useCallback(() => {
+    if (mgtEditorDiv.current) {
+      mgtEditorRef.current = monaco.editor.create(mgtEditorDiv.current, {
         model: monaco.editor.createModel(
-          code,
+          componentSnippets[1].snippet!,
           'typescript',
           // @ts-ignore: this is the only way to make it work
-          monaco.Uri.file(filename),
+          monaco.Uri.file('main.tsx'),
         ),
         ...COMMON_CONFIG,
       })
 
-      const codeWOComments = grapheditor
+      const codeWOComments = mgtEditorRef
         .current!.getModel()!
         .getValue()
         .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
@@ -183,13 +126,13 @@ const MGTEditor = () => {
         codeWOComments,
         definitions,
       )
-      const koko = curLibs.map((dmodule) => {
+      const modLibs = curLibs.map((dmodule) => {
         dmodule.filePath = 'file:///node_modules/' + dmodule.filePath
         return dmodule
       })
-      monaco.languages.typescript.typescriptDefaults.setExtraLibs(koko)
+      monaco.languages.typescript.typescriptDefaults.setExtraLibs(modLibs)
       // console.log(monaco.languages.typescript.typescriptDefaults.getExtraLibs())
-      if (grapheditor && grapheditor.current) {
+      if (mgtEditorRef && mgtEditorRef.current) {
         // adds auto-complete for @pnp module imports
         completionItems.current = monaco.languages.registerCompletionItemProvider(
           'typescript',
@@ -232,8 +175,8 @@ const MGTEditor = () => {
           },
         )
 
-        grapheditor.current.onDidChangeModelContent(() => {
-          const codeWithOutComments = grapheditor
+        mgtEditorRef.current.onDidChangeModelContent(() => {
+          const codeWithOutComments = mgtEditorRef
             .current!.getModel()!
             .getValue()
             .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
@@ -257,7 +200,7 @@ const MGTEditor = () => {
           }
         })
 
-        grapheditor.current.addCommand(
+        mgtEditorRef.current.addCommand(
           // tslint:disable-next-line:no-bitwise
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D,
           () => transpileIt(),
@@ -269,7 +212,7 @@ const MGTEditor = () => {
         transpileIt()
       }
     }
-  }, [COMMON_CONFIG, definitions, code, transpileIt])
+  }, [COMMON_CONFIG, definitions, transpileIt])
 
   // this will run always when the isDark changes
   useEffect(() => {
@@ -280,7 +223,7 @@ const MGTEditor = () => {
   useEffect(() => {
     return () => {
       // cleaning models
-      const models = grapheditor.current!.getModel()!.getValue()
+      const models = mgtEditorRef.current!.getModel()!.getValue()
       completionItems.current?.dispose()
       dispatch(setCode(models))
       monaco.languages.typescript.typescriptDefaults.setExtraLibs([])
@@ -289,13 +232,13 @@ const MGTEditor = () => {
   }, [dispatch])
 
   useEffect(() => {
-    if (definitions.length === 0 && !grapgEditorInitialized) {
+    if (definitions.length === 0 && !mgtEditorInitialized) {
       fetchDefinitions(dispatch)
-    } else if (definitions.length > 0 && !grapgEditorInitialized) {
-      setGrapgEditorInitialized(true)
-      initGraphEditor()
+    } else if (definitions.length > 0 && !mgtEditorInitialized) {
+      setMGTEditorInitialized(true)
+      initMGTEditor()
     }
-  }, [definitions, dispatch, initGraphEditor, grapgEditorInitialized])
+  }, [definitions, dispatch, initMGTEditor, mgtEditorInitialized])
 
   const changeModel = (
     event: React.FormEvent<HTMLDivElement>,
@@ -305,7 +248,7 @@ const MGTEditor = () => {
       const componentSnippet = componentSnippets.find((components) => components.option.key === option.key)
 
       if (componentSnippet && componentSnippet.snippet) {
-        grapheditor.current?.setValue(componentSnippet.snippet)
+        mgtEditorRef.current?.setValue(componentSnippet.snippet)
         transpileIt()
       }
     }
@@ -329,7 +272,7 @@ const MGTEditor = () => {
             onChange={changeModel}
           />
           <div
-            ref={grapgsdkEditorDiv}
+            ref={mgtEditorDiv}
             style={{ width: '100%', height: 'calc(100vh - 90px)' }}
           />
         </Stack>

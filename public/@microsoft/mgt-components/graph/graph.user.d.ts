@@ -4,10 +4,39 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IGraph } from '@microsoft/mgt-element';
+import { IGraph, CacheItem } from '@microsoft/mgt-element';
 import { User } from '@microsoft/microsoft-graph-types';
 import { PersonType } from './graph.people';
-import { IDynamicPerson } from './types';
+/**
+ * Object to be stored in cache
+ */
+export interface CacheUser extends CacheItem {
+    /**
+     * stringified json representing a user
+     */
+    user?: string;
+}
+/**
+ * Object to be stored in cache
+ */
+export interface CacheUserQuery extends CacheItem {
+    /**
+     * max number of results the query asks for
+     */
+    maxResults?: number;
+    /**
+     * list of users returned by query
+     */
+    results?: string[];
+}
+/**
+ * Defines the time it takes for objects in the cache to expire
+ */
+export declare const getUserInvalidationTime: () => number;
+/**
+ * Whether or not the cache is enabled
+ */
+export declare const getIsUsersCacheEnabled: () => boolean;
 /**
  * async promise, returns Graph User data relating to the user logged in
  *
@@ -15,14 +44,6 @@ import { IDynamicPerson } from './types';
  * @memberof Graph
  */
 export declare function getMe(graph: IGraph): Promise<User>;
-/**
- * asnyc promise, returns IDynamicPerson
- *
- * @param {string} userId
- * @returns {(Promise<IDynamicPerson>)}
- * @memberof Graph
- */
-export declare function getUserWithPhoto(graph: IGraph, userId?: string): Promise<IDynamicPerson>;
 /**
  * async promise, returns all Graph users associated with the userPrincipleName provided
  *

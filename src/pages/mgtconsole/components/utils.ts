@@ -1,7 +1,11 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
 import { IDefinitions } from '../../../store/home/types'
-import { getDirectory, readDirRecursive, resolveFiles } from '../../../utilities/utilities'
+import {
+  getDirectory,
+  readDirRecursive,
+  resolveFiles,
+} from '../../../utilities/utilities'
 
 export const loadDefinitions = async (
   directoryEntry: DirectoryEntry,
@@ -43,7 +47,7 @@ export const loadDefinitions = async (
   })
 }
 
-export const GraphSDKConsoleMonacoConfigs = () => {
+export const MGTPlaygroundMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {
     lineNumbers: 'on',
     roundedSelection: true,
@@ -261,4 +265,97 @@ export const getDefinitionsInUse = (
   }
   parseLibs(defs)
   return currentLibs
+}
+
+export const parseModules = (
+  preview_code: string,
+) => {
+  const requires = preview_code.match(/(var ).*( = require).*/g)
+  const reqs: string[] = []
+  if (requires) {
+    requires.forEach((iText) => {
+      preview_code = preview_code.replace(iText, '')
+      reqs.push(iText)
+    })
+  }
+  reqs
+    .sort((a, b) => b.length - a.length)
+    .forEach((req) => {
+      const match = req.match('var (.*) = require')
+      if (match!.input!.indexOf('require("@microsoft/mgt-react') > -1) {
+        preview_code = preview_code.replaceAll(
+          match![1] + '.default',
+          'preview_mgt_react.'.toUpperCase(),
+        )
+        preview_code = preview_code.replaceAll(
+          match![1],
+          'preview_mgt_react'.toUpperCase(),
+        )
+      } else if (
+        match!.input!.indexOf('require(”@microsoft/mgt-element') > -1
+      ) {
+        preview_code = preview_code.replaceAll(
+          match![1] + '.default.',
+          'preview_mgt_element.'.toUpperCase(),
+        )
+        preview_code = preview_code.replaceAll(
+          match![1],
+          'preview_mgt_element'.toUpperCase(),
+        )
+      } else if (match!.input!.indexOf('require("@microsoft/mgt') > -1) {
+        preview_code = preview_code.replaceAll(
+          match![1] + '.default.',
+          'preview_mgt.'.toUpperCase(),
+        )
+        preview_code = preview_code.replaceAll(
+          match![1],
+          'preview_mgt'.toUpperCase(),
+        )
+      } else if (match!.input!.indexOf('require("react"') > -1) {
+        preview_code = preview_code.replaceAll(
+          match![1] + '.default.',
+          'preview_react.'.toUpperCase(),
+        )
+        preview_code = preview_code.replaceAll(
+          match![1],
+          'preview_react'.toUpperCase(),
+        )
+      } else if (match!.input!.indexOf('require("msal"') > -1) {
+        preview_code = preview_code.replaceAll(
+          match![1] + '.default.',
+          'preview_msal.'.toUpperCase(),
+        )
+        preview_code = preview_code.replaceAll(
+          match![1],
+          'preview_msal'.toUpperCase(),
+        )
+      }
+    })
+
+  preview_code = preview_code.replaceAll('"use strict";', '')
+  preview_code = preview_code.replaceAll(
+    'Object.defineProperty(exports, "__esModule", { value: true });',
+    '',
+  )
+  return preview_code
+}
+
+export const parseClassComponent = (preview_code: string) => {
+  if (preview_code.indexOf('/** @class */') > -1) {
+    const prepnp: string[] = []
+    const koko = preview_code.split('\n')
+    let takerest = false
+    koko.forEach((line) => {
+      if (line.indexOf('/** @class */') > -1 || takerest) {
+        if (line.indexOf('/** @class */') > -1) {
+          takerest = true
+          prepnp.push(line.replace('var ', ''))
+        } else {
+          prepnp.push(line)
+        }
+      }
+    })
+    preview_code = prepnp.join('\n')
+  }
+  return preview_code
 }

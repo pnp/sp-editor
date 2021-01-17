@@ -72,7 +72,7 @@ export function shoot(...args: any) {
         return
       }
 
-      const client = new $pnp.SPNS.SPHttpClient()
+      const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
       client
         .fetch(payload.path, {
           headers: JSON.parse(payload.headers),

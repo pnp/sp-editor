@@ -8,7 +8,7 @@ import { IGraph } from '@microsoft/mgt-element';
 import { Presence } from '@microsoft/microsoft-graph-types-beta';
 import { IDynamicPerson } from './types';
 /**
- * async promise, allows developer to get user presense
+ * async promise, allows developer to get user presence
  *
  * @returns {Promise<Presence>}
  * @param {IGraph} graph

@@ -1,4 +1,4 @@
-/*! msal v1.4.4 2020-12-27 */
+/*! msal v1.4.4 2021-01-05 */
 'use strict';
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2209,8 +2209,10 @@ var UserAgentApplication = /** @class */ (function () {
                         }
                         this.telemetryManager.stopAndFlushApiEvent(requestCorrelationId, apiEvent, true);
                         this.logger.verbose("Navigating window to urlNavigate");
-                        // eslint-disable-next-line no-console
-                        console.log(urlNavigate);
+                        // This is for SP Editor Chrome Extension, remove this when adal supports logging out in Popup window.
+                        if (window.location.href.indexOf("chrome-extension") === -1) {
+                            this.navigateWindow(urlNavigate);
+                        }
                         return [3 /*break*/, 6];
                     case 5:
                         error_3 = _a.sent();

@@ -87,7 +87,7 @@ export function createListProperty(...args: any) {
 
     const endpoint = _spPageContextInfo.webAbsoluteUrl + '/_vti_bin/client.svc/ProcessQuery'
 
-    const client = new $pnp.SPNS.SPHttpClient()
+    const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
     client.post(endpoint, {
       headers: {
         Accept: '*/*',

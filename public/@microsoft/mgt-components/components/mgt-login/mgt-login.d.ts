@@ -4,8 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IDynamicPerson } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { IDynamicPerson } from '../../graph/types';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import '../../styles/style-helper';
 import '../mgt-person/mgt-person';

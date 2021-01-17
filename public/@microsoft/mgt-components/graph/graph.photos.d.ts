@@ -26,7 +26,7 @@ export declare const getPhotoInvalidationTime: () => number;
 /**
  * Whether photo store is enabled
  */
-export declare const photosCacheEnabled: () => boolean;
+export declare const getIsPhotosCacheEnabled: () => boolean;
 /**
  * retrieves a photo for the specified resource.
  *

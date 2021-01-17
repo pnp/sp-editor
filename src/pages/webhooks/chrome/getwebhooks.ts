@@ -58,8 +58,8 @@ export function getWebHooks(...args: any) {
           text: list.Title,
           key: list.Id,
         })
-        if (list.Subscriptions && list.Subscriptions.results && list.Subscriptions.results.length && list.Subscriptions.results.length > 0) {
-          list.Subscriptions.results.forEach((element: any) => {
+        if (list.Subscriptions && list.Subscriptions.length && list.Subscriptions.length > 0) {
+          list.Subscriptions.forEach((element: any) => {
             webhooks.push({
               listTitle: list.Title,
               listId: list.Id,
@@ -73,7 +73,6 @@ export function getWebHooks(...args: any) {
           })
         }
       })
-
       postMessage({lists, webhooks})
     })
   })

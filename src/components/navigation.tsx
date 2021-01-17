@@ -41,6 +41,12 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       key: 'key4',
     },
     {
+      name: 'MGT React Playground',
+      url: '/mgtconsole',
+      key: 'key17',
+      disabled: false,
+    },
+    {
       name: 'Web Properties',
       url: '/webproperties',
       key: 'key5',
@@ -61,12 +67,6 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       name: 'Webhooks',
       url: '/webhooks',
       key: 'key8',
-      disabled: false,
-    },
-    {
-      name: 'MGT React Playground',
-      url: '/mgtconsole',
-      key: 'key17',
       disabled: false,
     },
     {

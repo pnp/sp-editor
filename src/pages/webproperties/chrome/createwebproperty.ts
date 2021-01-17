@@ -87,7 +87,7 @@ export function createWebProperty(...args: any) {
             </ObjectPaths>
           </Request>`
 
-        const client = new $pnp.SPNS.SPHttpClient()
+        const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
         client.post(endpoint, {
           headers: {
             Accept: '*/*',
