@@ -59,6 +59,10 @@ export interface MgtPersonConfig {
  * @class MgtPerson
  * @extends {MgtTemplatedComponent}
  *
+ * @fires line1clicked - Fired when line1 is clicked
+ * @fires line2clicked - Fired when line2 is clicked
+ * @fires line3clicked - Fired when line3 is clicked
+ *
  * @cssprop --avatar-size - {Length} Avatar size
  * @cssprop --avatar-border - {String} Avatar border
  * @cssprop --avatar-border-radius - {String} Avatar border radius
@@ -259,6 +263,9 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPersonCard
      */
     protected renderAvatar(personDetails: IDynamicPerson, image: string, presence: Presence): TemplateResult;
+    private handleLine1Clicked;
+    private handleLine2Clicked;
+    private handleLine3Clicked;
     /**
      * Render the details part of the person template.
      *

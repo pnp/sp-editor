@@ -38,8 +38,7 @@ export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
           mod.filePath === `${file}/index.d.ts`,
       )
       if (modl) {
-        const koko = { ...modl }
-        resolvedMods.push(koko)
+        resolvedMods.push({ ...modl })
       } else {
         // console.log('not found', file)
       }

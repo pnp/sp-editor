@@ -124,6 +124,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     placeholder: string;
     /**
+     * Determines whether component should be disabled or not
+     *
+     * @type {boolean}
+     * @memberof MgtPeoplePicker
+     */
+    disabled: boolean;
+    /**
      * Determines whether component allows multiple or single selection of people
      *
      * @type {string}

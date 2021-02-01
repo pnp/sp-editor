@@ -4,8 +4,6 @@ import { TemplateContext, ComponentMediaQuery } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import * as MicrosoftGraphBeta from '@microsoft/microsoft-graph-types-beta';
 export declare type AgendaProps = {
-    className?: string;
-    id?: string;
     date?: string;
     groupId?: string;
     days?: number;
@@ -19,8 +17,6 @@ export declare type AgendaProps = {
     eventClick?: (e: Event) => void;
 };
 export declare type GetProps = {
-    className?: string;
-    id?: string;
     resource?: string;
     scopes?: string[];
     version?: string;
@@ -34,8 +30,6 @@ export declare type GetProps = {
     dataChange?: (e: Event) => void;
 };
 export declare type LoginProps = {
-    className?: string;
-    id?: string;
     userDetails?: IDynamicPerson;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
@@ -46,8 +40,6 @@ export declare type LoginProps = {
     logoutCompleted?: (e: Event) => void;
 };
 export declare type PeoplePickerProps = {
-    className?: string;
-    id?: string;
     groupId?: string;
     type?: PersonType;
     groupType?: GroupType;
@@ -58,13 +50,12 @@ export declare type PeoplePickerProps = {
     selectionMode?: string;
     showMax?: number;
     selectedPeople?: IDynamicPerson[];
+    disabled?: boolean;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     selectionChanged?: (e: Event) => void;
 };
 export declare type PeopleProps = {
-    className?: string;
-    id?: string;
     groupId?: string;
     userIds?: string[];
     people?: IDynamicPerson[];
@@ -76,8 +67,6 @@ export declare type PeopleProps = {
     mediaQuery?: ComponentMediaQuery;
 };
 export declare type PersonCardProps = {
-    className?: string;
-    id?: string;
     personDetails?: IDynamicPerson;
     personQuery?: string;
     userId?: string;
@@ -91,8 +80,6 @@ export declare type PersonCardProps = {
     mediaQuery?: ComponentMediaQuery;
 };
 export declare type PersonProps = {
-    className?: string;
-    id?: string;
     config?: MgtPersonConfig;
     personQuery?: string;
     userId?: string;
@@ -109,10 +96,11 @@ export declare type PersonProps = {
     avatarSize?: AvatarSize;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
+    line1clicked?: (e: Event) => void;
+    line2clicked?: (e: Event) => void;
+    line3clicked?: (e: Event) => void;
 };
 export declare type TasksProps = {
-    className?: string;
-    id?: string;
     res?: TasksStringResource;
     isNewTaskVisible?: boolean;
     readOnly?: boolean;
@@ -133,16 +121,12 @@ export declare type TasksProps = {
     taskRemoved?: (e: Event) => void;
 };
 export declare type TeamsChannelPickerProps = {
-    className?: string;
-    id?: string;
     selectedItem?: SelectedChannel;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     selectionChanged?: (e: Event) => void;
 };
 export declare type TodoProps = {
-    className?: string;
-    id?: string;
     taskFilter?: TodoFilter;
     readOnly?: boolean;
     hideHeader?: boolean;
@@ -152,16 +136,16 @@ export declare type TodoProps = {
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
 };
-export declare const Agenda: import("react").FC<AgendaProps>;
-export declare const Get: import("react").FC<GetProps>;
-export declare const Login: import("react").FC<LoginProps>;
-export declare const PeoplePicker: import("react").FC<PeoplePickerProps>;
-export declare const People: import("react").FC<PeopleProps>;
-export declare const PersonCard: import("react").FC<PersonCardProps>;
-export declare const Person: import("react").FC<PersonProps>;
-export declare const Tasks: import("react").FC<TasksProps>;
-export declare const TeamsChannelPicker: import("react").FC<TeamsChannelPickerProps>;
-export declare const Todo: import("react").FC<TodoProps>;
+export declare const Agenda: import("react").FC<AgendaProps & import("react").HTMLAttributes<any>>;
+export declare const Get: import("react").FC<GetProps & import("react").HTMLAttributes<any>>;
+export declare const Login: import("react").FC<LoginProps & import("react").HTMLAttributes<any>>;
+export declare const PeoplePicker: import("react").FC<PeoplePickerProps & import("react").HTMLAttributes<any>>;
+export declare const People: import("react").FC<PeopleProps & import("react").HTMLAttributes<any>>;
+export declare const PersonCard: import("react").FC<PersonCardProps & import("react").HTMLAttributes<any>>;
+export declare const Person: import("react").FC<PersonProps & import("react").HTMLAttributes<any>>;
+export declare const Tasks: import("react").FC<TasksProps & import("react").HTMLAttributes<any>>;
+export declare const TeamsChannelPicker: import("react").FC<TeamsChannelPickerProps & import("react").HTMLAttributes<any>>;
+export declare const Todo: import("react").FC<TodoProps & import("react").HTMLAttributes<any>>;
 export { ResponseType, IDynamicPerson, PersonType, GroupType, PersonCardInteraction, MgtPersonConfig, PersonViewType, AvatarSize, TasksStringResource, TasksSource, TaskFilter, SelectedChannel, TodoFilter } from '@microsoft/mgt-components';
 export { TemplateContext, ComponentMediaQuery } from '@microsoft/mgt-element';
 //# sourceMappingURL=react.d.ts.map

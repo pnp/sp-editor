@@ -2763,7 +2763,7 @@ class graphhttpclient_GraphHttpClient {
         }
         if (!headers.has("SdkVersion")) {
             // this marks the requests for understanding by the service
-            headers.append("SdkVersion", "PnPCoreJS/2.1.0");
+            headers.append("SdkVersion", "PnPCoreJS/2.1.1");
         }
         const opts = util_assign(options, { headers: headers });
         return this.fetchRaw(url, opts);

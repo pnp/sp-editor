@@ -2951,12 +2951,12 @@ class sphttpclient_SPHttpClient {
         this._digestCache = getDigestFactory(this);
     }
     fetch(url, options = {}) {
-        var _a, _b;
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             let opts = util_assign(options, { cache: "no-cache", credentials: "same-origin" }, true);
             const headers = new Headers();
             // first we add the global headers so they can be overwritten by any passed in locally to this call
-            mergeHeaders(headers, (_b = (_a = this._runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.sp) === null || _b === void 0 ? void 0 : _b.headers);
+            mergeHeaders(headers, (_a = this._runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.headers);
             // second we add the local options so we can overwrite the globals
             mergeHeaders(headers, options.headers);
             // lastly we apply any default headers we need that may not exist
@@ -2968,7 +2968,7 @@ class sphttpclient_SPHttpClient {
             }
             if (!headers.has("X-ClientService-ClientTag")) {
                 const methodName = tag.getClientTag(headers);
-                let clientTag = `PnPCoreJS:2.1.0:${methodName}`;
+                let clientTag = `PnPCoreJS:2.1.1:${methodName}`;
                 if (clientTag.length > 32) {
                     clientTag = clientTag.substr(0, 32);
                 }
@@ -3697,7 +3697,7 @@ class batch_SPBatch extends batch_Batch {
                     headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
                 }
                 if (!headers.has("X-ClientService-ClientTag")) {
-                    headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.1.0:batch");
+                    headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.1.1:batch");
                 }
                 // write headers into batch body
                 headers.forEach((value, name) => {
@@ -12499,6 +12499,11 @@ class types_TermSet extends sharepointqueryable_SharePointQueryableInstance {
                             orderedChildren.push(found);
                         }
                     });
+                    // we have a case where if a set is ordered and a term is added to that set
+                    // AND the ordering information hasn't been updated the new term will not have
+                    // any associated ordering information. See #1547 which reported this. So here we
+                    // append any terms remaining in "terms" not in "orderedChildren" to the end of "orderedChildren"
+                    orderedChildren.push(...terms.filter(info => ordering.indexOf(info.id) < 0));
                     return orderedChildren;
                 }
                 return terms;
