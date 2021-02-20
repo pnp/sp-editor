@@ -1289,7 +1289,7 @@ RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ TelemetryHandler_TelemetryHandler; });
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphRequestUtil.js
@@ -1494,7 +1494,7 @@ class AuthenticationHandlerOptions {
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ LargeFileUploadTask_LargeFileUploadTask; });
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/Range.js
@@ -5028,9 +5028,7 @@ function fromByteArray (uint8) {
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(
-      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
-    ))
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
@@ -5369,7 +5367,7 @@ class ChaosHandlerOptions_ChaosHandlerOptions {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareControl.js

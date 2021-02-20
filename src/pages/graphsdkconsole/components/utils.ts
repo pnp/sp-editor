@@ -1,34 +1,7 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { IDefinitions } from '../../../store/graphsdkconsole/types'
-
-export const getDirectory = (dirEntry: DirectoryEntry, path: string): Promise<DirectoryEntry> => {
-  return new Promise(resolve => dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry)))
-}
-
-export const readDirRecursive = async (
-  entry: DirectoryEntry,
-  files: DirectoryEntry[] = [],
-) => {
-  const entries = await readEntries(entry)
-
-  for (const key in entries) {
-    if (entries[key].isDirectory) {
-      await readDirRecursive(entries[key] as DirectoryEntry, files)
-    } else {
-      files.push(entries[key])
-    }
-  }
-
-  return files
-}
-
-export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
-  return new Promise(resolve => {
-    const reader = dir.createReader()
-    reader.readEntries(entries => resolve(entries as any))
-  })
-}
+import { IDefinitions } from '../../../store/home/types'
+import { getDirectory, readDirRecursive, resolveFiles } from '../../../utilities/utilities'
 
 export const loadDefinitions = async (
   directoryEntry: DirectoryEntry,
@@ -55,9 +28,6 @@ export const loadDefinitions = async (
   })
 }
 
-export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
-  new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
-
 export const GraphSDKConsoleMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {
     lineNumbers: 'on',
@@ -77,8 +47,8 @@ export const GraphSDKConsoleMonacoConfigs = () => {
     noSemanticValidation: false,
     noSyntaxValidation: false,
   })
-  monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-    target: monaco.languages.typescript.ScriptTarget.ES5,
+  monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+    target: monaco.languages.typescript.ScriptTarget.Latest,
     allowNonTsExtensions: true,
     moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     module: monaco.languages.typescript.ModuleKind.CommonJS,
@@ -86,6 +56,9 @@ export const GraphSDKConsoleMonacoConfigs = () => {
     // typeRoots: ['@pnp', '@microsoft'],
     allowSyntheticDefaultImports: true,
   })
+ /* monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+    allowSyntheticDefaultImports: true,
+  })*/
   return COMMON_CONFIG
 }
 
@@ -118,7 +91,6 @@ import {
   const msalConfig: Configuration = {
     auth: {
       clientId: "20d34c96-396e-4bf0-a008-472ef10a5099", // SP Editor azure ad multitenant app
-      redirectUri: "chrome-extension://affnnhcbfmcbbdlcadgkdbfafigmjdkk/index.html",
     },
     cache: {
       cacheLocation: 'sessionStorage',
@@ -160,15 +132,14 @@ import {
   return code.substring(code.indexOf('\n') + 1)
 }
 
-
 export const initResult = () => {
   const code = `
 /*
   console.log() will output here
 */
-`;
-  return code.substring(code.indexOf("\n") + 1);
-};
+`
+  return code.substring(code.indexOf('\n') + 1)
+}
 
 export const execme = (prepnp: string[], ecode: string[]) => {
   return `
@@ -218,21 +189,6 @@ export const getImportModules = (content: string) => {
   return Array.from(new Set(importTexts))
 }
 
-// match filenames to definitions
-export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
-  const resolvedMods: IDefinitions[] = []
-  if (files && files.length > 0) {
-    files.forEach(file => {
-      const modl = definitions.find(mod =>
-        mod.filePath === file || mod.filePath === `${file}.d.ts` || mod.filePath === `${file}/index.d.ts`)
-      if (modl) {
-        resolvedMods.push(modl)
-      }
-    })
-  }
-  return resolvedMods
-}
-
 export const locations = (substringx: any, stringx: string) => {
   const indexes = Array.from(stringx.matchAll(new RegExp(substringx, 'gi'))).map(a => a.index)
   return indexes
@@ -275,22 +231,33 @@ export const getExportRows = (content: string, path: string) => {
   }
 }
 
-export const getDefinitionsInUse = (codeWithOutComments: string, definitions: IDefinitions[]) => {
+export const getDefinitionsInUse = (
+  codeWithOutComments: string,
+  definitions: IDefinitions[],
+) => {
   const initModules = getImportModules(codeWithOutComments)
   const defs = resolveFiles(initModules, definitions)
   const currentLibs: IDefinitions[] = []
+
   const parseLibs = (filelist: IDefinitions[]) => {
     filelist.forEach((file) => {
-      const libs = resolveFiles(getExportRows(file.content, file.filePath), definitions)
+      const libs = resolveFiles(
+        getExportRows(file.content, file.filePath),
+        definitions,
+      )
       if (libs && libs.length > 0) {
-        const newLibs = libs.filter(d => !currentLibs.find(g => d.filePath === g.filePath))
-        newLibs.forEach(lib => currentLibs.push(lib))
+        const newLibs = libs.filter(
+          (d) => !currentLibs.find((g) => d.filePath === g.filePath),
+        )
+        newLibs.forEach((lib) => currentLibs.push(lib))
         parseLibs(newLibs)
       }
     })
-    const initLibs = filelist.filter(file => !currentLibs.find(lib => file.filePath === lib.filePath))
+    const initLibs = filelist.filter(
+      (file) => !currentLibs.find((lib) => file.filePath === lib.filePath),
+    )
     if (initLibs && initLibs.length > 0) {
-      initLibs.forEach(lib => currentLibs.push(lib))
+      initLibs.forEach((lib) => currentLibs.push(lib))
     }
   }
   parseLibs(defs)

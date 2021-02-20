@@ -1,0 +1,306 @@
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+import { Presence } from '@microsoft/microsoft-graph-types-beta';
+import { TemplateResult } from 'lit-element';
+import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { IDynamicPerson } from '../../graph/types';
+import { BasePersonCardSection } from './sections/BasePersonCardSection';
+import { MgtPersonCardConfig } from './mgt-person-card.types';
+import '../sub-components/mgt-spinner/mgt-spinner';
+export * from './mgt-person-card.types';
+/**
+ * Web Component used to show detailed data for a person in the Microsoft Graph
+ *
+ * @export
+ * @class MgtPersonCard
+ * @extends {MgtTemplatedComponent}
+ *
+ * @cssprop --person-card-display-name-font-size - {Length} Font size of display name title
+ * @cssprop --person-card-display-name-color - {Color} Color of display name font
+ * @cssprop --person-card-title-font-size - {Length} Font size of title
+ * @cssprop --person-card-title-color - {Color} Color of title
+ * @cssprop --person-card-subtitle-font-size - {Length} Font size of subtitle
+ * @cssprop --person-card-subtitle-color - {Color} Color of subttitle
+ * @cssprop --person-card-details-title-font-size - {Length} Font size additional details title
+ * @cssprop --person-card-details-title-color- {Color} Color of additional details title
+ * @cssprop --person-card-details-item-font-size - {Length} Font size items in additional details section
+ * @cssprop --person-card-details-item-color - {Color} Color of items in additional details section
+ * @cssprop --person-card-background-color - {Color} Color of person card background
+ */
+export declare class MgtPersonCard extends MgtTemplatedComponent {
+    /**
+     * Array of styles to apply to the element. The styles should be defined
+     * using the `css` tag function.
+     */
+    static get styles(): import("lit-element").CSSResult[];
+    protected get strings(): {
+        sendEmailLinkSubtitle: string;
+        startChatLinkSubtitle: string;
+        showMoreSectionButton: string;
+    };
+    /**
+     * Get the scopes required for the person card
+     * The scopes depend on what sections are shown
+     *
+     * Use the `MgtPersonCard.config` object to configure
+     * what sections are shown
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtPersonCard
+     */
+    static getScopes(): string[];
+    /**
+     * Global configuration object for
+     * all person card components
+     *
+     * @static
+     * @type {MgtPersonCardConfig}
+     * @memberof MgtPersonCard
+     */
+    static get config(): MgtPersonCardConfig;
+    private static _config;
+    /**
+     * Set the person details to render
+     *
+     * @type {IDynamicPerson}
+     * @memberof MgtPersonCard
+     */
+    get personDetails(): IDynamicPerson;
+    set personDetails(value: IDynamicPerson);
+    /**
+     * allows developer to define name of person for component
+     * @type {string}
+     */
+    personQuery: string;
+    /**
+     * user-id property allows developer to use id value for component
+     * @type {string}
+     */
+    userId: string;
+    /**
+     * Set the image of the person
+     * Set to '@' to look up image from the graph
+     *
+     * @type {string}
+     * @memberof MgtPersonCard
+     */
+    personImage: string;
+    /**
+     * Sets whether the person image should be fetched
+     * from the Microsoft Graph based on the personDetails
+     * provided by the user
+     *
+     * @type {boolean}
+     * @memberof MgtPerson
+     */
+    fetchImage: boolean;
+    /**
+     * Gets or sets whether expanded details section is rendered
+     *
+     * @type {boolean}
+     * @memberof MgtPersonCard
+     */
+    isExpanded: boolean;
+    /**
+     * Gets or sets whether person details should be inherited from an mgt-person parent
+     * Useful when used as template in an mgt-person component
+     *
+     * @type {boolean}
+     * @memberof MgtPersonCard
+     */
+    inheritDetails: boolean;
+    /**
+     * determines if person card component renders presence
+     * @type {boolean}
+     */
+    showPresence: boolean;
+    /**
+     * Gets or sets presence of person
+     *
+     * @type {MicrosoftGraphBeta.Presence}
+     * @memberof MgtPerson
+     */
+    personPresence: Presence;
+    /**
+     * The subsections for display in the lower part of the card
+     *
+     * @protected
+     * @type {BasePersonCardSection[]}
+     * @memberof MgtPersonCard
+     */
+    protected sections: BasePersonCardSection[];
+    private state;
+    private isStateLoading;
+    private _history;
+    private _chatInput;
+    private _currentSection;
+    private _personDetails;
+    private _me;
+    private get internalPersonDetails();
+    constructor();
+    /**
+     * Synchronizes property values when attributes change.
+     *
+     * @param {*} name
+     * @param {*} oldValue
+     * @param {*} newValue
+     * @memberof MgtPersonCard
+     */
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void;
+    /**
+     * Navigate the card to a different person.
+     *
+     * @protected
+     * @memberof MgtPersonCard
+     */
+    navigate(person: IDynamicPerson): void;
+    /**
+     * Navigate the card back to the previous person
+     *
+     * @returns {void}
+     * @memberof MgtPersonCard
+     */
+    goBack(): void;
+    /**
+     * Navigate the card back to first person and clear history
+     *
+     * @returns {void}
+     * @memberof MgtPersonCard
+     */
+    clearHistory(): void;
+    /**
+     * Invoked on each update to perform rendering tasks. This method must return
+     * a lit-html TemplateResult. Setting properties inside this method will *not*
+     * trigger the element to update.
+     */
+    protected render(): TemplateResult;
+    /**
+     * Render the state when no data is available.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderNoData(): TemplateResult;
+    /**
+     * Render a display image for the person.
+     *
+     * @protected
+     * @param {*} image
+     * @memberof MgtPersonCard
+     */
+    protected renderPerson(): TemplateResult;
+    /**
+     * Render person subtitle.
+     *
+     * @protected
+     * @param {IDynamicPerson} person
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderPersonSubtitle(person?: IDynamicPerson): TemplateResult;
+    /**
+     * Render the various icons for contacting the person.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderContactIcons(person?: IDynamicPerson): TemplateResult;
+    /**
+     * Render the button used to expand the expanded details.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderExpandedDetailsButton(): TemplateResult;
+    /**
+     * Render expanded details.
+     *
+     * @protected
+     * @param {IDynamicPerson} [person]
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderExpandedDetails(person?: IDynamicPerson): TemplateResult;
+    /**
+     * Render the navigation ribbon for subsections
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderSectionNavigation(): TemplateResult;
+    /**
+     * Render the default section with compact views for each subsection.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderOverviewSection(): TemplateResult;
+    /**
+     * Render the actively selected section.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtPersonCard
+     */
+    protected renderCurrentSection(): TemplateResult;
+    /**
+     * load state into the component
+     *
+     * @protected
+     * @returns
+     * @memberof MgtPersonCard
+     */
+    protected loadState(): Promise<void>;
+    /**
+     * Send a chat message to the user from the quick message input.
+     *
+     * @protected
+     * @returns {void}
+     * @memberof MgtPersonCard
+     */
+    protected sendQuickMessage(): void;
+    /**
+     * Use the mailto: protocol to initiate a new email to the user.
+     *
+     * @protected
+     * @memberof MgtPersonCard
+     */
+    protected emailUser(): void;
+    /**
+     * Use the tel: protocol to initiate a new call to the user.
+     *
+     * @protected
+     * @memberof MgtPersonCard
+     */
+    protected callUser(): void;
+    /**
+     * Initiate a chat message to the user via deeplink.
+     *
+     * @protected
+     * @memberof MgtPersonCard
+     */
+    protected chatUser(message?: string): void;
+    /**
+     * Display the expanded details panel.
+     *
+     * @protected
+     * @memberof MgtPersonCard
+     */
+    protected showExpandedDetails(): void;
+    private loadSections;
+    private getImage;
+    private getPersonBusinessPhones;
+    private updateCurrentSection;
+    private handleSectionScroll;
+}
+//# sourceMappingURL=mgt-person-card.d.ts.map

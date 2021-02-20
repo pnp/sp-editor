@@ -17,6 +17,11 @@ export interface IAppMessage {
   color: MessageBarColors
 }
 
+export interface IDefinitions {
+  content: string,
+  filePath: string
+}
+
 export enum Constants {
     // ADD_ITEM = 'ADD_ITEM',
     SET_LOADING = 'SET_LOADING',

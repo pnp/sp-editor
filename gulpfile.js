@@ -15,6 +15,9 @@ gulp.task('clean', (done) => {
     'public/@pnp/odata/**/*',
     'public/@pnp/pnpjs/**/*',
     'public/@pnp/sp/**/*',
+    'public/@microsoft/**/*',
+    'public/msal/**/*',
+    'public/react/**/*',
     // 'app/@pnp/adaljsclient/**/*',
     'public/vs/**/*',
     'public/@pnp/sp-addinhelpers/**/*',
@@ -178,6 +181,34 @@ gulp.task('copy:msal', (done) => {
     done();
 });
 
+gulp.task('copy:react', (done) => {
+  console.log("Copy react");
+  gulp.src(['./node_modules/@types/react/**/*.d.ts'])
+    .pipe(gulp.dest('./public/react/'))
+    done();
+});
+
+gulp.task('copy:mgt-react', (done) => {
+  console.log("Copy @microsoft/mgt-react");
+  gulp.src(['./node_modules/@microsoft/mgt-react/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-react/'));
+  gulp.src(['./node_modules/@microsoft/mgt-components/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-components/'));
+  gulp.src(['./node_modules/@microsoft/mgt-element/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-element/'));
+  gulp.src(['./node_modules/@microsoft/mgt/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt/'));
+  gulp.src(['./node_modules/@microsoft/mgt-msal-provider/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-msal-provider/'));
+  gulp.src(['./node_modules/@microsoft/mgt-teams-provider/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-teams-provider/'));
+  gulp.src(['./node_modules/@microsoft/mgt-sharepoint-provider/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-sharepoint-provider/'));
+  gulp.src(['./node_modules/@microsoft/mgt-proxy-provider/dist/es6/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/mgt-proxy-provider/'));
+  done();
+});
+
 gulp.task('copy:monaco-editor', (done) => {
   console.log("Copy monaco-editor");
   gulp.src('./node_modules/monaco-editor/min/**/*')
@@ -206,5 +237,7 @@ gulp.task('default',
     'copy:microsoft-graph-types',
     'copy:microsoft-graph-client',
     'copy:msal',
+    'copy:react',
+    'copy:mgt-react',
     'copy:monaco-editor',
   ]));

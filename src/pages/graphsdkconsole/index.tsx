@@ -8,13 +8,13 @@ import GraphSDKEditor from './components/graphsdkeditor'
 const GraphSDKConsole = () => {
   return (
     <IonPage>
-      <Header title={"Graph SDK Console"} />
+      <Header title={'Graph SDK Console'} />
       <IonContent>
         <LoadingSpinner />
         <GraphSDKEditor />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default GraphSDKConsole

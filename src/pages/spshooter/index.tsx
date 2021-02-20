@@ -8,14 +8,14 @@ import SPShooterResults from './components/spshooterresults'
 const SPShooter = () => {
   return (
     <IonPage>
-      <Header title={"SP Shooter"} />
+      <Header title={'SP Shooter'} />
       <IonContent>
         <LoadingSpinner />
         <SPShootCommands />
         <SPShooterResults />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default SPShooter

@@ -19,6 +19,7 @@ export function deleteWebProperties(...args: any) {
         headers: {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
         },
       },
     })
@@ -52,7 +53,8 @@ export function deleteWebProperties(...args: any) {
     let siteid = ''
     let webid = ''
     const endpoint = _spPageContextInfo.webAbsoluteUrl + '/_vti_bin/client.svc/ProcessQuery'
-    const client = new $pnp.SPNS.SPHttpClient()
+
+    const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
 
     $pnp.sp.site.select('Id')().then((site) => {
       siteid = site.Id

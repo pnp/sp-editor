@@ -5,6 +5,8 @@ import { homeReducer } from './home/reducers'
 import { IHomeState } from './home/types'
 import { listPropertiesReducer } from './listproperties/reducers'
 import { IListPropertiesState } from './listproperties/types'
+import { MGTConsoleReducer } from './mgtconsole/reducers'
+import { IMGTConsoleState } from './mgtconsole/types'
 import { pnpJSConsoleReducer } from './pnpjsconsole/reducers'
 import { IPnPjsConsoleState } from './pnpjsconsole/types'
 import { scriptLinksReducer } from './scriptlinks/reducers'
@@ -24,7 +26,8 @@ export interface IRootState {
   webHooks: IWebHooksState
   listProperties: IListPropertiesState
   spshoot: ISPShootState
-  graphsdkconsole: IGraphSDKConsoleState
+  graphsdkconsole: IGraphSDKConsoleState,
+  mgtconsole: IMGTConsoleState
 }
 
 const store = createStore<IRootState, any, any, any>(
@@ -36,7 +39,8 @@ const store = createStore<IRootState, any, any, any>(
     webHooks: webHooksReducer,
     listProperties: listPropertiesReducer,
     spshoot: spshootReducer,
-    graphsdkconsole: GraphSDKConsoleReducer
+    graphsdkconsole: GraphSDKConsoleReducer,
+    mgtconsole: MGTConsoleReducer,
   }))
 
 export default store

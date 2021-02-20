@@ -1,5 +1,5 @@
 import { initCode, initResult } from '../../pages/graphsdkconsole/components/utils'
-import { Constants, IGraphSDKConsoleState, GraphSDKConsoleActions } from './types'
+import { Constants, GraphSDKConsoleActions, IGraphSDKConsoleState } from './types'
 
 const init: IGraphSDKConsoleState = {
   code: initCode(),

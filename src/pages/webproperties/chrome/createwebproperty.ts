@@ -19,6 +19,7 @@ export function createWebProperty(...args: any) {
         headers: {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
         },
       },
     })
@@ -86,7 +87,7 @@ export function createWebProperty(...args: any) {
             </ObjectPaths>
           </Request>`
 
-        const client = new $pnp.SPNS.SPHttpClient()
+        const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
         client.post(endpoint, {
           headers: {
             Accept: '*/*',

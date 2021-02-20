@@ -1,4 +1,4 @@
-import { _SharePointQueryableCollection, _SharePointQueryableInstance } from "../sharepointqueryable";
+import { _SharePointQueryableCollection, _SharePointQueryableInstance } from "../sharepointqueryable.js";
 /**
  * Describes a collection of Form objects
  *
@@ -9,13 +9,13 @@ export declare class _TermStore extends _SharePointQueryableInstance<ITermStoreI
      */
     get groups(): ITermGroups;
     /**
-     * Gets the term sets associated with this tenant
+     * Gets the term groups associated with this tenant
      */
     get sets(): ITermSets;
 }
 export interface ITermStore extends _TermStore {
 }
-export declare const TermStore: import("../sharepointqueryable").ISPInvokableFactory<ITermStore>;
+export declare const TermStore: import("../sharepointqueryable.js").ISPInvokableFactory<ITermStore>;
 export declare class _TermGroups extends _SharePointQueryableCollection<ITermGroupInfo[]> {
     /**
      * Gets a term group by id
@@ -26,7 +26,7 @@ export declare class _TermGroups extends _SharePointQueryableCollection<ITermGro
 }
 export interface ITermGroups extends _TermGroups {
 }
-export declare const TermGroups: import("../sharepointqueryable").ISPInvokableFactory<ITermGroups>;
+export declare const TermGroups: import("../sharepointqueryable.js").ISPInvokableFactory<ITermGroups>;
 export declare class _TermGroup extends _SharePointQueryableInstance<ITermGroupInfo> {
     /**
      * Gets the term sets associated with this tenant
@@ -35,7 +35,7 @@ export declare class _TermGroup extends _SharePointQueryableInstance<ITermGroupI
 }
 export interface ITermGroup extends _TermGroup {
 }
-export declare const TermGroup: import("../sharepointqueryable").ISPInvokableFactory<ITermGroup>;
+export declare const TermGroup: import("../sharepointqueryable.js").ISPInvokableFactory<ITermGroup>;
 export declare class _TermSets extends _SharePointQueryableCollection<ITermSetInfo[]> {
     /**
      * Gets a term group by id
@@ -46,30 +46,49 @@ export declare class _TermSets extends _SharePointQueryableCollection<ITermSetIn
 }
 export interface ITermSets extends _TermSets {
 }
-export declare const TermSets: import("../sharepointqueryable").ISPInvokableFactory<ITermSets>;
+export declare const TermSets: import("../sharepointqueryable.js").ISPInvokableFactory<ITermSets>;
 export declare class _TermSet extends _SharePointQueryableInstance<ITermSetInfo> {
+    /**
+     * Gets all the terms in this set
+     */
+    get terms(): ITerms;
     get parentGroup(): ITermGroup;
     get children(): IChildren;
     get relations(): IRelations;
     getTermById(id: string): ITerm;
+    /**
+     * Gets all the terms in this termset in an ordered tree using the appropriate sort ordering
+     * ** This is an expensive operation and you should strongly consider caching the results **
+     */
+    getAllChildrenAsOrderedTree(): Promise<IOrderedTermInfo[]>;
 }
 export interface ITermSet extends _TermSet {
 }
-export declare const TermSet: import("../sharepointqueryable").ISPInvokableFactory<ITermSet>;
+export declare const TermSet: import("../sharepointqueryable.js").ISPInvokableFactory<ITermSet>;
 export declare class _Children extends _SharePointQueryableCollection<ITermInfo[]> {
 }
 export interface IChildren extends _Children {
 }
-export declare const Children: import("../sharepointqueryable").ISPInvokableFactory<IChildren>;
+export declare const Children: import("../sharepointqueryable.js").ISPInvokableFactory<IChildren>;
+export declare class _Terms extends _SharePointQueryableCollection<ITermInfo[]> {
+    /**
+     * Gets a term group by id
+     *
+     * @param id Id of the term group to access
+     */
+    getById(id: string): ITerm;
+}
+export interface ITerms extends _Terms {
+}
+export declare const Terms: import("../sharepointqueryable.js").ISPInvokableFactory<ITerms>;
 export declare class _Term extends _SharePointQueryableInstance<ITermInfo> {
-    get parent(): ITerm;
     get children(): IChildren;
     get relations(): IRelations;
     get set(): ITermSet;
 }
 export interface ITerm extends _Term {
 }
-export declare const Term: import("../sharepointqueryable").ISPInvokableFactory<ITerm>;
+export declare const Term: import("../sharepointqueryable.js").ISPInvokableFactory<ITerm>;
 export declare class _Relations extends _SharePointQueryableCollection<IRelationInfo[]> {
     /**
      * Gets a term group by id
@@ -80,7 +99,7 @@ export declare class _Relations extends _SharePointQueryableCollection<IRelation
 }
 export interface IRelations extends _Relations {
 }
-export declare const Relations: import("../sharepointqueryable").ISPInvokableFactory<IRelations>;
+export declare const Relations: import("../sharepointqueryable.js").ISPInvokableFactory<IRelations>;
 export declare class _Relation extends _SharePointQueryableInstance<IRelationInfo> {
     get fromTerm(): ITerm;
     get toTerm(): ITerm;
@@ -88,7 +107,7 @@ export declare class _Relation extends _SharePointQueryableInstance<IRelationInf
 }
 export interface IRelation extends _Relation {
 }
-export declare const Relation: import("../sharepointqueryable").ISPInvokableFactory<IRelation>;
+export declare const Relation: import("../sharepointqueryable.js").ISPInvokableFactory<IRelation>;
 export interface ITermStoreInfo {
     id: string;
     name: string;
@@ -105,8 +124,6 @@ export interface ITermGroupInfo {
     lastModifiedDateTime: string;
     type: string;
     scope: "global" | "system" | "siteCollection";
-    managers?: ITaxonomyUserInfo[];
-    contributors?: ITaxonomyUserInfo[];
 }
 export interface ITermSetInfo {
     id: string;
@@ -116,9 +133,16 @@ export interface ITermSetInfo {
     }[];
     description: string;
     createdDateTime: string;
-    properties: ITaxonomyProperty[];
+    customSortOrder: string[];
+    properties?: ITaxonomyProperty[];
+    childrenCount: number;
+    groupId: string;
+    isOpen: boolean;
+    isAvailableForTagging: boolean;
+    contact: string;
 }
 export interface ITermInfo {
+    childrenCount: number;
     id: string;
     labels: {
         name: string;
@@ -126,12 +150,29 @@ export interface ITermInfo {
         languageTag: string;
     }[];
     createdDateTime: string;
+    customSortOrder: ITermSortOrderInfo[];
     lastModifiedDateTime: string;
     descriptions: {
         description: string;
         languageTag: string;
     }[];
     properties: ITaxonomyProperty[];
+    localProperties: ITaxonomyProperty[];
+    isDeprecated: boolean;
+    isAvailableForTagging: {
+        setId: string;
+        isAvailable: boolean;
+    }[];
+    topicRequested: boolean;
+    parent?: ITermInfo;
+}
+export interface ITermSortOrderInfo {
+    setId: string;
+    order: string[];
+}
+export interface IOrderedTermInfo extends ITermInfo {
+    children: IOrderedTermInfo[];
+    defaultLabel: string;
 }
 export interface IRelationInfo {
     id: string;

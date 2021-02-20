@@ -1,4 +1,5 @@
 import { ActionType } from 'typesafe-actions'
+import { IDefinitions } from '../home/types'
 import * as actions from './actions'
 
 export type PnPjsConsoleActions = ActionType<typeof actions>
@@ -6,11 +7,6 @@ export type PnPjsConsoleActions = ActionType<typeof actions>
 export interface IPnPjsConsoleState {
   code: string,
   definitions: IDefinitions[],
-}
-
-export interface IDefinitions {
-  content: string,
-  filePath: string
 }
 
 export enum Constants {

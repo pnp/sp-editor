@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,1155 +99,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-/* harmony import */ var _libconfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RuntimeConfig", function() { return _libconfig__WEBPACK_IMPORTED_MODULE_1__["a"]; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return safeGlobal; });
+// export either window or global
+const safeGlobal = typeof global === "undefined" ? window : global;
 
-/* harmony import */ var _net__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FetchClient", function() { return _net__WEBPACK_IMPORTED_MODULE_2__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mergeHeaders", function() { return _net__WEBPACK_IMPORTED_MODULE_2__["b"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mergeOptions", function() { return _net__WEBPACK_IMPORTED_MODULE_2__["c"]; });
-
-/* harmony import */ var _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
-/* harmony import */ var _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "PnPClientStorage")) __webpack_require__.d(__webpack_exports__, "PnPClientStorage", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["PnPClientStorage"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "assign")) __webpack_require__.d(__webpack_exports__, "assign", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["assign"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "combine")) __webpack_require__.d(__webpack_exports__, "combine", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["combine"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "dateAdd")) __webpack_require__.d(__webpack_exports__, "dateAdd", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["dateAdd"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "getCtxCallback")) __webpack_require__.d(__webpack_exports__, "getCtxCallback", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["getCtxCallback"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "getGUID")) __webpack_require__.d(__webpack_exports__, "getGUID", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["getGUID"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "getHashCode")) __webpack_require__.d(__webpack_exports__, "getHashCode", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["getHashCode"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "hOP")) __webpack_require__.d(__webpack_exports__, "hOP", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["hOP"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "isArray")) __webpack_require__.d(__webpack_exports__, "isArray", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["isArray"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "isFunc")) __webpack_require__.d(__webpack_exports__, "isFunc", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["isFunc"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "isUrlAbsolute")) __webpack_require__.d(__webpack_exports__, "isUrlAbsolute", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["isUrlAbsolute"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "jsS")) __webpack_require__.d(__webpack_exports__, "jsS", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["jsS"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "objectDefinedNotNull")) __webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["objectDefinedNotNull"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "safeGlobal")) __webpack_require__.d(__webpack_exports__, "safeGlobal", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["safeGlobal"]; });
-
-/* harmony reexport (checked) */ if(__webpack_require__.o(_spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__, "stringIsNullOrEmpty")) __webpack_require__.d(__webpack_exports__, "stringIsNullOrEmpty", function() { return _spfxcontextinterface__WEBPACK_IMPORTED_MODULE_3__["stringIsNullOrEmpty"]; });
-
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PnPClientStorage", function() { return _storage__WEBPACK_IMPORTED_MODULE_4__["a"]; });
-
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "assign", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["a"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combine", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["b"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateAdd", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["c"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCtxCallback", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["d"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getGUID", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["e"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getHashCode", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["f"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hOP", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["g"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["h"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isFunc", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["i"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUrlAbsolute", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["j"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "jsS", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["k"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["l"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stringIsNullOrEmpty", function() { return _util__WEBPACK_IMPORTED_MODULE_5__["m"]; });
-
-/* harmony import */ var _safe_global__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "safeGlobal", function() { return _safe_global__WEBPACK_IMPORTED_MODULE_6__["a"]; });
-
-
-
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(1)))
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getCtxCallback; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return dateAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return combine; });
-/* unused harmony export getRandomString */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getGUID; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return isFunc; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return objectDefinedNotNull; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return isArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return assign; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return isUrlAbsolute; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return stringIsNullOrEmpty; });
-/* unused harmony export sanitizeGuid */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return jsS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return hOP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getHashCode; });
-/**
- * Gets a callback function which will maintain context across async calls.
- * Allows for the calling pattern getCtxCallback(thisobj, method, methodarg1, methodarg2, ...)
- *
- * @param context The object that will be the 'this' value in the callback
- * @param method The method to which we will apply the context and parameters
- * @param params Optional, additional arguments to supply to the wrapped method when it is invoked
- */
-function getCtxCallback(context, method) {
-    var params = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        params[_i - 2] = arguments[_i];
-    }
-    return function () {
-        method.apply(context, params);
-    };
-}
-/**
- * Adds a value to a date
- *
- * @param date The date to which we will add units, done in local time
- * @param interval The name of the interval to add, one of: ['year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second']
- * @param units The amount to add to date of the given interval
- *
- * http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
- */
-function dateAdd(date, interval, units) {
-    var ret = new Date(date.toString()); // don't change original date
-    switch (interval.toLowerCase()) {
-        case "year":
-            ret.setFullYear(ret.getFullYear() + units);
-            break;
-        case "quarter":
-            ret.setMonth(ret.getMonth() + 3 * units);
-            break;
-        case "month":
-            ret.setMonth(ret.getMonth() + units);
-            break;
-        case "week":
-            ret.setDate(ret.getDate() + 7 * units);
-            break;
-        case "day":
-            ret.setDate(ret.getDate() + units);
-            break;
-        case "hour":
-            ret.setTime(ret.getTime() + units * 3600000);
-            break;
-        case "minute":
-            ret.setTime(ret.getTime() + units * 60000);
-            break;
-        case "second":
-            ret.setTime(ret.getTime() + units * 1000);
-            break;
-        default:
-            ret = undefined;
-            break;
-    }
-    return ret;
-}
-/**
- * Combines an arbitrary set of paths ensuring and normalizes the slashes
- *
- * @param paths 0 to n path parts to combine
- */
-function combine() {
-    var paths = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        paths[_i] = arguments[_i];
-    }
-    return paths
-        .filter(function (path) { return !stringIsNullOrEmpty(path); })
-        .map(function (path) { return path.replace(/^[\\|\/]/, "").replace(/[\\|\/]$/, ""); })
-        .join("/")
-        .replace(/\\/g, "/");
-}
-/**
- * Gets a random string of chars length
- *
- * https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
- *
- * @param chars The length of the random string to generate
- */
-function getRandomString(chars) {
-    var text = new Array(chars);
-    for (var i = 0; i < chars; i++) {
-        text[i] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 62));
-    }
-    return text.join("");
-}
-/**
- * Gets a random GUID value
- *
- * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
- */
-/* tslint:disable no-bitwise */
-function getGUID() {
-    var d = Date.now();
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
-/* tslint:enable */
-/**
- * Determines if a given value is a function
- *
- * @param cf The thing to test for functionness
- */
-function isFunc(f) {
-    return typeof f === "function";
-}
-/**
- * Determines if an object is both defined and not null
- * @param obj Object to test
- */
-function objectDefinedNotNull(obj) {
-    return typeof obj !== "undefined" && obj !== null;
-}
-/**
- * @returns whether the provided parameter is a JavaScript Array or not.
-*/
-function isArray(array) {
-    return Array.isArray ? Array.isArray(array) : array && typeof array.length === "number" && array.constructor === Array;
-}
-/**
- * Provides functionality to extend the given object by doing a shallow copy
- *
- * @param target The object to which properties will be copied
- * @param source The source object from which properties will be copied
- * @param noOverwrite If true existing properties on the target are not overwritten from the source
- * @param filter If provided allows additional filtering on what properties are copied (propName: string) => boolean
- *
- */
-function assign(target, source, noOverwrite, filter) {
-    if (noOverwrite === void 0) { noOverwrite = false; }
-    if (filter === void 0) { filter = function () { return true; }; }
-    if (!objectDefinedNotNull(source)) {
-        return target;
-    }
-    // ensure we don't overwrite things we don't want overwritten
-    var check = noOverwrite ? function (o, i) { return !(i in o); } : function () { return true; };
-    // final filter we will use
-    var f = function (v) { return check(target, v) && filter(v); };
-    return Object.getOwnPropertyNames(source)
-        .filter(f)
-        .reduce(function (t, v) {
-        t[v] = source[v];
-        return t;
-    }, target);
-}
-/**
- * Determines if a given url is absolute
- *
- * @param url The url to check to see if it is absolute
- */
-function isUrlAbsolute(url) {
-    return /^https?:\/\/|^\/\//i.test(url);
-}
-/**
- * Determines if a string is null or empty or undefined
- *
- * @param s The string to test
- */
-function stringIsNullOrEmpty(s) {
-    return s === undefined || s === null || s.length < 1;
-}
-/**
- * Ensures guid values are represented consistently as "ea123463-137d-4ae3-89b8-cf3fc578ca05"
- *
- * @param guid The candidate guid
- */
-function sanitizeGuid(guid) {
-    if (stringIsNullOrEmpty(guid)) {
-        return guid;
-    }
-    var matches = /([0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})/i.exec(guid);
-    return matches === null ? guid : matches[1];
-}
-/**
- * Shorthand for JSON.stringify
- *
- * @param o Any type of object
- */
-function jsS(o) {
-    return JSON.stringify(o);
-}
-/**
- * Shorthand for Object.hasOwnProperty
- *
- * @param o Object to check for
- * @param p Name of the property
- */
-function hOP(o, p) {
-    return Object.hasOwnProperty.call(o, p);
-}
-/**
- * Generates a ~unique hash code
- *
- * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
- */
-// tslint:disable:no-bitwise
-function getHashCode(s) {
-    var hash = 0;
-    if (s.length === 0) {
-        return hash;
-    }
-    for (var i = 0; i < s.length; i++) {
-        var chr = s.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}
-// tslint:enable:no-bitwise
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __extends; });
-/* unused harmony export __assign */
-/* unused harmony export __rest */
-/* unused harmony export __decorate */
-/* unused harmony export __param */
-/* unused harmony export __metadata */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __awaiter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __generator; });
-/* unused harmony export __createBinding */
-/* unused harmony export __exportStar */
-/* unused harmony export __values */
-/* unused harmony export __read */
-/* unused harmony export __spread */
-/* unused harmony export __spreadArrays */
-/* unused harmony export __await */
-/* unused harmony export __asyncGenerator */
-/* unused harmony export __asyncDelegator */
-/* unused harmony export __asyncValues */
-/* unused harmony export __makeTemplateObject */
-/* unused harmony export __importStar */
-/* unused harmony export __importDefault */
-/* unused harmony export __classPrivateFieldGet */
-/* unused harmony export __classPrivateFieldSet */
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
-
-function __extends(d, b) {
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
-}
-
-function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var __createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-});
-
-function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-}
-
-function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
-}
-
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
-
-function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
-}
-
-function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-var __setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
-
-function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-}
-
-function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
-}
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export setup */
-/* unused harmony export RuntimeConfigImpl */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RuntimeConfig; });
-/* harmony import */ var _collections__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-
-function setup(config) {
-    RuntimeConfig.assign(config);
-}
-// lable mapping for known config values
-var s = [
-    "defaultCachingStore",
-    "defaultCachingTimeoutSeconds",
-    "globalCacheDisable",
-    "enableCacheExpiration",
-    "cacheExpirationIntervalMilliseconds",
-    "spfxContext",
-    "ie11",
-];
-var RuntimeConfigImpl = /** @class */ (function () {
-    function RuntimeConfigImpl(_v) {
-        if (_v === void 0) { _v = new Map(); }
-        this._v = _v;
-        // setup defaults
-        this._v.set(s[0], "session");
-        this._v.set(s[1], 60);
-        this._v.set(s[2], false);
-        this._v.set(s[3], false);
-        this._v.set(s[4], 750);
-        this._v.set(s[5], null);
-        this._v.set(s[6], false);
-    }
-    /**
-     *
-     * @param config The set of properties to add to the globa configuration instance
-     */
-    RuntimeConfigImpl.prototype.assign = function (config) {
-        this._v = Object(_collections__WEBPACK_IMPORTED_MODULE_0__[/* mergeMaps */ "a"])(this._v, Object(_collections__WEBPACK_IMPORTED_MODULE_0__[/* objectToMap */ "b"])(config));
-    };
-    RuntimeConfigImpl.prototype.get = function (key) {
-        return this._v.get(key);
-    };
-    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingStore", {
-        get: function () {
-            return this.get(s[0]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "defaultCachingTimeoutSeconds", {
-        get: function () {
-            return this.get(s[1]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "globalCacheDisable", {
-        get: function () {
-            return this.get(s[2]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "enableCacheExpiration", {
-        get: function () {
-            return this.get(s[3]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "cacheExpirationIntervalMilliseconds", {
-        get: function () {
-            return this.get(s[4]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "spfxContext", {
-        get: function () {
-            return this.get(s[5]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(RuntimeConfigImpl.prototype, "ie11", {
-        get: function () {
-            return this.get(s[6]);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return RuntimeConfigImpl;
-}());
-
-var _runtimeConfig = new RuntimeConfigImpl();
-var RuntimeConfig = _runtimeConfig;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return objectToMap; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mergeMaps; });
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-
-/**
- * Used to calculate the object properties, with polyfill if needed
- */
-var objectEntries = Object(_util__WEBPACK_IMPORTED_MODULE_0__[/* isFunc */ "i"])(Object.entries) ? Object.entries : function (o) { return Object.keys(o).map(function (k) { return [k, o[k]]; }); };
-/**
- * Converts the supplied object to a map
- *
- * @param o The object to map
- */
-function objectToMap(o) {
-    if (o !== undefined && o !== null) {
-        return new Map(objectEntries(o));
-    }
-    return new Map();
-}
-/**
- * Merges to Map instances together, overwriting values in target with matching keys, last in wins
- *
- * @param target map into which the other maps are merged
- * @param maps One or more maps to merge into the target
- */
-function mergeMaps(target) {
-    var maps = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        maps[_i - 1] = arguments[_i];
-    }
-    for (var i = 0; i < maps.length; i++) {
-        maps[i].forEach(function (v, k) {
-            target.set(k, v);
-        });
-    }
-    return target;
-}
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return safeGlobal; });
-// export either window or global
-var safeGlobal = typeof global === "undefined" ? window : global;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(9)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mergeHeaders; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mergeOptions; });
-/* unused harmony export getADALResource */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FetchClient; });
-/* unused harmony export BearerTokenFetchClient */
-/* unused harmony export SPFxAdalClient */
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _safe_global__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-
-
-
-function mergeHeaders(target, source) {
-    if (Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "l"])(source)) {
-        var temp = new Request("", { headers: source });
-        temp.headers.forEach(function (value, name) {
-            target.append(name, value);
-        });
-    }
-}
-function mergeOptions(target, source) {
-    if (Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "l"])(source)) {
-        var headers = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* assign */ "a"])(target.headers || {}, source.headers);
-        target = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* assign */ "a"])(target, source);
-        target.headers = headers;
-    }
-}
-/**
- * Parses out the root of the request url to use as the resource when getting the token
- *
-  * @param url The url to parse
- */
-function getADALResource(url) {
-    var u = new URL(url);
-    return u.protocol + "//" + u.hostname;
-}
-/**
- * Makes requests using the global/window fetch API
- */
-var FetchClient = /** @class */ (function () {
-    function FetchClient() {
-    }
-    FetchClient.prototype.fetch = function (url, options) {
-        return _safe_global__WEBPACK_IMPORTED_MODULE_2__[/* safeGlobal */ "a"].fetch(url, options);
-    };
-    return FetchClient;
-}());
-
-/**
- * Makes requests using the fetch API adding the supplied token to the Authorization header
- */
-var BearerTokenFetchClient = /** @class */ (function (_super) {
-    Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __extends */ "b"])(BearerTokenFetchClient, _super);
-    function BearerTokenFetchClient(_token) {
-        var _this = _super.call(this) || this;
-        _this._token = _token;
-        return _this;
-    }
-    Object.defineProperty(BearerTokenFetchClient.prototype, "token", {
-        get: function () {
-            return this._token || "";
-        },
-        set: function (token) {
-            this._token = token;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    BearerTokenFetchClient.prototype.fetch = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var headers = new Headers();
-        mergeHeaders(headers, options.headers);
-        headers.set("Authorization", "Bearer " + this._token);
-        options.headers = headers;
-        return _super.prototype.fetch.call(this, url, options);
-    };
-    return BearerTokenFetchClient;
-}(FetchClient));
-
-/**
- * Client wrapping the aadTokenProvider available from SPFx >= 1.6
- */
-var SPFxAdalClient = /** @class */ (function (_super) {
-    Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __extends */ "b"])(SPFxAdalClient, _super);
-    /**
-     *
-     * @param context provide the appropriate SPFx Context object
-     */
-    function SPFxAdalClient(context) {
-        var _this = _super.call(this, null) || this;
-        _this.context = context;
-        return _this;
-    }
-    /**
-     * Executes a fetch request using the supplied url and options
-     *
-     * @param url Absolute url of the request
-     * @param options Any options
-     */
-    SPFxAdalClient.prototype.fetch = function (url, options) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
-            var token;
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getToken(getADALResource(url))];
-                    case 1:
-                        token = _a.sent();
-                        this.token = token;
-                        return [2 /*return*/, _super.prototype.fetch.call(this, url, options)];
-                }
-            });
-        });
-    };
-    /**
-     * Gets an AAD token for the provided resource using the SPFx AADTokenProvider
-     *
-     * @param resource Resource for which a token is to be requested (ex: https://graph.microsoft.com)
-     */
-    SPFxAdalClient.prototype.getToken = function (resource) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
-            var provider;
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.context.aadTokenProviderFactory.getTokenProvider()];
-                    case 1:
-                        provider = _a.sent();
-                        return [2 /*return*/, provider.getToken(resource)];
-                }
-            });
-        });
-    };
-    return SPFxAdalClient;
-}(BearerTokenFetchClient));
-
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export PnPClientStorageWrapper */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PnPClientStorage; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _libconfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-
-
-
-/**
- * A wrapper class to provide a consistent interface to browser based storage
- *
- */
-var PnPClientStorageWrapper = /** @class */ (function () {
-    /**
-     * Creates a new instance of the PnPClientStorageWrapper class
-     *
-     * @constructor
-     */
-    function PnPClientStorageWrapper(store, defaultTimeoutMinutes) {
-        if (defaultTimeoutMinutes === void 0) { defaultTimeoutMinutes = -1; }
-        this.store = store;
-        this.defaultTimeoutMinutes = defaultTimeoutMinutes;
-        this.enabled = this.test();
-        // if the cache timeout is enabled call the handler
-        // this will clear any expired items and set the timeout function
-        if (_libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].enableCacheExpiration) {
-            this.cacheExpirationHandler();
-        }
-    }
-    PnPClientStorageWrapper.bind = function (store) {
-        return new PnPClientStorageWrapper(typeof (store) === "undefined" ? new MemoryStorage() : store);
-    };
-    /**
-     * Get a value from storage, or null if that value does not exist
-     *
-     * @param key The key whose value we want to retrieve
-     */
-    PnPClientStorageWrapper.prototype.get = function (key) {
-        if (!this.enabled) {
-            return null;
-        }
-        var o = this.store.getItem(key);
-        if (!Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* objectDefinedNotNull */ "l"])(o)) {
-            return null;
-        }
-        var persistable = JSON.parse(o);
-        if (new Date(persistable.expiration) <= new Date()) {
-            this.delete(key);
-            return null;
-        }
-        else {
-            return persistable.value;
-        }
-    };
-    /**
-     * Adds a value to the underlying storage
-     *
-     * @param key The key to use when storing the provided value
-     * @param o The value to store
-     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
-     */
-    PnPClientStorageWrapper.prototype.put = function (key, o, expire) {
-        if (this.enabled) {
-            this.store.setItem(key, this.createPersistable(o, expire));
-        }
-    };
-    /**
-     * Deletes a value from the underlying storage
-     *
-     * @param key The key of the pair we want to remove from storage
-     */
-    PnPClientStorageWrapper.prototype.delete = function (key) {
-        if (this.enabled) {
-            this.store.removeItem(key);
-        }
-    };
-    /**
-     * Gets an item from the underlying storage, or adds it if it does not exist using the supplied getter function
-     *
-     * @param key The key to use when storing the provided value
-     * @param getter A function which will upon execution provide the desired value
-     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
-     */
-    PnPClientStorageWrapper.prototype.getOrPut = function (key, getter, expire) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
-            var o;
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.enabled) {
-                            return [2 /*return*/, getter()];
-                        }
-                        o = this.get(key);
-                        if (!(o === null)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, getter()];
-                    case 1:
-                        o = _a.sent();
-                        this.put(key, o, expire);
-                        _a.label = 2;
-                    case 2: return [2 /*return*/, o];
-                }
-            });
-        });
-    };
-    /**
-     * Deletes any expired items placed in the store by the pnp library, leaves other items untouched
-     */
-    PnPClientStorageWrapper.prototype.deleteExpired = function () {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function () {
-            var i, key;
-            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __generator */ "c"])(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.enabled) {
-                            return [2 /*return*/];
-                        }
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < this.store.length)) return [3 /*break*/, 4];
-                        key = this.store.key(i);
-                        if (!(key !== null)) return [3 /*break*/, 3];
-                        if (!/["|']?pnp["|']? ?: ?1/i.test(this.store.getItem(key))) return [3 /*break*/, 3];
-                        // get those items as get will delete from cache if they are expired
-                        return [4 /*yield*/, this.get(key)];
-                    case 2:
-                        // get those items as get will delete from cache if they are expired
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * Used to determine if the wrapped storage is available currently
-     */
-    PnPClientStorageWrapper.prototype.test = function () {
-        var str = "t";
-        try {
-            this.store.setItem(str, str);
-            this.store.removeItem(str);
-            return true;
-        }
-        catch (e) {
-            return false;
-        }
-    };
-    /**
-     * Creates the persistable to store
-     */
-    PnPClientStorageWrapper.prototype.createPersistable = function (o, expire) {
-        if (expire === undefined) {
-            // ensure we are by default inline with the global library setting
-            var defaultTimeout = _libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].defaultCachingTimeoutSeconds;
-            if (this.defaultTimeoutMinutes > 0) {
-                defaultTimeout = this.defaultTimeoutMinutes * 60;
-            }
-            expire = Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* dateAdd */ "c"])(new Date(), "second", defaultTimeout);
-        }
-        return Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* jsS */ "k"])({ pnp: 1, expiration: expire, value: o });
-    };
-    /**
-     * Deletes expired items added by this library in this.store and sets a timeout to call itself
-     */
-    PnPClientStorageWrapper.prototype.cacheExpirationHandler = function () {
-        var _this = this;
-        if (!this.enabled) {
-            return;
-        }
-        this.deleteExpired().then(function (_) {
-            // call ourself in the future
-            setTimeout(Object(_util__WEBPACK_IMPORTED_MODULE_1__[/* getCtxCallback */ "d"])(_this, _this.cacheExpirationHandler), _libconfig__WEBPACK_IMPORTED_MODULE_2__[/* RuntimeConfig */ "a"].cacheExpirationIntervalMilliseconds);
-        }).catch(console.error);
-    };
-    return PnPClientStorageWrapper;
-}());
-
-/**
- * A thin implementation of in-memory storage for use in nodejs
- */
-var MemoryStorage = /** @class */ (function () {
-    function MemoryStorage(_store) {
-        if (_store === void 0) { _store = new Map(); }
-        this._store = _store;
-    }
-    Object.defineProperty(MemoryStorage.prototype, "length", {
-        get: function () {
-            return this._store.size;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    MemoryStorage.prototype.clear = function () {
-        this._store.clear();
-    };
-    MemoryStorage.prototype.getItem = function (key) {
-        return this._store.get(key);
-    };
-    MemoryStorage.prototype.key = function (index) {
-        return Array.from(this._store)[index][0];
-    };
-    MemoryStorage.prototype.removeItem = function (key) {
-        this._store.delete(key);
-    };
-    MemoryStorage.prototype.setItem = function (key, data) {
-        this._store.set(key, data);
-    };
-    return MemoryStorage;
-}());
-/**
- * A class that will establish wrappers for both local and session storage
- */
-var PnPClientStorage = /** @class */ (function () {
-    /**
-     * Creates a new instance of the PnPClientStorage class
-     *
-     * @constructor
-     */
-    function PnPClientStorage(_local, _session) {
-        if (_local === void 0) { _local = null; }
-        if (_session === void 0) { _session = null; }
-        this._local = _local;
-        this._session = _session;
-    }
-    Object.defineProperty(PnPClientStorage.prototype, "local", {
-        /**
-         * Provides access to the local storage of the browser
-         */
-        get: function () {
-            if (this._local === null) {
-                this._local = new PnPClientStorageWrapper(typeof (localStorage) === "undefined" ? new MemoryStorage() : localStorage);
-            }
-            return this._local;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(PnPClientStorage.prototype, "session", {
-        /**
-         * Provides access to the session storage of the browser
-         */
-        get: function () {
-            if (this._session === null) {
-                this._session = new PnPClientStorageWrapper(typeof (sessionStorage) === "undefined" ? new MemoryStorage() : sessionStorage);
-            }
-            return this._session;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return PnPClientStorage;
-}());
-
-
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1273,7 +132,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 10 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1390,6 +249,7 @@ __webpack_require__.d(__webpack_exports__, "Relation", function() { return /* re
 __webpack_require__.d(__webpack_exports__, "Relations", function() { return /* reexport */ Relations; });
 __webpack_require__.d(__webpack_exports__, "Term", function() { return /* reexport */ Term; });
 __webpack_require__.d(__webpack_exports__, "Children", function() { return /* reexport */ Children; });
+__webpack_require__.d(__webpack_exports__, "Terms", function() { return /* reexport */ Terms; });
 __webpack_require__.d(__webpack_exports__, "UserCustomAction", function() { return /* reexport */ UserCustomAction; });
 __webpack_require__.d(__webpack_exports__, "UserCustomActions", function() { return /* reexport */ UserCustomActions; });
 __webpack_require__.d(__webpack_exports__, "UserCustomActionRegistrationType", function() { return /* reexport */ UserCustomActionRegistrationType; });
@@ -1429,110 +289,6 @@ __webpack_require__.d(__webpack_exports__, "stripInvalidFileFolderChars", functi
 __webpack_require__.d(__webpack_exports__, "containsInvalidFileFolderChars", function() { return /* reexport */ containsInvalidFileFolderChars; });
 __webpack_require__.d(__webpack_exports__, "sp", function() { return /* reexport */ all_sp; });
 
-// EXTERNAL MODULE: ./node_modules/@pnp/common/index.js
-var common = __webpack_require__(0);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/splibconfig.js
-
-var emptyGuid = "00000000-0000-0000-0000-000000000000";
-function setup(config) {
-    common["RuntimeConfig"].assign(config);
-}
-var splibconfig_SPRuntimeConfigImpl = /** @class */ (function () {
-    function SPRuntimeConfigImpl() {
-    }
-    Object.defineProperty(SPRuntimeConfigImpl.prototype, "headers", {
-        get: function () {
-            var spPart = common["RuntimeConfig"].get("sp");
-            if (spPart !== undefined && spPart.headers !== undefined) {
-                return spPart.headers;
-            }
-            return {};
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SPRuntimeConfigImpl.prototype, "baseUrl", {
-        get: function () {
-            var spPart = common["RuntimeConfig"].get("sp");
-            if (spPart !== undefined && spPart.baseUrl !== undefined) {
-                return spPart.baseUrl;
-            }
-            if (Object(common["objectDefinedNotNull"])(common["RuntimeConfig"].spfxContext)) {
-                return common["RuntimeConfig"].spfxContext.pageContext.web.absoluteUrl;
-            }
-            return null;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SPRuntimeConfigImpl.prototype, "fetchClientFactory", {
-        get: function () {
-            var spPart = common["RuntimeConfig"].get("sp");
-            if (spPart !== undefined && spPart.fetchClientFactory !== undefined) {
-                return spPart.fetchClientFactory;
-            }
-            else {
-                return function () { return new common["FetchClient"](); };
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return SPRuntimeConfigImpl;
-}());
-
-var SPRuntimeConfig = new splibconfig_SPRuntimeConfigImpl();
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/rest.js
-
-/**
- * Root of the SharePoint REST module
- */
-var rest_SPRest = /** @class */ (function () {
-    /**
-     * Creates a new instance of the SPRest class
-     *
-     * @param options Additional options
-     * @param baseUrl A string that should form the base part of the url
-     */
-    function SPRest(_options, _baseUrl) {
-        if (_options === void 0) { _options = {}; }
-        if (_baseUrl === void 0) { _baseUrl = ""; }
-        this._options = _options;
-        this._baseUrl = _baseUrl;
-    }
-    /**
-     * Configures instance with additional options and baseUrl.
-     * Provided configuration used by other objects in a chain
-     *
-     * @param options Additional options
-     * @param baseUrl A string that should form the base part of the url
-     */
-    SPRest.prototype.configure = function (options, baseUrl) {
-        if (baseUrl === void 0) { baseUrl = ""; }
-        return new SPRest(options, baseUrl);
-    };
-    /**
-     * Global SharePoint configuration options
-     *
-     * @param config The SharePoint configuration to apply
-     */
-    SPRest.prototype.setup = function (config) {
-        if (config.pageContext) {
-            setup({
-                spfxContext: config,
-            });
-        }
-        else {
-            setup(config);
-        }
-    };
-    return SPRest;
-}());
-
-var rest_sp = new rest_SPRest();
-
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -1553,11 +309,13 @@ PERFORMANCE OF THIS SOFTWARE.
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
 
 function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -1647,8 +405,8 @@ var __createBinding = Object.create ? (function(o, m, k, k2) {
     o[k2] = m[k];
 });
 
-function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
@@ -1680,19 +438,27 @@ function __read(o, n) {
     return ar;
 }
 
+/** @deprecated */
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
 
+/** @deprecated */
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
         for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
             r[k] = a[j];
     return r;
-};
+}
+
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
 
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -1738,7 +504,7 @@ var __setModuleDefault = Object.create ? (function(o, v) {
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 }
@@ -1762,175 +528,327 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
     return value;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/batch.js
-
-var batch_Batch = /** @class */ (function () {
-    function Batch(_batchId) {
-        if (_batchId === void 0) { _batchId = Object(common["getGUID"])(); }
-        this._batchId = _batchId;
-        this._reqs = [];
-        this._deps = [];
-        this._rDeps = [];
-        this._index = -1;
-    }
-    Object.defineProperty(Batch.prototype, "batchId", {
-        get: function () {
-            return this._batchId;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Batch.prototype, "requests", {
-        /**
-         * The requests contained in this batch
-         */
-        get: function () {
-            // we sort these each time this is accessed
-            return this._reqs.sort(function (info1, info2) { return info1.index - info2.index; });
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Not meant for use directly
-     *
-     * @param batchee The IQueryable for this batch to track in order
-     */
-    Batch.prototype.track = function (batchee) {
-        batchee.data.batch = this;
-        // we need to track the order requests are added to the batch to ensure we always
-        // operate on them in order
-        if (typeof batchee.data.batchIndex === "undefined" || batchee.data.batchIndex < 0) {
-            batchee.data.batchIndex = ++this._index;
-        }
-    };
-    /**
-     * Adds the given request context to the batch for execution
-     *
-     * @param context Details of the request to batch
-     */
-    Batch.prototype.add = function (context) {
-        var info = {
-            id: context.requestId,
-            index: context.batchIndex,
-            method: context.method.toUpperCase(),
-            options: context.options,
-            parser: context.parser,
-            reject: null,
-            resolve: null,
-            url: context.url,
-        };
-        // we create a new promise that will be resolved within the batch
-        var p = new Promise(function (resolve, reject) {
-            info.resolve = resolve;
-            info.reject = reject;
-        });
-        this._reqs.push(info);
-        return p;
-    };
-    /**
-     * Adds a dependency insuring that some set of actions will occur before a batch is processed.
-     * MUST be cleared using the returned resolve delegate to allow batches to run
-     */
-    Batch.prototype.addDependency = function () {
-        var resolver = function () { return void (0); };
-        this._deps.push(new Promise(function (resolve) {
-            resolver = resolve;
-        }));
-        return resolver;
-    };
-    /**
-     * The batch's execute method will not resolve util any promises added here resolve
-     *
-     * @param p The dependent promise
-     */
-    Batch.prototype.addResolveBatchDependency = function (p) {
-        this._rDeps.push(p);
-    };
-    /**
-     * Execute the current batch and resolve the associated promises
-     *
-     * @returns A promise which will be resolved once all of the batch's child promises have resolved
-     */
-    Batch.prototype.execute = function () {
-        var _this = this;
-        // we need to check the dependencies twice due to how different engines handle things.
-        // We can get a second set of promises added during the first set resolving
-        return Promise.all(this._deps)
-            .then(function () { return Promise.all(_this._deps); })
-            .then(function () { return _this.executeImpl(); })
-            .then(function () { return Promise.all(_this._rDeps); })
-            .then(function () { return void (0); });
-    };
-    return Batch;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/caching.js
-
-var caching_CachingOptions = /** @class */ (function () {
-    function CachingOptions(key, storeName, expiration) {
-        if (storeName === void 0) { storeName = common["RuntimeConfig"].defaultCachingStore; }
-        if (expiration === void 0) { expiration = Object(common["dateAdd"])(new Date(), "second", common["RuntimeConfig"].defaultCachingTimeoutSeconds); }
-        this.key = key;
-        this.storeName = storeName;
-        this.expiration = expiration;
-    }
-    Object.defineProperty(CachingOptions.prototype, "store", {
-        get: function () {
-            if (this.storeName === "local") {
-                return CachingOptions.storage.local;
-            }
-            else {
-                return CachingOptions.storage.session;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    CachingOptions.storage = new common["PnPClientStorage"]();
-    return CachingOptions;
-}());
-
-var CachingParserWrapper = /** @class */ (function () {
-    function CachingParserWrapper(parser, cacheOptions) {
-        this.parser = parser;
-        this.cacheOptions = cacheOptions;
-    }
-    CachingParserWrapper.prototype.parse = function (response) {
-        var _this = this;
-        return this.parser.parse(response).then(function (r) { return _this.cacheData(r); });
-    };
-    CachingParserWrapper.prototype.cacheData = function (data) {
-        if (this.cacheOptions.store !== null) {
-            this.cacheOptions.store.put(this.cacheOptions.key, data, this.cacheOptions.expiration);
-        }
-        return data;
-    };
-    return CachingParserWrapper;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/add-prop.js
+// CONCATENATED MODULE: ./node_modules/@pnp/common/util.js
 /**
- * Adds a property to a target instance
+ * Gets a callback function which will maintain context across async calls.
+ * Allows for the calling pattern getCtxCallback(thisobj, method, methodarg1, methodarg2, ...)
  *
- * @param target The object to whose prototype we will add a property
- * @param name Property name
- * @param factory Factory method used to produce the property value
- * @param path Any additional path required to produce the value
+ * @param context The object that will be the 'this' value in the callback
+ * @param method The method to which we will apply the context and parameters
+ * @param params Optional, additional arguments to supply to the wrapped method when it is invoked
  */
-function addProp(target, name, factory, path) {
-    Reflect.defineProperty(target.prototype, name, {
-        configurable: true,
-        enumerable: true,
-        get: function () {
-            return factory(this, path);
-        },
+// eslint-disable-next-line @typescript-eslint/ban-types
+function getCtxCallback(context, method, ...params) {
+    return function () {
+        method.apply(context, params);
+    };
+}
+/**
+ * Adds a value to a date
+ *
+ * @param date The date to which we will add units, done in local time
+ * @param interval The name of the interval to add, one of: ['year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second']
+ * @param units The amount to add to date of the given interval
+ *
+ * http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
+ */
+function dateAdd(date, interval, units) {
+    let ret = new Date(date.toString()); // don't change original date
+    switch (interval.toLowerCase()) {
+        case "year":
+            ret.setFullYear(ret.getFullYear() + units);
+            break;
+        case "quarter":
+            ret.setMonth(ret.getMonth() + 3 * units);
+            break;
+        case "month":
+            ret.setMonth(ret.getMonth() + units);
+            break;
+        case "week":
+            ret.setDate(ret.getDate() + 7 * units);
+            break;
+        case "day":
+            ret.setDate(ret.getDate() + units);
+            break;
+        case "hour":
+            ret.setTime(ret.getTime() + units * 3600000);
+            break;
+        case "minute":
+            ret.setTime(ret.getTime() + units * 60000);
+            break;
+        case "second":
+            ret.setTime(ret.getTime() + units * 1000);
+            break;
+        default:
+            ret = undefined;
+            break;
+    }
+    return ret;
+}
+/**
+ * Combines an arbitrary set of paths ensuring and normalizes the slashes
+ *
+ * @param paths 0 to n path parts to combine
+ */
+function combine(...paths) {
+    return paths
+        .filter(path => !stringIsNullOrEmpty(path))
+        .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
+        .join("/")
+        .replace(/\\/g, "/");
+}
+/**
+ * Gets a random string of chars length
+ *
+ * https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+ *
+ * @param chars The length of the random string to generate
+ */
+function getRandomString(chars) {
+    const text = new Array(chars);
+    for (let i = 0; i < chars; i++) {
+        text[i] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 62));
+    }
+    return text.join("");
+}
+/**
+ * Gets a random GUID value
+ *
+ * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+ */
+/* eslint-disable no-bitwise */
+function getGUID() {
+    let d = Date.now();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+        const r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
+/* eslint-enable no-bitwise */
+/**
+ * Determines if a given value is a function
+ *
+ * @param cf The thing to test for functionness
+ */
+function isFunc(f) {
+    return typeof f === "function";
+}
+/**
+ * Determines if an object is both defined and not null
+ * @param obj Object to test
+ */
+function objectDefinedNotNull(obj) {
+    return typeof obj !== "undefined" && obj !== null;
+}
+/**
+ * @returns whether the provided parameter is a JavaScript Array or not.
+*/
+function isArray(array) {
+    return Array.isArray ? Array.isArray(array) : array && typeof array.length === "number" && array.constructor === Array;
+}
+/**
+ * Provides functionality to extend the given object by doing a shallow copy
+ *
+ * @param target The object to which properties will be copied
+ * @param source The source object from which properties will be copied
+ * @param noOverwrite If true existing properties on the target are not overwritten from the source
+ * @param filter If provided allows additional filtering on what properties are copied (propName: string) => boolean
+ *
+ */
+function util_assign(target, source, noOverwrite = false, filter = () => true) {
+    if (!objectDefinedNotNull(source)) {
+        return target;
+    }
+    // ensure we don't overwrite things we don't want overwritten
+    const check = noOverwrite ? (o, i) => !(i in o) : () => true;
+    // final filter we will use
+    const f = (v) => check(target, v) && filter(v);
+    return Object.getOwnPropertyNames(source)
+        .filter(f)
+        .reduce((t, v) => {
+        t[v] = source[v];
+        return t;
+    }, target);
+}
+/**
+ * Determines if a given url is absolute
+ *
+ * @param url The url to check to see if it is absolute
+ */
+function isUrlAbsolute(url) {
+    return /^https?:\/\/|^\/\//i.test(url);
+}
+/**
+ * Determines if a string is null or empty or undefined
+ *
+ * @param s The string to test
+ */
+function stringIsNullOrEmpty(s) {
+    return s === undefined || s === null || s.length < 1;
+}
+/**
+ * Ensures guid values are represented consistently as "ea123463-137d-4ae3-89b8-cf3fc578ca05"
+ *
+ * @param guid The candidate guid
+ */
+function sanitizeGuid(guid) {
+    if (stringIsNullOrEmpty(guid)) {
+        return guid;
+    }
+    const matches = /([0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})/i.exec(guid);
+    return matches === null ? guid : matches[1];
+}
+/**
+ * Shorthand for JSON.stringify
+ *
+ * @param o Any type of object
+ */
+function jsS(o) {
+    return JSON.stringify(o);
+}
+/**
+ * Shorthand for Object.hasOwnProperty
+ *
+ * @param o Object to check for
+ * @param p Name of the property
+ */
+function hOP(o, p) {
+    return Object.hasOwnProperty.call(o, p);
+}
+/**
+ * Generates a ~unique hash code
+ *
+ * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
+ */
+/* eslint-disable no-bitwise */
+function getHashCode(s) {
+    let hash = 0;
+    if (s.length === 0) {
+        return hash;
+    }
+    for (let i = 0; i < s.length; i++) {
+        const chr = s.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+/* eslint-enable no-bitwise */
 
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: ./node_modules/@pnp/common/collections.js
+
+/**
+ * Used to calculate the object properties, with polyfill if needed
+ */
+const objectEntries = isFunc(Object.entries) ? Object.entries : (o) => Object.keys(o).map((k) => [k, o[k]]);
+/**
+ * Converts the supplied object to a map
+ *
+ * @param o The object to map
+ */
+function objectToMap(o) {
+    if (objectDefinedNotNull(o)) {
+        return new Map(objectEntries(o));
+    }
+    return new Map();
+}
+/**
+ * Merges to Map instances together, overwriting values in target with matching keys, last in wins
+ *
+ * @param target map into which the other maps are merged
+ * @param maps One or more maps to merge into the target
+ */
+function mergeMaps(target, ...maps) {
+    for (let i = 0; i < maps.length; i++) {
+        maps[i].forEach((v, k) => {
+            // let's not run the spfx context through Object.assign :)
+            if ((typeof k === "string" && k !== "spfxContext") && Object.prototype.toString.call(v) === "[object Object]") {
+                // we only handle one level of deep object merging
+                target.set(k, Object.assign({}, target.get(k) || {}, v));
+            }
+            else {
+                target.set(k, v);
+            }
+        });
+    }
+    return target;
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/libconfig.js
+
+function setup(config, runtime = DefaultRuntime) {
+    runtime.assign(config);
+}
+// lable mapping for known config values
+const libconfig_s = [
+    "defaultCachingStore",
+    "defaultCachingTimeoutSeconds",
+    "globalCacheDisable",
+    "enableCacheExpiration",
+    "cacheExpirationIntervalMilliseconds",
+    "spfxContext",
+    "ie11",
+];
+const runtimeCreateHooks = [];
+function onRuntimeCreate(hook) {
+    if (runtimeCreateHooks.indexOf(hook) < 0) {
+        // apply hook logic to default runtime
+        hook(DefaultRuntime);
+        runtimeCreateHooks.push(hook);
+    }
+}
+class libconfig_Runtime {
+    constructor(_v = new Map()) {
+        this._v = _v;
+        const defaulter = (key, def) => {
+            if (!this._v.has(key)) {
+                this._v.set(key, def);
+            }
+        };
+        // setup defaults
+        defaulter(libconfig_s[0], "session");
+        defaulter(libconfig_s[1], 60);
+        defaulter(libconfig_s[2], false);
+        defaulter(libconfig_s[3], false);
+        defaulter(libconfig_s[4], 750);
+        defaulter(libconfig_s[5], null);
+        defaulter(libconfig_s[6], false);
+        runtimeCreateHooks.forEach(hook => hook(this));
+    }
+    /**
+     *
+     * @param config The set of properties to add to this runtime instance
+     */
+    assign(config) {
+        this._v = mergeMaps(this._v, objectToMap(config));
+    }
+    /**
+     * Gets a runtime value using T to define the available keys, and R to define the type returned by that key
+     *
+     * @param key
+     */
+    get(key) {
+        return this._v.get(key);
+    }
+    /**
+     * Exports the internal Map representing this runtime
+     */
+    export() {
+        const expt = new Map();
+        for (const [key, value] of this._v) {
+            if (key !== "__isDefault__") {
+                expt.set(key, value);
+            }
+        }
+        return expt;
+    }
+}
+// default runtime used globally
+const libconfig_runtime = new libconfig_Runtime(new Map([["__isDefault__", true]]));
+const DefaultRuntime = libconfig_runtime;
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1950,11 +868,13 @@ PERFORMANCE OF THIS SOFTWARE.
 var tslib_es6_extendStatics = function(d, b) {
     tslib_es6_extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return tslib_es6_extendStatics(d, b);
 };
 
 function tslib_es6_extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
     tslib_es6_extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -2044,8 +964,8 @@ var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
     o[k2] = m[k];
 });
 
-function tslib_es6_exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) tslib_es6_createBinding(exports, m, p);
+function tslib_es6_exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
 }
 
 function tslib_es6_values(o) {
@@ -2077,19 +997,27 @@ function tslib_es6_read(o, n) {
     return ar;
 }
 
+/** @deprecated */
 function tslib_es6_spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(tslib_es6_read(arguments[i]));
     return ar;
 }
 
+/** @deprecated */
 function tslib_es6_spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
         for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
             r[k] = a[j];
     return r;
-};
+}
+
+function tslib_es6_spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
 
 function tslib_es6_await(v) {
     return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
@@ -2135,7 +1063,7 @@ var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
 function tslib_es6_importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
     tslib_es6_setModuleDefault(result, mod);
     return result;
 }
@@ -2159,19 +1087,569 @@ function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
     return value;
 }
 
+// EXTERNAL MODULE: ./node_modules/@pnp/common/safe-global.js
+var safe_global = __webpack_require__(0);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/net.js
+
+
+
+function mergeHeaders(target, source) {
+    if (objectDefinedNotNull(source)) {
+        const temp = new Request("", { headers: source });
+        temp.headers.forEach((value, name) => {
+            target.append(name, value);
+        });
+    }
+}
+function mergeOptions(target, source) {
+    if (objectDefinedNotNull(source)) {
+        const headers = util_assign(target.headers || {}, source.headers);
+        target = util_assign(target, source);
+        target.headers = headers;
+    }
+}
+/**
+ * Parses out the root of the request url to use as the resource when getting the token
+ *
+  * @param url The url to parse
+ */
+function getADALResource(url) {
+    const u = new URL(url);
+    return `${u.protocol}//${u.hostname}`;
+}
+/**
+ * Makes requests using the global/window fetch API
+ */
+class net_FetchClient {
+    fetch(url, options) {
+        return safe_global["a" /* safeGlobal */].fetch(url, options);
+    }
+}
+/**
+ * Makes requests using the fetch API adding the supplied token to the Authorization header
+ */
+class BearerTokenFetchClient extends net_FetchClient {
+    constructor(token) {
+        super();
+        this.token = token;
+    }
+    fetch(url, options = {}) {
+        const headers = new Headers();
+        mergeHeaders(headers, options.headers);
+        headers.set("Authorization", `Bearer ${this.token}`);
+        options.headers = headers;
+        return super.fetch(url, options);
+    }
+}
+class net_LambdaFetchClient extends BearerTokenFetchClient {
+    constructor(tokenFactory) {
+        super(null);
+        this.tokenFactory = tokenFactory;
+    }
+    /**
+     * Executes a fetch request using the supplied url and options
+     *
+     * @param url Absolute url of the request
+     * @param options Any options
+     */
+    fetch(url, options) {
+        const _super = Object.create(null, {
+            fetch: { get: () => super.fetch }
+        });
+        return tslib_es6_awaiter(this, void 0, void 0, function* () {
+            this.token = yield this.tokenFactory({ url, options });
+            return _super.fetch.call(this, url, options);
+        });
+    }
+}
+/**
+ * Client wrapping the aadTokenProvider available from SPFx >= 1.6
+ */
+class net_SPFxAdalClient extends net_LambdaFetchClient {
+    /**
+     *
+     * @param context provide the appropriate SPFx Context object
+     */
+    constructor(context) {
+        super((params) => tslib_es6_awaiter(this, void 0, void 0, function* () {
+            const provider = yield context.aadTokenProviderFactory.getTokenProvider();
+            return provider.getToken(getADALResource(params.url));
+        }));
+        this.context = context;
+    }
+    /**
+     * Gets an AAD token for the provided resource using the SPFx AADTokenProvider
+     *
+     * @param resource Resource for which a token is to be requested (ex: https://graph.microsoft.com)
+     */
+    getToken(resource) {
+        return tslib_es6_awaiter(this, void 0, void 0, function* () {
+            const provider = yield this.context.aadTokenProviderFactory.getTokenProvider();
+            return provider.getToken(resource);
+        });
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/spfxcontextinterface.js
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/storage.js
+
+
+
+/**
+ * A wrapper class to provide a consistent interface to browser based storage
+ *
+ */
+class storage_PnPClientStorageWrapper {
+    /**
+     * Creates a new instance of the PnPClientStorageWrapper class
+     *
+     * @constructor
+     */
+    constructor(store, defaultTimeoutMinutes = -1) {
+        this.store = store;
+        this.defaultTimeoutMinutes = defaultTimeoutMinutes;
+        this.enabled = this.test();
+        // if the cache timeout is enabled call the handler
+        // this will clear any expired items and set the timeout function
+        if (DefaultRuntime.get("enableCacheExpiration")) {
+            this.cacheExpirationHandler();
+        }
+    }
+    static bind(store) {
+        return new storage_PnPClientStorageWrapper(typeof (store) === "undefined" ? new MemoryStorage() : store);
+    }
+    /**
+     * Get a value from storage, or null if that value does not exist
+     *
+     * @param key The key whose value we want to retrieve
+     */
+    get(key) {
+        if (!this.enabled) {
+            return null;
+        }
+        const o = this.store.getItem(key);
+        if (!objectDefinedNotNull(o)) {
+            return null;
+        }
+        const persistable = JSON.parse(o);
+        if (new Date(persistable.expiration) <= new Date()) {
+            this.delete(key);
+            return null;
+        }
+        else {
+            return persistable.value;
+        }
+    }
+    /**
+     * Adds a value to the underlying storage
+     *
+     * @param key The key to use when storing the provided value
+     * @param o The value to store
+     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
+     */
+    put(key, o, expire) {
+        if (this.enabled) {
+            this.store.setItem(key, this.createPersistable(o, expire));
+        }
+    }
+    /**
+     * Deletes a value from the underlying storage
+     *
+     * @param key The key of the pair we want to remove from storage
+     */
+    delete(key) {
+        if (this.enabled) {
+            this.store.removeItem(key);
+        }
+    }
+    /**
+     * Gets an item from the underlying storage, or adds it if it does not exist using the supplied getter function
+     *
+     * @param key The key to use when storing the provided value
+     * @param getter A function which will upon execution provide the desired value
+     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
+     */
+    getOrPut(key, getter, expire) {
+        return tslib_es6_awaiter(this, void 0, void 0, function* () {
+            if (!this.enabled) {
+                return getter();
+            }
+            let o = this.get(key);
+            if (o === null) {
+                o = yield getter();
+                this.put(key, o, expire);
+            }
+            return o;
+        });
+    }
+    /**
+     * Deletes any expired items placed in the store by the pnp library, leaves other items untouched
+     */
+    deleteExpired() {
+        return tslib_es6_awaiter(this, void 0, void 0, function* () {
+            if (!this.enabled) {
+                return;
+            }
+            for (let i = 0; i < this.store.length; i++) {
+                const key = this.store.key(i);
+                if (key !== null) {
+                    // test the stored item to see if we stored it
+                    if (/["|']?pnp["|']? ?: ?1/i.test(this.store.getItem(key))) {
+                        // get those items as get will delete from cache if they are expired
+                        yield this.get(key);
+                    }
+                }
+            }
+        });
+    }
+    /**
+     * Used to determine if the wrapped storage is available currently
+     */
+    test() {
+        const str = "t";
+        try {
+            this.store.setItem(str, str);
+            this.store.removeItem(str);
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+    /**
+     * Creates the persistable to store
+     */
+    createPersistable(o, expire) {
+        if (expire === undefined) {
+            // ensure we are by default inline with the global library setting
+            let defaultTimeout = DefaultRuntime.get("defaultCachingTimeoutSeconds");
+            if (this.defaultTimeoutMinutes > 0) {
+                defaultTimeout = this.defaultTimeoutMinutes * 60;
+            }
+            expire = dateAdd(new Date(), "second", defaultTimeout);
+        }
+        return jsS({ pnp: 1, expiration: expire, value: o });
+    }
+    /**
+     * Deletes expired items added by this library in this.store and sets a timeout to call itself
+     */
+    cacheExpirationHandler() {
+        if (!this.enabled) {
+            return;
+        }
+        this.deleteExpired().then(() => {
+            // call ourself in the future
+            setTimeout(getCtxCallback(this, this.cacheExpirationHandler), DefaultRuntime.get("cacheExpirationIntervalMilliseconds"));
+        }).catch(console.error);
+    }
+}
+/**
+ * A thin implementation of in-memory storage for use in nodejs
+ */
+class MemoryStorage {
+    constructor(_store = new Map()) {
+        this._store = _store;
+    }
+    get length() {
+        return this._store.size;
+    }
+    clear() {
+        this._store.clear();
+    }
+    getItem(key) {
+        return this._store.get(key);
+    }
+    key(index) {
+        return Array.from(this._store)[index][0];
+    }
+    removeItem(key) {
+        this._store.delete(key);
+    }
+    setItem(key, data) {
+        this._store.set(key, data);
+    }
+}
+/**
+ * A class that will establish wrappers for both local and session storage
+ */
+class PnPClientStorage {
+    /**
+     * Creates a new instance of the PnPClientStorage class
+     *
+     * @constructor
+     */
+    constructor(_local = null, _session = null) {
+        this._local = _local;
+        this._session = _session;
+    }
+    /**
+     * Provides access to the local storage of the browser
+     */
+    get local() {
+        if (this._local === null) {
+            this._local = new storage_PnPClientStorageWrapper(typeof (localStorage) === "undefined" ? new MemoryStorage() : localStorage);
+        }
+        return this._local;
+    }
+    /**
+     * Provides access to the session storage of the browser
+     */
+    get session() {
+        if (this._session === null) {
+            this._session = new storage_PnPClientStorageWrapper(typeof (sessionStorage) === "undefined" ? new MemoryStorage() : sessionStorage);
+        }
+        return this._session;
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/common/index.js
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/splibconfig.js
+
+const emptyGuid = "00000000-0000-0000-0000-000000000000";
+onRuntimeCreate((runtime) => {
+    const existing = runtime.get("sp");
+    const spPart = Object.assign({}, {
+        fetchClientFactory: () => new net_FetchClient(),
+    }, existing);
+    runtime.assign({ sp: spPart });
+});
+function splibconfig_setup(config, runtime = DefaultRuntime) {
+    runtime.assign(config);
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/rest.js
+
+
+
+/**
+ * Root of the SharePoint REST module
+ */
+class rest_SPRest {
+    /**
+     * Creates a new instance of the SPRest class
+     *
+     * @param options Additional options
+     * @param baseUrl A string that should form the base part of the url
+     */
+    constructor(_options = {}, _baseUrl = "", _runtime = DefaultRuntime) {
+        this._options = _options;
+        this._baseUrl = _baseUrl;
+        this._runtime = _runtime;
+    }
+    /**
+     * Configures instance with additional options and baseUrl.
+     * Provided configuration used by other objects in a chain
+     *
+     * @param options Additional options
+     * @param baseUrl A string that should form the base part of the url
+     */
+    configure(options, baseUrl = "") {
+        return new rest_SPRest(options, baseUrl);
+    }
+    /**
+     * Global SharePoint configuration options
+     *
+     * @param config The SharePoint configuration to apply
+     */
+    setup(config) {
+        if (config.pageContext) {
+            splibconfig_setup({
+                spfxContext: config,
+            }, this._runtime);
+        }
+        else {
+            splibconfig_setup(config, this._runtime);
+        }
+    }
+    createIsolated(init) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // merge our defaults
+            init = Object.assign({
+                baseUrl: "",
+                cloneGlobal: true,
+                config: {},
+                options: {},
+            }, init || {});
+            const { baseUrl, cloneGlobal, options, config } = init;
+            const runtime = cloneGlobal ? new libconfig_Runtime(DefaultRuntime.export()) : new libconfig_Runtime();
+            runtime.assign(config);
+            return new rest_SPRest(options, baseUrl, runtime);
+        });
+    }
+    childConfigHook(callback) {
+        return callback({ options: this._options, baseUrl: this._baseUrl, runtime: this._runtime });
+    }
+}
+const rest_sp = new rest_SPRest();
+
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/batch.js
+
+class batch_Batch {
+    constructor(_batchId = getGUID()) {
+        this._batchId = _batchId;
+        this._reqs = [];
+        this._deps = [];
+        this._rDeps = [];
+        this._index = -1;
+    }
+    get batchId() {
+        return this._batchId;
+    }
+    /**
+     * The requests contained in this batch
+     */
+    get requests() {
+        // we sort these each time this is accessed
+        return this._reqs.sort((info1, info2) => info1.index - info2.index);
+    }
+    /**
+     * Not meant for use directly
+     *
+     * @param batchee The IQueryable for this batch to track in order
+     */
+    track(batchee) {
+        batchee.data.batch = this;
+        // we need to track the order requests are added to the batch to ensure we always
+        // operate on them in order
+        if (typeof batchee.data.batchIndex === "undefined" || batchee.data.batchIndex < 0) {
+            batchee.data.batchIndex = ++this._index;
+        }
+    }
+    /**
+     * Adds the given request context to the batch for execution
+     *
+     * @param context Details of the request to batch
+     */
+    add(context) {
+        const info = {
+            id: context.requestId,
+            index: context.batchIndex,
+            method: context.method.toUpperCase(),
+            options: context.options,
+            parser: context.parser,
+            reject: null,
+            resolve: null,
+            url: context.url,
+        };
+        // we create a new promise that will be resolved within the batch
+        const p = new Promise((resolve, reject) => {
+            info.resolve = resolve;
+            info.reject = reject;
+        });
+        this._reqs.push(info);
+        return p;
+    }
+    /**
+     * Adds a dependency insuring that some set of actions will occur before a batch is processed.
+     * MUST be cleared using the returned resolve delegate to allow batches to run
+     */
+    addDependency() {
+        let resolver = () => void (0);
+        this._deps.push(new Promise((resolve) => {
+            resolver = resolve;
+        }));
+        return resolver;
+    }
+    /**
+     * The batch's execute method will not resolve util any promises added here resolve
+     *
+     * @param p The dependent promise
+     */
+    addResolveBatchDependency(p) {
+        this._rDeps.push(p);
+    }
+    /**
+     * Execute the current batch and resolve the associated promises
+     *
+     * @returns A promise which will be resolved once all of the batch's child promises have resolved
+     */
+    execute() {
+        // we need to check the dependencies twice due to how different engines handle things.
+        // We can get a second set of promises added during the first set resolving
+        return Promise.all(this._deps)
+            .then(() => Promise.all(this._deps))
+            .then(() => this.executeImpl())
+            .then(() => Promise.all(this._rDeps))
+            .then(() => void (0));
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/caching.js
+
+const storage = new PnPClientStorage();
+class CachingOptions {
+    constructor(key, storeName, expiration) {
+        this.key = key;
+        this.storeName = storeName;
+        this.expiration = expiration;
+    }
+    get store() {
+        if (this.storeName === "local") {
+            return storage.local;
+        }
+        else {
+            return storage.session;
+        }
+    }
+}
+class CachingParserWrapper {
+    constructor(parser, cacheOptions) {
+        this.parser = parser;
+        this.cacheOptions = cacheOptions;
+    }
+    parse(response) {
+        return this.parser.parse(response).then(r => this.cacheData(r));
+    }
+    cacheData(data) {
+        if (this.cacheOptions.store !== null) {
+            this.cacheOptions.store.put(this.cacheOptions.key, data, this.cacheOptions.expiration);
+        }
+        return data;
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/add-prop.js
+/**
+ * Adds a property to a target instance
+ *
+ * @param target The object to whose prototype we will add a property
+ * @param name Property name
+ * @param factory Factory method used to produce the property value
+ * @param path Any additional path required to produce the value
+ */
+function addProp(target, name, factory, path) {
+    Reflect.defineProperty(target.prototype, name, {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+            return factory(this, path);
+        },
+    });
+}
+
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-extensions.js
 
-
-var _enableExtensions = false;
-var globalExtensions = [];
-var factoryExtensions = new Map();
-var ObjExtensionsSym = Symbol.for("43f7a601");
+let _enableExtensions = false;
+const globalExtensions = [];
+const factoryExtensions = new Map();
+const ObjExtensionsSym = Symbol.for("43f7a601");
 /**
  * Creates global extensions across all invokable objects
  *
  * @param e The global extensions to apply
  */
-var extendGlobal = function (e) {
+const extendGlobal = (e) => {
     _enableExtensions = true;
     extendCol(globalExtensions, e);
 };
@@ -2181,7 +1659,8 @@ var extendGlobal = function (e) {
  * @param target Object to which extensions are applied
  * @param extensions Extensions to apply
  */
-var extendObj = function (target, extensions) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+const extendObj = (target, extensions) => {
     _enableExtensions = true;
     if (!Reflect.has(target, ObjExtensionsSym)) {
         Reflect.set(target, ObjExtensionsSym, []);
@@ -2195,47 +1674,45 @@ var extendObj = function (target, extensions) {
  * @param factory The Invokable Factory method to extend
  * @param extensions Extensions to apply
  */
-var extendFactory = function (factory, extensions) {
+const extendFactory = (factory, extensions) => {
     _enableExtensions = true;
     // factoryExtensions
-    var proto = Reflect.getPrototypeOf(factory);
+    const proto = Reflect.getPrototypeOf(factory);
     if (!Reflect.has(proto, ObjExtensionsSym)) {
         Reflect.defineProperty(proto, ObjExtensionsSym, {
-            value: Object(common["getGUID"])(),
+            value: getGUID(),
         });
     }
-    var key = proto[ObjExtensionsSym];
+    const key = proto[ObjExtensionsSym];
     if (!factoryExtensions.has(key)) {
         factoryExtensions.set(key, []);
     }
     extendCol(factoryExtensions.get(key), extensions);
 };
 function extendCol(a, e) {
-    if (Object(common["isArray"])(e)) {
-        // @ts-ignore
-        a.push.apply(a, tslib_es6_spread(e));
+    if (Array.isArray(e)) {
+        a.push(...e);
     }
     else {
-        // @ts-ignore
         a.push(e);
     }
 }
 /**
  * Clears all global extensions
  */
-var clearGlobalExtensions = function () {
+const clearGlobalExtensions = () => {
     globalExtensions.length = 0;
 };
 /**
  * Disables all extensions
  */
-var disableExtensions = function () {
+const disableExtensions = () => {
     _enableExtensions = false;
 };
 /**
  * Enables all extensions
  */
-var enableExtensions = function () {
+const enableExtensions = () => {
     _enableExtensions = true;
 };
 /**
@@ -2244,34 +1721,31 @@ var enableExtensions = function () {
  * @param factory
  * @param args
  */
-var applyFactoryExtensions = function (factory, args) {
-    var o = factory(args);
-    var proto = Reflect.getPrototypeOf(factory);
+// eslint-disable-next-line @typescript-eslint/ban-types
+const applyFactoryExtensions = (factory, args) => {
+    let o = factory(args);
+    const proto = Reflect.getPrototypeOf(factory);
     if (Reflect.has(proto, ObjExtensionsSym)) {
-        var extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
+        const extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
         o = extendObj(o, extensions);
     }
     return o;
 };
-function extensionOrDefault(op, or, target) {
-    var rest = [];
-    for (var _i = 3; _i < arguments.length; _i++) {
-        rest[_i - 3] = arguments[_i];
-    }
+function extensionOrDefault(op, or, target, ...rest) {
     if (_enableExtensions) {
-        var extensions = [];
+        const extensions = [];
         // we need to first invoke extensions tied to only this object
         if (Reflect.has(target, ObjExtensionsSym)) {
-            extensions.push.apply(extensions, tslib_es6_spread(Reflect.get(target, ObjExtensionsSym)));
+            extensions.push(...Reflect.get(target, ObjExtensionsSym));
         }
         // second we need to process any global extensions
-        extensions.push.apply(extensions, tslib_es6_spread(globalExtensions));
-        for (var i = 0; i < extensions.length; i++) {
-            var extension = extensions[i];
-            var result = undefined;
-            if (Object(common["isFunc"])(extension)) {
+        extensions.push(...globalExtensions);
+        for (let i = 0; i < extensions.length; i++) {
+            const extension = extensions[i];
+            let result = undefined;
+            if (isFunc(extension)) {
                 // this extension is a function which we call
-                result = extension.apply(void 0, tslib_es6_spread([op, target], rest));
+                result = extension(op, target, ...rest);
             }
             else if (op === "get" && Reflect.has(extension, rest[0])) {
                 // this extension is a named extension meaning we are overriding a specific method/property
@@ -2279,7 +1753,7 @@ function extensionOrDefault(op, or, target) {
             }
             else if (Reflect.has(extension, op)) {
                 // this extension is a ProxyHandler that has a handler defined for {op} so we pass control and see if we get a result
-                result = Reflect.get(extension, op).apply(void 0, tslib_es6_spread([target], rest));
+                result = Reflect.get(extension, op)(target, ...rest);
             }
             if (typeof result !== "undefined") {
                 // if a extension returned a result, we return that
@@ -2289,106 +1763,309 @@ function extensionOrDefault(op, or, target) {
             }
         }
     }
-    return or.apply(void 0, tslib_es6_spread([target], rest));
+    return or(target, ...rest);
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-binder.js
 
 
-
-var invokableBinder = function (invoker) { return function (constructor) {
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        var factory = function (as) {
-            var r = Object.assign(function () {
-                var ags = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    ags[_i] = arguments[_i];
-                }
-                return invoker.apply(r, ags);
-            }, new (constructor.bind.apply(constructor, tslib_es6_spread([void 0], as)))());
+const invokableBinder = (invoker) => (constructor) => {
+    return (...args) => {
+        const factory = (as) => {
+            const r = Object.assign(function (...ags) {
+                return invoker.call(r, ...ags);
+            }, new constructor(...as));
             Reflect.setPrototypeOf(r, constructor.prototype);
             return r;
         };
-        if (common["RuntimeConfig"].ie11) {
+        // ie11 setting is always global
+        if (DefaultRuntime.get("ie11") || false) {
             return factory(args);
         }
         else {
             return new Proxy(applyFactoryExtensions(factory, args), {
-                apply: function (target, _thisArg, argArray) {
-                    return extensionOrDefault("apply", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.apply(a[0], a[1], a[2]);
-                    }, target, _thisArg, argArray);
+                apply: (target, _thisArg, argArray) => {
+                    return extensionOrDefault("apply", (...a) => Reflect.apply(a[0], a[1], a[2]), target, _thisArg, argArray);
                 },
-                get: function (target, p, receiver) {
-                    return extensionOrDefault("get", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.get(a[0], a[1], a[2]);
-                    }, target, p, receiver);
+                get: (target, p, receiver) => {
+                    return extensionOrDefault("get", (...a) => Reflect.get(a[0], a[1], a[2]), target, p, receiver);
                 },
-                has: function (target, p) {
-                    return extensionOrDefault("has", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.has(a[0], a[1]);
-                    }, target, p);
+                has: (target, p) => {
+                    return extensionOrDefault("has", (...a) => Reflect.has(a[0], a[1]), target, p);
                 },
-                set: function (target, p, value, receiver) {
-                    return extensionOrDefault("set", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.set(a[0], a[1], a[2], a[3]);
-                    }, target, p, value, receiver);
+                set: (target, p, value, receiver) => {
+                    return extensionOrDefault("set", (...a) => Reflect.set(a[0], a[1], a[2], a[3]), target, p, value, receiver);
                 },
             });
         }
     };
-}; };
-var invokableFactory = invokableBinder(function (options) {
+};
+const invokableFactory = invokableBinder(function (options) {
     return this.defaultAction(options);
 });
+
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var tslib_tslib_es6_extendStatics = function(d, b) {
+    tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return tslib_tslib_es6_extendStatics(d, b);
+};
+
+function tslib_tslib_es6_extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_tslib_es6_assign = function() {
+    tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function tslib_tslib_es6_exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function tslib_tslib_es6_spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+}
+
+function tslib_tslib_es6_await(v) {
+    return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
+}
+
+function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_tslib_es6_createBinding(result, mod, k);
+    tslib_tslib_es6_setModuleDefault(result, mod);
+    return result;
+}
+
+function tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+}
+
+function tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/parsers.js
 
 
-var parsers_ODataParser = /** @class */ (function () {
-    function ODataParser() {
-    }
-    ODataParser.prototype.parse = function (r) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.handleError(r, reject)) {
-                _this.parseImpl(r, resolve, reject);
+class parsers_ODataParser {
+    parse(r) {
+        return new Promise((resolve, reject) => {
+            if (this.handleError(r, reject)) {
+                this.parseImpl(r, resolve, reject);
             }
         });
-    };
-    ODataParser.prototype.parseImpl = function (r, resolve, reject) {
-        var _this = this;
+    }
+    parseImpl(r, resolve, reject) {
         if ((r.headers.has("Content-Length") && parseFloat(r.headers.get("Content-Length")) === 0) || r.status === 204) {
             resolve({});
         }
         else {
             // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
             r.text()
-                .then(function (txt) { return txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {}; })
-                .then(function (json) { return resolve(_this.parseODataJSON(json)); })
-                .catch(function (e) { return reject(e); });
+                .then(txt => txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {})
+                .then(json => resolve(this.parseODataJSON(json)))
+                .catch(e => reject(e));
         }
-    };
+    }
     /**
      * Handles a response with ok === false by parsing the body and creating a ProcessHttpClientResponseException
      * which is passed to the reject delegate. This method returns true if there is no error, otherwise false
@@ -2396,170 +2073,118 @@ var parsers_ODataParser = /** @class */ (function () {
      * @param r Current response object
      * @param reject reject delegate for the surrounding promise
      */
-    ODataParser.prototype.handleError = function (r, reject) {
+    handleError(r, reject) {
         if (!r.ok) {
             parsers_HttpRequestError.init(r).then(reject);
         }
         return r.ok;
-    };
+    }
     /**
      * Normalizes the json response by removing the various nested levels
      *
      * @param json json object to parse
      */
-    ODataParser.prototype.parseODataJSON = function (json) {
-        var result = json;
-        if (Object(common["hOP"])(json, "d")) {
-            if (Object(common["hOP"])(json.d, "results")) {
+    parseODataJSON(json) {
+        let result = json;
+        if (hOP(json, "d")) {
+            if (hOP(json.d, "results")) {
                 result = json.d.results;
             }
             else {
                 result = json.d;
             }
         }
-        else if (Object(common["hOP"])(json, "value")) {
+        else if (hOP(json, "value")) {
             result = json.value;
         }
         return result;
-    };
-    return ODataParser;
-}());
-
-var parsers_TextParser = /** @class */ (function (_super) {
-    tslib_es6_extends(TextParser, _super);
-    function TextParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    TextParser.prototype.parseImpl = function (r, resolve) {
+}
+class TextParser extends parsers_ODataParser {
+    parseImpl(r, resolve) {
         r.text().then(resolve);
-    };
-    return TextParser;
-}(parsers_ODataParser));
-
-var parsers_BlobParser = /** @class */ (function (_super) {
-    tslib_es6_extends(BlobParser, _super);
-    function BlobParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    BlobParser.prototype.parseImpl = function (r, resolve) {
+}
+class BlobParser extends parsers_ODataParser {
+    parseImpl(r, resolve) {
         r.blob().then(resolve);
-    };
-    return BlobParser;
-}(parsers_ODataParser));
-
-var parsers_JSONParser = /** @class */ (function (_super) {
-    tslib_es6_extends(JSONParser, _super);
-    function JSONParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    JSONParser.prototype.parseImpl = function (r, resolve) {
+}
+class JSONParser extends parsers_ODataParser {
+    parseImpl(r, resolve) {
         r.json().then(resolve);
-    };
-    return JSONParser;
-}(parsers_ODataParser));
-
-var parsers_BufferParser = /** @class */ (function (_super) {
-    tslib_es6_extends(BufferParser, _super);
-    function BufferParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    BufferParser.prototype.parseImpl = function (r, resolve) {
-        if (Object(common["isFunc"])(r.arrayBuffer)) {
+}
+class parsers_BufferParser extends parsers_ODataParser {
+    parseImpl(r, resolve) {
+        if (isFunc(r.arrayBuffer)) {
             r.arrayBuffer().then(resolve);
         }
         else {
             r.buffer().then(resolve);
         }
-    };
-    return BufferParser;
-}(parsers_ODataParser));
-
-var parsers_LambdaParser = /** @class */ (function (_super) {
-    tslib_es6_extends(LambdaParser, _super);
-    function LambdaParser(parser) {
-        var _this = _super.call(this) || this;
-        _this.parser = parser;
-        return _this;
     }
-    LambdaParser.prototype.parseImpl = function (r, resolve) {
+}
+class LambdaParser extends parsers_ODataParser {
+    constructor(parser) {
+        super();
+        this.parser = parser;
+    }
+    parseImpl(r, resolve) {
         this.parser(r).then(resolve);
-    };
-    return LambdaParser;
-}(parsers_ODataParser));
-
-var parsers_HttpRequestError = /** @class */ (function (_super) {
-    tslib_es6_extends(HttpRequestError, _super);
-    function HttpRequestError(message, response, status, statusText) {
-        if (status === void 0) { status = response.status; }
-        if (statusText === void 0) { statusText = response.statusText; }
-        var _this = _super.call(this, message) || this;
-        _this.response = response;
-        _this.status = status;
-        _this.statusText = statusText;
-        _this.isHttpRequestError = true;
-        return _this;
     }
-    HttpRequestError.init = function (r) {
-        return tslib_es6_awaiter(this, void 0, void 0, function () {
-            var t;
-            return tslib_es6_generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, r.clone().text()];
-                    case 1:
-                        t = _a.sent();
-                        return [2 /*return*/, new HttpRequestError("Error making HttpClient request in queryable [" + r.status + "] " + r.statusText + " ::> " + t, r.clone())];
-                }
-            });
+}
+class parsers_HttpRequestError extends Error {
+    constructor(message, response, status = response.status, statusText = response.statusText) {
+        super(message);
+        this.response = response;
+        this.status = status;
+        this.statusText = statusText;
+        this.isHttpRequestError = true;
+    }
+    static init(r) {
+        return tslib_tslib_es6_awaiter(this, void 0, void 0, function* () {
+            const t = yield r.clone().text();
+            return new parsers_HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r.clone());
         });
-    };
-    return HttpRequestError;
-}(Error));
-
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/queryable.js
 
 
-
 function cloneQueryableData(source) {
-    var body;
+    let body;
     // this handles bodies that cannot be JSON encoded (Blob, etc)
     // Note however, even bodies that can be serialized will not be cloned.
     if (source.options && source.options.body) {
         body = source.options.body;
         source.options.body = "-";
     }
-    var s = JSON.stringify(source, function (key, value) {
+    const s = JSON.stringify(source, (key, value) => {
         switch (key) {
             case "query":
-                return JSON.stringify(tslib_es6_spread(value));
+                return JSON.stringify([...value]);
             case "batch":
-                return "-";
             case "batchDependency":
-                return "-";
             case "cachingOptions":
-                return "-";
             case "clientFactory":
-                return "-";
             case "parser":
                 return "-";
             default:
                 return value;
         }
     }, 0);
-    var parsed = JSON.parse(s, function (key, value) {
+    const parsed = JSON.parse(s, (key, value) => {
         switch (key) {
             case "query":
                 return new Map(JSON.parse(value));
             case "batch":
-                return source.batch;
             case "batchDependency":
-                return source.batchDependency;
             case "cachingOptions":
-                return source.cachingOptions;
             case "clientFactory":
-                return source.clientFactory;
             case "parser":
-                return source.parser;
+                return source[key];
             default:
                 return value;
         }
@@ -2570,9 +2195,8 @@ function cloneQueryableData(source) {
     }
     return parsed;
 }
-var queryable_Queryable = /** @class */ (function () {
-    function Queryable(dataSeed) {
-        if (dataSeed === void 0) { dataSeed = {}; }
+class queryable_Queryable {
+    constructor(dataSeed = {}) {
         this._data = Object.assign({}, {
             cloneParentWasCaching: false,
             options: {},
@@ -2582,169 +2206,183 @@ var queryable_Queryable = /** @class */ (function () {
             url: "",
             useCaching: false,
         }, cloneQueryableData(dataSeed));
+        this._runtime = null;
     }
-    Object.defineProperty(Queryable.prototype, "data", {
-        get: function () {
-            return this._data;
-        },
-        set: function (value) {
-            this._data = Object.assign({}, this.data, cloneQueryableData(value));
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-    * Gets the current url
-    *
-    */
-    Queryable.prototype.toUrl = function () {
-        return this.data.url;
-    };
-    /**
-     * Directly concatenates the supplied string to the current url, not normalizing "/" chars
-     *
-     * @param pathPart The string to concatenate to the url
-     */
-    Queryable.prototype.concat = function (pathPart) {
-        this.data.url += pathPart;
-        return this;
-    };
-    Object.defineProperty(Queryable.prototype, "query", {
-        /**
-         * Provides access to the query builder for this url
-         *
-         */
-        get: function () {
-            return this.data.query;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Sets custom options for current object and all derived objects accessible via chaining
-     *
-     * @param options custom options
-     */
-    Queryable.prototype.configure = function (options) {
-        Object(common["mergeOptions"])(this.data.options, options);
-        return this;
-    };
-    /**
-     * Configures this instance from the configure options of the supplied instance
-     *
-     * @param o Instance from which options should be taken
-     */
-    Queryable.prototype.configureFrom = function (o) {
-        Object(common["mergeOptions"])(this.data.options, o.data.options);
-        return this;
-    };
-    /**
-     * Enables caching for this request
-     *
-     * @param options Defines the options used when caching this request
-     */
-    Queryable.prototype.usingCaching = function (options) {
-        if (!common["RuntimeConfig"].globalCacheDisable) {
-            this.data.useCaching = true;
-            if (options !== undefined) {
-                this.data.cachingOptions = options;
+    get data() {
+        return this._data;
+    }
+    set data(value) {
+        this._data = Object.assign({}, this.data, cloneQueryableData(value));
+    }
+    getRuntime() {
+        if (this._runtime === null) {
+            return DefaultRuntime;
+        }
+        return this._runtime;
+    }
+    setRuntime(...args) {
+        // need to wait for ts update in spfx: [runtime: Runtime] | [cloneGlobal: boolean, additionalConfig?: ITypedHash<any>]
+        if (args[0] instanceof libconfig_Runtime) {
+            this._runtime = args[0];
+        }
+        else {
+            this._runtime = args[0] ? new libconfig_Runtime(DefaultRuntime.export()) : new libconfig_Runtime();
+            if (args.length > 1 && objectDefinedNotNull(args[1])) {
+                this._runtime.assign(args[1]);
             }
         }
         return this;
-    };
-    Queryable.prototype.usingParser = function (parser) {
+    }
+    /**
+  * Gets the current url
+  *
+  */
+    toUrl() {
+        return this.data.url;
+    }
+    /**
+   * Directly concatenates the supplied string to the current url, not normalizing "/" chars
+   *
+   * @param pathPart The string to concatenate to the url
+   */
+    concat(pathPart) {
+        this.data.url += pathPart;
+        return this;
+    }
+    /**
+   * Provides access to the query builder for this url
+   *
+   */
+    get query() {
+        return this.data.query;
+    }
+    /**
+   * Sets custom options for current object and all derived objects accessible via chaining
+   *
+   * @param options custom options
+   */
+    configure(options) {
+        mergeOptions(this.data.options, options);
+        return this;
+    }
+    /**
+   * Configures this instance from the configure options of the supplied instance
+   *
+   * @param o Instance from which options should be taken
+   */
+    configureFrom(o) {
+        mergeOptions(this.data.options, o.data.options);
+        const sourceRuntime = o.getRuntime();
+        if (!sourceRuntime.get("__isDefault__")) {
+            this.setRuntime(sourceRuntime);
+        }
+        return this;
+    }
+    /**
+   * Enables caching for this request
+   *
+   * @param options Defines the options used when caching this request
+   */
+    usingCaching(options) {
+        const runtime = this.getRuntime();
+        if (!runtime.get("globalCacheDisable")) {
+            this.data.useCaching = true;
+            // handle getting just the key
+            if (typeof options === "string") {
+                if (stringIsNullOrEmpty(options)) {
+                    throw Error("Cache key cannot be empty.");
+                }
+                options = { key: options };
+            }
+            // this uses our local options if they are defined as defaults
+            const defaultOpts = {
+                expiration: dateAdd(new Date(), "second", runtime.get("defaultCachingTimeoutSeconds")),
+                storeName: runtime.get("defaultCachingStore"),
+            };
+            this.data.cachingOptions = util_assign(defaultOpts, options);
+        }
+        return this;
+    }
+    usingParser(parser) {
         this.data.parser = parser;
         return this;
-    };
+    }
     /**
-     * Allows you to set a request specific processing pipeline
-     *
-     * @param pipeline The set of methods, in order, to execute a given request
-     */
-    Queryable.prototype.withPipeline = function (pipeline) {
+   * Allows you to set a request specific processing pipeline
+   *
+   * @param pipeline The set of methods, in order, to execute a given request
+   */
+    withPipeline(pipeline) {
         this.data.pipes = pipeline.slice(0);
         return this;
-    };
+    }
     /**
-     * Appends the given string and normalizes "/" chars
-     *
-     * @param pathPart The string to append
-     */
-    Queryable.prototype.append = function (pathPart) {
-        this.data.url = Object(common["combine"])(this.data.url, pathPart);
-    };
+   * Appends the given string and normalizes "/" chars
+   *
+   * @param pathPart The string to append
+   */
+    append(pathPart) {
+        this.data.url = combine(this.data.url, pathPart);
+    }
     /**
-     * Adds this query to the supplied batch
-     *
-     * @example
-     * ```
-     *
-     * let b = pnp.sp.createBatch();
-     * pnp.sp.web.inBatch(b).get().then(...);
-     * b.execute().then(...)
-     * ```
-     */
-    Queryable.prototype.inBatch = function (batch) {
+   * Adds this query to the supplied batch
+   *
+   * @example
+   * ```
+   *
+   * let b = pnp.sp.createBatch();
+   * pnp.sp.web.inBatch(b).get().then(...);
+   * b.execute().then(...)
+   * ```
+   */
+    inBatch(batch) {
         if (this.hasBatch) {
             throw Error("This query is already part of a batch.");
         }
-        if (Object(common["objectDefinedNotNull"])(batch)) {
+        if (objectDefinedNotNull(batch)) {
             batch.track(this);
         }
         return this;
-    };
+    }
     /**
-     * Blocks a batch call from occuring, MUST be cleared by calling the returned function
-    */
-    Queryable.prototype.addBatchDependency = function () {
-        if (Object(common["objectDefinedNotNull"])(this.data.batch)) {
+   * Blocks a batch call from occuring, MUST be cleared by calling the returned function
+  */
+    addBatchDependency() {
+        if (objectDefinedNotNull(this.data.batch)) {
             return this.data.batch.addDependency();
         }
-        return function () { return null; };
-    };
-    Object.defineProperty(Queryable.prototype, "hasBatch", {
-        /**
-         * Indicates if the current query has a batch associated
-         *
-         */
-        get: function () {
-            return Object(common["objectDefinedNotNull"])(this.data.batch);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Queryable.prototype, "batch", {
-        /**
-         * The batch currently associated with this query or null
-         *
-         */
-        get: function () {
-            return this.hasBatch ? this.data.batch : null;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Queryable.prototype, "parentUrl", {
-        /**
-         * Gets the parent url used when creating this instance
-         *
-         */
-        get: function () {
-            return this.data.parentUrl;
-        },
-        enumerable: false,
-        configurable: true
-    });
+        return () => null;
+    }
     /**
-     * Clones this instance's data to target
-     *
-     * @param target Instance to which data is written
-     * @param settings [Optional] Settings controlling how clone is applied
-     */
-    Queryable.prototype.cloneTo = function (target, settings) {
-        if (settings === void 0) { settings = {}; }
+   * Indicates if the current query has a batch associated
+   *
+   */
+    get hasBatch() {
+        return objectDefinedNotNull(this.data.batch);
+    }
+    /**
+   * The batch currently associated with this query or null
+   *
+   */
+    get batch() {
+        return this.hasBatch ? this.data.batch : null;
+    }
+    /**
+   * Gets the parent url used when creating this instance
+   *
+   */
+    get parentUrl() {
+        return this.data.parentUrl;
+    }
+    /**
+   * Clones this instance's data to target
+   *
+   * @param target Instance to which data is written
+   * @param settings [Optional] Settings controlling how clone is applied
+   */
+    cloneTo(target, settings = {}) {
         // default values for settings
-        settings = Object(common["assign"])({
+        settings = util_assign({
             includeBatch: true,
             includeQuery: false,
         }, settings);
@@ -2758,149 +2396,117 @@ var queryable_Queryable = /** @class */ (function () {
             target.inBatch(this.batch);
         }
         if (settings.includeQuery && this.query.size > 0) {
-            this.query.forEach(function (v, k) { return target.query.set(k, v); });
+            this.query.forEach((v, k) => target.query.set(k, v));
         }
         if (this.data.useCaching) {
             target.data.cloneParentWasCaching = true;
             target.data.cloneParentCacheOptions = this.data.cachingOptions;
         }
         return target;
-    };
-    return Queryable;
-}());
-
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/logging/logger.js
 /**
  * Class used to subscribe ILogListener and log messages throughout an application
  *
  */
-var Logger = /** @class */ (function () {
-    function Logger() {
+class Logger {
+    /**
+   * Gets or sets the active log level to apply for log filtering
+   */
+    static get activeLogLevel() {
+        return Logger.instance.activeLogLevel;
     }
-    Object.defineProperty(Logger, "activeLogLevel", {
-        /**
-         * Gets or sets the active log level to apply for log filtering
-         */
-        get: function () {
-            return Logger.instance.activeLogLevel;
-        },
-        set: function (value) {
-            Logger.instance.activeLogLevel = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Logger, "instance", {
-        get: function () {
-            if (Logger._instance === undefined || Logger._instance === null) {
-                Logger._instance = new LoggerImpl();
-            }
-            return Logger._instance;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Adds ILogListener instances to the set of subscribed listeners
-     *
-     * @param listeners One or more listeners to subscribe to this log
-     */
-    Logger.subscribe = function () {
-        var listeners = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            listeners[_i] = arguments[_i];
+    static set activeLogLevel(value) {
+        Logger.instance.activeLogLevel = value;
+    }
+    static get instance() {
+        if (Logger._instance === undefined || Logger._instance === null) {
+            Logger._instance = new LoggerImpl();
         }
-        listeners.forEach(function (listener) { return Logger.instance.subscribe(listener); });
-    };
+        return Logger._instance;
+    }
     /**
-     * Clears the subscribers collection, returning the collection before modification
-     */
-    Logger.clearSubscribers = function () {
+   * Adds ILogListener instances to the set of subscribed listeners
+   *
+   * @param listeners One or more listeners to subscribe to this log
+   */
+    static subscribe(...listeners) {
+        listeners.forEach(listener => Logger.instance.subscribe(listener));
+    }
+    /**
+   * Clears the subscribers collection, returning the collection before modification
+   */
+    static clearSubscribers() {
         return Logger.instance.clearSubscribers();
-    };
-    Object.defineProperty(Logger, "count", {
-        /**
-         * Gets the current subscriber count
-         */
-        get: function () {
-            return Logger.instance.count;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
     /**
-     * Writes the supplied string to the subscribed listeners
-     *
-     * @param message The message to write
-     * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
-     */
-    Logger.write = function (message, level) {
-        if (level === void 0) { level = 1 /* Info */; }
+   * Gets the current subscriber count
+   */
+    static get count() {
+        return Logger.instance.count;
+    }
+    /**
+   * Writes the supplied string to the subscribed listeners
+   *
+   * @param message The message to write
+   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
+   */
+    static write(message, level = 1 /* Info */) {
         Logger.instance.log({ level: level, message: message });
-    };
+    }
     /**
-     * Writes the supplied string to the subscribed listeners
-     *
-     * @param json The json object to stringify and write
-     * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
-     */
-    Logger.writeJSON = function (json, level) {
-        if (level === void 0) { level = 1 /* Info */; }
+   * Writes the supplied string to the subscribed listeners
+   *
+   * @param json The json object to stringify and write
+   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
+   */
+    static writeJSON(json, level = 1 /* Info */) {
         this.write(JSON.stringify(json), level);
-    };
+    }
     /**
-     * Logs the supplied entry to the subscribed listeners
-     *
-     * @param entry The message to log
-     */
-    Logger.log = function (entry) {
+   * Logs the supplied entry to the subscribed listeners
+   *
+   * @param entry The message to log
+   */
+    static log(entry) {
         Logger.instance.log(entry);
-    };
+    }
     /**
-     * Logs an error object to the subscribed listeners
-     *
-     * @param err The error object
-     */
-    Logger.error = function (err) {
+   * Logs an error object to the subscribed listeners
+   *
+   * @param err The error object
+   */
+    static error(err) {
         Logger.instance.log({ data: err, level: 3 /* Error */, message: err.message });
-    };
-    return Logger;
-}());
-
-var LoggerImpl = /** @class */ (function () {
-    function LoggerImpl(activeLogLevel, subscribers) {
-        if (activeLogLevel === void 0) { activeLogLevel = 2 /* Warning */; }
-        if (subscribers === void 0) { subscribers = []; }
+    }
+}
+class LoggerImpl {
+    constructor(activeLogLevel = 2 /* Warning */, subscribers = []) {
         this.activeLogLevel = activeLogLevel;
         this.subscribers = subscribers;
     }
-    LoggerImpl.prototype.subscribe = function (listener) {
+    subscribe(listener) {
         this.subscribers.push(listener);
-    };
-    LoggerImpl.prototype.clearSubscribers = function () {
-        var s = this.subscribers.slice(0);
+    }
+    clearSubscribers() {
+        const s = this.subscribers.slice(0);
         this.subscribers.length = 0;
         return s;
-    };
-    Object.defineProperty(LoggerImpl.prototype, "count", {
-        get: function () {
-            return this.subscribers.length;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    LoggerImpl.prototype.write = function (message, level) {
-        if (level === void 0) { level = 1 /* Info */; }
+    }
+    get count() {
+        return this.subscribers.length;
+    }
+    write(message, level = 1 /* Info */) {
         this.log({ level: level, message: message });
-    };
-    LoggerImpl.prototype.log = function (entry) {
+    }
+    log(entry) {
         if (entry !== undefined && this.activeLogLevel <= entry.level) {
-            this.subscribers.map(function (subscriber) { return subscriber.log(entry); });
+            this.subscribers.map(subscriber => subscriber.log(entry));
         }
-    };
-    return LoggerImpl;
-}());
+    }
+}
 /**
  * A set of logging levels
  */
@@ -2918,16 +2524,14 @@ var LogLevel;
  * Implementation of LogListener which logs to the console
  *
  */
-var ConsoleListener = /** @class */ (function () {
-    function ConsoleListener() {
-    }
+class ConsoleListener {
     /**
      * Any associated data that a given logging listener may choose to log or ignore
      *
      * @param entry The information to be logged
      */
-    ConsoleListener.prototype.log = function (entry) {
-        var msg = this.format(entry);
+    log(entry) {
+        const msg = this.format(entry);
         switch (entry.level) {
             case 0 /* Verbose */:
             case 1 /* Info */:
@@ -2940,40 +2544,38 @@ var ConsoleListener = /** @class */ (function () {
                 console.error(msg);
                 break;
         }
-    };
+    }
     /**
      * Formats the message
      *
      * @param entry The information to format into a string
      */
-    ConsoleListener.prototype.format = function (entry) {
-        var msg = [];
+    format(entry) {
+        const msg = [];
         msg.push("Message: " + entry.message);
         if (entry.data !== undefined) {
             try {
                 msg.push(" Data: " + JSON.stringify(entry.data));
             }
             catch (e) {
-                msg.push(" Data: Error in stringify of supplied data " + e);
+                msg.push(` Data: Error in stringify of supplied data ${e}`);
             }
         }
         return msg.join("");
-    };
-    return ConsoleListener;
-}());
-
+    }
+}
 /**
  * Implementation of LogListener which logs to the supplied function
  *
  */
-var FunctionListener = /** @class */ (function () {
+class FunctionListener {
     /**
      * Creates a new instance of the FunctionListener class
      *
      * @constructor
      * @param  method The method to which any logging data will be passed
      */
-    function FunctionListener(method) {
+    constructor(method) {
         this.method = method;
     }
     /**
@@ -2981,12 +2583,10 @@ var FunctionListener = /** @class */ (function () {
      *
      * @param entry The information to be logged
      */
-    FunctionListener.prototype.log = function (entry) {
+    log(entry) {
         this.method(entry);
-    };
-    return FunctionListener;
-}());
-
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
 
@@ -3006,7 +2606,7 @@ function returnResult(context) {
     Logger.log({
         data: Logger.activeLogLevel === 0 /* Verbose */ ? context.result : {},
         level: 1 /* Info */,
-        message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Returning result from pipeline. Set logging to verbose to see data.",
+        message: `[${context.requestId}] (${(new Date()).getTime()}) Returning result from pipeline. Set logging to verbose to see data.`,
     });
     return Promise.resolve(context.result);
 }
@@ -3014,7 +2614,7 @@ function returnResult(context) {
  * Sets the result on the context
  */
 function setResult(context, value) {
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         context.result = value;
         context.hasResult = true;
         resolve(context);
@@ -3035,10 +2635,10 @@ function next(c) {
  */
 function pipe(context) {
     if (context.pipes.length < 1) {
-        Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Request pipeline contains no methods!", 3 /* Error */);
+        Logger.write(`[${context.requestId}] (${(new Date()).getTime()}) Request pipeline contains no methods!`, 3 /* Error */);
         throw Error("Request pipeline contains no methods!");
     }
-    var promise = next(context).then(function (ctx) { return returnResult(ctx); }).catch(function (e) {
+    const promise = next(context).then(ctx => returnResult(ctx)).catch((e) => {
         Logger.error(e);
         throw e;
     });
@@ -3051,153 +2651,144 @@ function pipe(context) {
 /**
  * decorator factory applied to methods in the pipeline to control behavior
  */
-function requestPipelineMethod(alwaysRun) {
-    if (alwaysRun === void 0) { alwaysRun = false; }
-    return function (target, propertyKey, descriptor) {
-        var method = descriptor.value;
-        descriptor.value = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
+function requestPipelineMethod(alwaysRun = false) {
+    return (target, propertyKey, descriptor) => {
+        const method = descriptor.value;
+        descriptor.value = function (...args) {
             // if we have a result already in the pipeline, pass it along and don't call the tagged method
-            if (!alwaysRun && args.length > 0 && Object(common["hOP"])(args[0], "hasResult") && args[0].hasResult) {
-                Logger.write("[" + args[0].requestId + "] (" + (new Date()).getTime() + ") Skipping request pipeline method " + propertyKey + ", existing result in pipeline.", 0 /* Verbose */);
+            if (!alwaysRun && args.length > 0 && hOP(args[0], "hasResult") && args[0].hasResult) {
+                Logger.write(`[${args[0].requestId}] (${(new Date()).getTime()}) Skipping request pipeline method ${propertyKey}, existing result in pipeline.`, 0 /* Verbose */);
                 return Promise.resolve(args[0]);
             }
             // apply the tagged method
-            Logger.write("[" + args[0].requestId + "] (" + (new Date()).getTime() + ") Calling request pipeline method " + propertyKey + ".", 0 /* Verbose */);
+            Logger.write(`[${args[0].requestId}] (${(new Date()).getTime()}) Calling request pipeline method ${propertyKey}.`, 0 /* Verbose */);
             // then chain the next method in the context's pipeline - allows for dynamic pipeline
-            return method.apply(target, args).then(function (ctx) { return next(ctx); });
+            return method.apply(target, args).then((ctx) => next(ctx));
         };
     };
 }
 /**
  * Contains the methods used within the request pipeline
  */
-var pipeline_PipelineMethods = /** @class */ (function () {
-    function PipelineMethods() {
-    }
+class pipeline_PipelineMethods {
     /**
      * Logs the start of the request
      */
-    PipelineMethods.logStart = function (context) {
-        return new Promise(function (resolve) {
+    static logStart(context) {
+        return new Promise(resolve => {
             Logger.log({
                 data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
                 level: 1 /* Info */,
-                message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Beginning " + context.method + " request (" + context.url + ")",
+                message: `[${context.requestId}] (${(new Date()).getTime()}) Beginning ${context.method} request (${context.url})`,
             });
             resolve(context);
         });
-    };
+    }
     /**
      * Handles caching of the request
      */
-    PipelineMethods.caching = function (context) {
-        return new Promise(function (resolve) {
+    static caching(context) {
+        return new Promise(resolve => {
             // handle caching, if applicable
             if (context.useCaching) {
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Caching is enabled for request, checking cache...", 1 /* Info */);
-                var cacheOptions = new caching_CachingOptions(context.url.toLowerCase());
+                Logger.write(`[${context.requestId}] (${(new Date()).getTime()}) Caching is enabled for request, checking cache...`, 1 /* Info */);
+                let cacheOptions = new CachingOptions(context.url.toLowerCase());
                 if (context.cachingOptions !== undefined) {
-                    cacheOptions = Object(common["assign"])(cacheOptions, context.cachingOptions);
+                    cacheOptions = util_assign(cacheOptions, context.cachingOptions);
                 }
                 // we may not have a valid store
                 if (cacheOptions.store !== null) {
                     // check if we have the data in cache and if so resolve the promise and return
-                    var data = cacheOptions.store.get(cacheOptions.key);
+                    let data = cacheOptions.store.get(cacheOptions.key);
                     if (data !== null) {
                         Logger.log({
                             data: Logger.activeLogLevel === 1 /* Info */ ? {} : data,
                             level: 1 /* Info */,
-                            message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Value returned from cache.",
+                            message: `[${context.requestId}] (${(new Date()).getTime()}) Value returned from cache.`,
                         });
                         // ensure we clear any held batch dependency we are resolving from the cache
-                        if (Object(common["isFunc"])(context.batchDependency)) {
+                        if (isFunc(context.batchDependency)) {
                             context.batchDependency();
                         }
                         // handle the case where a parser needs to take special actions with a cached result
-                        if (Object(common["hOP"])(context.parser, "hydrate")) {
+                        if (hOP(context.parser, "hydrate")) {
                             data = context.parser.hydrate(data);
                         }
-                        return setResult(context, data).then(function (ctx) { return resolve(ctx); });
+                        return setResult(context, data).then(ctx => resolve(ctx));
                     }
                 }
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Value not found in cache.", 1 /* Info */);
+                Logger.write(`[${context.requestId}] (${(new Date()).getTime()}) Value not found in cache.`, 1 /* Info */);
                 // if we don't then wrap the supplied parser in the caching parser wrapper
                 // and send things on their way
                 context.parser = new CachingParserWrapper(context.parser, cacheOptions);
             }
             return resolve(context);
         });
-    };
+    }
     /**
      * Sends the request
      */
-    PipelineMethods.send = function (context) {
-        return new Promise(function (resolve, reject) {
+    static send(context) {
+        return new Promise((resolve, reject) => {
             // send or batch the request
             if (context.isBatched) {
-                var p = context.batch.add(context);
+                const p = context.batch.add(context);
                 // we release the dependency here to ensure the batch does not execute until the request is added to the batch
-                if (Object(common["isFunc"])(context.batchDependency)) {
+                if (isFunc(context.batchDependency)) {
                     context.batchDependency();
                 }
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Batching request in batch " + context.batch.batchId + ".", 1 /* Info */);
+                Logger.write(`[${context.requestId}] (${(new Date()).getTime()}) Batching request in batch ${context.batch.batchId}.`, 1 /* Info */);
                 // we set the result as the promise which will be resolved by the batch's execution
                 resolve(setResult(context, p));
             }
             else {
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Sending request.", 1 /* Info */);
+                Logger.write(`[${context.requestId}] (${(new Date()).getTime()}) Sending request.`, 1 /* Info */);
                 // we are not part of a batch, so proceed as normal
-                var client = context.clientFactory();
-                var opts = Object(common["assign"])(context.options || {}, { method: context.method });
+                const client = context.clientFactory();
+                const opts = util_assign(context.options || {}, { method: context.method });
                 client.fetch(context.url, opts)
-                    .then(function (response) { return context.parser.parse(response); })
-                    .then(function (result) { return setResult(context, result); })
-                    .then(function (ctx) { return resolve(ctx); })
-                    .catch(function (e) { return reject(e); });
+                    .then(response => context.parser.parse(response))
+                    .then(result => setResult(context, result))
+                    .then(ctx => resolve(ctx))
+                    .catch(e => reject(e));
             }
         });
-    };
+    }
     /**
      * Logs the end of the request
      */
-    PipelineMethods.logEnd = function (context) {
-        return new Promise(function (resolve) {
+    static logEnd(context) {
+        return new Promise(resolve => {
             if (context.isBatched) {
                 Logger.log({
                     data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
                     level: 1 /* Info */,
-                    message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") " + context.method + " request will complete in batch " + context.batch.batchId + ".",
+                    message: `[${context.requestId}] (${(new Date()).getTime()}) ${context.method} request will complete in batch ${context.batch.batchId}.`,
                 });
             }
             else {
                 Logger.log({
                     data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
                     level: 1 /* Info */,
-                    message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Completing " + context.method + " request.",
+                    message: `[${context.requestId}] (${(new Date()).getTime()}) Completing ${context.method} request.`,
                 });
             }
             resolve(context);
         });
-    };
-    tslib_es6_decorate([
-        requestPipelineMethod(true)
-    ], PipelineMethods, "logStart", null);
-    tslib_es6_decorate([
-        requestPipelineMethod()
-    ], PipelineMethods, "caching", null);
-    tslib_es6_decorate([
-        requestPipelineMethod()
-    ], PipelineMethods, "send", null);
-    tslib_es6_decorate([
-        requestPipelineMethod(true)
-    ], PipelineMethods, "logEnd", null);
-    return PipelineMethods;
-}());
-
+    }
+}
+tslib_tslib_es6_decorate([
+    requestPipelineMethod(true)
+], pipeline_PipelineMethods, "logStart", null);
+tslib_tslib_es6_decorate([
+    requestPipelineMethod()
+], pipeline_PipelineMethods, "caching", null);
+tslib_tslib_es6_decorate([
+    requestPipelineMethod()
+], pipeline_PipelineMethods, "send", null);
+tslib_tslib_es6_decorate([
+    requestPipelineMethod(true)
+], pipeline_PipelineMethods, "logEnd", null);
 function getDefaultPipeline() {
     return [
         pipeline_PipelineMethods.logStart,
@@ -3226,18 +2817,18 @@ function pipelineBinder(pipes) {
                     batchDependency: null,
                     batchIndex: -1,
                     cachingOptions: null,
-                    clientFactory: clientFactory,
+                    clientFactory,
                     cloneParentCacheOptions: null,
                     cloneParentWasCaching: false,
                     hasResult: false,
-                    isBatched: Object(common["objectDefinedNotNull"])(o.batch),
-                    method: method,
+                    isBatched: objectDefinedNotNull(o.batch),
+                    method,
                     options: null,
                     parentUrl: "",
                     parser: new parsers_ODataParser(),
                     pipes: pipes.slice(0),
                     query: new Map(),
-                    requestId: Object(common["getGUID"])(),
+                    requestId: getGUID(),
                     url: "",
                     useCaching: /^get$/i.test(o.method) && o.useCaching,
                 }, cloneQueryableData(o)));
@@ -3245,13 +2836,14 @@ function pipelineBinder(pipes) {
         };
     };
 }
-var defaultPipelineBinder = pipelineBinder(getDefaultPipeline());
+const defaultPipelineBinder = pipelineBinder(getDefaultPipeline());
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/request-builders.js
 
-function request_builders_body(o, previous) {
-    return Object.assign({ body: Object(common["jsS"])(o) }, previous);
+function body(o, previous) {
+    return Object.assign({ body: jsS(o) }, previous);
 }
+// eslint-disable-next-line @typescript-eslint/ban-types
 function request_builders_headers(o, previous) {
     return Object.assign({ headers: o }, previous);
 }
@@ -3278,10 +2870,10 @@ function metadata(type) {
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extractweburl.js
 
 function extractWebUrl(candidateUrl) {
-    if (Object(common["stringIsNullOrEmpty"])(candidateUrl)) {
+    if (stringIsNullOrEmpty(candidateUrl)) {
         return "";
     }
-    var index = candidateUrl.indexOf("_api/");
+    let index = candidateUrl.indexOf("_api/");
     if (index < 0) {
         index = candidateUrl.indexOf("_vti_bin/");
     }
@@ -3306,39 +2898,32 @@ function tag(name) {
         if (descriptor === undefined) {
             descriptor = Object.getOwnPropertyDescriptor(target, key);
         }
-        var originalMethod = descriptor.value;
-        descriptor.value = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    this.configure(request_builders_headers({ "X-PnPjs-Tracking": name }));
-                    return [2 /*return*/, originalMethod.apply(this, args)];
-                });
+        const originalMethod = descriptor.value;
+        descriptor.value = function (...args) {
+            return __awaiter(this, void 0, void 0, function* () {
+                this.configure(request_builders_headers({ "X-PnPjs-Tracking": name }));
+                return originalMethod.apply(this, args);
             });
         };
         return descriptor;
     };
 }
-tag.getClientTag = function (h, deleteFromCollection) {
-    if (deleteFromCollection === void 0) { deleteFromCollection = true; }
+tag.getClientTag = (h, deleteFromCollection = true) => {
     if (h.has("X-PnPjs-Tracking")) {
-        var methodName = h.get("X-PnPjs-Tracking");
+        const methodName = h.get("X-PnPjs-Tracking");
         if (deleteFromCollection) {
             h.delete("X-PnPjs-Tracking");
         }
-        if (!Object(common["stringIsNullOrEmpty"])(methodName)) {
+        if (!stringIsNullOrEmpty(methodName)) {
             return methodName;
         }
     }
     return "";
 };
-tag.configure = function (o, name) {
+tag.configure = (o, name) => {
     return o.configure(request_builders_headers({ "X-PnPjs-Tracking": name }));
 };
-tag.isTagged = function (o) {
+tag.isTagged = (o) => {
     return o.data.options.headers && o.data.options.headers["X-PnPjs-Tracking"];
 };
 
@@ -3348,64 +2933,65 @@ tag.isTagged = function (o) {
 
 
 
-
-var sphttpclient_SPHttpClient = /** @class */ (function () {
-    function SPHttpClient(_impl) {
-        if (_impl === void 0) { _impl = SPRuntimeConfig.fetchClientFactory(); }
-        this._impl = _impl;
+class sphttpclient_SPHttpClient {
+    constructor(...args) {
+        // constructor(...args: [runtime: Runtime] | [impl: IHttpClientImpl, runtime?: Runtime]) {
+        var _a;
+        if (args[0] instanceof libconfig_Runtime) {
+            this._runtime = args[0];
+        }
+        else {
+            this._runtime = args.length > 1 && args[1] instanceof libconfig_Runtime ? args[1] : DefaultRuntime;
+            this._impl = args[0];
+        }
+        this._impl = ((_a = this._runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.fetchClientFactory()) || null;
+        if (this._impl === null) {
+            throw Error("Could not generate fetchClientFactory in SPHttpClient.");
+        }
         this._digestCache = getDigestFactory(this);
     }
-    SPHttpClient.prototype.fetch = function (url, options) {
-        if (options === void 0) { options = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var opts, headers, methodName, clientTag, digest;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        opts = Object(common["assign"])(options, { cache: "no-cache", credentials: "same-origin" }, true);
-                        headers = new Headers();
-                        // first we add the global headers so they can be overwritten by any passed in locally to this call
-                        Object(common["mergeHeaders"])(headers, SPRuntimeConfig.headers);
-                        // second we add the local options so we can overwrite the globals
-                        Object(common["mergeHeaders"])(headers, options.headers);
-                        // lastly we apply any default headers we need that may not exist
-                        if (!headers.has("Accept")) {
-                            headers.append("Accept", "application/json");
-                        }
-                        if (!headers.has("Content-Type")) {
-                            headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
-                        }
-                        if (!headers.has("X-ClientService-ClientTag")) {
-                            methodName = tag.getClientTag(headers);
-                            clientTag = "PnPCoreJS:2.0.12:" + methodName;
-                            if (clientTag.length > 32) {
-                                clientTag = clientTag.substr(0, 32);
-                            }
-                            headers.append("X-ClientService-ClientTag", clientTag);
-                        }
-                        opts = Object(common["assign"])(opts, { headers: headers });
-                        if (!(opts.method && opts.method.toUpperCase() !== "GET" && !headers.has("X-RequestDigest") && !headers.has("Authorization"))) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this._digestCache(extractWebUrl(url))];
-                    case 1:
-                        digest = _a.sent();
-                        headers.append("X-RequestDigest", digest);
-                        _a.label = 2;
-                    case 2: return [2 /*return*/, this.fetchRaw(url, opts)];
+    fetch(url, options = {}) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function* () {
+            let opts = util_assign(options, { cache: "no-cache", credentials: "same-origin" }, true);
+            const headers = new Headers();
+            // first we add the global headers so they can be overwritten by any passed in locally to this call
+            mergeHeaders(headers, (_b = (_a = this._runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.sp) === null || _b === void 0 ? void 0 : _b.headers);
+            // second we add the local options so we can overwrite the globals
+            mergeHeaders(headers, options.headers);
+            // lastly we apply any default headers we need that may not exist
+            if (!headers.has("Accept")) {
+                headers.append("Accept", "application/json");
+            }
+            if (!headers.has("Content-Type")) {
+                headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
+            }
+            if (!headers.has("X-ClientService-ClientTag")) {
+                const methodName = tag.getClientTag(headers);
+                let clientTag = `PnPCoreJS:2.1.0:${methodName}`;
+                if (clientTag.length > 32) {
+                    clientTag = clientTag.substr(0, 32);
                 }
-            });
+                headers.append("X-ClientService-ClientTag", clientTag);
+            }
+            opts = util_assign(opts, { headers: headers });
+            // if we have either a request digest or an authorization header we don't need a digest
+            if (opts.method && opts.method.toUpperCase() !== "GET" && !headers.has("X-RequestDigest") && !headers.has("Authorization")) {
+                const digest = yield this._digestCache(extractWebUrl(url));
+                headers.append("X-RequestDigest", digest);
+            }
+            return this.fetchRaw(url, opts);
         });
-    };
-    SPHttpClient.prototype.fetchRaw = function (url, options) {
-        var _this = this;
-        if (options === void 0) { options = {}; }
+    }
+    fetchRaw(url, options = {}) {
         // here we need to normalize the headers
-        var rawHeaders = new Headers();
-        Object(common["mergeHeaders"])(rawHeaders, options.headers);
-        options = Object(common["assign"])(options, { headers: rawHeaders });
-        var retry = function (ctx) {
+        const rawHeaders = new Headers();
+        mergeHeaders(rawHeaders, options.headers);
+        options = util_assign(options, { headers: rawHeaders });
+        const retry = (ctx) => {
             // handles setting the proper timeout for a retry
-            var setRetry = function (response) {
-                var delay;
+            const setRetry = (response) => {
+                let delay;
                 if (response.headers.has("Retry-After")) {
                     // if we have gotten a header, use that value as the delay value in seconds
                     delay = parseInt(response.headers.get("Retry-After"), 10) * 1000;
@@ -3419,15 +3005,15 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                 ctx.attempts++;
                 // If we have exceeded the retry count, reject.
                 if (ctx.retryCount <= ctx.attempts) {
-                    ctx.reject(Error("Retry count exceeded (" + ctx.retryCount + ") for request. Response status: [" + response.status + "] " + response.statusText));
+                    ctx.reject(Error(`Retry count exceeded (${ctx.retryCount}) for request. Response status: [${response.status}] ${response.statusText}`));
                 }
                 else {
                     // Set our retry timeout for {delay} milliseconds.
-                    setTimeout(Object(common["getCtxCallback"])(_this, retry, ctx), delay);
+                    setTimeout(getCtxCallback(this, retry, ctx), delay);
                 }
             };
             // send the actual request
-            _this._impl.fetch(url, options).then(function (response) {
+            this._impl.fetch(url, options).then((response) => {
                 if (response.status === 429) {
                     // we have been throttled
                     setRetry(response);
@@ -3435,7 +3021,7 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                 else {
                     ctx.resolve(response);
                 }
-            }).catch(function (response) {
+            }).catch((response) => {
                 if (response.status === 503 || response.status === 504) {
                     // http status code 503 or 504, we can retry this
                     setRetry(response);
@@ -3445,8 +3031,8 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                 }
             });
         };
-        return new Promise(function (resolve, reject) {
-            retry.call(_this, {
+        return new Promise((resolve, reject) => {
+            retry.call(this, {
                 attempts: 0,
                 delay: 100,
                 reject: reject,
@@ -3454,75 +3040,58 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                 retryCount: 7,
             });
         });
-    };
-    SPHttpClient.prototype.get = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = Object(common["assign"])(options, { method: "GET" });
+    }
+    get(url, options = {}) {
+        const opts = util_assign(options, { method: "GET" });
         return this.fetch(url, opts);
-    };
-    SPHttpClient.prototype.post = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = Object(common["assign"])(options, { method: "POST" });
+    }
+    post(url, options = {}) {
+        const opts = util_assign(options, { method: "POST" });
         return this.fetch(url, opts);
-    };
-    SPHttpClient.prototype.patch = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = Object(common["assign"])(options, { method: "PATCH" });
+    }
+    patch(url, options = {}) {
+        const opts = util_assign(options, { method: "PATCH" });
         return this.fetch(url, opts);
-    };
-    SPHttpClient.prototype.delete = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = Object(common["assign"])(options, { method: "DELETE" });
+    }
+    delete(url, options = {}) {
+        const opts = util_assign(options, { method: "DELETE" });
         return this.fetch(url, opts);
-    };
-    return SPHttpClient;
-}());
-
+    }
+}
 // allows for the caching of digests across all HttpClient's which each have their own DigestCache wrapper.
-var digests = new Map();
+const digests = new Map();
 function getDigestFactory(client) {
-    var _this = this;
-    return function (webUrl) { return __awaiter(_this, void 0, void 0, function () {
-        var cachedDigest, now, url, headers, resp, parsed, newCachedDigest;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    cachedDigest = digests.get(webUrl);
-                    if (cachedDigest !== undefined) {
-                        now = new Date();
-                        if (now < cachedDigest.expiration) {
-                            return [2 /*return*/, cachedDigest.value];
-                        }
-                    }
-                    url = Object(common["combine"])(webUrl, "/_api/contextinfo");
-                    headers = {
-                        "Accept": "application/json;odata=verbose",
-                        "Content-Type": "application/json;odata=verbose;charset=utf-8",
-                    };
-                    return [4 /*yield*/, client.fetchRaw(url, {
-                            cache: "no-cache",
-                            credentials: "same-origin",
-                            headers: Object(common["assign"])(headers, SPRuntimeConfig.headers, true),
-                            method: "POST",
-                        })];
-                case 1:
-                    resp = _a.sent();
-                    return [4 /*yield*/, (new parsers_ODataParser()).parse(resp).then(function (r) { return r.GetContextWebInformation; })];
-                case 2:
-                    parsed = _a.sent();
-                    newCachedDigest = {
-                        expiration: Object(common["dateAdd"])(new Date(), "second", parsed.FormDigestTimeoutSeconds),
-                        value: parsed.FormDigestValue,
-                    };
-                    digests.set(webUrl, newCachedDigest);
-                    return [2 /*return*/, newCachedDigest.value];
+    return (webUrl) => __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
+        const cachedDigest = digests.get(webUrl);
+        if (cachedDigest !== undefined) {
+            const now = new Date();
+            if (now < cachedDigest.expiration) {
+                return cachedDigest.value;
             }
+        }
+        const url = combine(webUrl, "/_api/contextinfo");
+        const headers = {
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose;charset=utf-8",
+        };
+        const resp = yield client.fetchRaw(url, {
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: util_assign(headers, (_b = (_a = client._runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.sp) === null || _b === void 0 ? void 0 : _b.headers, true),
+            method: "POST",
         });
-    }); };
+        const parsed = yield (new parsers_ODataParser()).parse(resp).then(r => r.GetContextWebInformation);
+        const newCachedDigest = {
+            expiration: dateAdd(new Date(), "second", parsed.FormDigestTimeoutSeconds),
+            value: parsed.FormDigestValue,
+        };
+        digests.set(webUrl, newCachedDigest);
+        return newCachedDigest.value;
+    });
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/toabsoluteurl.js
-
 
 
 /**
@@ -3531,39 +3100,54 @@ function getDigestFactory(client) {
  * @param candidateUrl The url to make absolute
  *
  */
-function toAbsoluteUrl(candidateUrl) {
-    return __awaiter(this, void 0, void 0, function () {
-        var baseUrl_1;
-        return __generator(this, function (_a) {
-            if (Object(common["isUrlAbsolute"])(candidateUrl)) {
-                // if we are already absolute, then just return the url
-                return [2 /*return*/, candidateUrl];
+function toAbsoluteUrl(candidateUrl, runtime = DefaultRuntime) {
+    var _a, _b;
+    return __awaiter(this, void 0, void 0, function* () {
+        if (isUrlAbsolute(candidateUrl)) {
+            // if we are already absolute, then just return the url
+            return candidateUrl;
+        }
+        const baseUrl = (_a = runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.baseUrl;
+        const fetchClientFactory = (_b = runtime.get("sp")) === null || _b === void 0 ? void 0 : _b.fetchClientFactory;
+        if (!stringIsNullOrEmpty(baseUrl)) {
+            // base url specified either with baseUrl of spfxContext config property
+            return combine(baseUrl, candidateUrl);
+        }
+        // use a passed context if provided, if not see if we get one from the current runtime
+        const context = runtime.get("spfxContext");
+        if (context) {
+            return combine(context.pageContext.web.absoluteUrl, candidateUrl);
+        }
+        // to make the existing node client work in a backwards compatible way we do the following (hacky thing)
+        // get the client
+        // see if it has a siteUrl property
+        // use that to absolute the url
+        if (fetchClientFactory) {
+            const tempClient = fetchClientFactory();
+            if (hOP(tempClient, "siteUrl")) {
+                return combine(tempClient.siteUrl, candidateUrl);
             }
-            if (SPRuntimeConfig.baseUrl !== null) {
-                // base url specified either with baseUrl of spfxContext config property
-                return [2 /*return*/, Object(common["combine"])(SPRuntimeConfig.baseUrl, candidateUrl)];
+        }
+        if (safe_global["a" /* safeGlobal */]._spPageContextInfo !== undefined) {
+            // operating in classic pages
+            if (hOP(safe_global["a" /* safeGlobal */]._spPageContextInfo, "webAbsoluteUrl")) {
+                return combine(safe_global["a" /* safeGlobal */]._spPageContextInfo.webAbsoluteUrl, candidateUrl);
             }
-            if (common["safeGlobal"]._spPageContextInfo !== undefined) {
-                // operating in classic pages
-                if (Object(common["hOP"])(common["safeGlobal"]._spPageContextInfo, "webAbsoluteUrl")) {
-                    return [2 /*return*/, Object(common["combine"])(common["safeGlobal"]._spPageContextInfo.webAbsoluteUrl, candidateUrl)];
+            else if (hOP(safe_global["a" /* safeGlobal */]._spPageContextInfo, "webServerRelativeUrl")) {
+                return combine(safe_global["a" /* safeGlobal */]._spPageContextInfo.webServerRelativeUrl, candidateUrl);
+            }
+        }
+        // does window.location exist and have a certain path part in it?
+        if (safe_global["a" /* safeGlobal */].location !== undefined) {
+            const location = safe_global["a" /* safeGlobal */].location.toString().toLowerCase();
+            ["/_layouts/", "/siteassets/", "/sitepages/"].forEach((s) => {
+                const index = location.indexOf(s);
+                if (index > 0) {
+                    return combine(location.substr(0, index), candidateUrl);
                 }
-                else if (Object(common["hOP"])(common["safeGlobal"]._spPageContextInfo, "webServerRelativeUrl")) {
-                    return [2 /*return*/, Object(common["combine"])(common["safeGlobal"]._spPageContextInfo.webServerRelativeUrl, candidateUrl)];
-                }
-            }
-            // does window.location exist and have a certain path part in it?
-            if (common["safeGlobal"].location !== undefined) {
-                baseUrl_1 = common["safeGlobal"].location.toString().toLowerCase();
-                ["/_layouts/", "/siteassets/"].forEach(function (s) {
-                    var index = baseUrl_1.indexOf(s);
-                    if (index > 0) {
-                        return Object(common["combine"])(baseUrl_1.substr(0, index), candidateUrl);
-                    }
-                });
-            }
-            return [2 /*return*/, candidateUrl];
-        });
+            });
+        }
+        return candidateUrl;
     });
 }
 
@@ -3574,33 +3158,30 @@ function toAbsoluteUrl(candidateUrl) {
 
 
 function registerCustomRequestClientFactory(requestClientFactory) {
-    operations_factory = Object(common["isFunc"])(requestClientFactory) ? requestClientFactory : function () { return new sphttpclient_SPHttpClient(); };
+    httpClientFactory = isFunc(requestClientFactory) ? () => requestClientFactory : defaultFactory;
 }
-var operations_factory = function () { return new sphttpclient_SPHttpClient(); };
-var send = function (method) {
-    var operation = defaultPipelineBinder(operations_factory)(method);
+const defaultFactory = (runtime) => () => new sphttpclient_SPHttpClient(runtime);
+let httpClientFactory = defaultFactory;
+const send = (method) => {
     return function (o, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data, batchDependency, url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        data = cloneQueryableData(o.data);
-                        batchDependency = Object(common["objectDefinedNotNull"])(data.batch) ? data.batch.addDependency() : function () { return; };
-                        return [4 /*yield*/, toAbsoluteUrl(o.toUrlAndQuery())];
-                    case 1:
-                        url = _a.sent();
-                        Object(common["mergeOptions"])(data.options, options);
-                        return [2 /*return*/, operation(Object.assign({}, data, {
-                                batchDependency: batchDependency,
-                                url: url,
-                            }))];
-                }
-            });
+        return __awaiter(this, void 0, void 0, function* () {
+            // use the current runtime
+            const runtime = o.getRuntime();
+            const operation = defaultPipelineBinder(httpClientFactory(runtime))(method);
+            const data = cloneQueryableData(o.data);
+            const batchDependency = objectDefinedNotNull(data.batch) ? data.batch.addDependency() : () => {
+                return;
+            };
+            const url = yield toAbsoluteUrl(o.toUrlAndQuery(), runtime);
+            mergeOptions(data.options, options);
+            return operation(Object.assign({}, data, {
+                batchDependency,
+                url,
+            }));
         });
     };
 };
-var spGet = function (o, options) {
+const spGet = (o, options) => {
     // Fix for #304 - when we clone objects we in some cases then execute a get request
     // in these cases the caching settings were getting dropped from the request
     // this tracks if the object from which this was cloned was caching and applies that to an immediate get request
@@ -3615,16 +3196,15 @@ var spGet = function (o, options) {
     }
     return send("GET")(o, options);
 };
-var spPost = function (o, options) { return send("POST")(o, options); };
-var spDelete = function (o, options) { return send("DELETE")(o, options); };
-var spPatch = function (o, options) { return send("PATCH")(o, options); };
-var spPostDelete = function (o, options) {
-    var opts = Object.assign(request_builders_headers({ "X-HTTP-Method": "DELETE" }), options);
+const spPost = (o, options) => send("POST")(o, options);
+const spDelete = (o, options) => send("DELETE")(o, options);
+const spPatch = (o, options) => send("PATCH")(o, options);
+const spPostDelete = (o, options) => {
+    const opts = Object.assign(request_builders_headers({ "X-HTTP-Method": "DELETE" }), options);
     return spPost(o, opts);
 };
-var spPostDeleteETag = function (o, options, eTag) {
-    if (eTag === void 0) { eTag = "*"; }
-    var opts = Object.assign(request_builders_headers({ "X-HTTP-Method": "DELETE", "IF-Match": eTag }), options);
+const spPostDeleteETag = (o, options, eTag = "*") => {
+    const opts = Object.assign(request_builders_headers({ "X-HTTP-Method": "DELETE", "IF-Match": eTag }), options);
     return spPost(o, opts);
 };
 
@@ -3635,16 +3215,14 @@ var spPostDeleteETag = function (o, options, eTag) {
 
 
 
-
-var spInvokableFactory = function (f) {
+const spInvokableFactory = (f) => {
     return invokableFactory(f);
 };
 /**
  * SharePointQueryable Base Class
  *
  */
-var sharepointqueryable_SharePointQueryable = /** @class */ (function (_super) {
-    __extends(_SharePointQueryable, _super);
+class sharepointqueryable_SharePointQueryable extends queryable_Queryable {
     /**
      * Creates a new instance of the SharePointQueryable class
      *
@@ -3652,102 +3230,92 @@ var sharepointqueryable_SharePointQueryable = /** @class */ (function (_super) {
      * @param baseUrl A string or SharePointQueryable that should form the base part of the url
      *
      */
-    function _SharePointQueryable(baseUrl, path) {
-        var _this = this;
-        var url = "";
-        var parentUrl = "";
-        var query = new Map();
+    constructor(baseUrl, path) {
+        let url = "";
+        let parentUrl = "";
+        const query = new Map();
         if (typeof baseUrl === "string") {
             // we need to do some extra parsing to get the parent url correct if we are
             // being created from just a string.
-            if (Object(common["isUrlAbsolute"])(baseUrl) || baseUrl.lastIndexOf("/") < 0) {
+            if (isUrlAbsolute(baseUrl) || baseUrl.lastIndexOf("/") < 0) {
                 parentUrl = baseUrl;
-                url = Object(common["combine"])(baseUrl, path);
+                url = combine(baseUrl, path);
             }
             else if (baseUrl.lastIndexOf("/") > baseUrl.lastIndexOf("(")) {
                 // .../items(19)/fields
-                var index = baseUrl.lastIndexOf("/");
+                const index = baseUrl.lastIndexOf("/");
                 parentUrl = baseUrl.slice(0, index);
-                path = Object(common["combine"])(baseUrl.slice(index), path);
-                url = Object(common["combine"])(parentUrl, path);
+                path = combine(baseUrl.slice(index), path);
+                url = combine(parentUrl, path);
             }
             else {
                 // .../items(19)
-                var index = baseUrl.lastIndexOf("(");
+                const index = baseUrl.lastIndexOf("(");
                 parentUrl = baseUrl.slice(0, index);
-                url = Object(common["combine"])(baseUrl, path);
+                url = combine(baseUrl, path);
             }
         }
         else {
             parentUrl = baseUrl.toUrl();
-            url = Object(common["combine"])(parentUrl, path || "");
-            var target = baseUrl.query.get("@target");
+            url = combine(parentUrl, path || "");
+            const target = baseUrl.query.get("@target");
             if (target !== undefined) {
                 query.set("@target", target);
             }
         }
         // init base with correct values for data seed
-        _this = _super.call(this, {
-            parentUrl: parentUrl,
-            query: query,
-            url: url,
-        }) || this;
+        super({
+            parentUrl,
+            query,
+            url,
+        });
         // post init actions
         if (typeof baseUrl !== "string") {
-            _this.configureFrom(baseUrl);
+            this.configureFrom(baseUrl);
         }
-        _this._forceCaching = false;
-        return _this;
+        this._forceCaching = false;
     }
     /**
      * Gets the full url with query information
      */
-    _SharePointQueryable.prototype.toUrlAndQuery = function () {
-        var aliasedParams = new Map(this.query);
-        var url = this.toUrl().replace(/'!(@.*?)::(.*?)'/ig, function (match, labelName, value) {
-            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + value, 0 /* Verbose */);
-            aliasedParams.set(labelName, "'" + value + "'");
+    toUrlAndQuery() {
+        const aliasedParams = new Map(this.query);
+        let url = this.toUrl().replace(/'!(@.*?)::(.*?)'/ig, (match, labelName, value) => {
+            Logger.write(`Rewriting aliased parameter from match ${match} to label: ${labelName} value: ${value}`, 0 /* Verbose */);
+            aliasedParams.set(labelName, `'${value}'`);
             return labelName;
         });
         if (aliasedParams.size > 0) {
-            var char = url.indexOf("?") > -1 ? "&" : "?";
-            url += "" + char + Array.from(aliasedParams).map(function (v) { return v[0] + "=" + v[1]; }).join("&");
+            const char = url.indexOf("?") > -1 ? "&" : "?";
+            url += `${char}${Array.from(aliasedParams).map((v) => v[0] + "=" + v[1]).join("&")}`;
         }
         return url;
-    };
+    }
     /**
      * Choose which fields to return
      *
      * @param selects One or more fields to return
      */
-    _SharePointQueryable.prototype.select = function () {
-        var selects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            selects[_i] = arguments[_i];
-        }
+    select(...selects) {
         if (selects.length > 0) {
             this.query.set("$select", selects.map(encodeURIComponent).join(","));
         }
         return this;
-    };
-    _SharePointQueryable.prototype.get = function (options) {
+    }
+    get(options) {
         return spGet(this, options);
-    };
+    }
     /**
      * Expands fields such as lookups to get additional data
      *
      * @param expands The Fields for which to expand the values
      */
-    _SharePointQueryable.prototype.expand = function () {
-        var expands = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            expands[_i] = arguments[_i];
-        }
+    expand(...expands) {
         if (expands.length > 0) {
             this.query.set("$expand", expands.map(encodeURIComponent).join(","));
         }
         return this;
-    };
+    }
     /**
      * Clones this SharePointQueryable into a new SharePointQueryable instance of T
      * @param factory Constructor used to create the new instance
@@ -3755,37 +3323,34 @@ var sharepointqueryable_SharePointQueryable = /** @class */ (function (_super) {
      * @param includeBatch If true this instance's batch will be added to the cloned instance
      * @param includeQuery If true all of the query values will be copied to the cloned instance
      */
-    _SharePointQueryable.prototype.clone = function (factory, additionalPath, includeBatch, includeQuery) {
-        if (includeBatch === void 0) { includeBatch = true; }
-        if (includeQuery === void 0) { includeQuery = false; }
-        var clone = _super.prototype.cloneTo.call(this, factory(this, additionalPath), { includeBatch: includeBatch, includeQuery: includeQuery });
+    clone(factory, additionalPath, includeBatch = true, includeQuery = false) {
+        const clone = super.cloneTo(factory(this, additionalPath), { includeBatch, includeQuery });
         // handle sp specific clone actions
         if (!includeQuery) {
             // we would have already copied this over if we got the entire query
-            var t = "@target";
+            const t = "@target";
             if (this.query.has(t)) {
                 clone.query.set(t, this.query.get(t));
             }
         }
         return clone;
-    };
+    }
     /**
      * The default action for this object (unless overridden spGet)
      *
      * @param options optional request options
      */
-    _SharePointQueryable.prototype.defaultAction = function (options) {
+    defaultAction(options) {
         return spGet(this, options);
-    };
+    }
     /**
      * Gets a parent for this instance as specified
      *
      * @param factory The contructor for the class to create
      */
-    _SharePointQueryable.prototype.getParent = function (factory, baseUrl, path, batch) {
-        if (baseUrl === void 0) { baseUrl = this.parentUrl; }
-        var parent = factory(baseUrl, path).configureFrom(this);
-        var t = "@target";
+    getParent(factory, baseUrl = this.parentUrl, path, batch) {
+        let parent = factory(baseUrl, path).configureFrom(this);
+        const t = "@target";
         if (this.query.has(t)) {
             parent.query.set(t, this.query.get(t));
         }
@@ -3793,105 +3358,88 @@ var sharepointqueryable_SharePointQueryable = /** @class */ (function (_super) {
             parent = parent.inBatch(batch);
         }
         return parent;
-    };
-    return _SharePointQueryable;
-}(queryable_Queryable));
-
-var SharePointQueryable = spInvokableFactory(sharepointqueryable_SharePointQueryable);
+    }
+}
+const SharePointQueryable = spInvokableFactory(sharepointqueryable_SharePointQueryable);
 /**
  * Represents a REST collection which can be filtered, paged, and selected
  *
  */
-var sharepointqueryable_SharePointQueryableCollection = /** @class */ (function (_super) {
-    __extends(_SharePointQueryableCollection, _super);
-    function _SharePointQueryableCollection() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+class _SharePointQueryableCollection extends sharepointqueryable_SharePointQueryable {
     /**
      * Filters the returned collection (https://msdn.microsoft.com/en-us/library/office/fp142385.aspx#bk_supported)
      *
      * @param filter The string representing the filter query
      */
-    _SharePointQueryableCollection.prototype.filter = function (filter) {
+    filter(filter) {
         this.query.set("$filter", encodeURIComponent(filter));
         return this;
-    };
+    }
     /**
      * Orders based on the supplied fields
      *
      * @param orderby The name of the field on which to sort
      * @param ascending If false DESC is appended, otherwise ASC (default)
      */
-    _SharePointQueryableCollection.prototype.orderBy = function (orderBy, ascending) {
-        if (ascending === void 0) { ascending = true; }
-        var o = "$orderby";
-        var query = this.query.has(o) ? this.query.get(o).split(",") : [];
-        query.push(encodeURIComponent(orderBy) + " " + (ascending ? "asc" : "desc"));
+    orderBy(orderBy, ascending = true) {
+        const o = "$orderby";
+        const query = this.query.has(o) ? this.query.get(o).split(",") : [];
+        query.push(`${encodeURIComponent(orderBy)} ${ascending ? "asc" : "desc"}`);
         this.query.set(o, query.join(","));
         return this;
-    };
+    }
     /**
      * Skips the specified number of items
      *
      * @param skip The number of items to skip
      */
-    _SharePointQueryableCollection.prototype.skip = function (skip) {
+    skip(skip) {
         this.query.set("$skip", skip.toString());
         return this;
-    };
+    }
     /**
      * Limits the query to only return the specified number of items
      *
      * @param top The query row limit
      */
-    _SharePointQueryableCollection.prototype.top = function (top) {
+    top(top) {
         this.query.set("$top", top.toString());
         return this;
-    };
-    return _SharePointQueryableCollection;
-}(sharepointqueryable_SharePointQueryable));
-
-var SharePointQueryableCollection = spInvokableFactory(sharepointqueryable_SharePointQueryableCollection);
+    }
+}
+const SharePointQueryableCollection = spInvokableFactory(_SharePointQueryableCollection);
 /**
  * Represents an instance that can be selected
  *
  */
-var sharepointqueryable_SharePointQueryableInstance = /** @class */ (function (_super) {
-    __extends(_SharePointQueryableInstance, _super);
-    function _SharePointQueryableInstance() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+class sharepointqueryable_SharePointQueryableInstance extends sharepointqueryable_SharePointQueryable {
     /**
      * Curries the update function into the common pieces
      *
      * @param type
      * @param mapper
      */
-    _SharePointQueryableInstance.prototype._update = function (type, mapper) {
-        var _this = this;
-        return function (props) { return spPost(tag.configure(_this, type + ".Update"), {
-            body: Object(common["jsS"])(Object(common["assign"])(metadata(type), props)),
+    _update(type, mapper) {
+        return (props) => spPost(tag.configure(this, `${type}.Update`), {
+            body: jsS(util_assign(metadata(type), props)),
             headers: {
                 "X-HTTP-Method": "MERGE",
             },
-        }).then(function (d) { return mapper(d, props); }); };
-    };
-    return _SharePointQueryableInstance;
-}(sharepointqueryable_SharePointQueryable));
-
-var SharePointQueryableInstance = spInvokableFactory(sharepointqueryable_SharePointQueryableInstance);
+        }).then((d) => mapper(d, props));
+    }
+}
+const SharePointQueryableInstance = spInvokableFactory(sharepointqueryable_SharePointQueryableInstance);
 /**
  * Adds the a delete method to the tagged class taking no parameters and calling spPostDelete
  */
 function deleteable(t) {
     return function () {
-        return spPostDelete(tag.configure(this, t + ".delete"));
+        return spPostDelete(tag.configure(this, `${t}.delete`));
     };
 }
 function deleteableWithETag(t) {
-    return function (eTag) {
-        if (eTag === void 0) { eTag = "*"; }
-        return spPostDeleteETag(tag.configure(this, t + ".delete"), {}, eTag);
+    return function (eTag = "*") {
+        return spPostDeleteETag(tag.configure(this, `${t}.delete`), {}, eTag);
     };
 }
 
@@ -3899,25 +3447,19 @@ function deleteableWithETag(t) {
 /**
  * Class Decorators
  */
-
 /**
  * Decorator used to specify the default path for SharePointQueryable objects
  *
  * @param path
  */
 function defaultPath(path) {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_1, _super);
-            function class_1() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                return _super.call(this, args[0], args.length > 1 && args[1] !== undefined ? args[1] : path) || this;
+        return class extends target {
+            constructor(...args) {
+                super(args[0], args.length > 1 && args[1] !== undefined ? args[1] : path);
             }
-            return class_1;
-        }(target));
+        };
     };
 }
 // TODO::?
@@ -3929,32 +3471,31 @@ function defaultPath(path) {
 
 
 
-
 function odataUrlFrom(candidate) {
-    var parts = [];
-    var s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
-    if (Object(common["hOP"])(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
+    const parts = [];
+    const s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
+    if (hOP(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
         // webs return an absolute url in the id
-        if (Object(common["hOP"])(candidate, s[4])) {
+        if (hOP(candidate, s[4])) {
             parts.push(candidate[s[4]]);
         }
-        else if (Object(common["hOP"])(candidate, s[2])) {
+        else if (hOP(candidate, s[2])) {
             // we are dealing with verbose, which has an absolute uri
             parts.push(candidate.__metadata.uri);
         }
     }
     else {
-        if (Object(common["hOP"])(candidate, s[3]) && Object(common["hOP"])(candidate, s[1])) {
+        if (hOP(candidate, s[3]) && hOP(candidate, s[1])) {
             // we are dealign with minimal metadata (default)
             // some entities return an abosolute url in the editlink while for others it is relative
             // without the _api. This code is meant to handle both situations
-            var editLink = Object(common["isUrlAbsolute"])(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
+            const editLink = isUrlAbsolute(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
             parts.push(extractWebUrl(candidate[s[3]]), "_api", editLink);
         }
-        else if (Object(common["hOP"])(candidate, s[1])) {
+        else if (hOP(candidate, s[1])) {
             parts.push("_api", candidate[s[1]]);
         }
-        else if (Object(common["hOP"])(candidate, s[2])) {
+        else if (hOP(candidate, s[2])) {
             // we are dealing with verbose, which has an absolute uri
             parts.push(candidate.__metadata.uri);
         }
@@ -3963,52 +3504,44 @@ function odataUrlFrom(candidate) {
         Logger.write("No uri information found in ODataEntity parsing, chaining will fail for this object.", 2 /* Warning */);
         return "";
     }
-    return common["combine"].apply(void 0, __spread(parts));
+    return combine(...parts);
 }
-var odata_SPODataEntityParserImpl = /** @class */ (function (_super) {
-    __extends(SPODataEntityParserImpl, _super);
-    function SPODataEntityParserImpl(factory) {
-        var _this = _super.call(this) || this;
-        _this.factory = factory;
-        _this.hydrate = function (d) {
-            var o = _this.factory(odataUrlFrom(d), null);
-            return Object(common["assign"])(o, d);
+class odata_SPODataEntityParserImpl extends parsers_ODataParser {
+    constructor(factory) {
+        super();
+        this.factory = factory;
+        this.hydrate = (d) => {
+            const o = this.factory(odataUrlFrom(d), null);
+            return util_assign(o, d);
         };
-        return _this;
     }
-    SPODataEntityParserImpl.prototype.parse = function (r) {
-        var _this = this;
-        return _super.prototype.parse.call(this, r).then(function (d) {
-            var o = _this.factory(odataUrlFrom(d), null);
-            return Object(common["assign"])(o, d);
+    parse(r) {
+        return super.parse(r).then((d) => {
+            const o = this.factory(odataUrlFrom(d), null);
+            return util_assign(o, d);
         });
-    };
-    return SPODataEntityParserImpl;
-}(parsers_ODataParser));
-var odata_SPODataEntityArrayParserImpl = /** @class */ (function (_super) {
-    __extends(SPODataEntityArrayParserImpl, _super);
-    function SPODataEntityArrayParserImpl(factory) {
-        var _this = _super.call(this) || this;
-        _this.factory = factory;
-        _this.hydrate = function (d) {
-            return d.map(function (v) {
-                var o = _this.factory(odataUrlFrom(v), null);
-                return Object(common["assign"])(o, v);
+    }
+}
+class odata_SPODataEntityArrayParserImpl extends parsers_ODataParser {
+    constructor(factory) {
+        super();
+        this.factory = factory;
+        this.hydrate = (d) => {
+            return d.map(v => {
+                const o = this.factory(odataUrlFrom(v), null);
+                return util_assign(o, v);
             });
         };
-        return _this;
     }
-    SPODataEntityArrayParserImpl.prototype.parse = function (r) {
-        var _this = this;
-        return _super.prototype.parse.call(this, r).then(function (d) {
-            return d.map(function (v) {
-                var o = _this.factory(odataUrlFrom(v), null);
-                return Object(common["assign"])(o, v);
+    parse(r) {
+        return super.parse(r).then((d) => {
+            return d.map(v => {
+                const o = this.factory(odataUrlFrom(v), null);
+                return util_assign(o, v);
             });
         });
-    };
-    return SPODataEntityArrayParserImpl;
-}(parsers_ODataParser));
+    }
+}
 function spODataEntity(factory) {
     return new odata_SPODataEntityParserImpl(factory);
 }
@@ -4023,33 +3556,31 @@ function spODataEntityArray(factory) {
 
 
 
-
 /**
  * Manages a batch of OData operations
  */
-var batch_SPBatch = /** @class */ (function (_super) {
-    __extends(SPBatch, _super);
-    function SPBatch(baseUrl) {
-        var _this = _super.call(this) || this;
-        _this.baseUrl = baseUrl;
-        return _this;
+class batch_SPBatch extends batch_Batch {
+    constructor(url, runtime = DefaultRuntime) {
+        super();
+        this.url = url;
+        this.runtime = runtime;
     }
     /**
      * Parses the response from a batch request into an array of Response instances
      *
      * @param body Text body of the response from the batch request
      */
-    SPBatch.ParseResponse = function (body) {
-        var responses = [];
-        var header = "--batchresponse_";
+    static ParseResponse(body) {
+        const responses = [];
+        const header = "--batchresponse_";
         // Ex. "HTTP/1.1 500 Internal Server Error"
-        var statusRegExp = new RegExp("^HTTP/[0-9.]+ +([0-9]+) +(.*)", "i");
-        var lines = body.split("\n");
-        var state = "batch";
-        var status;
-        var statusText;
-        for (var i = 0; i < lines.length; ++i) {
-            var line = lines[i];
+        const statusRegExp = new RegExp("^HTTP/[0-9.]+ +([0-9]+) +(.*)", "i");
+        const lines = body.split("\n");
+        let state = "batch";
+        let status;
+        let statusText;
+        for (let i = 0; i < lines.length; ++i) {
+            const line = lines[i];
             switch (state) {
                 case "batch":
                     if (line.substr(0, header.length) === header) {
@@ -4057,7 +3588,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                     }
                     else {
                         if (line.trim() !== "") {
-                            throw Error("Invalid response, line " + i);
+                            throw Error(`Invalid response, line ${i}`);
                         }
                     }
                     break;
@@ -4066,15 +3597,16 @@ var batch_SPBatch = /** @class */ (function (_super) {
                         state = "status";
                     }
                     break;
-                case "status":
-                    var parts = statusRegExp.exec(line);
+                case "status": {
+                    const parts = statusRegExp.exec(line);
                     if (parts.length !== 3) {
-                        throw Error("Invalid status, line " + i);
+                        throw Error(`Invalid status, line ${i}`);
                     }
                     status = parseInt(parts[1], 10);
                     statusText = parts[2];
                     state = "statusHeaders";
                     break;
+                }
                 case "statusHeaders":
                     if (line.trim() === "") {
                         state = "body";
@@ -4090,172 +3622,152 @@ var batch_SPBatch = /** @class */ (function (_super) {
             throw Error("Unexpected end of input");
         }
         return responses;
-    };
-    SPBatch.prototype.executeImpl = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var client, absoluteRequestUrl, batchBody, currentChangeSetId, i, reqInfo, headers, url, method, castHeaders, batchOptions, fetchResponse, text, responses;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Executing batch with " + this.requests.length + " requests.", 1 /* Info */);
-                        // if we don't have any requests, don't bother sending anything
-                        // this could be due to caching further upstream, or just an empty batch
-                        if (this.requests.length < 1) {
-                            Logger.write("Resolving empty batch.", 1 /* Info */);
-                            return [2 /*return*/];
-                        }
-                        client = new sphttpclient_SPHttpClient();
-                        return [4 /*yield*/, toAbsoluteUrl(this.baseUrl)];
-                    case 1:
-                        absoluteRequestUrl = _a.sent();
-                        batchBody = [];
+    }
+    executeImpl() {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            Logger.write(`[${this.batchId}] (${(new Date()).getTime()}) Executing batch with ${this.requests.length} requests.`, 1 /* Info */);
+            // if we don't have any requests, don't bother sending anything
+            // this could be due to caching further upstream, or just an empty batch
+            if (this.requests.length < 1) {
+                Logger.write("Resolving empty batch.", 1 /* Info */);
+                return;
+            }
+            // creating the client here allows the url to be populated for nodejs client as well as potentially
+            // any other hacks needed for other types of clients. Essentially allows the absoluteRequestUrl
+            // below to be correct
+            const client = new sphttpclient_SPHttpClient(this.runtime);
+            // due to timing we need to get the absolute url here so we can use it for all the individual requests
+            // and for sending the entire batch
+            const absoluteRequestUrl = yield toAbsoluteUrl(this.url, this.runtime);
+            // build all the requests, send them, pipe results in order to parsers
+            const batchBody = [];
+            let currentChangeSetId = "";
+            for (let i = 0; i < this.requests.length; i++) {
+                const reqInfo = this.requests[i];
+                if (reqInfo.method === "GET") {
+                    if (currentChangeSetId.length > 0) {
+                        // end an existing change set
+                        batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
                         currentChangeSetId = "";
-                        for (i = 0; i < this.requests.length; i++) {
-                            reqInfo = this.requests[i];
-                            if (reqInfo.method === "GET") {
-                                if (currentChangeSetId.length > 0) {
-                                    // end an existing change set
-                                    batchBody.push("--changeset_" + currentChangeSetId + "--\n\n");
-                                    currentChangeSetId = "";
-                                }
-                                batchBody.push("--batch_" + this.batchId + "\n");
-                            }
-                            else {
-                                if (currentChangeSetId.length < 1) {
-                                    // start new change set
-                                    currentChangeSetId = Object(common["getGUID"])();
-                                    batchBody.push("--batch_" + this.batchId + "\n");
-                                    batchBody.push("Content-Type: multipart/mixed; boundary=\"changeset_" + currentChangeSetId + "\"\n\n");
-                                }
-                                batchBody.push("--changeset_" + currentChangeSetId + "\n");
-                            }
-                            // common batch part prefix
-                            batchBody.push("Content-Type: application/http\n");
-                            batchBody.push("Content-Transfer-Encoding: binary\n\n");
-                            headers = new Headers();
-                            url = Object(common["isUrlAbsolute"])(reqInfo.url) ? reqInfo.url : Object(common["combine"])(absoluteRequestUrl, reqInfo.url);
-                            Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Adding request " + reqInfo.method + " " + url + " to batch.", 0 /* Verbose */);
-                            if (reqInfo.method !== "GET") {
-                                method = reqInfo.method;
-                                castHeaders = reqInfo.options.headers;
-                                if (Object(common["hOP"])(reqInfo, "options") && Object(common["hOP"])(reqInfo.options, "headers") && castHeaders["X-HTTP-Method"] !== undefined) {
-                                    method = castHeaders["X-HTTP-Method"];
-                                    delete castHeaders["X-HTTP-Method"];
-                                }
-                                batchBody.push(method + " " + url + " HTTP/1.1\n");
-                                headers.set("Content-Type", "application/json;odata=verbose;charset=utf-8");
-                            }
-                            else {
-                                batchBody.push(reqInfo.method + " " + url + " HTTP/1.1\n");
-                            }
-                            // merge global config headers
-                            Object(common["mergeHeaders"])(headers, SPRuntimeConfig.headers);
-                            // merge per-request headers
-                            if (reqInfo.options) {
-                                Object(common["mergeHeaders"])(headers, reqInfo.options.headers);
-                            }
-                            // lastly we apply any default headers we need that may not exist
-                            if (!headers.has("Accept")) {
-                                headers.append("Accept", "application/json");
-                            }
-                            if (!headers.has("Content-Type")) {
-                                headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
-                            }
-                            if (!headers.has("X-ClientService-ClientTag")) {
-                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.0.12:batch");
-                            }
-                            // write headers into batch body
-                            headers.forEach(function (value, name) {
-                                batchBody.push(name + ": " + value + "\n");
-                            });
-                            batchBody.push("\n");
-                            if (reqInfo.options.body) {
-                                batchBody.push(reqInfo.options.body + "\n\n");
-                            }
-                        }
-                        if (currentChangeSetId.length > 0) {
-                            // Close the changeset
-                            batchBody.push("--changeset_" + currentChangeSetId + "--\n\n");
-                            currentChangeSetId = "";
-                        }
-                        batchBody.push("--batch_" + this.batchId + "--\n");
-                        batchOptions = {
-                            "body": batchBody.join(""),
-                            "headers": {
-                                "Content-Type": "multipart/mixed; boundary=batch_" + this.batchId,
-                            },
-                            "method": "POST",
-                        };
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Sending batch request.", 1 /* Info */);
-                        return [4 /*yield*/, client.fetch(Object(common["combine"])(absoluteRequestUrl, "/_api/$batch"), batchOptions)];
-                    case 2:
-                        fetchResponse = _a.sent();
-                        if (!!fetchResponse.ok) return [3 /*break*/, 4];
-                        return [4 /*yield*/, parsers_HttpRequestError.init(fetchResponse)];
-                    case 3: 
-                    // the entire batch resulted in an error and we need to handle that better #1356
-                    // things consistently with the rest of the http errors
-                    throw (_a.sent());
-                    case 4: return [4 /*yield*/, fetchResponse.clone().text()];
-                    case 5:
-                        text = _a.sent();
-                        responses = SPBatch.ParseResponse(text);
-                        if (responses.length !== this.requests.length) {
-                            throw Error("Could not properly parse responses to match requests in batch.");
-                        }
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Resolving batched requests.", 1 /* Info */);
-                        // this structure ensures that we resolve the batched requests in the order we expect
-                        // using async this is not guaranteed depending on the requests
-                        return [2 /*return*/, responses.reduce(function (p, response, index) { return p.then(function (_) { return __awaiter(_this, void 0, void 0, function () {
-                                var request, _a, _b, e_1;
-                                return __generator(this, function (_c) {
-                                    switch (_c.label) {
-                                        case 0:
-                                            request = this.requests[index];
-                                            Logger.write("[" + request.id + "] (" + (new Date()).getTime() + ") Resolving request in batch " + this.batchId + ".", 1 /* Info */);
-                                            _c.label = 1;
-                                        case 1:
-                                            _c.trys.push([1, 3, , 4]);
-                                            _b = (_a = request).resolve;
-                                            return [4 /*yield*/, request.parser.parse(response)];
-                                        case 2:
-                                            _b.apply(_a, [_c.sent()]);
-                                            return [3 /*break*/, 4];
-                                        case 3:
-                                            e_1 = _c.sent();
-                                            request.reject(e_1);
-                                            return [3 /*break*/, 4];
-                                        case 4: return [2 /*return*/];
-                                    }
-                                });
-                            }); }); }, Promise.resolve(void (0)))];
+                    }
+                    batchBody.push(`--batch_${this.batchId}\n`);
                 }
-            });
+                else {
+                    if (currentChangeSetId.length < 1) {
+                        // start new change set
+                        currentChangeSetId = getGUID();
+                        batchBody.push(`--batch_${this.batchId}\n`);
+                        batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
+                    }
+                    batchBody.push(`--changeset_${currentChangeSetId}\n`);
+                }
+                // common batch part prefix
+                batchBody.push("Content-Type: application/http\n");
+                batchBody.push("Content-Transfer-Encoding: binary\n\n");
+                // these are the per-request headers
+                const headers = new Headers();
+                // this is the url of the individual request within the batch
+                const url = isUrlAbsolute(reqInfo.url) ? reqInfo.url : combine(absoluteRequestUrl, reqInfo.url);
+                Logger.write(`[${this.batchId}] (${(new Date()).getTime()}) Adding request ${reqInfo.method} ${url} to batch.`, 0 /* Verbose */);
+                if (reqInfo.method !== "GET") {
+                    let method = reqInfo.method;
+                    const castHeaders = reqInfo.options.headers;
+                    if (hOP(reqInfo, "options") && hOP(reqInfo.options, "headers") && castHeaders["X-HTTP-Method"] !== undefined) {
+                        method = castHeaders["X-HTTP-Method"];
+                        delete castHeaders["X-HTTP-Method"];
+                    }
+                    batchBody.push(`${method} ${url} HTTP/1.1\n`);
+                    headers.set("Content-Type", "application/json;odata=verbose;charset=utf-8");
+                }
+                else {
+                    batchBody.push(`${reqInfo.method} ${url} HTTP/1.1\n`);
+                }
+                // merge global config headers
+                mergeHeaders(headers, (_a = this.runtime.get("sp")) === null || _a === void 0 ? void 0 : _a.headers);
+                // merge per-request headers
+                if (reqInfo.options) {
+                    mergeHeaders(headers, reqInfo.options.headers);
+                }
+                // lastly we apply any default headers we need that may not exist
+                if (!headers.has("Accept")) {
+                    headers.append("Accept", "application/json");
+                }
+                if (!headers.has("Content-Type")) {
+                    headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
+                }
+                if (!headers.has("X-ClientService-ClientTag")) {
+                    headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.1.0:batch");
+                }
+                // write headers into batch body
+                headers.forEach((value, name) => {
+                    batchBody.push(`${name}: ${value}\n`);
+                });
+                batchBody.push("\n");
+                if (reqInfo.options.body) {
+                    batchBody.push(`${reqInfo.options.body}\n\n`);
+                }
+            }
+            if (currentChangeSetId.length > 0) {
+                // Close the changeset
+                batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+                currentChangeSetId = "";
+            }
+            batchBody.push(`--batch_${this.batchId}--\n`);
+            const batchOptions = {
+                "body": batchBody.join(""),
+                "headers": {
+                    "Content-Type": `multipart/mixed; boundary=batch_${this.batchId}`,
+                },
+                "method": "POST",
+            };
+            Logger.write(`[${this.batchId}] (${(new Date()).getTime()}) Sending batch request.`, 1 /* Info */);
+            const fetchResponse = yield client.fetch(combine(absoluteRequestUrl, "/_api/$batch"), batchOptions);
+            if (!fetchResponse.ok) {
+                // the entire batch resulted in an error and we need to handle that better #1356
+                // things consistently with the rest of the http errors
+                throw (yield parsers_HttpRequestError.init(fetchResponse));
+            }
+            const text = yield fetchResponse.clone().text();
+            const responses = batch_SPBatch.ParseResponse(text);
+            if (responses.length !== this.requests.length) {
+                throw Error("Could not properly parse responses to match requests in batch.");
+            }
+            Logger.write(`[${this.batchId}] (${(new Date()).getTime()}) Resolving batched requests.`, 1 /* Info */);
+            // this structure ensures that we resolve the batched requests in the order we expect
+            // using async this is not guaranteed depending on the requests
+            return responses.reduce((p, response, index) => p.then(() => __awaiter(this, void 0, void 0, function* () {
+                const request = this.requests[index];
+                Logger.write(`[${request.id}] (${(new Date()).getTime()}) Resolving request in batch ${this.batchId}.`, 1 /* Info */);
+                try {
+                    request.resolve(yield request.parser.parse(response));
+                }
+                catch (e) {
+                    request.reject(e);
+                }
+            })), Promise.resolve(void (0)));
         });
-    };
-    return SPBatch;
-}(batch_Batch));
-
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escapeQueryStrValue.js
 
 
 function escapeQueryStrValue(value) {
-    if (Object(common["stringIsNullOrEmpty"])(value)) {
+    if (stringIsNullOrEmpty(value)) {
         return "";
     }
     // replace all instance of ' with ''
     if (/!(@.*?)::(.*?)/ig.test(value)) {
         // to ensure our param aliasing still works we need to treat these special or we'll hear about it
         // so we encode JUST the part that will end up in the url
-        return value.replace(/!(@.*?)::(.*)$/ig, function (match, labelName, v) {
-            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + v, 0 /* Verbose */);
-            return "!" + labelName + "::" + encodeURIComponent(v.replace(/\'/ig, "''"));
+        return value.replace(/!(@.*?)::(.*)$/ig, (match, labelName, v) => {
+            Logger.write(`Rewriting aliased parameter from match ${match} to label: ${labelName} value: ${v}`, 0 /* Verbose */);
+            return `!${labelName}::${encodeURIComponent(v.replace(/'/ig, "''"))}`;
         });
     }
     else {
-        return encodeURIComponent(value.replace(/\'/ig, "''"));
+        return encodeURIComponent(value.replace(/'/ig, "''"));
     }
 }
 
@@ -4274,161 +3786,104 @@ function escapeQueryStrValue(value) {
 
 
 
-var types_Site = /** @class */ (function (_super) {
-    __extends(_Site, _super);
-    function _Site() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_Site = class _Site extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * Gets the root web of the site collection
+     *
+     */
+    get rootWeb() {
+        return tag.configure(Web(this, "rootweb"), "si.rootWeb");
     }
-    Object.defineProperty(_Site.prototype, "rootWeb", {
-        /**
-        * Gets the root web of the site collection
-        *
-        */
-        get: function () {
-            return tag.configure(Web(this, "rootweb"), "si.rootWeb");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Gets a Web instance representing the root web of the site collection
-     * correctly setup for chaining within the library
-     */
-    _Site.prototype.getRootWeb = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var web;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.rootWeb.select("Url")()];
-                    case 1:
-                        web = _a.sent();
-                        return [2 /*return*/, tag.configure(Web(web.Url), "si.getRootWeb")];
-                }
-            });
-        });
-    };
-    /**
-    * Gets the context information for this site collection
-    */
-    _Site.prototype.getContextInfo = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, data, info;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = tag.configure(Site(this.parentUrl, "_api/contextinfo"), "si.getContextInfo");
-                        return [4 /*yield*/, spPost(q)];
-                    case 1:
-                        data = _a.sent();
-                        if (Object(common["hOP"])(data, "GetContextWebInformation")) {
-                            info = data.GetContextWebInformation;
-                            info.SupportedSchemaVersions = info.SupportedSchemaVersions.results;
-                            return [2 /*return*/, info];
-                        }
-                        else {
-                            return [2 /*return*/, data];
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    _Site.prototype.createBatch = function () {
-        return new batch_SPBatch(this.parentUrl);
-    };
-    /**
-    * Deletes the current site
-    *
-    */
-    _Site.prototype.delete = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var site, q;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(Site, "").select("Id")()];
-                    case 1:
-                        site = _a.sent();
-                        q = tag.configure(Site(this.parentUrl, "_api/SPSiteManager/Delete"), "si.delete");
-                        return [4 /*yield*/, spPost(q, request_builders_body({ siteId: site.Id }))];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * Gets the document libraries on a site. Static method. (SharePoint Online only)
-     *
-     * @param absoluteWebUrl The absolute url of the web whose document libraries should be returned
-     */
-    _Site.prototype.getDocumentLibraries = function (absoluteWebUrl) {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = tag.configure(SharePointQueryable("", "_api/sp.web.getdocumentlibraries(@v)"), "si.getDocumentLibraries");
-                        q.query.set("@v", "'" + escapeQueryStrValue(absoluteWebUrl) + "'");
-                        return [4 /*yield*/, q()];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(data, "GetDocumentLibraries") ? data.GetDocumentLibraries : data];
-                }
-            });
-        });
-    };
-    /**
-     * Gets the site url from a page url
-     *
-     * @param absolutePageUrl The absolute url of the page
-     */
-    _Site.prototype.getWebUrlFromPageUrl = function (absolutePageUrl) {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = tag.configure(SharePointQueryable("", "_api/sp.web.getweburlfrompageurl(@v)"), "si.getWebUrlFromPageUrl");
-                        q.query.set("@v", "'" + escapeQueryStrValue(absolutePageUrl) + "'");
-                        return [4 /*yield*/, q()];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(data, "GetWebUrlFromPageUrl") ? data.GetWebUrlFromPageUrl : data];
-                }
-            });
-        });
-    };
     /**
      * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
      *
      * @param query The change query
      */
-    _Site.prototype.getChanges = function (query) {
-        var postBody = request_builders_body({ "query": Object(common["assign"])(metadata("SP.ChangeQuery"), query) });
+    getChanges(query) {
+        const postBody = body({ "query": util_assign(metadata("SP.ChangeQuery"), query) });
         return spPost(this.clone(Web, "getchanges"), postBody);
-    };
+    }
     /**
-    * Opens a web by id (using POST)
-    *
-    * @param webId The GUID id of the web to open
-    */
-    _Site.prototype.openWebById = function (webId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Site, "openWebById('" + webId + "')"))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                web: Web(extractWebUrl(odataUrlFrom(data))),
-                            }];
-                }
-            });
+     * Opens a web by id (using POST)
+     *
+     * @param webId The GUID id of the web to open
+     */
+    openWebById(webId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(Site, `openWebById('${webId}')`));
+            return {
+                data,
+                web: Web(extractWebUrl(odataUrlFrom(data))),
+            };
         });
-    };
+    }
+    /**
+     * Gets a Web instance representing the root web of the site collection
+     * correctly setup for chaining within the library
+     */
+    getRootWeb() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const web = yield this.rootWeb.select("Url")();
+            return tag.configure(Web(web.Url), "si.getRootWeb");
+        });
+    }
+    /**
+     * Gets the context information for this site collection
+     */
+    getContextInfo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = tag.configure(Site(this.parentUrl, "_api/contextinfo"), "si.getContextInfo");
+            const data = yield spPost(q);
+            if (hOP(data, "GetContextWebInformation")) {
+                const info = data.GetContextWebInformation;
+                info.SupportedSchemaVersions = info.SupportedSchemaVersions.results;
+                return info;
+            }
+            else {
+                return data;
+            }
+        });
+    }
+    createBatch() {
+        return new batch_SPBatch(this.parentUrl, this.getRuntime());
+    }
+    /**
+     * Deletes the current site
+     *
+     */
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const site = yield this.clone(Site, "").select("Id")();
+            const q = tag.configure(Site(this.parentUrl, "_api/SPSiteManager/Delete"), "si.delete");
+            yield spPost(q, body({ siteId: site.Id }));
+        });
+    }
+    /**
+     * Gets the document libraries on a site. Static method. (SharePoint Online only)
+     *
+     * @param absoluteWebUrl The absolute url of the web whose document libraries should be returned
+     */
+    getDocumentLibraries(absoluteWebUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = tag.configure(SharePointQueryable("", "_api/sp.web.getdocumentlibraries(@v)"), "si.getDocumentLibraries");
+            q.query.set("@v", `'${escapeQueryStrValue(absoluteWebUrl)}'`);
+            const data = yield q();
+            return hOP(data, "GetDocumentLibraries") ? data.GetDocumentLibraries : data;
+        });
+    }
+    /**
+     * Gets the site url from a page url
+     *
+     * @param absolutePageUrl The absolute url of the page
+     */
+    getWebUrlFromPageUrl(absolutePageUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = tag.configure(SharePointQueryable("", "_api/sp.web.getweburlfrompageurl(@v)"), "si.getWebUrlFromPageUrl");
+            q.query.set("@v", `'${escapeQueryStrValue(absolutePageUrl)}'`);
+            const data = yield q();
+            return hOP(data, "GetWebUrlFromPageUrl") ? data.GetWebUrlFromPageUrl : data;
+        });
+    }
     /**
      * Creates a Modern communication site.
      *
@@ -4446,140 +3901,121 @@ var types_Site = /** @class */ (function (_super) {
      * @param hubSiteId The id of the hub site to which the new site should be associated
      * @param owner Optional owner value, required if executing the method in app only mode
      */
-    _Site.prototype.createCommunicationSite = function (title, lcid, shareByEmailEnabled, url, description, classification, siteDesignId, hubSiteId, owner) {
-        if (lcid === void 0) { lcid = 1033; }
-        if (shareByEmailEnabled === void 0) { shareByEmailEnabled = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.createCommunicationSiteFromProps({
-                        Classification: classification,
-                        Description: description,
-                        HubSiteId: hubSiteId,
-                        Lcid: lcid,
-                        Owner: owner,
-                        ShareByEmailEnabled: shareByEmailEnabled,
-                        SiteDesignId: siteDesignId,
-                        Title: title,
-                        Url: url,
-                    })];
+    createCommunicationSite(title, lcid = 1033, shareByEmailEnabled = false, url, description, classification, siteDesignId, hubSiteId, owner) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.createCommunicationSiteFromProps({
+                Classification: classification,
+                Description: description,
+                HubSiteId: hubSiteId,
+                Lcid: lcid,
+                Owner: owner,
+                ShareByEmailEnabled: shareByEmailEnabled,
+                SiteDesignId: siteDesignId,
+                Title: title,
+                Url: url,
             });
         });
-    };
-    _Site.prototype.createCommunicationSiteFromProps = function (props) {
-        return __awaiter(this, void 0, void 0, function () {
-            var p, postBody;
-            return __generator(this, function (_a) {
-                p = Object.assign({}, {
-                    Classification: "",
-                    Description: "",
-                    HubSiteId: emptyGuid,
-                    Lcid: 1033,
-                    ShareByEmailEnabled: false,
-                    SiteDesignId: emptyGuid,
-                    WebTemplate: "SITEPAGEPUBLISHING#0",
-                    WebTemplateExtensionId: emptyGuid,
-                }, props);
-                postBody = request_builders_body({
-                    "request": Object(common["assign"])(metadata("Microsoft.SharePoint.Portal.SPSiteCreationRequest"), p),
-                });
-                return [2 /*return*/, spPost(Site(extractWebUrl(this.toUrl()), "/_api/SPSiteManager/Create"), postBody)];
+    }
+    createCommunicationSiteFromProps(props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // handle defaults
+            const p = Object.assign({}, {
+                Classification: "",
+                Description: "",
+                HubSiteId: emptyGuid,
+                Lcid: 1033,
+                ShareByEmailEnabled: false,
+                SiteDesignId: emptyGuid,
+                WebTemplate: "SITEPAGEPUBLISHING#0",
+                WebTemplateExtensionId: emptyGuid,
+            }, props);
+            const postBody = body({
+                "request": util_assign(metadata("Microsoft.SharePoint.Portal.SPSiteCreationRequest"), p),
             });
+            return spPost(Site(extractWebUrl(this.toUrl()), "/_api/SPSiteManager/Create"), postBody);
         });
-    };
+    }
     /**
      *
      * @param url Site Url that you want to check if exists
      */
-    _Site.prototype.exists = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, value;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body({ url: url });
-                        return [4 /*yield*/, spPost(Site(extractWebUrl(this.toUrl()), "/_api/SP.Site.Exists"), postBody)];
-                    case 1:
-                        value = _a.sent();
-                        return [2 /*return*/, value];
-                }
-            });
+    exists(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body({ url });
+            const value = yield spPost(Site(extractWebUrl(this.toUrl()), "/_api/SP.Site.Exists"), postBody);
+            return value;
         });
-    };
+    }
     /**
-    * Creates a Modern team site backed by Office 365 group. For use in SP Online only. This will not work with App-only tokens
-    *
-    * @param displayName The title or display name of the Modern team site to be created
-    * @param alias Alias of the underlying Office 365 Group
-    * @param isPublic Defines whether the Office 365 Group will be public (default), or private.
-    * @param lcid The language to use for the site. If not specified will default to English (1033).
-    * @param description The description of the site to be created.
-    * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
-    * @param owners The Owners of the site to be created
-    */
-    _Site.prototype.createModernTeamSite = function (displayName, alias, isPublic, lcid, description, classification, owners, hubSiteId, siteDesignId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.createModernTeamSiteFromProps({
-                        alias: alias,
-                        classification: classification,
-                        description: description,
-                        displayName: displayName,
-                        hubSiteId: hubSiteId,
-                        isPublic: isPublic,
-                        lcid: lcid,
-                        owners: owners,
-                        siteDesignId: siteDesignId,
-                    })];
+     * Creates a Modern team site backed by Office 365 group. For use in SP Online only. This will not work with App-only tokens
+     *
+     * @param displayName The title or display name of the Modern team site to be created
+     * @param alias Alias of the underlying Office 365 Group
+     * @param isPublic Defines whether the Office 365 Group will be public (default), or private.
+     * @param lcid The language to use for the site. If not specified will default to English (1033).
+     * @param description The description of the site to be created.
+     * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
+     * @param owners The Owners of the site to be created
+     */
+    createModernTeamSite(displayName, alias, isPublic, lcid, description, classification, owners, hubSiteId, siteDesignId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.createModernTeamSiteFromProps({
+                alias,
+                classification,
+                description,
+                displayName,
+                hubSiteId,
+                isPublic,
+                lcid,
+                owners,
+                siteDesignId,
             });
         });
-    };
-    _Site.prototype.createModernTeamSiteFromProps = function (props) {
-        return __awaiter(this, void 0, void 0, function () {
-            var p, postBody;
-            return __generator(this, function (_a) {
-                p = Object.assign({}, {
-                    classification: "",
-                    description: "",
-                    hubSiteId: emptyGuid,
-                    isPublic: true,
-                    lcid: 1033,
-                    owners: [],
-                }, props);
-                postBody = {
-                    alias: p.alias,
-                    displayName: p.displayName,
-                    isPublic: p.isPublic,
-                    optionalParams: {
-                        Classification: p.classification,
-                        CreationOptions: {
-                            "results": ["SPSiteLanguage:" + p.lcid, "HubSiteId:" + p.hubSiteId],
-                        },
-                        Description: p.description,
-                        Owners: {
-                            "results": p.owners,
-                        },
+    }
+    createModernTeamSiteFromProps(props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // handle defaults
+            const p = Object.assign({}, {
+                classification: "",
+                description: "",
+                hubSiteId: emptyGuid,
+                isPublic: true,
+                lcid: 1033,
+                owners: [],
+            }, props);
+            const postBody = {
+                alias: p.alias,
+                displayName: p.displayName,
+                isPublic: p.isPublic,
+                optionalParams: {
+                    Classification: p.classification,
+                    CreationOptions: {
+                        "results": [`SPSiteLanguage:${p.lcid}`, `HubSiteId:${p.hubSiteId}`],
                     },
-                };
-                if (p.siteDesignId) {
-                    postBody.optionalParams.CreationOptions.results.push("implicit_formula_292aa8a00786498a87a5ca52d9f4214a_" + p.siteDesignId);
-                }
-                return [2 /*return*/, spPost(Site(extractWebUrl(this.toUrl()), "/_api/GroupSiteManager/CreateGroupEx"), request_builders_body(postBody))];
-            });
+                    Description: p.description,
+                    Owners: {
+                        "results": p.owners,
+                    },
+                },
+            };
+            if (p.siteDesignId) {
+                postBody.optionalParams.CreationOptions.results.push(`implicit_formula_292aa8a00786498a87a5ca52d9f4214a_${p.siteDesignId}`);
+            }
+            return spPost(Site(extractWebUrl(this.toUrl()), "/_api/GroupSiteManager/CreateGroupEx"), body(postBody));
         });
-    };
-    __decorate([
-        tag("si.getChanges")
-    ], _Site.prototype, "getChanges", null);
-    __decorate([
-        tag("si.openWebById")
-    ], _Site.prototype, "openWebById", null);
-    _Site = __decorate([
-        defaultPath("_api/site")
-    ], _Site);
-    return _Site;
-}(sharepointqueryable_SharePointQueryableInstance));
+    }
+};
+__decorate([
+    tag("si.getChanges")
+], types_Site.prototype, "getChanges", null);
+__decorate([
+    tag("si.openWebById")
+], types_Site.prototype, "openWebById", null);
+types_Site = __decorate([
+    defaultPath("_api/site")
+], types_Site);
 
-var Site = spInvokableFactory(types_Site);
+const Site = spInvokableFactory(types_Site);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/index.js
 
@@ -4589,7 +4025,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "site", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return Site(this._baseUrl).configure(this._options);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return Site(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -4606,11 +4044,7 @@ Reflect.defineProperty(rest_SPRest.prototype, "site", {
 
 
 
-var types_Webs = /** @class */ (function (_super) {
-    __extends(_Webs, _super);
-    function _Webs() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Webs = class _Webs extends _SharePointQueryableCollection {
     /**
      * Adds a new web to the collection
      *
@@ -4621,146 +4055,85 @@ var types_Webs = /** @class */ (function (_super) {
      * @param language The locale id that specifies the new web's language (default = 1033 [English, US])
      * @param inheritPermissions When true, permissions will be inherited from the new web's parent (default = true)
      */
-    _Webs.prototype.add = function (title, url, description, template, language, inheritPermissions) {
-        if (description === void 0) { description = ""; }
-        if (template === void 0) { template = "STS"; }
-        if (language === void 0) { language = 1033; }
-        if (inheritPermissions === void 0) { inheritPermissions = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body({
-                            "parameters": Object(common["assign"])(metadata("SP.WebCreationInformation"), {
-                                Description: description,
-                                Language: language,
-                                Title: title,
-                                Url: url,
-                                UseSamePermissionsAsParentSite: inheritPermissions,
-                                WebTemplate: template,
-                            }),
-                        });
-                        return [4 /*yield*/, spPost(this.clone(Webs, "add"), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                web: Web(odataUrlFrom(data).replace(/_api\/web\/?/i, "")),
-                            }];
-                }
+    add(title, url, description = "", template = "STS", language = 1033, inheritPermissions = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body({
+                "parameters": util_assign(metadata("SP.WebCreationInformation"), {
+                    Description: description,
+                    Language: language,
+                    Title: title,
+                    Url: url,
+                    UseSamePermissionsAsParentSite: inheritPermissions,
+                    WebTemplate: template,
+                }),
             });
+            const data = yield spPost(this.clone(Webs, "add"), postBody);
+            return {
+                data,
+                web: Web(odataUrlFrom(data).replace(/_api\/web\/?/i, "")),
+            };
         });
-    };
-    __decorate([
-        tag("ws.add")
-    ], _Webs.prototype, "add", null);
-    _Webs = __decorate([
-        defaultPath("webs")
-    ], _Webs);
-    return _Webs;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("ws.add")
+], types_Webs.prototype, "add", null);
+types_Webs = __decorate([
+    defaultPath("webs")
+], types_Webs);
 
-var Webs = spInvokableFactory(types_Webs);
+const Webs = spInvokableFactory(types_Webs);
 /**
  * Describes a web
  *
  */
-var types_Web = /** @class */ (function (_super) {
-    __extends(_Web, _super);
-    function _Web() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("w");
-        return _this;
+let types_Web = class _Web extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("w");
     }
-    Object.defineProperty(_Web.prototype, "webs", {
-        /**
-         * Gets this web's subwebs
-         *
-         */
-        get: function () {
-            return Webs(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Gets this web's subwebs
+     *
+     */
+    get webs() {
+        return Webs(this);
+    }
+    /**
+     * Allows access to the web's all properties collection
+     */
+    get allProperties() {
+        return tag.configure(this.clone(SharePointQueryableInstance, "allproperties"), "w.allprops");
+    }
+    /**
+     * Gets a collection of WebInfos for this web's subwebs
+     *
+     */
+    get webinfos() {
+        return tag.configure(SharePointQueryableCollection(this, "webinfos"), "w.webinfos");
+    }
     /**
      * Gets this web's parent web and data
      *
      */
-    _Web.prototype.getParentWeb = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var ParentWeb;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spGet(this.select("ParentWeb/Id").expand("ParentWeb"))];
-                    case 1:
-                        ParentWeb = (_a.sent()).ParentWeb;
-                        return [2 /*return*/, (ParentWeb === null || ParentWeb === void 0 ? void 0 : ParentWeb.Id) ? Site(this.parentUrl).openWebById(ParentWeb.Id) : null];
-                }
-            });
+    getParentWeb() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ParentWeb } = yield spGet(this.select("ParentWeb/Id").expand("ParentWeb"));
+            return (ParentWeb === null || ParentWeb === void 0 ? void 0 : ParentWeb.Id) ? Site(this.parentUrl).openWebById(ParentWeb.Id) : null;
         });
-    };
-    /**
-    * Returns a collection of objects that contain metadata about subsites of the current site in which the current user is a member.
-    *
-    * @param nWebTemplateFilter Specifies the site definition (default = -1)
-    * @param nConfigurationFilter A 16-bit integer that specifies the identifier of a configuration (default = -1)
-    */
-    _Web.prototype.getSubwebsFilteredForCurrentUser = function (nWebTemplateFilter, nConfigurationFilter) {
-        if (nWebTemplateFilter === void 0) { nWebTemplateFilter = -1; }
-        if (nConfigurationFilter === void 0) { nConfigurationFilter = -1; }
-        var o = this.clone(Webs, "getSubwebsFilteredForCurrentUser(nWebTemplateFilter=" + nWebTemplateFilter + ",nConfigurationFilter=" + nConfigurationFilter + ")");
-        return tag.configure(o, "w.getSubwebsFilteredForCurrentUser");
-    };
-    Object.defineProperty(_Web.prototype, "allProperties", {
-        /**
-         * Allows access to the web's all properties collection
-         */
-        get: function () {
-            return tag.configure(this.clone(SharePointQueryableInstance, "allproperties"), "w.allprops");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Web.prototype, "webinfos", {
-        /**
-         * Gets a collection of WebInfos for this web's subwebs
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "webinfos"), "w.webinfos");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Creates a new batch for requests within the context of this web
-     *
-     */
-    _Web.prototype.createBatch = function () {
-        return new batch_SPBatch(this.parentUrl);
-    };
+    }
     /**
      * Updates this web instance with the supplied properties
      *
      * @param properties A plain object hash of values to update for the web
      */
-    _Web.prototype.update = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.Web"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { data: data, web: this }];
-                }
-            });
+    update(properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(util_assign(metadata("SP.Web"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
+            const data = yield spPost(this, postBody);
+            return { data, web: this };
         });
-    };
+    }
     /**
      * Applies the theme specified by the contents of each of the files specified in the arguments to the site
      *
@@ -4769,46 +4142,34 @@ var types_Web = /** @class */ (function (_super) {
      * @param backgroundImageUrl The server-relative URL of the background image
      * @param shareGenerated When true, the generated theme files are stored in the root site. When false, they are stored in this web
      */
-    _Web.prototype.applyTheme = function (colorPaletteUrl, fontSchemeUrl, backgroundImageUrl, shareGenerated) {
-        var postBody = request_builders_body({
-            backgroundImageUrl: backgroundImageUrl,
-            colorPaletteUrl: colorPaletteUrl,
-            fontSchemeUrl: fontSchemeUrl,
-            shareGenerated: shareGenerated,
+    applyTheme(colorPaletteUrl, fontSchemeUrl, backgroundImageUrl, shareGenerated) {
+        const postBody = body({
+            backgroundImageUrl,
+            colorPaletteUrl,
+            fontSchemeUrl,
+            shareGenerated,
         });
         return spPost(this.clone(Web, "applytheme"), postBody);
-    };
+    }
     /**
      * Applies the specified site definition or site template to the Web site that has no template applied to it
      *
      * @param template Name of the site definition or the name of the site template
      */
-    _Web.prototype.applyWebTemplate = function (template) {
-        var q = this.clone(Web, "applywebtemplate");
-        q.concat("(webTemplate='" + escapeQueryStrValue(template) + "')");
+    applyWebTemplate(template) {
+        const q = this.clone(Web, "applywebtemplate");
+        q.concat(`(webTemplate='${escapeQueryStrValue(template)}')`);
         return spPost(q);
-    };
+    }
     /**
-     * Returns a collection of site templates available for the site
-     *
-     * @param language The locale id of the site templates to retrieve (default = 1033 [English, US])
-     * @param includeCrossLanguage When true, includes language-neutral site templates; otherwise false (default = true)
-     */
-    _Web.prototype.availableWebTemplates = function (language, includeCrossLanugage) {
-        if (language === void 0) { language = 1033; }
-        if (includeCrossLanugage === void 0) { includeCrossLanugage = true; }
-        var path = "getavailablewebtemplates(lcid=" + language + ", doincludecrosslanguage=" + includeCrossLanugage + ")";
-        return tag.configure(SharePointQueryableCollection(this, path), "w.availableWebTemplates");
-    };
-    /**
-     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
-     *
-     * @param query The change query
-     */
-    _Web.prototype.getChanges = function (query) {
-        var postBody = request_builders_body({ "query": Object(common["assign"])(metadata("SP.ChangeQuery"), query) });
+         * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
+         *
+         * @param query The change query
+         */
+    getChanges(query) {
+        const postBody = body({ "query": util_assign(metadata("SP.ChangeQuery"), query) });
         return spPost(this.clone(Web, "getchanges"), postBody);
-    };
+    }
     /**
      * Returns the name of the image file for the icon that is used to represent the specified file
      *
@@ -4816,19 +4177,17 @@ var types_Web = /** @class */ (function (_super) {
      * @param size The size of the icon: 16x16 pixels = 0, 32x32 pixels = 1 (default = 0)
      * @param progId The ProgID of the application that was used to create the file, in the form OLEServerName.ObjectName
      */
-    _Web.prototype.mapToIcon = function (filename, size, progId) {
-        if (size === void 0) { size = 0; }
-        if (progId === void 0) { progId = ""; }
-        return spGet(this.clone(Web, "maptoicon(filename='" + escapeQueryStrValue(filename) + "', progid='" + escapeQueryStrValue(progId) + "', size=" + size + ")"));
-    };
+    mapToIcon(filename, size = 0, progId = "") {
+        return spGet(this.clone(Web, `maptoicon(filename='${escapeQueryStrValue(filename)}', progid='${escapeQueryStrValue(progId)}', size=${size})`));
+    }
     /**
      * Returns the tenant property corresponding to the specified key in the app catalog site
      *
      * @param key Id of storage entity to be set
      */
-    _Web.prototype.getStorageEntity = function (key) {
-        return spGet(this.clone(Web, "getStorageEntity('" + escapeQueryStrValue(key) + "')"));
-    };
+    getStorageEntity(key) {
+        return spGet(this.clone(Web, `getStorageEntity('${escapeQueryStrValue(key)}')`));
+    }
     /**
      * This will set the storage entity identified by the given key (MUST be called in the context of the app catalog)
      *
@@ -4837,58 +4196,82 @@ var types_Web = /** @class */ (function (_super) {
      * @param description Description of storage entity to be set
      * @param comments Comments of storage entity to be set
      */
-    _Web.prototype.setStorageEntity = function (key, value, description, comments) {
-        if (description === void 0) { description = ""; }
-        if (comments === void 0) { comments = ""; }
-        return spPost(this.clone(Web, "setStorageEntity"), request_builders_body({
-            comments: comments,
-            description: description,
-            key: key,
-            value: value,
+    setStorageEntity(key, value, description = "", comments = "") {
+        return spPost(this.clone(Web, "setStorageEntity"), body({
+            comments,
+            description,
+            key,
+            value,
         }));
-    };
+    }
     /**
      * This will remove the storage entity identified by the given key
      *
      * @param key Id of storage entity to be removed
      */
-    _Web.prototype.removeStorageEntity = function (key) {
-        return spPost(this.clone(Web, "removeStorageEntity('" + escapeQueryStrValue(key) + "')"));
-    };
-    __decorate([
-        tag("w.getParentWeb")
-    ], _Web.prototype, "getParentWeb", null);
-    __decorate([
-        tag("w.update")
-    ], _Web.prototype, "update", null);
-    __decorate([
-        tag("w.applyTheme")
-    ], _Web.prototype, "applyTheme", null);
-    __decorate([
-        tag("w.applyWebTemplate")
-    ], _Web.prototype, "applyWebTemplate", null);
-    __decorate([
-        tag("w.getChanges")
-    ], _Web.prototype, "getChanges", null);
-    __decorate([
-        tag("w.mapToIcon")
-    ], _Web.prototype, "mapToIcon", null);
-    __decorate([
-        tag("w.getStorageEntity")
-    ], _Web.prototype, "getStorageEntity", null);
-    __decorate([
-        tag("w.setStorageEntity")
-    ], _Web.prototype, "setStorageEntity", null);
-    __decorate([
-        tag("w.removeStorageEntity")
-    ], _Web.prototype, "removeStorageEntity", null);
-    _Web = __decorate([
-        defaultPath("_api/web")
-    ], _Web);
-    return _Web;
-}(sharepointqueryable_SharePointQueryableInstance));
+    removeStorageEntity(key) {
+        return spPost(this.clone(Web, `removeStorageEntity('${escapeQueryStrValue(key)}')`));
+    }
+    /**
+    * Returns a collection of objects that contain metadata about subsites of the current site in which the current user is a member.
+    *
+    * @param nWebTemplateFilter Specifies the site definition (default = -1)
+    * @param nConfigurationFilter A 16-bit integer that specifies the identifier of a configuration (default = -1)
+    */
+    getSubwebsFilteredForCurrentUser(nWebTemplateFilter = -1, nConfigurationFilter = -1) {
+        const o = this.clone(SharePointQueryableCollection, `getSubwebsFilteredForCurrentUser(nWebTemplateFilter=${nWebTemplateFilter},nConfigurationFilter=${nConfigurationFilter})`);
+        return tag.configure(o, "w.getSubwebsFilteredForCurrentUser");
+    }
+    /**
+     * Creates a new batch for requests within the context of this web
+     *
+     */
+    createBatch() {
+        return new batch_SPBatch(this.parentUrl, this.getRuntime());
+    }
+    /**
+     * Returns a collection of site templates available for the site
+     *
+     * @param language The locale id of the site templates to retrieve (default = 1033 [English, US])
+     * @param includeCrossLanguage When true, includes language-neutral site templates; otherwise false (default = true)
+     */
+    availableWebTemplates(language = 1033, includeCrossLanugage = true) {
+        const path = `getavailablewebtemplates(lcid=${language}, doincludecrosslanguage=${includeCrossLanugage})`;
+        return tag.configure(SharePointQueryableCollection(this, path), "w.availableWebTemplates");
+    }
+};
+__decorate([
+    tag("w.getParentWeb")
+], types_Web.prototype, "getParentWeb", null);
+__decorate([
+    tag("w.update")
+], types_Web.prototype, "update", null);
+__decorate([
+    tag("w.applyTheme")
+], types_Web.prototype, "applyTheme", null);
+__decorate([
+    tag("w.applyWebTemplate")
+], types_Web.prototype, "applyWebTemplate", null);
+__decorate([
+    tag("w.getChanges")
+], types_Web.prototype, "getChanges", null);
+__decorate([
+    tag("w.mapToIcon")
+], types_Web.prototype, "mapToIcon", null);
+__decorate([
+    tag("w.getStorageEntity")
+], types_Web.prototype, "getStorageEntity", null);
+__decorate([
+    tag("w.setStorageEntity")
+], types_Web.prototype, "setStorageEntity", null);
+__decorate([
+    tag("w.removeStorageEntity")
+], types_Web.prototype, "removeStorageEntity", null);
+types_Web = __decorate([
+    defaultPath("_api/web")
+], types_Web);
 
-var Web = spInvokableFactory(types_Web);
+const Web = spInvokableFactory(types_Web);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/toResourcePath.js
 function toResourcePath(url) {
@@ -4910,27 +4293,23 @@ function toResourcePath(url) {
 
 
 
-var types_Lists = /** @class */ (function (_super) {
-    __extends(_Lists, _super);
-    function _Lists() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Lists = class _Lists extends _SharePointQueryableCollection {
     /**
      * Gets a list from the collection by guid id
      *
      * @param id The Id of the list (GUID)
      */
-    _Lists.prototype.getById = function (id) {
-        return tag.configure(List(this).concat("('" + id + "')"), "ls.getById");
-    };
+    getById(id) {
+        return tag.configure(List(this).concat(`('${id}')`), "ls.getById");
+    }
     /**
      * Gets a list from the collection by title
      *
      * @param title The title of the list
      */
-    _Lists.prototype.getByTitle = function (title) {
-        return tag.configure(List(this, "getByTitle('" + escapeQueryStrValue(title) + "')"), "ls.getByTitle");
-    };
+    getByTitle(title) {
+        return tag.configure(List(this, `getByTitle('${escapeQueryStrValue(title)}')`), "ls.getByTitle");
+    }
     /**
      * Adds a new list to the collection
      *
@@ -4940,31 +4319,19 @@ var types_Lists = /** @class */ (function (_super) {
      * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
      * @param additionalSettings Will be passed as part of the list creation body
      */
-    _Lists.prototype.add = function (title, desc, template, enableContentTypes, additionalSettings) {
-        if (desc === void 0) { desc = ""; }
-        if (template === void 0) { template = 100; }
-        if (enableContentTypes === void 0) { enableContentTypes = false; }
-        if (additionalSettings === void 0) { additionalSettings = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var addSettings, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        addSettings = Object.assign({
-                            "AllowContentTypes": enableContentTypes,
-                            "BaseTemplate": template,
-                            "ContentTypesEnabled": enableContentTypes,
-                            "Description": desc,
-                            "Title": title,
-                        }, metadata("SP.List"), additionalSettings);
-                        return [4 /*yield*/, spPost(this, request_builders_body(addSettings))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { data: data, list: this.getByTitle(addSettings.Title) }];
-                }
-            });
+    add(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const addSettings = Object.assign({
+                "AllowContentTypes": enableContentTypes,
+                "BaseTemplate": template,
+                "ContentTypesEnabled": enableContentTypes,
+                "Description": desc,
+                "Title": title,
+            }, metadata("SP.List"), additionalSettings);
+            const data = yield spPost(this, body(addSettings));
+            return { data, list: this.getByTitle(addSettings.Title) };
         });
-    };
+    }
     /**
      * Ensures that the specified list exists in the collection (note: this method not supported for batching)
      *
@@ -4974,243 +4341,164 @@ var types_Lists = /** @class */ (function (_super) {
      * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
      * @param additionalSettings Will be passed as part of the list creation body or used to update an existing list
      */
-    _Lists.prototype.ensure = function (title, desc, template, enableContentTypes, additionalSettings) {
-        if (desc === void 0) { desc = ""; }
-        if (template === void 0) { template = 100; }
-        if (enableContentTypes === void 0) { enableContentTypes = false; }
-        if (additionalSettings === void 0) { additionalSettings = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var addOrUpdateSettings, list, data, e_1, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.hasBatch) {
-                            throw Error("The ensure list method is not supported for use in a batch.");
-                        }
-                        addOrUpdateSettings = Object(common["assign"])(additionalSettings, { Title: title, Description: desc, ContentTypesEnabled: enableContentTypes }, true);
-                        list = this.getByTitle(addOrUpdateSettings.Title);
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 4, , 6]);
-                        // this will throw if the list doesn't exist
-                        return [4 /*yield*/, list.select("Title")()];
-                    case 2:
-                        // this will throw if the list doesn't exist
-                        _a.sent();
-                        return [4 /*yield*/, list.update(addOrUpdateSettings).then(function (r) { return r.data; })];
-                    case 3:
-                        data = _a.sent();
-                        return [2 /*return*/, { created: false, data: data, list: this.getByTitle(addOrUpdateSettings.Title) }];
-                    case 4:
-                        e_1 = _a.sent();
-                        return [4 /*yield*/, this.add(title, desc, template, enableContentTypes, addOrUpdateSettings).then(function (r) { return r.data; })];
-                    case 5:
-                        data = _a.sent();
-                        return [2 /*return*/, { created: true, data: data, list: this.getByTitle(addOrUpdateSettings.Title) }];
-                    case 6: return [2 /*return*/];
-                }
-            });
+    ensure(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.hasBatch) {
+                throw Error("The ensure list method is not supported for use in a batch.");
+            }
+            const addOrUpdateSettings = util_assign(additionalSettings, { Title: title, Description: desc, ContentTypesEnabled: enableContentTypes }, true);
+            const list = this.getByTitle(addOrUpdateSettings.Title);
+            try {
+                // this will throw if the list doesn't exist
+                yield list.select("Title")();
+                const data = yield list.update(addOrUpdateSettings).then(r => r.data);
+                return { created: false, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+            }
+            catch (e) {
+                const data = yield this.add(title, desc, template, enableContentTypes, addOrUpdateSettings).then(r => r.data);
+                return { created: true, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+            }
         });
-    };
+    }
     /**
      * Gets a list that is the default asset location for images or other files, which the users upload to their wiki pages.
      */
-    _Lists.prototype.ensureSiteAssetsLibrary = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var json;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Lists, "ensuresiteassetslibrary"))];
-                    case 1:
-                        json = _a.sent();
-                        return [2 /*return*/, List(odataUrlFrom(json))];
-                }
-            });
+    ensureSiteAssetsLibrary() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const json = yield spPost(this.clone(Lists, "ensuresiteassetslibrary"));
+            return List(odataUrlFrom(json));
         });
-    };
+    }
     /**
      * Gets a list that is the default location for wiki pages.
      */
-    _Lists.prototype.ensureSitePagesLibrary = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var json;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Lists, "ensuresitepageslibrary"))];
-                    case 1:
-                        json = _a.sent();
-                        return [2 /*return*/, List(odataUrlFrom(json))];
-                }
-            });
+    ensureSitePagesLibrary() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const json = yield spPost(this.clone(Lists, "ensuresitepageslibrary"));
+            return List(odataUrlFrom(json));
         });
-    };
-    __decorate([
-        tag("ls.add")
-    ], _Lists.prototype, "add", null);
-    __decorate([
-        tag("ls.ensure")
-    ], _Lists.prototype, "ensure", null);
-    __decorate([
-        tag("ls.ensureSiteAssetsLibrary")
-    ], _Lists.prototype, "ensureSiteAssetsLibrary", null);
-    __decorate([
-        tag("ls.ensureSitePagesLibrary")
-    ], _Lists.prototype, "ensureSitePagesLibrary", null);
-    _Lists = __decorate([
-        defaultPath("lists")
-    ], _Lists);
-    return _Lists;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Lists = spInvokableFactory(types_Lists);
-var types_List = /** @class */ (function (_super) {
-    __extends(_List, _super);
-    function _List() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("l");
-        return _this;
     }
-    Object.defineProperty(_List.prototype, "effectiveBasePermissions", {
-        /**
-         * Gets the effective base permissions of this list
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "EffectiveBasePermissions"), "l.effectiveBasePermissions");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_List.prototype, "eventReceivers", {
-        /**
-         * Gets the event receivers attached to this list
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "EventReceivers"), "l.eventReceivers");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_List.prototype, "relatedFields", {
-        /**
-         * Gets the related fields of this list
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "getRelatedFields"), "l.relatedFields");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_List.prototype, "informationRightsManagementSettings", {
-        /**
-         * Gets the IRM settings for this list
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "InformationRightsManagementSettings"), "l.informationRightsManagementSettings");
-        },
-        enumerable: false,
-        configurable: true
-    });
+};
+__decorate([
+    tag("ls.add")
+], types_Lists.prototype, "add", null);
+__decorate([
+    tag("ls.ensure")
+], types_Lists.prototype, "ensure", null);
+__decorate([
+    tag("ls.ensureSiteAssetsLibrary")
+], types_Lists.prototype, "ensureSiteAssetsLibrary", null);
+__decorate([
+    tag("ls.ensureSitePagesLibrary")
+], types_Lists.prototype, "ensureSitePagesLibrary", null);
+types_Lists = __decorate([
+    defaultPath("lists")
+], types_Lists);
+
+const Lists = spInvokableFactory(types_Lists);
+class types_List extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("l");
+    }
+    /**
+     * Gets the effective base permissions of this list
+     *
+     */
+    get effectiveBasePermissions() {
+        return tag.configure(SharePointQueryable(this, "EffectiveBasePermissions"), "l.effectiveBasePermissions");
+    }
+    /**
+     * Gets the event receivers attached to this list
+     *
+     */
+    get eventReceivers() {
+        return tag.configure(SharePointQueryableCollection(this, "EventReceivers"), "l.eventReceivers");
+    }
+    /**
+     * Gets the related fields of this list
+     *
+     */
+    get relatedFields() {
+        return tag.configure(SharePointQueryable(this, "getRelatedFields"), "l.relatedFields");
+    }
+    /**
+     * Gets the IRM settings for this list
+     *
+     */
+    get informationRightsManagementSettings() {
+        return tag.configure(SharePointQueryable(this, "InformationRightsManagementSettings"), "l.informationRightsManagementSettings");
+    }
     /**
      * Updates this list intance with the supplied properties
      *
      * @param properties A plain object hash of values to update for the list
      * @param eTag Value used in the IF-Match header, by default "*"
      */
-    _List.prototype.update = function (properties, eTag) {
-        if (eTag === void 0) { eTag = "*"; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data, list;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.List"), properties), request_builders_headers({
-                            "IF-Match": eTag,
-                            "X-HTTP-Method": "MERGE",
-                        }));
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        list = this;
-                        if (Object(common["hOP"])(properties, "Title")) {
-                            list = this.getParent(List, this.parentUrl, "getByTitle('" + properties.Title + "')");
-                        }
-                        return [2 /*return*/, {
-                                data: data,
-                                list: list,
-                            }];
-                }
-            });
+    update(properties, eTag = "*") {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(util_assign(metadata("SP.List"), properties), request_builders_headers({
+                "IF-Match": eTag,
+                "X-HTTP-Method": "MERGE",
+            }));
+            const data = yield spPost(this, postBody);
+            const list = hOP(properties, "Title") ? this.getParent(List, this.parentUrl, `getByTitle('${properties.Title}')`) : List(this);
+            return {
+                data,
+                list,
+            };
         });
-    };
+    }
     /**
      * Returns the collection of changes from the change log that have occurred within the list, based on the specified query.
      * @param query A query that is performed against the change log.
      */
-    _List.prototype.getChanges = function (query) {
-        return spPost(this.clone(List, "getchanges"), request_builders_body({ query: Object(common["assign"])(metadata("SP.ChangeQuery"), query) }));
-    };
+    getChanges(query) {
+        return spPost(this.clone(List, "getchanges"), body({ query: util_assign(metadata("SP.ChangeQuery"), query) }));
+    }
     /**
      * Returns the collection of items in the list based on the provided CamlQuery
      * @param query A query that is performed against the list
      * @param expands An expanded array of n items that contains fields to expand in the CamlQuery
      */
-    _List.prototype.getItemsByCAMLQuery = function (query) {
-        var expands = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            expands[_i - 1] = arguments[_i];
-        }
-        var q = this.clone(List, "getitems");
-        return spPost(q.expand.apply(q, expands), request_builders_body({ query: Object(common["assign"])(metadata("SP.CamlQuery"), query) }));
-    };
+    getItemsByCAMLQuery(query, ...expands) {
+        const q = this.clone(List, "getitems");
+        return spPost(q.expand(...expands), body({ query: util_assign(metadata("SP.CamlQuery"), query) }));
+    }
     /**
      * See: https://msdn.microsoft.com/en-us/library/office/dn292554.aspx
      * @param query An object that defines the change log item query
      */
-    _List.prototype.getListItemChangesSinceToken = function (query) {
-        var o = this.clone(List, "getlistitemchangessincetoken").usingParser({ parse: function (r) { return r.text(); } });
-        return spPost(o, request_builders_body({ "query": Object(common["assign"])(metadata("SP.ChangeLogItemQuery"), query) }));
-    };
+    getListItemChangesSinceToken(query) {
+        const o = this.clone(List, "getlistitemchangessincetoken").usingParser({
+            parse(r) {
+                return r.text();
+            },
+        });
+        return spPost(o, body({ "query": util_assign(metadata("SP.ChangeLogItemQuery"), query) }));
+    }
     /**
      * Moves the list to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
-    _List.prototype.recycle = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(List, "recycle"))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(data, "Recycle") ? data.Recycle : data];
-                }
-            });
+    recycle() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(List, "recycle"));
+            return hOP(data, "Recycle") ? data.Recycle : data;
         });
-    };
+    }
     /**
      * Renders list data based on the view xml provided
      * @param viewXml A string object representing a view xml
      */
-    _List.prototype.renderListData = function (viewXml) {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = this.clone(List, "renderlistdata(@viewXml)");
-                        q.query.set("@viewXml", "'" + viewXml + "'");
-                        return [4 /*yield*/, spPost(q)];
-                    case 1:
-                        data = _a.sent();
-                        // data will be a string, so we parse it again
-                        return [2 /*return*/, JSON.parse(Object(common["hOP"])(data, "RenderListData") ? data.RenderListData : data)];
-                }
-            });
+    renderListData(viewXml) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.clone(List, "renderlistdata(@viewXml)");
+            q.query.set("@viewXml", `'${viewXml}'`);
+            const data = yield spPost(q);
+            // data will be a string, so we parse it again
+            return JSON.parse(hOP(data, "RenderListData") ? data.RenderListData : data);
         });
-    };
+    }
     /**
      * Returns the data for the specified query view
      *
@@ -5218,64 +4506,54 @@ var types_List = /** @class */ (function (_super) {
      * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
      * @param query Allows setting of query parameters
      */
-    _List.prototype.renderListDataAsStream = function (parameters, overrideParams, query) {
-        if (overrideParams === void 0) { overrideParams = null; }
-        if (query === void 0) { query = new Map(); }
-        if (Object(common["hOP"])(parameters, "RenderOptions") && Object(common["isArray"])(parameters.RenderOptions)) {
-            parameters.RenderOptions = parameters.RenderOptions.reduce(function (v, c) { return v + c; });
+    renderListDataAsStream(parameters, overrideParams = null, query = new Map()) {
+        if (hOP(parameters, "RenderOptions") && isArray(parameters.RenderOptions)) {
+            parameters.RenderOptions = parameters.RenderOptions.reduce((v, c) => v + c);
         }
-        var bodyOptions = { parameters: Object(common["assign"])(metadata("SP.RenderListDataParameters"), parameters) };
-        if (Object(common["objectDefinedNotNull"])(overrideParams)) {
-            bodyOptions = Object(common["assign"])(bodyOptions, { overrideParameters: Object(common["assign"])(metadata("SP.RenderListDataOverrideParameters"), overrideParams) });
+        let bodyOptions = { parameters: util_assign(metadata("SP.RenderListDataParameters"), parameters) };
+        if (objectDefinedNotNull(overrideParams)) {
+            bodyOptions = util_assign(bodyOptions, { overrideParameters: util_assign(metadata("SP.RenderListDataOverrideParameters"), overrideParams) });
         }
-        var clone = this.clone(List, "RenderListDataAsStream", true, true);
+        const clone = this.clone(List, "RenderListDataAsStream", true, true);
         if (query && query.size > 0) {
-            query.forEach(function (v, k) { return clone.query.set(k, v); });
+            query.forEach((v, k) => clone.query.set(k, v));
         }
-        return spPost(clone, request_builders_body(bodyOptions));
-    };
+        return spPost(clone, body(bodyOptions));
+    }
     /**
      * Gets the field values and field schema attributes for a list item.
      * @param itemId Item id of the item to render form data for
      * @param formId The id of the form
      * @param mode Enum representing the control mode of the form (Display, Edit, New)
      */
-    _List.prototype.renderListFormData = function (itemId, formId, mode) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(List, "renderlistformdata(itemid=" + itemId + ", formid='" + formId + "', mode='" + mode + "')"))];
-                    case 1:
-                        data = _a.sent();
-                        // data will be a string, so we parse it again
-                        return [2 /*return*/, JSON.parse(Object(common["hOP"])(data, "RenderListFormData") ? data.RenderListFormData : data)];
-                }
-            });
+    renderListFormData(itemId, formId, mode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(List, `renderlistformdata(itemid=${itemId}, formid='${formId}', mode='${mode}')`));
+            // data will be a string, so we parse it again
+            return JSON.parse(hOP(data, "RenderListFormData") ? data.RenderListFormData : data);
         });
-    };
+    }
     /**
      * Reserves a list item ID for idempotent list item creation.
      */
-    _List.prototype.reserveListItemId = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(List, "reservelistitemid"))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(data, "ReserveListItemId") ? data.ReserveListItemId : data];
-                }
-            });
+    reserveListItemId() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(List, "reservelistitemid"));
+            return hOP(data, "ReserveListItemId") ? data.ReserveListItemId : data;
         });
-    };
+    }
     /**
      * Returns the ListItemEntityTypeFullName for this list, used when adding/updating list items. Does not support batching.
      */
-    _List.prototype.getListItemEntityTypeFullName = function () {
-        return this.clone(List, null, false).select("ListItemEntityTypeFullName").get().then(function (o) { return o.ListItemEntityTypeFullName; });
-    };
+    getListItemEntityTypeFullName() {
+        // we cache these requests as the entity name doesn't change and we can save traffic
+        // this is justified as this method generates our second highest number of monthly executions ahead of item add and update
+        return this.clone(List, null, false).select("ListItemEntityTypeFullName").usingCaching({
+            expiration: dateAdd(new Date(), "day", 5),
+            key: `PnPjs-ListEntityName:${this.toUrl()}`,
+            storeName: "local",
+        })().then(o => o.ListItemEntityTypeFullName);
+    }
     /**
      * Creates an item using path (in a folder), validates and sets its field values.
      *
@@ -5285,103 +4563,85 @@ var types_List = /** @class */ (function (_super) {
      * @param checkInComment Optional check in comment.
      * @param additionalProps Optional set of additional properties LeafName new document file name,
      */
-    _List.prototype.addValidateUpdateItemUsingPath = function (formValues, decodedUrl, bNewDocumentUpdate, checkInComment, additionalProps) {
-        if (bNewDocumentUpdate === void 0) { bNewDocumentUpdate = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var addProps, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        addProps = {
-                            FolderPath: toResourcePath(decodedUrl),
-                        };
-                        if (Object(common["objectDefinedNotNull"])(additionalProps)) {
-                            if (additionalProps.leafName) {
-                                addProps.LeafName = toResourcePath(additionalProps.leafName);
-                            }
-                            if (additionalProps.objectType) {
-                                addProps.UnderlyingObjectType = additionalProps.objectType;
-                            }
-                        }
-                        return [4 /*yield*/, spPost(this.clone(List, "AddValidateUpdateItemUsingPath()"), request_builders_body({
-                                bNewDocumentUpdate: bNewDocumentUpdate,
-                                checkInComment: checkInComment,
-                                formValues: formValues,
-                                listItemCreateInfo: Object(common["assign"])(metadata("SP.ListItemCreationInformationUsingPath"), addProps),
-                            }))];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(res, "AddValidateUpdateItemUsingPath") ? res.AddValidateUpdateItemUsingPath : res];
+    addValidateUpdateItemUsingPath(formValues, decodedUrl, bNewDocumentUpdate = false, checkInComment, additionalProps) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const addProps = {
+                FolderPath: toResourcePath(decodedUrl),
+            };
+            if (objectDefinedNotNull(additionalProps)) {
+                if (additionalProps.leafName) {
+                    addProps.LeafName = toResourcePath(additionalProps.leafName);
                 }
-            });
+                if (additionalProps.objectType) {
+                    addProps.UnderlyingObjectType = additionalProps.objectType;
+                }
+            }
+            const res = yield spPost(this.clone(List, "AddValidateUpdateItemUsingPath()"), body({
+                bNewDocumentUpdate,
+                checkInComment,
+                formValues,
+                listItemCreateInfo: util_assign(metadata("SP.ListItemCreationInformationUsingPath"), addProps),
+            }));
+            return hOP(res, "AddValidateUpdateItemUsingPath") ? res.AddValidateUpdateItemUsingPath : res;
         });
-    };
+    }
     /**
      * Gets the parent information for this item's list and web
      */
-    _List.prototype.getParentInfos = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        return [2 /*return*/, {
-                                List: {
-                                    Id: urlInfo.Id,
-                                    RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
-                                    RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
-                                    RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
-                                },
-                                ParentWeb: {
-                                    Id: urlInfo.ParentWeb.Id,
-                                    ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
-                                    ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
-                                    Url: urlInfo.ParentWeb.Url,
-                                },
-                            }];
-                }
-            });
+    getParentInfos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")();
+            return {
+                List: {
+                    Id: urlInfo.Id,
+                    RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
+                    RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
+                    RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
+                },
+                ParentWeb: {
+                    Id: urlInfo.ParentWeb.Id,
+                    ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
+                    ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
+                    Url: urlInfo.ParentWeb.Url,
+                },
+            };
         });
-    };
-    __decorate([
-        tag("l.update")
-    ], _List.prototype, "update", null);
-    __decorate([
-        tag("l.getChanges")
-    ], _List.prototype, "getChanges", null);
-    __decorate([
-        tag("l.CAMLQuery")
-    ], _List.prototype, "getItemsByCAMLQuery", null);
-    __decorate([
-        tag("l.ChangesSinceToken")
-    ], _List.prototype, "getListItemChangesSinceToken", null);
-    __decorate([
-        tag("l.recycle")
-    ], _List.prototype, "recycle", null);
-    __decorate([
-        tag("l.renderListData")
-    ], _List.prototype, "renderListData", null);
-    __decorate([
-        tag("l.AsStream")
-    ], _List.prototype, "renderListDataAsStream", null);
-    __decorate([
-        tag("l.renderListFormData")
-    ], _List.prototype, "renderListFormData", null);
-    __decorate([
-        tag("l.reserveListItemId")
-    ], _List.prototype, "reserveListItemId", null);
-    __decorate([
-        tag("l.getListItemEntityTypeFullName")
-    ], _List.prototype, "getListItemEntityTypeFullName", null);
-    __decorate([
-        tag("l.addValidateUpdateItemUsingPath")
-    ], _List.prototype, "addValidateUpdateItemUsingPath", null);
-    return _List;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var List = spInvokableFactory(types_List);
+    }
+}
+__decorate([
+    tag("l.update")
+], types_List.prototype, "update", null);
+__decorate([
+    tag("l.getChanges")
+], types_List.prototype, "getChanges", null);
+__decorate([
+    tag("l.CAMLQuery")
+], types_List.prototype, "getItemsByCAMLQuery", null);
+__decorate([
+    tag("l.ChangesSinceToken")
+], types_List.prototype, "getListItemChangesSinceToken", null);
+__decorate([
+    tag("l.recycle")
+], types_List.prototype, "recycle", null);
+__decorate([
+    tag("l.renderListData")
+], types_List.prototype, "renderListData", null);
+__decorate([
+    tag("l.AsStream")
+], types_List.prototype, "renderListDataAsStream", null);
+__decorate([
+    tag("l.renderListFormData")
+], types_List.prototype, "renderListFormData", null);
+__decorate([
+    tag("l.reserveListItemId")
+], types_List.prototype, "reserveListItemId", null);
+__decorate([
+    tag("l.getListItemEntityTypeFullName")
+], types_List.prototype, "getListItemEntityTypeFullName", null);
+__decorate([
+    tag("l.addValidateUpdateItemUsingPath")
+], types_List.prototype, "addValidateUpdateItemUsingPath", null);
+const List = spInvokableFactory(types_List);
 /**
  * Enum representing the options of the RenderOptions property on IRenderListDataParameters interface
  */
@@ -5430,64 +4690,57 @@ var ControlMode;
  * Describes a collection of Item objects
  *
  */
-var types_Items = /** @class */ (function (_super) {
-    __extends(_Items, _super);
-    function _Items() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Items = class _Items extends _SharePointQueryableCollection {
     /**
     * Gets an Item by id
     *
     * @param id The integer id of the item to retrieve
     */
-    _Items.prototype.getById = function (id) {
-        return tag.configure(Item(this).concat("(" + id + ")"), "is.getById");
-    };
+    getById(id) {
+        return tag.configure(Item(this).concat(`(${id})`), "is.getById");
+    }
     /**
      * Gets BCS Item by string id
      *
      * @param stringId The string id of the BCS item to retrieve
      */
-    _Items.prototype.getItemByStringId = function (stringId) {
+    getItemByStringId(stringId) {
         // creates an item with the parent list path and append out method call
-        return tag.configure(Item(this.parentUrl, "getItemByStringId('" + stringId + "')"), "is.getItemByStringId");
-    };
+        return tag.configure(Item(this.parentUrl, `getItemByStringId('${stringId}')`), "is.getItemByStringId");
+    }
     /**
      * Skips the specified number of items (https://msdn.microsoft.com/en-us/library/office/fp142385.aspx#sectionSection6)
      *
      * @param skip The starting id where the page should start, use with top to specify pages
      * @param reverse It true the PagedPrev=true parameter is added allowing backwards navigation in the collection
      */
-    _Items.prototype.skip = function (skip, reverse) {
-        if (reverse === void 0) { reverse = false; }
+    skip(skip, reverse = false) {
         if (reverse) {
-            this.query.set("$skiptoken", encodeURIComponent("Paged=TRUE&PagedPrev=TRUE&p_ID=" + skip));
+            this.query.set("$skiptoken", encodeURIComponent(`Paged=TRUE&PagedPrev=TRUE&p_ID=${skip}`));
         }
         else {
-            this.query.set("$skiptoken", encodeURIComponent("Paged=TRUE&p_ID=" + skip));
+            this.query.set("$skiptoken", encodeURIComponent(`Paged=TRUE&p_ID=${skip}`));
         }
         return this;
-    };
+    }
     /**
      * Gets a collection designed to aid in paging through data
      *
      */
-    _Items.prototype.getPaged = function () {
+    getPaged() {
         return this.usingParser(new types_PagedItemCollectionParser(this))();
-    };
+    }
     /**
      * Gets all the items in a list, regardless of count. Does not support batching or caching
      *
      *  @param requestSize Number of items to return in each request (Default: 2000)
      *  @param acceptHeader Allows for setting the value of the Accept header for SP 2013 support
      */
-    _Items.prototype.getAll = function (requestSize, acceptHeader) {
-        if (requestSize === void 0) { requestSize = 2000; }
-        if (acceptHeader === void 0) { acceptHeader = "application/json;odata=nometadata"; }
+    getAll(requestSize = 2000, acceptHeader = "application/json;odata=nometadata") {
         Logger.write("Calling items.getAll should be done sparingly. Ensure this is the correct choice. If you are unsure, it is not.", 2 /* Warning */);
         // this will be used for the actual query
         // and we set no metadata here to try and reduce traffic
-        var items = Items(this, "").top(requestSize).configure({
+        const items = Items(this, "").top(requestSize).configure({
             headers: {
                 "Accept": acceptHeader,
             },
@@ -5496,17 +4749,17 @@ var types_Items = /** @class */ (function (_super) {
         // $top - allow setting the page size this way (override what we did above)
         // $select - allow picking the return fields (good behavior)
         // $filter - allow setting a filter, though this may fail due for large lists
-        this.query.forEach(function (v, k) {
+        this.query.forEach((v, k) => {
             if (/^\$select|filter|top|expand$/i.test(k)) {
                 items.query.set(k, v);
             }
         });
         // give back the promise
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             // this will eventually hold the items we return
-            var itemsCollector = [];
+            const itemsCollector = [];
             // action that will gather up our results recursively
-            var gatherer = function (last) {
+            const gatherer = (last) => {
                 // collect that set of results
                 [].push.apply(itemsCollector, last.results);
                 // if we have more, repeat - otherwise resolve with the collected items
@@ -5520,405 +4773,309 @@ var types_Items = /** @class */ (function (_super) {
             // start the cycle
             items.getPaged().then(gatherer).catch(reject);
         });
-    };
+    }
     /**
      * Adds a new item to the collection
      *
      * @param properties The new items's properties
      * @param listItemEntityTypeFullName The type name of the list's entities
      */
-    _Items.prototype.add = function (properties, listItemEntityTypeFullName) {
-        if (properties === void 0) { properties = {}; }
-        if (listItemEntityTypeFullName === void 0) { listItemEntityTypeFullName = null; }
-        return __awaiter(this, void 0, void 0, function () {
-            var removeDependency, listItemEntityType, postBody, promise;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        removeDependency = this.addBatchDependency();
-                        return [4 /*yield*/, this.ensureListItemEntityTypeName(listItemEntityTypeFullName)];
-                    case 1:
-                        listItemEntityType = _a.sent();
-                        postBody = request_builders_body(Object(common["assign"])(metadata(listItemEntityType), properties));
-                        promise = spPost(this.clone(Items, ""), postBody).then(function (data) {
-                            return {
-                                data: data,
-                                item: _this.getById(data.Id),
-                            };
-                        });
-                        removeDependency();
-                        return [2 /*return*/, promise];
-                }
+    add(properties = {}, listItemEntityTypeFullName = null) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const removeDependency = this.addBatchDependency();
+            const listItemEntityType = yield this.ensureListItemEntityTypeName(listItemEntityTypeFullName);
+            const postBody = body(util_assign(metadata(listItemEntityType), properties));
+            const promise = spPost(this.clone(Items, ""), postBody).then((data) => {
+                return {
+                    data: data,
+                    item: this.getById(data.Id),
+                };
             });
+            removeDependency();
+            return promise;
         });
-    };
+    }
     /**
      * Ensures we have the proper list item entity type name, either from the value provided or from the list
      *
      * @param candidatelistItemEntityTypeFullName The potential type name
      */
-    _Items.prototype.ensureListItemEntityTypeName = function (candidatelistItemEntityTypeFullName) {
-        return candidatelistItemEntityTypeFullName ?
-            Promise.resolve(candidatelistItemEntityTypeFullName) :
-            this.getParent(List).getListItemEntityTypeFullName();
-    };
-    __decorate([
-        tag("is.getPaged")
-    ], _Items.prototype, "getPaged", null);
-    __decorate([
-        tag("is.getAll")
-    ], _Items.prototype, "getAll", null);
-    __decorate([
-        tag("is.add")
-    ], _Items.prototype, "add", null);
-    _Items = __decorate([
-        defaultPath("items")
-    ], _Items);
-    return _Items;
-}(sharepointqueryable_SharePointQueryableCollection));
+    ensureListItemEntityTypeName(candidatelistItemEntityTypeFullName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return candidatelistItemEntityTypeFullName ?
+                candidatelistItemEntityTypeFullName :
+                this.getParent(List).getListItemEntityTypeFullName();
+        });
+    }
+};
+__decorate([
+    tag("is.getPaged")
+], types_Items.prototype, "getPaged", null);
+__decorate([
+    tag("is.getAll")
+], types_Items.prototype, "getAll", null);
+__decorate([
+    tag("is.add")
+], types_Items.prototype, "add", null);
+types_Items = __decorate([
+    defaultPath("items")
+], types_Items);
 
-var Items = spInvokableFactory(types_Items);
+const Items = spInvokableFactory(types_Items);
 /**
  * Descrines a single Item instance
  *
  */
-var types_Item = /** @class */ (function (_super) {
-    __extends(_Item, _super);
-    function _Item() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("i");
-        return _this;
+class types_Item extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("i");
     }
-    Object.defineProperty(_Item.prototype, "effectiveBasePermissions", {
-        /**
-         * Gets the effective base permissions for the item
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "EffectiveBasePermissions"), "i.effectiveBasePermissions");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "effectiveBasePermissionsForUI", {
-        /**
-         * Gets the effective base permissions for the item in a UI context
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "EffectiveBasePermissionsForUI"), "i.effectiveBasePermissionsForUI");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "fieldValuesAsHTML", {
-        /**
-         * Gets the field values for this list item in their HTML representation
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "FieldValuesAsHTML"), "i.fvHTML");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "fieldValuesAsText", {
-        /**
-         * Gets the field values for this list item in their text representation
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "FieldValuesAsText"), "i.fvText");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "fieldValuesForEdit", {
-        /**
-         * Gets the field values for this list item for use in editing controls
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "FieldValuesForEdit"), "i.fvEdit");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "versions", {
-        /**
-         * Gets the collection of versions associated with this item
-         */
-        get: function () {
-            return tag.configure(ItemVersions(this), "i.versions");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Item.prototype, "list", {
-        get: function () {
-            return this.getParent(List, this.parentUrl.substr(0, this.parentUrl.lastIndexOf("/")));
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
-     * Updates this list intance with the supplied properties
+     * Gets the effective base permissions for the item
+     *
+     */
+    get effectiveBasePermissions() {
+        return tag.configure(SharePointQueryable(this, "EffectiveBasePermissions"), "i.effectiveBasePermissions");
+    }
+    /**
+     * Gets the effective base permissions for the item in a UI context
+     *
+     */
+    get effectiveBasePermissionsForUI() {
+        return tag.configure(SharePointQueryable(this, "EffectiveBasePermissionsForUI"), "i.effectiveBasePermissionsForUI");
+    }
+    /**
+     * Gets the field values for this list item in their HTML representation
+     *
+     */
+    get fieldValuesAsHTML() {
+        return tag.configure(SharePointQueryableInstance(this, "FieldValuesAsHTML"), "i.fvHTML");
+    }
+    /**
+     * Gets the field values for this list item in their text representation
+     *
+     */
+    get fieldValuesAsText() {
+        return tag.configure(SharePointQueryableInstance(this, "FieldValuesAsText"), "i.fvText");
+    }
+    /**
+     * Gets the field values for this list item for use in editing controls
+     *
+     */
+    get fieldValuesForEdit() {
+        return tag.configure(SharePointQueryableInstance(this, "FieldValuesForEdit"), "i.fvEdit");
+    }
+    /**
+     * Gets the collection of versions associated with this item
+     */
+    get versions() {
+        return tag.configure(ItemVersions(this), "i.versions");
+    }
+    get list() {
+        return this.getParent(List, this.parentUrl.substr(0, this.parentUrl.lastIndexOf("/")));
+    }
+    /**
+     * Updates this list instance with the supplied properties
      *
      * @param properties A plain object hash of values to update for the list
      * @param eTag Value used in the IF-Match header, by default "*"
      * @param listItemEntityTypeFullName The type name of the list's entities
      */
-    _Item.prototype.update = function (properties, eTag, listItemEntityTypeFullName) {
-        if (eTag === void 0) { eTag = "*"; }
-        if (listItemEntityTypeFullName === void 0) { listItemEntityTypeFullName = null; }
-        return __awaiter(this, void 0, void 0, function () {
-            var removeDependency, listItemEntityType, postBody, poster, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        removeDependency = this.addBatchDependency();
-                        return [4 /*yield*/, this.ensureListItemEntityTypeName(listItemEntityTypeFullName)];
-                    case 1:
-                        listItemEntityType = _a.sent();
-                        postBody = request_builders_body(Object(common["assign"])(metadata(listItemEntityType), properties), request_builders_headers({
-                            "IF-Match": eTag,
-                            "X-HTTP-Method": "MERGE",
-                        }));
-                        removeDependency();
-                        poster = tag.configure(this.clone(Item).usingParser(new types_ItemUpdatedParser()), "i.update");
-                        return [4 /*yield*/, spPost(poster, postBody)];
-                    case 2:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                item: this,
-                            }];
-                }
-            });
+    update(properties, eTag = "*", listItemEntityTypeFullName = null) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const removeDependency = this.addBatchDependency();
+            const listItemEntityType = yield this.ensureListItemEntityTypeName(listItemEntityTypeFullName);
+            const postBody = body(util_assign(metadata(listItemEntityType), properties), request_builders_headers({
+                "IF-Match": eTag,
+                "X-HTTP-Method": "MERGE",
+            }));
+            removeDependency();
+            const poster = tag.configure(this.clone(Item).usingParser(new types_ItemUpdatedParser()), "i.update");
+            const data = yield spPost(poster, postBody);
+            return {
+                data,
+                item: this,
+            };
         });
-    };
+    }
     /**
      * Moves the list item to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
-    _Item.prototype.recycle = function () {
+    recycle() {
         return spPost(this.clone(Item, "recycle"));
-    };
+    }
     /**
      * Deletes the item object with options.
      *
      * @param parameters Specifies the options to use when deleting a item.
      */
-    _Item.prototype.deleteWithParams = function (parameters) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, spPost(this.clone(Item, "DeleteWithParameters"), request_builders_body({ parameters: parameters }))];
-            });
+    deleteWithParams(parameters) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return spPost(this.clone(Item, "DeleteWithParameters"), body({ parameters }));
         });
-    };
+    }
     /**
      * Gets a string representation of the full URL to the WOPI frame.
      * If there is no associated WOPI application, or no associated action, an empty string is returned.
      *
      * @param action Display mode: 0: view, 1: edit, 2: mobileView, 3: interactivePreview
      */
-    _Item.prototype.getWopiFrameUrl = function (action) {
-        if (action === void 0) { action = 0; }
-        return __awaiter(this, void 0, void 0, function () {
-            var i, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        i = this.clone(Item, "getWOPIFrameUrl(@action)");
-                        i.query.set("@action", action);
-                        return [4 /*yield*/, spPost(i)];
-                    case 1:
-                        data = _a.sent();
-                        // handle verbose mode
-                        if (Object(common["hOP"])(data, "GetWOPIFrameUrl")) {
-                            return [2 /*return*/, data.GetWOPIFrameUrl];
-                        }
-                        return [2 /*return*/, data];
-                }
-            });
+    getWopiFrameUrl(action = 0) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const i = this.clone(Item, "getWOPIFrameUrl(@action)");
+            i.query.set("@action", action);
+            const data = yield spPost(i);
+            // handle verbose mode
+            if (hOP(data, "GetWOPIFrameUrl")) {
+                return data.GetWOPIFrameUrl;
+            }
+            return data;
         });
-    };
+    }
     /**
      * Validates and sets the values of the specified collection of fields for the list item.
      *
      * @param formValues The fields to change and their new values.
      * @param bNewDocumentUpdate true if the list item is a document being updated after upload; otherwise false.
      */
-    _Item.prototype.validateUpdateListItem = function (formValues, bNewDocumentUpdate) {
-        if (bNewDocumentUpdate === void 0) { bNewDocumentUpdate = false; }
-        return spPost(this.clone(Item, "validateupdatelistitem"), request_builders_body({ formValues: formValues, bNewDocumentUpdate: bNewDocumentUpdate }));
-    };
+    validateUpdateListItem(formValues, bNewDocumentUpdate = false) {
+        return spPost(this.clone(Item, "validateupdatelistitem"), body({ formValues, bNewDocumentUpdate }));
+    }
     /**
      * Gets the parent information for this item's list and web
      */
-    _Item.prototype.getParentInfos = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.select("Id", "ParentList/Id", "ParentList/RootFolder/UniqueId", "ParentList/RootFolder/ServerRelativeUrl", "ParentList/RootFolder/ServerRelativePath", "ParentList/ParentWeb/Id", "ParentList/ParentWeb/Url", "ParentList/ParentWeb/ServerRelativeUrl", "ParentList/ParentWeb/ServerRelativePath").expand("ParentList", "ParentList/RootFolder", "ParentList/ParentWeb")()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        return [2 /*return*/, {
-                                Item: {
-                                    Id: urlInfo.Id,
-                                },
-                                ParentList: {
-                                    Id: urlInfo.ParentList.Id,
-                                    RootFolderServerRelativePath: urlInfo.ParentList.RootFolder.ServerRelativePath,
-                                    RootFolderServerRelativeUrl: urlInfo.ParentList.RootFolder.ServerRelativeUrl,
-                                    RootFolderUniqueId: urlInfo.ParentList.RootFolder.UniqueId,
-                                },
-                                ParentWeb: {
-                                    Id: urlInfo.ParentList.ParentWeb.Id,
-                                    ServerRelativePath: urlInfo.ParentList.ParentWeb.ServerRelativePath,
-                                    ServerRelativeUrl: urlInfo.ParentList.ParentWeb.ServerRelativeUrl,
-                                    Url: urlInfo.ParentList.ParentWeb.Url,
-                                },
-                            }];
-                }
-            });
+    getParentInfos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.select("Id", "ParentList/Id", "ParentList/RootFolder/UniqueId", "ParentList/RootFolder/ServerRelativeUrl", "ParentList/RootFolder/ServerRelativePath", "ParentList/ParentWeb/Id", "ParentList/ParentWeb/Url", "ParentList/ParentWeb/ServerRelativeUrl", "ParentList/ParentWeb/ServerRelativePath").expand("ParentList", "ParentList/RootFolder", "ParentList/ParentWeb")();
+            return {
+                Item: {
+                    Id: urlInfo.Id,
+                },
+                ParentList: {
+                    Id: urlInfo.ParentList.Id,
+                    RootFolderServerRelativePath: urlInfo.ParentList.RootFolder.ServerRelativePath,
+                    RootFolderServerRelativeUrl: urlInfo.ParentList.RootFolder.ServerRelativeUrl,
+                    RootFolderUniqueId: urlInfo.ParentList.RootFolder.UniqueId,
+                },
+                ParentWeb: {
+                    Id: urlInfo.ParentList.ParentWeb.Id,
+                    ServerRelativePath: urlInfo.ParentList.ParentWeb.ServerRelativePath,
+                    ServerRelativeUrl: urlInfo.ParentList.ParentWeb.ServerRelativeUrl,
+                    Url: urlInfo.ParentList.ParentWeb.Url,
+                },
+            };
         });
-    };
+    }
     /**
      * Ensures we have the proper list item entity type name, either from the value provided or from the list
      *
      * @param candidatelistItemEntityTypeFullName The potential type name
      */
-    _Item.prototype.ensureListItemEntityTypeName = function (candidatelistItemEntityTypeFullName) {
-        return candidatelistItemEntityTypeFullName ?
-            Promise.resolve(candidatelistItemEntityTypeFullName) :
-            this.list.getListItemEntityTypeFullName();
-    };
-    __decorate([
-        tag("i.recycle")
-    ], _Item.prototype, "recycle", null);
-    __decorate([
-        tag("i.del-params")
-    ], _Item.prototype, "deleteWithParams", null);
-    __decorate([
-        tag("i.getWopiFrameUrl")
-    ], _Item.prototype, "getWopiFrameUrl", null);
-    __decorate([
-        tag("i.validateUpdateListItem")
-    ], _Item.prototype, "validateUpdateListItem", null);
-    return _Item;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Item = spInvokableFactory(types_Item);
+    ensureListItemEntityTypeName(candidatelistItemEntityTypeFullName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return candidatelistItemEntityTypeFullName ?
+                candidatelistItemEntityTypeFullName :
+                this.list.getListItemEntityTypeFullName();
+        });
+    }
+}
+__decorate([
+    tag("i.recycle")
+], types_Item.prototype, "recycle", null);
+__decorate([
+    tag("i.del-params")
+], types_Item.prototype, "deleteWithParams", null);
+__decorate([
+    tag("i.getWopiFrameUrl")
+], types_Item.prototype, "getWopiFrameUrl", null);
+__decorate([
+    tag("i.validateUpdateListItem")
+], types_Item.prototype, "validateUpdateListItem", null);
+const Item = spInvokableFactory(types_Item);
 /**
  * Describes a collection of Version objects
  *
  */
-var types_ItemVersions = /** @class */ (function (_super) {
-    __extends(_ItemVersions, _super);
-    function _ItemVersions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_ItemVersions = class _ItemVersions extends _SharePointQueryableCollection {
     /**
      * Gets a version by id
      *
      * @param versionId The id of the version to retrieve
      */
-    _ItemVersions.prototype.getById = function (versionId) {
-        return tag.configure(ItemVersion(this).concat("(" + versionId + ")"), "iv.getById");
-    };
-    _ItemVersions = __decorate([
-        defaultPath("versions")
-    ], _ItemVersions);
-    return _ItemVersions;
-}(sharepointqueryable_SharePointQueryableCollection));
+    getById(versionId) {
+        return tag.configure(ItemVersion(this).concat(`(${versionId})`), "iv.getById");
+    }
+};
+types_ItemVersions = __decorate([
+    defaultPath("versions")
+], types_ItemVersions);
 
-var ItemVersions = spInvokableFactory(types_ItemVersions);
+const ItemVersions = spInvokableFactory(types_ItemVersions);
 /**
  * Describes a single Version instance
  *
  */
-var types_ItemVersion = /** @class */ (function (_super) {
-    __extends(_ItemVersion, _super);
-    function _ItemVersion() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("iv");
-        return _this;
+class types_ItemVersion extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("iv");
     }
-    return _ItemVersion;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var ItemVersion = spInvokableFactory(types_ItemVersion);
+}
+const ItemVersion = spInvokableFactory(types_ItemVersion);
 /**
  * Provides paging functionality for list items
  */
-var types_PagedItemCollection = /** @class */ (function () {
-    function PagedItemCollection(parent, nextUrl, results) {
+class types_PagedItemCollection {
+    constructor(parent, nextUrl, results) {
         this.parent = parent;
         this.nextUrl = nextUrl;
         this.results = results;
     }
-    Object.defineProperty(PagedItemCollection.prototype, "hasNext", {
-        /**
-         * If true there are more results available in the set, otherwise there are not
-         */
-        get: function () {
-            return typeof this.nextUrl === "string" && this.nextUrl.length > 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * If true there are more results available in the set, otherwise there are not
+     */
+    get hasNext() {
+        return typeof this.nextUrl === "string" && this.nextUrl.length > 0;
+    }
     /**
      * Gets the next set of results, or resolves to null if no results are available
      */
-    PagedItemCollection.prototype.getNext = function () {
+    getNext() {
         if (this.hasNext) {
-            var items = tag.configure(Items(this.nextUrl, null).configureFrom(this.parent), "ip.getNext");
+            const items = tag.configure(Items(this.nextUrl, null).configureFrom(this.parent), "ip.getNext");
             return items.getPaged();
         }
-        return new Promise(function (r) { return r(null); });
-    };
-    return PagedItemCollection;
-}());
-
-var types_PagedItemCollectionParser = /** @class */ (function (_super) {
-    __extends(PagedItemCollectionParser, _super);
-    function PagedItemCollectionParser(_parent) {
-        var _this = _super.call(this) || this;
-        _this._parent = _parent;
-        return _this;
+        return new Promise(r => r(null));
     }
-    PagedItemCollectionParser.prototype.parse = function (r) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.handleError(r, reject)) {
-                r.json().then(function (json) {
-                    var nextUrl = Object(common["hOP"])(json, "d") && Object(common["hOP"])(json.d, "__next") ? json.d.__next : json["odata.nextLink"];
-                    resolve(new types_PagedItemCollection(_this._parent, nextUrl, _this.parseODataJSON(json)));
+}
+class types_PagedItemCollectionParser extends parsers_ODataParser {
+    constructor(_parent) {
+        super();
+        this._parent = _parent;
+    }
+    parse(r) {
+        return new Promise((resolve, reject) => {
+            if (this.handleError(r, reject)) {
+                r.json().then(json => {
+                    const nextUrl = hOP(json, "d") && hOP(json.d, "__next") ? json.d.__next : json["odata.nextLink"];
+                    resolve(new types_PagedItemCollection(this._parent, nextUrl, this.parseODataJSON(json)));
                 });
             }
         });
-    };
-    return PagedItemCollectionParser;
-}(parsers_ODataParser));
-var types_ItemUpdatedParser = /** @class */ (function (_super) {
-    __extends(ItemUpdatedParser, _super);
-    function ItemUpdatedParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    ItemUpdatedParser.prototype.parse = function (r) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.handleError(r, reject)) {
+}
+class types_ItemUpdatedParser extends parsers_ODataParser {
+    parse(r) {
+        return new Promise((resolve, reject) => {
+            if (this.handleError(r, reject)) {
                 resolve({
                     "odata.etag": r.headers.get("etag"),
                 });
             }
         });
-    };
-    return ItemUpdatedParser;
-}(parsers_ODataParser));
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/items/list.js
 
@@ -5947,22 +5104,18 @@ addProp(types_List, "items", Items);
  * Describes a collection of File objects
  *
  */
-var types_Files = /** @class */ (function (_super) {
-    __extends(_Files, _super);
-    function _Files() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Files = class _Files extends _SharePointQueryableCollection {
     /**
      * Gets a File by filename
      *
      * @param name The name of the file, including extension.
      */
-    _Files.prototype.getByName = function (name) {
-        if (/\%#/.test(name)) {
+    getByName(name) {
+        if (/%#/.test(name)) {
             throw Error("For file names containing % or # please use web.getFileByServerRelativePath");
         }
-        return tag.configure(File(this).concat("('" + escapeQueryStrValue(name) + "')"), "fis.getByName");
-    };
+        return tag.configure(File(this).concat(`('${escapeQueryStrValue(name)}')`), "fis.getByName");
+    }
     /**
      * Uploads a file. Not supported for batching
      *
@@ -5971,25 +5124,17 @@ var types_Files = /** @class */ (function (_super) {
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten? (default: true)
      * @returns The new File and the raw response.
      */
-    _Files.prototype.add = function (url, content, shouldOverWrite) {
-        if (shouldOverWrite === void 0) { shouldOverWrite = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var response;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(Files(this, "add(overwrite=" + shouldOverWrite + ",url='" + escapeQueryStrValue(url) + "')"), {
-                            body: content,
-                        })];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, {
-                                data: response,
-                                file: this.getByName(url),
-                            }];
-                }
+    add(url, content, shouldOverWrite = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield spPost(Files(this, `add(overwrite=${shouldOverWrite},url='${escapeQueryStrValue(url)}')`), {
+                body: content,
             });
+            return {
+                data: response,
+                file: this.getByName(url),
+            };
         });
-    };
+    }
     /**
      * Adds a file using the pound percent safe methods
      *
@@ -5997,37 +5142,28 @@ var types_Files = /** @class */ (function (_super) {
      * @param content The file content
      * @param parameters Additional parameters to control method behavior
      */
-    _Files.prototype.addUsingPath = function (url, content, parameters) {
-        if (parameters === void 0) { parameters = { Overwrite: false }; }
-        return __awaiter(this, void 0, void 0, function () {
-            var path, resp;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        path = ["AddUsingPath(decodedurl='" + escapeQueryStrValue(url) + "'"];
-                        if (parameters) {
-                            if (parameters.Overwrite) {
-                                path.push(",Overwrite=true");
-                            }
-                            if (parameters.AutoCheckoutOnInvalidData) {
-                                path.push(",AutoCheckoutOnInvalidData=true");
-                            }
-                            if (!Object(common["stringIsNullOrEmpty"])(parameters.XorHash)) {
-                                path.push(",XorHash=" + escapeQueryStrValue(parameters.XorHash));
-                            }
-                        }
-                        path.push(")");
-                        return [4 /*yield*/, spPost(Files(this, path.join("")), { body: content })];
-                    case 1:
-                        resp = _a.sent();
-                        return [2 /*return*/, {
-                                data: resp,
-                                file: File(odataUrlFrom(resp)),
-                            }];
+    addUsingPath(url, content, parameters = { Overwrite: false }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const path = [`AddUsingPath(decodedurl='${escapeQueryStrValue(url)}'`];
+            if (parameters) {
+                if (parameters.Overwrite) {
+                    path.push(",Overwrite=true");
                 }
-            });
+                if (parameters.AutoCheckoutOnInvalidData) {
+                    path.push(",AutoCheckoutOnInvalidData=true");
+                }
+                if (!stringIsNullOrEmpty(parameters.XorHash)) {
+                    path.push(`,XorHash=${escapeQueryStrValue(parameters.XorHash)}`);
+                }
+            }
+            path.push(")");
+            const resp = yield spPost(Files(this, path.join("")), { body: content });
+            return {
+                data: resp,
+                file: File(odataUrlFrom(resp)),
+            };
         });
-    };
+    }
     /**
      * Uploads a file. Not supported for batching
      *
@@ -6038,23 +5174,13 @@ var types_Files = /** @class */ (function (_super) {
      * @param chunkSize The size of each file slice, in bytes (default: 10485760)
      * @returns The new File and the raw response.
      */
-    _Files.prototype.addChunked = function (url, content, progress, shouldOverWrite, chunkSize) {
-        if (shouldOverWrite === void 0) { shouldOverWrite = true; }
-        if (chunkSize === void 0) { chunkSize = 10485760; }
-        return __awaiter(this, void 0, void 0, function () {
-            var info, file;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Files, "add(overwrite=" + shouldOverWrite + ",url='" + escapeQueryStrValue(url) + "')", false))];
-                    case 1:
-                        info = _a.sent();
-                        file = File("_api/web/getFileByServerRelativeUrl('" + info.ServerRelativeUrl + "')");
-                        return [4 /*yield*/, file.setContentChunked(content, progress, chunkSize)];
-                    case 2: return [2 /*return*/, _a.sent()];
-                }
-            });
+    addChunked(url, content, progress, shouldOverWrite = true, chunkSize = 10485760) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield spPost(this.clone(Files, `add(overwrite=${shouldOverWrite},url='${escapeQueryStrValue(url)}')`, false));
+            const file = File(odataUrlFrom(response));
+            return yield file.setContentChunked(content, progress, chunkSize);
         });
-    };
+    }
     /**
      * Adds a ghosted file to an existing list or document library. Not supported for batching.
      *
@@ -6062,84 +5188,65 @@ var types_Files = /** @class */ (function (_super) {
      * @param templateFileType The type of use to create the file.
      * @returns The template file that was added and the raw response.
      */
-    _Files.prototype.addTemplateFile = function (fileUrl, templateFileType) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Files, "addTemplateFile(urloffile='" + escapeQueryStrValue(fileUrl) + "',templatefiletype=" + templateFileType + ")", false))];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, {
-                                data: response,
-                                file: File(odataUrlFrom(response)),
-                            }];
-                }
-            });
+    addTemplateFile(fileUrl, templateFileType) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield spPost(this.clone(Files, `addTemplateFile(urloffile='${escapeQueryStrValue(fileUrl)}',templatefiletype=${templateFileType})`, false));
+            return {
+                data: response,
+                file: File(odataUrlFrom(response)),
+            };
         });
-    };
-    __decorate([
-        tag("fis.add")
-    ], _Files.prototype, "add", null);
-    __decorate([
-        tag("fis.addUsingPath")
-    ], _Files.prototype, "addUsingPath", null);
-    __decorate([
-        tag("fis.addChunked")
-    ], _Files.prototype, "addChunked", null);
-    __decorate([
-        tag("fis.addTemplateFile")
-    ], _Files.prototype, "addTemplateFile", null);
-    _Files = __decorate([
-        defaultPath("files")
-    ], _Files);
-    return _Files;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("fis.add")
+], types_Files.prototype, "add", null);
+__decorate([
+    tag("fis.addUsingPath")
+], types_Files.prototype, "addUsingPath", null);
+__decorate([
+    tag("fis.addChunked")
+], types_Files.prototype, "addChunked", null);
+__decorate([
+    tag("fis.addTemplateFile")
+], types_Files.prototype, "addTemplateFile", null);
+types_Files = __decorate([
+    defaultPath("files")
+], types_Files);
 
-var Files = spInvokableFactory(types_Files);
+const Files = spInvokableFactory(types_Files);
 /**
  * Describes a single File instance
  *
  */
-var types_File = /** @class */ (function (_super) {
-    __extends(_File, _super);
-    function _File() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("fi");
-        return _this;
+class types_File extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("fi");
     }
-    Object.defineProperty(_File.prototype, "listItemAllFields", {
-        /**
-         * Gets a value that specifies the list item field values for the list item corresponding to the file.
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "listItemAllFields"), "fi.listItemAllFields");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_File.prototype, "versions", {
-        /**
-         * Gets a collection of versions
-         *
-         */
-        get: function () {
-            return tag.configure(Versions(this), "fi.versions");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Gets a value that specifies the list item field values for the list item corresponding to the file.
+     *
+     */
+    get listItemAllFields() {
+        return tag.configure(SharePointQueryableInstance(this, "listItemAllFields"), "fi.listItemAllFields");
+    }
+    /**
+     * Gets a collection of versions
+     *
+     */
+    get versions() {
+        return tag.configure(Versions(this), "fi.versions");
+    }
     /**
      * Approves the file submitted for content approval with the specified comment.
      * Only documents in lists that are enabled for content approval can be approved.
      *
      * @param comment The comment for the approval.
      */
-    _File.prototype.approve = function (comment) {
-        if (comment === void 0) { comment = ""; }
-        return spPost(this.clone(File, "approve(comment='" + escapeQueryStrValue(comment) + "')"));
-    };
+    approve(comment = "") {
+        return spPost(this.clone(File, `approve(comment='${escapeQueryStrValue(comment)}')`));
+    }
     /**
      * Stops the chunk upload session without saving the uploaded data. Does not support batching.
      * If the file doesn’t already exist in the library, the partially uploaded file will be deleted.
@@ -6149,39 +5256,36 @@ var types_File = /** @class */ (function (_super) {
      *
      * @param uploadId The unique identifier of the upload session.
      */
-    _File.prototype.cancelUpload = function (uploadId) {
-        return spPost(this.clone(File, "cancelUpload(uploadId=guid'" + uploadId + "')", false));
-    };
+    cancelUpload(uploadId) {
+        return spPost(this.clone(File, `cancelUpload(uploadId=guid'${uploadId}')`, false));
+    }
     /**
      * Checks the file in to a document library based on the check-in type.
      *
      * @param comment A comment for the check-in. Its length must be <= 1023.
      * @param checkinType The check-in type for the file.
      */
-    _File.prototype.checkin = function (comment, checkinType) {
-        if (comment === void 0) { comment = ""; }
-        if (checkinType === void 0) { checkinType = CheckinType.Major; }
+    checkin(comment = "", checkinType = CheckinType.Major) {
         if (comment.length > 1023) {
             throw Error("The maximum comment length is 1023 characters.");
         }
-        return spPost(this.clone(File, "checkin(comment='" + escapeQueryStrValue(comment) + "',checkintype=" + checkinType + ")"));
-    };
+        return spPost(this.clone(File, `checkin(comment='${escapeQueryStrValue(comment)}',checkintype=${checkinType})`));
+    }
     /**
      * Checks out the file from a document library.
      */
-    _File.prototype.checkout = function () {
+    checkout() {
         return spPost(this.clone(File, "checkout"));
-    };
+    }
     /**
      * Copies the file to the destination url.
      *
      * @param url The absolute url or server relative url of the destination file path to copy to.
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
      */
-    _File.prototype.copyTo = function (url, shouldOverWrite) {
-        if (shouldOverWrite === void 0) { shouldOverWrite = true; }
-        return spPost(this.clone(File, "copyTo(strnewurl='" + escapeQueryStrValue(url) + "',boverwrite=" + shouldOverWrite + ")"));
-    };
+    copyTo(url, shouldOverWrite = true) {
+        return spPost(this.clone(File, `copyTo(strnewurl='${escapeQueryStrValue(url)}',boverwrite=${shouldOverWrite})`));
+    }
     /**
      * Copies the file by path to destination path.
      * Also works with different site collections.
@@ -6190,59 +5294,46 @@ var types_File = /** @class */ (function (_super) {
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
      * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
      */
-    _File.prototype.copyByPath = function (destUrl, shouldOverWrite, KeepBoth) {
-        if (KeepBoth === void 0) { KeepBoth = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
-                    case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(File(webBaseUrl, "/_api/SP.MoveCopyUtil.CopyFileByPath(overwrite=@a1)?@a1=" + shouldOverWrite), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl),
-                                options: {
-                                    KeepBoth: KeepBoth,
-                                    ResetAuthorAndCreatedOnCopy: true,
-                                    ShouldBypassSharedLocks: true,
-                                    __metadata: {
-                                        type: "SP.MoveCopyOptions",
-                                    },
-                                },
-                                srcPath: toResourcePath(Object(common["isUrlAbsolute"])(srcUrl) ? srcUrl : "" + hostUrl + srcUrl),
-                            }))];
-                    case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                }
-            });
+    copyByPath(destUrl, shouldOverWrite, KeepBoth = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = yield this.select("ServerRelativeUrl")();
+            const webBaseUrl = extractWebUrl(absoluteUrl);
+            const hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
+            yield spPost(File(webBaseUrl, `/_api/SP.MoveCopyUtil.CopyFileByPath(overwrite=@a1)?@a1=${shouldOverWrite}`), body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${hostUrl}${destUrl}`),
+                options: {
+                    KeepBoth: KeepBoth,
+                    ResetAuthorAndCreatedOnCopy: true,
+                    ShouldBypassSharedLocks: true,
+                    __metadata: {
+                        type: "SP.MoveCopyOptions",
+                    },
+                },
+                srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${hostUrl}${srcUrl}`),
+            }));
         });
-    };
+    }
     /**
      * Denies approval for a file that was submitted for content approval.
      * Only documents in lists that are enabled for content approval can be denied.
      *
      * @param comment The comment for the denial.
      */
-    _File.prototype.deny = function (comment) {
-        if (comment === void 0) { comment = ""; }
+    deny(comment = "") {
         if (comment.length > 1023) {
             throw Error("The maximum comment length is 1023 characters.");
         }
-        return spPost(this.clone(File, "deny(comment='" + escapeQueryStrValue(comment) + "')"));
-    };
+        return spPost(this.clone(File, `deny(comment='${escapeQueryStrValue(comment)}')`));
+    }
     /**
      * Moves the file to the specified destination url.
      *
      * @param url The absolute url or server relative url of the destination file path to move to.
      * @param moveOperations The bitwise MoveOperations value for how to move the file.
      */
-    _File.prototype.moveTo = function (url, moveOperations) {
-        if (moveOperations === void 0) { moveOperations = MoveOperations.Overwrite; }
-        return spPost(this.clone(File, "moveTo(newurl='" + escapeQueryStrValue(url) + "',flags=" + moveOperations + ")"));
-    };
+    moveTo(url, moveOperations = MoveOperations.Overwrite) {
+        return spPost(this.clone(File, `moveTo(newurl='${escapeQueryStrValue(url)}',flags=${moveOperations})`));
+    }
     /**
      * Moves the file by path to the specified destination url.
      * Also works with different site collections.
@@ -6251,183 +5342,142 @@ var types_File = /** @class */ (function (_super) {
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
      * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
      */
-    _File.prototype.moveByPath = function (destUrl, shouldOverWrite, KeepBoth) {
-        if (KeepBoth === void 0) { KeepBoth = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, srcUrl, absoluteUrl, webBaseUrl, hostUrl;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl")()];
-                    case 1:
-                        _a = _b.sent(), srcUrl = _a.ServerRelativeUrl, absoluteUrl = _a["odata.id"];
-                        webBaseUrl = extractWebUrl(absoluteUrl);
-                        hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
-                        return [4 /*yield*/, spPost(File(webBaseUrl, "/_api/SP.MoveCopyUtil.MoveFileByPath(overwrite=@a1)?@a1=" + shouldOverWrite), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : "" + hostUrl + destUrl),
-                                options: {
-                                    KeepBoth: KeepBoth,
-                                    ResetAuthorAndCreatedOnCopy: false,
-                                    ShouldBypassSharedLocks: true,
-                                    __metadata: {
-                                        type: "SP.MoveCopyOptions",
-                                    },
-                                },
-                                srcPath: toResourcePath(Object(common["isUrlAbsolute"])(srcUrl) ? srcUrl : "" + hostUrl + srcUrl),
-                            }))];
-                    case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                }
-            });
+    moveByPath(destUrl, shouldOverWrite, KeepBoth = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = yield this.select("ServerRelativeUrl")();
+            const webBaseUrl = extractWebUrl(absoluteUrl);
+            const hostUrl = webBaseUrl.replace("://", "___").split("/")[0].replace("___", "://");
+            yield spPost(File(webBaseUrl, `/_api/SP.MoveCopyUtil.MoveFileByPath(overwrite=@a1)?@a1=${shouldOverWrite}`), body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${hostUrl}${destUrl}`),
+                options: {
+                    KeepBoth: KeepBoth,
+                    ResetAuthorAndCreatedOnCopy: false,
+                    ShouldBypassSharedLocks: true,
+                    __metadata: {
+                        type: "SP.MoveCopyOptions",
+                    },
+                },
+                srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${hostUrl}${srcUrl}`),
+            }));
         });
-    };
+    }
     /**
      * Submits the file for content approval with the specified comment.
      *
      * @param comment The comment for the published file. Its length must be <= 1023.
      */
-    _File.prototype.publish = function (comment) {
-        if (comment === void 0) { comment = ""; }
+    publish(comment = "") {
         if (comment.length > 1023) {
             throw Error("The maximum comment length is 1023 characters.");
         }
-        return spPost(this.clone(File, "publish(comment='" + escapeQueryStrValue(comment) + "')"));
-    };
+        return spPost(this.clone(File, `publish(comment='${escapeQueryStrValue(comment)}')`));
+    }
     /**
      * Moves the file to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      *
      * @returns The GUID of the recycled file.
      */
-    _File.prototype.recycle = function () {
+    recycle() {
         return spPost(this.clone(File, "recycle"));
-    };
+    }
     /**
      * Deletes the file object with options.
      *
      * @param parameters Specifies the options to use when deleting a file.
      */
-    _File.prototype.deleteWithParams = function (parameters) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, spPost(this.clone(File, "DeleteWithParameters"), request_builders_body({ parameters: parameters }))];
-            });
+    deleteWithParams(parameters) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return spPost(this.clone(File, "DeleteWithParameters"), body({ parameters }));
         });
-    };
+    }
     /**
      * Reverts an existing checkout for the file.
      *
      */
-    _File.prototype.undoCheckout = function () {
+    undoCheckout() {
         return spPost(this.clone(File, "undoCheckout"));
-    };
+    }
     /**
      * Removes the file from content approval or unpublish a major version.
      *
      * @param comment The comment for the unpublish operation. Its length must be <= 1023.
      */
-    _File.prototype.unpublish = function (comment) {
-        if (comment === void 0) { comment = ""; }
+    unpublish(comment = "") {
         if (comment.length > 1023) {
             throw Error("The maximum comment length is 1023 characters.");
         }
-        return spPost(this.clone(File, "unpublish(comment='" + escapeQueryStrValue(comment) + "')"));
-    };
+        return spPost(this.clone(File, `unpublish(comment='${escapeQueryStrValue(comment)}')`));
+    }
     /**
      * Checks to see if the file represented by this object exists
      *
      */
-    _File.prototype.exists = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var r, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.clone(File).select("Exists")()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, r.Exists];
-                    case 2:
-                        e_1 = _a.sent();
-                        // this treats any error here as the file not existing, which
-                        // might not be true, but is good enough.
-                        return [2 /*return*/, false];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    exists() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const r = yield this.clone(File).select("Exists")();
+                return r.Exists;
+            }
+            catch (e) {
+                // this treats any error here as the file not existing, which
+                // might not be true, but is good enough.
+                return false;
+            }
         });
-    };
+    }
     /**
      * Gets the contents of the file as text. Not supported in batching.
      *
      */
-    _File.prototype.getText = function () {
-        return this.clone(File, "$value", false).usingParser(new parsers_TextParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
-    };
+    getText() {
+        return this.clone(File, "$value", false).usingParser(new TextParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
+    }
     /**
      * Gets the contents of the file as a blob, does not work in Node.js. Not supported in batching.
      *
      */
-    _File.prototype.getBlob = function () {
-        return this.clone(File, "$value", false).usingParser(new parsers_BlobParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
-    };
+    getBlob() {
+        return this.clone(File, "$value", false).usingParser(new BlobParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
+    }
     /**
      * Gets the contents of a file as an ArrayBuffer, works in Node.js. Not supported in batching.
      */
-    _File.prototype.getBuffer = function () {
+    getBuffer() {
         return this.clone(File, "$value", false).usingParser(new parsers_BufferParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
-    };
+    }
     /**
      * Gets the contents of a file as an ArrayBuffer, works in Node.js. Not supported in batching.
      */
-    _File.prototype.getJSON = function () {
-        return this.clone(File, "$value", false).usingParser(new parsers_JSONParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
-    };
+    getJSON() {
+        return this.clone(File, "$value", false).usingParser(new JSONParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
+    }
     /**
      * Sets the content of a file, for large files use setContentChunked. Not supported in batching.
      *
      * @param content The file content
      *
      */
-    _File.prototype.setContent = function (content) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(File, "$value", false), {
-                            body: content,
-                            headers: {
-                                "X-HTTP-Method": "PUT",
-                            },
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, File(this)];
-                }
+    setContent(content) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this.clone(File, "$value", false), {
+                body: content,
+                headers: {
+                    "X-HTTP-Method": "PUT",
+                },
             });
+            return File(this);
         });
-    };
+    }
     /**
      * Gets the associated list item for this folder, loading the default properties
      */
-    _File.prototype.getItem = function () {
-        var selects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            selects[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var q, d;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = this.listItemAllFields;
-                        return [4 /*yield*/, q.select.apply(q, selects)()];
-                    case 1:
-                        d = _a.sent();
-                        return [2 /*return*/, Object(common["assign"])(Item(odataUrlFrom(d)), d)];
-                }
-            });
+    getItem(...selects) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.listItemAllFields;
+            const d = yield q.select(...selects)();
+            return util_assign(Item(odataUrlFrom(d)), d);
         });
-    };
+    }
     /**
      * Sets the contents of a file using a chunked upload approach. Not supported in batching.
      *
@@ -6435,43 +5485,26 @@ var types_File = /** @class */ (function (_super) {
      * @param progress A callback function which can be used to track the progress of the upload
      * @param chunkSize The size of each file slice, in bytes (default: 10485760)
      */
-    _File.prototype.setContentChunked = function (file, progress, chunkSize) {
-        if (chunkSize === void 0) { chunkSize = 10485760; }
-        return __awaiter(this, void 0, void 0, function () {
-            var fileSize, totalBlocks, uploadId, currentPointer, i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!Object(common["isFunc"])(progress)) {
-                            progress = function () { return null; };
-                        }
-                        fileSize = file.size;
-                        totalBlocks = parseInt((fileSize / chunkSize).toString(), 10) + ((fileSize % chunkSize === 0) ? 1 : 0);
-                        uploadId = Object(common["getGUID"])();
-                        // report that we are starting
-                        progress({ uploadId: uploadId, blockNumber: 1, chunkSize: chunkSize, currentPointer: 0, fileSize: fileSize, stage: "starting", totalBlocks: totalBlocks });
-                        return [4 /*yield*/, this.startUpload(uploadId, file.slice(0, chunkSize))];
-                    case 1:
-                        currentPointer = _a.sent();
-                        i = 2;
-                        _a.label = 2;
-                    case 2:
-                        if (!(i < totalBlocks)) return [3 /*break*/, 5];
-                        progress({ uploadId: uploadId, blockNumber: i, chunkSize: chunkSize, currentPointer: currentPointer, fileSize: fileSize, stage: "continue", totalBlocks: totalBlocks });
-                        return [4 /*yield*/, this.continueUpload(uploadId, currentPointer, file.slice(currentPointer, currentPointer + chunkSize))];
-                    case 3:
-                        currentPointer = _a.sent();
-                        _a.label = 4;
-                    case 4:
-                        i++;
-                        return [3 /*break*/, 2];
-                    case 5:
-                        progress({ uploadId: uploadId, blockNumber: totalBlocks, chunkSize: chunkSize, currentPointer: currentPointer, fileSize: fileSize, stage: "finishing", totalBlocks: totalBlocks });
-                        return [2 /*return*/, this.finishUpload(uploadId, currentPointer, file.slice(currentPointer))];
-                }
-            });
+    setContentChunked(file, progress, chunkSize = 10485760) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!isFunc(progress)) {
+                progress = () => null;
+            }
+            const fileSize = file.size;
+            const totalBlocks = parseInt((fileSize / chunkSize).toString(), 10) + ((fileSize % chunkSize === 0) ? 1 : 0);
+            const uploadId = getGUID();
+            // report that we are starting
+            progress({ uploadId, blockNumber: 1, chunkSize, currentPointer: 0, fileSize, stage: "starting", totalBlocks });
+            let currentPointer = yield this.startUpload(uploadId, file.slice(0, chunkSize));
+            // skip the first and last blocks
+            for (let i = 2; i < totalBlocks; i++) {
+                progress({ uploadId, blockNumber: i, chunkSize, currentPointer, fileSize, stage: "continue", totalBlocks });
+                currentPointer = yield this.continueUpload(uploadId, currentPointer, file.slice(currentPointer, currentPointer + chunkSize));
+            }
+            progress({ uploadId, blockNumber: totalBlocks, chunkSize, currentPointer, fileSize, stage: "finishing", totalBlocks });
+            return this.finishUpload(uploadId, currentPointer, file.slice(currentPointer));
         });
-    };
+    }
     /**
      * Starts a new chunk upload session and uploads the first fragment.
      * The current file content is not changed when this method completes.
@@ -6486,24 +5519,17 @@ var types_File = /** @class */ (function (_super) {
      * @param fragment The file contents.
      * @returns The size of the total uploaded data in bytes.
      */
-    _File.prototype.startUpload = function (uploadId, fragment) {
-        return __awaiter(this, void 0, void 0, function () {
-            var n;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(File, "startUpload(uploadId=guid'" + uploadId + "')", false), { body: fragment })];
-                    case 1:
-                        n = _a.sent();
-                        if (typeof n === "object") {
-                            // When OData=verbose the payload has the following shape:
-                            // { StartUpload: "10485760" }
-                            n = n.StartUpload;
-                        }
-                        return [2 /*return*/, parseFloat(n)];
-                }
-            });
+    startUpload(uploadId, fragment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let n = yield spPost(this.clone(File, `startUpload(uploadId=guid'${uploadId}')`, false), { body: fragment });
+            if (typeof n === "object") {
+                // When OData=verbose the payload has the following shape:
+                // { StartUpload: "10485760" }
+                n = n.StartUpload;
+            }
+            return parseFloat(n);
         });
-    };
+    }
     /**
      * Continues the chunk upload session with an additional fragment.
      * The current file content is not changed.
@@ -6515,24 +5541,17 @@ var types_File = /** @class */ (function (_super) {
      * @param fragment The file contents.
      * @returns The size of the total uploaded data in bytes.
      */
-    _File.prototype.continueUpload = function (uploadId, fileOffset, fragment) {
-        return __awaiter(this, void 0, void 0, function () {
-            var n;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(File, "continueUpload(uploadId=guid'" + uploadId + "',fileOffset=" + fileOffset + ")", false), { body: fragment })];
-                    case 1:
-                        n = _a.sent();
-                        if (typeof n === "object") {
-                            // When OData=verbose the payload has the following shape:
-                            // { ContinueUpload: "20971520" }
-                            n = n.ContinueUpload;
-                        }
-                        return [2 /*return*/, parseFloat(n)];
-                }
-            });
+    continueUpload(uploadId, fileOffset, fragment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let n = yield spPost(this.clone(File, `continueUpload(uploadId=guid'${uploadId}',fileOffset=${fileOffset})`, false), { body: fragment });
+            if (typeof n === "object") {
+                // When OData=verbose the payload has the following shape:
+                // { ContinueUpload: "20971520" }
+                n = n.ContinueUpload;
+            }
+            return parseFloat(n);
         });
-    };
+    }
     /**
      * Uploads the last file fragment and commits the file. The current file content is changed when this method completes.
      * Use the uploadId value that was passed to the StartUpload method that started the upload session.
@@ -6543,202 +5562,184 @@ var types_File = /** @class */ (function (_super) {
      * @param fragment The file contents.
      * @returns The newly uploaded file.
      */
-    _File.prototype.finishUpload = function (uploadId, fileOffset, fragment) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(File, "finishUpload(uploadId=guid'" + uploadId + "',fileOffset=" + fileOffset + ")", false), { body: fragment })];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, {
-                                data: response,
-                                file: File(odataUrlFrom(response)),
-                            }];
-                }
-            });
+    finishUpload(uploadId, fileOffset, fragment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield spPost(this.clone(File, `finishUpload(uploadId=guid'${uploadId}',fileOffset=${fileOffset})`, false), { body: fragment });
+            return {
+                data: response,
+                file: File(odataUrlFrom(response)),
+            };
         });
-    };
-    __decorate([
-        tag("fi.approve")
-    ], _File.prototype, "approve", null);
-    __decorate([
-        tag("fi.cancelUpload")
-    ], _File.prototype, "cancelUpload", null);
-    __decorate([
-        tag("fi.checkin")
-    ], _File.prototype, "checkin", null);
-    __decorate([
-        tag("fi.checkout")
-    ], _File.prototype, "checkout", null);
-    __decorate([
-        tag("fi.copyTo")
-    ], _File.prototype, "copyTo", null);
-    __decorate([
-        tag("fi.copyByPath")
-    ], _File.prototype, "copyByPath", null);
-    __decorate([
-        tag("fi.deny")
-    ], _File.prototype, "deny", null);
-    __decorate([
-        tag("fi.moveTo")
-    ], _File.prototype, "moveTo", null);
-    __decorate([
-        tag("fi.moveByPath")
-    ], _File.prototype, "moveByPath", null);
-    __decorate([
-        tag("fi.publish")
-    ], _File.prototype, "publish", null);
-    __decorate([
-        tag("fi.recycle")
-    ], _File.prototype, "recycle", null);
-    __decorate([
-        tag("fi.del-params")
-    ], _File.prototype, "deleteWithParams", null);
-    __decorate([
-        tag("fi.undoCheckout")
-    ], _File.prototype, "undoCheckout", null);
-    __decorate([
-        tag("fi.unpublish")
-    ], _File.prototype, "unpublish", null);
-    __decorate([
-        tag("fi.exists")
-    ], _File.prototype, "exists", null);
-    __decorate([
-        tag("fi.getText")
-    ], _File.prototype, "getText", null);
-    __decorate([
-        tag("fi.getBlob")
-    ], _File.prototype, "getBlob", null);
-    __decorate([
-        tag("fi.getBuffer")
-    ], _File.prototype, "getBuffer", null);
-    __decorate([
-        tag("fi.getJSON")
-    ], _File.prototype, "getJSON", null);
-    __decorate([
-        tag("fi.setContent")
-    ], _File.prototype, "setContent", null);
-    __decorate([
-        tag("fi.getItem")
-    ], _File.prototype, "getItem", null);
-    __decorate([
-        tag("fi.startUpload")
-    ], _File.prototype, "startUpload", null);
-    __decorate([
-        tag("fi.continueUpload")
-    ], _File.prototype, "continueUpload", null);
-    __decorate([
-        tag("fi.finishUpload")
-    ], _File.prototype, "finishUpload", null);
-    return _File;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var File = spInvokableFactory(types_File);
+    }
+}
+__decorate([
+    tag("fi.approve")
+], types_File.prototype, "approve", null);
+__decorate([
+    tag("fi.cancelUpload")
+], types_File.prototype, "cancelUpload", null);
+__decorate([
+    tag("fi.checkin")
+], types_File.prototype, "checkin", null);
+__decorate([
+    tag("fi.checkout")
+], types_File.prototype, "checkout", null);
+__decorate([
+    tag("fi.copyTo")
+], types_File.prototype, "copyTo", null);
+__decorate([
+    tag("fi.copyByPath")
+], types_File.prototype, "copyByPath", null);
+__decorate([
+    tag("fi.deny")
+], types_File.prototype, "deny", null);
+__decorate([
+    tag("fi.moveTo")
+], types_File.prototype, "moveTo", null);
+__decorate([
+    tag("fi.moveByPath")
+], types_File.prototype, "moveByPath", null);
+__decorate([
+    tag("fi.publish")
+], types_File.prototype, "publish", null);
+__decorate([
+    tag("fi.recycle")
+], types_File.prototype, "recycle", null);
+__decorate([
+    tag("fi.del-params")
+], types_File.prototype, "deleteWithParams", null);
+__decorate([
+    tag("fi.undoCheckout")
+], types_File.prototype, "undoCheckout", null);
+__decorate([
+    tag("fi.unpublish")
+], types_File.prototype, "unpublish", null);
+__decorate([
+    tag("fi.exists")
+], types_File.prototype, "exists", null);
+__decorate([
+    tag("fi.getText")
+], types_File.prototype, "getText", null);
+__decorate([
+    tag("fi.getBlob")
+], types_File.prototype, "getBlob", null);
+__decorate([
+    tag("fi.getBuffer")
+], types_File.prototype, "getBuffer", null);
+__decorate([
+    tag("fi.getJSON")
+], types_File.prototype, "getJSON", null);
+__decorate([
+    tag("fi.setContent")
+], types_File.prototype, "setContent", null);
+__decorate([
+    tag("fi.getItem")
+], types_File.prototype, "getItem", null);
+__decorate([
+    tag("fi.startUpload")
+], types_File.prototype, "startUpload", null);
+__decorate([
+    tag("fi.continueUpload")
+], types_File.prototype, "continueUpload", null);
+__decorate([
+    tag("fi.finishUpload")
+], types_File.prototype, "finishUpload", null);
+const File = spInvokableFactory(types_File);
 /**
  * Describes a collection of Version objects
  *
  */
-var types_Versions = /** @class */ (function (_super) {
-    __extends(_Versions, _super);
-    function _Versions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Versions = class _Versions extends _SharePointQueryableCollection {
     /**
      * Gets a version by id
      *
      * @param versionId The id of the version to retrieve
      */
-    _Versions.prototype.getById = function (versionId) {
-        return tag.configure(Version(this).concat("(" + versionId + ")"), "vers.getById");
-    };
+    getById(versionId) {
+        return tag.configure(Version(this).concat(`(${versionId})`), "vers.getById");
+    }
     /**
      * Deletes all the file version objects in the collection.
      *
      */
-    _Versions.prototype.deleteAll = function () {
+    deleteAll() {
         return spPost(Versions(this, "deleteAll"));
-    };
+    }
     /**
      * Deletes the specified version of the file.
      *
      * @param versionId The ID of the file version to delete.
      */
-    _Versions.prototype.deleteById = function (versionId) {
-        return spPost(this.clone(Versions, "deleteById(vid=" + versionId + ")"));
-    };
+    deleteById(versionId) {
+        return spPost(this.clone(Versions, `deleteById(vid=${versionId})`));
+    }
     /**
      * Recycles the specified version of the file.
      *
      * @param versionId The ID of the file version to delete.
      */
-    _Versions.prototype.recycleByID = function (versionId) {
-        return spPost(this.clone(Versions, "recycleByID(vid=" + versionId + ")"));
-    };
+    recycleByID(versionId) {
+        return spPost(this.clone(Versions, `recycleByID(vid=${versionId})`));
+    }
     /**
      * Deletes the file version object with the specified version label.
      *
      * @param label The version label of the file version to delete, for example: 1.2
      */
-    _Versions.prototype.deleteByLabel = function (label) {
-        return spPost(this.clone(Versions, "deleteByLabel(versionlabel='" + escapeQueryStrValue(label) + "')"));
-    };
+    deleteByLabel(label) {
+        return spPost(this.clone(Versions, `deleteByLabel(versionlabel='${escapeQueryStrValue(label)}')`));
+    }
     /**
      * Recycles the file version object with the specified version label.
      *
      * @param label The version label of the file version to delete, for example: 1.2
      */
-    _Versions.prototype.recycleByLabel = function (label) {
-        return spPost(this.clone(Versions, "recycleByLabel(versionlabel='" + escapeQueryStrValue(label) + "')"));
-    };
+    recycleByLabel(label) {
+        return spPost(this.clone(Versions, `recycleByLabel(versionlabel='${escapeQueryStrValue(label)}')`));
+    }
     /**
      * Creates a new file version from the file specified by the version label.
      *
      * @param label The version label of the file version to restore, for example: 1.2
      */
-    _Versions.prototype.restoreByLabel = function (label) {
-        return spPost(this.clone(Versions, "restoreByLabel(versionlabel='" + escapeQueryStrValue(label) + "')"));
-    };
-    __decorate([
-        tag("vers.deleteAll")
-    ], _Versions.prototype, "deleteAll", null);
-    __decorate([
-        tag("vers.deleteById")
-    ], _Versions.prototype, "deleteById", null);
-    __decorate([
-        tag("vers.recycleByID")
-    ], _Versions.prototype, "recycleByID", null);
-    __decorate([
-        tag("vers.deleteByLabel")
-    ], _Versions.prototype, "deleteByLabel", null);
-    __decorate([
-        tag("vers.recycleByLabel")
-    ], _Versions.prototype, "recycleByLabel", null);
-    __decorate([
-        tag("vers.restoreByLabel")
-    ], _Versions.prototype, "restoreByLabel", null);
-    _Versions = __decorate([
-        defaultPath("versions")
-    ], _Versions);
-    return _Versions;
-}(sharepointqueryable_SharePointQueryableCollection));
+    restoreByLabel(label) {
+        return spPost(this.clone(Versions, `restoreByLabel(versionlabel='${escapeQueryStrValue(label)}')`));
+    }
+};
+__decorate([
+    tag("vers.deleteAll")
+], types_Versions.prototype, "deleteAll", null);
+__decorate([
+    tag("vers.deleteById")
+], types_Versions.prototype, "deleteById", null);
+__decorate([
+    tag("vers.recycleByID")
+], types_Versions.prototype, "recycleByID", null);
+__decorate([
+    tag("vers.deleteByLabel")
+], types_Versions.prototype, "deleteByLabel", null);
+__decorate([
+    tag("vers.recycleByLabel")
+], types_Versions.prototype, "recycleByLabel", null);
+__decorate([
+    tag("vers.restoreByLabel")
+], types_Versions.prototype, "restoreByLabel", null);
+types_Versions = __decorate([
+    defaultPath("versions")
+], types_Versions);
 
-var Versions = spInvokableFactory(types_Versions);
+const Versions = spInvokableFactory(types_Versions);
 /**
  * Describes a single Version instance
  *
  */
-var types_Version = /** @class */ (function (_super) {
-    __extends(_Version, _super);
-    function _Version() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("ver");
-        return _this;
+class types_Version extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("ver");
     }
-    return _Version;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Version = spInvokableFactory(types_Version);
+}
+const Version = spInvokableFactory(types_Version);
 /**
  * Types for document check in.
  * Minor = 0
@@ -6777,7 +5778,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "web", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return Web(this._baseUrl).configure(this._options);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return Web(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 rest_SPRest.prototype.createBatch = function () {
@@ -6794,60 +5797,46 @@ rest_SPRest.prototype.createBatch = function () {
 
 
 
-var types_AppCatalog = /** @class */ (function (_super) {
-    __extends(_AppCatalog, _super);
-    function _AppCatalog(baseUrl, path) {
-        if (path === void 0) { path = "_api/web/tenantappcatalog/AvailableApps"; }
-        return _super.call(this, extractWebUrl(typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl()), path) || this;
+class types_AppCatalog extends _SharePointQueryableCollection {
+    constructor(baseUrl, path = "_api/web/tenantappcatalog/AvailableApps") {
+        super(extractWebUrl(typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl()), path);
     }
     /**
      * Get details of specific app from the app catalog
      * @param id - Specify the guid of the app
      */
-    _AppCatalog.prototype.getAppById = function (id) {
-        return tag.configure(App(this, "getById('" + id + "')"), "ac.getAppById");
-    };
+    getAppById(id) {
+        return tag.configure(App(this, `getById('${id}')`), "ac.getAppById");
+    }
     /**
      * Synchronize a solution to the Microsoft Teams App Catalog
      * @param id - Specify the guid of the app
      * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
      *                            PnPjs will try to fetch the item id by default, you can still use this parameter to pass your own item id in the first parameter
      */
-    _AppCatalog.prototype.syncSolutionToTeams = function (id, useSharePointItemId) {
-        if (useSharePointItemId === void 0) { useSharePointItemId = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var appId, webUrl, web, listId, listItems, poster;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        appId = null;
-                        webUrl = extractWebUrl(this.toUrl());
-                        if (!useSharePointItemId) return [3 /*break*/, 1];
-                        appId = id;
-                        return [3 /*break*/, 4];
-                    case 1:
-                        web = Web(webUrl);
-                        return [4 /*yield*/, web.lists.select("Id").filter("EntityTypeName eq 'AppCatalog'")()];
-                    case 2:
-                        listId = (_a.sent())[0].Id;
-                        return [4 /*yield*/, web.lists.getById(listId).items.filter("AppProductID eq '" + id + "'").top(1)()];
-                    case 3:
-                        listItems = _a.sent();
-                        if (listItems && listItems.length > 0) {
-                            appId = listItems[0].Id;
-                        }
-                        else {
-                            throw Error("Did not find the app with id " + id + " in the appcatalog.");
-                        }
-                        _a.label = 4;
-                    case 4:
-                        poster = tag.configure(AppCatalog(webUrl, "_api/web/tenantappcatalog/SyncSolutionToTeams(id=" + appId + ")"), "ac.syncSolutionToTeams");
-                        return [4 /*yield*/, spPost(poster, {})];
-                    case 5: return [2 /*return*/, _a.sent()];
+    syncSolutionToTeams(id, useSharePointItemId = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // This REST call requires that you refer the list item id of the solution in the app catalog site.
+            let appId = null;
+            const webUrl = extractWebUrl(this.toUrl());
+            if (useSharePointItemId) {
+                appId = id;
+            }
+            else {
+                const web = Web(webUrl);
+                const listId = (yield web.lists.select("Id").filter("EntityTypeName eq 'AppCatalog'")())[0].Id;
+                const listItems = yield web.lists.getById(listId).items.filter(`AppProductID eq '${id}'`).top(1)();
+                if (listItems && listItems.length > 0) {
+                    appId = listItems[0].Id;
                 }
-            });
+                else {
+                    throw Error(`Did not find the app with id ${id} in the appcatalog.`);
+                }
+            }
+            const poster = tag.configure(AppCatalog(webUrl, `_api/web/tenantappcatalog/SyncSolutionToTeams(id=${appId})`), "ac.syncSolutionToTeams");
+            return yield spPost(poster, {});
         });
-    };
+    }
     /**
      * Uploads an app package. Not supported for batching
      *
@@ -6856,106 +5845,89 @@ var types_AppCatalog = /** @class */ (function (_super) {
      * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
      * @returns Promise<IAppAddResult>
      */
-    _AppCatalog.prototype.add = function (filename, content, shouldOverWrite) {
-        if (shouldOverWrite === void 0) { shouldOverWrite = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var adder, r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        adder = tag.configure(AppCatalog(extractWebUrl(this.toUrl()), "_api/web/tenantappcatalog/add(overwrite=" + shouldOverWrite + ",url='" + filename + "')"), "ac.add");
-                        return [4 /*yield*/, spPost(adder, {
-                                body: content, headers: {
-                                    "binaryStringRequestBody": "true",
-                                },
-                            })];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, {
-                                data: r,
-                                file: File(odataUrlFrom(r)),
-                            }];
-                }
+    add(filename, content, shouldOverWrite = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // you don't add to the availableapps collection
+            const adder = tag.configure(AppCatalog(extractWebUrl(this.toUrl()), `_api/web/tenantappcatalog/add(overwrite=${shouldOverWrite},url='${filename}')`), "ac.add");
+            const r = yield spPost(adder, {
+                body: content, headers: {
+                    "binaryStringRequestBody": "true",
+                },
             });
+            return {
+                data: r,
+                file: File(odataUrlFrom(r)),
+            };
         });
-    };
-    return _AppCatalog;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var AppCatalog = spInvokableFactory(types_AppCatalog);
-var types_App = /** @class */ (function (_super) {
-    __extends(_App, _super);
-    function _App() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+}
+const AppCatalog = spInvokableFactory(types_AppCatalog);
+class types_App extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * This method deploys an app on the app catalog. It must be called in the context
      * of the tenant app catalog web or it will fail.
      *
      * @param skipFeatureDeployment Deploy the app to the entire tenant
      */
-    _App.prototype.deploy = function (skipFeatureDeployment) {
-        if (skipFeatureDeployment === void 0) { skipFeatureDeployment = false; }
-        return this.do("Deploy(" + skipFeatureDeployment + ")");
-    };
+    deploy(skipFeatureDeployment = false) {
+        return this.do(`Deploy(${skipFeatureDeployment})`);
+    }
     /**
      * This method retracts a deployed app on the app catalog. It must be called in the context
      * of the tenant app catalog web or it will fail.
      */
-    _App.prototype.retract = function () {
+    retract() {
         return this.do("Retract");
-    };
+    }
     /**
      * This method allows an app which is already deployed to be installed on a web
      */
-    _App.prototype.install = function () {
+    install() {
         return this.do("Install");
-    };
+    }
     /**
      * This method allows an app which is already installed to be uninstalled on a web
      * Note: when you use the REST API to uninstall a solution package from the site, it is not relocated to the recycle bin
      */
-    _App.prototype.uninstall = function () {
+    uninstall() {
         return this.do("Uninstall");
-    };
+    }
     /**
      * This method allows an app which is already installed to be upgraded on a web
      */
-    _App.prototype.upgrade = function () {
+    upgrade() {
         return this.do("Upgrade");
-    };
+    }
     /**
      * This method removes an app from the app catalog. It must be called in the context
      * of the tenant app catalog web or it will fail.
      */
-    _App.prototype.remove = function () {
+    remove() {
         return this.do("Remove");
-    };
-    _App.prototype.do = function (path) {
+    }
+    do(path) {
         return spPost(this.clone(App, path));
-    };
-    __decorate([
-        tag("app.deploy")
-    ], _App.prototype, "deploy", null);
-    __decorate([
-        tag("app.retract")
-    ], _App.prototype, "retract", null);
-    __decorate([
-        tag("app.install")
-    ], _App.prototype, "install", null);
-    __decorate([
-        tag("app.uninstall")
-    ], _App.prototype, "uninstall", null);
-    __decorate([
-        tag("app.upgrade")
-    ], _App.prototype, "upgrade", null);
-    __decorate([
-        tag("app.remove")
-    ], _App.prototype, "remove", null);
-    return _App;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var App = spInvokableFactory(types_App);
+    }
+}
+__decorate([
+    tag("app.deploy")
+], types_App.prototype, "deploy", null);
+__decorate([
+    tag("app.retract")
+], types_App.prototype, "retract", null);
+__decorate([
+    tag("app.install")
+], types_App.prototype, "install", null);
+__decorate([
+    tag("app.uninstall")
+], types_App.prototype, "uninstall", null);
+__decorate([
+    tag("app.upgrade")
+], types_App.prototype, "upgrade", null);
+__decorate([
+    tag("app.remove")
+], types_App.prototype, "remove", null);
+const App = spInvokableFactory(types_App);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/web.js
 
@@ -6972,16 +5944,11 @@ types_Web.prototype.getAppCatalog = function (url) {
 
 
 rest_SPRest.prototype.getTenantAppCatalogWeb = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, SharePointQueryable("/", "_api/SP_TenantSettings_Current")()];
-                case 1:
-                    data = _a.sent();
-                    return [2 /*return*/, Web(data.CorporateCatalogUrl)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        return this.childConfigHook(({ options, runtime }) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield SharePointQueryable("/", "_api/SP_TenantSettings_Current").configure(options).setRuntime(runtime)();
+            return Web(data.CorporateCatalogUrl).configure(options).setRuntime(runtime);
+        }));
     });
 };
 
@@ -6992,240 +5959,164 @@ rest_SPRest.prototype.getTenantAppCatalogWeb = function () {
 
 
 
-var types_Attachments = /** @class */ (function (_super) {
-    __extends(_Attachments, _super);
-    function _Attachments() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Attachments = class _Attachments extends _SharePointQueryableCollection {
     /**
     * Gets a Attachment File by filename
     *
     * @param name The name of the file, including extension.
     */
-    _Attachments.prototype.getByName = function (name) {
-        var f = tag.configure(Attachment(this), "ats.getByName");
-        f.concat("('" + name + "')");
+    getByName(name) {
+        const f = tag.configure(Attachment(this), "ats.getByName");
+        f.concat(`('${name}')`);
         return f;
-    };
+    }
     /**
      * Adds a new attachment to the collection. Not supported for batching.
      *
      * @param name The name of the file, including extension.
      * @param content The Base64 file content.
      */
-    _Attachments.prototype.add = function (name, content) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Attachments, "add(FileName='" + name + "')", false), { body: content })];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, {
-                                data: response,
-                                file: this.getByName(name),
-                            }];
-                }
-            });
+    add(name, content) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield spPost(this.clone(Attachments, `add(FileName='${name}')`, false), { body: content });
+            return {
+                data: response,
+                file: this.getByName(name),
+            };
         });
-    };
+    }
     /**
      * Adds multiple new attachment to the collection. Not supported for batching.
      *
      * @param files The collection of files to add
      */
-    _Attachments.prototype.addMultiple = function (files) {
-        return __awaiter(this, void 0, void 0, function () {
-            var i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < files.length)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.add(files[i].name, files[i].content)];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
+    addMultiple(files) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (let i = 0; i < files.length; i++) {
+                yield this.add(files[i].name, files[i].content);
+            }
         });
-    };
+    }
     /**
      * Delete multiple attachments from the collection. Not supported for batching.
      *
      * @param files The collection of files to delete
      */
-    _Attachments.prototype.deleteMultiple = function () {
-        var files = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            files[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < files.length)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.getByName(files[i]).delete()];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
+    deleteMultiple(...files) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (let i = 0; i < files.length; i++) {
+                yield this.getByName(files[i]).delete();
+            }
         });
-    };
+    }
     /**
      * Delete multiple attachments from the collection and send to recycle bin. Not supported for batching.
      *
      * @param files The collection of files to be deleted and sent to recycle bin
      */
-    _Attachments.prototype.recycleMultiple = function () {
-        var files = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            files[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < files.length)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.getByName(files[i]).recycle()];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
+    recycleMultiple(...files) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (let i = 0; i < files.length; i++) {
+                yield this.getByName(files[i]).recycle();
+            }
         });
-    };
-    __decorate([
-        tag("ats.add")
-    ], _Attachments.prototype, "add", null);
-    __decorate([
-        tag("ats.addMultiple")
-    ], _Attachments.prototype, "addMultiple", null);
-    __decorate([
-        tag("ats.deleteMultiple")
-    ], _Attachments.prototype, "deleteMultiple", null);
-    __decorate([
-        tag("ats.recycleMultiple")
-    ], _Attachments.prototype, "recycleMultiple", null);
-    _Attachments = __decorate([
-        defaultPath("AttachmentFiles")
-    ], _Attachments);
-    return _Attachments;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("ats.add")
+], types_Attachments.prototype, "add", null);
+__decorate([
+    tag("ats.addMultiple")
+], types_Attachments.prototype, "addMultiple", null);
+__decorate([
+    tag("ats.deleteMultiple")
+], types_Attachments.prototype, "deleteMultiple", null);
+__decorate([
+    tag("ats.recycleMultiple")
+], types_Attachments.prototype, "recycleMultiple", null);
+types_Attachments = __decorate([
+    defaultPath("AttachmentFiles")
+], types_Attachments);
 
-var Attachments = spInvokableFactory(types_Attachments);
-var types_Attachment = /** @class */ (function (_super) {
-    __extends(_Attachment, _super);
-    function _Attachment() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("at");
-        return _this;
+const Attachments = spInvokableFactory(types_Attachments);
+class types_Attachment extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("at");
     }
     /**
      * Gets the contents of the file as text
      *
      */
-    _Attachment.prototype.getText = function () {
-        return this.getParsed(new parsers_TextParser());
-    };
+    getText() {
+        return this.getParsed(new TextParser());
+    }
     /**
      * Gets the contents of the file as a blob, does not work in Node.js
      *
      */
-    _Attachment.prototype.getBlob = function () {
-        return this.getParsed(new parsers_BlobParser());
-    };
+    getBlob() {
+        return this.getParsed(new BlobParser());
+    }
     /**
      * Gets the contents of a file as an ArrayBuffer, works in Node.js
      */
-    _Attachment.prototype.getBuffer = function () {
+    getBuffer() {
         return this.getParsed(new parsers_BufferParser());
-    };
+    }
     /**
      * Gets the contents of a file as an ArrayBuffer, works in Node.js
      */
-    _Attachment.prototype.getJSON = function () {
-        return this.getParsed(new parsers_JSONParser());
-    };
+    getJSON() {
+        return this.getParsed(new JSONParser());
+    }
     /**
      * Sets the content of a file. Not supported for batching
      *
      * @param content The value to set for the file contents
      */
-    _Attachment.prototype.setContent = function (content) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Attachment, "$value", false), request_builders_headers({ "X-HTTP-Method": "PUT" }, {
-                            body: content,
-                        }))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, Attachment(this)];
-                }
-            });
+    setContent(content) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this.clone(Attachment, "$value", false), request_builders_headers({ "X-HTTP-Method": "PUT" }, {
+                body: content,
+            }));
+            return Attachment(this);
         });
-    };
+    }
     /**
      * Delete this attachment file and send it to recycle bin
      *
      * @param eTag Value used in the IF-Match header, by default "*"
      */
-    _Attachment.prototype.recycle = function (eTag) {
-        if (eTag === void 0) { eTag = "*"; }
+    recycle(eTag = "*") {
         return spPost(this.clone(Attachment, "recycleObject"), request_builders_headers({
             "IF-Match": eTag,
             "X-HTTP-Method": "DELETE",
         }));
-    };
-    _Attachment.prototype.getParsed = function (parser) {
+    }
+    getParsed(parser) {
         return this.clone(Attachment, "$value", false).usingParser(parser)();
-    };
-    __decorate([
-        tag("at.getText")
-    ], _Attachment.prototype, "getText", null);
-    __decorate([
-        tag("at.getBlob")
-    ], _Attachment.prototype, "getBlob", null);
-    __decorate([
-        tag("at.getBuffer")
-    ], _Attachment.prototype, "getBuffer", null);
-    __decorate([
-        tag("at.getJSON")
-    ], _Attachment.prototype, "getJSON", null);
-    __decorate([
-        tag("at.setContent")
-    ], _Attachment.prototype, "setContent", null);
-    __decorate([
-        tag("at.recycle")
-    ], _Attachment.prototype, "recycle", null);
-    return _Attachment;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Attachment = spInvokableFactory(types_Attachment);
+    }
+}
+__decorate([
+    tag("at.getText")
+], types_Attachment.prototype, "getText", null);
+__decorate([
+    tag("at.getBlob")
+], types_Attachment.prototype, "getBlob", null);
+__decorate([
+    tag("at.getBuffer")
+], types_Attachment.prototype, "getBuffer", null);
+__decorate([
+    tag("at.getJSON")
+], types_Attachment.prototype, "getJSON", null);
+__decorate([
+    tag("at.setContent")
+], types_Attachment.prototype, "setContent", null);
+__decorate([
+    tag("at.recycle")
+], types_Attachment.prototype, "recycle", null);
+const Attachment = spInvokableFactory(types_Attachment);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/item.js
 
@@ -7245,7 +6136,7 @@ addProp(types_Item, "attachmentFiles", Attachments);
  * @param collection Collection of orderable things
  */
 function getNextOrder(collection) {
-    return collection.length < 1 ? 1 : (Math.max.apply(null, collection.map(function (i) { return i.order; })) + 1);
+    return collection.length < 1 ? 1 : (Math.max.apply(null, collection.map(i => i.order)) + 1);
 }
 /**
  * Normalizes the order value for all the sections, columns, and controls to be 1 based and stepped (1, 2, 3...)
@@ -7253,12 +6144,12 @@ function getNextOrder(collection) {
  * @param collection The collection to normalize
  */
 function reindex(collection) {
-    for (var i = 0; i < collection.length; i++) {
+    for (let i = 0; i < collection.length; i++) {
         collection[i].order = i + 1;
-        if (Object(common["hOP"])(collection[i], "columns")) {
+        if (hOP(collection[i], "columns")) {
             reindex(collection[i].columns);
         }
-        else if (Object(common["hOP"])(collection[i], "controls")) {
+        else if (hOP(collection[i], "controls")) {
             reindex(collection[i].controls);
         }
     }
@@ -7269,16 +6160,16 @@ function reindex(collection) {
 
 
 types_Web.prototype.getFileByServerRelativeUrl = function (fileRelativeUrl) {
-    return File(this, "getFileByServerRelativeUrl('" + escapeQueryStrValue(fileRelativeUrl) + "')");
+    return File(this, `getFileByServerRelativeUrl('${escapeQueryStrValue(fileRelativeUrl)}')`);
 };
 types_Web.prototype.getFileByServerRelativePath = function (fileRelativeUrl) {
-    return File(this, "getFileByServerRelativePath(decodedUrl='" + escapeQueryStrValue(fileRelativeUrl) + "')");
+    return File(this, `getFileByServerRelativePath(decodedUrl='${escapeQueryStrValue(fileRelativeUrl)}')`);
 };
 types_Web.prototype.getFileById = function (uniqueId) {
-    return File(this, "getFileById('" + uniqueId + "')");
+    return File(this, `getFileById('${uniqueId}')`);
 };
 types_Web.prototype.getFileByUrl = function (fileUrl) {
-    return File(this, "getFileByUrl('!@p1::" + escapeQueryStrValue(fileUrl) + "')");
+    return File(this, `getFileByUrl('!@p1::${escapeQueryStrValue(fileUrl)}')`);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/types.js
@@ -7291,144 +6182,112 @@ types_Web.prototype.getFileByUrl = function (fileUrl) {
 
 
 
-var types_Comments = /** @class */ (function (_super) {
-    __extends(_Comments, _super);
-    function _Comments() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Comments = class _Comments extends _SharePointQueryableCollection {
     /**
      * Adds a new comment to this collection
      *
      * @param info Comment information to add
      */
-    _Comments.prototype.add = function (info) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, d;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof info === "string") {
-                            info = { text: info };
-                        }
-                        postBody = request_builders_body(Object(common["assign"])(metadata("Microsoft.SharePoint.Comments.comment"), info));
-                        return [4 /*yield*/, spPost(this.clone(Comments, null), postBody)];
-                    case 1:
-                        d = _a.sent();
-                        return [2 /*return*/, Object(common["assign"])(this.getById(d.id), d)];
-                }
-            });
+    add(info) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (typeof info === "string") {
+                info = { text: info };
+            }
+            const postBody = body(util_assign(metadata("Microsoft.SharePoint.Comments.comment"), info));
+            const d = yield spPost(this.clone(Comments, null), postBody);
+            return util_assign(this.getById(d.id), d);
         });
-    };
+    }
     /**
      * Gets a comment by id
      *
      * @param id Id of the comment to load
      */
-    _Comments.prototype.getById = function (id) {
-        return tag.configure(Comment(this).concat("(" + id + ")"), "coms.getById");
-    };
+    getById(id) {
+        return tag.configure(Comment(this).concat(`(${id})`), "coms.getById");
+    }
     /**
      * Deletes all the comments in this collection
      */
-    _Comments.prototype.clear = function () {
+    clear() {
         return spPost(tag.configure(this.clone(Comments, "DeleteAll"), "coms.clear"));
-    };
-    __decorate([
-        tag("coms.add")
-    ], _Comments.prototype, "add", null);
-    _Comments = __decorate([
-        defaultPath("comments")
-    ], _Comments);
-    return _Comments;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Comments = spInvokableFactory(types_Comments);
-var types_Comment = /** @class */ (function (_super) {
-    __extends(_Comment, _super);
-    function _Comment() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(_Comment.prototype, "replies", {
-        /**
-         * A comment's replies
-         */
-        get: function () {
-            return tag.configure(Replies(this), "com.replies");
-        },
-        enumerable: false,
-        configurable: true
-    });
+};
+__decorate([
+    tag("coms.add")
+], types_Comments.prototype, "add", null);
+types_Comments = __decorate([
+    defaultPath("comments")
+], types_Comments);
+
+const Comments = spInvokableFactory(types_Comments);
+class types_Comment extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * A comment's replies
+     */
+    get replies() {
+        return tag.configure(Replies(this), "com.replies");
+    }
     /**
      * Likes the comment as the current user
      */
-    _Comment.prototype.like = function () {
+    like() {
         return spPost(this.clone(Comment, "Like"));
-    };
+    }
     /**
      * Unlikes the comment as the current user
      */
-    _Comment.prototype.unlike = function () {
+    unlike() {
         return spPost(this.clone(Comment, "Unlike"));
-    };
+    }
     /**
      * Deletes this comment
      */
-    _Comment.prototype.delete = function () {
+    delete() {
         return spPost(this.clone(Comment, "DeleteComment"));
-    };
-    __decorate([
-        tag("com.like")
-    ], _Comment.prototype, "like", null);
-    __decorate([
-        tag("com.unlike")
-    ], _Comment.prototype, "unlike", null);
-    __decorate([
-        tag("com.delete")
-    ], _Comment.prototype, "delete", null);
-    return _Comment;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Comment = spInvokableFactory(types_Comment);
-var types_Replies = /** @class */ (function (_super) {
-    __extends(_Replies, _super);
-    function _Replies() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+}
+__decorate([
+    tag("com.like")
+], types_Comment.prototype, "like", null);
+__decorate([
+    tag("com.unlike")
+], types_Comment.prototype, "unlike", null);
+__decorate([
+    tag("com.delete")
+], types_Comment.prototype, "delete", null);
+const Comment = spInvokableFactory(types_Comment);
+let types_Replies = class _Replies extends _SharePointQueryableCollection {
     /**
      * Adds a new reply to this collection
      *
      * @param info Comment information to add
      */
-    _Replies.prototype.add = function (info) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, d;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof info === "string") {
-                            info = { text: info };
-                        }
-                        postBody = request_builders_body(Object(common["assign"])(metadata("Microsoft.SharePoint.Comments.comment"), info));
-                        return [4 /*yield*/, spPost(this.clone(Replies, null), postBody)];
-                    case 1:
-                        d = _a.sent();
-                        return [2 /*return*/, Object(common["assign"])(Comment(odataUrlFrom(d)), d)];
-                }
-            });
+    add(info) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (typeof info === "string") {
+                info = { text: info };
+            }
+            const postBody = body(util_assign(metadata("Microsoft.SharePoint.Comments.comment"), info));
+            const d = yield spPost(this.clone(Replies, null), postBody);
+            return util_assign(Comment(odataUrlFrom(d)), d);
         });
-    };
-    __decorate([
-        tag("reps.add")
-    ], _Replies.prototype, "add", null);
-    _Replies = __decorate([
-        defaultPath("replies")
-    ], _Replies);
-    return _Replies;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("reps.add")
+], types_Replies.prototype, "add", null);
+types_Replies = __decorate([
+    defaultPath("replies")
+], types_Replies);
 
-var Replies = spInvokableFactory(types_Replies);
+const Replies = spInvokableFactory(types_Replies);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/item.js
+
+
+
+
 
 
 
@@ -7438,10 +6297,22 @@ types_Item.prototype.getLikedBy = function () {
     return spPost(this.clone(Item, "likedBy"));
 };
 types_Item.prototype.like = function () {
-    return spPost(this.clone(Item, "like"));
+    return __awaiter(this, void 0, void 0, function* () {
+        const itemInfo = yield this.getParentInfos();
+        const baseUrl = extractWebUrl(this.toUrl());
+        const reputationUrl = "_api/Microsoft.Office.Server.ReputationModel.Reputation.SetLike(listID=@a1,itemID=@a2,like=@a3)";
+        const likeUrl = combine(baseUrl, reputationUrl) + `?@a1='{${itemInfo.ParentList.Id}}'&@a2='${itemInfo.Item.Id}'&@a3=true`;
+        return spPost(SharePointQueryable(likeUrl));
+    });
 };
 types_Item.prototype.unlike = function () {
-    return spPost(this.clone(Item, "unlike"));
+    return __awaiter(this, void 0, void 0, function* () {
+        const itemInfo = yield this.getParentInfos();
+        const baseUrl = extractWebUrl(this.toUrl());
+        const reputationUrl = "_api/Microsoft.Office.Server.ReputationModel.Reputation.SetLike(listID=@a1,itemID=@a2,like=@a3)";
+        const likeUrl = combine(baseUrl, reputationUrl) + `?@a1='{${itemInfo.ParentList.Id}}'&@a2='${itemInfo.Item.Id}'&@a3=false`;
+        return spPost(SharePointQueryable(likeUrl));
+    });
 };
 types_Item.prototype.getLikedByInformation = function () {
     return this.clone(Item, "likedByInformation").expand("likedby")();
@@ -7488,39 +6359,34 @@ function initFrom(o, url) {
 /**
  * Represents the data and methods associated with client side "modern" pages
  */
-var types_ClientsidePage = /** @class */ (function (_super) {
-    __extends(_ClientsidePage, _super);
+class types_ClientsidePage extends sharepointqueryable_SharePointQueryable {
     /**
      * PLEASE DON'T USE THIS CONSTRUCTOR DIRECTLY, thank you 🐇
      */
-    function _ClientsidePage(baseUrl, path, json, noInit, sections, commentsDisabled) {
-        if (noInit === void 0) { noInit = false; }
-        if (sections === void 0) { sections = []; }
-        if (commentsDisabled === void 0) { commentsDisabled = false; }
-        var _this = _super.call(this, baseUrl, path) || this;
-        _this.json = json;
-        _this.sections = sections;
-        _this.commentsDisabled = commentsDisabled;
-        _this._bannerImageDirty = false;
-        _this._bannerImageThumbnailUrlDirty = false;
+    constructor(baseUrl, path, json, noInit = false, sections = [], commentsDisabled = false) {
+        super(baseUrl, path);
+        this.json = json;
+        this.sections = sections;
+        this.commentsDisabled = commentsDisabled;
+        this._bannerImageDirty = false;
+        this._bannerImageThumbnailUrlDirty = false;
         // ensure we have a good url to build on for the pages api
         if (typeof baseUrl === "string") {
-            _this.data.parentUrl = "";
-            _this.data.url = Object(common["combine"])(extractWebUrl(baseUrl), path);
+            this.data.parentUrl = "";
+            this.data.url = combine(extractWebUrl(baseUrl), path);
         }
         else {
-            _this.assign(initFrom(baseUrl, null), path);
+            this.assign(initFrom(baseUrl, null), path);
         }
         // set a default page settings slice
-        _this._pageSettings = { controlType: 0, pageSettingsSlice: { isDefaultDescription: true, isDefaultThumbnail: true } };
+        this._pageSettings = { controlType: 0, pageSettingsSlice: { isDefaultDescription: true, isDefaultThumbnail: true } };
         // set a default layout part
-        _this._layoutPart = _ClientsidePage.getDefaultLayoutPart();
+        this._layoutPart = types_ClientsidePage.getDefaultLayoutPart();
         if (typeof json !== "undefined" && !noInit) {
-            _this.fromJSON(json);
+            this.fromJSON(json);
         }
-        return _this;
     }
-    _ClientsidePage.getDefaultLayoutPart = function () {
+    static getDefaultLayoutPart() {
         return {
             dataVersion: "1.4",
             description: "Title Region Description",
@@ -7540,340 +6406,249 @@ var types_ClientsidePage = /** @class */ (function (_super) {
             serverProcessedContent: { htmlStrings: {}, searchablePlainTexts: {}, imageSources: {}, links: {} },
             title: "Title area",
         };
-    };
-    Object.defineProperty(_ClientsidePage.prototype, "pageLayout", {
-        get: function () {
-            return this.json.PageLayoutType;
-        },
-        set: function (value) {
-            this.json.PageLayoutType = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "bannerImageUrl", {
-        get: function () {
-            return this.json.BannerImageUrl;
-        },
-        set: function (value) {
-            this.setBannerImage(value);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "thumbnailUrl", {
-        get: function () {
-            return this._pageSettings.pageSettingsSlice.isDefaultThumbnail ? this.json.BannerImageUrl : this.json.BannerThumbnailUrl;
-        },
-        set: function (value) {
-            this.json.BannerThumbnailUrl = value;
-            this._bannerImageThumbnailUrlDirty = true;
-            this._pageSettings.pageSettingsSlice.isDefaultThumbnail = false;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "topicHeader", {
-        get: function () {
-            return Object(common["objectDefinedNotNull"])(this.json.TopicHeader) ? this.json.TopicHeader : "";
-        },
-        set: function (value) {
-            this.json.TopicHeader = value;
-            this._layoutPart.properties.topicHeader = value;
-            if (Object(common["stringIsNullOrEmpty"])(value)) {
-                this.showTopicHeader = false;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "title", {
-        get: function () {
-            return this._layoutPart.properties.title;
-        },
-        set: function (value) {
-            this.json.Title = value;
-            this._layoutPart.properties.title = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "reservedHeight", {
-        get: function () {
-            return this._layoutPart.reservedHeight;
-        },
-        set: function (value) {
-            this._layoutPart.reservedHeight = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "description", {
-        get: function () {
-            return this.json.Description;
-        },
-        set: function (value) {
-            if (!Object(common["stringIsNullOrEmpty"])(value) && value.length > 255) {
-                throw Error("Modern Page description is limited to 255 chars.");
-            }
-            this.json.Description = value;
-            if (!Object(common["hOP"])(this._pageSettings, "htmlAttributes")) {
-                this._pageSettings.htmlAttributes = [];
-            }
-            if (this._pageSettings.htmlAttributes.indexOf("modifiedDescription") < 0) {
-                this._pageSettings.htmlAttributes.push("modifiedDescription");
-            }
-            this._pageSettings.pageSettingsSlice.isDefaultDescription = false;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "layoutType", {
-        get: function () {
-            return this._layoutPart.properties.layoutType;
-        },
-        set: function (value) {
-            this._layoutPart.properties.layoutType = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "headerTextAlignment", {
-        get: function () {
-            return this._layoutPart.properties.textAlignment;
-        },
-        set: function (value) {
-            this._layoutPart.properties.textAlignment = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "showTopicHeader", {
-        get: function () {
-            return this._layoutPart.properties.showTopicHeader;
-        },
-        set: function (value) {
-            this._layoutPart.properties.showTopicHeader = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "showPublishDate", {
-        get: function () {
-            return this._layoutPart.properties.showPublishDate;
-        },
-        set: function (value) {
-            this._layoutPart.properties.showPublishDate = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "hasVerticalSection", {
-        get: function () {
-            return this.sections.findIndex(function (s) { return s.layoutIndex === 2; }) > -1;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "authorByLine", {
-        get: function () {
-            if (Object(common["isArray"])(this.json.AuthorByline) && this.json.AuthorByline.length > 0) {
-                return this.json.AuthorByline[0];
-            }
-            return null;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ClientsidePage.prototype, "verticalSection", {
-        get: function () {
-            if (this.hasVerticalSection) {
-                return this.addVerticalSection();
-            }
-            return null;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
+    get pageLayout() {
+        return this.json.PageLayoutType;
+    }
+    set pageLayout(value) {
+        this.json.PageLayoutType = value;
+    }
+    get bannerImageUrl() {
+        return this.json.BannerImageUrl;
+    }
+    set bannerImageUrl(value) {
+        this.setBannerImage(value);
+    }
+    get thumbnailUrl() {
+        return this._pageSettings.pageSettingsSlice.isDefaultThumbnail ? this.json.BannerImageUrl : this.json.BannerThumbnailUrl;
+    }
+    set thumbnailUrl(value) {
+        this.json.BannerThumbnailUrl = value;
+        this._bannerImageThumbnailUrlDirty = true;
+        this._pageSettings.pageSettingsSlice.isDefaultThumbnail = false;
+    }
+    get topicHeader() {
+        return objectDefinedNotNull(this.json.TopicHeader) ? this.json.TopicHeader : "";
+    }
+    set topicHeader(value) {
+        this.json.TopicHeader = value;
+        this._layoutPart.properties.topicHeader = value;
+        if (stringIsNullOrEmpty(value)) {
+            this.showTopicHeader = false;
+        }
+    }
+    get title() {
+        return this._layoutPart.properties.title;
+    }
+    set title(value) {
+        this.json.Title = value;
+        this._layoutPart.properties.title = value;
+    }
+    get reservedHeight() {
+        return this._layoutPart.reservedHeight;
+    }
+    set reservedHeight(value) {
+        this._layoutPart.reservedHeight = value;
+    }
+    get description() {
+        return this.json.Description;
+    }
+    set description(value) {
+        if (!stringIsNullOrEmpty(value) && value.length > 255) {
+            throw Error("Modern Page description is limited to 255 chars.");
+        }
+        this.json.Description = value;
+        if (!hOP(this._pageSettings, "htmlAttributes")) {
+            this._pageSettings.htmlAttributes = [];
+        }
+        if (this._pageSettings.htmlAttributes.indexOf("modifiedDescription") < 0) {
+            this._pageSettings.htmlAttributes.push("modifiedDescription");
+        }
+        this._pageSettings.pageSettingsSlice.isDefaultDescription = false;
+    }
+    get layoutType() {
+        return this._layoutPart.properties.layoutType;
+    }
+    set layoutType(value) {
+        this._layoutPart.properties.layoutType = value;
+    }
+    get headerTextAlignment() {
+        return this._layoutPart.properties.textAlignment;
+    }
+    set headerTextAlignment(value) {
+        this._layoutPart.properties.textAlignment = value;
+    }
+    get showTopicHeader() {
+        return this._layoutPart.properties.showTopicHeader;
+    }
+    set showTopicHeader(value) {
+        this._layoutPart.properties.showTopicHeader = value;
+    }
+    get showPublishDate() {
+        return this._layoutPart.properties.showPublishDate;
+    }
+    set showPublishDate(value) {
+        this._layoutPart.properties.showPublishDate = value;
+    }
+    get hasVerticalSection() {
+        return this.sections.findIndex(s => s.layoutIndex === 2) > -1;
+    }
+    get authorByLine() {
+        if (isArray(this.json.AuthorByline) && this.json.AuthorByline.length > 0) {
+            return this.json.AuthorByline[0];
+        }
+        return null;
+    }
+    get verticalSection() {
+        if (this.hasVerticalSection) {
+            return this.addVerticalSection();
+        }
+        return null;
+    }
     /**
      * Add a section to this page
      */
-    _ClientsidePage.prototype.addSection = function () {
-        var section = new types_CanvasSection(this, getNextOrder(this.sections), 1);
+    addSection() {
+        const section = new types_CanvasSection(this, getNextOrder(this.sections), 1);
         this.sections.push(section);
         return section;
-    };
+    }
     /**
      * Add a section to this page
      */
-    _ClientsidePage.prototype.addVerticalSection = function () {
+    addVerticalSection() {
         // we can only have one vertical section so we find it if it exists
-        var sectionIndex = this.sections.findIndex(function (s) { return s.layoutIndex === 2; });
+        const sectionIndex = this.sections.findIndex(s => s.layoutIndex === 2);
         if (sectionIndex > -1) {
             return this.sections[sectionIndex];
         }
-        var section = new types_CanvasSection(this, getNextOrder(this.sections), 2);
+        const section = new types_CanvasSection(this, getNextOrder(this.sections), 2);
         this.sections.push(section);
         return section;
-    };
+    }
     /**
      * Loads this instance from the appropriate JSON data
      *
      * @param pageData JSON data to load (replaces any existing data)
      */
-    _ClientsidePage.prototype.fromJSON = function (pageData) {
+    fromJSON(pageData) {
         this.json = pageData;
-        var canvasControls = JSON.parse(pageData.CanvasContent1);
-        var layouts = JSON.parse(pageData.LayoutWebpartsContent);
+        const canvasControls = JSON.parse(pageData.CanvasContent1);
+        const layouts = JSON.parse(pageData.LayoutWebpartsContent);
         if (layouts && layouts.length > 0) {
             this._layoutPart = layouts[0];
         }
         this.setControls(canvasControls);
         return this;
-    };
+    }
     /**
      * Loads this page's content from the server
      */
-    _ClientsidePage.prototype.load = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var item, pageData;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getItem("Id", "CommentsDisabled")];
-                    case 1:
-                        item = _a.sent();
-                        return [4 /*yield*/, SharePointQueryable(this, "_api/sitepages/pages(" + item.Id + ")")()];
-                    case 2:
-                        pageData = _a.sent();
-                        this.commentsDisabled = item.CommentsDisabled;
-                        return [2 /*return*/, this.fromJSON(pageData)];
-                }
-            });
+    load() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const item = yield this.getItem("Id", "CommentsDisabled");
+            const pageData = yield SharePointQueryable(this, `_api/sitepages/pages(${item.Id})`)();
+            this.commentsDisabled = item.CommentsDisabled;
+            return this.fromJSON(pageData);
         });
-    };
+    }
     /**
      * Persists the content changes (sections, columns, and controls) [does not work with batching]
      *
      * @param publish If true the page is published, if false the changes are persisted to SharePoint but not published [Default: true]
      */
-    _ClientsidePage.prototype.save = function (publish) {
-        if (publish === void 0) { publish = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var serverRelativePath, imgInfo_1, webUrl_1, web, batch, f, saveBody, bannerImageUrlValue, updater, r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.json.Id === null) {
-                            throw Error("The id for this page is null. If you want to create a new page, please use ClientSidePage.Create");
-                        }
-                        if (!this._bannerImageDirty) return [3 /*break*/, 2];
-                        serverRelativePath = this.bannerImageUrl;
-                        web = Web(extractWebUrl(this.toUrl()));
-                        batch = web.createBatch();
-                        web.getFileByServerRelativePath(serverRelativePath.replace(/%20/ig, " "))
-                            .select("ListId", "WebId", "UniqueId", "Name", "SiteId").inBatch(batch)().then(function (r1) { return imgInfo_1 = r1; });
-                        web.select("Url").inBatch(batch)().then(function (r2) { return webUrl_1 = r2.Url; });
-                        // we know the .then calls above will run before execute resolves, ensuring the vars are set
-                        return [4 /*yield*/, batch.execute()];
-                    case 1:
-                        // we know the .then calls above will run before execute resolves, ensuring the vars are set
-                        _a.sent();
-                        f = SharePointQueryable(webUrl_1, "_layouts/15/getpreview.ashx");
-                        f.query.set("guidSite", "" + imgInfo_1.SiteId);
-                        f.query.set("guidWeb", "" + imgInfo_1.WebId);
-                        f.query.set("guidFile", "" + imgInfo_1.UniqueId);
-                        this.bannerImageUrl = f.toUrlAndQuery();
-                        if (!Object(common["objectDefinedNotNull"])(this._layoutPart.serverProcessedContent)) {
-                            this._layoutPart.serverProcessedContent = {};
-                        }
-                        this._layoutPart.serverProcessedContent.imageSources = { imageSource: serverRelativePath };
-                        if (!Object(common["objectDefinedNotNull"])(this._layoutPart.serverProcessedContent.customMetadata)) {
-                            this._layoutPart.serverProcessedContent.customMetadata = {};
-                        }
-                        this._layoutPart.serverProcessedContent.customMetadata.imageSource = {
-                            listId: imgInfo_1.ListId,
-                            siteId: imgInfo_1.SiteId,
-                            uniqueId: imgInfo_1.UniqueId,
-                            webId: imgInfo_1.WebId,
-                        };
-                        this._layoutPart.properties.webId = imgInfo_1.WebId;
-                        this._layoutPart.properties.siteId = imgInfo_1.SiteId;
-                        this._layoutPart.properties.listId = imgInfo_1.ListId;
-                        this._layoutPart.properties.uniqueId = imgInfo_1.UniqueId;
-                        _a.label = 2;
-                    case 2:
-                        if (!!this.json.IsPageCheckedOutToCurrentUser) return [3 /*break*/, 4];
-                        return [4 /*yield*/, spPost(initFrom(this, "_api/sitepages/pages(" + this.json.Id + ")/checkoutpage"))];
-                    case 3:
-                        _a.sent();
-                        _a.label = 4;
-                    case 4:
-                        saveBody = Object.assign(metadata("SP.Publishing.SitePage"), {
-                            AuthorByline: this.json.AuthorByline || [],
-                            CanvasContent1: this.getCanvasContent1(),
-                            Description: this.description,
-                            LayoutWebpartsContent: this.getLayoutWebpartsContent(),
-                            Title: this.title,
-                            TopicHeader: this.topicHeader,
-                        });
-                        if (this._bannerImageDirty || this._bannerImageThumbnailUrlDirty) {
-                            bannerImageUrlValue = this._bannerImageThumbnailUrlDirty ? this.thumbnailUrl : this.bannerImageUrl;
-                            saveBody = Object(common["assign"])(saveBody, {
-                                BannerImageUrl: bannerImageUrlValue,
-                            });
-                        }
-                        updater = initFrom(this, "_api/sitepages/pages(" + this.json.Id + ")/savepage");
-                        return [4 /*yield*/, spPost(updater, request_builders_headers({ "if-match": "*" }, request_builders_body(saveBody)))];
-                    case 5:
-                        _a.sent();
-                        r = true;
-                        if (!publish) return [3 /*break*/, 7];
-                        return [4 /*yield*/, spPost(initFrom(this, "_api/sitepages/pages(" + this.json.Id + ")/publish"))];
-                    case 6:
-                        r = _a.sent();
-                        if (r) {
-                            this.json.IsPageCheckedOutToCurrentUser = false;
-                        }
-                        _a.label = 7;
-                    case 7:
-                        this._bannerImageDirty = false;
-                        this._bannerImageThumbnailUrlDirty = false;
-                        return [2 /*return*/, r];
+    save(publish = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.json.Id === null) {
+                throw Error("The id for this page is null. If you want to create a new page, please use ClientSidePage.Create");
+            }
+            if (this._bannerImageDirty) {
+                const serverRelativePath = this.bannerImageUrl;
+                let imgInfo;
+                let webUrl;
+                const web = Web(extractWebUrl(this.toUrl()));
+                const batch = web.createBatch();
+                web.getFileByServerRelativePath(serverRelativePath.replace(/%20/ig, " "))
+                    .select("ListId", "WebId", "UniqueId", "Name", "SiteId").inBatch(batch)().then(r1 => imgInfo = r1);
+                web.select("Url").inBatch(batch)().then(r2 => webUrl = r2.Url);
+                // we know the .then calls above will run before execute resolves, ensuring the vars are set
+                yield batch.execute();
+                const f = SharePointQueryable(webUrl, "_layouts/15/getpreview.ashx");
+                f.query.set("guidSite", `${imgInfo.SiteId}`);
+                f.query.set("guidWeb", `${imgInfo.WebId}`);
+                f.query.set("guidFile", `${imgInfo.UniqueId}`);
+                this.bannerImageUrl = f.toUrlAndQuery();
+                if (!objectDefinedNotNull(this._layoutPart.serverProcessedContent)) {
+                    this._layoutPart.serverProcessedContent = {};
                 }
+                this._layoutPart.serverProcessedContent.imageSources = { imageSource: serverRelativePath };
+                if (!objectDefinedNotNull(this._layoutPart.serverProcessedContent.customMetadata)) {
+                    this._layoutPart.serverProcessedContent.customMetadata = {};
+                }
+                this._layoutPart.serverProcessedContent.customMetadata.imageSource = {
+                    listId: imgInfo.ListId,
+                    siteId: imgInfo.SiteId,
+                    uniqueId: imgInfo.UniqueId,
+                    webId: imgInfo.WebId,
+                };
+                this._layoutPart.properties.webId = imgInfo.WebId;
+                this._layoutPart.properties.siteId = imgInfo.SiteId;
+                this._layoutPart.properties.listId = imgInfo.ListId;
+                this._layoutPart.properties.uniqueId = imgInfo.UniqueId;
+            }
+            // we try and check out the page for the user
+            if (!this.json.IsPageCheckedOutToCurrentUser) {
+                yield spPost(initFrom(this, `_api/sitepages/pages(${this.json.Id})/checkoutpage`));
+            }
+            // create the body for the save request
+            let saveBody = Object.assign(metadata("SP.Publishing.SitePage"), {
+                AuthorByline: this.json.AuthorByline || [],
+                CanvasContent1: this.getCanvasContent1(),
+                Description: this.description,
+                LayoutWebpartsContent: this.getLayoutWebpartsContent(),
+                Title: this.title,
+                TopicHeader: this.topicHeader,
             });
+            if (this._bannerImageDirty || this._bannerImageThumbnailUrlDirty) {
+                const bannerImageUrlValue = this._bannerImageThumbnailUrlDirty ? this.thumbnailUrl : this.bannerImageUrl;
+                saveBody = util_assign(saveBody, {
+                    BannerImageUrl: bannerImageUrlValue,
+                });
+            }
+            const updater = initFrom(this, `_api/sitepages/pages(${this.json.Id})/savepage`);
+            yield spPost(updater, request_builders_headers({ "if-match": "*" }, body(saveBody)));
+            let r = true;
+            if (publish) {
+                r = yield spPost(initFrom(this, `_api/sitepages/pages(${this.json.Id})/publish`));
+                if (r) {
+                    this.json.IsPageCheckedOutToCurrentUser = false;
+                }
+            }
+            this._bannerImageDirty = false;
+            this._bannerImageThumbnailUrlDirty = false;
+            return r;
         });
-    };
+    }
     /**
      * Discards the checkout of this page
      */
-    _ClientsidePage.prototype.discardPageCheckout = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var d;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.json.Id === null) {
-                            throw Error("The id for this page is null. If you want to create a new page, please use ClientSidePage.Create");
-                        }
-                        return [4 /*yield*/, spPost(initFrom(this, "_api/sitepages/pages(" + this.json.Id + ")/discardPage"), request_builders_body(metadata("SP.Publishing.SitePage")))];
-                    case 1:
-                        d = _a.sent();
-                        this.fromJSON(d);
-                        return [2 /*return*/];
-                }
-            });
+    discardPageCheckout() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.json.Id === null) {
+                throw Error("The id for this page is null. If you want to create a new page, please use ClientSidePage.Create");
+            }
+            const d = yield spPost(initFrom(this, `_api/sitepages/pages(${this.json.Id})/discardPage`), body(metadata("SP.Publishing.SitePage")));
+            this.fromJSON(d);
         });
-    };
+    }
     /**
      * Promotes this page as a news item
      */
-    _ClientsidePage.prototype.promoteToNews = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.promoteNewsImpl("promoteToNews")];
-            });
+    promoteToNews() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.promoteNewsImpl("promoteToNews");
         });
-    };
+    }
     // API is currently broken on server side
     // public async demoteFromNews(): Promise<boolean> {
     //     return this.promoteNewsImpl("demoteFromNews");
@@ -7883,21 +6658,21 @@ var types_ClientsidePage = /** @class */ (function (_super) {
      *
      * @param id Instance id of the control to find
      */
-    _ClientsidePage.prototype.findControlById = function (id) {
-        return this.findControl(function (c) { return c.id === id; });
-    };
+    findControlById(id) {
+        return this.findControl((c) => c.id === id);
+    }
     /**
      * Finds a control within this page's control tree using the supplied predicate
      *
      * @param predicate Takes a control and returns true or false, if true that control is returned by findControl
      */
-    _ClientsidePage.prototype.findControl = function (predicate) {
+    findControl(predicate) {
         // check all sections
-        for (var i = 0; i < this.sections.length; i++) {
+        for (let i = 0; i < this.sections.length; i++) {
             // check all columns
-            for (var j = 0; j < this.sections[i].columns.length; j++) {
+            for (let j = 0; j < this.sections[i].columns.length; j++) {
                 // check all controls
-                for (var k = 0; k < this.sections[i].columns[j].controls.length; k++) {
+                for (let k = 0; k < this.sections[i].columns[j].controls.length; k++) {
                     // check to see if the predicate likes this control
                     if (predicate(this.sections[i].columns[j].controls[k])) {
                         return this.sections[i].columns[j].controls[k];
@@ -7907,7 +6682,7 @@ var types_ClientsidePage = /** @class */ (function (_super) {
         }
         // we found nothing so give nothing back
         return null;
-    };
+    }
     /**
      * Creates a copy of this page
      *
@@ -7916,60 +6691,51 @@ var types_ClientsidePage = /** @class */ (function (_super) {
      * @param title The title of the new page
      * @param publish If true the page will be published
      */
-    _ClientsidePage.prototype.copy = function (web, pageName, title, publish, promotedState) {
-        if (publish === void 0) { publish = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var page, url, makeGuid, guidSite, guidWeb, guidFile, site, id, openWeb, file, props;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, CreateClientsidePage(web, pageName, title, this.pageLayout, promotedState)];
-                    case 1:
-                        page = _a.sent();
-                        // we know the method is on the class - but it is protected so not part of the interface
-                        page.setControls(this.getControls());
-                        if (!!Object(common["stringIsNullOrEmpty"])(this.json.BannerImageUrl)) return [3 /*break*/, 5];
-                        url = new URL(this.json.BannerImageUrl);
-                        makeGuid = function (s) { return s.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/g, "$1-$2-$3-$4-$5"); };
-                        if (!(url.searchParams.has("guidSite") && url.searchParams.has("guidWeb") && url.searchParams.has("guidFile"))) return [3 /*break*/, 5];
-                        guidSite = makeGuid(url.searchParams.get("guidSite"));
-                        guidWeb = makeGuid(url.searchParams.get("guidWeb"));
-                        guidFile = makeGuid(url.searchParams.get("guidFile"));
-                        site = Site(extractWebUrl(this.toUrl()));
-                        return [4 /*yield*/, site.select("Id")()];
-                    case 2:
-                        id = _a.sent();
-                        if (!(id.Id === guidSite)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, site.openWebById(guidWeb)];
-                    case 3:
-                        openWeb = _a.sent();
-                        return [4 /*yield*/, openWeb.web.getFileById(guidFile).select("ServerRelativeUrl")()];
-                    case 4:
-                        file = _a.sent();
-                        props = {};
+    copy(web, pageName, title, publish = true, promotedState) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const page = yield CreateClientsidePage(web, pageName, title, this.pageLayout, promotedState);
+            // we know the method is on the class - but it is protected so not part of the interface
+            page.setControls(this.getControls());
+            // we need to do some work to set the banner image url in the copied page
+            if (!stringIsNullOrEmpty(this.json.BannerImageUrl)) {
+                // use a URL to parse things for us
+                const url = new URL(this.json.BannerImageUrl);
+                // helper function to translate the guid strings into properly formatted guids with dashes
+                const makeGuid = (s) => s.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/g, "$1-$2-$3-$4-$5");
+                // protect against errors because the serverside impl has changed, we'll just skip
+                if (url.searchParams.has("guidSite") && url.searchParams.has("guidWeb") && url.searchParams.has("guidFile")) {
+                    const guidSite = makeGuid(url.searchParams.get("guidSite"));
+                    const guidWeb = makeGuid(url.searchParams.get("guidWeb"));
+                    const guidFile = makeGuid(url.searchParams.get("guidFile"));
+                    const site = Site(extractWebUrl(this.toUrl()));
+                    const id = yield site.select("Id")();
+                    // the site guid must match the current site's guid or we are unable to set the image
+                    if (id.Id === guidSite) {
+                        const openWeb = yield site.openWebById(guidWeb);
+                        const file = yield openWeb.web.getFileById(guidFile).select("ServerRelativeUrl")();
+                        const props = {};
                         if (this._layoutPart.properties) {
-                            if (Object(common["hOP"])(this._layoutPart.properties, "translateX")) {
+                            if (hOP(this._layoutPart.properties, "translateX")) {
                                 props.translateX = this._layoutPart.properties.translateX;
                             }
-                            if (Object(common["hOP"])(this._layoutPart.properties, "translateY")) {
+                            if (hOP(this._layoutPart.properties, "translateY")) {
                                 props.translateY = this._layoutPart.properties.translateY;
                             }
-                            if (Object(common["hOP"])(this._layoutPart.properties, "imageSourceType")) {
+                            if (hOP(this._layoutPart.properties, "imageSourceType")) {
                                 props.imageSourceType = this._layoutPart.properties.imageSourceType;
                             }
-                            if (Object(common["hOP"])(this._layoutPart.properties, "altText")) {
+                            if (hOP(this._layoutPart.properties, "altText")) {
                                 props.altText = this._layoutPart.properties.altText;
                             }
                         }
                         page.setBannerImage(file.ServerRelativeUrl, props);
-                        _a.label = 5;
-                    case 5: return [4 /*yield*/, page.save(publish)];
-                    case 6:
-                        _a.sent();
-                        return [2 /*return*/, page];
+                    }
                 }
-            });
+            }
+            yield page.save(publish);
+            return page;
         });
-    };
+    }
     /**
      * Sets the modern page banner image
      *
@@ -7977,10 +6743,10 @@ var types_ClientsidePage = /** @class */ (function (_super) {
      * @param altText Alt text to describe the image
      * @param bannerProps Additional properties to control display of the banner
      */
-    _ClientsidePage.prototype.setBannerImage = function (url, props) {
-        if (Object(common["isUrlAbsolute"])(url)) {
+    setBannerImage(url, props) {
+        if (isUrlAbsolute(url)) {
             // do our best to make this a server relative url by removing the x.sharepoint.com part
-            url = url.replace(/^https?:\/\/[a-z0-9\.]*?\.[a-z]{2,3}\//i, "/");
+            url = url.replace(/^https?:\/\/[a-z0-9.]*?\.[a-z]{2,3}\//i, "/");
         }
         this.json.BannerImageUrl = url;
         this._bannerImageDirty = true;
@@ -7996,168 +6762,133 @@ var types_ClientsidePage = /** @class */ (function (_super) {
         }
         // this seems to always be true, so default
         this._layoutPart.properties.imageSourceType = 2;
-        if (Object(common["objectDefinedNotNull"])(props)) {
-            if (Object(common["hOP"])(props, "translateX")) {
+        if (objectDefinedNotNull(props)) {
+            if (hOP(props, "translateX")) {
                 this._layoutPart.properties.translateX = props.translateX;
             }
-            if (Object(common["hOP"])(props, "translateY")) {
+            if (hOP(props, "translateY")) {
                 this._layoutPart.properties.translateY = props.translateY;
             }
-            if (Object(common["hOP"])(props, "imageSourceType")) {
+            if (hOP(props, "imageSourceType")) {
                 this._layoutPart.properties.imageSourceType = props.imageSourceType;
             }
-            if (Object(common["hOP"])(props, "altText")) {
+            if (hOP(props, "altText")) {
                 this._layoutPart.properties.altText = props.altText;
             }
         }
-    };
+    }
     /**
      * Sets the banner image url from an external source. You must call save to persist the changes
      *
      * @param url absolute url of the external file
      * @param props optional set of properties to control display of the banner image
      */
-    _ClientsidePage.prototype.setBannerImageFromExternalUrl = function (url, props) {
-        return __awaiter(this, void 0, void 0, function () {
-            var fileUrl, pageName, filename, request, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        fileUrl = new URL(url);
-                        pageName = this.json.FileName.replace(/\.[^/.]+$/, "");
-                        filename = fileUrl.pathname.split(/[\\\/]/i).pop();
-                        request = initFrom(this, "_api/sitepages/AddImageFromExternalUrl");
-                        request.query.set("imageFileName", "'" + encodeURIComponent(filename) + "'");
-                        request.query.set("pageName", "'" + encodeURIComponent(pageName) + "'");
-                        request.query.set("externalUrl", "'" + encodeURIComponent(url) + "'");
-                        request.select("ServerRelativeUrl");
-                        return [4 /*yield*/, spPost(request)];
-                    case 1:
-                        result = _a.sent();
-                        // set with the newly created relative url
-                        this.setBannerImage(result.ServerRelativeUrl, props);
-                        return [2 /*return*/];
-                }
-            });
+    setBannerImageFromExternalUrl(url, props) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // validate and parse our input url
+            const fileUrl = new URL(url);
+            // get our page name without extension, used as a folder name when creating the file
+            const pageName = this.json.FileName.replace(/\.[^/.]+$/, "");
+            // get the filename we will use
+            const filename = fileUrl.pathname.split(/[\\/]/i).pop();
+            const request = initFrom(this, "_api/sitepages/AddImageFromExternalUrl");
+            request.query.set("imageFileName", `'${encodeURIComponent(filename)}'`);
+            request.query.set("pageName", `'${encodeURIComponent(pageName)}'`);
+            request.query.set("externalUrl", `'${encodeURIComponent(url)}'`);
+            request.select("ServerRelativeUrl");
+            const result = yield spPost(request);
+            // set with the newly created relative url
+            this.setBannerImage(result.ServerRelativeUrl, props);
         });
-    };
+    }
     /**
      * Sets the authors for this page from the supplied list of user integer ids
      *
      * @param authorId The integer id of the user to set as the author
      */
-    _ClientsidePage.prototype.setAuthorById = function (authorId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userLoginData;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, SharePointQueryableCollection(extractWebUrl(this.toUrl()), "/_api/web/siteusers")
-                            .configureFrom(this)
-                            .filter("Id eq " + authorId)
-                            .select("LoginName")()];
-                    case 1:
-                        userLoginData = _a.sent();
-                        if (userLoginData.length < 1) {
-                            throw Error("Could not find user with id " + authorId + ".");
-                        }
-                        return [2 /*return*/, this.setAuthorByLoginName(userLoginData[0].LoginName)];
-                }
-            });
+    setAuthorById(authorId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userLoginData = yield SharePointQueryableCollection(extractWebUrl(this.toUrl()), "/_api/web/siteusers")
+                .configureFrom(this)
+                .filter(`Id eq ${authorId}`)
+                .select("LoginName")();
+            if (userLoginData.length < 1) {
+                throw Error(`Could not find user with id ${authorId}.`);
+            }
+            return this.setAuthorByLoginName(userLoginData[0].LoginName);
         });
-    };
+    }
     /**
      * Sets the authors for this page from the supplied list of user integer ids
      *
      * @param authorLoginName The login name of the user (ex: i:0#.f|membership|name@tenant.com)
      */
-    _ClientsidePage.prototype.setAuthorByLoginName = function (authorLoginName) {
-        return __awaiter(this, void 0, void 0, function () {
-            var userLoginData;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, SharePointQueryableCollection(extractWebUrl(this.toUrl()), "/_api/web/siteusers")
-                            .configureFrom(this)
-                            .filter("LoginName eq '" + encodeURIComponent(authorLoginName) + "'")
-                            .select("UserPrincipalName", "Title")()];
-                    case 1:
-                        userLoginData = _a.sent();
-                        if (userLoginData.length < 1) {
-                            throw Error("Could not find user with login name '" + authorLoginName + "'.");
-                        }
-                        this.json.AuthorByline = [authorLoginName];
-                        this._layoutPart.properties.authorByline = [authorLoginName];
-                        this._layoutPart.properties.authors = [{
-                                id: authorLoginName,
-                                name: userLoginData[0].Title,
-                                role: "",
-                                upn: userLoginData[0].UserPrincipalName,
-                            }];
-                        return [2 /*return*/];
-                }
-            });
+    setAuthorByLoginName(authorLoginName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userLoginData = yield SharePointQueryableCollection(extractWebUrl(this.toUrl()), "/_api/web/siteusers")
+                .configureFrom(this)
+                .filter(`LoginName eq '${encodeURIComponent(authorLoginName)}'`)
+                .select("UserPrincipalName", "Title")();
+            if (userLoginData.length < 1) {
+                throw Error(`Could not find user with login name '${authorLoginName}'.`);
+            }
+            this.json.AuthorByline = [authorLoginName];
+            this._layoutPart.properties.authorByline = [authorLoginName];
+            this._layoutPart.properties.authors = [{
+                    id: authorLoginName,
+                    name: userLoginData[0].Title,
+                    role: "",
+                    upn: userLoginData[0].UserPrincipalName,
+                }];
         });
-    };
+    }
     /**
      * Gets the list item associated with this clientside page
      *
      * @param selects Specific set of fields to include when getting the item
      */
-    _ClientsidePage.prototype.getItem = function () {
-        var selects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            selects[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var initer, listData, item, itemData;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        initer = initFrom(this, "/_api/lists/EnsureClientRenderedSitePagesLibrary").select("EnableModeration", "EnableMinorVersions", "Id");
-                        return [4 /*yield*/, spPost(initer)];
-                    case 1:
-                        listData = _a.sent();
-                        item = (List(listData["odata.id"])).configureFrom(this).items.getById(this.json.Id);
-                        return [4 /*yield*/, item.select.apply(item, selects)()];
-                    case 2:
-                        itemData = _a.sent();
-                        return [2 /*return*/, Object(common["assign"])((Item(odataUrlFrom(itemData))).configureFrom(this), itemData)];
-                }
-            });
+    getItem(...selects) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const initer = initFrom(this, "/_api/lists/EnsureClientRenderedSitePagesLibrary").select("EnableModeration", "EnableMinorVersions", "Id");
+            const listData = yield spPost(initer);
+            const item = (List(listData["odata.id"])).configureFrom(this).items.getById(this.json.Id);
+            const itemData = yield item.select(...selects)();
+            return util_assign((Item(odataUrlFrom(itemData))).configureFrom(this), itemData);
         });
-    };
+    }
     /**
      * Extends this queryable from the provided parent
      *
      * @param parent Parent queryable from which we will derive a base url
      * @param path Additional path
      */
-    _ClientsidePage.prototype.assign = function (parent, path) {
+    assign(parent, path) {
         this.data.parentUrl = parent.data.url;
-        this.data.url = Object(common["combine"])(this.data.parentUrl, path || "");
+        this.data.url = combine(this.data.parentUrl, path || "");
         this.configureFrom(parent);
-    };
-    _ClientsidePage.prototype.getCanvasContent1 = function () {
+    }
+    getCanvasContent1() {
         return JSON.stringify(this.getControls());
-    };
-    _ClientsidePage.prototype.getLayoutWebpartsContent = function () {
+    }
+    getLayoutWebpartsContent() {
         if (this._layoutPart) {
             return JSON.stringify([this._layoutPart]);
         }
         else {
             return JSON.stringify(null);
         }
-    };
-    _ClientsidePage.prototype.setControls = function (controls) {
+    }
+    setControls(controls) {
         // reset the sections
         this.sections = [];
         if (controls && controls.length) {
-            for (var i = 0; i < controls.length; i++) {
+            for (let i = 0; i < controls.length; i++) {
                 // if no control type is present this is a column which we give type 0 to let us process it
-                var controlType = Object(common["hOP"])(controls[i], "controlType") ? controls[i].controlType : 0;
+                const controlType = hOP(controls[i], "controlType") ? controls[i].controlType : 0;
                 switch (controlType) {
                     case 0:
                         // empty canvas column or page settings
-                        if (Object(common["hOP"])(controls[i], "pageSettingsSlice")) {
+                        if (hOP(controls[i], "pageSettingsSlice")) {
                             this._pageSettings = controls[i];
                         }
                         else {
@@ -8165,39 +6896,40 @@ var types_ClientsidePage = /** @class */ (function (_super) {
                             this.mergeColumnToTree(new types_CanvasColumn(controls[i]));
                         }
                         break;
-                    case 3:
-                        var part = new types_ClientsideWebpart(controls[i]);
+                    case 3: {
+                        const part = new types_ClientsideWebpart(controls[i]);
                         this.mergePartToTree(part, part.data.position);
                         break;
-                    case 4:
-                        var textData = controls[i];
-                        var text = new types_ClientsideText(textData.innerHTML, textData);
+                    }
+                    case 4: {
+                        const textData = controls[i];
+                        const text = new types_ClientsideText(textData.innerHTML, textData);
                         this.mergePartToTree(text, text.data.position);
                         break;
+                    }
                 }
             }
             reindex(this.sections);
         }
-    };
-    _ClientsidePage.prototype.getControls = function () {
-        var _this = this;
+    }
+    getControls() {
         // reindex things
         reindex(this.sections);
         // rollup the control changes
-        var canvasData = [];
-        this.sections.forEach(function (section) {
-            section.columns.forEach(function (column) {
+        const canvasData = [];
+        this.sections.forEach(section => {
+            section.columns.forEach(column => {
                 if (column.controls.length < 1) {
                     // empty column
                     canvasData.push({
                         displayMode: column.data.displayMode,
-                        emphasis: _this.getEmphasisObj(section.emphasis),
+                        emphasis: this.getEmphasisObj(section.emphasis),
                         position: column.data.position,
                     });
                 }
                 else {
-                    column.controls.forEach(function (control) {
-                        control.data.emphasis = _this.getEmphasisObj(section.emphasis);
+                    column.controls.forEach(control => {
+                        control.data.emphasis = this.getEmphasisObj(section.emphasis);
                         canvasData.push(control.data);
                     });
                 }
@@ -8205,65 +6937,61 @@ var types_ClientsidePage = /** @class */ (function (_super) {
         });
         canvasData.push(this._pageSettings);
         return canvasData;
-    };
-    _ClientsidePage.prototype.getEmphasisObj = function (value) {
+    }
+    getEmphasisObj(value) {
         if (value < 1 || value > 3) {
             return {};
         }
         return { zoneEmphasis: value };
-    };
-    _ClientsidePage.prototype.promoteNewsImpl = function (method) {
-        return __awaiter(this, void 0, void 0, function () {
-            var lastPubData;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (this.json.Id === null) {
-                            throw Error("The id for this page is null.");
-                        }
-                        if (!Object(common["stringIsNullOrEmpty"])(this.json.VersionInfo.LastVersionCreatedBy)) return [3 /*break*/, 2];
-                        lastPubData = new Date(this.json.VersionInfo.LastVersionCreated);
-                        if (!(lastPubData.getFullYear() < 2000)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.save(true)];
-                    case 1:
-                        _a.sent();
-                        _a.label = 2;
-                    case 2: return [4 /*yield*/, spPost(initFrom(this, "_api/sitepages/pages(" + this.json.Id + ")/" + method), request_builders_body(metadata("SP.Publishing.SitePage")))];
-                    case 3: return [2 /*return*/, _a.sent()];
+    }
+    promoteNewsImpl(method) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.json.Id === null) {
+                throw Error("The id for this page is null.");
+            }
+            // per bug #858 if we promote before we have ever published the last published date will
+            // forever not be updated correctly in the modern news web part. Because this will affect very
+            // few folks we just go ahead and publish for them here as that is likely what they intended.
+            if (stringIsNullOrEmpty(this.json.VersionInfo.LastVersionCreatedBy)) {
+                const lastPubData = new Date(this.json.VersionInfo.LastVersionCreated);
+                // no modern page should reasonable be published before the year 2000 :)
+                if (lastPubData.getFullYear() < 2000) {
+                    yield this.save(true);
                 }
-            });
+            }
+            return yield spPost(initFrom(this, `_api/sitepages/pages(${this.json.Id})/${method}`), body(metadata("SP.Publishing.SitePage")));
         });
-    };
+    }
     /**
      * Merges the control into the tree of sections and columns for this page
      *
      * @param control The control to merge
      */
-    _ClientsidePage.prototype.mergePartToTree = function (control, positionData) {
+    mergePartToTree(control, positionData) {
         var _a, _b, _c;
-        var column = null;
-        var sectionFactor = 12;
-        var sectionIndex = 0;
-        var zoneIndex = 0;
-        var layoutIndex = 1;
+        let column = null;
+        let sectionFactor = 12;
+        let sectionIndex = 0;
+        let zoneIndex = 0;
+        let layoutIndex = 1;
         // handle case where we don't have position data (shouldn't happen?)
         if (positionData) {
-            if (Object(common["hOP"])(positionData, "zoneIndex")) {
+            if (hOP(positionData, "zoneIndex")) {
                 zoneIndex = positionData.zoneIndex;
             }
-            if (Object(common["hOP"])(positionData, "sectionIndex")) {
+            if (hOP(positionData, "sectionIndex")) {
                 sectionIndex = positionData.sectionIndex;
             }
-            if (Object(common["hOP"])(positionData, "sectionFactor")) {
+            if (hOP(positionData, "sectionFactor")) {
                 sectionFactor = positionData.sectionFactor;
             }
-            if (Object(common["hOP"])(positionData, "layoutIndex")) {
+            if (hOP(positionData, "layoutIndex")) {
                 layoutIndex = positionData.layoutIndex;
             }
         }
-        var zoneEmphasis = (_c = (_b = (_a = control.data) === null || _a === void 0 ? void 0 : _a.emphasis) === null || _b === void 0 ? void 0 : _b.zoneEmphasis) !== null && _c !== void 0 ? _c : 0;
-        var section = this.getOrCreateSection(zoneIndex, layoutIndex, zoneEmphasis);
-        var columns = section.columns.filter(function (c) { return c.order === sectionIndex; });
+        const zoneEmphasis = (_c = (_b = (_a = control.data) === null || _a === void 0 ? void 0 : _a.emphasis) === null || _b === void 0 ? void 0 : _b.zoneEmphasis) !== null && _c !== void 0 ? _c : 0;
+        const section = this.getOrCreateSection(zoneIndex, layoutIndex, zoneEmphasis);
+        const columns = section.columns.filter(c => c.order === sectionIndex);
         if (columns.length < 1) {
             column = section.addColumn(sectionFactor, layoutIndex);
         }
@@ -8272,21 +7000,21 @@ var types_ClientsidePage = /** @class */ (function (_super) {
         }
         control.column = column;
         column.addControl(control);
-    };
+    }
     /**
      * Merges the supplied column into the tree
      *
      * @param column Column to merge
      * @param position The position data for the column
      */
-    _ClientsidePage.prototype.mergeColumnToTree = function (column) {
+    mergeColumnToTree(column) {
         var _a, _b;
-        var order = Object(common["hOP"])(column.data, "position") && Object(common["hOP"])(column.data.position, "zoneIndex") ? column.data.position.zoneIndex : 0;
-        var layoutIndex = Object(common["hOP"])(column.data, "position") && Object(common["hOP"])(column.data.position, "layoutIndex") ? column.data.position.layoutIndex : 1;
-        var section = this.getOrCreateSection(order, layoutIndex, ((_b = (_a = column.data) === null || _a === void 0 ? void 0 : _a.emphasis) === null || _b === void 0 ? void 0 : _b.zoneEmphasis) || 0);
+        const order = hOP(column.data, "position") && hOP(column.data.position, "zoneIndex") ? column.data.position.zoneIndex : 0;
+        const layoutIndex = hOP(column.data, "position") && hOP(column.data.position, "layoutIndex") ? column.data.position.layoutIndex : 1;
+        const section = this.getOrCreateSection(order, layoutIndex, ((_b = (_a = column.data) === null || _a === void 0 ? void 0 : _a.emphasis) === null || _b === void 0 ? void 0 : _b.zoneEmphasis) || 0);
         column.section = section;
         section.columns.push(column);
-    };
+    }
     /**
      * Handle the logic to get or create a section based on the supplied order and layoutIndex
      *
@@ -8294,9 +7022,9 @@ var types_ClientsidePage = /** @class */ (function (_super) {
      * @param layoutIndex Layout Index (1 === normal, 2 === vertical section)
      * @param emphasis The section emphasis
      */
-    _ClientsidePage.prototype.getOrCreateSection = function (order, layoutIndex, emphasis) {
-        var section = null;
-        var sections = this.sections.filter(function (s) { return s.order === order && s.layoutIndex === layoutIndex; });
+    getOrCreateSection(order, layoutIndex, emphasis) {
+        let section = null;
+        const sections = this.sections.filter(s => s.order === order && s.layoutIndex === layoutIndex);
         if (sections.length < 1) {
             section = layoutIndex === 2 ? this.addVerticalSection() : this.addSection();
             section.order = order;
@@ -8306,35 +7034,30 @@ var types_ClientsidePage = /** @class */ (function (_super) {
             section = sections[0];
         }
         return section;
-    };
-    __decorate([
-        tag("csp.load")
-    ], _ClientsidePage.prototype, "load", null);
-    __decorate([
-        tag("csp.save")
-    ], _ClientsidePage.prototype, "save", null);
-    __decorate([
-        tag("csp.discardPageCheckout")
-    ], _ClientsidePage.prototype, "discardPageCheckout", null);
-    __decorate([
-        tag("csp.promoteToNews")
-    ], _ClientsidePage.prototype, "promoteToNews", null);
-    __decorate([
-        tag("csp.copy")
-    ], _ClientsidePage.prototype, "copy", null);
-    __decorate([
-        tag("csp.getItem")
-    ], _ClientsidePage.prototype, "getItem", null);
-    return _ClientsidePage;
-}(sharepointqueryable_SharePointQueryable));
-
+    }
+}
+__decorate([
+    tag("csp.load")
+], types_ClientsidePage.prototype, "load", null);
+__decorate([
+    tag("csp.save")
+], types_ClientsidePage.prototype, "save", null);
+__decorate([
+    tag("csp.discardPageCheckout")
+], types_ClientsidePage.prototype, "discardPageCheckout", null);
+__decorate([
+    tag("csp.promoteToNews")
+], types_ClientsidePage.prototype, "promoteToNews", null);
+__decorate([
+    tag("csp.copy")
+], types_ClientsidePage.prototype, "copy", null);
+__decorate([
+    tag("csp.getItem")
+], types_ClientsidePage.prototype, "getItem", null);
 /**
  * Invokable factory for IClientSidePage instances
  */
-var ClientsidePage = function (baseUrl, path, json, noInit, sections, commentsDisabled) {
-    if (noInit === void 0) { noInit = false; }
-    if (sections === void 0) { sections = []; }
-    if (commentsDisabled === void 0) { commentsDisabled = false; }
+const ClientsidePage = (baseUrl, path, json, noInit = false, sections = [], commentsDisabled = false) => {
     return invokableFactory(types_ClientsidePage)(baseUrl, path, json, noInit, sections, commentsDisabled);
 };
 /**
@@ -8342,18 +7065,11 @@ var ClientsidePage = function (baseUrl, path, json, noInit, sections, commentsDi
  *
  * @param file Source IFile instance
  */
-var ClientsidePageFromFile = function (file) { return __awaiter(void 0, void 0, void 0, function () {
-    var item, page;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, file.getItem()];
-            case 1:
-                item = _a.sent();
-                page = ClientsidePage(extractWebUrl(file.toUrl()), "", { Id: item.Id }, true);
-                return [2 /*return*/, page.configureFrom(file).load()];
-        }
-    });
-}); };
+const ClientsidePageFromFile = (file) => __awaiter(void 0, void 0, void 0, function* () {
+    const item = yield file.getItem();
+    const page = ClientsidePage(extractWebUrl(file.toUrl()), "", { Id: item.Id }, true);
+    return page.configureFrom(file).load();
+});
 /**
  * Creates a new client side page
  *
@@ -8362,90 +7078,63 @@ var ClientsidePageFromFile = function (file) { return __awaiter(void 0, void 0, 
  * @param title The page's title
  * @param PageLayoutType Layout to use when creating the page
  */
-var CreateClientsidePage = function (web, pageName, title, PageLayoutType, promotedState) {
-    if (PageLayoutType === void 0) { PageLayoutType = "Article"; }
-    if (promotedState === void 0) { promotedState = 0; }
-    return __awaiter(void 0, void 0, void 0, function () {
-        var pageInitData, newPage;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    // patched because previously we used the full page name with the .aspx at the end
-                    // this allows folk's existing code to work after the re-write to the new API
-                    pageName = pageName.replace(/\.aspx$/i, "");
-                    return [4 /*yield*/, spPost(initFrom(web, "_api/sitepages/pages"), request_builders_body(Object.assign(metadata("SP.Publishing.SitePage"), {
-                            PageLayoutType: PageLayoutType,
-                            PromotedState: promotedState,
-                        })))];
-                case 1:
-                    pageInitData = _a.sent();
-                    newPage = ClientsidePage(web, "", pageInitData);
-                    newPage.title = pageName;
-                    return [4 /*yield*/, newPage.save(false)];
-                case 2:
-                    _a.sent();
-                    newPage.title = title;
-                    return [2 /*return*/, newPage];
-            }
-        });
-    });
-};
-var types_CanvasSection = /** @class */ (function () {
-    function CanvasSection(page, order, layoutIndex, columns, _emphasis) {
-        if (columns === void 0) { columns = []; }
-        if (_emphasis === void 0) { _emphasis = 0; }
+const CreateClientsidePage = (web, pageName, title, PageLayoutType = "Article", promotedState = 0) => __awaiter(void 0, void 0, void 0, function* () {
+    // patched because previously we used the full page name with the .aspx at the end
+    // this allows folk's existing code to work after the re-write to the new API
+    pageName = pageName.replace(/\.aspx$/i, "");
+    // initialize the page, at this point a checked-out page with a junk filename will be created.
+    const pageInitData = yield spPost(initFrom(web, "_api/sitepages/pages"), body(Object.assign(metadata("SP.Publishing.SitePage"), {
+        PageLayoutType,
+        PromotedState: promotedState,
+    })));
+    // now we can init our page with the save data
+    const newPage = ClientsidePage(web, "", pageInitData);
+    newPage.title = pageName;
+    yield newPage.save(false);
+    newPage.title = title;
+    return newPage;
+});
+class types_CanvasSection {
+    constructor(page, order, layoutIndex, columns = [], _emphasis = 0) {
         this.page = page;
         this.columns = columns;
         this._emphasis = _emphasis;
-        this._memId = Object(common["getGUID"])();
+        this._memId = getGUID();
         this._order = order;
         this._layoutIndex = layoutIndex;
     }
-    Object.defineProperty(CanvasSection.prototype, "order", {
-        get: function () {
-            return this._order;
-        },
-        set: function (value) {
-            this._order = value;
-            for (var i = 0; i < this.columns.length; i++) {
-                this.columns[i].data.position.zoneIndex = value;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(CanvasSection.prototype, "layoutIndex", {
-        get: function () {
-            return this._layoutIndex;
-        },
-        set: function (value) {
-            this._layoutIndex = value;
-            for (var i = 0; i < this.columns.length; i++) {
-                this.columns[i].data.position.layoutIndex = value;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(CanvasSection.prototype, "defaultColumn", {
-        /**
-         * Default column (this.columns[0]) for this section
-         */
-        get: function () {
-            if (this.columns.length < 1) {
-                this.addColumn(12);
-            }
-            return this.columns[0];
-        },
-        enumerable: false,
-        configurable: true
-    });
+    get order() {
+        return this._order;
+    }
+    set order(value) {
+        this._order = value;
+        for (let i = 0; i < this.columns.length; i++) {
+            this.columns[i].data.position.zoneIndex = value;
+        }
+    }
+    get layoutIndex() {
+        return this._layoutIndex;
+    }
+    set layoutIndex(value) {
+        this._layoutIndex = value;
+        for (let i = 0; i < this.columns.length; i++) {
+            this.columns[i].data.position.layoutIndex = value;
+        }
+    }
+    /**
+     * Default column (this.columns[0]) for this section
+     */
+    get defaultColumn() {
+        if (this.columns.length < 1) {
+            this.addColumn(12);
+        }
+        return this.columns[0];
+    }
     /**
      * Adds a new column to this section
      */
-    CanvasSection.prototype.addColumn = function (factor, layoutIndex) {
-        if (layoutIndex === void 0) { layoutIndex = this.layoutIndex; }
-        var column = new types_CanvasColumn();
+    addColumn(factor, layoutIndex = this.layoutIndex) {
+        const column = new types_CanvasColumn();
         column.section = this;
         column.data.position.zoneIndex = this.order;
         column.data.position.layoutIndex = layoutIndex;
@@ -8453,307 +7142,224 @@ var types_CanvasSection = /** @class */ (function () {
         column.order = getNextOrder(this.columns);
         this.columns.push(column);
         return column;
-    };
+    }
     /**
      * Adds a control to the default column for this section
      *
      * @param control Control to add to the default column
      */
-    CanvasSection.prototype.addControl = function (control) {
+    addControl(control) {
         this.defaultColumn.addControl(control);
         return this;
-    };
-    Object.defineProperty(CanvasSection.prototype, "emphasis", {
-        get: function () {
-            return this._emphasis;
-        },
-        set: function (value) {
-            this._emphasis = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
+    get emphasis() {
+        return this._emphasis;
+    }
+    set emphasis(value) {
+        this._emphasis = value;
+    }
     /**
      * Removes this section and all contained columns and controls from the collection
      */
-    CanvasSection.prototype.remove = function () {
-        var _this = this;
-        this.page.sections = this.page.sections.filter(function (section) { return section._memId !== _this._memId; });
+    remove() {
+        this.page.sections = this.page.sections.filter(section => section._memId !== this._memId);
         reindex(this.page.sections);
-    };
-    return CanvasSection;
-}());
-
-var types_CanvasColumn = /** @class */ (function () {
-    function CanvasColumn(json, controls) {
-        if (json === void 0) { json = JSON.parse(JSON.stringify(CanvasColumn.Default)); }
-        if (controls === void 0) { controls = []; }
+    }
+}
+class types_CanvasColumn {
+    constructor(json = JSON.parse(JSON.stringify(types_CanvasColumn.Default)), controls = []) {
         this.json = json;
         this.controls = controls;
         this._section = null;
-        this._memId = Object(common["getGUID"])();
+        this._memId = getGUID();
     }
-    Object.defineProperty(CanvasColumn.prototype, "data", {
-        get: function () {
-            return this.json;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(CanvasColumn.prototype, "section", {
-        get: function () {
-            return this._section;
-        },
-        set: function (section) {
-            this._section = section;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(CanvasColumn.prototype, "order", {
-        get: function () {
-            return this.data.position.sectionIndex;
-        },
-        set: function (value) {
-            this.data.position.sectionIndex = value;
-            for (var i = 0; i < this.controls.length; i++) {
-                this.controls[i].data.position.zoneIndex = this.data.position.zoneIndex;
-                this.controls[i].data.position.layoutIndex = this.data.position.layoutIndex;
-                this.controls[i].data.position.sectionIndex = value;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(CanvasColumn.prototype, "factor", {
-        get: function () {
-            return this.data.position.sectionFactor;
-        },
-        set: function (value) {
-            this.data.position.sectionFactor = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    CanvasColumn.prototype.addControl = function (control) {
+    get data() {
+        return this.json;
+    }
+    get section() {
+        return this._section;
+    }
+    set section(section) {
+        this._section = section;
+    }
+    get order() {
+        return this.data.position.sectionIndex;
+    }
+    set order(value) {
+        this.data.position.sectionIndex = value;
+        for (let i = 0; i < this.controls.length; i++) {
+            this.controls[i].data.position.zoneIndex = this.data.position.zoneIndex;
+            this.controls[i].data.position.layoutIndex = this.data.position.layoutIndex;
+            this.controls[i].data.position.sectionIndex = value;
+        }
+    }
+    get factor() {
+        return this.data.position.sectionFactor;
+    }
+    set factor(value) {
+        this.data.position.sectionFactor = value;
+    }
+    addControl(control) {
         control.column = this;
         this.controls.push(control);
         return this;
-    };
-    CanvasColumn.prototype.getControl = function (index) {
+    }
+    getControl(index) {
         return this.controls[index];
-    };
-    CanvasColumn.prototype.remove = function () {
-        var _this = this;
-        this.section.columns = this.section.columns.filter(function (column) { return column._memId !== _this._memId; });
+    }
+    remove() {
+        this.section.columns = this.section.columns.filter(column => column._memId !== this._memId);
         reindex(this.section.columns);
-    };
-    CanvasColumn.Default = {
-        controlType: 0,
-        displayMode: 2,
-        emphasis: {},
-        position: {
-            layoutIndex: 1,
-            sectionFactor: 12,
-            sectionIndex: 1,
-            zoneIndex: 1,
-        },
-    };
-    return CanvasColumn;
-}());
-
-var types_ColumnControl = /** @class */ (function () {
-    function ColumnControl(json) {
+    }
+}
+types_CanvasColumn.Default = {
+    controlType: 0,
+    displayMode: 2,
+    emphasis: {},
+    position: {
+        layoutIndex: 1,
+        sectionFactor: 12,
+        sectionIndex: 1,
+        zoneIndex: 1,
+    },
+};
+class types_ColumnControl {
+    constructor(json) {
         this.json = json;
     }
-    Object.defineProperty(ColumnControl.prototype, "id", {
-        get: function () {
-            return this.json.id;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ColumnControl.prototype, "data", {
-        get: function () {
-            return this.json;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ColumnControl.prototype, "column", {
-        get: function () {
-            return this._column;
-        },
-        set: function (value) {
-            this._column = value;
-            this.onColumnChange(this._column);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    ColumnControl.prototype.remove = function () {
-        var _this = this;
-        this.column.controls = this.column.controls.filter(function (control) { return control.id !== _this.id; });
+    get id() {
+        return this.json.id;
+    }
+    get data() {
+        return this.json;
+    }
+    get column() {
+        return this._column;
+    }
+    set column(value) {
+        this._column = value;
+        this.onColumnChange(this._column);
+    }
+    remove() {
+        this.column.controls = this.column.controls.filter(control => control.id !== this.id);
         reindex(this.column.controls);
-    };
-    ColumnControl.prototype.setData = function (data) {
+    }
+    setData(data) {
         this.json = data;
-    };
-    return ColumnControl;
-}());
-
-var types_ClientsideText = /** @class */ (function (_super) {
-    __extends(ClientsideText, _super);
-    function ClientsideText(text, json) {
-        if (json === void 0) { json = JSON.parse(JSON.stringify(ClientsideText.Default)); }
-        var _this = this;
-        if (Object(common["stringIsNullOrEmpty"])(json.id)) {
-            json.id = Object(common["getGUID"])();
+    }
+}
+class types_ClientsideText extends types_ColumnControl {
+    constructor(text, json = JSON.parse(JSON.stringify(types_ClientsideText.Default))) {
+        if (stringIsNullOrEmpty(json.id)) {
+            json.id = getGUID();
             json.anchorComponentId = json.id;
         }
-        _this = _super.call(this, json) || this;
-        _this.text = text;
-        return _this;
+        super(json);
+        this.text = text;
     }
-    Object.defineProperty(ClientsideText.prototype, "text", {
-        get: function () {
-            return this.data.innerHTML;
-        },
-        set: function (value) {
-            this.data.innerHTML = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideText.prototype, "order", {
-        get: function () {
-            return this.data.position.controlIndex;
-        },
-        set: function (value) {
-            this.data.position.controlIndex = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    ClientsideText.prototype.onColumnChange = function (col) {
+    get text() {
+        return this.data.innerHTML;
+    }
+    set text(value) {
+        this.data.innerHTML = value;
+    }
+    get order() {
+        return this.data.position.controlIndex;
+    }
+    set order(value) {
+        this.data.position.controlIndex = value;
+    }
+    onColumnChange(col) {
         this.data.position.sectionFactor = col.factor;
         this.data.position.controlIndex = getNextOrder(col.controls);
         this.data.position.zoneIndex = col.data.position.zoneIndex;
         this.data.position.sectionIndex = col.order;
         this.data.position.layoutIndex = col.data.position.layoutIndex;
-    };
-    ClientsideText.Default = {
-        addedFromPersistedData: false,
-        anchorComponentId: "",
-        controlType: 4,
-        displayMode: 2,
-        editorType: "CKEditor",
-        emphasis: {},
-        id: "",
-        innerHTML: "",
-        position: {
-            controlIndex: 1,
-            layoutIndex: 1,
-            sectionFactor: 12,
-            sectionIndex: 1,
-            zoneIndex: 1,
-        },
-    };
-    return ClientsideText;
-}(types_ColumnControl));
-
-var types_ClientsideWebpart = /** @class */ (function (_super) {
-    __extends(ClientsideWebpart, _super);
-    function ClientsideWebpart(json) {
-        if (json === void 0) { json = JSON.parse(JSON.stringify(ClientsideWebpart.Default)); }
-        return _super.call(this, json) || this;
     }
-    ClientsideWebpart.fromComponentDef = function (definition) {
-        var part = new ClientsideWebpart();
+}
+types_ClientsideText.Default = {
+    addedFromPersistedData: false,
+    anchorComponentId: "",
+    controlType: 4,
+    displayMode: 2,
+    editorType: "CKEditor",
+    emphasis: {},
+    id: "",
+    innerHTML: "",
+    position: {
+        controlIndex: 1,
+        layoutIndex: 1,
+        sectionFactor: 12,
+        sectionIndex: 1,
+        zoneIndex: 1,
+    },
+};
+class types_ClientsideWebpart extends types_ColumnControl {
+    constructor(json = JSON.parse(JSON.stringify(types_ClientsideWebpart.Default))) {
+        super(json);
+    }
+    static fromComponentDef(definition) {
+        const part = new types_ClientsideWebpart();
         part.import(definition);
         return part;
-    };
-    Object.defineProperty(ClientsideWebpart.prototype, "title", {
-        get: function () {
-            return this.data.webPartData.title;
-        },
-        set: function (value) {
-            this.data.webPartData.title = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideWebpart.prototype, "description", {
-        get: function () {
-            return this.data.webPartData.description;
-        },
-        set: function (value) {
-            this.data.webPartData.description = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideWebpart.prototype, "order", {
-        get: function () {
-            return this.data.position.controlIndex;
-        },
-        set: function (value) {
-            this.data.position.controlIndex = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideWebpart.prototype, "height", {
-        get: function () {
-            return this.data.reservedHeight;
-        },
-        set: function (value) {
-            this.data.reservedHeight = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideWebpart.prototype, "width", {
-        get: function () {
-            return this.data.reservedWidth;
-        },
-        set: function (value) {
-            this.data.reservedWidth = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClientsideWebpart.prototype, "dataVersion", {
-        get: function () {
-            return this.data.webPartData.dataVersion;
-        },
-        set: function (value) {
-            this.data.webPartData.dataVersion = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    ClientsideWebpart.prototype.setProperties = function (properties) {
-        this.data.webPartData.properties = Object(common["assign"])(this.data.webPartData.properties, properties);
+    }
+    get title() {
+        return this.data.webPartData.title;
+    }
+    set title(value) {
+        this.data.webPartData.title = value;
+    }
+    get description() {
+        return this.data.webPartData.description;
+    }
+    set description(value) {
+        this.data.webPartData.description = value;
+    }
+    get order() {
+        return this.data.position.controlIndex;
+    }
+    set order(value) {
+        this.data.position.controlIndex = value;
+    }
+    get height() {
+        return this.data.reservedHeight;
+    }
+    set height(value) {
+        this.data.reservedHeight = value;
+    }
+    get width() {
+        return this.data.reservedWidth;
+    }
+    set width(value) {
+        this.data.reservedWidth = value;
+    }
+    get dataVersion() {
+        return this.data.webPartData.dataVersion;
+    }
+    set dataVersion(value) {
+        this.data.webPartData.dataVersion = value;
+    }
+    setProperties(properties) {
+        this.data.webPartData.properties = util_assign(this.data.webPartData.properties, properties);
         return this;
-    };
-    ClientsideWebpart.prototype.getProperties = function () {
+    }
+    getProperties() {
         return this.data.webPartData.properties;
-    };
-    ClientsideWebpart.prototype.onColumnChange = function (col) {
+    }
+    onColumnChange(col) {
         this.data.position.sectionFactor = col.factor;
         this.data.position.controlIndex = getNextOrder(col.controls);
         this.data.position.zoneIndex = col.data.position.zoneIndex;
         this.data.position.sectionIndex = col.data.position.sectionIndex;
         this.data.position.layoutIndex = col.data.position.layoutIndex;
-    };
-    ClientsideWebpart.prototype.import = function (component) {
-        var id = Object(common["getGUID"])();
-        var componendId = component.Id.replace(/^\{|\}$/g, "").toLowerCase();
-        var manifest = JSON.parse(component.Manifest);
-        var preconfiguredEntries = manifest.preconfiguredEntries[0];
+    }
+    import(component) {
+        const id = getGUID();
+        const componendId = component.Id.replace(/^\{|\}$/g, "").toLowerCase();
+        const manifest = JSON.parse(component.Manifest);
+        const preconfiguredEntries = manifest.preconfiguredEntries[0];
         this.setData(Object.assign({}, this.data, {
-            id: id,
+            id,
             webPartData: {
                 dataVersion: "1.0",
                 description: preconfiguredEntries.description.default,
@@ -8764,28 +7370,26 @@ var types_ClientsideWebpart = /** @class */ (function (_super) {
             },
             webPartId: componendId,
         }));
-    };
-    ClientsideWebpart.Default = {
-        addedFromPersistedData: false,
-        controlType: 3,
-        displayMode: 2,
-        emphasis: {},
-        id: null,
-        position: {
-            controlIndex: 1,
-            layoutIndex: 1,
-            sectionFactor: 12,
-            sectionIndex: 1,
-            zoneIndex: 1,
-        },
-        reservedHeight: 500,
-        reservedWidth: 500,
-        webPartData: null,
-        webPartId: null,
-    };
-    return ClientsideWebpart;
-}(types_ColumnControl));
-
+    }
+}
+types_ClientsideWebpart.Default = {
+    addedFromPersistedData: false,
+    controlType: 3,
+    displayMode: 2,
+    emphasis: {},
+    id: null,
+    position: {
+        controlIndex: 1,
+        layoutIndex: 1,
+        sectionFactor: 12,
+        sectionIndex: 1,
+        zoneIndex: 1,
+    },
+    reservedHeight: 500,
+    reservedWidth: 500,
+    webPartData: null,
+    webPartId: null,
+};
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/web.js
 
@@ -8795,8 +7399,7 @@ types_Web.prototype.getClientsideWebParts = function () {
     return this.clone(SharePointQueryableCollection, "GetClientSideWebParts")();
 };
 types_Web.prototype.addClientsidePage =
-    function (pageName, title, layout, promotedState) {
-        if (title === void 0) { title = pageName.replace(/\.[^/.]+$/, ""); }
+    function (pageName, title = pageName.replace(/\.[^/.]+$/, ""), layout, promotedState) {
         return CreateClientsidePage(this, pageName, title, layout, promotedState);
     };
 types_Web.prototype.loadClientsidePage = function (path) {
@@ -8820,217 +7423,145 @@ types_Web.prototype.loadClientsidePage = function (path) {
 
 
 
-var types_Folders = /** @class */ (function (_super) {
-    __extends(_Folders, _super);
-    function _Folders() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Folders = class _Folders extends _SharePointQueryableCollection {
     /**
      * Gets a folder by it's name
      *
      * @param name Folder's name
      */
-    _Folders.prototype.getByName = function (name) {
-        return tag.configure(Folder(this).concat("('" + escapeQueryStrValue(name) + "')"), "fs.getByName");
-    };
+    getByName(name) {
+        return tag.configure(Folder(this).concat(`('${escapeQueryStrValue(name)}')`), "fs.getByName");
+    }
     /**
      * Adds a new folder at the specified URL
      *
      * @param url
      */
-    _Folders.prototype.add = function (url) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Folders, "add('" + escapeQueryStrValue(url) + "')"))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                folder: this.getByName(url),
-                            }];
-                }
-            });
+    add(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(Folders, `add('${escapeQueryStrValue(url)}')`));
+            return {
+                data,
+                folder: this.getByName(url),
+            };
         });
-    };
+    }
     /**
      * Adds a new folder by path and should be prefered over add
      *
      * @param serverRelativeUrl The server relative url of the new folder to create
      * @param overwrite True to overwrite an existing folder, default false
      */
-    _Folders.prototype.addUsingPath = function (serverRelativeUrl, overwrite) {
-        if (overwrite === void 0) { overwrite = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Folders, "addUsingPath(DecodedUrl='" + escapeQueryStrValue(serverRelativeUrl) + "',overwrite=" + overwrite + ")"))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                folder: Folder(extractWebUrl(this.toUrl()), "_api/web/getFolderByServerRelativePath(decodedUrl='" + escapeQueryStrValue(serverRelativeUrl) + "')"),
-                            }];
-                }
-            });
+    addUsingPath(serverRelativeUrl, overwrite = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(Folders, `addUsingPath(DecodedUrl='${escapeQueryStrValue(serverRelativeUrl)}',overwrite=${overwrite})`));
+            return {
+                data,
+                folder: Folder(extractWebUrl(this.toUrl()), `_api/web/getFolderByServerRelativePath(decodedUrl='${escapeQueryStrValue(serverRelativeUrl)}')`),
+            };
         });
-    };
-    __decorate([
-        tag("fs.add")
-    ], _Folders.prototype, "add", null);
-    __decorate([
-        tag("fs.addUsingPath")
-    ], _Folders.prototype, "addUsingPath", null);
-    _Folders = __decorate([
-        defaultPath("folders")
-    ], _Folders);
-    return _Folders;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("fs.add")
+], types_Folders.prototype, "add", null);
+__decorate([
+    tag("fs.addUsingPath")
+], types_Folders.prototype, "addUsingPath", null);
+types_Folders = __decorate([
+    defaultPath("folders")
+], types_Folders);
 
-var Folders = spInvokableFactory(types_Folders);
-var types_Folder = /** @class */ (function (_super) {
-    __extends(_Folder, _super);
-    function _Folder() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteableWithETag("f");
+const Folders = spInvokableFactory(types_Folders);
+class types_Folder extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag("f");
         /**
          * Updates folder's properties
          * @param props Folder's properties to update
          */
-        _this.update = _this._update("SP.Folder", function (data) { return ({ data: data, folder: _this }); });
-        return _this;
+        this.update = this._update("SP.Folder", data => ({ data, folder: this }));
     }
-    Object.defineProperty(_Folder.prototype, "contentTypeOrder", {
-        /**
-         * Specifies the sequence in which content types are displayed.
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "contentTypeOrder"), "f.contentTypeOrder");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "folders", {
-        /**
-         * Gets this folder's sub folders
-         *
-         */
-        get: function () {
-            return Folders(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "listItemAllFields", {
-        /**
-         * Gets this folder's list item field values
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "listItemAllFields"), "f.listItemAllFields");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "parentFolder", {
-        /**
-         * Gets the parent folder, if available
-         *
-         */
-        get: function () {
-            return tag.configure(Folder(this, "parentFolder"), "f.parentFolder");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "properties", {
-        /**
-         * Gets this folder's properties
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableInstance(this, "properties"), "f.properties");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "serverRelativeUrl", {
-        /**
-         * Gets this folder's server relative url
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "serverRelativeUrl"), "f.serverRelativeUrl");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Folder.prototype, "uniqueContentTypeOrder", {
-        /**
-         * Gets a value that specifies the content type order.
-         *
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "uniqueContentTypeOrder"), "f.uniqueContentTypeOrder");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Specifies the sequence in which content types are displayed.
+     *
+     */
+    get contentTypeOrder() {
+        return tag.configure(SharePointQueryableCollection(this, "contentTypeOrder"), "f.contentTypeOrder");
+    }
+    /**
+     * Gets this folder's sub folders
+     *
+     */
+    get folders() {
+        return Folders(this);
+    }
+    /**
+     * Gets this folder's list item field values
+     *
+     */
+    get listItemAllFields() {
+        return tag.configure(SharePointQueryableInstance(this, "listItemAllFields"), "f.listItemAllFields");
+    }
+    /**
+     * Gets the parent folder, if available
+     *
+     */
+    get parentFolder() {
+        return tag.configure(Folder(this, "parentFolder"), "f.parentFolder");
+    }
+    /**
+     * Gets this folder's properties
+     *
+     */
+    get properties() {
+        return tag.configure(SharePointQueryableInstance(this, "properties"), "f.properties");
+    }
+    /**
+     * Gets this folder's server relative url
+     *
+     */
+    get serverRelativeUrl() {
+        return tag.configure(SharePointQueryable(this, "serverRelativeUrl"), "f.serverRelativeUrl");
+    }
+    /**
+     * Gets a value that specifies the content type order.
+     *
+     */
+    get uniqueContentTypeOrder() {
+        return tag.configure(SharePointQueryableCollection(this, "uniqueContentTypeOrder"), "f.uniqueContentTypeOrder");
+    }
     /**
      * Moves the folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
-    _Folder.prototype.recycle = function () {
+    recycle() {
         return spPost(this.clone(Folder, "recycle"));
-    };
+    }
     /**
      * Gets the associated list item for this folder, loading the default properties
      */
-    _Folder.prototype.getItem = function () {
-        var selects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            selects[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var q;
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, (_a = this.listItemAllFields).select.apply(_a, __spread(selects))()];
-                    case 1:
-                        q = _b.sent();
-                        return [2 /*return*/, Object(common["assign"])(Item(odataUrlFrom(q)), q)];
-                }
-            });
+    getItem(...selects) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = yield this.listItemAllFields.select(...selects)();
+            return util_assign(Item(odataUrlFrom(q)), q);
         });
-    };
+    }
     /**
      * Moves a folder to destination path
      *
      * @param destUrl Absolute or relative URL of the destination path
      */
-    _Folder.prototype.moveTo = function (destUrl) {
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo, uri;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getParentInfos()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        uri = new URL(urlInfo.ParentWeb.Url);
-                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolder()"), request_builders_body({
-                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl),
-                                srcUrl: Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl),
-                            }))];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    moveTo(destUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.getParentInfos();
+            const uri = new URL(urlInfo.ParentWeb.Url);
+            yield spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolder()"), body({
+                destUrl: isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl),
+                srcUrl: combine(uri.origin, urlInfo.Folder.ServerRelativeUrl),
+            }));
         });
-    };
+    }
     /**
      * Moves a folder by path to destination path
      * Also works with different site collections.
@@ -9038,60 +7569,39 @@ var types_Folder = /** @class */ (function (_super) {
      * @param destUrl Absolute or relative URL of the destination path
      * @param keepBoth Keep both if folder with the same name in the same location already exists?
      */
-    _Folder.prototype.moveByPath = function (destUrl, KeepBoth) {
-        if (KeepBoth === void 0) { KeepBoth = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo, uri;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getParentInfos()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        uri = new URL(urlInfo.ParentWeb.Url);
-                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl)),
-                                options: {
-                                    KeepBoth: KeepBoth,
-                                    ResetAuthorAndCreatedOnCopy: true,
-                                    ShouldBypassSharedLocks: true,
-                                    __metadata: {
-                                        type: "SP.MoveCopyOptions",
-                                    },
-                                },
-                                srcPath: toResourcePath(Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
-                            }))];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    moveByPath(destUrl, KeepBoth = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.getParentInfos();
+            const uri = new URL(urlInfo.ParentWeb.Url);
+            yield spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
+                options: {
+                    KeepBoth,
+                    ResetAuthorAndCreatedOnCopy: true,
+                    ShouldBypassSharedLocks: true,
+                    __metadata: {
+                        type: "SP.MoveCopyOptions",
+                    },
+                },
+                srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
+            }));
         });
-    };
+    }
     /**
      * Copies a folder to destination path
      *
      * @param destUrl Absolute or relative URL of the destination path
      */
-    _Folder.prototype.copyTo = function (destUrl) {
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo, uri;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getParentInfos()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        uri = new URL(urlInfo.ParentWeb.Url);
-                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolder()"), request_builders_body({
-                                destUrl: Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl),
-                                srcUrl: Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl),
-                            }))];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    copyTo(destUrl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.getParentInfos();
+            const uri = new URL(urlInfo.ParentWeb.Url);
+            yield spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolder()"), body({
+                destUrl: isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl),
+                srcUrl: combine(uri.origin, urlInfo.Folder.ServerRelativeUrl),
+            }));
         });
-    };
+    }
     /**
      * Copies a folder by path to destination path
      * Also works with different site collections.
@@ -9099,145 +7609,111 @@ var types_Folder = /** @class */ (function (_super) {
      * @param destUrl Absolute or relative URL of the destination path
      * @param keepBoth Keep both if folder with the same name in the same location already exists?
      */
-    _Folder.prototype.copyByPath = function (destUrl, KeepBoth) {
-        if (KeepBoth === void 0) { KeepBoth = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo, uri;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getParentInfos()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        uri = new URL(urlInfo.ParentWeb.Url);
-                        return [4 /*yield*/, spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
-                                destPath: toResourcePath(Object(common["isUrlAbsolute"])(destUrl) ? destUrl : Object(common["combine"])(uri.origin, destUrl)),
-                                options: {
-                                    KeepBoth: KeepBoth,
-                                    ResetAuthorAndCreatedOnCopy: true,
-                                    ShouldBypassSharedLocks: true,
-                                    __metadata: {
-                                        type: "SP.MoveCopyOptions",
-                                    },
-                                },
-                                srcPath: toResourcePath(Object(common["combine"])(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
-                            }))];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    copyByPath(destUrl, KeepBoth = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.getParentInfos();
+            const uri = new URL(urlInfo.ParentWeb.Url);
+            yield spPost(Folder(uri.origin, "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
+                options: {
+                    KeepBoth: KeepBoth,
+                    ResetAuthorAndCreatedOnCopy: true,
+                    ShouldBypassSharedLocks: true,
+                    __metadata: {
+                        type: "SP.MoveCopyOptions",
+                    },
+                },
+                srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
+            }));
         });
-    };
+    }
     /**
      * Deletes the folder object with options.
      *
      * @param parameters Specifies the options to use when deleting a folder.
      */
-    _Folder.prototype.deleteWithParams = function (parameters) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, spPost(this.clone(Folder, "DeleteWithParameters"), request_builders_body({ parameters: parameters }))];
-            });
+    deleteWithParams(parameters) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return spPost(this.clone(Folder, "DeleteWithParameters"), body({ parameters }));
         });
-    };
+    }
     /**
      * Create the subfolder inside the current folder, as specified by the leafPath
      *
      * @param leafPath leafName of the new folder
      */
-    _Folder.prototype.addSubFolderUsingPath = function (leafPath) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Folder, "AddSubFolderUsingPath"), request_builders_body({ leafPath: toResourcePath(leafPath) }))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, this.folders.getByName(leafPath)];
-                }
-            });
+    addSubFolderUsingPath(leafPath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this.clone(Folder, "AddSubFolderUsingPath"), body({ leafPath: toResourcePath(leafPath) }));
+            return this.folders.getByName(leafPath);
         });
-    };
+    }
     /**
      * Gets the parent information for this folder's list and web
      */
-    _Folder.prototype.getParentInfos = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var urlInfo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.select("ServerRelativeUrl", "ListItemAllFields/ParentList/Id", "ListItemAllFields/ParentList/RootFolder/UniqueId", "ListItemAllFields/ParentList/RootFolder/ServerRelativeUrl", "ListItemAllFields/ParentList/RootFolder/ServerRelativePath", "ListItemAllFields/ParentList/ParentWeb/Id", "ListItemAllFields/ParentList/ParentWeb/Url", "ListItemAllFields/ParentList/ParentWeb/ServerRelativeUrl", "ListItemAllFields/ParentList/ParentWeb/ServerRelativePath").expand("ListItemAllFields/ParentList", "ListItemAllFields/ParentList/RootFolder", "ListItemAllFields/ParentList/ParentWeb")()];
-                    case 1:
-                        urlInfo = _a.sent();
-                        return [2 /*return*/, {
-                                Folder: {
-                                    ServerRelativeUrl: urlInfo.ServerRelativeUrl,
-                                },
-                                ParentList: {
-                                    Id: urlInfo.ListItemAllFields.ParentList.Id,
-                                    RootFolderServerRelativePath: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativePath,
-                                    RootFolderServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativeUrl,
-                                    RootFolderUniqueId: urlInfo.ListItemAllFields.ParentList.RootFolder.UniqueId,
-                                },
-                                ParentWeb: {
-                                    Id: urlInfo.ListItemAllFields.ParentList.ParentWeb.Id,
-                                    ServerRelativePath: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativePath,
-                                    ServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativeUrl,
-                                    Url: urlInfo.ListItemAllFields.ParentList.ParentWeb.Url,
-                                },
-                            }];
-                }
-            });
+    getParentInfos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const urlInfo = yield this.select("ServerRelativeUrl", "ListItemAllFields/ParentList/Id", "ListItemAllFields/ParentList/RootFolder/UniqueId", "ListItemAllFields/ParentList/RootFolder/ServerRelativeUrl", "ListItemAllFields/ParentList/RootFolder/ServerRelativePath", "ListItemAllFields/ParentList/ParentWeb/Id", "ListItemAllFields/ParentList/ParentWeb/Url", "ListItemAllFields/ParentList/ParentWeb/ServerRelativeUrl", "ListItemAllFields/ParentList/ParentWeb/ServerRelativePath").expand("ListItemAllFields/ParentList", "ListItemAllFields/ParentList/RootFolder", "ListItemAllFields/ParentList/ParentWeb")();
+            return {
+                Folder: {
+                    ServerRelativeUrl: urlInfo.ServerRelativeUrl,
+                },
+                ParentList: {
+                    Id: urlInfo.ListItemAllFields.ParentList.Id,
+                    RootFolderServerRelativePath: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativePath,
+                    RootFolderServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.RootFolder.ServerRelativeUrl,
+                    RootFolderUniqueId: urlInfo.ListItemAllFields.ParentList.RootFolder.UniqueId,
+                },
+                ParentWeb: {
+                    Id: urlInfo.ListItemAllFields.ParentList.ParentWeb.Id,
+                    ServerRelativePath: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativePath,
+                    ServerRelativeUrl: urlInfo.ListItemAllFields.ParentList.ParentWeb.ServerRelativeUrl,
+                    Url: urlInfo.ListItemAllFields.ParentList.ParentWeb.Url,
+                },
+            };
         });
-    };
+    }
     /**
      * Gets the shareable item associated with this folder
      */
-    _Folder.prototype.getShareable = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var d, shareable;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(SharePointQueryableInstance, "listItemAllFields", false).select("odata.id")()];
-                    case 1:
-                        d = _a.sent();
-                        shareable = Item(odataUrlFrom(d));
-                        // we need to handle batching
-                        if (this.hasBatch) {
-                            shareable = shareable.inBatch(this.batch);
-                        }
-                        return [2 /*return*/, shareable];
-                }
-            });
+    getShareable() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // sharing only works on the item end point, not the file one - so we create a folder instance with the item url internally
+            const d = yield this.clone(SharePointQueryableInstance, "listItemAllFields", false).select("odata.id")();
+            let shareable = Item(odataUrlFrom(d));
+            // we need to handle batching
+            if (this.hasBatch) {
+                shareable = shareable.inBatch(this.batch);
+            }
+            return shareable;
         });
-    };
-    __decorate([
-        tag("f.recycle")
-    ], _Folder.prototype, "recycle", null);
-    __decorate([
-        tag("f.getItem")
-    ], _Folder.prototype, "getItem", null);
-    __decorate([
-        tag("f.moveTo")
-    ], _Folder.prototype, "moveTo", null);
-    __decorate([
-        tag("f.moveByPath")
-    ], _Folder.prototype, "moveByPath", null);
-    __decorate([
-        tag("f.copyTo")
-    ], _Folder.prototype, "copyTo", null);
-    __decorate([
-        tag("f.copyByPath")
-    ], _Folder.prototype, "copyByPath", null);
-    __decorate([
-        tag("f.del-params")
-    ], _Folder.prototype, "deleteWithParams", null);
-    __decorate([
-        tag("f.getShareable")
-    ], _Folder.prototype, "getShareable", null);
-    return _Folder;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Folder = spInvokableFactory(types_Folder);
+    }
+}
+__decorate([
+    tag("f.recycle")
+], types_Folder.prototype, "recycle", null);
+__decorate([
+    tag("f.getItem")
+], types_Folder.prototype, "getItem", null);
+__decorate([
+    tag("f.moveTo")
+], types_Folder.prototype, "moveTo", null);
+__decorate([
+    tag("f.moveByPath")
+], types_Folder.prototype, "moveByPath", null);
+__decorate([
+    tag("f.copyTo")
+], types_Folder.prototype, "copyTo", null);
+__decorate([
+    tag("f.copyByPath")
+], types_Folder.prototype, "copyByPath", null);
+__decorate([
+    tag("f.del-params")
+], types_Folder.prototype, "deleteWithParams", null);
+__decorate([
+    tag("f.getShareable")
+], types_Folder.prototype, "getShareable", null);
+const Folder = spInvokableFactory(types_Folder);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/list.js
 
@@ -9251,171 +7727,145 @@ var Folder = spInvokableFactory(types_Folder);
 
 addProp(types_List, "rootFolder", Folder, "rootFolder");
 types_List.prototype.getDefaultColumnValues = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        var pathPart, webUrl, path, baseFilePath, xml, e_1, matches, tags;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.rootFolder.select("ServerRelativePath")()];
-                case 1:
-                    pathPart = _a.sent();
-                    return [4 /*yield*/, this.select("ParentWeb/Url").expand("ParentWeb")()];
-                case 2:
-                    webUrl = _a.sent();
-                    path = Object(common["combine"])("/", pathPart.ServerRelativePath.DecodedUrl, "Forms/client_LocationBasedDefaults.html");
-                    baseFilePath = Object(common["combine"])(webUrl.ParentWeb.Url, "_api/web", "getFileByServerRelativePath(decodedUrl='" + escapeQueryStrValue(path) + "')");
-                    xml = "";
-                    _a.label = 3;
-                case 3:
-                    _a.trys.push([3, 5, , 6]);
-                    return [4 /*yield*/, Folder(baseFilePath, "$value").usingParser(new parsers_TextParser())(request_builders_headers({ "binaryStringResponseBody": "true" }))];
-                case 4:
-                    xml = _a.sent();
-                    return [3 /*break*/, 6];
-                case 5:
-                    e_1 = _a.sent();
-                    // if this call fails we assume it is because the file is 404
-                    if (e_1 && e_1.status && e_1.status === 404) {
-                        // return an empty array
-                        return [2 /*return*/, []];
-                    }
-                    throw e_1;
-                case 6:
-                    matches = xml.match(/<a.*?<\/a>/ig);
-                    tags = matches === null ? [] : matches.map(function (t) { return t.trim(); });
-                    // now we need to turn these tags of form into objects
-                    // <a href="/sites/dev/My%20Title"><DefaultValue FieldName="TextField">Test</DefaultValue></a>
-                    return [2 /*return*/, tags.reduce(function (defVals, t) {
-                            var m = /<a href="(.*?)">/ig.exec(t);
-                            // if things worked out captures are:
-                            // 0: whole string
-                            // 1: ENCODED server relative path
-                            if (m.length < 1) {
-                                // this indicates an error somewhere, but we have no way to meaningfully recover
-                                // perhaps the way the tags are stored has changed on the server? Check that first.
-                                Logger.write("Could not parse default column value from '" + t + "'", 2 /* Warning */);
-                                return null;
-                            }
-                            // return the parsed out values
-                            var subMatches = t.match(/<DefaultValue.*?<\/DefaultValue>/ig);
-                            var subTags = subMatches === null ? [] : subMatches.map(function (st) { return st.trim(); });
-                            subTags.map(function (st) {
-                                var sm = /<DefaultValue FieldName="(.*?)">(.*?)<\/DefaultValue>/ig.exec(st);
-                                // if things worked out captures are:
-                                // 0: whole string
-                                // 1: Field internal name
-                                // 2: Default value as string
-                                if (sm.length < 1) {
-                                    Logger.write("Could not parse default column value from '" + st + "'", 2 /* Warning */);
-                                }
-                                else {
-                                    defVals.push({
-                                        name: sm[1],
-                                        path: decodeURIComponent(m[1]),
-                                        value: sm[2],
-                                    });
-                                }
-                            });
-                            return defVals;
-                        }, []).filter(function (v) { return v !== null; })];
+    return __awaiter(this, void 0, void 0, function* () {
+        const pathPart = yield this.rootFolder.select("ServerRelativePath")();
+        const webUrl = yield this.select("ParentWeb/Url").expand("ParentWeb")();
+        const path = combine("/", pathPart.ServerRelativePath.DecodedUrl, "Forms/client_LocationBasedDefaults.html");
+        const baseFilePath = combine(webUrl.ParentWeb.Url, "_api/web", `getFileByServerRelativePath(decodedUrl='${escapeQueryStrValue(path)}')`);
+        // we do this because we don't want to import file if we don't have to
+        let xml = "";
+        try {
+            xml = yield Folder(baseFilePath, "$value").usingParser(new TextParser())(request_builders_headers({ "binaryStringResponseBody": "true" }));
+        }
+        catch (e) {
+            // if this call fails we assume it is because the file is 404
+            if (e && e.status && e.status === 404) {
+                // return an empty array
+                return [];
             }
-        });
+            throw e;
+        }
+        // get all the tags from the xml
+        const matches = xml.match(/<a.*?<\/a>/ig);
+        const tags = matches === null ? [] : matches.map(t => t.trim());
+        // now we need to turn these tags of form into objects
+        // <a href="/sites/dev/My%20Title"><DefaultValue FieldName="TextField">Test</DefaultValue></a>
+        return tags.reduce((defVals, t) => {
+            const m = /<a href="(.*?)">/ig.exec(t);
+            // if things worked out captures are:
+            // 0: whole string
+            // 1: ENCODED server relative path
+            if (m.length < 1) {
+                // this indicates an error somewhere, but we have no way to meaningfully recover
+                // perhaps the way the tags are stored has changed on the server? Check that first.
+                Logger.write(`Could not parse default column value from '${t}'`, 2 /* Warning */);
+                return null;
+            }
+            // return the parsed out values
+            const subMatches = t.match(/<DefaultValue.*?<\/DefaultValue>/ig);
+            const subTags = subMatches === null ? [] : subMatches.map(st => st.trim());
+            subTags.map(st => {
+                const sm = /<DefaultValue FieldName="(.*?)">(.*?)<\/DefaultValue>/ig.exec(st);
+                // if things worked out captures are:
+                // 0: whole string
+                // 1: Field internal name
+                // 2: Default value as string
+                if (sm.length < 1) {
+                    Logger.write(`Could not parse default column value from '${st}'`, 2 /* Warning */);
+                }
+                else {
+                    defVals.push({
+                        name: sm[1],
+                        path: decodeURIComponent(m[1]),
+                        value: sm[2],
+                    });
+                }
+            });
+            return defVals;
+        }, []).filter(v => v !== null);
     });
 };
 types_List.prototype.setDefaultColumnValues = function (defaults) {
-    return __awaiter(this, void 0, void 0, function () {
-        var fieldDefs, tags, xml, pathPart, webUrl, path, baseFilePath, existingReceivers;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, SharePointQueryableCollection(this, "fields").select("InternalName", "TypeAsString").filter("Hidden ne true")()];
-                case 1:
-                    fieldDefs = _a.sent();
-                    tags = defaults.map(function (fieldDefault) {
-                        var index = fieldDefs.findIndex(function (fd) { return fd.InternalName === fieldDefault.name; });
-                        if (index < 0) {
-                            throw Error("Field '" + fieldDefault.name + "' does not exist in the list. Please check the internal field name. Failed to set defaults.");
-                        }
-                        var fieldDef = fieldDefs[index];
-                        var value = "";
-                        switch (fieldDef.TypeAsString) {
-                            case "Boolean":
-                            case "Currency":
-                            case "Text":
-                            case "DateTime":
-                            case "Number":
-                            case "Choice":
-                            case "User":
-                                if (Object(common["isArray"])(fieldDefault.value)) {
-                                    throw Error("The type '" + fieldDef.TypeAsString + "' does not support multiple values.");
-                                }
-                                value = "" + fieldDefault.value;
-                                break;
-                            case "MultiChoice":
-                                if (Object(common["isArray"])(fieldDefault.value)) {
-                                    value = fieldDefault.value.map(function (v) { return "" + v; }).join(";");
-                                }
-                                else {
-                                    value = "" + fieldDefault.value;
-                                }
-                                break;
-                            case "UserMulti":
-                                if (Object(common["isArray"])(fieldDefault.value)) {
-                                    value = fieldDefault.value.map(function (v) { return "" + v; }).join(";#");
-                                }
-                                else {
-                                    value = "" + fieldDefault.value;
-                                }
-                                break;
-                            case "Taxonomy":
-                            case "TaxonomyFieldType":
-                                if (Object(common["isArray"])(fieldDefault.value)) {
-                                    throw Error("The type '" + fieldDef.TypeAsString + "' does not support multiple values.");
-                                }
-                                else {
-                                    value = fieldDefault.value.wssId + ";#" + fieldDefault.value.termName + "|" + fieldDefault.value.termId;
-                                }
-                                break;
-                            case "TaxonomyMulti":
-                            case "TaxonomyFieldTypeMulti":
-                                if (Object(common["isArray"])(fieldDefault.value)) {
-                                    value = fieldDefault.value.map(function (v) { return v.wssId + ";#" + v.termName + "|" + v.termId; }).join(";#");
-                                }
-                                value = fieldDefault.value.wssId + ";#" + fieldDefault.value.termName + "|" + fieldDefault.value.termId;
-                                break;
-                        }
-                        return "<a href=\"" + fieldDefault.path.replace(/ /gi, "%20") + "\"><DefaultValue FieldName=\"" + fieldDefault.name + "\">" + value + "</DefaultValue></a>";
-                    });
-                    xml = "<MetadataDefaults>" + tags.join("") + "</MetadataDefaults>";
-                    return [4 /*yield*/, this.rootFolder.select("ServerRelativePath")()];
-                case 2:
-                    pathPart = _a.sent();
-                    return [4 /*yield*/, this.select("ParentWeb/Url").expand("ParentWeb")()];
-                case 3:
-                    webUrl = _a.sent();
-                    path = Object(common["combine"])("/", pathPart.ServerRelativePath.DecodedUrl, "Forms");
-                    baseFilePath = Object(common["combine"])(webUrl.ParentWeb.Url, "_api/web", "getFolderByServerRelativePath(decodedUrl='" + escapeQueryStrValue(path) + "')", "files");
-                    return [4 /*yield*/, spPost(Folder(baseFilePath, "add(overwrite=true,url='client_LocationBasedDefaults.html')"), { body: xml })];
-                case 4:
-                    _a.sent();
-                    return [4 /*yield*/, this.eventReceivers.filter("ReceiverName eq 'LocationBasedMetadataDefaultsReceiver ItemAdded'").select("ReceiverId")()];
-                case 5:
-                    existingReceivers = _a.sent();
-                    if (!(existingReceivers.length < 1)) return [3 /*break*/, 7];
-                    return [4 /*yield*/, spPost(List(this.eventReceivers, "add"), request_builders_body({
-                            eventReceiverCreationInformation: {
-                                EventType: 10001,
-                                ReceiverAssembly: "Microsoft.Office.DocumentManagement, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c",
-                                ReceiverClass: "Microsoft.Office.DocumentManagement.LocationBasedMetadataDefaultsReceiver",
-                                ReceiverName: "LocationBasedMetadataDefaultsReceiver ItemAdded",
-                                SequenceNumber: 1000,
-                                Synchronization: 1,
-                            },
-                        }))];
-                case 6:
-                    _a.sent();
-                    _a.label = 7;
-                case 7: return [2 /*return*/];
+    return __awaiter(this, void 0, void 0, function* () {
+        // we need the field types from the list to map the values
+        // eslint-disable-next-line max-len
+        const fieldDefs = yield SharePointQueryableCollection(this, "fields").select("InternalName", "TypeAsString").filter("Hidden ne true")();
+        // map the values into the right format and produce our xml elements
+        const tags = defaults.map(fieldDefault => {
+            const index = fieldDefs.findIndex(fd => fd.InternalName === fieldDefault.name);
+            if (index < 0) {
+                throw Error(`Field '${fieldDefault.name}' does not exist in the list. Please check the internal field name. Failed to set defaults.`);
             }
+            const fieldDef = fieldDefs[index];
+            let value = "";
+            switch (fieldDef.TypeAsString) {
+                case "Boolean":
+                case "Currency":
+                case "Text":
+                case "DateTime":
+                case "Number":
+                case "Choice":
+                case "User":
+                    if (isArray(fieldDefault.value)) {
+                        throw Error(`The type '${fieldDef.TypeAsString}' does not support multiple values.`);
+                    }
+                    value = `${fieldDefault.value}`;
+                    break;
+                case "MultiChoice":
+                    if (isArray(fieldDefault.value)) {
+                        value = fieldDefault.value.map(v => `${v}`).join(";");
+                    }
+                    else {
+                        value = `${fieldDefault.value}`;
+                    }
+                    break;
+                case "UserMulti":
+                    if (isArray(fieldDefault.value)) {
+                        value = fieldDefault.value.map(v => `${v}`).join(";#");
+                    }
+                    else {
+                        value = `${fieldDefault.value}`;
+                    }
+                    break;
+                case "Taxonomy":
+                case "TaxonomyFieldType":
+                    if (isArray(fieldDefault.value)) {
+                        throw Error(`The type '${fieldDef.TypeAsString}' does not support multiple values.`);
+                    }
+                    else {
+                        value = `${fieldDefault.value.wssId};#${fieldDefault.value.termName}|${fieldDefault.value.termId}`;
+                    }
+                    break;
+                case "TaxonomyMulti":
+                case "TaxonomyFieldTypeMulti":
+                    if (isArray(fieldDefault.value)) {
+                        value = fieldDefault.value.map(v => `${v.wssId};#${v.termName}|${v.termId}`).join(";#");
+                    }
+                    value = `${fieldDefault.value.wssId};#${fieldDefault.value.termName}|${fieldDefault.value.termId}`;
+                    break;
+            }
+            return `<a href="${fieldDefault.path.replace(/ /gi, "%20")}"><DefaultValue FieldName="${fieldDefault.name}">${value}</DefaultValue></a>`;
         });
+        const xml = `<MetadataDefaults>${tags.join("")}</MetadataDefaults>`;
+        const pathPart = yield this.rootFolder.select("ServerRelativePath")();
+        const webUrl = yield this.select("ParentWeb/Url").expand("ParentWeb")();
+        const path = combine("/", pathPart.ServerRelativePath.DecodedUrl, "Forms");
+        const baseFilePath = combine(webUrl.ParentWeb.Url, "_api/web", `getFolderByServerRelativePath(decodedUrl='${escapeQueryStrValue(path)}')`, "files");
+        yield spPost(Folder(baseFilePath, "add(overwrite=true,url='client_LocationBasedDefaults.html')"), { body: xml });
+        // finally we need to ensure this list has the right event receiver added
+        const existingReceivers = yield this.eventReceivers.filter("ReceiverName eq 'LocationBasedMetadataDefaultsReceiver ItemAdded'").select("ReceiverId")();
+        if (existingReceivers.length < 1) {
+            yield spPost(List(this.eventReceivers, "add"), body({
+                eventReceiverCreationInformation: {
+                    EventType: 10001,
+                    ReceiverAssembly: "Microsoft.Office.DocumentManagement, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c",
+                    ReceiverClass: "Microsoft.Office.DocumentManagement.LocationBasedMetadataDefaultsReceiver",
+                    ReceiverName: "LocationBasedMetadataDefaultsReceiver ItemAdded",
+                    SequenceNumber: 1000,
+                    Synchronization: 1,
+                },
+            }));
+        }
     });
 };
 
@@ -9432,19 +7882,12 @@ addProp(types_Web, "siteUserInfoList", List, "siteuserinfolist");
 addProp(types_Web, "defaultDocumentLibrary", List, "DefaultDocumentLibrary");
 addProp(types_Web, "customListTemplates", SharePointQueryableCollection, "getcustomlisttemplates");
 types_Web.prototype.getList = function (listRelativeUrl) {
-    return List(this, "getList('" + escapeQueryStrValue(listRelativeUrl) + "')");
+    return List(this, `getList('${escapeQueryStrValue(listRelativeUrl)}')`);
 };
 types_Web.prototype.getCatalog = function (type) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.clone(Web, "getcatalog(" + type + ")").select("Id").get()];
-                case 1:
-                    data = _a.sent();
-                    return [2 /*return*/, List(odataUrlFrom(data))];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield this.clone(Web, `getcatalog(${type})`).select("Id").get();
+        return List(odataUrlFrom(data));
     });
 };
 
@@ -9456,79 +7899,51 @@ types_Web.prototype.getCatalog = function (type) {
 
 
 types_Folder.prototype.getDefaultColumnValues = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        var folderProps, serRelPath, web, docLib;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, Folder(this, "Properties").select("vti_x005f_listname")()];
-                case 1:
-                    folderProps = _a.sent();
-                    return [4 /*yield*/, this.select("ServerRelativePath")()];
-                case 2:
-                    serRelPath = (_a.sent()).ServerRelativePath;
-                    web = Web(extractWebUrl(odataUrlFrom(folderProps)));
-                    docLib = web.lists.getById(folderProps.vti_x005f_listname);
-                    return [4 /*yield*/, docLib.getDefaultColumnValues()];
-                case 3: 
-                // and we return the defaults associated with this folder's server relative path only
-                // if you want all the defaults use list.getDefaultColumnValues()
-                return [2 /*return*/, (_a.sent()).filter(function (v) { return v.path.toLowerCase() === serRelPath.DecodedUrl.toLowerCase(); })];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const folderProps = yield Folder(this, "Properties").select("vti_x005f_listname")();
+        const { ServerRelativePath: serRelPath } = yield this.select("ServerRelativePath")();
+        const web = Web(extractWebUrl(odataUrlFrom(folderProps)));
+        const docLib = web.lists.getById(folderProps.vti_x005f_listname);
+        // and we return the defaults associated with this folder's server relative path only
+        // if you want all the defaults use list.getDefaultColumnValues()
+        return (yield docLib.getDefaultColumnValues()).filter(v => v.path.toLowerCase() === serRelPath.DecodedUrl.toLowerCase());
     });
 };
-types_Folder.prototype.setDefaultColumnValues = function (fieldDefaults, merge) {
-    if (merge === void 0) { merge = true; }
-    return __awaiter(this, void 0, void 0, function () {
-        var folderProps, web, docLib, folderPath, existingDefaults, filteredExistingDefaults;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, Folder(this, "Properties").select("vti_x005f_listname")()];
-                case 1:
-                    folderProps = _a.sent();
-                    web = Web(extractWebUrl(odataUrlFrom(folderProps)));
-                    docLib = web.lists.getById(folderProps.vti_x005f_listname);
-                    return [4 /*yield*/, this.select("ServerRelativePath")()];
-                case 2:
-                    folderPath = (_a.sent()).ServerRelativePath.DecodedUrl;
-                    return [4 /*yield*/, docLib.getDefaultColumnValues()];
-                case 3:
-                    existingDefaults = _a.sent();
-                    filteredExistingDefaults = merge ? existingDefaults : existingDefaults.filter(function (f) { return f.path !== folderPath; });
-                    // we update / add any new defaults from those passed to this method
-                    fieldDefaults.forEach(function (d) {
-                        var existing = filteredExistingDefaults.find(function (ed) { return ed.name === d.name && ed.path === folderPath; });
-                        if (existing) {
-                            existing.value = d.value;
-                        }
-                        else {
-                            filteredExistingDefaults.push({
-                                name: d.name,
-                                path: folderPath,
-                                value: d.value,
-                            });
-                        }
-                    });
-                    // after this operation filteredExistingDefaults should contain all the value we want to write to the file
-                    return [4 /*yield*/, docLib.setDefaultColumnValues(filteredExistingDefaults)];
-                case 4:
-                    // after this operation filteredExistingDefaults should contain all the value we want to write to the file
-                    _a.sent();
-                    return [2 /*return*/];
+types_Folder.prototype.setDefaultColumnValues = function (fieldDefaults, merge = true) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // we start by figuring out where we are
+        const folderProps = yield Folder(this, "Properties").select("vti_x005f_listname")();
+        // now we create a web, list and batch to get some info we need
+        const web = Web(extractWebUrl(odataUrlFrom(folderProps)));
+        const docLib = web.lists.getById(folderProps.vti_x005f_listname);
+        // we need the proper folder path
+        const folderPath = (yield this.select("ServerRelativePath")()).ServerRelativePath.DecodedUrl;
+        // at this point we should have all the defaults to update
+        // and we need to get all the defaults to update the entire doc
+        const existingDefaults = yield docLib.getDefaultColumnValues();
+        // we filter all defaults to remove any associated with this folder if merge is false
+        const filteredExistingDefaults = merge ? existingDefaults : existingDefaults.filter(f => f.path !== folderPath);
+        // we update / add any new defaults from those passed to this method
+        fieldDefaults.forEach(d => {
+            const existing = filteredExistingDefaults.find(ed => ed.name === d.name && ed.path === folderPath);
+            if (existing) {
+                existing.value = d.value;
+            }
+            else {
+                filteredExistingDefaults.push({
+                    name: d.name,
+                    path: folderPath,
+                    value: d.value,
+                });
             }
         });
+        // after this operation filteredExistingDefaults should contain all the value we want to write to the file
+        yield docLib.setDefaultColumnValues(filteredExistingDefaults);
     });
 };
 types_Folder.prototype.clearDefaultColumnValues = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.setDefaultColumnValues([], false)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield this.setDefaultColumnValues([], false);
     });
 };
 
@@ -9548,39 +7963,28 @@ types_Folder.prototype.clearDefaultColumnValues = function () {
 
 
 
-var types_ContentTypes = /** @class */ (function (_super) {
-    __extends(_ContentTypes, _super);
-    function _ContentTypes() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_ContentTypes = class _ContentTypes extends _SharePointQueryableCollection {
     /**
      * Adds an existing contenttype to a content type collection
      *
      * @param contentTypeId in the following format, for example: 0x010102
      */
-    _ContentTypes.prototype.addAvailableContentType = function (contentTypeId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(ContentTypes, "addAvailableContentType"), request_builders_body({ "contentTypeId": contentTypeId }))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                contentType: this.getById(data.id),
-                                data: data,
-                            }];
-                }
-            });
+    addAvailableContentType(contentTypeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(ContentTypes, "addAvailableContentType"), body({ "contentTypeId": contentTypeId }));
+            return {
+                contentType: this.getById(data.id),
+                data: data,
+            };
         });
-    };
+    }
     /**
      * Gets a ContentType by content type id
      * @param id The id of the content type to get, in the following format, for example: 0x010102
      */
-    _ContentTypes.prototype.getById = function (id) {
-        return tag.configure(ContentType(this).concat("('" + id + "')"), "cts.getById");
-    };
+    getById(id) {
+        return tag.configure(ContentType(this).concat(`('${id}')`), "cts.getById");
+    }
     /**
      * Adds a new content type to the collection
      *
@@ -9591,122 +7995,79 @@ var types_ContentTypes = /** @class */ (function (_super) {
      * @param additionalSettings Any additional settings to provide when creating the content type
      *
      */
-    _ContentTypes.prototype.add = function (id, name, description, group, additionalSettings) {
-        if (description === void 0) { description = ""; }
-        if (group === void 0) { group = "Custom Content Types"; }
-        if (additionalSettings === void 0) { additionalSettings = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object.assign(metadata("SP.ContentType"), {
-                            "Description": description,
-                            "Group": group,
-                            "Id": { "StringValue": id },
-                            "Name": name,
-                        }, additionalSettings));
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { contentType: this.getById(data.id), data: data }];
-                }
-            });
+    add(id, name, description = "", group = "Custom Content Types", additionalSettings = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(Object.assign(metadata("SP.ContentType"), {
+                "Description": description,
+                "Group": group,
+                "Id": { "StringValue": id },
+                "Name": name,
+            }, additionalSettings));
+            const data = yield spPost(this, postBody);
+            return { contentType: this.getById(data.id), data };
         });
-    };
-    __decorate([
-        tag("cts.addAvailableContentType")
-    ], _ContentTypes.prototype, "addAvailableContentType", null);
-    __decorate([
-        tag("cts.add")
-    ], _ContentTypes.prototype, "add", null);
-    _ContentTypes = __decorate([
-        defaultPath("contenttypes")
-    ], _ContentTypes);
-    return _ContentTypes;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var ContentTypes = spInvokableFactory(types_ContentTypes);
-var types_ContentType = /** @class */ (function (_super) {
-    __extends(_ContentType, _super);
-    function _ContentType() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("ct");
-        return _this;
     }
-    Object.defineProperty(_ContentType.prototype, "fieldLinks", {
-        /**
-         * Gets the column (also known as field) references in the content type.
-         */
-        get: function () {
-            return tag.configure(FieldLinks(this), "ct.fieldLinks");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ContentType.prototype, "fields", {
-        /**
-         * Gets a value that specifies the collection of fields for the content type.
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "fields"), "ct.fields");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ContentType.prototype, "parent", {
-        /**
-         * Gets the parent content type of the content type.
-         */
-        get: function () {
-            return tag.configure(ContentType(this, "parent"), "ct.parent");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ContentType.prototype, "workflowAssociations", {
-        /**
-         * Gets a value that specifies the collection of workflow associations for the content type.
-         */
-        get: function () {
-            return tag.configure(SharePointQueryableCollection(this, "workflowAssociations"), "ct.workflowAssociations");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _ContentType;
-}(sharepointqueryable_SharePointQueryableInstance));
+};
+__decorate([
+    tag("cts.addAvailableContentType")
+], types_ContentTypes.prototype, "addAvailableContentType", null);
+__decorate([
+    tag("cts.add")
+], types_ContentTypes.prototype, "add", null);
+types_ContentTypes = __decorate([
+    defaultPath("contenttypes")
+], types_ContentTypes);
 
-var ContentType = spInvokableFactory(types_ContentType);
-var types_FieldLinks = /** @class */ (function (_super) {
-    __extends(_FieldLinks, _super);
-    function _FieldLinks() {
-        return _super !== null && _super.apply(this, arguments) || this;
+const ContentTypes = spInvokableFactory(types_ContentTypes);
+class types_ContentType extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("ct");
     }
+    /**
+     * Gets the column (also known as field) references in the content type.
+     */
+    get fieldLinks() {
+        return tag.configure(FieldLinks(this), "ct.fieldLinks");
+    }
+    /**
+     * Gets a value that specifies the collection of fields for the content type.
+     */
+    get fields() {
+        return tag.configure(SharePointQueryableCollection(this, "fields"), "ct.fields");
+    }
+    /**
+     * Gets the parent content type of the content type.
+     */
+    get parent() {
+        return tag.configure(ContentType(this, "parent"), "ct.parent");
+    }
+    /**
+     * Gets a value that specifies the collection of workflow associations for the content type.
+     */
+    get workflowAssociations() {
+        return tag.configure(SharePointQueryableCollection(this, "workflowAssociations"), "ct.workflowAssociations");
+    }
+}
+const ContentType = spInvokableFactory(types_ContentType);
+let types_FieldLinks = class _FieldLinks extends _SharePointQueryableCollection {
     /**
     *  Gets a FieldLink by GUID id
     *
     * @param id The GUID id of the field link
     */
-    _FieldLinks.prototype.getById = function (id) {
-        return tag.configure(FieldLink(this).concat("(guid'" + id + "')"), "fls.getById");
-    };
-    _FieldLinks = __decorate([
-        defaultPath("fieldlinks")
-    ], _FieldLinks);
-    return _FieldLinks;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var FieldLinks = spInvokableFactory(types_FieldLinks);
-var types_FieldLink = /** @class */ (function (_super) {
-    __extends(_FieldLink, _super);
-    function _FieldLink() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    getById(id) {
+        return tag.configure(FieldLink(this).concat(`(guid'${id}')`), "fls.getById");
     }
-    return _FieldLink;
-}(sharepointqueryable_SharePointQueryableInstance));
+};
+types_FieldLinks = __decorate([
+    defaultPath("fieldlinks")
+], types_FieldLinks);
 
-var FieldLink = spInvokableFactory(types_FieldLink);
+const FieldLinks = spInvokableFactory(types_FieldLinks);
+class types_FieldLink extends sharepointqueryable_SharePointQueryableInstance {
+}
+const FieldLink = spInvokableFactory(types_FieldLink);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/web.js
 
@@ -9739,109 +8100,80 @@ addProp(types_List, "contentTypes", ContentTypes);
 
 
 
-var types_Features = /** @class */ (function (_super) {
-    __extends(_Features, _super);
-    function _Features() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Features = class _Features extends _SharePointQueryableCollection {
     /**
      * Adds (activates) the specified feature
      *
      * @param id The Id of the feature (GUID)
      * @param force If true the feature activation will be forced
      */
-    _Features.prototype.add = function (id, force) {
-        if (force === void 0) { force = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(Features, "add"), request_builders_body({
-                            featdefScope: 0,
-                            featureId: id,
-                            force: force,
-                        }))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                feature: this.getById(id),
-                            }];
-                }
-            });
+    add(id, force = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this.clone(Features, "add"), body({
+                featdefScope: 0,
+                featureId: id,
+                force: force,
+            }));
+            return {
+                data: data,
+                feature: this.getById(id),
+            };
         });
-    };
+    }
     /**
      * Gets a feature from the collection with the specified guid
      *
      * @param id The Id of the feature (GUID)
      */
-    _Features.prototype.getById = function (id) {
-        var feature = Feature(this);
-        feature.concat("('" + id + "')");
+    getById(id) {
+        const feature = Feature(this);
+        feature.concat(`('${id}')`);
         return tag.configure(feature, "fes.getById");
-    };
+    }
     /**
      * Removes (deactivates) a feature from the collection
      *
      * @param id The Id of the feature (GUID)
      * @param force If true the feature deactivation will be forced
      */
-    _Features.prototype.remove = function (id, force) {
-        if (force === void 0) { force = false; }
-        return spPost(this.clone(Features, "remove"), request_builders_body({
+    remove(id, force = false) {
+        return spPost(this.clone(Features, "remove"), body({
             featureId: id,
             force: force,
         }));
-    };
-    __decorate([
-        tag("fes.add")
-    ], _Features.prototype, "add", null);
-    __decorate([
-        tag("fes.remove")
-    ], _Features.prototype, "remove", null);
-    _Features = __decorate([
-        defaultPath("features")
-    ], _Features);
-    return _Features;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Features = spInvokableFactory(types_Features);
-var types_Feature = /** @class */ (function (_super) {
-    __extends(_Feature, _super);
-    function _Feature() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+};
+__decorate([
+    tag("fes.add")
+], types_Features.prototype, "add", null);
+__decorate([
+    tag("fes.remove")
+], types_Features.prototype, "remove", null);
+types_Features = __decorate([
+    defaultPath("features")
+], types_Features);
+
+const Features = spInvokableFactory(types_Features);
+class types_Feature extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * Removes (deactivates) the feature
      *
      * @param force If true the feature deactivation will be forced
      */
-    _Feature.prototype.deactivate = function (force) {
-        if (force === void 0) { force = false; }
-        return __awaiter(this, void 0, void 0, function () {
-            var removeDependency, feature, promise;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        removeDependency = this.addBatchDependency();
-                        return [4 /*yield*/, Feature(this).select("DefinitionId")()];
-                    case 1:
-                        feature = _a.sent();
-                        promise = this.getParent(Features, this.parentUrl, "", this.batch).remove(feature.DefinitionId, force);
-                        removeDependency();
-                        return [2 /*return*/, promise];
-                }
-            });
+    deactivate(force = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const removeDependency = this.addBatchDependency();
+            const feature = yield Feature(this).select("DefinitionId")();
+            const promise = this.getParent(Features, this.parentUrl, "", this.batch).remove(feature.DefinitionId, force);
+            removeDependency();
+            return promise;
         });
-    };
-    __decorate([
-        tag("fe.deactivate")
-    ], _Feature.prototype, "deactivate", null);
-    return _Feature;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Feature = spInvokableFactory(types_Feature);
+    }
+}
+__decorate([
+    tag("fe.deactivate")
+], types_Feature.prototype, "deactivate", null);
+const Feature = spInvokableFactory(types_Feature);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/features/site.js
 
@@ -9869,208 +8201,177 @@ addProp(types_Web, "features", Features);
 
 
 
-var types_Fields = /** @class */ (function (_super) {
-    __extends(_Fields, _super);
-    function _Fields() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Gets a field from the collection by id
-     *
-     * @param id The Id of the list
-     */
-    _Fields.prototype.getById = function (id) {
-        return tag.configure(Field(this).concat("('" + id + "')"), "fs.getById");
-    };
-    /**
-     * Gets a field from the collection by title
-     *
-     * @param title The case-sensitive title of the field
-     */
-    _Fields.prototype.getByTitle = function (title) {
-        return tag.configure(Field(this, "getByTitle('" + title + "')"), "fs.getByTitle");
-    };
-    /**
-     * Gets a field from the collection by using internal name or title
-     *
-     * @param name The case-sensitive internal name or title of the field
-     */
-    _Fields.prototype.getByInternalNameOrTitle = function (name) {
-        return tag.configure(Field(this, "getByInternalNameOrTitle('" + name + "')"), "fs.getByInternalNameOrTitle");
-    };
+let types_Fields = class _Fields extends _SharePointQueryableCollection {
     /**
      * Creates a field based on the specified schema
      *
      * @param xml A string or XmlSchemaFieldCreationInformation instance descrbing the field to create
      */
-    _Fields.prototype.createFieldAsXml = function (xml) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof xml === "string") {
-                            xml = { SchemaXml: xml };
-                        }
-                        postBody = request_builders_body({
-                            "parameters": Object(common["assign"])(metadata("SP.XmlSchemaFieldCreationInformation"), xml),
-                        });
-                        return [4 /*yield*/, spPost(this.clone(Fields, "createfieldasxml"), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                field: this.getById(data.Id),
-                            }];
-                }
+    createFieldAsXml(xml) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (typeof xml === "string") {
+                xml = { SchemaXml: xml };
+            }
+            const postBody = body({
+                "parameters": util_assign(metadata("SP.XmlSchemaFieldCreationInformation"), xml),
             });
+            const data = yield spPost(this.clone(Fields, "createfieldasxml"), postBody);
+            return {
+                data,
+                field: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
-     * Adds a new field to the collection
-     *
-     * @param title The new field's title
-     * @param fieldType The new field's type (ex: SP.FieldText)
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.add = function (title, fieldType, properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object.assign(metadata(fieldType), {
-                            "Title": title,
-                        }, properties));
-                        if (!tag.isTagged(this)) {
-                            tag.configure(this, "fs.add");
-                        }
-                        return [4 /*yield*/, spPost(this.clone(Fields, null), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                field: this.getById(data.Id),
-                            }];
-                }
-            });
+   * Gets a field from the collection by id
+   *
+   * @param id The Id of the list
+   */
+    getById(id) {
+        return tag.configure(Field(this).concat(`('${id}')`), "fs.getById");
+    }
+    /**
+   * Gets a field from the collection by title
+   *
+   * @param title The case-sensitive title of the field
+   */
+    getByTitle(title) {
+        return tag.configure(Field(this, `getByTitle('${title}')`), "fs.getByTitle");
+    }
+    /**
+   * Gets a field from the collection by using internal name or title
+   *
+   * @param name The case-sensitive internal name or title of the field
+   */
+    getByInternalNameOrTitle(name) {
+        return tag.configure(Field(this, `getByInternalNameOrTitle('${name}')`), "fs.getByInternalNameOrTitle");
+    }
+    /**
+   * Adds a new field to the collection
+   *
+   * @param title The new field's title
+   * @param fieldType The new field's type (ex: SP.FieldText)
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    add(title, fieldType, properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(Object.assign(metadata(fieldType), {
+                "Title": title,
+            }, properties));
+            if (!tag.isTagged(this)) {
+                tag.configure(this, "fs.add");
+            }
+            const data = yield spPost(this.clone(Fields, null), postBody);
+            return {
+                data,
+                field: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
-     * Adds a new SP.FieldText to the collection
-     *
-     * @param title The field title
-     * @param maxLength The maximum number of characters allowed in the value of the field.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addText = function (title, maxLength, properties) {
-        if (maxLength === void 0) { maxLength = 255; }
-        var props = {
+   * Adds a new SP.FieldText to the collection
+   *
+   * @param title The field title
+   * @param maxLength The maximum number of characters allowed in the value of the field.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addText(title, maxLength = 255, properties) {
+        const props = {
             FieldTypeKind: 2,
             MaxLength: maxLength,
         };
-        return this.add(title, "SP.FieldText", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldText", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldCalculated to the collection
-     *
-     * @param title The field title.
-     * @param formula The formula for the field.
-     * @param dateFormat The date and time format that is displayed in the field.
-     * @param outputType Specifies the output format for the field. Represents a FieldType value.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addCalculated = function (title, formula, dateFormat, outputType, properties) {
-        if (outputType === void 0) { outputType = FieldTypes.Text; }
-        var props = {
+   * Adds a new SP.FieldCalculated to the collection
+   *
+   * @param title The field title.
+   * @param formula The formula for the field.
+   * @param dateFormat The date and time format that is displayed in the field.
+   * @param outputType Specifies the output format for the field. Represents a FieldType value.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addCalculated(title, formula, dateFormat, outputType = FieldTypes.Text, properties) {
+        const props = {
             DateFormat: dateFormat,
             FieldTypeKind: 17,
             Formula: formula,
             OutputType: outputType,
         };
-        return this.add(title, "SP.FieldCalculated", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldCalculated", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldDateTime to the collection
-     *
-     * @param title The field title
-     * @param displayFormat The format of the date and time that is displayed in the field.
-     * @param calendarType Specifies the calendar type of the field.
-     * @param friendlyDisplayFormat The type of friendly display format that is used in the field.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addDateTime = function (title, displayFormat, calendarType, friendlyDisplayFormat, properties) {
-        if (displayFormat === void 0) { displayFormat = DateTimeFieldFormatType.DateOnly; }
-        if (calendarType === void 0) { calendarType = CalendarType.Gregorian; }
-        if (friendlyDisplayFormat === void 0) { friendlyDisplayFormat = DateTimeFieldFriendlyFormatType.Unspecified; }
-        var props = {
+   * Adds a new SP.FieldDateTime to the collection
+   *
+   * @param title The field title
+   * @param displayFormat The format of the date and time that is displayed in the field.
+   * @param calendarType Specifies the calendar type of the field.
+   * @param friendlyDisplayFormat The type of friendly display format that is used in the field.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addDateTime(title, displayFormat = DateTimeFieldFormatType.DateOnly, calendarType = CalendarType.Gregorian, friendlyDisplayFormat = DateTimeFieldFriendlyFormatType.Unspecified, properties) {
+        const props = {
             DateTimeCalendarType: calendarType,
             DisplayFormat: displayFormat,
             FieldTypeKind: 4,
             FriendlyDisplayFormat: friendlyDisplayFormat,
         };
-        return this.add(title, "SP.FieldDateTime", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldDateTime", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldNumber to the collection
-     *
-     * @param title The field title
-     * @param minValue The field's minimum value
-     * @param maxValue The field's maximum value
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addNumber = function (title, minValue, maxValue, properties) {
-        var props = { FieldTypeKind: 9 };
+   * Adds a new SP.FieldNumber to the collection
+   *
+   * @param title The field title
+   * @param minValue The field's minimum value
+   * @param maxValue The field's maximum value
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addNumber(title, minValue, maxValue, properties) {
+        let props = { FieldTypeKind: 9 };
         if (minValue !== undefined) {
-            props = Object(common["assign"])({ MinimumValue: minValue }, props);
+            props = util_assign({ MinimumValue: minValue }, props);
         }
         if (maxValue !== undefined) {
-            props = Object(common["assign"])({ MaximumValue: maxValue }, props);
+            props = util_assign({ MaximumValue: maxValue }, props);
         }
-        return this.add(title, "SP.FieldNumber", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldNumber", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldCurrency to the collection
-     *
-     * @param title The field title
-     * @param minValue The field's minimum value
-     * @param maxValue The field's maximum value
-     * @param currencyLocalId Specifies the language code identifier (LCID) used to format the value of the field
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addCurrency = function (title, minValue, maxValue, currencyLocalId, properties) {
-        if (currencyLocalId === void 0) { currencyLocalId = 1033; }
-        var props = {
+   * Adds a new SP.FieldCurrency to the collection
+   *
+   * @param title The field title
+   * @param minValue The field's minimum value
+   * @param maxValue The field's maximum value
+   * @param currencyLocalId Specifies the language code identifier (LCID) used to format the value of the field
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addCurrency(title, minValue, maxValue, currencyLocalId = 1033, properties) {
+        let props = {
             CurrencyLocaleId: currencyLocalId,
             FieldTypeKind: 10,
         };
         if (minValue !== undefined) {
-            props = Object(common["assign"])({ MinimumValue: minValue }, props);
+            props = util_assign({ MinimumValue: minValue }, props);
         }
         if (maxValue !== undefined) {
-            props = Object(common["assign"])({ MaximumValue: maxValue }, props);
+            props = util_assign({ MaximumValue: maxValue }, props);
         }
-        return this.add(title, "SP.FieldCurrency", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldCurrency", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldMultiLineText to the collection
-     *
-     * @param title The field title
-     * @param numberOfLines Specifies the number of lines of text to display for the field.
-     * @param richText Specifies whether the field supports rich formatting.
-     * @param restrictedMode Specifies whether the field supports a subset of rich formatting.
-     * @param appendOnly Specifies whether all changes to the value of the field are displayed in list forms.
-     * @param allowHyperlink Specifies whether a hyperlink is allowed as a value of the field.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     *
-     */
-    _Fields.prototype.addMultilineText = function (title, numberOfLines, richText, restrictedMode, appendOnly, allowHyperlink, properties) {
-        if (numberOfLines === void 0) { numberOfLines = 6; }
-        if (richText === void 0) { richText = true; }
-        if (restrictedMode === void 0) { restrictedMode = false; }
-        if (appendOnly === void 0) { appendOnly = false; }
-        if (allowHyperlink === void 0) { allowHyperlink = true; }
-        var props = {
+   * Adds a new SP.FieldMultiLineText to the collection
+   *
+   * @param title The field title
+   * @param numberOfLines Specifies the number of lines of text to display for the field.
+   * @param richText Specifies whether the field supports rich formatting.
+   * @param restrictedMode Specifies whether the field supports a subset of rich formatting.
+   * @param appendOnly Specifies whether all changes to the value of the field are displayed in list forms.
+   * @param allowHyperlink Specifies whether a hyperlink is allowed as a value of the field.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   *
+   */
+    addMultilineText(title, numberOfLines = 6, richText = true, restrictedMode = false, appendOnly = false, allowHyperlink = true, properties) {
+        const props = {
             AllowHyperlink: allowHyperlink,
             AppendOnly: appendOnly,
             FieldTypeKind: 3,
@@ -10078,81 +8379,71 @@ var types_Fields = /** @class */ (function (_super) {
             RestrictedMode: restrictedMode,
             RichText: richText,
         };
-        return this.add(title, "SP.FieldMultiLineText", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldMultiLineText", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldUrl to the collection
-     *
-     * @param title The field title
-     */
-    _Fields.prototype.addUrl = function (title, displayFormat, properties) {
-        if (displayFormat === void 0) { displayFormat = UrlFieldFormatType.Hyperlink; }
-        var props = {
+   * Adds a new SP.FieldUrl to the collection
+   *
+   * @param title The field title
+   */
+    addUrl(title, displayFormat = UrlFieldFormatType.Hyperlink, properties) {
+        const props = {
             DisplayFormat: displayFormat,
             FieldTypeKind: 11,
         };
-        return this.add(title, "SP.FieldUrl", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldUrl", util_assign(props, properties));
+    }
     /** Adds a user field to the colleciton
-    *
-    * @param title The new field's title
-    * @param selectionMode The selection mode of the field
-    * @param selectionGroup Value that specifies the identifier of the SharePoint group whose members can be selected as values of the field
-    * @param properties
-    */
-    _Fields.prototype.addUser = function (title, selectionMode, properties) {
-        var props = {
+  *
+  * @param title The new field's title
+  * @param selectionMode The selection mode of the field
+  * @param selectionGroup Value that specifies the identifier of the SharePoint group whose members can be selected as values of the field
+  * @param properties
+  */
+    addUser(title, selectionMode, properties) {
+        const props = {
             FieldTypeKind: 20,
             SelectionMode: selectionMode,
         };
-        return this.add(title, "SP.FieldUser", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldUser", util_assign(props, properties));
+    }
     /**
-     * Adds a SP.FieldLookup to the collection
-     *
-     * @param title The new field's title
-     * @param lookupListId The guid id of the list where the source of the lookup is found
-     * @param lookupFieldName The internal name of the field in the source list
-     * @param properties Set of additional properties to set on the new field
-     */
-    _Fields.prototype.addLookup = function (title, lookupListId, lookupFieldName, properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var props, postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        props = Object(common["assign"])({
-                            FieldTypeKind: 7,
-                            LookupFieldName: lookupFieldName,
-                            LookupListId: lookupListId,
-                            Title: title,
-                        }, properties);
-                        postBody = request_builders_body({
-                            "parameters": Object(common["assign"])(metadata("SP.FieldCreationInformation"), props),
-                        });
-                        return [4 /*yield*/, spPost(this.clone(Fields, "addfield"), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                field: this.getById(data.Id),
-                            }];
-                }
+   * Adds a SP.FieldLookup to the collection
+   *
+   * @param title The new field's title
+   * @param lookupListId The guid id of the list where the source of the lookup is found
+   * @param lookupFieldName The internal name of the field in the source list
+   * @param properties Set of additional properties to set on the new field
+   */
+    addLookup(title, lookupListId, lookupFieldName, properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const props = util_assign({
+                FieldTypeKind: 7,
+                LookupFieldName: lookupFieldName,
+                LookupListId: lookupListId,
+                Title: title,
+            }, properties);
+            const postBody = body({
+                "parameters": util_assign(metadata("SP.FieldCreationInformation"), props),
             });
+            const data = yield spPost(this.clone(Fields, "addfield"), postBody);
+            return {
+                data,
+                field: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
-     * Adds a new SP.FieldChoice to the collection
-     *
-     * @param title The field title.
-     * @param choices The choices for the field.
-     * @param format The display format of the available options for the field.
-     * @param fillIn Specifies whether the field allows fill-in values.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addChoice = function (title, choices, format, fillIn, properties) {
-        if (format === void 0) { format = ChoiceFieldFormatType.Dropdown; }
-        var props = {
+   * Adds a new SP.FieldChoice to the collection
+   *
+   * @param title The field title.
+   * @param choices The choices for the field.
+   * @param format The display format of the available options for the field.
+   * @param fillIn Specifies whether the field allows fill-in values.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addChoice(title, choices, format = ChoiceFieldFormatType.Dropdown, fillIn, properties) {
+        const props = {
             Choices: {
                 results: choices,
             },
@@ -10160,201 +8451,177 @@ var types_Fields = /** @class */ (function (_super) {
             FieldTypeKind: 6,
             FillInChoice: fillIn,
         };
-        return this.add(title, "SP.FieldChoice", Object(common["assign"])(props, properties));
-    };
+        return this.add(title, "SP.FieldChoice", util_assign(props, properties));
+    }
     /**
-     * Adds a new SP.FieldMultiChoice to the collection
-     *
-     * @param title The field title.
-     * @param choices The choices for the field.
-     * @param fillIn Specifies whether the field allows fill-in values.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addMultiChoice = function (title, choices, fillIn, properties) {
-        var props = {
+   * Adds a new SP.FieldMultiChoice to the collection
+   *
+   * @param title The field title.
+   * @param choices The choices for the field.
+   * @param fillIn Specifies whether the field allows fill-in values.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addMultiChoice(title, choices, fillIn, properties) {
+        const props = {
             Choices: {
                 results: choices,
             },
             FieldTypeKind: 15,
             FillInChoice: fillIn,
         };
-        return this.add(title, "SP.FieldMultiChoice", Object(common["assign"])(props, properties));
-    };
-    /**
-     * Adds a new SP.FieldBoolean to the collection
-     *
-     * @param title The field title.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addBoolean = function (title, properties) {
-        var props = {
-            FieldTypeKind: 8,
-        };
-        return this.add(title, "SP.Field", Object(common["assign"])(props, properties));
-    };
-    /**
-    * Creates a secondary (dependent) lookup field, based on the Id of the primary lookup field.
-    *
-    * @param displayName The display name of the new field.
-    * @param primaryLookupFieldId The guid of the primary Lookup Field.
-    * @param showField Which field to show from the lookup list.
-    */
-    _Fields.prototype.addDependentLookupField = function (displayName, primaryLookupFieldId, showField) {
-        return __awaiter(this, void 0, void 0, function () {
-            var path, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        path = "adddependentlookupfield(displayName='" + displayName + "', primarylookupfieldid='" + primaryLookupFieldId + "', showfield='" + showField + "')";
-                        return [4 /*yield*/, spPost(this.clone(Fields, path))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                field: this.getById(data.Id),
-                            }];
-                }
-            });
-        });
-    };
-    /**
-     * Adds a new SP.FieldLocation to the collection
-     *
-     * @param title The field title.
-     * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
-     */
-    _Fields.prototype.addLocation = function (title, properties) {
-        var props = { FieldTypeKind: 33 };
-        return this.add(title, "SP.FieldLocation", Object(common["assign"])(props, properties));
-    };
-    __decorate([
-        tag("fs.createFieldAsXml")
-    ], _Fields.prototype, "createFieldAsXml", null);
-    __decorate([
-        tag("fs.addText")
-    ], _Fields.prototype, "addText", null);
-    __decorate([
-        tag("fs.addCalculated")
-    ], _Fields.prototype, "addCalculated", null);
-    __decorate([
-        tag("fs.addDateTime")
-    ], _Fields.prototype, "addDateTime", null);
-    __decorate([
-        tag("fs.addNumber")
-    ], _Fields.prototype, "addNumber", null);
-    __decorate([
-        tag("fs.addCurrency")
-    ], _Fields.prototype, "addCurrency", null);
-    __decorate([
-        tag("fs.addMultilineText")
-    ], _Fields.prototype, "addMultilineText", null);
-    __decorate([
-        tag("fs.addUrl")
-    ], _Fields.prototype, "addUrl", null);
-    __decorate([
-        tag("fs.addUser")
-    ], _Fields.prototype, "addUser", null);
-    __decorate([
-        tag("fs.addLookup")
-    ], _Fields.prototype, "addLookup", null);
-    __decorate([
-        tag("fs.addChoice")
-    ], _Fields.prototype, "addChoice", null);
-    __decorate([
-        tag("fs.addMultiChoice")
-    ], _Fields.prototype, "addMultiChoice", null);
-    __decorate([
-        tag("fs.addBoolean")
-    ], _Fields.prototype, "addBoolean", null);
-    __decorate([
-        tag("fs.addDependentLookupField")
-    ], _Fields.prototype, "addDependentLookupField", null);
-    __decorate([
-        tag("fs.addLocation")
-    ], _Fields.prototype, "addLocation", null);
-    _Fields = __decorate([
-        defaultPath("fields")
-    ], _Fields);
-    return _Fields;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Fields = spInvokableFactory(types_Fields);
-var types_Field = /** @class */ (function (_super) {
-    __extends(_Field, _super);
-    function _Field() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("f");
-        return _this;
+        return this.add(title, "SP.FieldMultiChoice", util_assign(props, properties));
     }
     /**
-     * Updates this field instance with the supplied properties
-     *
-     * @param properties A plain object hash of values to update for the list
-     * @param fieldType The type value such as SP.FieldLookup. Optional, looked up from the field if not provided
-     */
-    _Field.prototype.update = function (properties, fieldType) {
-        return __awaiter(this, void 0, void 0, function () {
-            var info, req, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(typeof fieldType === "undefined" || fieldType === null)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, Field(this).select("FieldTypeKind").configure({
-                                headers: {
-                                    "Accept": "application/json",
-                                },
-                            })()];
-                    case 1:
-                        info = _a.sent();
-                        fieldType = info["odata.type"];
-                        _a.label = 2;
-                    case 2:
-                        req = request_builders_body(Object(common["assign"])(metadata(fieldType), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
-                        return [4 /*yield*/, spPost(this, req)];
-                    case 3:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                field: this,
-                            }];
-                }
-            });
+   * Adds a new SP.FieldBoolean to the collection
+   *
+   * @param title The field title.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addBoolean(title, properties) {
+        const props = {
+            FieldTypeKind: 8,
+        };
+        return this.add(title, "SP.Field", util_assign(props, properties));
+    }
+    /**
+  * Creates a secondary (dependent) lookup field, based on the Id of the primary lookup field.
+  *
+  * @param displayName The display name of the new field.
+  * @param primaryLookupFieldId The guid of the primary Lookup Field.
+  * @param showField Which field to show from the lookup list.
+  */
+    addDependentLookupField(displayName, primaryLookupFieldId, showField) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const path = `adddependentlookupfield(displayName='${displayName}', primarylookupfieldid='${primaryLookupFieldId}', showfield='${showField}')`;
+            const data = yield spPost(this.clone(Fields, path));
+            return {
+                data,
+                field: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
-     * Sets the value of the ShowInDisplayForm property for this field.
-     */
-    _Field.prototype.setShowInDisplayForm = function (show) {
-        return spPost(this.clone(Field, "setshowindisplayform(" + show + ")"));
-    };
-    /**
-     * Sets the value of the ShowInEditForm property for this field.
-     */
-    _Field.prototype.setShowInEditForm = function (show) {
-        return spPost(this.clone(Field, "setshowineditform(" + show + ")"));
-    };
-    /**
-     * Sets the value of the ShowInNewForm property for this field.
-     */
-    _Field.prototype.setShowInNewForm = function (show) {
-        return spPost(this.clone(Field, "setshowinnewform(" + show + ")"));
-    };
-    __decorate([
-        tag("f.update")
-    ], _Field.prototype, "update", null);
-    __decorate([
-        tag("f.setShowInDisplayForm")
-    ], _Field.prototype, "setShowInDisplayForm", null);
-    __decorate([
-        tag("f.setShowInEditForm")
-    ], _Field.prototype, "setShowInEditForm", null);
-    __decorate([
-        tag("f.setShowInNewForm")
-    ], _Field.prototype, "setShowInNewForm", null);
-    return _Field;
-}(sharepointqueryable_SharePointQueryableInstance));
+   * Adds a new SP.FieldLocation to the collection
+   *
+   * @param title The field title.
+   * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
+   */
+    addLocation(title, properties) {
+        const props = { FieldTypeKind: 33 };
+        return this.add(title, "SP.FieldLocation", util_assign(props, properties));
+    }
+};
+__decorate([
+    tag("fs.createFieldAsXml")
+], types_Fields.prototype, "createFieldAsXml", null);
+__decorate([
+    tag("fs.addText")
+], types_Fields.prototype, "addText", null);
+__decorate([
+    tag("fs.addCalculated")
+], types_Fields.prototype, "addCalculated", null);
+__decorate([
+    tag("fs.addDateTime")
+], types_Fields.prototype, "addDateTime", null);
+__decorate([
+    tag("fs.addNumber")
+], types_Fields.prototype, "addNumber", null);
+__decorate([
+    tag("fs.addCurrency")
+], types_Fields.prototype, "addCurrency", null);
+__decorate([
+    tag("fs.addMultilineText")
+], types_Fields.prototype, "addMultilineText", null);
+__decorate([
+    tag("fs.addUrl")
+], types_Fields.prototype, "addUrl", null);
+__decorate([
+    tag("fs.addUser")
+], types_Fields.prototype, "addUser", null);
+__decorate([
+    tag("fs.addLookup")
+], types_Fields.prototype, "addLookup", null);
+__decorate([
+    tag("fs.addChoice")
+], types_Fields.prototype, "addChoice", null);
+__decorate([
+    tag("fs.addMultiChoice")
+], types_Fields.prototype, "addMultiChoice", null);
+__decorate([
+    tag("fs.addBoolean")
+], types_Fields.prototype, "addBoolean", null);
+__decorate([
+    tag("fs.addDependentLookupField")
+], types_Fields.prototype, "addDependentLookupField", null);
+__decorate([
+    tag("fs.addLocation")
+], types_Fields.prototype, "addLocation", null);
+types_Fields = __decorate([
+    defaultPath("fields")
+], types_Fields);
 
-var Field = spInvokableFactory(types_Field);
+const Fields = spInvokableFactory(types_Fields);
+class types_Field extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("f");
+    }
+    /**
+   * Updates this field instance with the supplied properties
+   *
+   * @param properties A plain object hash of values to update for the list
+   * @param fieldType The type value such as SP.FieldLookup. Optional, looked up from the field if not provided
+   */
+    update(properties, fieldType) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (typeof fieldType === "undefined" || fieldType === null) {
+                const info = yield Field(this).select("FieldTypeKind").configure({
+                    headers: {
+                        "Accept": "application/json",
+                    },
+                })();
+                fieldType = info["odata.type"];
+            }
+            const req = body(util_assign(metadata(fieldType), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
+            const data = yield spPost(this, req);
+            return {
+                data,
+                field: this,
+            };
+        });
+    }
+    /**
+   * Sets the value of the ShowInDisplayForm property for this field.
+   */
+    setShowInDisplayForm(show) {
+        return spPost(this.clone(Field, `setshowindisplayform(${show})`));
+    }
+    /**
+   * Sets the value of the ShowInEditForm property for this field.
+   */
+    setShowInEditForm(show) {
+        return spPost(this.clone(Field, `setshowineditform(${show})`));
+    }
+    /**
+   * Sets the value of the ShowInNewForm property for this field.
+   */
+    setShowInNewForm(show) {
+        return spPost(this.clone(Field, `setshowinnewform(${show})`));
+    }
+}
+__decorate([
+    tag("f.update")
+], types_Field.prototype, "update", null);
+__decorate([
+    tag("f.setShowInDisplayForm")
+], types_Field.prototype, "setShowInDisplayForm", null);
+__decorate([
+    tag("f.setShowInEditForm")
+], types_Field.prototype, "setShowInEditForm", null);
+__decorate([
+    tag("f.setShowInNewForm")
+], types_Field.prototype, "setShowInNewForm", null);
+const Field = spInvokableFactory(types_Field);
 /**
  * Specifies the type of the field.
  */
@@ -10409,32 +8676,32 @@ var DateTimeFieldFriendlyFormatType;
 var AddFieldOptions;
 (function (AddFieldOptions) {
     /**
-     *  Specify that a new field added to the list must also be added to the default content type in the site collection
-     */
+   *  Specify that a new field added to the list must also be added to the default content type in the site collection
+   */
     AddFieldOptions[AddFieldOptions["DefaultValue"] = 0] = "DefaultValue";
     /**
-     * Specify that a new field added to the list must also be added to the default content type in the site collection.
-     */
+   * Specify that a new field added to the list must also be added to the default content type in the site collection.
+   */
     AddFieldOptions[AddFieldOptions["AddToDefaultContentType"] = 1] = "AddToDefaultContentType";
     /**
-     * Specify that a new field must not be added to any other content type
-     */
+   * Specify that a new field must not be added to any other content type
+   */
     AddFieldOptions[AddFieldOptions["AddToNoContentType"] = 2] = "AddToNoContentType";
     /**
-     *  Specify that a new field that is added to the specified list must also be added to all content types in the site collection
-     */
+   *  Specify that a new field that is added to the specified list must also be added to all content types in the site collection
+   */
     AddFieldOptions[AddFieldOptions["AddToAllContentTypes"] = 4] = "AddToAllContentTypes";
     /**
-     * Specify adding an internal field name hint for the purpose of avoiding possible database locking or field renaming operations
-     */
+   * Specify adding an internal field name hint for the purpose of avoiding possible database locking or field renaming operations
+   */
     AddFieldOptions[AddFieldOptions["AddFieldInternalNameHint"] = 8] = "AddFieldInternalNameHint";
     /**
-     * Specify that a new field that is added to the specified list must also be added to the default list view
-     */
+   * Specify that a new field that is added to the specified list must also be added to the default list view
+   */
     AddFieldOptions[AddFieldOptions["AddFieldToDefaultView"] = 16] = "AddFieldToDefaultView";
     /**
-     * Specify to confirm that no other field has the same display name
-     */
+   * Specify to confirm that no other field has the same display name
+   */
     AddFieldOptions[AddFieldOptions["AddFieldCheckDisplayName"] = 32] = "AddFieldCheckDisplayName";
 })(AddFieldOptions || (AddFieldOptions = {}));
 var CalendarType;
@@ -10528,13 +8795,13 @@ addProp(types_List, "rootFolder", Folder, "rootFolder");
 addProp(types_Web, "folders", Folders);
 addProp(types_Web, "rootFolder", Folder, "rootFolder");
 types_Web.prototype.getFolderByServerRelativeUrl = function (folderRelativeUrl) {
-    return Folder(this, "getFolderByServerRelativeUrl('" + escapeQueryStrValue(folderRelativeUrl) + "')");
+    return Folder(this, `getFolderByServerRelativeUrl('${escapeQueryStrValue(folderRelativeUrl)}')`);
 };
 types_Web.prototype.getFolderByServerRelativePath = function (folderRelativeUrl) {
-    return Folder(this, "getFolderByServerRelativePath(decodedUrl='" + escapeQueryStrValue(folderRelativeUrl) + "')");
+    return Folder(this, `getFolderByServerRelativePath(decodedUrl='${escapeQueryStrValue(folderRelativeUrl)}')`);
 };
 types_Web.prototype.getFolderById = function (uniqueId) {
-    return Folder(this, "getFolderById('" + uniqueId + "')");
+    return Folder(this, `getFolderById('${uniqueId}')`);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/index.js
@@ -10552,39 +8819,28 @@ types_Web.prototype.getFolderById = function (uniqueId) {
  * Describes a collection of Form objects
  *
  */
-var types_Forms = /** @class */ (function (_super) {
-    __extends(_Forms, _super);
-    function _Forms() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Forms = class _Forms extends _SharePointQueryableCollection {
     /**
      * Gets a form by id
      *
      * @param id The guid id of the item to retrieve
      */
-    _Forms.prototype.getById = function (id) {
-        return tag.configure(Form(this).concat("('" + id + "')"), "fos.getById");
-    };
-    _Forms = __decorate([
-        defaultPath("forms")
-    ], _Forms);
-    return _Forms;
-}(sharepointqueryable_SharePointQueryableCollection));
+    getById(id) {
+        return tag.configure(Form(this).concat(`('${id}')`), "fos.getById");
+    }
+};
+types_Forms = __decorate([
+    defaultPath("forms")
+], types_Forms);
 
-var Forms = spInvokableFactory(types_Forms);
+const Forms = spInvokableFactory(types_Forms);
 /**
  * Describes a single of Form instance
  *
  */
-var types_Form = /** @class */ (function (_super) {
-    __extends(_Form, _super);
-    function _Form() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _Form;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Form = spInvokableFactory(types_Form);
+class types_Form extends sharepointqueryable_SharePointQueryableInstance {
+}
+const Form = spInvokableFactory(types_Form);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/list.js
 
@@ -10602,93 +8858,54 @@ addProp(types_List, "forms", Forms, "forms");
 
 
 
-var types_HubSites = /** @class */ (function (_super) {
-    __extends(_HubSites, _super);
-    function _HubSites() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_HubSites = class _HubSites extends _SharePointQueryableCollection {
     /**
      * Gets a Hub Site from the collection by id
      *
      * @param id The Id of the Hub Site
      */
-    _HubSites.prototype.getById = function (id) {
-        return tag.configure(HubSite(this, "GetById?hubSiteId='" + id + "'"), "hss.getById");
-    };
-    _HubSites = __decorate([
-        defaultPath("_api/hubsites")
-    ], _HubSites);
-    return _HubSites;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var HubSites = spInvokableFactory(types_HubSites);
-var types_HubSite = /** @class */ (function (_super) {
-    __extends(_HubSite, _super);
-    function _HubSite() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    getById(id) {
+        return tag.configure(HubSite(this, `GetById?hubSiteId='${id}'`), "hss.getById");
     }
+};
+types_HubSites = __decorate([
+    defaultPath("_api/hubsites")
+], types_HubSites);
+
+const HubSites = spInvokableFactory(types_HubSites);
+class types_HubSite extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * Gets the ISite instance associated with this hubsite
      */
-    _HubSite.prototype.getSite = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var d;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.select("SiteUrl")()];
-                    case 1:
-                        d = _a.sent();
-                        return [2 /*return*/, Site(d.SiteUrl)];
-                }
-            });
+    getSite() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const d = yield this.select("SiteUrl")();
+            return Site(d.SiteUrl);
         });
-    };
-    __decorate([
-        tag("hs.getSite")
-    ], _HubSite.prototype, "getSite", null);
-    return _HubSite;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var HubSite = spInvokableFactory(types_HubSite);
+    }
+}
+__decorate([
+    tag("hs.getSite")
+], types_HubSite.prototype, "getSite", null);
+const HubSite = spInvokableFactory(types_HubSite);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/site.js
 
 
 
 types_Site.prototype.joinHubSite = function (siteId) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(Site, "joinHubSite('" + siteId + "')"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield spPost(this.clone(Site, `joinHubSite('${siteId}')`));
     });
 };
 types_Site.prototype.registerHubSite = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(Site, "registerHubSite"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield spPost(this.clone(Site, "registerHubSite"));
     });
 };
 types_Site.prototype.unRegisterHubSite = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(Site, "unRegisterHubSite"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield spPost(this.clone(Site, "unRegisterHubSite"));
     });
 };
 
@@ -10696,21 +8913,13 @@ types_Site.prototype.unRegisterHubSite = function () {
 
 
 
-types_Web.prototype.hubSiteData = function (forceRefresh) {
-    if (forceRefresh === void 0) { forceRefresh = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.clone(Web, "hubSiteData(" + forceRefresh + ")")()];
-                case 1:
-                    data = _a.sent();
-                    if (typeof data === "string") {
-                        return [2 /*return*/, JSON.parse(data)];
-                    }
-                    return [2 /*return*/, data];
-            }
-        });
+types_Web.prototype.hubSiteData = function (forceRefresh = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield this.clone(Web, `hubSiteData(${forceRefresh})`)();
+        if (typeof data === "string") {
+            return JSON.parse(data);
+        }
+        return data;
     });
 };
 types_Web.prototype.syncHubSiteTheme = function () {
@@ -10727,7 +8936,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "hubSites", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return HubSites(this._baseUrl).configure(this._options);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return HubSites(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -10748,19 +8959,15 @@ Reflect.defineProperty(rest_SPRest.prototype, "hubSites", {
  * Represents a collection of navigation nodes
  *
  */
-var types_NavigationNodes = /** @class */ (function (_super) {
-    __extends(_NavigationNodes, _super);
-    function _NavigationNodes() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+class types_NavigationNodes extends _SharePointQueryableCollection {
     /**
      * Gets a navigation node by id
      *
      * @param id The id of the node
      */
-    _NavigationNodes.prototype.getById = function (id) {
-        return tag.configure(NavigationNode(this).concat("(" + id + ")"), "nns.getById");
-    };
+    getById(id) {
+        return tag.configure(NavigationNode(this).concat(`(${id})`), "nns.getById");
+    }
     /**
      * Adds a new node to the collection
      *
@@ -10768,149 +8975,107 @@ var types_NavigationNodes = /** @class */ (function (_super) {
      * @param url The url of the node
      * @param visible If true the node is visible, otherwise it is hidden (default: true)
      */
-    _NavigationNodes.prototype.add = function (title, url, visible) {
-        if (visible === void 0) { visible = true; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.NavigationNode"), {
-                            IsVisible: visible,
-                            Title: title,
-                            Url: url,
-                        }));
-                        return [4 /*yield*/, spPost(this.clone(NavigationNodes, null), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                node: this.getById(data.Id),
-                            }];
-                }
-            });
+    add(title, url, visible = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(util_assign(metadata("SP.NavigationNode"), {
+                IsVisible: visible,
+                Title: title,
+                Url: url,
+            }));
+            const data = yield spPost(this.clone(NavigationNodes, null), postBody);
+            return {
+                data,
+                node: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
      * Moves a node to be after another node in the navigation
      *
      * @param nodeId Id of the node to move
      * @param previousNodeId Id of the node after which we move the node specified by nodeId
      */
-    _NavigationNodes.prototype.moveAfter = function (nodeId, previousNodeId) {
-        var postBody = request_builders_body({
+    moveAfter(nodeId, previousNodeId) {
+        const postBody = body({
             nodeId: nodeId,
             previousNodeId: previousNodeId,
         });
         return spPost(this.clone(NavigationNodes, "MoveAfter"), postBody);
-    };
-    __decorate([
-        tag("nns.add")
-    ], _NavigationNodes.prototype, "add", null);
-    __decorate([
-        tag("nns.moveAfter")
-    ], _NavigationNodes.prototype, "moveAfter", null);
-    return _NavigationNodes;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var NavigationNodes = spInvokableFactory(types_NavigationNodes);
+    }
+}
+__decorate([
+    tag("nns.add")
+], types_NavigationNodes.prototype, "add", null);
+__decorate([
+    tag("nns.moveAfter")
+], types_NavigationNodes.prototype, "moveAfter", null);
+const NavigationNodes = spInvokableFactory(types_NavigationNodes);
 /**
  * Represents an instance of a navigation node
  *
  */
-var types_NavigationNode = /** @class */ (function (_super) {
-    __extends(_NavigationNode, _super);
-    function _NavigationNode() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("nn");
-        return _this;
+class types_NavigationNode extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("nn");
     }
-    Object.defineProperty(_NavigationNode.prototype, "children", {
-        /**
-         * Represents the child nodes of this node
-         */
-        get: function () {
-            return tag.configure(NavigationNodes(this, "children"), "nn.children");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Represents the child nodes of this node
+     */
+    get children() {
+        return tag.configure(NavigationNodes(this, "children"), "nn.children");
+    }
     /**
      * Updates this node
      *
      * @param properties Properties used to update this node
      */
-    _NavigationNode.prototype.update = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.NavigationNode"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                node: this,
-                            }];
-                }
-            });
+    update(properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(util_assign(metadata("SP.NavigationNode"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
+            const data = yield spPost(this, postBody);
+            return {
+                data,
+                node: this,
+            };
         });
-    };
-    __decorate([
-        tag("nn.update")
-    ], _NavigationNode.prototype, "update", null);
-    return _NavigationNode;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var NavigationNode = spInvokableFactory(types_NavigationNode);
+    }
+}
+__decorate([
+    tag("nn.update")
+], types_NavigationNode.prototype, "update", null);
+const NavigationNode = spInvokableFactory(types_NavigationNode);
 /**
  * Exposes the navigation components
  *
  */
-var types_Navigation = /** @class */ (function (_super) {
-    __extends(_Navigation, _super);
-    function _Navigation() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_Navigation = class _Navigation extends sharepointqueryable_SharePointQueryable {
+    /**
+     * Gets the quicklaunch navigation nodes for the current context
+     *
+     */
+    get quicklaunch() {
+        return tag.configure(NavigationNodes(this, "quicklaunch"), "n.quicklaunch");
     }
-    Object.defineProperty(_Navigation.prototype, "quicklaunch", {
-        /**
-         * Gets the quicklaunch navigation nodes for the current context
-         *
-         */
-        get: function () {
-            return tag.configure(NavigationNodes(this, "quicklaunch"), "n.quicklaunch");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Navigation.prototype, "topNavigationBar", {
-        /**
-         * Gets the top bar navigation nodes for the current context
-         *
-         */
-        get: function () {
-            return tag.configure(NavigationNodes(this, "topnavigationbar"), "n.topnavigationbar");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Navigation = __decorate([
-        defaultPath("navigation")
-    ], _Navigation);
-    return _Navigation;
-}(sharepointqueryable_SharePointQueryable));
+    /**
+     * Gets the top bar navigation nodes for the current context
+     *
+     */
+    get topNavigationBar() {
+        return tag.configure(NavigationNodes(this, "topnavigationbar"), "n.topnavigationbar");
+    }
+};
+types_Navigation = __decorate([
+    defaultPath("navigation")
+], types_Navigation);
 
-var Navigation = spInvokableFactory(types_Navigation);
+const Navigation = spInvokableFactory(types_Navigation);
 /**
  * Represents the top level navigation service
  */
-var types_NavigationService = /** @class */ (function (_super) {
-    __extends(_NavigationService, _super);
-    function _NavigationService(path) {
-        if (path === void 0) { path = null; }
-        return _super.call(this, "_api/navigation", path) || this;
+class types_NavigationService extends sharepointqueryable_SharePointQueryable {
+    constructor(path = null) {
+        super("_api/navigation", path);
     }
     /**
      * The MenuState service operation returns a Menu-State (dump) of a SiteMapProvider on a site.
@@ -10920,41 +9085,34 @@ var types_NavigationService = /** @class */ (function (_super) {
      * @param mapProviderName The name identifying the SiteMapProvider to be used
      * @param customProperties comma seperated list of custom properties to be returned.
      */
-    _NavigationService.prototype.getMenuState = function (menuNodeKey, depth, mapProviderName, customProperties) {
-        if (menuNodeKey === void 0) { menuNodeKey = null; }
-        if (depth === void 0) { depth = 10; }
-        if (mapProviderName === void 0) { mapProviderName = null; }
-        if (customProperties === void 0) { customProperties = null; }
-        return spPost(NavigationService("MenuState"), request_builders_body({
-            customProperties: customProperties,
-            depth: depth,
-            mapProviderName: mapProviderName,
-            menuNodeKey: menuNodeKey,
+    getMenuState(menuNodeKey = null, depth = 10, mapProviderName = null, customProperties = null) {
+        return spPost(NavigationService("MenuState"), body({
+            customProperties,
+            depth,
+            mapProviderName,
+            menuNodeKey,
         }));
-    };
+    }
     /**
      * Tries to get a SiteMapNode.Key for a given URL within a site collection.
      *
      * @param currentUrl A url representing the SiteMapNode
      * @param mapProviderName The name identifying the SiteMapProvider to be used
      */
-    _NavigationService.prototype.getMenuNodeKey = function (currentUrl, mapProviderName) {
-        if (mapProviderName === void 0) { mapProviderName = null; }
-        return spPost(NavigationService("MenuNodeKey"), request_builders_body({
-            currentUrl: currentUrl,
-            mapProviderName: mapProviderName,
+    getMenuNodeKey(currentUrl, mapProviderName = null) {
+        return spPost(NavigationService("MenuNodeKey"), body({
+            currentUrl,
+            mapProviderName,
         }));
-    };
-    __decorate([
-        tag("ns.getMenuState")
-    ], _NavigationService.prototype, "getMenuState", null);
-    __decorate([
-        tag("ns.getMenuNodeKey")
-    ], _NavigationService.prototype, "getMenuNodeKey", null);
-    return _NavigationService;
-}(sharepointqueryable_SharePointQueryable));
-
-var NavigationService = function (path) { return new types_NavigationService(path); };
+    }
+}
+__decorate([
+    tag("ns.getMenuState")
+], types_NavigationService.prototype, "getMenuState", null);
+__decorate([
+    tag("ns.getMenuNodeKey")
+], types_NavigationService.prototype, "getMenuNodeKey", null);
+const NavigationService = (path) => new types_NavigationService(path);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/web.js
 
@@ -10971,7 +9129,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "navigation", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return NavigationService().configure(this._options);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return NavigationService(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -10983,202 +9143,165 @@ Reflect.defineProperty(rest_SPRest.prototype, "navigation", {
 
 
 
-var types_Profiles = /** @class */ (function (_super) {
-    __extends(_Profiles, _super);
+class types_Profiles extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * Creates a new instance of the UserProfileQuery class
      *
      * @param baseUrl The url or SharePointQueryable which forms the parent of this user profile query
      */
-    function _Profiles(baseUrl, path) {
-        if (path === void 0) { path = "_api/sp.userprofiles.peoplemanager"; }
-        var _this = _super.call(this, baseUrl, path) || this;
-        _this.clientPeoplePickerQuery = (new types_ClientPeoplePickerQuery(baseUrl)).configureFrom(_this);
-        _this.profileLoader = (new types_ProfileLoader(baseUrl)).configureFrom(_this);
-        return _this;
+    constructor(baseUrl, path = "_api/sp.userprofiles.peoplemanager") {
+        super(baseUrl, path);
+        this.clientPeoplePickerQuery = (new types_ClientPeoplePickerQuery(baseUrl)).configureFrom(this);
+        this.profileLoader = (new types_ProfileLoader(baseUrl)).configureFrom(this);
     }
-    Object.defineProperty(_Profiles.prototype, "editProfileLink", {
-        /**
-         * The url of the edit profile page for the current user
-         */
-        get: function () {
-            return this.clone(Profiles, "EditProfileLink").get();
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Profiles.prototype, "isMyPeopleListPublic", {
-        /**
-         * A boolean value that indicates whether the current user's "People I'm Following" list is public
-         */
-        get: function () {
-            return this.clone(Profiles, "IsMyPeopleListPublic").get();
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * The url of the edit profile page for the current user
+     */
+    get editProfileLink() {
+        return this.clone(Profiles, "EditProfileLink").get();
+    }
+    /**
+     * A boolean value that indicates whether the current user's "People I'm Following" list is public
+     */
+    get isMyPeopleListPublic() {
+        return this.clone(Profiles, "IsMyPeopleListPublic").get();
+    }
     /**
      * A boolean value that indicates whether the current user is being followed by the specified user
      *
      * @param loginName The account name of the user
      */
-    _Profiles.prototype.amIFollowedBy = function (loginName) {
-        var q = this.clone(Profiles, "amifollowedby(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    amIFollowedBy(loginName) {
+        const q = this.clone(Profiles, "amifollowedby(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
+    }
     /**
      * A boolean value that indicates whether the current user is following the specified user
      *
      * @param loginName The account name of the user
      */
-    _Profiles.prototype.amIFollowing = function (loginName) {
-        var q = this.clone(Profiles, "amifollowing(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    amIFollowing(loginName) {
+        const q = this.clone(Profiles, "amifollowing(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
+    }
     /**
      * Gets tags that the current user is following
      *
      * @param maxCount The maximum number of tags to retrieve (default is 20)
      */
-    _Profiles.prototype.getFollowedTags = function (maxCount) {
-        if (maxCount === void 0) { maxCount = 20; }
-        return this.clone(Profiles, "getfollowedtags(" + maxCount + ")").get();
-    };
+    getFollowedTags(maxCount = 20) {
+        return this.clone(Profiles, `getfollowedtags(${maxCount})`).get();
+    }
     /**
      * Gets the people who are following the specified user
      *
      * @param loginName The account name of the user
      */
-    _Profiles.prototype.getFollowersFor = function (loginName) {
-        var q = this.clone(Profiles, "getfollowersfor(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    getFollowersFor(loginName) {
+        const q = this.clone(Profiles, "getfollowersfor(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
-    Object.defineProperty(_Profiles.prototype, "myFollowers", {
-        /**
-         * Gets the people who are following the current user
-         *
-         */
-        get: function () {
-            return SharePointQueryableCollection(this, "getmyfollowers");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Profiles.prototype, "myProperties", {
-        /**
-         * Gets user properties for the current user
-         *
-         */
-        get: function () {
-            return new _Profiles(this, "getmyproperties");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
+    /**
+     * Gets the people who are following the current user
+     *
+     */
+    get myFollowers() {
+        return SharePointQueryableCollection(this, "getmyfollowers");
+    }
+    /**
+     * Gets user properties for the current user
+     *
+     */
+    get myProperties() {
+        return new types_Profiles(this, "getmyproperties");
+    }
     /**
      * Gets the people who the specified user is following
      *
      * @param loginName The account name of the user.
      */
-    _Profiles.prototype.getPeopleFollowedBy = function (loginName) {
-        var q = this.clone(Profiles, "getpeoplefollowedby(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    getPeopleFollowedBy(loginName) {
+        const q = this.clone(Profiles, "getpeoplefollowedby(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
+    }
     /**
      * Gets user properties for the specified user.
      *
      * @param loginName The account name of the user.
      */
-    _Profiles.prototype.getPropertiesFor = function (loginName) {
-        var q = this.clone(Profiles, "getpropertiesfor(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    getPropertiesFor(loginName) {
+        const q = this.clone(Profiles, "getpropertiesfor(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
-    Object.defineProperty(_Profiles.prototype, "trendingTags", {
-        /**
-         * Gets the 20 most popular hash tags over the past week, sorted so that the most popular tag appears first
-         *
-         */
-        get: function () {
-            var q = this.clone(Profiles, null);
-            q.concat(".gettrendingtags");
-            return q.get();
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
+    /**
+     * Gets the 20 most popular hash tags over the past week, sorted so that the most popular tag appears first
+     *
+     */
+    get trendingTags() {
+        const q = this.clone(Profiles, null);
+        q.concat(".gettrendingtags");
+        return q.get();
+    }
     /**
      * Gets the specified user profile property for the specified user
      *
      * @param loginName The account name of the user
      * @param propertyName The case-sensitive name of the property to get
      */
-    _Profiles.prototype.getUserProfilePropertyFor = function (loginName, propertyName) {
-        var q = this.clone(Profiles, "getuserprofilepropertyfor(accountname=@v, propertyname='" + propertyName + "')");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    getUserProfilePropertyFor(loginName, propertyName) {
+        const q = this.clone(Profiles, `getuserprofilepropertyfor(accountname=@v, propertyname='${propertyName}')`);
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return q.get();
-    };
+    }
     /**
      * Removes the specified user from the user's list of suggested people to follow
      *
      * @param loginName The account name of the user
      */
-    _Profiles.prototype.hideSuggestion = function (loginName) {
-        var q = this.clone(Profiles, "hidesuggestion(@v)");
-        q.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    hideSuggestion(loginName) {
+        const q = this.clone(Profiles, "hidesuggestion(@v)");
+        q.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return spPost(q);
-    };
+    }
     /**
      * A boolean values that indicates whether the first user is following the second user
      *
      * @param follower The account name of the user who might be following the followee
      * @param followee The account name of the user who might be followed by the follower
      */
-    _Profiles.prototype.isFollowing = function (follower, followee) {
-        var q = this.clone(Profiles, null);
+    isFollowing(follower, followee) {
+        const q = this.clone(Profiles, null);
         q.concat(".isfollowing(possiblefolloweraccountname=@v, possiblefolloweeaccountname=@y)");
-        q.query.set("@v", "'" + encodeURIComponent(follower) + "'");
-        q.query.set("@y", "'" + encodeURIComponent(followee) + "'");
+        q.query.set("@v", `'${encodeURIComponent(follower)}'`);
+        q.query.set("@y", `'${encodeURIComponent(followee)}'`);
         return q.get();
-    };
+    }
     /**
      * Uploads and sets the user profile picture (Users can upload a picture to their own profile only). Not supported for batching.
      *
      * @param profilePicSource Blob data representing the user's picture in BMP, JPEG, or PNG format of up to 4.76MB
      */
-    _Profiles.prototype.setMyProfilePic = function (profilePicSource) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var reader = new FileReader();
-            reader.onload = function (e) { return __awaiter(_this, void 0, void 0, function () {
-                var buffer, e_1;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            buffer = e.target.result;
-                            _a.label = 1;
-                        case 1:
-                            _a.trys.push([1, 3, , 4]);
-                            return [4 /*yield*/, spPost(Profiles(this, "setmyprofilepicture"), { body: buffer })];
-                        case 2:
-                            _a.sent();
-                            resolve();
-                            return [3 /*break*/, 4];
-                        case 3:
-                            e_1 = _a.sent();
-                            reject(e_1);
-                            return [3 /*break*/, 4];
-                        case 4: return [2 /*return*/];
-                    }
-                });
-            }); };
+    setMyProfilePic(profilePicSource) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => __awaiter(this, void 0, void 0, function* () {
+                const buffer = e.target.result;
+                try {
+                    yield spPost(Profiles(this, "setmyprofilepicture"), { body: buffer });
+                    resolve();
+                }
+                catch (e) {
+                    reject(e);
+                }
+            });
             reader.readAsArrayBuffer(profilePicSource);
         });
-    };
+    }
     /**
      * Sets single value User Profile property
      *
@@ -11186,13 +9309,13 @@ var types_Profiles = /** @class */ (function (_super) {
      * @param propertyName Property name
      * @param propertyValue Property value
      */
-    _Profiles.prototype.setSingleValueProfileProperty = function (accountName, propertyName, propertyValue) {
-        return spPost(this.clone(Profiles, "SetSingleValueProfileProperty"), request_builders_body({
+    setSingleValueProfileProperty(accountName, propertyName, propertyValue) {
+        return spPost(this.clone(Profiles, "SetSingleValueProfileProperty"), body({
             accountName: accountName,
             propertyName: propertyName,
             propertyValue: propertyValue,
         }));
-    };
+    }
     /**
      * Sets multi valued User Profile property
      *
@@ -11200,208 +9323,158 @@ var types_Profiles = /** @class */ (function (_super) {
      * @param propertyName Property name
      * @param propertyValues Property values
      */
-    _Profiles.prototype.setMultiValuedProfileProperty = function (accountName, propertyName, propertyValues) {
-        return spPost(this.clone(Profiles, "SetMultiValuedProfileProperty"), request_builders_body({
+    setMultiValuedProfileProperty(accountName, propertyName, propertyValues) {
+        return spPost(this.clone(Profiles, "SetMultiValuedProfileProperty"), body({
             accountName: accountName,
             propertyName: propertyName,
             propertyValues: propertyValues,
         }));
-    };
+    }
     /**
      * Provisions one or more users' personal sites. (My Site administrator on SharePoint Online only)
      *
      * @param emails The email addresses of the users to provision sites for
      */
-    _Profiles.prototype.createPersonalSiteEnqueueBulk = function () {
-        var emails = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            emails[_i] = arguments[_i];
-        }
+    createPersonalSiteEnqueueBulk(...emails) {
         return this.profileLoader.createPersonalSiteEnqueueBulk(emails);
-    };
-    Object.defineProperty(_Profiles.prototype, "ownerUserProfile", {
-        /**
-         * Gets the user profile of the site owner
-         *
-         */
-        get: function () {
-            return this.profileLoader.ownerUserProfile;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Profiles.prototype, "userProfile", {
-        /**
-         * Gets the user profile for the current user
-         */
-        get: function () {
-            return this.profileLoader.userProfile;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    }
+    /**
+     * Gets the user profile of the site owner
+     *
+     */
+    get ownerUserProfile() {
+        return this.profileLoader.ownerUserProfile;
+    }
+    /**
+     * Gets the user profile for the current user
+     */
+    get userProfile() {
+        return this.profileLoader.userProfile;
+    }
     /**
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files
      *
      * @param interactiveRequest true if interactively (web) initiated request, or false (default) if non-interactively (client) initiated request
      */
-    _Profiles.prototype.createPersonalSite = function (interactiveRequest) {
-        if (interactiveRequest === void 0) { interactiveRequest = false; }
+    createPersonalSite(interactiveRequest = false) {
         return this.profileLoader.createPersonalSite(interactiveRequest);
-    };
+    }
     /**
      * Sets the privacy settings for this profile
      *
      * @param share true to make all social data public; false to make all social data private
      */
-    _Profiles.prototype.shareAllSocialData = function (share) {
+    shareAllSocialData(share) {
         return this.profileLoader.shareAllSocialData(share);
-    };
+    }
     /**
      * Resolves user or group using specified query parameters
      *
      * @param queryParams The query parameters used to perform resolve
      */
-    _Profiles.prototype.clientPeoplePickerResolveUser = function (queryParams) {
+    clientPeoplePickerResolveUser(queryParams) {
         return this.clientPeoplePickerQuery.clientPeoplePickerResolveUser(queryParams);
-    };
+    }
     /**
      * Searches for users or groups using specified query parameters
      *
      * @param queryParams The query parameters used to perform search
      */
-    _Profiles.prototype.clientPeoplePickerSearchUser = function (queryParams) {
+    clientPeoplePickerSearchUser(queryParams) {
         return this.clientPeoplePickerQuery.clientPeoplePickerSearchUser(queryParams);
-    };
-    return _Profiles;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Profiles = spInvokableFactory(types_Profiles);
-var types_ProfileLoader = /** @class */ (function (_super) {
-    __extends(ProfileLoader, _super);
-    function ProfileLoader() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+}
+const Profiles = spInvokableFactory(types_Profiles);
+let types_ProfileLoader = class ProfileLoader extends sharepointqueryable_SharePointQueryable {
     /**
      * Provisions one or more users' personal sites. (My Site administrator on SharePoint Online only) Doesn't support batching
      *
      * @param emails The email addresses of the users to provision sites for
      */
-    ProfileLoader.prototype.createPersonalSiteEnqueueBulk = function (emails) {
-        return spPost(this.clone(ProfileLoaderFactory, "createpersonalsiteenqueuebulk", false), request_builders_body({ "emailIDs": emails }));
-    };
-    Object.defineProperty(ProfileLoader.prototype, "ownerUserProfile", {
-        /**
-         * Gets the user profile of the site owner.
-         *
-         */
-        get: function () {
-            var q = this.getParent(ProfileLoaderFactory, this.parentUrl, "_api/sp.userprofiles.profileloader.getowneruserprofile");
-            if (this.hasBatch) {
-                q = q.inBatch(this.batch);
-            }
-            return spPost(q);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ProfileLoader.prototype, "userProfile", {
-        /**
-         * Gets the user profile of the current user.
-         *
-         */
-        get: function () {
-            return spPost(this.clone(ProfileLoaderFactory, "getuserprofile"));
-        },
-        enumerable: false,
-        configurable: true
-    });
+    createPersonalSiteEnqueueBulk(emails) {
+        return spPost(this.clone(ProfileLoaderFactory, "createpersonalsiteenqueuebulk", false), body({ "emailIDs": emails }));
+    }
+    /**
+     * Gets the user profile of the site owner.
+     *
+     */
+    get ownerUserProfile() {
+        let q = this.getParent(ProfileLoaderFactory, this.parentUrl, "_api/sp.userprofiles.profileloader.getowneruserprofile");
+        if (this.hasBatch) {
+            q = q.inBatch(this.batch);
+        }
+        return spPost(q);
+    }
+    /**
+     * Gets the user profile of the current user.
+     *
+     */
+    get userProfile() {
+        return spPost(this.clone(ProfileLoaderFactory, "getuserprofile"));
+    }
     /**
      * Enqueues creating a personal site for this user, which can be used to share documents, web pages, and other files.
      *
      * @param interactiveRequest true if interactively (web) initiated request, or false (default) if non-interactively (client) initiated request
      */
-    ProfileLoader.prototype.createPersonalSite = function (interactiveRequest) {
-        if (interactiveRequest === void 0) { interactiveRequest = false; }
-        return spPost(this.clone(ProfileLoaderFactory, "getuserprofile/createpersonalsiteenque(" + interactiveRequest + ")"));
-    };
+    createPersonalSite(interactiveRequest = false) {
+        return spPost(this.clone(ProfileLoaderFactory, `getuserprofile/createpersonalsiteenque(${interactiveRequest})`));
+    }
     /**
      * Sets the privacy settings for this profile
      *
      * @param share true to make all social data public; false to make all social data private.
      */
-    ProfileLoader.prototype.shareAllSocialData = function (share) {
-        return spPost(this.clone(ProfileLoaderFactory, "getuserprofile/shareallsocialdata(" + share + ")"));
-    };
-    ProfileLoader = __decorate([
-        defaultPath("_api/sp.userprofiles.profileloader.getprofileloader")
-    ], ProfileLoader);
-    return ProfileLoader;
-}(sharepointqueryable_SharePointQueryable));
-var ProfileLoaderFactory = function (baseUrl, path) {
+    shareAllSocialData(share) {
+        return spPost(this.clone(ProfileLoaderFactory, `getuserprofile/shareallsocialdata(${share})`));
+    }
+};
+types_ProfileLoader = __decorate([
+    defaultPath("_api/sp.userprofiles.profileloader.getprofileloader")
+], types_ProfileLoader);
+const ProfileLoaderFactory = (baseUrl, path) => {
     return new types_ProfileLoader(baseUrl, path);
 };
-var types_ClientPeoplePickerQuery = /** @class */ (function (_super) {
-    __extends(ClientPeoplePickerQuery, _super);
-    function ClientPeoplePickerQuery() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_ClientPeoplePickerQuery = class ClientPeoplePickerQuery extends sharepointqueryable_SharePointQueryable {
     /**
      * Resolves user or group using specified query parameters
      *
      * @param queryParams The query parameters used to perform resolve
      */
-    ClientPeoplePickerQuery.prototype.clientPeoplePickerResolveUser = function (queryParams) {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = this.clone(ClientPeoplePickerFactory, null);
-                        q.concat(".clientpeoplepickerresolveuser");
-                        return [4 /*yield*/, spPost(q, this.getBodyFrom(queryParams))];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, JSON.parse(typeof res === "object" ? res.ClientPeoplePickerResolveUser : res)];
-                }
-            });
+    clientPeoplePickerResolveUser(queryParams) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.clone(ClientPeoplePickerFactory, null);
+            q.concat(".clientpeoplepickerresolveuser");
+            const res = yield spPost(q, this.getBodyFrom(queryParams));
+            return JSON.parse(typeof res === "object" ? res.ClientPeoplePickerResolveUser : res);
         });
-    };
+    }
     /**
      * Searches for users or groups using specified query parameters
      *
      * @param queryParams The query parameters used to perform search
      */
-    ClientPeoplePickerQuery.prototype.clientPeoplePickerSearchUser = function (queryParams) {
-        return __awaiter(this, void 0, void 0, function () {
-            var q, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        q = this.clone(ClientPeoplePickerFactory, null);
-                        q.concat(".clientpeoplepickersearchuser");
-                        return [4 /*yield*/, spPost(q, this.getBodyFrom(queryParams))];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, JSON.parse(typeof res === "object" ? res.ClientPeoplePickerSearchUser : res)];
-                }
-            });
+    clientPeoplePickerSearchUser(queryParams) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const q = this.clone(ClientPeoplePickerFactory, null);
+            q.concat(".clientpeoplepickersearchuser");
+            const res = yield spPost(q, this.getBodyFrom(queryParams));
+            return JSON.parse(typeof res === "object" ? res.ClientPeoplePickerSearchUser : res);
         });
-    };
+    }
     /**
      * Creates ClientPeoplePickerQueryParameters request body
      *
      * @param queryParams The query parameters to create request body
      */
-    ClientPeoplePickerQuery.prototype.getBodyFrom = function (queryParams) {
-        return request_builders_body({ "queryParams": Object(common["assign"])(metadata("SP.UI.ApplicationPages.ClientPeoplePickerQueryParameters"), queryParams) });
-    };
-    ClientPeoplePickerQuery = __decorate([
-        defaultPath("_api/sp.ui.applicationpages.clientpeoplepickerwebserviceinterface")
-    ], ClientPeoplePickerQuery);
-    return ClientPeoplePickerQuery;
-}(sharepointqueryable_SharePointQueryable));
-var ClientPeoplePickerFactory = function (baseUrl, path) {
+    getBodyFrom(queryParams) {
+        return body({ "queryParams": util_assign(metadata("SP.UI.ApplicationPages.ClientPeoplePickerQueryParameters"), queryParams) });
+    }
+};
+types_ClientPeoplePickerQuery = __decorate([
+    defaultPath("_api/sp.ui.applicationpages.clientpeoplepickerwebserviceinterface")
+], types_ClientPeoplePickerQuery);
+const ClientPeoplePickerFactory = (baseUrl, path) => {
     return new types_ClientPeoplePickerQuery(baseUrl, path);
 };
 /**
@@ -11439,7 +9512,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "profiles", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return Profiles(this._baseUrl);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return Profiles(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -11451,158 +9526,110 @@ Reflect.defineProperty(rest_SPRest.prototype, "profiles", {
 
 
 
-var types_RegionalSettings = /** @class */ (function (_super) {
-    __extends(_RegionalSettings, _super);
-    function _RegionalSettings() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_RegionalSettings = class _RegionalSettings extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * Gets the collection of languages used in a server farm.
+     * ** Please use getInstalledLanguages instead of this method **
+     */
+    get installedLanguages() {
+        console.warn("Deprecated: RegionalSettings.installedLanguages is deprecated, please use RegionalSettings.getInstalledLanguages");
+        return tag.configure(SharePointQueryableCollection(this, "installedlanguages"), "rs.installedLanguages");
     }
-    Object.defineProperty(_RegionalSettings.prototype, "installedLanguages", {
-        /**
-         * Gets the collection of languages used in a server farm.
-         * ** Please use getInstalledLanguages instead of this method **
-         */
-        get: function () {
-            console.warn("Deprecated: RegionalSettings.installedLanguages is deprecated, please use RegionalSettings.getInstalledLanguages");
-            return tag.configure(SharePointQueryableCollection(this, "installedlanguages"), "rs.installedLanguages");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_RegionalSettings.prototype, "timeZone", {
-        /**
-         * Gets time zone
-         */
-        get: function () {
-            return tag.configure(TimeZone(this), "rs.tz");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_RegionalSettings.prototype, "timeZones", {
-        /**
-         * Gets time zones
-         */
-        get: function () {
-            return tag.configure(TimeZones(this), "rs.tzs");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Gets time zone
+     */
+    get timeZone() {
+        return tag.configure(TimeZone(this), "rs.tz");
+    }
+    /**
+     * Gets time zones
+     */
+    get timeZones() {
+        return tag.configure(TimeZones(this), "rs.tzs");
+    }
     /**
      * Gets the collection of languages used in a server farm.
      */
-    _RegionalSettings.prototype.getInstalledLanguages = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var results;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, tag.configure(SharePointQueryableCollection(this, "installedlanguages"), "rs.getInstalledLanguages")()];
-                    case 1:
-                        results = _a.sent();
-                        return [2 /*return*/, results.Items];
-                }
-            });
+    getInstalledLanguages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = yield tag.configure(SharePointQueryableCollection(this, "installedlanguages"), "rs.getInstalledLanguages")();
+            return results.Items;
         });
-    };
-    _RegionalSettings = __decorate([
-        defaultPath("regionalsettings")
-    ], _RegionalSettings);
-    return _RegionalSettings;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var RegionalSettings = spInvokableFactory(types_RegionalSettings);
-var types_TimeZone = /** @class */ (function (_super) {
-    __extends(_TimeZone, _super);
-    function _TimeZone() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+};
+types_RegionalSettings = __decorate([
+    defaultPath("regionalsettings")
+], types_RegionalSettings);
+
+const RegionalSettings = spInvokableFactory(types_RegionalSettings);
+let types_TimeZone = class _TimeZone extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * Gets an Local Time by UTC Time
      *
      * @param utcTime UTC Time as Date or ISO String
      */
-    _TimeZone.prototype.utcToLocalTime = function (utcTime) {
-        return __awaiter(this, void 0, void 0, function () {
-            var dateIsoString, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof utcTime === "string") {
-                            dateIsoString = utcTime;
-                        }
-                        else {
-                            dateIsoString = utcTime.toISOString();
-                        }
-                        return [4 /*yield*/, spPost(this.clone(TimeZone, "utctolocaltime('" + dateIsoString + "')"))];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(res, "UTCToLocalTime") ? res.UTCToLocalTime : res];
-                }
-            });
+    utcToLocalTime(utcTime) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let dateIsoString;
+            if (typeof utcTime === "string") {
+                dateIsoString = utcTime;
+            }
+            else {
+                dateIsoString = utcTime.toISOString();
+            }
+            const res = yield spPost(this.clone(TimeZone, `utctolocaltime('${dateIsoString}')`));
+            return hOP(res, "UTCToLocalTime") ? res.UTCToLocalTime : res;
         });
-    };
+    }
     /**
      * Gets an UTC Time by Local Time
      *
      * @param localTime Local Time as Date or ISO String
      */
-    _TimeZone.prototype.localTimeToUTC = function (localTime) {
-        return __awaiter(this, void 0, void 0, function () {
-            var dateIsoString, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (typeof localTime === "string") {
-                            dateIsoString = localTime;
-                        }
-                        else {
-                            dateIsoString = Object(common["dateAdd"])(localTime, "minute", localTime.getTimezoneOffset() * -1).toISOString();
-                        }
-                        return [4 /*yield*/, spPost(this.clone(TimeZone, "localtimetoutc('" + dateIsoString + "')"))];
-                    case 1:
-                        res = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(res, "LocalTimeToUTC") ? res.LocalTimeToUTC : res];
-                }
-            });
+    localTimeToUTC(localTime) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let dateIsoString;
+            if (typeof localTime === "string") {
+                dateIsoString = localTime;
+            }
+            else {
+                dateIsoString = dateAdd(localTime, "minute", localTime.getTimezoneOffset() * -1).toISOString();
+            }
+            const res = yield spPost(this.clone(TimeZone, `localtimetoutc('${dateIsoString}')`));
+            return hOP(res, "LocalTimeToUTC") ? res.LocalTimeToUTC : res;
         });
-    };
-    __decorate([
-        tag("tz.utcToLocalTime")
-    ], _TimeZone.prototype, "utcToLocalTime", null);
-    __decorate([
-        tag("tz.localTimeToUTC")
-    ], _TimeZone.prototype, "localTimeToUTC", null);
-    _TimeZone = __decorate([
-        defaultPath("timezone")
-    ], _TimeZone);
-    return _TimeZone;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var TimeZone = spInvokableFactory(types_TimeZone);
-var types_TimeZones = /** @class */ (function (_super) {
-    __extends(_TimeZones, _super);
-    function _TimeZones() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+};
+__decorate([
+    tag("tz.utcToLocalTime")
+], types_TimeZone.prototype, "utcToLocalTime", null);
+__decorate([
+    tag("tz.localTimeToUTC")
+], types_TimeZone.prototype, "localTimeToUTC", null);
+types_TimeZone = __decorate([
+    defaultPath("timezone")
+], types_TimeZone);
+
+const TimeZone = spInvokableFactory(types_TimeZone);
+let types_TimeZones = class _TimeZones extends _SharePointQueryableCollection {
     /**
      * Gets an TimeZone by id (see: https://msdn.microsoft.com/en-us/library/office/jj247008.aspx)
      *
      * @param id The integer id of the timezone to retrieve
      */
-    _TimeZones.prototype.getById = function (id) {
+    getById(id) {
         // do the post and merge the result into a TimeZone instance so the data and methods are available
-        return spPost(this.clone(TimeZones, "GetById(" + id + ")").usingParser(spODataEntity(TimeZone)));
-    };
-    __decorate([
-        tag("tzs.getById")
-    ], _TimeZones.prototype, "getById", null);
-    _TimeZones = __decorate([
-        defaultPath("timezones")
-    ], _TimeZones);
-    return _TimeZones;
-}(sharepointqueryable_SharePointQueryableCollection));
+        return spPost(this.clone(TimeZones, `GetById(${id})`).usingParser(spODataEntity(TimeZone)));
+    }
+};
+__decorate([
+    tag("tzs.getById")
+], types_TimeZones.prototype, "getById", null);
+types_TimeZones = __decorate([
+    defaultPath("timezones")
+], types_TimeZones);
 
-var TimeZones = spInvokableFactory(types_TimeZones);
+const TimeZones = spInvokableFactory(types_TimeZones);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/funcs.js
 
@@ -11610,7 +9637,7 @@ var TimeZones = spInvokableFactory(types_TimeZones);
 
 function getValueForUICultureBinder(propName) {
     return function (cultureName) {
-        return spPost(this.clone(SharePointQueryable, propName + "/getValueForUICulture"), request_builders_body({ cultureName: cultureName }));
+        return spPost(this.clone(SharePointQueryable, `${propName}/getValueForUICulture`), body({ cultureName }));
     };
 }
 
@@ -11632,76 +9659,60 @@ types_Web.prototype.descriptionResource = getValueForUICultureBinder("descriptio
 
 
 
-var types_UserCustomActions = /** @class */ (function (_super) {
-    __extends(_UserCustomActions, _super);
-    function _UserCustomActions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_UserCustomActions = class _UserCustomActions extends _SharePointQueryableCollection {
     /**
      * Returns the user custom action with the specified id
      *
      * @param id The GUID id of the user custom action to retrieve
      */
-    _UserCustomActions.prototype.getById = function (id) {
-        return tag.configure(UserCustomAction(this).concat("('" + id + "')"), "ucas.getById");
-    };
+    getById(id) {
+        return tag.configure(UserCustomAction(this).concat(`('${id}')`), "ucas.getById");
+    }
     /**
      * Creates a user custom action
      *
      * @param properties The information object of property names and values which define the new user custom action
      */
-    _UserCustomActions.prototype.add = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this, request_builders_body(Object(common["assign"])(metadata("SP.UserCustomAction"), properties)))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                action: this.getById(data.Id),
-                                data: data,
-                            }];
-                }
-            });
+    add(properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield spPost(this, body(util_assign(metadata("SP.UserCustomAction"), properties)));
+            return {
+                action: this.getById(data.Id),
+                data,
+            };
         });
-    };
+    }
     /**
      * Deletes all user custom actions in the collection
      */
-    _UserCustomActions.prototype.clear = function () {
+    clear() {
         return spPost(this.clone(UserCustomActions, "clear"));
-    };
-    __decorate([
-        tag("ucas.add")
-    ], _UserCustomActions.prototype, "add", null);
-    __decorate([
-        tag("ucas.clear")
-    ], _UserCustomActions.prototype, "clear", null);
-    _UserCustomActions = __decorate([
-        defaultPath("usercustomactions")
-    ], _UserCustomActions);
-    return _UserCustomActions;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("ucas.add")
+], types_UserCustomActions.prototype, "add", null);
+__decorate([
+    tag("ucas.clear")
+], types_UserCustomActions.prototype, "clear", null);
+types_UserCustomActions = __decorate([
+    defaultPath("usercustomactions")
+], types_UserCustomActions);
 
-var UserCustomActions = spInvokableFactory(types_UserCustomActions);
-var types_UserCustomAction = /** @class */ (function (_super) {
-    __extends(_UserCustomAction, _super);
-    function _UserCustomAction() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("uca");
+const UserCustomActions = spInvokableFactory(types_UserCustomActions);
+class types_UserCustomAction extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("uca");
         /**
         * Updates this user custom action with the supplied properties
         *
         * @param properties An information object of property names and values to update for this user custom action
         */
-        _this.update = _this._update("SP.UserCustomAction", function (data) { return ({ data: data, action: _this }); });
-        return _this;
+        this.update = this._update("SP.UserCustomAction", (data) => ({ data, action: this }));
     }
-    return _UserCustomAction;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var UserCustomAction = spInvokableFactory(types_UserCustomAction);
+}
+const UserCustomAction = spInvokableFactory(types_UserCustomAction);
 var UserCustomActionRegistrationType;
 (function (UserCustomActionRegistrationType) {
     UserCustomActionRegistrationType[UserCustomActionRegistrationType["None"] = 0] = "None";
@@ -11758,32 +9769,27 @@ types_ContentType.prototype.descriptionResource = getValueForUICultureBinder("de
 
 
 
-var types_RelatedItemManager = /** @class */ (function (_super) {
-    __extends(_RelatedItemManager, _super);
-    function _RelatedItemManager() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _RelatedItemManager.prototype.getRelatedItems = function (sourceListName, sourceItemId) {
-        var query = this.clone(RelatedItemManager, null);
+let types_RelatedItemManager = class _RelatedItemManager extends sharepointqueryable_SharePointQueryable {
+    getRelatedItems(sourceListName, sourceItemId) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".GetRelatedItems");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
         }));
-    };
-    _RelatedItemManager.prototype.getPageOneRelatedItems = function (sourceListName, sourceItemId) {
-        var query = this.clone(RelatedItemManager, null);
+    }
+    getPageOneRelatedItems(sourceListName, sourceItemId) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".GetPageOneRelatedItems");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
         }));
-    };
-    _RelatedItemManager.prototype.addSingleLink = function (sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemID, targetWebUrl, tryAddReverseLink) {
-        if (tryAddReverseLink === void 0) { tryAddReverseLink = false; }
-        var query = this.clone(RelatedItemManager, null);
+    }
+    addSingleLink(sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemID, targetWebUrl, tryAddReverseLink = false) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".AddSingleLink");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             SourceWebUrl: sourceWebUrl,
@@ -11792,34 +9798,31 @@ var types_RelatedItemManager = /** @class */ (function (_super) {
             TargetWebUrl: targetWebUrl,
             TryAddReverseLink: tryAddReverseLink,
         }));
-    };
-    _RelatedItemManager.prototype.addSingleLinkToUrl = function (sourceListName, sourceItemId, targetItemUrl, tryAddReverseLink) {
-        if (tryAddReverseLink === void 0) { tryAddReverseLink = false; }
-        var query = this.clone(RelatedItemManager, null);
+    }
+    addSingleLinkToUrl(sourceListName, sourceItemId, targetItemUrl, tryAddReverseLink = false) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".AddSingleLinkToUrl");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             TargetItemUrl: targetItemUrl,
             TryAddReverseLink: tryAddReverseLink,
         }));
-    };
-    _RelatedItemManager.prototype.addSingleLinkFromUrl = function (sourceItemUrl, targetListName, targetItemId, tryAddReverseLink) {
-        if (tryAddReverseLink === void 0) { tryAddReverseLink = false; }
-        var query = this.clone(RelatedItemManager, null);
+    }
+    addSingleLinkFromUrl(sourceItemUrl, targetListName, targetItemId, tryAddReverseLink = false) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".AddSingleLinkFromUrl");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemUrl: sourceItemUrl,
             TargetItemID: targetItemId,
             TargetListName: targetListName,
             TryAddReverseLink: tryAddReverseLink,
         }));
-    };
-    _RelatedItemManager.prototype.deleteSingleLink = function (sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemId, targetWebUrl, tryDeleteReverseLink) {
-        if (tryDeleteReverseLink === void 0) { tryDeleteReverseLink = false; }
-        var query = this.clone(RelatedItemManager, null);
+    }
+    deleteSingleLink(sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemId, targetWebUrl, tryDeleteReverseLink = false) {
+        const query = this.clone(RelatedItemManager, null);
         query.concat(".DeleteSingleLink");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             SourceWebUrl: sourceWebUrl,
@@ -11828,32 +9831,31 @@ var types_RelatedItemManager = /** @class */ (function (_super) {
             TargetWebUrl: targetWebUrl,
             TryDeleteReverseLink: tryDeleteReverseLink,
         }));
-    };
-    __decorate([
-        tag("rim.getRelatedItems")
-    ], _RelatedItemManager.prototype, "getRelatedItems", null);
-    __decorate([
-        tag("rim.getPageOneRelatedItems")
-    ], _RelatedItemManager.prototype, "getPageOneRelatedItems", null);
-    __decorate([
-        tag("rim.addSingleLink")
-    ], _RelatedItemManager.prototype, "addSingleLink", null);
-    __decorate([
-        tag("rim.ToUrl")
-    ], _RelatedItemManager.prototype, "addSingleLinkToUrl", null);
-    __decorate([
-        tag("rim.FromUrl")
-    ], _RelatedItemManager.prototype, "addSingleLinkFromUrl", null);
-    __decorate([
-        tag("rim.deleteSingleLink")
-    ], _RelatedItemManager.prototype, "deleteSingleLink", null);
-    _RelatedItemManager = __decorate([
-        defaultPath("_api/SP.RelatedItemManager")
-    ], _RelatedItemManager);
-    return _RelatedItemManager;
-}(sharepointqueryable_SharePointQueryable));
+    }
+};
+__decorate([
+    tag("rim.getRelatedItems")
+], types_RelatedItemManager.prototype, "getRelatedItems", null);
+__decorate([
+    tag("rim.getPageOneRelatedItems")
+], types_RelatedItemManager.prototype, "getPageOneRelatedItems", null);
+__decorate([
+    tag("rim.addSingleLink")
+], types_RelatedItemManager.prototype, "addSingleLink", null);
+__decorate([
+    tag("rim.ToUrl")
+], types_RelatedItemManager.prototype, "addSingleLinkToUrl", null);
+__decorate([
+    tag("rim.FromUrl")
+], types_RelatedItemManager.prototype, "addSingleLinkFromUrl", null);
+__decorate([
+    tag("rim.deleteSingleLink")
+], types_RelatedItemManager.prototype, "deleteSingleLink", null);
+types_RelatedItemManager = __decorate([
+    defaultPath("_api/SP.RelatedItemManager")
+], types_RelatedItemManager);
 
-var RelatedItemManager = function (url) { return new types_RelatedItemManager(extractWebUrl(typeof url === "string" ? url : url.toUrl())); };
+const RelatedItemManager = (url) => new types_RelatedItemManager(extractWebUrl(typeof url === "string" ? url : url.toUrl()));
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/index.js
 
@@ -11867,7 +9869,7 @@ var RelatedItemManager = function (url) { return new types_RelatedItemManager(ex
 
 
 
-var funcs = new Map([
+const funcs = new Map([
     ["text", "Querytext"],
     ["template", "QueryTemplate"],
     ["sourceId", "SourceId"],
@@ -11899,9 +9901,9 @@ var funcs = new Map([
     ["maxSnippetLength", ""],
     ["summaryLength", ""],
 ]);
-var query_props = new Map([]);
+const query_props = new Map([]);
 function toPropCase(str) {
-    return str.replace(/^(.)/, function ($1) { return $1.toUpperCase(); });
+    return str.replace(/^(.)/, ($1) => $1.toUpperCase());
 }
 /**
  * Creates a new instance of the SearchQueryBuilder
@@ -11909,107 +9911,90 @@ function toPropCase(str) {
  * @param queryText Initial query text
  * @param _query Any initial query configuration
  */
-function SearchQueryBuilder(queryText, _query) {
-    if (queryText === void 0) { queryText = ""; }
-    if (_query === void 0) { _query = {}; }
+function SearchQueryBuilder(queryText = "", _query = {}) {
     return new Proxy({
         query: Object.assign({
             Querytext: queryText,
         }, _query),
     }, {
-        get: function (self, propertyKey, proxy) {
-            var pk = propertyKey.toString();
+        get(self, propertyKey, proxy) {
+            const pk = propertyKey.toString();
             if (pk === "toSearchQuery") {
-                return function () { return self.query; };
+                return () => self.query;
             }
             if (funcs.has(pk)) {
-                return function () {
-                    var value = [];
-                    for (var _i = 0; _i < arguments.length; _i++) {
-                        value[_i] = arguments[_i];
-                    }
-                    var mappedPk = funcs.get(pk);
+                return (...value) => {
+                    const mappedPk = funcs.get(pk);
                     self.query[mappedPk.length > 0 ? mappedPk : toPropCase(pk)] = value.length > 1 ? value : value[0];
                     return proxy;
                 };
             }
-            var propKey = query_props.has(pk) ? query_props.get(pk) : toPropCase(pk);
+            const propKey = query_props.has(pk) ? query_props.get(pk) : toPropCase(pk);
             self.query[propKey] = true;
             return proxy;
         },
     });
 }
-var queryRegex = /_api\/search\/postquery$/i;
+const queryRegex = /_api\/search\/postquery$/i;
 /**
  * Describes the search API
  *
  */
-var query_Search = /** @class */ (function (_super) {
-    __extends(_Search, _super);
-    function _Search() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let query_Search = class _Search extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * @returns Promise
      */
-    _Search.prototype.execute = function (queryInit) {
-        return __awaiter(this, void 0, void 0, function () {
-            var query, postBody, cacheKey, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        query = this.parseQuery(queryInit);
-                        postBody = request_builders_body({
-                            request: Object(common["assign"])(metadata("Microsoft.Office.Server.Search.REST.SearchRequest"), Object.assign({}, query, {
-                                HitHighlightedProperties: this.fixArrProp(query.HitHighlightedProperties),
-                                Properties: this.fixArrProp(query.Properties),
-                                RefinementFilters: this.fixArrProp(query.RefinementFilters),
-                                ReorderingRules: this.fixArrProp(query.ReorderingRules),
-                                SelectProperties: this.fixArrProp(query.SelectProperties),
-                                SortList: this.fixArrProp(query.SortList),
-                            })),
-                        });
-                        // if we are using caching with this search request, then we need to handle some work upfront to enable that
-                        if (this.data.useCaching) {
-                            // force use of the cache for this request if .usingCaching was called
-                            this._forceCaching = true;
-                            cacheKey = "PnPjs.SearchWithCaching(" + Object(common["getHashCode"])(postBody.body) + ")";
-                            if (Object(common["objectDefinedNotNull"])(this.data.cachingOptions)) {
-                                // if our key ends in the postquery url we overwrite it
-                                if (queryRegex.test(this.data.cachingOptions.key)) {
-                                    this.data.cachingOptions.key = cacheKey;
-                                }
-                            }
-                            else {
-                                this.data.cachingOptions = new caching_CachingOptions(cacheKey);
-                            }
-                        }
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, new query_SearchResults(data, this.toUrl(), query)];
-                }
+    execute(queryInit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = this.parseQuery(queryInit);
+            const postBody = body({
+                request: util_assign(metadata("Microsoft.Office.Server.Search.REST.SearchRequest"), Object.assign({}, query, {
+                    HitHighlightedProperties: this.fixArrProp(query.HitHighlightedProperties),
+                    Properties: this.fixArrProp(query.Properties),
+                    RefinementFilters: this.fixArrProp(query.RefinementFilters),
+                    ReorderingRules: this.fixArrProp(query.ReorderingRules),
+                    SelectProperties: this.fixArrProp(query.SelectProperties),
+                    SortList: this.fixArrProp(query.SortList),
+                })),
             });
+            // if we are using caching with this search request, then we need to handle some work upfront to enable that
+            if (this.data.useCaching) {
+                // force use of the cache for this request if .usingCaching was called
+                this._forceCaching = true;
+                // because all the requests use the same url they would collide in the cache we use a special key
+                const cacheKey = `PnPjs.SearchWithCaching(${getHashCode(postBody.body)})`;
+                if (objectDefinedNotNull(this.data.cachingOptions)) {
+                    // if our key ends in the postquery url we overwrite it
+                    if (queryRegex.test(this.data.cachingOptions.key)) {
+                        this.data.cachingOptions.key = cacheKey;
+                    }
+                }
+                else {
+                    this.data.cachingOptions = new CachingOptions(cacheKey);
+                }
+            }
+            const data = yield spPost(this, postBody);
+            return new query_SearchResults(data, this.toUrl(), query);
         });
-    };
+    }
     /**
      * Fix array property
      *
      * @param prop property to fix for container struct
      */
-    _Search.prototype.fixArrProp = function (prop) {
+    fixArrProp(prop) {
         if (typeof prop === "undefined") {
             return ({ results: [] });
         }
-        return { results: Object(common["isArray"])(prop) ? prop : [prop] };
-    };
+        return { results: isArray(prop) ? prop : [prop] };
+    }
     /**
      * Translates one of the query initializers into a SearchQuery instance
      *
      * @param query
      */
-    _Search.prototype.parseQuery = function (query) {
-        var finalQuery;
+    parseQuery(query) {
+        let finalQuery;
         if (typeof query === "string") {
             finalQuery = { Querytext: query };
         }
@@ -12020,26 +10005,20 @@ var query_Search = /** @class */ (function (_super) {
             finalQuery = query;
         }
         return finalQuery;
-    };
-    __decorate([
-        tag("se.execute")
-    ], _Search.prototype, "execute", null);
-    _Search = __decorate([
-        defaultPath("_api/search/postquery")
-    ], _Search);
-    return _Search;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Search = function (baseUrl, options) {
-    if (options === void 0) { options = {}; }
-    return function (queryInit) {
-        return (new query_Search(baseUrl)).configure(options).execute(queryInit);
-    };
+    }
 };
-var query_SearchResults = /** @class */ (function () {
-    function SearchResults(rawResponse, _url, _query, _raw, _primary) {
-        if (_raw === void 0) { _raw = null; }
-        if (_primary === void 0) { _primary = null; }
+__decorate([
+    tag("se.execute")
+], query_Search.prototype, "execute", null);
+query_Search = __decorate([
+    defaultPath("_api/search/postquery")
+], query_Search);
+
+const Search = (baseUrl, options = {}, runtime = DefaultRuntime) => (queryInit) => {
+    return (new query_Search(baseUrl)).configure(options).setRuntime(runtime).execute(queryInit);
+};
+class query_SearchResults {
+    constructor(rawResponse, _url, _query, _raw = null, _primary = null) {
         this._url = _url;
         this._query = _query;
         this._raw = _raw;
@@ -12047,71 +10026,47 @@ var query_SearchResults = /** @class */ (function () {
         this._url = this._url.replace(queryRegex, "");
         this._raw = rawResponse.postquery ? rawResponse.postquery : rawResponse;
     }
-    Object.defineProperty(SearchResults.prototype, "ElapsedTime", {
-        get: function () {
-            var _a;
-            return ((_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.ElapsedTime) || 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SearchResults.prototype, "RowCount", {
-        get: function () {
-            var _a, _b, _c;
-            return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.RowCount) || 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SearchResults.prototype, "TotalRows", {
-        get: function () {
-            var _a, _b, _c;
-            return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.TotalRows) || 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SearchResults.prototype, "TotalRowsIncludingDuplicates", {
-        get: function () {
-            var _a, _b, _c;
-            return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.TotalRowsIncludingDuplicates) || 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SearchResults.prototype, "RawSearchResults", {
-        get: function () {
-            return this._raw;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(SearchResults.prototype, "PrimarySearchResults", {
-        get: function () {
-            var _a, _b, _c, _d;
-            if (this._primary === null) {
-                this._primary = this.formatSearchResults(((_d = (_c = (_b = (_a = this._raw) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.Table) === null || _d === void 0 ? void 0 : _d.Rows) || null);
-            }
-            return this._primary;
-        },
-        enumerable: false,
-        configurable: true
-    });
+    get ElapsedTime() {
+        var _a;
+        return ((_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.ElapsedTime) || 0;
+    }
+    get RowCount() {
+        var _a, _b, _c;
+        return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.RowCount) || 0;
+    }
+    get TotalRows() {
+        var _a, _b, _c;
+        return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.TotalRows) || 0;
+    }
+    get TotalRowsIncludingDuplicates() {
+        var _a, _b, _c;
+        return ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.RawSearchResults) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.TotalRowsIncludingDuplicates) || 0;
+    }
+    get RawSearchResults() {
+        return this._raw;
+    }
+    get PrimarySearchResults() {
+        var _a, _b, _c, _d;
+        if (this._primary === null) {
+            this._primary = this.formatSearchResults(((_d = (_c = (_b = (_a = this._raw) === null || _a === void 0 ? void 0 : _a.PrimaryQueryResult) === null || _b === void 0 ? void 0 : _b.RelevantResults) === null || _c === void 0 ? void 0 : _c.Table) === null || _d === void 0 ? void 0 : _d.Rows) || null);
+        }
+        return this._primary;
+    }
     /**
      * Gets a page of results
      *
      * @param pageNumber Index of the page to return. Used to determine StartRow
      * @param pageSize Optional, items per page (default = 10)
      */
-    SearchResults.prototype.getPage = function (pageNumber, pageSize) {
+    getPage(pageNumber, pageSize) {
         // if we got all the available rows we don't have another page
         if (this.TotalRows < this.RowCount) {
             return Promise.resolve(null);
         }
         // if pageSize is supplied, then we use that regardless of any previous values
         // otherwise get the previous RowLimit or default to 10
-        var rows = pageSize !== undefined ? pageSize : Object(common["hOP"])(this._query, "RowLimit") ? this._query.RowLimit : 10;
-        var query = Object(common["assign"])(this._query, {
+        const rows = pageSize !== undefined ? pageSize : hOP(this._query, "RowLimit") ? this._query.RowLimit : 10;
+        const query = util_assign(this._query, {
             RowLimit: rows,
             StartRow: rows * (pageNumber - 1),
         });
@@ -12120,46 +10075,33 @@ var query_SearchResults = /** @class */ (function () {
             return Promise.resolve(null);
         }
         return Search(this._url)(query);
-    };
+    }
     /**
      * Formats a search results array
      *
      * @param rawResults The array to process
      */
-    SearchResults.prototype.formatSearchResults = function (rawResults) {
-        var e_1, _a;
-        var results = new Array();
+    formatSearchResults(rawResults) {
+        const results = new Array();
         if (typeof (rawResults) === "undefined" || rawResults == null) {
             return [];
         }
-        var tempResults = rawResults.results ? rawResults.results : rawResults;
-        try {
-            for (var tempResults_1 = __values(tempResults), tempResults_1_1 = tempResults_1.next(); !tempResults_1_1.done; tempResults_1_1 = tempResults_1.next()) {
-                var tempResult = tempResults_1_1.value;
-                var cells = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
-                results.push(cells.reduce(function (res, cell) {
-                    Reflect.defineProperty(res, cell.Key, {
-                        configurable: false,
-                        enumerable: true,
-                        value: cell.Value,
-                        writable: false,
-                    });
-                    return res;
-                }, {}));
-            }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (tempResults_1_1 && !tempResults_1_1.done && (_a = tempResults_1.return)) _a.call(tempResults_1);
-            }
-            finally { if (e_1) throw e_1.error; }
+        const tempResults = rawResults.results ? rawResults.results : rawResults;
+        for (const tempResult of tempResults) {
+            const cells = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
+            results.push(cells.reduce((res, cell) => {
+                Reflect.defineProperty(res, cell.Key, {
+                    configurable: false,
+                    enumerable: true,
+                    value: cell.Value,
+                    writable: false,
+                });
+                return res;
+            }, {}));
         }
         return results;
-    };
-    return SearchResults;
-}());
-
+    }
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/search/suggest.js
 
@@ -12167,40 +10109,27 @@ var query_SearchResults = /** @class */ (function () {
 
 
 
-var suggest_Suggest = /** @class */ (function (_super) {
-    __extends(_Suggest, _super);
-    function _Suggest() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Suggest.prototype.execute = function (query) {
-        return __awaiter(this, void 0, void 0, function () {
-            var response, mapper;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.mapQueryToQueryString(query);
-                        return [4 /*yield*/, this.get()];
-                    case 1:
-                        response = _a.sent();
-                        mapper = Object(common["hOP"])(response, "suggest") ? function (s_1) { return response.suggest[s_1].results; } : function (s_2) { return response[s_2]; };
-                        return [2 /*return*/, {
-                                PeopleNames: mapper("PeopleNames"),
-                                PersonalResults: mapper("PersonalResults"),
-                                Queries: mapper("Queries"),
-                            }];
-                }
-            });
+let suggest_Suggest = class _Suggest extends sharepointqueryable_SharePointQueryableInstance {
+    execute(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.mapQueryToQueryString(query);
+            const response = yield this.get();
+            const mapper = hOP(response, "suggest") ? (s_1) => response.suggest[s_1].results : (s_2) => response[s_2];
+            return {
+                PeopleNames: mapper("PeopleNames"),
+                PersonalResults: mapper("PersonalResults"),
+                Queries: mapper("Queries"),
+            };
         });
-    };
-    _Suggest.prototype.mapQueryToQueryString = function (query) {
-        var _this = this;
-        var setProp = function (q) { return function (checkProp) { return function (sp) {
-            if (Object(common["hOP"])(q, checkProp)) {
-                _this.query.set(sp, q[checkProp].toString());
+    }
+    mapQueryToQueryString(query) {
+        const setProp = (q) => (checkProp) => (sp) => {
+            if (hOP(q, checkProp)) {
+                this.query.set(sp, q[checkProp].toString());
             }
-        }; }; };
-        this.query.set("querytext", "'" + query.querytext + "'");
-        var querySetter = setProp(query);
+        };
+        this.query.set("querytext", `'${query.querytext}'`);
+        const querySetter = setProp(query);
         querySetter("count")("inumberofquerysuggestions");
         querySetter("personalCount")("inumberofresultsuggestions");
         querySetter("preQuery")("fprequerysuggestions");
@@ -12211,21 +10140,17 @@ var suggest_Suggest = /** @class */ (function (_super) {
         querySetter("includePeople")("showpeoplenamesuggestions");
         querySetter("queryRules")("enablequeryrules");
         querySetter("prefixMatch")("fprefixmatchallterms");
-    };
-    __decorate([
-        tag("su.execute")
-    ], _Suggest.prototype, "execute", null);
-    _Suggest = __decorate([
-        defaultPath("_api/search/suggest")
-    ], _Suggest);
-    return _Suggest;
-}(sharepointqueryable_SharePointQueryableInstance));
+    }
+};
+__decorate([
+    tag("su.execute")
+], suggest_Suggest.prototype, "execute", null);
+suggest_Suggest = __decorate([
+    defaultPath("_api/search/suggest")
+], suggest_Suggest);
 
-var Suggest = function (baseUrl, options) {
-    if (options === void 0) { options = {}; }
-    return function (query) {
-        return (new suggest_Suggest(baseUrl)).configure(options).execute(query);
-    };
+const Suggest = (baseUrl, options = {}, runtime = DefaultRuntime) => (query) => {
+    return (new suggest_Suggest(baseUrl)).configure(options).setRuntime(runtime).execute(query);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/search/types.js
@@ -12265,27 +10190,23 @@ var QueryPropertyValueType;
     QueryPropertyValueType[QueryPropertyValueType["StringArrayType"] = 4] = "StringArrayType";
     QueryPropertyValueType[QueryPropertyValueType["UnSupportedType"] = 5] = "UnSupportedType";
 })(QueryPropertyValueType || (QueryPropertyValueType = {}));
-var SearchBuiltInSourceId = /** @class */ (function () {
-    function SearchBuiltInSourceId() {
-    }
-    SearchBuiltInSourceId.Documents = "e7ec8cee-ded8-43c9-beb5-436b54b31e84";
-    SearchBuiltInSourceId.ItemsMatchingContentType = "5dc9f503-801e-4ced-8a2c-5d1237132419";
-    SearchBuiltInSourceId.ItemsMatchingTag = "e1327b9c-2b8c-4b23-99c9-3730cb29c3f7";
-    SearchBuiltInSourceId.ItemsRelatedToCurrentUser = "48fec42e-4a92-48ce-8363-c2703a40e67d";
-    SearchBuiltInSourceId.ItemsWithSameKeywordAsThisItem = "5c069288-1d17-454a-8ac6-9c642a065f48";
-    SearchBuiltInSourceId.LocalPeopleResults = "b09a7990-05ea-4af9-81ef-edfab16c4e31";
-    SearchBuiltInSourceId.LocalReportsAndDataResults = "203fba36-2763-4060-9931-911ac8c0583b";
-    SearchBuiltInSourceId.LocalSharePointResults = "8413cd39-2156-4e00-b54d-11efd9abdb89";
-    SearchBuiltInSourceId.LocalVideoResults = "78b793ce-7956-4669-aa3b-451fc5defebf";
-    SearchBuiltInSourceId.Pages = "5e34578e-4d08-4edc-8bf3-002acf3cdbcc";
-    SearchBuiltInSourceId.Pictures = "38403c8c-3975-41a8-826e-717f2d41568a";
-    SearchBuiltInSourceId.Popular = "97c71db1-58ce-4891-8b64-585bc2326c12";
-    SearchBuiltInSourceId.RecentlyChangedItems = "ba63bbae-fa9c-42c0-b027-9a878f16557c";
-    SearchBuiltInSourceId.RecommendedItems = "ec675252-14fa-4fbe-84dd-8d098ed74181";
-    SearchBuiltInSourceId.Wiki = "9479bf85-e257-4318-b5a8-81a180f5faa1";
-    return SearchBuiltInSourceId;
-}());
-
+class SearchBuiltInSourceId {
+}
+SearchBuiltInSourceId.Documents = "e7ec8cee-ded8-43c9-beb5-436b54b31e84";
+SearchBuiltInSourceId.ItemsMatchingContentType = "5dc9f503-801e-4ced-8a2c-5d1237132419";
+SearchBuiltInSourceId.ItemsMatchingTag = "e1327b9c-2b8c-4b23-99c9-3730cb29c3f7";
+SearchBuiltInSourceId.ItemsRelatedToCurrentUser = "48fec42e-4a92-48ce-8363-c2703a40e67d";
+SearchBuiltInSourceId.ItemsWithSameKeywordAsThisItem = "5c069288-1d17-454a-8ac6-9c642a065f48";
+SearchBuiltInSourceId.LocalPeopleResults = "b09a7990-05ea-4af9-81ef-edfab16c4e31";
+SearchBuiltInSourceId.LocalReportsAndDataResults = "203fba36-2763-4060-9931-911ac8c0583b";
+SearchBuiltInSourceId.LocalSharePointResults = "8413cd39-2156-4e00-b54d-11efd9abdb89";
+SearchBuiltInSourceId.LocalVideoResults = "78b793ce-7956-4669-aa3b-451fc5defebf";
+SearchBuiltInSourceId.Pages = "5e34578e-4d08-4edc-8bf3-002acf3cdbcc";
+SearchBuiltInSourceId.Pictures = "38403c8c-3975-41a8-826e-717f2d41568a";
+SearchBuiltInSourceId.Popular = "97c71db1-58ce-4891-8b64-585bc2326c12";
+SearchBuiltInSourceId.RecentlyChangedItems = "ba63bbae-fa9c-42c0-b027-9a878f16557c";
+SearchBuiltInSourceId.RecommendedItems = "ec675252-14fa-4fbe-84dd-8d098ed74181";
+SearchBuiltInSourceId.Wiki = "9479bf85-e257-4318-b5a8-81a180f5faa1";
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/search/index.js
 
@@ -12296,13 +10217,19 @@ var SearchBuiltInSourceId = /** @class */ (function () {
 
 
 rest_SPRest.prototype.search = function (query) {
-    return Search(this._baseUrl, this._options)(query);
+    return this.childConfigHook(({ options, baseUrl, runtime }) => {
+        return Search(baseUrl, options, runtime)(query);
+    });
 };
-rest_SPRest.prototype.searchWithCaching = function (query, options) {
-    return (new query_Search(this._baseUrl)).configure(this._options).usingCaching(options).execute(query);
+rest_SPRest.prototype.searchWithCaching = function (query, cacheOptions) {
+    return this.childConfigHook(({ options, baseUrl, runtime }) => {
+        return (new query_Search(baseUrl)).configure(options).setRuntime(runtime).usingCaching(cacheOptions).execute(query);
+    });
 };
 rest_SPRest.prototype.searchSuggest = function (query) {
-    return Suggest(this._baseUrl, this._options)(typeof query === "string" ? { querytext: query } : query);
+    return this.childConfigHook(({ options, baseUrl, runtime }) => {
+        return Suggest(baseUrl, options, runtime)(typeof query === "string" ? { querytext: query } : query);
+    });
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/types.js
@@ -12315,119 +10242,100 @@ rest_SPRest.prototype.searchSuggest = function (query) {
 
 
 
-var types_SiteUsers = /** @class */ (function (_super) {
-    __extends(_SiteUsers, _super);
-    function _SiteUsers() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_SiteUsers = class _SiteUsers extends _SharePointQueryableCollection {
     /**
      * Gets a user from the collection by id
      *
      * @param id The id of the user to retrieve
      */
-    _SiteUsers.prototype.getById = function (id) {
-        return tag.configure(SiteUser(this, "getById(" + id + ")"), "sus.getById");
-    };
+    getById(id) {
+        return tag.configure(SiteUser(this, `getById(${id})`), "sus.getById");
+    }
     /**
      * Gets a user from the collection by email
      *
      * @param email The email address of the user to retrieve
      */
-    _SiteUsers.prototype.getByEmail = function (email) {
-        return tag.configure(SiteUser(this, "getByEmail('" + email + "')"), "sus.getByEmail");
-    };
+    getByEmail(email) {
+        return tag.configure(SiteUser(this, `getByEmail('${email}')`), "sus.getByEmail");
+    }
     /**
      * Gets a user from the collection by login name
      *
      * @param loginName The login name of the user to retrieve
      */
-    _SiteUsers.prototype.getByLoginName = function (loginName) {
-        return tag.configure(SiteUser(this).concat("('!@v::" + encodeURIComponent(loginName) + "')"), "sus.getByLoginName");
-    };
+    getByLoginName(loginName) {
+        return tag.configure(SiteUser(this).concat(`('!@v::${encodeURIComponent(loginName)}')`), "sus.getByLoginName");
+    }
     /**
      * Removes a user from the collection by id
      *
      * @param id The id of the user to remove
      */
-    _SiteUsers.prototype.removeById = function (id) {
-        return spPost(this.clone(SiteUsers, "removeById(" + id + ")"));
-    };
+    removeById(id) {
+        return spPost(this.clone(SiteUsers, `removeById(${id})`));
+    }
     /**
      * Removes a user from the collection by login name
      *
      * @param loginName The login name of the user to remove
      */
-    _SiteUsers.prototype.removeByLoginName = function (loginName) {
-        var o = this.clone(SiteUsers, "removeByLoginName(@v)");
-        o.query.set("@v", "'" + encodeURIComponent(loginName) + "'");
+    removeByLoginName(loginName) {
+        const o = this.clone(SiteUsers, "removeByLoginName(@v)");
+        o.query.set("@v", `'${encodeURIComponent(loginName)}'`);
         return spPost(o);
-    };
+    }
     /**
      * Adds a user to a site collection
      *
      * @param loginName The login name of the user to add  to a site collection
      *
      */
-    _SiteUsers.prototype.add = function (loginName) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this, request_builders_body(Object(common["assign"])(metadata("SP.User"), { LoginName: loginName })))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, this.getByLoginName(loginName)];
-                }
-            });
+    add(loginName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this, body(util_assign(metadata("SP.User"), { LoginName: loginName })));
+            return this.getByLoginName(loginName);
         });
-    };
-    __decorate([
-        tag("sus.remId")
-    ], _SiteUsers.prototype, "removeById", null);
-    __decorate([
-        tag("sus.remLoginName")
-    ], _SiteUsers.prototype, "removeByLoginName", null);
-    __decorate([
-        tag("sus.add")
-    ], _SiteUsers.prototype, "add", null);
-    _SiteUsers = __decorate([
-        defaultPath("siteusers")
-    ], _SiteUsers);
-    return _SiteUsers;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+__decorate([
+    tag("sus.remId")
+], types_SiteUsers.prototype, "removeById", null);
+__decorate([
+    tag("sus.remLoginName")
+], types_SiteUsers.prototype, "removeByLoginName", null);
+__decorate([
+    tag("sus.add")
+], types_SiteUsers.prototype, "add", null);
+types_SiteUsers = __decorate([
+    defaultPath("siteusers")
+], types_SiteUsers);
 
-var SiteUsers = spInvokableFactory(types_SiteUsers);
+const SiteUsers = spInvokableFactory(types_SiteUsers);
 /**
  * Describes a single user
  *
  */
-var types_SiteUser = /** @class */ (function (_super) {
-    __extends(_SiteUser, _super);
-    function _SiteUser() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("su");
+class types_SiteUser extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("su");
         /**
         * Updates this user instance with the supplied properties
         *
         * @param properties A plain object of property names and values to update for the user
         */
-        _this.update = _this._update("SP.User", function (data) { return ({ data: data, user: _this }); });
-        return _this;
+        this.update = this._update("SP.User", data => ({ data, user: this }));
     }
-    Object.defineProperty(_SiteUser.prototype, "groups", {
-        /**
-         * Gets the groups for this user
-         *
-         */
-        get: function () {
-            return tag.configure(SiteGroups(this, "groups"), "su.groups");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _SiteUser;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var SiteUser = spInvokableFactory(types_SiteUser);
+    /**
+     * Gets the groups for this user
+     *
+     */
+    get groups() {
+        return tag.configure(SiteGroups(this, "groups"), "su.groups");
+    }
+}
+const SiteUser = spInvokableFactory(types_SiteUser);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/types.js
 
@@ -12439,126 +10347,101 @@ var SiteUser = spInvokableFactory(types_SiteUser);
 
 
 
-var types_SiteGroups = /** @class */ (function (_super) {
-    __extends(_SiteGroups, _super);
-    function _SiteGroups() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_SiteGroups = class _SiteGroups extends _SharePointQueryableCollection {
     /**
      * Gets a group from the collection by id
      *
      * @param id The id of the group to retrieve
      */
-    _SiteGroups.prototype.getById = function (id) {
-        return tag.configure(SiteGroup(this).concat("(" + id + ")"), "sgs.getById");
-    };
+    getById(id) {
+        return tag.configure(SiteGroup(this).concat(`(${id})`), "sgs.getById");
+    }
     /**
      * Adds a new group to the site collection
      *
      * @param properties The group properties object of property names and values to be set for the group
      */
-    _SiteGroups.prototype.add = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.Group"), properties));
-                        return [4 /*yield*/, spPost(tag.configure(this, "sgs.add"), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                group: this.getById(data.Id),
-                            }];
-                }
-            });
+    add(properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(util_assign(metadata("SP.Group"), properties));
+            const data = yield spPost(tag.configure(this, "sgs.add"), postBody);
+            return {
+                data,
+                group: this.getById(data.Id),
+            };
         });
-    };
+    }
     /**
      * Gets a group from the collection by name
      *
      * @param groupName The name of the group to retrieve
      */
-    _SiteGroups.prototype.getByName = function (groupName) {
-        return tag.configure(SiteGroup(this, "getByName('" + groupName + "')"), "sgs.getByName");
-    };
+    getByName(groupName) {
+        return tag.configure(SiteGroup(this, `getByName('${groupName}')`), "sgs.getByName");
+    }
     /**
      * Removes the group with the specified member id from the collection
      *
      * @param id The id of the group to remove
      */
-    _SiteGroups.prototype.removeById = function (id) {
-        return spPost(this.clone(SiteGroups, "removeById('" + id + "')"));
-    };
+    removeById(id) {
+        return spPost(this.clone(SiteGroups, `removeById('${id}')`));
+    }
     /**
      * Removes the cross-site group with the specified name from the collection
      *
      * @param loginName The name of the group to remove
      */
-    _SiteGroups.prototype.removeByLoginName = function (loginName) {
-        return spPost(this.clone(SiteGroups, "removeByLoginName('" + loginName + "')"));
-    };
-    __decorate([
-        tag("sgs.removeById")
-    ], _SiteGroups.prototype, "removeById", null);
-    __decorate([
-        tag("sgs.removeByLoginName")
-    ], _SiteGroups.prototype, "removeByLoginName", null);
-    _SiteGroups = __decorate([
-        defaultPath("sitegroups")
-    ], _SiteGroups);
-    return _SiteGroups;
-}(sharepointqueryable_SharePointQueryableCollection));
+    removeByLoginName(loginName) {
+        return spPost(this.clone(SiteGroups, `removeByLoginName('${loginName}')`));
+    }
+};
+__decorate([
+    tag("sgs.removeById")
+], types_SiteGroups.prototype, "removeById", null);
+__decorate([
+    tag("sgs.removeByLoginName")
+], types_SiteGroups.prototype, "removeByLoginName", null);
+types_SiteGroups = __decorate([
+    defaultPath("sitegroups")
+], types_SiteGroups);
 
-var SiteGroups = spInvokableFactory(types_SiteGroups);
-var types_SiteGroup = /** @class */ (function (_super) {
-    __extends(_SiteGroup, _super);
-    function _SiteGroup() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+const SiteGroups = spInvokableFactory(types_SiteGroups);
+class types_SiteGroup extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
         /**
          * Updates the group with the given property values
          *
          * @param props The group properties object of property names and values to be set for the group
          */
-        _this.update = _this._update("SP.Group", function (d, p) {
-            var retGroup = _this;
-            if (Object(common["hOP"])(p, "Title")) {
-                /* tslint:disable-next-line no-string-literal */
-                retGroup = _this.getParent(SiteGroup, _this.parentUrl, "getByName('" + p["Title"] + "')");
-            }
+        this.update = this._update("SP.Group", (d, p) => {
+            const retGroup = hOP(p, "Title") ? this.getParent(SiteGroup, this.parentUrl, `getByName('${p.Title}')`) : SiteGroup(this);
             return {
                 data: d,
                 group: retGroup,
             };
         });
-        return _this;
     }
-    Object.defineProperty(_SiteGroup.prototype, "users", {
-        /**
-         * Gets the users for this group
-         *
-         */
-        get: function () {
-            return tag.configure(SiteUsers(this, "users"), "sg.users");
-        },
-        enumerable: false,
-        configurable: true
-    });
+    /**
+     * Gets the users for this group
+     *
+     */
+    get users() {
+        return tag.configure(SiteUsers(this, "users"), "sg.users");
+    }
     /**
      * Set the owner of a group using a user id
      * @param userId the id of the user that will be set as the owner of the current group
      */
-    _SiteGroup.prototype.setUserAsOwner = function (userId) {
-        return spPost(this.clone(SiteGroup, "SetUserAsOwner(" + userId + ")"));
-    };
-    __decorate([
-        tag("sg.setUserAsOwner")
-    ], _SiteGroup.prototype, "setUserAsOwner", null);
-    return _SiteGroup;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var SiteGroup = spInvokableFactory(types_SiteGroup);
+    setUserAsOwner(userId) {
+        return spPost(this.clone(SiteGroup, `SetUserAsOwner(${userId})`));
+    }
+}
+__decorate([
+    tag("sg.setUserAsOwner")
+], types_SiteGroup.prototype, "setUserAsOwner", null);
+const SiteGroup = spInvokableFactory(types_SiteGroup);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/security/types.js
 
@@ -12574,19 +10457,15 @@ var SiteGroup = spInvokableFactory(types_SiteGroup);
  * Describes a set of role assignments for the current scope
  *
  */
-var types_RoleAssignments = /** @class */ (function (_super) {
-    __extends(_RoleAssignments, _super);
-    function _RoleAssignments() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_RoleAssignments = class _RoleAssignments extends _SharePointQueryableCollection {
     /**
      * Gets the role assignment associated with the specified principal id from the collection.
      *
      * @param id The id of the role assignment
      */
-    _RoleAssignments.prototype.getById = function (id) {
-        return RoleAssignment(this).concat("(" + id + ")");
-    };
+    getById(id) {
+        return RoleAssignment(this).concat(`(${id})`);
+    }
     /**
      * Adds a new role assignment with the specified principal and role definitions to the collection
      *
@@ -12594,18 +10473,11 @@ var types_RoleAssignments = /** @class */ (function (_super) {
      * @param roleDefId The id of the role definition that defines the permissions to assign
      *
      */
-    _RoleAssignments.prototype.add = function (principalId, roleDefId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(RoleAssignments, "addroleassignment(principalid=" + principalId + ", roledefid=" + roleDefId + ")"))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    add(principalId, roleDefId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this.clone(RoleAssignments, `addroleassignment(principalid=${principalId}, roledefid=${roleDefId})`));
         });
-    };
+    }
     /**
      * Removes the role assignment with the specified principal and role definition from the collection
      *
@@ -12613,98 +10485,74 @@ var types_RoleAssignments = /** @class */ (function (_super) {
      * @param roleDefId The id of the role definition in the role assignment
      *
      */
-    _RoleAssignments.prototype.remove = function (principalId, roleDefId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(RoleAssignments, "removeroleassignment(principalid=" + principalId + ", roledefid=" + roleDefId + ")"))];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    remove(principalId, roleDefId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield spPost(this.clone(RoleAssignments, `removeroleassignment(principalid=${principalId}, roledefid=${roleDefId})`));
         });
-    };
-    _RoleAssignments = __decorate([
-        defaultPath("roleassignments")
-    ], _RoleAssignments);
-    return _RoleAssignments;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+types_RoleAssignments = __decorate([
+    defaultPath("roleassignments")
+], types_RoleAssignments);
 
-var RoleAssignments = spInvokableFactory(types_RoleAssignments);
+const RoleAssignments = spInvokableFactory(types_RoleAssignments);
 /**
  * Describes a role assignment
  *
  */
-var types_RoleAssignment = /** @class */ (function (_super) {
-    __extends(_RoleAssignment, _super);
-    function _RoleAssignment() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("ra");
-        return _this;
+class types_RoleAssignment extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("ra");
     }
-    Object.defineProperty(_RoleAssignment.prototype, "groups", {
-        /**
-         * Gets the groups that directly belong to the access control list (ACL) for this securable object
-         *
-         */
-        get: function () {
-            return tag.configure(SiteGroups(this, "groups"), "ra.groups");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_RoleAssignment.prototype, "bindings", {
-        /**
-         * Gets the role definition bindings for this role assignment
-         *
-         */
-        get: function () {
-            return SharePointQueryableCollection(this, "roledefinitionbindings");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _RoleAssignment;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var RoleAssignment = spInvokableFactory(types_RoleAssignment);
+    /**
+     * Gets the groups that directly belong to the access control list (ACL) for this securable object
+     *
+     */
+    get groups() {
+        return tag.configure(SiteGroups(this, "groups"), "ra.groups");
+    }
+    /**
+     * Gets the role definition bindings for this role assignment
+     *
+     */
+    get bindings() {
+        return SharePointQueryableCollection(this, "roledefinitionbindings");
+    }
+}
+const RoleAssignment = spInvokableFactory(types_RoleAssignment);
 /**
  * Describes a collection of role definitions
  *
  */
-var types_RoleDefinitions = /** @class */ (function (_super) {
-    __extends(_RoleDefinitions, _super);
-    function _RoleDefinitions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_RoleDefinitions = class _RoleDefinitions extends _SharePointQueryableCollection {
     /**
      * Gets the role definition with the specified id from the collection
      *
      * @param id The id of the role definition
      *
      */
-    _RoleDefinitions.prototype.getById = function (id) {
-        return RoleDefinition(this, "getById(" + id + ")");
-    };
+    getById(id) {
+        return RoleDefinition(this, `getById(${id})`);
+    }
     /**
      * Gets the role definition with the specified name
      *
      * @param name The name of the role definition
      *
      */
-    _RoleDefinitions.prototype.getByName = function (name) {
-        return RoleDefinition(this, "getbyname('" + name + "')");
-    };
+    getByName(name) {
+        return RoleDefinition(this, `getbyname('${name}')`);
+    }
     /**
      * Gets the role definition with the specified role type
      *
      * @param roleTypeKind The roletypekind of the role definition (None=0, Guest=1, Reader=2, Contributor=3, WebDesigner=4, Administrator=5, Editor=6, System=7)
      *
      */
-    _RoleDefinitions.prototype.getByType = function (roleTypeKind) {
-        return RoleDefinition(this, "getbytype(" + roleTypeKind + ")");
-    };
+    getByType(roleTypeKind) {
+        return RoleDefinition(this, `getbytype(${roleTypeKind})`);
+    }
     /**
      * Creates a role definition
      *
@@ -12714,89 +10562,66 @@ var types_RoleDefinitions = /** @class */ (function (_super) {
      * @param basePermissions The permissions mask for this role definition, high and low values need to be converted to string
      *
      */
-    _RoleDefinitions.prototype.add = function (name, description, order, basePermissions) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body({
-                            BasePermissions: { "High": basePermissions.High.toString(), "Low": basePermissions.Low.toString() },
-                            Description: description,
-                            Name: name,
-                            Order: order,
-                            __metadata: { "type": "SP.RoleDefinition" },
-                        });
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                definition: this.getById(data.Id),
-                            }];
-                }
+    add(name, description, order, basePermissions) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body({
+                BasePermissions: { "High": basePermissions.High.toString(), "Low": basePermissions.Low.toString() },
+                Description: description,
+                Name: name,
+                Order: order,
+                __metadata: { "type": "SP.RoleDefinition" },
             });
+            const data = yield spPost(this, postBody);
+            return {
+                data: data,
+                definition: this.getById(data.Id),
+            };
         });
-    };
-    _RoleDefinitions = __decorate([
-        defaultPath("roledefinitions")
-    ], _RoleDefinitions);
-    return _RoleDefinitions;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+};
+types_RoleDefinitions = __decorate([
+    defaultPath("roledefinitions")
+], types_RoleDefinitions);
 
-var RoleDefinitions = spInvokableFactory(types_RoleDefinitions);
+const RoleDefinitions = spInvokableFactory(types_RoleDefinitions);
 /**
  * Describes a role definition
  *
  */
-var types_RoleDefinition = /** @class */ (function (_super) {
-    __extends(_RoleDefinition, _super);
-    function _RoleDefinition() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("rd");
-        return _this;
-        /* tslint:enable */
+class types_RoleDefinition extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("rd");
     }
     /**
      * Updates this role definition with the supplied properties
      *
      * @param properties A plain object hash of values to update for the role definition
      */
-    /* tslint:disable no-string-literal */
-    _RoleDefinition.prototype.update = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var s, bpObj, postBody, data, definition, parent_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        s = ["BasePermissions"];
-                        if (Object(common["hOP"])(properties, s[0]) !== undefined) {
-                            properties[s[0]] = Object(common["assign"])(metadata("SP." + s[0]), properties[s[0]]);
-                            bpObj = properties[s[0]];
-                            bpObj.High = bpObj.High.toString();
-                            bpObj.Low = bpObj.Low.toString();
-                        }
-                        postBody = request_builders_body(Object(common["assign"])(metadata("SP.RoleDefinition"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
-                        return [4 /*yield*/, spPost(this, postBody)];
-                    case 1:
-                        data = _a.sent();
-                        definition = this;
-                        if (Object(common["hOP"])(properties, "Name")) {
-                            parent_1 = this.getParent(RoleDefinitions, this.parentUrl, "");
-                            definition = parent_1.getByName(properties["Name"]);
-                        }
-                        return [2 /*return*/, {
-                                data: data,
-                                definition: definition,
-                            }];
-                }
-            });
+    update(properties) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const s = ["BasePermissions"];
+            if (hOP(properties, s[0]) !== undefined) {
+                properties[s[0]] = util_assign(metadata(`SP.${s[0]}`), properties[s[0]]);
+                const bpObj = properties[s[0]];
+                bpObj.High = bpObj.High.toString();
+                bpObj.Low = bpObj.Low.toString();
+            }
+            const postBody = body(util_assign(metadata("SP.RoleDefinition"), properties), request_builders_headers({ "X-HTTP-Method": "MERGE" }));
+            const data = yield spPost(this, postBody);
+            let definition = this;
+            if (hOP(properties, "Name")) {
+                const parent = this.getParent(RoleDefinitions, this.parentUrl, "");
+                definition = parent.getByName(properties.Name);
+            }
+            return {
+                data,
+                definition,
+            };
         });
-    };
-    return _RoleDefinition;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var RoleDefinition = spInvokableFactory(types_RoleDefinition);
+    }
+}
+const RoleDefinition = spInvokableFactory(types_RoleDefinition);
 var PermissionKind;
 (function (PermissionKind) {
     /**
@@ -12975,34 +10800,23 @@ var PermissionKind;
 * @param loginName The claims username for the user (ex: i:0#.f|membership|user@domain.com)
 */
 function getUserEffectivePermissions(loginName) {
-    return __awaiter(this, void 0, void 0, function () {
-        var q, r;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    q = this.clone(SharePointQueryableInstance, "getUserEffectivePermissions(@user)");
-                    q.query.set("@user", "'" + encodeURIComponent(loginName) + "'");
-                    return [4 /*yield*/, q.get()];
-                case 1:
-                    r = _a.sent();
-                    // handle verbose mode
-                    return [2 /*return*/, Object(common["hOP"])(r, "GetUserEffectivePermissions") ? r.GetUserEffectivePermissions : r];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const q = this.clone(SharePointQueryableInstance, "getUserEffectivePermissions(@user)");
+        q.query.set("@user", `'${encodeURIComponent(loginName)}'`);
+        const r = yield q.get();
+        // handle verbose mode
+        return hOP(r, "GetUserEffectivePermissions") ? r.GetUserEffectivePermissions : r;
     });
 }
 /**
  * Gets the effective permissions for the current user
  */
 function getCurrentUserEffectivePermissions() {
-    return __awaiter(this, void 0, void 0, function () {
-        var q;
-        return __generator(this, function (_a) {
-            q = this.clone(SharePointQueryable, "EffectiveBasePermissions");
-            return [2 /*return*/, q.get().then(function (r) {
-                    // handle verbose mode
-                    return Object(common["hOP"])(r, "EffectiveBasePermissions") ? r.EffectiveBasePermissions : r;
-                })];
+    return __awaiter(this, void 0, void 0, function* () {
+        const q = this.clone(SharePointQueryable, "EffectiveBasePermissions");
+        return q.get().then(r => {
+            // handle verbose mode
+            return hOP(r, "EffectiveBasePermissions") ? r.EffectiveBasePermissions : r;
         });
     });
 }
@@ -13012,18 +10826,9 @@ function getCurrentUserEffectivePermissions() {
  * @param copyRoleAssignments If true the permissions are copied from the current parent scope
  * @param clearSubscopes Optional. true to make all child securable objects inherit role assignments from the current object
  */
-function breakRoleInheritance(copyRoleAssignments, clearSubscopes) {
-    if (copyRoleAssignments === void 0) { copyRoleAssignments = false; }
-    if (clearSubscopes === void 0) { clearSubscopes = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(SharePointQueryable, "breakroleinheritance(copyroleassignments=" + copyRoleAssignments + ", clearsubscopes=" + clearSubscopes + ")"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+function breakRoleInheritance(copyRoleAssignments = false, clearSubscopes = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield spPost(this.clone(SharePointQueryable, `breakroleinheritance(copyroleassignments=${copyRoleAssignments}, clearsubscopes=${clearSubscopes})`));
     });
 }
 /**
@@ -13031,15 +10836,8 @@ function breakRoleInheritance(copyRoleAssignments, clearSubscopes) {
  *
  */
 function resetRoleInheritance() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(SharePointQueryable, "resetroleinheritance"))];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        yield spPost(this.clone(SharePointQueryable, "resetroleinheritance"));
     });
 }
 /**
@@ -13049,16 +10847,9 @@ function resetRoleInheritance() {
  * @param permission The permission being checked
  */
 function userHasPermissions(loginName, permission) {
-    return __awaiter(this, void 0, void 0, function () {
-        var perms;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, getUserEffectivePermissions.call(this, loginName)];
-                case 1:
-                    perms = _a.sent();
-                    return [2 /*return*/, this.hasPermissions(perms, permission)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const perms = yield getUserEffectivePermissions.call(this, loginName);
+        return this.hasPermissions(perms, permission);
     });
 }
 /**
@@ -13067,16 +10858,9 @@ function userHasPermissions(loginName, permission) {
  * @param permission The permission we wish to check
  */
 function currentUserHasPermissions(permission) {
-    return __awaiter(this, void 0, void 0, function () {
-        var perms;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, getCurrentUserEffectivePermissions.call(this)];
-                case 1:
-                    perms = _a.sent();
-                    return [2 /*return*/, this.hasPermissions(perms, permission)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const perms = yield getCurrentUserEffectivePermissions.call(this);
+        return this.hasPermissions(perms, permission);
     });
 }
 /**
@@ -13085,7 +10869,7 @@ function currentUserHasPermissions(permission) {
  * @param value The security principal's permissions on the given object
  * @param perm The permission checked against the value
  */
-/* tslint:disable:no-bitwise */
+/* eslint-disable no-bitwise */
 function hasPermissions(value, perm) {
     if (!perm) {
         return true;
@@ -13094,7 +10878,7 @@ function hasPermissions(value, perm) {
         return (value.High & 32767) === 32767 && value.Low === 65535;
     }
     perm = perm - 1;
-    var num = 1;
+    let num = 1;
     if (perm >= 0 && perm < 32) {
         num = num << perm;
         return 0 !== (value.Low & num);
@@ -13105,7 +10889,7 @@ function hasPermissions(value, perm) {
     }
     return false;
 }
-/* tslint:enable */
+/* eslint-enable no-bitwise */
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/security/item.js
 
@@ -13295,47 +11079,38 @@ var RoleType;
  * @param options The set of options to send to the ShareObject method
  * @param bypass If true any processing is skipped and the options are sent directly to the ShareObject method
  */
-function shareObject(o, options, bypass) {
-    if (bypass === void 0) { bypass = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        var roleValue, userStr, postBody;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (bypass) {
-                        // if the bypass flag is set send the supplied parameters directly to the service
-                        return [2 /*return*/, sendShareObjectRequest(o, options)];
-                    }
-                    // extend our options with some defaults
-                    options = Object(common["assign"])(options, {
-                        group: null,
-                        includeAnonymousLinkInEmail: false,
-                        propagateAcl: false,
-                        useSimplifiedRoles: true,
-                    }, true);
-                    return [4 /*yield*/, getRoleValue(options.role, options.group)];
-                case 1:
-                    roleValue = _a.sent();
-                    // handle the multiple input types
-                    if (!Array.isArray(options.loginNames)) {
-                        options.loginNames = [options.loginNames];
-                    }
-                    userStr = Object(common["jsS"])(options.loginNames.map(function (Key) { return ({ Key: Key }); }));
-                    postBody = {
-                        peoplePickerInput: userStr,
-                        roleValue: roleValue,
-                        url: options.url,
-                    };
-                    if (options.emailData !== undefined && options.emailData !== null) {
-                        postBody = Object(common["assign"])(postBody, {
-                            emailBody: options.emailData.body,
-                            emailSubject: options.emailData.subject !== undefined ? options.emailData.subject : "Shared with you.",
-                            sendEmail: true,
-                        });
-                    }
-                    return [2 /*return*/, sendShareObjectRequest(o, postBody)];
-            }
-        });
+function shareObject(o, options, bypass = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (bypass) {
+            // if the bypass flag is set send the supplied parameters directly to the service
+            return sendShareObjectRequest(o, options);
+        }
+        // extend our options with some defaults
+        options = util_assign(options, {
+            group: null,
+            includeAnonymousLinkInEmail: false,
+            propagateAcl: false,
+            useSimplifiedRoles: true,
+        }, true);
+        const roleValue = yield getRoleValue(options.role, options.group);
+        // handle the multiple input types
+        if (!Array.isArray(options.loginNames)) {
+            options.loginNames = [options.loginNames];
+        }
+        const userStr = jsS(options.loginNames.map(Key => ({ Key })));
+        let postBody = {
+            peoplePickerInput: userStr,
+            roleValue: roleValue,
+            url: options.url,
+        };
+        if (options.emailData !== undefined && options.emailData !== null) {
+            postBody = util_assign(postBody, {
+                emailBody: options.emailData.body,
+                emailSubject: options.emailData.subject !== undefined ? options.emailData.subject : "Shared with you.",
+                sendEmail: true,
+            });
+        }
+        return sendShareObjectRequest(o, postBody);
     });
 }
 /**
@@ -13344,13 +11119,12 @@ function shareObject(o, options, bypass) {
  * @param kind The kind of link to share
  * @param expiration The optional expiration for this link
  */
-function getShareLink(kind, expiration) {
-    if (expiration === void 0) { expiration = null; }
+function getShareLink(kind, expiration = null) {
     // date needs to be an ISO string or null
-    var expString = expiration !== null ? expiration.toISOString() : null;
+    const expString = expiration !== null ? expiration.toISOString() : null;
     // clone using the factory and send the request
-    var o = tag.configure(this.clone(SharePointQueryableInstance, "shareLink"), "sh.getShareLink");
-    return spPost(o, request_builders_body({
+    const o = tag.configure(this.clone(SharePointQueryableInstance, "shareLink"), "sh.getShareLink");
+    return spPost(o, body({
         request: {
             createLink: true,
             emailData: null,
@@ -13367,8 +11141,8 @@ function getShareLink(kind, expiration) {
  * @param recipients The array of Entities for which Permissions need to be checked.
  */
 function checkPermissions(recipients) {
-    var o = tag.configure(this.clone(SharePointQueryableInstance, "checkPermissions"), "sh.checkPermissions");
-    return spPost(o, request_builders_body({ recipients: recipients }));
+    const o = tag.configure(this.clone(SharePointQueryableInstance, "checkPermissions"), "sh.checkPermissions");
+    return spPost(o, body({ recipients }));
 }
 /**
  * Get Sharing Information.
@@ -13377,21 +11151,18 @@ function checkPermissions(recipients) {
  * @param expands Expand more fields.
  *
  */
-function getSharingInformation(request, expands) {
-    if (request === void 0) { request = null; }
-    if (expands === void 0) { expands = []; }
-    var o = tag.configure(this.clone(SharePointQueryableInstance, "getSharingInformation"), "sh.getSharingInformation");
-    return spPost(o.expand.apply(o, __spread(expands)), request_builders_body({ request: request }));
+function getSharingInformation(request = null, expands = []) {
+    const o = tag.configure(this.clone(SharePointQueryableInstance, "getSharingInformation"), "sh.getSharingInformation");
+    return spPost(o.expand(...expands), body({ request }));
 }
 /**
  * Gets the sharing settings of an item.
  *
  * @param useSimplifiedRoles Determines whether to use simplified roles.
  */
-function getObjectSharingSettings(useSimplifiedRoles) {
-    if (useSimplifiedRoles === void 0) { useSimplifiedRoles = true; }
-    var o = tag.configure(this.clone(SharePointQueryableInstance, "getObjectSharingSettings"), "sh.getObjectSharingSettings");
-    return spPost(o, request_builders_body({ useSimplifiedRoles: useSimplifiedRoles }));
+function getObjectSharingSettings(useSimplifiedRoles = true) {
+    const o = tag.configure(this.clone(SharePointQueryableInstance, "getObjectSharingSettings"), "sh.getObjectSharingSettings");
+    return spPost(o, body({ useSimplifiedRoles }));
 }
 /**
  * Unshares this object
@@ -13405,7 +11176,7 @@ function unshareObject() {
  * @param kind Deletes a sharing link by the kind of link
  */
 function deleteLinkByKind(linkKind) {
-    return spPost(tag.configure(this.clone(SharePointQueryableInstance, "deleteLinkByKind"), "sh.deleteLinkByKind"), request_builders_body({ linkKind: linkKind }));
+    return spPost(tag.configure(this.clone(SharePointQueryableInstance, "deleteLinkByKind"), "sh.deleteLinkByKind"), body({ linkKind }));
 }
 /**
  * Removes the specified link to the item.
@@ -13413,9 +11184,8 @@ function deleteLinkByKind(linkKind) {
  * @param kind The kind of link to be deleted.
  * @param shareId
  */
-function unshareLink(linkKind, shareId) {
-    if (shareId === void 0) { shareId = emptyGuid; }
-    return spPost(tag.configure(this.clone(SharePointQueryableInstance, "unshareLink"), "sh.unshareLink"), request_builders_body({ linkKind: linkKind, shareId: shareId }));
+function unshareLink(linkKind, shareId = emptyGuid) {
+    return spPost(tag.configure(this.clone(SharePointQueryableInstance, "unshareLink"), "sh.unshareLink"), body({ linkKind, shareId }));
 }
 /**
  * Shares this instance with the supplied users
@@ -13426,49 +11196,43 @@ function unshareLink(linkKind, shareId) {
  * @param propagateAcl True to apply this share to all children
  * @param emailData If supplied an email will be sent with the indicated properties
  */
-function shareWith(o, loginNames, role, requireSignin, propagateAcl, emailData) {
-    if (requireSignin === void 0) { requireSignin = false; }
-    if (propagateAcl === void 0) { propagateAcl = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        var userStr, roleFilter, w, def, postBody;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    // handle the multiple input types
-                    if (!Array.isArray(loginNames)) {
-                        loginNames = [loginNames];
-                    }
-                    userStr = Object(common["jsS"])(loginNames.map(function (login) { return { Key: login }; }));
-                    roleFilter = role === SharingRole.Edit ? RoleType.Contributor : RoleType.Reader;
-                    w = SharePointQueryableCollection("_api/web", "roledefinitions");
-                    return [4 /*yield*/, w.select("Id").filter("RoleTypeKind eq " + roleFilter).get()];
-                case 1:
-                    def = _a.sent();
-                    if (!Array.isArray(def) || def.length < 1) {
-                        throw Error("Could not locate a role defintion with RoleTypeKind " + roleFilter);
-                    }
-                    postBody = {
-                        includeAnonymousLinkInEmail: requireSignin,
-                        peoplePickerInput: userStr,
-                        propagateAcl: propagateAcl,
-                        roleValue: "role:" + def[0].Id,
-                        useSimplifiedRoles: true,
-                    };
-                    if (emailData !== undefined) {
-                        postBody = Object(common["assign"])(postBody, {
-                            emailBody: emailData.body,
-                            emailSubject: emailData.subject !== undefined ? emailData.subject : "",
-                            sendEmail: true,
-                        });
-                    }
-                    return [2 /*return*/, spPost(tag.configure(o.clone(SharePointQueryableInstance, "shareObject"), "sh.shareWith"), request_builders_body(postBody))];
-            }
-        });
+function shareWith(o, loginNames, role, requireSignin = false, propagateAcl = false, emailData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // handle the multiple input types
+        if (!Array.isArray(loginNames)) {
+            loginNames = [loginNames];
+        }
+        const userStr = jsS(loginNames.map(login => {
+            return { Key: login };
+        }));
+        const roleFilter = role === SharingRole.Edit ? RoleType.Contributor : RoleType.Reader;
+        // start by looking up the role definition id we need to set the roleValue
+        // remove need to reference Web here, which created a circular build issue
+        const w = SharePointQueryableCollection("_api/web", "roledefinitions");
+        const def = yield w.select("Id").filter(`RoleTypeKind eq ${roleFilter}`).get();
+        if (!Array.isArray(def) || def.length < 1) {
+            throw Error(`Could not locate a role defintion with RoleTypeKind ${roleFilter}`);
+        }
+        let postBody = {
+            includeAnonymousLinkInEmail: requireSignin,
+            peoplePickerInput: userStr,
+            propagateAcl: propagateAcl,
+            roleValue: `role:${def[0].Id}`,
+            useSimplifiedRoles: true,
+        };
+        if (emailData !== undefined) {
+            postBody = util_assign(postBody, {
+                emailBody: emailData.body,
+                emailSubject: emailData.subject !== undefined ? emailData.subject : "",
+                sendEmail: true,
+            });
+        }
+        return spPost(tag.configure(o.clone(SharePointQueryableInstance, "shareObject"), "sh.shareWith"), body(postBody));
     });
 }
 function sendShareObjectRequest(o, options) {
-    var w = tag.configure(Web(extractWebUrl(o.toUrl()), "/_api/SP.Web.ShareObject"), "sh.sendShareObjectRequest");
-    return spPost(w.expand("UsersWithAccessRequests", "GroupsSharedWith"), request_builders_body(options));
+    const w = tag.configure(Web(extractWebUrl(o.toUrl()), "/_api/SP.Web.ShareObject"), "sh.sendShareObjectRequest");
+    return spPost(w.expand("UsersWithAccessRequests", "GroupsSharedWith"), body(options));
 }
 /**
  * Calculates the roleValue string used in the sharing query
@@ -13477,41 +11241,31 @@ function sendShareObjectRequest(o, options) {
  * @param group The Group type
  */
 function getRoleValue(role, group) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, g1, g2, roleFilter, def;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (!(group !== undefined && group !== null)) return [3 /*break*/, 7];
-                    _a = group;
-                    switch (_a) {
-                        case RoleType.Contributor: return [3 /*break*/, 1];
-                        case RoleType.Reader: return [3 /*break*/, 3];
-                        case RoleType.Guest: return [3 /*break*/, 3];
-                    }
-                    return [3 /*break*/, 5];
-                case 1: return [4 /*yield*/, Web("_api/web", "associatedmembergroup").select("Id")()];
-                case 2:
-                    g1 = _b.sent();
-                    return [2 /*return*/, "group: " + g1.Id];
-                case 3: return [4 /*yield*/, Web("_api/web", "associatedvisitorgroup").select("Id")()];
-                case 4:
-                    g2 = _b.sent();
-                    return [2 /*return*/, "group: " + g2.Id];
-                case 5: throw Error("Could not determine role value for supplied value. Contributor, Reader, and Guest are supported");
-                case 6: return [3 /*break*/, 9];
-                case 7:
-                    roleFilter = role === SharingRole.Edit ? RoleType.Contributor : RoleType.Reader;
-                    return [4 /*yield*/, RoleDefinitions("_api/web").select("Id").top(1).filter("RoleTypeKind eq " + roleFilter)()];
-                case 8:
-                    def = _b.sent();
-                    if (def.length < 1) {
-                        throw Error("Could not locate associated role definition for supplied role. Edit and View are supported");
-                    }
-                    return [2 /*return*/, "role: " + def[0].Id];
-                case 9: return [2 /*return*/];
+    return __awaiter(this, void 0, void 0, function* () {
+        // we will give group precedence, because we had to make a choice
+        if (group !== undefined && group !== null) {
+            switch (group) {
+                case RoleType.Contributor: {
+                    const g1 = yield Web("_api/web", "associatedmembergroup").select("Id")();
+                    return `group: ${g1.Id}`;
+                }
+                case RoleType.Reader:
+                case RoleType.Guest: {
+                    const g2 = yield Web("_api/web", "associatedvisitorgroup").select("Id")();
+                    return `group: ${g2.Id}`;
+                }
+                default:
+                    throw Error("Could not determine role value for supplied value. Contributor, Reader, and Guest are supported");
             }
-        });
+        }
+        else {
+            const roleFilter = role === SharingRole.Edit ? RoleType.Contributor : RoleType.Reader;
+            const def = yield RoleDefinitions("_api/web").select("Id").top(1).filter(`RoleTypeKind eq ${roleFilter}`)();
+            if (def.length < 1) {
+                throw Error("Could not locate associated role definition for supplied role. Edit and View are supported");
+            }
+            return `role: ${def[0].Id}`;
+        }
     });
 }
 
@@ -13519,9 +11273,7 @@ function getRoleValue(role, group) {
 
 
 
-types_File.prototype.shareWith = function (loginNames, role, requireSignin, emailData) {
-    if (role === void 0) { role = SharingRole.View; }
-    if (requireSignin === void 0) { requireSignin = false; }
+types_File.prototype.shareWith = function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
     return shareWith(this, loginNames, role, requireSignin, false, emailData);
 };
 types_File.prototype.getShareLink = getShareLink;
@@ -13536,137 +11288,68 @@ types_File.prototype.unshareLink = unshareLink;
 
 
 
-types_Folder.prototype.shareWith = function (loginNames, role, requireSignin, shareEverything, emailData) {
-    if (role === void 0) { role = SharingRole.View; }
-    if (requireSignin === void 0) { requireSignin = false; }
-    if (shareEverything === void 0) { shareEverything = false; }
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.shareWith(loginNames, role, requireSignin, shareEverything, emailData)];
-            }
-        });
+types_Folder.prototype.shareWith = function (loginNames, role = SharingRole.View, requireSignin = false, shareEverything = false, emailData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.shareWith(loginNames, role, requireSignin, shareEverything, emailData);
     });
 };
-types_Folder.prototype.getShareLink = function (kind, expiration) {
-    if (expiration === void 0) { expiration = null; }
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.getShareLink(kind, expiration)];
-            }
-        });
+types_Folder.prototype.getShareLink = function (kind, expiration = null) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.getShareLink(kind, expiration);
     });
 };
 types_Folder.prototype.checkSharingPermissions = function (recipients) {
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.checkSharingPermissions(recipients)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.checkSharingPermissions(recipients);
     });
 };
 types_Folder.prototype.getSharingInformation = function (request, expands) {
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.getSharingInformation(request, expands)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.getSharingInformation(request, expands);
     });
 };
-types_Folder.prototype.getObjectSharingSettings = function (useSimplifiedRoles) {
-    if (useSimplifiedRoles === void 0) { useSimplifiedRoles = true; }
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.getObjectSharingSettings(useSimplifiedRoles)];
-            }
-        });
+types_Folder.prototype.getObjectSharingSettings = function (useSimplifiedRoles = true) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.getObjectSharingSettings(useSimplifiedRoles);
     });
 };
 types_Folder.prototype.unshare = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.unshare()];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.unshare();
     });
 };
 types_Folder.prototype.deleteSharingLinkByKind = function (kind) {
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.deleteSharingLinkByKind(kind)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.deleteSharingLinkByKind(kind);
     });
 };
 types_Folder.prototype.unshareLink = function (kind, shareId) {
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, shareable;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    return [4 /*yield*/, this.getShareable()];
-                case 1:
-                    shareable = _a.sent();
-                    dependency();
-                    return [2 /*return*/, shareable.unshareLink(kind, shareId)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        const shareable = yield this.getShareable();
+        dependency();
+        return shareable.unshareLink(kind, shareId);
     });
 };
 
@@ -13674,9 +11357,7 @@ types_Folder.prototype.unshareLink = function (kind, shareId) {
 
 
 
-types_Item.prototype.shareWith = function (loginNames, role, requireSignin, emailData) {
-    if (role === void 0) { role = SharingRole.View; }
-    if (requireSignin === void 0) { requireSignin = false; }
+types_Item.prototype.shareWith = function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
     return shareWith(this, loginNames, role, requireSignin, false, emailData);
 };
 types_Item.prototype.getShareLink = getShareLink;
@@ -13703,22 +11384,14 @@ types_Item.prototype.unshareLink = unshareLink;
  * @param role The role to share this web
  * @param emailData Optional email data
  */
-types_Web.prototype.shareWith = function (loginNames, role, emailData) {
-    if (role === void 0) { role = SharingRole.View; }
-    return __awaiter(this, void 0, void 0, function () {
-        var dependency, web, url;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dependency = this.addBatchDependency();
-                    web = new sharepointqueryable_SharePointQueryableInstance(extractWebUrl(this.toUrl()), "/_api/web/url");
-                    return [4 /*yield*/, web.get()];
-                case 1:
-                    url = _a.sent();
-                    dependency();
-                    return [2 /*return*/, this.shareObject(Object(common["combine"])(url, "/_layouts/15/aclinv.aspx?forSharing=1&mbypass=1"), loginNames, role, emailData)];
-            }
-        });
+types_Web.prototype.shareWith = function (loginNames, role = SharingRole.View, emailData) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const dependency = this.addBatchDependency();
+        // remove need to reference Web here, which created a circular build issue
+        const web = new sharepointqueryable_SharePointQueryableInstance(extractWebUrl(this.toUrl()), "/_api/web/url");
+        const url = yield web.get();
+        dependency();
+        return this.shareObject(combine(url, "/_layouts/15/aclinv.aspx?forSharing=1&mbypass=1"), loginNames, role, emailData);
     });
 };
 /**
@@ -13733,10 +11406,7 @@ types_Web.prototype.shareWith = function (loginNames, role, emailData) {
  * @param includeAnonymousLinkInEmail
  * @param useSimplifiedRoles
  */
-types_Web.prototype.shareObject = function (url, loginNames, role, emailData, group, propagateAcl, includeAnonymousLinkInEmail, useSimplifiedRoles) {
-    if (propagateAcl === void 0) { propagateAcl = false; }
-    if (includeAnonymousLinkInEmail === void 0) { includeAnonymousLinkInEmail = false; }
-    if (useSimplifiedRoles === void 0) { useSimplifiedRoles = true; }
+types_Web.prototype.shareObject = function (url, loginNames, role, emailData, group, propagateAcl = false, includeAnonymousLinkInEmail = false, useSimplifiedRoles = true) {
     return shareObject(this, {
         emailData: emailData,
         group: group,
@@ -13762,7 +11432,7 @@ types_Web.prototype.shareObjectRaw = function (options) {
  * @param options The set of options to send to ShareObject
  */
 types_Web.prototype.unshareObject = function (url) {
-    return spPost(Web(this, "unshareObject"), request_builders_body({ url: url }));
+    return spPost(Web(this, "unshareObject"), body({ url }));
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/index.js
@@ -13780,70 +11450,66 @@ types_Web.prototype.unshareObject = function (url) {
 
 
 
-var types_SiteDesigns = /** @class */ (function (_super) {
-    __extends(_SiteDesigns, _super);
-    function _SiteDesigns(baseUrl, methodName) {
-        if (methodName === void 0) { methodName = ""; }
-        var _this = this;
-        var url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
-        _this = _super.call(this, extractWebUrl(url), "_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility." + methodName) || this;
-        return _this;
+class types_SiteDesigns extends sharepointqueryable_SharePointQueryable {
+    constructor(baseUrl, methodName = "") {
+        const url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
+        super(extractWebUrl(url), `_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.${methodName}`);
     }
-    _SiteDesigns.prototype.execute = function (props) {
-        return spPost(this, request_builders_body(props, request_builders_headers({ "Content-Type": "application/json;charset=utf-8" })));
-    };
+    execute(props) {
+        return spPost(this, body(props, request_builders_headers({ "Content-Type": "application/json;charset=utf-8" })));
+    }
     /**
      * Creates a new site design available to users when they create a new site from the SharePoint home page.
      *
      * @param creationInfo A sitedesign creation information object
      */
-    _SiteDesigns.prototype.createSiteDesign = function (creationInfo) {
+    createSiteDesign(creationInfo) {
         return this.clone(SiteDesignsCloneFactory, "CreateSiteDesign").execute({ info: creationInfo });
-    };
+    }
     /**
      * Applies a site design to an existing site collection.
      *
      * @param siteDesignId The ID of the site design to apply.
      * @param webUrl The URL of the site collection where you want to apply the site design.
      */
-    _SiteDesigns.prototype.applySiteDesign = function (siteDesignId, webUrl) {
+    applySiteDesign(siteDesignId, webUrl) {
         return this.clone(SiteDesignsCloneFactory, "ApplySiteDesign").execute({ siteDesignId: siteDesignId, "webUrl": webUrl });
-    };
+    }
     /**
      * Gets the list of available site designs
      */
-    _SiteDesigns.prototype.getSiteDesigns = function () {
+    getSiteDesigns() {
         return this.clone(SiteDesignsCloneFactory, "GetSiteDesigns").execute({});
-    };
+    }
     /**
      * Gets information about a specific site design.
      * @param id The ID of the site design to get information about.
      */
-    _SiteDesigns.prototype.getSiteDesignMetadata = function (id) {
+    getSiteDesignMetadata(id) {
         return this.clone(SiteDesignsCloneFactory, "GetSiteDesignMetadata").execute({ id: id });
-    };
+    }
     /**
      * Updates a site design with new values. In the REST call, all parameters are optional except the site script Id.
      * If you had previously set the IsDefault parameter to TRUE and wish it to remain true, you must pass in this parameter again (otherwise it will be reset to FALSE).
      * @param updateInfo A sitedesign update information object
      */
-    _SiteDesigns.prototype.updateSiteDesign = function (updateInfo) {
+    updateSiteDesign(updateInfo) {
         return this.clone(SiteDesignsCloneFactory, "UpdateSiteDesign").execute({ updateInfo: updateInfo });
-    };
+    }
     /**
      * Deletes a site design.
      * @param id The ID of the site design to delete.
      */
-    _SiteDesigns.prototype.deleteSiteDesign = function (id) {
+    deleteSiteDesign(id) {
         return this.clone(SiteDesignsCloneFactory, "DeleteSiteDesign").execute({ id: id });
-    };
+    }
     /**
      * Gets a list of principals that have access to a site design.
      * @param id The ID of the site design to get rights information from.
      */
-    _SiteDesigns.prototype.getSiteDesignRights = function (id) {
+    getSiteDesignRights(id) {
         return this.clone(SiteDesignsCloneFactory, "GetSiteDesignRights").execute({ id: id });
-    };
+    }
     /**
      * Grants access to a site design for one or more principals.
      * @param id The ID of the site design to grant rights on.
@@ -13851,131 +11517,118 @@ var types_SiteDesigns = /** @class */ (function (_super) {
      *                       Principals can be users or mail-enabled security groups in the form of "alias" or "alias@<domain name>.com"
      * @param grantedRights Always set to 1. This represents the View right.
      */
-    _SiteDesigns.prototype.grantSiteDesignRights = function (id, principalNames, grantedRights) {
-        if (grantedRights === void 0) { grantedRights = 1; }
+    grantSiteDesignRights(id, principalNames, grantedRights = 1) {
         return this.clone(SiteDesignsCloneFactory, "GrantSiteDesignRights")
             .execute({
             "grantedRights": grantedRights.toString(),
             "id": id,
             "principalNames": principalNames,
         });
-    };
+    }
     /**
      * Revokes access from a site design for one or more principals.
      * @param id The ID of the site design to revoke rights from.
      * @param principalNames An array of one or more principals to revoke view rights from.
      *                       If all principals have rights revoked on the site design, the site design becomes viewable to everyone.
      */
-    _SiteDesigns.prototype.revokeSiteDesignRights = function (id, principalNames) {
+    revokeSiteDesignRights(id, principalNames) {
         return this.clone(SiteDesignsCloneFactory, "RevokeSiteDesignRights")
             .execute({
             "id": id,
             "principalNames": principalNames,
         });
-    };
+    }
     /**
      * Adds a site design task on the specified web url to be invoked asynchronously.
      * @param webUrl The absolute url of the web on where to create the task
      * @param siteDesignId The ID of the site design to create a task for
      */
-    _SiteDesigns.prototype.addSiteDesignTask = function (webUrl, siteDesignId) {
+    addSiteDesignTask(webUrl, siteDesignId) {
         return this.clone(SiteDesignsCloneFactory, "AddSiteDesignTask")
             .execute({ "webUrl": webUrl, "siteDesignId": siteDesignId });
-    };
+    }
     /**
      * Adds a site design task on the current web to be invoked asynchronously.
      * @param siteDesignId The ID of the site design to create a task for
      */
-    _SiteDesigns.prototype.addSiteDesignTaskToCurrentWeb = function (siteDesignId) {
+    addSiteDesignTaskToCurrentWeb(siteDesignId) {
         return this.clone(SiteDesignsCloneFactory, "AddSiteDesignTaskToCurrentWeb")
             .execute({ "siteDesignId": siteDesignId });
-    };
+    }
     /**
      * Retrieves the site design task, if the task has finished running null will be returned
      * @param id The ID of the site design task
      */
-    _SiteDesigns.prototype.getSiteDesignTask = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var task;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(SiteDesignsCloneFactory, "GetSiteDesignTask")
-                            .execute({ "taskId": id })];
-                    case 1:
-                        task = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(task, "ID") ? task : null];
-                }
-            });
+    getSiteDesignTask(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const task = yield this.clone(SiteDesignsCloneFactory, "GetSiteDesignTask")
+                .execute({ "taskId": id });
+            return hOP(task, "ID") ? task : null;
         });
-    };
+    }
     /**
      * Retrieves a list of site design that have run on a specific web
      * @param webUrl The url of the web where the site design was applied
      * @param siteDesignId (Optional) the site design ID, if not provided will return all site design runs
      */
-    _SiteDesigns.prototype.getSiteDesignRun = function (webUrl, siteDesignId) {
+    getSiteDesignRun(webUrl, siteDesignId) {
         return this.clone(SiteDesignsCloneFactory, "GetSiteDesignRun")
             .execute({ "webUrl": webUrl, siteDesignId: siteDesignId });
-    };
+    }
     /**
      * Retrieves the status of a site design that has been run or is still running
      * @param webUrl The url of the web where the site design was applied
      * @param runId the run ID
      */
-    _SiteDesigns.prototype.getSiteDesignRunStatus = function (webUrl, runId) {
+    getSiteDesignRunStatus(webUrl, runId) {
         return this.clone(SiteDesignsCloneFactory, "GetSiteDesignRunStatus")
             .execute({ "webUrl": webUrl, runId: runId });
-    };
-    __decorate([
-        tag("sd.createSiteDesign")
-    ], _SiteDesigns.prototype, "createSiteDesign", null);
-    __decorate([
-        tag("sd.applySiteDesign")
-    ], _SiteDesigns.prototype, "applySiteDesign", null);
-    __decorate([
-        tag("sd.getSiteDesigns")
-    ], _SiteDesigns.prototype, "getSiteDesigns", null);
-    __decorate([
-        tag("sd.getSiteDesignMetadata")
-    ], _SiteDesigns.prototype, "getSiteDesignMetadata", null);
-    __decorate([
-        tag("sd.updateSiteDesign")
-    ], _SiteDesigns.prototype, "updateSiteDesign", null);
-    __decorate([
-        tag("sd.deleteSiteDesign")
-    ], _SiteDesigns.prototype, "deleteSiteDesign", null);
-    __decorate([
-        tag("sd.getSiteDesignRights")
-    ], _SiteDesigns.prototype, "getSiteDesignRights", null);
-    __decorate([
-        tag("sd.grantSiteDesignRights")
-    ], _SiteDesigns.prototype, "grantSiteDesignRights", null);
-    __decorate([
-        tag("sd.revokeSiteDesignRights")
-    ], _SiteDesigns.prototype, "revokeSiteDesignRights", null);
-    __decorate([
-        tag("sd.addSiteDesignTask")
-    ], _SiteDesigns.prototype, "addSiteDesignTask", null);
-    __decorate([
-        tag("sd.addSiteDesignTaskToCurrentWeb")
-    ], _SiteDesigns.prototype, "addSiteDesignTaskToCurrentWeb", null);
-    __decorate([
-        tag("sd.getSiteDesignTask")
-    ], _SiteDesigns.prototype, "getSiteDesignTask", null);
-    __decorate([
-        tag("sd.getSiteDesignRun")
-    ], _SiteDesigns.prototype, "getSiteDesignRun", null);
-    __decorate([
-        tag("sd.getSiteDesignRunStatus")
-    ], _SiteDesigns.prototype, "getSiteDesignRunStatus", null);
-    return _SiteDesigns;
-}(sharepointqueryable_SharePointQueryable));
-
-var SiteDesigns = function (baseUrl, methodName) { return new types_SiteDesigns(baseUrl, methodName); };
-var SiteDesignsCloneFactory = function (baseUrl, methodName) {
-    if (methodName === void 0) { methodName = ""; }
-    return SiteDesigns(baseUrl, methodName);
-};
+    }
+}
+__decorate([
+    tag("sd.createSiteDesign")
+], types_SiteDesigns.prototype, "createSiteDesign", null);
+__decorate([
+    tag("sd.applySiteDesign")
+], types_SiteDesigns.prototype, "applySiteDesign", null);
+__decorate([
+    tag("sd.getSiteDesigns")
+], types_SiteDesigns.prototype, "getSiteDesigns", null);
+__decorate([
+    tag("sd.getSiteDesignMetadata")
+], types_SiteDesigns.prototype, "getSiteDesignMetadata", null);
+__decorate([
+    tag("sd.updateSiteDesign")
+], types_SiteDesigns.prototype, "updateSiteDesign", null);
+__decorate([
+    tag("sd.deleteSiteDesign")
+], types_SiteDesigns.prototype, "deleteSiteDesign", null);
+__decorate([
+    tag("sd.getSiteDesignRights")
+], types_SiteDesigns.prototype, "getSiteDesignRights", null);
+__decorate([
+    tag("sd.grantSiteDesignRights")
+], types_SiteDesigns.prototype, "grantSiteDesignRights", null);
+__decorate([
+    tag("sd.revokeSiteDesignRights")
+], types_SiteDesigns.prototype, "revokeSiteDesignRights", null);
+__decorate([
+    tag("sd.addSiteDesignTask")
+], types_SiteDesigns.prototype, "addSiteDesignTask", null);
+__decorate([
+    tag("sd.addSiteDesignTaskToCurrentWeb")
+], types_SiteDesigns.prototype, "addSiteDesignTaskToCurrentWeb", null);
+__decorate([
+    tag("sd.getSiteDesignTask")
+], types_SiteDesigns.prototype, "getSiteDesignTask", null);
+__decorate([
+    tag("sd.getSiteDesignRun")
+], types_SiteDesigns.prototype, "getSiteDesignRun", null);
+__decorate([
+    tag("sd.getSiteDesignRunStatus")
+], types_SiteDesigns.prototype, "getSiteDesignRunStatus", null);
+const SiteDesigns = (baseUrl, methodName) => new types_SiteDesigns(baseUrl, methodName);
+const SiteDesignsCloneFactory = (baseUrl, methodName = "") => SiteDesigns(baseUrl, methodName);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/web.js
 
@@ -13999,7 +11652,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "siteDesigns", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return SiteDesigns(this._baseUrl);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return SiteDesigns(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -14015,23 +11670,14 @@ addProp(types_Web, "siteGroups", SiteGroups);
 addProp(types_Web, "associatedOwnerGroup", SiteGroups, "associatedownergroup");
 addProp(types_Web, "associatedMemberGroup", SiteGroups, "associatedmembergroup");
 addProp(types_Web, "associatedVisitorGroup", SiteGroups, "associatedvisitorgroup");
-types_Web.prototype.createDefaultAssociatedGroups = function (groupNameSeed, siteOwner, copyRoleAssignments, clearSubscopes, siteOwner2) {
-    if (copyRoleAssignments === void 0) { copyRoleAssignments = false; }
-    if (clearSubscopes === void 0) { clearSubscopes = true; }
-    return __awaiter(this, void 0, void 0, function () {
-        var q;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.breakRoleInheritance(copyRoleAssignments, clearSubscopes)];
-                case 1:
-                    _a.sent();
-                    q = this.clone(Web, "createDefaultAssociatedGroups(userLogin=@u,userLogin2=@v,groupNameSeed=@s)");
-                    q.query.set("@u", "'" + escapeQueryStrValue(siteOwner || "") + "'");
-                    q.query.set("@v", "'" + escapeQueryStrValue(siteOwner2 || "") + "'");
-                    q.query.set("@s", "'" + escapeQueryStrValue(groupNameSeed || "") + "'");
-                    return [2 /*return*/, spPost(q)];
-            }
-        });
+types_Web.prototype.createDefaultAssociatedGroups = function (groupNameSeed, siteOwner, copyRoleAssignments = false, clearSubscopes = true, siteOwner2) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield this.breakRoleInheritance(copyRoleAssignments, clearSubscopes);
+        const q = this.clone(Web, "createDefaultAssociatedGroups(userLogin=@u,userLogin2=@v,groupNameSeed=@s)");
+        q.query.set("@u", `'${escapeQueryStrValue(siteOwner || "")}'`);
+        q.query.set("@v", `'${escapeQueryStrValue(siteOwner2 || "")}'`);
+        q.query.set("@s", `'${escapeQueryStrValue(groupNameSeed || "")}'`);
+        return spPost(q);
     });
 };
 
@@ -14047,50 +11693,46 @@ types_Web.prototype.createDefaultAssociatedGroups = function (groupNameSeed, sit
 
 
 
-var types_SiteScripts = /** @class */ (function (_super) {
-    __extends(_SiteScripts, _super);
-    function _SiteScripts(baseUrl, methodName) {
-        if (methodName === void 0) { methodName = ""; }
-        var _this = this;
-        var url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
-        _this = _super.call(this, extractWebUrl(url), "_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility." + methodName) || this;
-        return _this;
+class types_SiteScripts extends sharepointqueryable_SharePointQueryable {
+    constructor(baseUrl, methodName = "") {
+        const url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
+        super(extractWebUrl(url), `_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.${methodName}`);
     }
-    _SiteScripts.prototype.execute = function (props) {
-        return spPost(this, request_builders_body(props));
-    };
+    execute(props) {
+        return spPost(this, body(props));
+    }
     /**
      * Gets a list of information on all existing site scripts.
      */
-    _SiteScripts.prototype.getSiteScripts = function () {
+    getSiteScripts() {
         return this.clone(SiteScriptsCloneFactory, "GetSiteScripts", true).execute({});
-    };
+    }
     /**
      * Creates a new site script.
      *
      * @param title The display name of the site script.
      * @param content JSON value that describes the script. For more information, see JSON reference.
      */
-    _SiteScripts.prototype.createSiteScript = function (title, description, content) {
-        return this.clone(SiteScriptsCloneFactory, "CreateSiteScript(Title=@title,Description=@desc)?@title='" + escapeQueryStrValue(title) + "'&@desc='" + escapeQueryStrValue(description) + "'")
+    createSiteScript(title, description, content) {
+        return this.clone(SiteScriptsCloneFactory, `CreateSiteScript(Title=@title,Description=@desc)?@title='${escapeQueryStrValue(title)}'&@desc='${escapeQueryStrValue(description)}'`)
             .execute(content);
-    };
+    }
     /**
      * Gets information about a specific site script. It also returns the JSON of the script.
      *
      * @param id The ID of the site script to get information about.
      */
-    _SiteScripts.prototype.getSiteScriptMetadata = function (id) {
-        return this.clone(SiteScriptsCloneFactory, "GetSiteScriptMetadata").execute({ id: id });
-    };
+    getSiteScriptMetadata(id) {
+        return this.clone(SiteScriptsCloneFactory, "GetSiteScriptMetadata").execute({ id });
+    }
     /**
      * Deletes a site script.
      *
      * @param id The ID of the site script to delete.
      */
-    _SiteScripts.prototype.deleteSiteScript = function (id) {
-        return this.clone(SiteScriptsCloneFactory, "DeleteSiteScript").execute({ id: id });
-    };
+    deleteSiteScript(id) {
+        return this.clone(SiteScriptsCloneFactory, "DeleteSiteScript").execute({ id });
+    }
     /**
      * Updates a site script with new values. In the REST call, all parameters are optional except the site script Id.
      *
@@ -14098,68 +11740,63 @@ var types_SiteScripts = /** @class */ (function (_super) {
      *                             Make sure you stringify the content object or pass it in the second 'content' parameter
      * @param content (Optional) A new JSON script defining the script actions. For more information, see Site design JSON schema.
      */
-    _SiteScripts.prototype.updateSiteScript = function (updateInfo, content) {
+    updateSiteScript(updateInfo, content) {
         if (content) {
             updateInfo.Content = JSON.stringify(content);
         }
-        return this.clone(SiteScriptsCloneFactory, "UpdateSiteScript").execute({ updateInfo: updateInfo });
-    };
+        return this.clone(SiteScriptsCloneFactory, "UpdateSiteScript").execute({ updateInfo });
+    }
     /**
      * Gets the site script syntax (JSON) for a specific list
      * @param listUrl The absolute url of the list to retrieve site script
      */
-    _SiteScripts.prototype.getSiteScriptFromList = function (listUrl) {
-        return this.clone(SiteScriptsCloneFactory, "GetSiteScriptFromList").execute({ listUrl: listUrl });
-    };
+    getSiteScriptFromList(listUrl) {
+        return this.clone(SiteScriptsCloneFactory, "GetSiteScriptFromList").execute({ listUrl });
+    }
     /**
      * Gets the site script syntax (JSON) for a specific web
      * @param webUrl The absolute url of the web to retrieve site script
      * @param extractInfo configuration object to specify what to extract
      */
-    _SiteScripts.prototype.getSiteScriptFromWeb = function (webUrl, info) {
-        return this.clone(SiteScriptsCloneFactory, "getSiteScriptFromWeb").execute({ webUrl: webUrl, info: info });
-    };
+    getSiteScriptFromWeb(webUrl, info) {
+        return this.clone(SiteScriptsCloneFactory, "getSiteScriptFromWeb").execute({ webUrl, info });
+    }
     /**
      * Executes the indicated site design action on the indicated web.
      *
      * @param webUrl The absolute url of the web to retrieve site script
      * @param extractInfo configuration object to specify what to extract
      */
-    _SiteScripts.prototype.executeSiteScriptAction = function (actionDefinition) {
-        return this.clone(SiteScriptsCloneFactory, "executeSiteScriptAction").execute({ actionDefinition: actionDefinition });
-    };
-    __decorate([
-        tag("ss.getSiteScripts")
-    ], _SiteScripts.prototype, "getSiteScripts", null);
-    __decorate([
-        tag("ss.createSiteScript")
-    ], _SiteScripts.prototype, "createSiteScript", null);
-    __decorate([
-        tag("ss.getSiteScriptMetadata")
-    ], _SiteScripts.prototype, "getSiteScriptMetadata", null);
-    __decorate([
-        tag("ss.deleteSiteScript")
-    ], _SiteScripts.prototype, "deleteSiteScript", null);
-    __decorate([
-        tag("ss.updateSiteScript")
-    ], _SiteScripts.prototype, "updateSiteScript", null);
-    __decorate([
-        tag("ss.getSiteScriptFromList")
-    ], _SiteScripts.prototype, "getSiteScriptFromList", null);
-    __decorate([
-        tag("ss.getSiteScriptFromWeb")
-    ], _SiteScripts.prototype, "getSiteScriptFromWeb", null);
-    __decorate([
-        tag("ss.executeSiteScriptAction")
-    ], _SiteScripts.prototype, "executeSiteScriptAction", null);
-    return _SiteScripts;
-}(sharepointqueryable_SharePointQueryable));
-
-var SiteScripts = function (baseUrl, methodName) { return new types_SiteScripts(baseUrl, methodName); };
-var SiteScriptsCloneFactory = function (baseUrl, methodName) {
-    if (methodName === void 0) { methodName = ""; }
-    return SiteScripts(baseUrl, methodName);
-};
+    executeSiteScriptAction(actionDefinition) {
+        return this.clone(SiteScriptsCloneFactory, "executeSiteScriptAction").execute({ actionDefinition });
+    }
+}
+__decorate([
+    tag("ss.getSiteScripts")
+], types_SiteScripts.prototype, "getSiteScripts", null);
+__decorate([
+    tag("ss.createSiteScript")
+], types_SiteScripts.prototype, "createSiteScript", null);
+__decorate([
+    tag("ss.getSiteScriptMetadata")
+], types_SiteScripts.prototype, "getSiteScriptMetadata", null);
+__decorate([
+    tag("ss.deleteSiteScript")
+], types_SiteScripts.prototype, "deleteSiteScript", null);
+__decorate([
+    tag("ss.updateSiteScript")
+], types_SiteScripts.prototype, "updateSiteScript", null);
+__decorate([
+    tag("ss.getSiteScriptFromList")
+], types_SiteScripts.prototype, "getSiteScriptFromList", null);
+__decorate([
+    tag("ss.getSiteScriptFromWeb")
+], types_SiteScripts.prototype, "getSiteScriptFromWeb", null);
+__decorate([
+    tag("ss.executeSiteScriptAction")
+], types_SiteScripts.prototype, "executeSiteScriptAction", null);
+const SiteScripts = (baseUrl, methodName) => new types_SiteScripts(baseUrl, methodName);
+const SiteScriptsCloneFactory = (baseUrl, methodName = "") => SiteScripts(baseUrl, methodName);
 var SiteScriptActionOutcome;
 (function (SiteScriptActionOutcome) {
     /**
@@ -14198,20 +11835,11 @@ types_Web.prototype.getSiteScript = function (extractInfo) {
 
 
 types_List.prototype.getSiteScript = function () {
-    return __awaiter(this, void 0, void 0, function () {
-        var rootFolder, web, absoluteListUrl;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, this.clone(List).rootFolder.get()];
-                case 1:
-                    rootFolder = _a.sent();
-                    return [4 /*yield*/, Web(extractWebUrl(this.toUrl())).select("Url").get()];
-                case 2:
-                    web = _a.sent();
-                    absoluteListUrl = Object(common["combine"])(web.Url, "Lists", rootFolder.Name);
-                    return [2 /*return*/, SiteScripts(this, "").getSiteScriptFromList(absoluteListUrl)];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const rootFolder = yield this.clone(List).rootFolder.get();
+        const web = yield Web(extractWebUrl(this.toUrl())).select("Url").get();
+        const absoluteListUrl = combine(web.Url, "Lists", rootFolder.Name);
+        return SiteScripts(this, "").getSiteScriptFromList(absoluteListUrl);
     });
 };
 
@@ -14225,7 +11853,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "siteScripts", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return SiteScripts(this._baseUrl);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return SiteScripts(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -14239,23 +11869,16 @@ Reflect.defineProperty(rest_SPRest.prototype, "siteScripts", {
 addProp(types_Web, "siteUsers", SiteUsers);
 addProp(types_Web, "currentUser", SiteUser, "currentuser");
 types_Web.prototype.ensureUser = function (logonName) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, spPost(this.clone(Web, "ensureuser"), request_builders_body({ logonName: logonName }))];
-                case 1:
-                    data = _a.sent();
-                    return [2 /*return*/, {
-                            data: data,
-                            user: SiteUser(odataUrlFrom(data)),
-                        }];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield spPost(this.clone(Web, "ensureuser"), body({ logonName }));
+        return {
+            data,
+            user: SiteUser(odataUrlFrom(data)),
+        };
     });
 };
 types_Web.prototype.getUserById = function (id) {
-    return SiteUser(this, "getUserById(" + id + ")");
+    return SiteUser(this, `getUserById(${id})`);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/index.js
@@ -14271,190 +11894,119 @@ types_Web.prototype.getUserById = function (id) {
 
 
 
-var types_Social = /** @class */ (function (_super) {
-    __extends(_Social, _super);
-    function _Social() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_Social = class _Social extends sharepointqueryable_SharePointQueryableInstance {
+    get my() {
+        return MySocial(this);
     }
-    Object.defineProperty(_Social.prototype, "my", {
-        get: function () {
-            return MySocial(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Social.prototype.getFollowedSitesUri = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(SocialCloneFactory, "FollowedSitesUri").get()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, r.FollowedSitesUri || r];
-                }
-            });
+    getFollowedSitesUri() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(SocialCloneFactory, "FollowedSitesUri").get();
+            return r.FollowedSitesUri || r;
         });
-    };
-    _Social.prototype.getFollowedDocumentsUri = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(SocialCloneFactory, "FollowedDocumentsUri").get()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, r.FollowedDocumentsUri || r];
-                }
-            });
+    }
+    getFollowedDocumentsUri() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(SocialCloneFactory, "FollowedDocumentsUri").get();
+            return r.FollowedDocumentsUri || r;
         });
-    };
-    _Social.prototype.follow = function (actorInfo) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(SocialCloneFactory, "follow"), this.createSocialActorInfoRequestBody(actorInfo))];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
+    }
+    follow(actorInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield spPost(this.clone(SocialCloneFactory, "follow"), this.createSocialActorInfoRequestBody(actorInfo));
         });
-    };
-    _Social.prototype.isFollowed = function (actorInfo) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(SocialCloneFactory, "isfollowed"), this.createSocialActorInfoRequestBody(actorInfo))];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
+    }
+    isFollowed(actorInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield spPost(this.clone(SocialCloneFactory, "isfollowed"), this.createSocialActorInfoRequestBody(actorInfo));
         });
-    };
-    _Social.prototype.stopFollowing = function (actorInfo) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, spPost(this.clone(SocialCloneFactory, "stopfollowing"), this.createSocialActorInfoRequestBody(actorInfo))];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
+    }
+    stopFollowing(actorInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield spPost(this.clone(SocialCloneFactory, "stopfollowing"), this.createSocialActorInfoRequestBody(actorInfo));
         });
-    };
-    _Social.prototype.createSocialActorInfoRequestBody = function (actorInfo) {
-        return request_builders_body({
+    }
+    createSocialActorInfoRequestBody(actorInfo) {
+        return body({
             "actor": Object.assign(metadata("SP.Social.SocialActorInfo"), {
                 Id: null,
             }, actorInfo),
         });
-    };
-    __decorate([
-        tag("soc.getFollowedSitesUri")
-    ], _Social.prototype, "getFollowedSitesUri", null);
-    __decorate([
-        tag("soc.getFollowedDocumentsUri")
-    ], _Social.prototype, "getFollowedDocumentsUri", null);
-    __decorate([
-        tag("soc.follow")
-    ], _Social.prototype, "follow", null);
-    __decorate([
-        tag("soc.isFollowed")
-    ], _Social.prototype, "isFollowed", null);
-    __decorate([
-        tag("soc.stopFollowing")
-    ], _Social.prototype, "stopFollowing", null);
-    _Social = __decorate([
-        defaultPath("_api/social.following")
-    ], _Social);
-    return _Social;
-}(sharepointqueryable_SharePointQueryableInstance));
+    }
+};
+__decorate([
+    tag("soc.getFollowedSitesUri")
+], types_Social.prototype, "getFollowedSitesUri", null);
+__decorate([
+    tag("soc.getFollowedDocumentsUri")
+], types_Social.prototype, "getFollowedDocumentsUri", null);
+__decorate([
+    tag("soc.follow")
+], types_Social.prototype, "follow", null);
+__decorate([
+    tag("soc.isFollowed")
+], types_Social.prototype, "isFollowed", null);
+__decorate([
+    tag("soc.stopFollowing")
+], types_Social.prototype, "stopFollowing", null);
+types_Social = __decorate([
+    defaultPath("_api/social.following")
+], types_Social);
 
 /**
  * Get a new Social instance for the particular Url
  */
-var Social = function (baseUrl) { return new types_Social(baseUrl); };
-var SocialCloneFactory = function (baseUrl, paths) { return new types_Social(baseUrl, paths); };
+const Social = (baseUrl) => new types_Social(baseUrl);
+const SocialCloneFactory = (baseUrl, paths) => new types_Social(baseUrl, paths);
 /**
  * Current user's Social instance
  */
-var types_MySocial = /** @class */ (function (_super) {
-    __extends(_MySocial, _super);
-    function _MySocial() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_MySocial = class _MySocial extends sharepointqueryable_SharePointQueryableInstance {
+    followed(types) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(MySocialCloneFactory, `followed(types=${types})`)();
+            return hOP(r, "Followed") ? r.Followed.results : r;
+        });
     }
-    _MySocial.prototype.followed = function (types) {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(MySocialCloneFactory, "followed(types=" + types + ")")()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(r, "Followed") ? r.Followed.results : r];
-                }
-            });
+    followedCount(types) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(MySocialCloneFactory, `followedcount(types=${types})`)();
+            return r.FollowedCount || r;
         });
-    };
-    _MySocial.prototype.followedCount = function (types) {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(MySocialCloneFactory, "followedcount(types=" + types + ")")()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, r.FollowedCount || r];
-                }
-            });
+    }
+    followers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(MySocialCloneFactory, "followers")();
+            return hOP(r, "Followers") ? r.Followers.results : r;
         });
-    };
-    _MySocial.prototype.followers = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(MySocialCloneFactory, "followers")()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(r, "Followers") ? r.Followers.results : r];
-                }
-            });
+    }
+    suggestions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.clone(MySocialCloneFactory, "suggestions")();
+            return hOP(r, "Suggestions") ? r.Suggestions.results : r;
         });
-    };
-    _MySocial.prototype.suggestions = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var r;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.clone(MySocialCloneFactory, "suggestions")()];
-                    case 1:
-                        r = _a.sent();
-                        return [2 /*return*/, Object(common["hOP"])(r, "Suggestions") ? r.Suggestions.results : r];
-                }
-            });
-        });
-    };
-    __decorate([
-        tag("msoc.followed")
-    ], _MySocial.prototype, "followed", null);
-    __decorate([
-        tag("msoc.followedCount")
-    ], _MySocial.prototype, "followedCount", null);
-    __decorate([
-        tag("msoc.followers")
-    ], _MySocial.prototype, "followers", null);
-    __decorate([
-        tag("msoc.suggestions")
-    ], _MySocial.prototype, "suggestions", null);
-    _MySocial = __decorate([
-        defaultPath("my")
-    ], _MySocial);
-    return _MySocial;
-}(sharepointqueryable_SharePointQueryableInstance));
+    }
+};
+__decorate([
+    tag("msoc.followed")
+], types_MySocial.prototype, "followed", null);
+__decorate([
+    tag("msoc.followedCount")
+], types_MySocial.prototype, "followedCount", null);
+__decorate([
+    tag("msoc.followers")
+], types_MySocial.prototype, "followers", null);
+__decorate([
+    tag("msoc.suggestions")
+], types_MySocial.prototype, "suggestions", null);
+types_MySocial = __decorate([
+    defaultPath("my")
+], types_MySocial);
 
 /**
  * Invokable factory for IMySocial instances
  */
-var MySocial = spInvokableFactory(types_MySocial);
-var MySocialCloneFactory = function (baseUrl, path) { return MySocial(baseUrl, path); };
+const MySocial = spInvokableFactory(types_MySocial);
+const MySocialCloneFactory = (baseUrl, path) => MySocial(baseUrl, path);
 /**
  * Social actor type
  *
@@ -14470,7 +12022,7 @@ var SocialActorType;
  * Social actor type
  *
  */
-/* tslint:disable:no-bitwise */
+/* eslint-disable no-bitwise */
 var SocialActorTypes;
 (function (SocialActorTypes) {
     SocialActorTypes[SocialActorTypes["None"] = 0] = "None";
@@ -14479,19 +12031,19 @@ var SocialActorTypes;
     SocialActorTypes[SocialActorTypes["Site"] = 4] = "Site";
     SocialActorTypes[SocialActorTypes["Tag"] = 8] = "Tag";
     /**
-     * The set excludes documents and sites that do not have feeds.
-     */
+   * The set excludes documents and sites that do not have feeds.
+   */
     SocialActorTypes[SocialActorTypes["ExcludeContentWithoutFeeds"] = 268435456] = "ExcludeContentWithoutFeeds";
     /**
-     * The set includes group sites
-     */
+   * The set includes group sites
+   */
     SocialActorTypes[SocialActorTypes["IncludeGroupsSites"] = 536870912] = "IncludeGroupsSites";
     /**
-     * The set includes only items created within the last 24 hours
-     */
+   * The set includes only items created within the last 24 hours
+   */
     SocialActorTypes[SocialActorTypes["WithinLast24Hours"] = 1073741824] = "WithinLast24Hours";
 })(SocialActorTypes || (SocialActorTypes = {}));
-/* tslint:enable */
+/* eslint-enable no-bitwise */
 /**
  * Result from following
  *
@@ -14509,80 +12061,80 @@ var SocialFollowResult;
 var SocialStatusCode;
 (function (SocialStatusCode) {
     /**
-     * The operation completed successfully
-     */
+   * The operation completed successfully
+   */
     SocialStatusCode[SocialStatusCode["OK"] = 0] = "OK";
     /**
-     * The request is invalid.
-     */
+   * The request is invalid.
+   */
     SocialStatusCode[SocialStatusCode["InvalidRequest"] = 1] = "InvalidRequest";
     /**
-     *  The current user is not authorized to perform the operation.
-     */
+   *  The current user is not authorized to perform the operation.
+   */
     SocialStatusCode[SocialStatusCode["AccessDenied"] = 2] = "AccessDenied";
     /**
-     * The target of the operation was not found.
-     */
+   * The target of the operation was not found.
+   */
     SocialStatusCode[SocialStatusCode["ItemNotFound"] = 3] = "ItemNotFound";
     /**
-     * The operation is invalid for the target's current state.
-     */
+   * The operation is invalid for the target's current state.
+   */
     SocialStatusCode[SocialStatusCode["InvalidOperation"] = 4] = "InvalidOperation";
     /**
-     * The operation completed without modifying the target.
-     */
+   * The operation completed without modifying the target.
+   */
     SocialStatusCode[SocialStatusCode["ItemNotModified"] = 5] = "ItemNotModified";
     /**
-     * The operation failed because an internal error occurred.
-     */
+   * The operation failed because an internal error occurred.
+   */
     SocialStatusCode[SocialStatusCode["InternalError"] = 6] = "InternalError";
     /**
-     * The operation failed because the server could not access the distributed cache.
-     */
+   * The operation failed because the server could not access the distributed cache.
+   */
     SocialStatusCode[SocialStatusCode["CacheReadError"] = 7] = "CacheReadError";
     /**
-     * The operation succeeded but the server could not update the distributed cache.
-     */
+   * The operation succeeded but the server could not update the distributed cache.
+   */
     SocialStatusCode[SocialStatusCode["CacheUpdateError"] = 8] = "CacheUpdateError";
     /**
-     * No personal site exists for the current user, and no further information is available.
-     */
+   * No personal site exists for the current user, and no further information is available.
+   */
     SocialStatusCode[SocialStatusCode["PersonalSiteNotFound"] = 9] = "PersonalSiteNotFound";
     /**
-     * No personal site exists for the current user, and a previous attempt to create one failed.
-     */
+   * No personal site exists for the current user, and a previous attempt to create one failed.
+   */
     SocialStatusCode[SocialStatusCode["FailedToCreatePersonalSite"] = 10] = "FailedToCreatePersonalSite";
     /**
-     * No personal site exists for the current user, and a previous attempt to create one was not authorized.
-     */
+   * No personal site exists for the current user, and a previous attempt to create one was not authorized.
+   */
     SocialStatusCode[SocialStatusCode["NotAuthorizedToCreatePersonalSite"] = 11] = "NotAuthorizedToCreatePersonalSite";
     /**
-     * No personal site exists for the current user, and no attempt should be made to create one.
-     */
+   * No personal site exists for the current user, and no attempt should be made to create one.
+   */
     SocialStatusCode[SocialStatusCode["CannotCreatePersonalSite"] = 12] = "CannotCreatePersonalSite";
     /**
-     * The operation was rejected because an internal limit had been reached.
-     */
+   * The operation was rejected because an internal limit had been reached.
+   */
     SocialStatusCode[SocialStatusCode["LimitReached"] = 13] = "LimitReached";
     /**
-     * The operation failed because an error occurred during the processing of the specified attachment.
-     */
+   * The operation failed because an error occurred during the processing of the specified attachment.
+   */
     SocialStatusCode[SocialStatusCode["AttachmentError"] = 14] = "AttachmentError";
     /**
-     * The operation succeeded with recoverable errors; the returned data is incomplete.
-     */
+   * The operation succeeded with recoverable errors; the returned data is incomplete.
+   */
     SocialStatusCode[SocialStatusCode["PartialData"] = 15] = "PartialData";
     /**
-     * A required SharePoint feature is not enabled.
-     */
+   * A required SharePoint feature is not enabled.
+   */
     SocialStatusCode[SocialStatusCode["FeatureDisabled"] = 16] = "FeatureDisabled";
     /**
-     * The site's storage quota has been exceeded.
-     */
+   * The site's storage quota has been exceeded.
+   */
     SocialStatusCode[SocialStatusCode["StorageQuotaExceeded"] = 17] = "StorageQuotaExceeded";
     /**
-     * The operation failed because the server could not access the database.
-     */
+   * The operation failed because the server could not access the database.
+   */
     SocialStatusCode[SocialStatusCode["DatabaseError"] = 18] = "DatabaseError";
 })(SocialStatusCode || (SocialStatusCode = {}));
 
@@ -14594,7 +12146,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "social", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return Social(this._baseUrl);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return Social(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -14607,12 +12161,12 @@ Reflect.defineProperty(rest_SPRest.prototype, "social", {
  * @param obj The plain object defining the properties
  */
 function objectToSPKeyValueCollection(obj) {
-    return Object(common["assign"])(metadata("Collection(SP.KeyValue)"), {
-        results: Object.keys(obj).map(function (key) { return Object(common["assign"])(metadata("SP.KeyValue"), {
+    return util_assign(metadata("Collection(SP.KeyValue)"), {
+        results: Object.keys(obj).map(key => util_assign(metadata("SP.KeyValue"), {
             Key: key,
             Value: Reflect.get(obj, key),
             ValueType: "Edm.String",
-        }); }),
+        })),
     });
 }
 
@@ -14628,113 +12182,98 @@ function objectToSPKeyValueCollection(obj) {
 
 
 
-var types_Utilities = /** @class */ (function (_super) {
-    __extends(_Utilities, _super);
-    function _Utilities(baseUrl, methodName) {
-        var _this = this;
-        var url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
-        _this = _super.call(this, extractWebUrl(url), "_api/SP.Utilities.Utility." + methodName) || this;
-        return _this;
+class types_Utilities extends sharepointqueryable_SharePointQueryable {
+    constructor(baseUrl, methodName) {
+        const url = typeof baseUrl === "string" ? baseUrl : baseUrl.toUrl();
+        super(extractWebUrl(url), `_api/SP.Utilities.Utility.${methodName}`);
     }
-    _Utilities.prototype.excute = function (props) {
-        return spPost(this, request_builders_body(props));
-    };
-    _Utilities.prototype.sendEmail = function (props) {
-        var params = {
-            properties: Object(common["assign"])(metadata("SP.Utilities.EmailProperties"), {
+    excute(props) {
+        return spPost(this, body(props));
+    }
+    sendEmail(props) {
+        const params = {
+            properties: util_assign(metadata("SP.Utilities.EmailProperties"), {
                 Body: props.Body,
                 From: props.From,
                 Subject: props.Subject,
             }),
         };
         if (props.To && props.To.length > 0) {
-            params.properties = Object(common["assign"])(params.properties, {
+            params.properties = util_assign(params.properties, {
                 To: { results: props.To },
             });
         }
         if (props.CC && props.CC.length > 0) {
-            params.properties = Object(common["assign"])(params.properties, {
+            params.properties = util_assign(params.properties, {
                 CC: { results: props.CC },
             });
         }
         if (props.BCC && props.BCC.length > 0) {
-            params.properties = Object(common["assign"])(params.properties, {
+            params.properties = util_assign(params.properties, {
                 BCC: { results: props.BCC },
             });
         }
         if (props.AdditionalHeaders) {
-            params.properties = Object(common["assign"])(params.properties, {
+            params.properties = util_assign(params.properties, {
                 AdditionalHeaders: objectToSPKeyValueCollection(props.AdditionalHeaders),
             });
         }
         return tag.configure(this.clone(UtilitiesCloneFactory, "SendEmail", true), "u.sendEmail").excute(params);
-    };
-    _Utilities.prototype.getCurrentUserEmailAddresses = function () {
+    }
+    getCurrentUserEmailAddresses() {
         return tag.configure(this.clone(UtilitiesCloneFactory, "GetCurrentUserEmailAddresses", true), "u.getCurrentUserEmailAddresses").excute({});
-    };
-    _Utilities.prototype.resolvePrincipal = function (input, scopes, sources, inputIsEmailOnly, addToUserInfoList, matchUserInfoList) {
-        if (matchUserInfoList === void 0) { matchUserInfoList = false; }
-        var params = {
-            addToUserInfoList: addToUserInfoList,
-            input: input,
-            inputIsEmailOnly: inputIsEmailOnly,
-            matchUserInfoList: matchUserInfoList,
-            scopes: scopes,
-            sources: sources,
+    }
+    resolvePrincipal(input, scopes, sources, inputIsEmailOnly, addToUserInfoList, matchUserInfoList = false) {
+        const params = {
+            addToUserInfoList,
+            input,
+            inputIsEmailOnly,
+            matchUserInfoList,
+            scopes,
+            sources,
         };
-        var clone = this.clone(UtilitiesCloneFactory, "ResolvePrincipalInCurrentContext", true);
+        const clone = this.clone(UtilitiesCloneFactory, "ResolvePrincipalInCurrentContext", true);
         return tag.configure(clone, "u.ResolvePrincipalInCurrentContext").excute(params);
-    };
-    _Utilities.prototype.searchPrincipals = function (input, scopes, sources, groupName, maxCount) {
-        var params = {
+    }
+    searchPrincipals(input, scopes, sources, groupName, maxCount) {
+        const params = {
             groupName: groupName,
             input: input,
             maxCount: maxCount,
             scopes: scopes,
             sources: sources,
         };
-        var clone = this.clone(UtilitiesCloneFactory, "SearchPrincipalsUsingContextWeb", true);
+        const clone = this.clone(UtilitiesCloneFactory, "SearchPrincipalsUsingContextWeb", true);
         return tag.configure(clone, "u.SearchPrincipalsUsingContextWeb").excute(params);
-    };
-    _Utilities.prototype.createEmailBodyForInvitation = function (pageAddress) {
-        var params = {
+    }
+    createEmailBodyForInvitation(pageAddress) {
+        const params = {
             pageAddress: pageAddress,
         };
-        var clone = this.clone(UtilitiesCloneFactory, "CreateEmailBodyForInvitation", true);
+        const clone = this.clone(UtilitiesCloneFactory, "CreateEmailBodyForInvitation", true);
         return tag.configure(clone, "u.CreateEmailBodyForInvitation").excute(params);
-    };
-    _Utilities.prototype.expandGroupsToPrincipals = function (inputs, maxCount) {
-        if (maxCount === void 0) { maxCount = 30; }
-        var params = {
+    }
+    expandGroupsToPrincipals(inputs, maxCount = 30) {
+        const params = {
             inputs: inputs,
             maxCount: maxCount,
         };
-        var clone = this.clone(UtilitiesCloneFactory, "ExpandGroupsToPrincipals", true);
+        const clone = this.clone(UtilitiesCloneFactory, "ExpandGroupsToPrincipals", true);
         return tag.configure(clone, "u.ExpandGroupsToPrincipals").excute(params);
-    };
-    _Utilities.prototype.createWikiPage = function (info) {
-        return __awaiter(this, void 0, void 0, function () {
-            var clone, newPage;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        clone = this.clone(UtilitiesCloneFactory, "CreateWikiPageInContextWeb", true);
-                        return [4 /*yield*/, tag.configure(clone, "u.CreateWikiPageInContextWeb").excute({ parameters: info })];
-                    case 1:
-                        newPage = _a.sent();
-                        return [2 /*return*/, {
-                                data: newPage,
-                                file: File(odataUrlFrom(newPage)),
-                            }];
-                }
-            });
+    }
+    createWikiPage(info) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const clone = this.clone(UtilitiesCloneFactory, "CreateWikiPageInContextWeb", true);
+            const newPage = yield tag.configure(clone, "u.CreateWikiPageInContextWeb").excute({ parameters: info });
+            return {
+                data: newPage,
+                file: File(odataUrlFrom(newPage)),
+            };
         });
-    };
-    return _Utilities;
-}(sharepointqueryable_SharePointQueryable));
-
-var Utilities = spInvokableFactory(types_Utilities);
-var UtilitiesCloneFactory = function (baseUrl, path) { return Utilities(baseUrl, path); };
+    }
+}
+const Utilities = spInvokableFactory(types_Utilities);
+const UtilitiesCloneFactory = (baseUrl, path) => Utilities(baseUrl, path);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/index.js
 
@@ -14744,7 +12283,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "utility", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return Utilities(this._baseUrl, "");
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return Utilities(baseUrl, "").configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -14755,19 +12296,15 @@ Reflect.defineProperty(rest_SPRest.prototype, "utility", {
 
 
 
-var types_Subscriptions = /** @class */ (function (_super) {
-    __extends(_Subscriptions, _super);
-    function _Subscriptions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+let types_Subscriptions = class _Subscriptions extends _SharePointQueryableCollection {
     /**
     * Returns all the webhook subscriptions or the specified webhook subscription
     *
     * @param subscriptionId The id of a specific webhook subscription to retrieve, omit to retrieve all the webhook subscriptions
     */
-    _Subscriptions.prototype.getById = function (subscriptionId) {
-        return tag.configure(Subscription(this).concat("('" + subscriptionId + "')"), "subs.getById");
-    };
+    getById(subscriptionId) {
+        return tag.configure(Subscription(this).concat(`('${subscriptionId}')`), "subs.getById");
+    }
     /**
      * Creates a new webhook subscription
      *
@@ -14775,43 +12312,30 @@ var types_Subscriptions = /** @class */ (function (_super) {
      * @param expirationDate The date and time to expire the subscription in the form YYYY-MM-ddTHH:mm:ss+00:00 (maximum of 6 months)
      * @param clientState A client specific string (optional)
      */
-    _Subscriptions.prototype.add = function (notificationUrl, expirationDate, clientState) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            "expirationDateTime": expirationDate,
-                            "notificationUrl": notificationUrl,
-                            "resource": this.toUrl(),
-                        };
-                        if (clientState) {
-                            postBody.clientState = clientState;
-                        }
-                        return [4 /*yield*/, spPost(this, request_builders_body(postBody, request_builders_headers({ "Content-Type": "application/json" })))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { data: data, subscription: this.getById(data.id) }];
-                }
-            });
+    add(notificationUrl, expirationDate, clientState) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = {
+                "expirationDateTime": expirationDate,
+                "notificationUrl": notificationUrl,
+                "resource": this.toUrl(),
+            };
+            if (clientState) {
+                postBody.clientState = clientState;
+            }
+            const data = yield spPost(this, body(postBody, request_builders_headers({ "Content-Type": "application/json" })));
+            return { data, subscription: this.getById(data.id) };
         });
-    };
-    __decorate([
-        tag("subs.add")
-    ], _Subscriptions.prototype, "add", null);
-    _Subscriptions = __decorate([
-        defaultPath("subscriptions")
-    ], _Subscriptions);
-    return _Subscriptions;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Subscriptions = spInvokableFactory(types_Subscriptions);
-var types_Subscription = /** @class */ (function (_super) {
-    __extends(_Subscription, _super);
-    function _Subscription() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
+};
+__decorate([
+    tag("subs.add")
+], types_Subscriptions.prototype, "add", null);
+types_Subscriptions = __decorate([
+    defaultPath("subscriptions")
+], types_Subscriptions);
+
+const Subscriptions = spInvokableFactory(types_Subscriptions);
+class types_Subscription extends sharepointqueryable_SharePointQueryableInstance {
     /**
      * Renews this webhook subscription
      *
@@ -14819,47 +12343,37 @@ var types_Subscription = /** @class */ (function (_super) {
      * @param notificationUrl The url to receive the notifications (optional)
      * @param clientState A client specific string (optional)
      */
-    _Subscription.prototype.update = function (expirationDate, notificationUrl, clientState) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {};
-                        if (expirationDate) {
-                            postBody.expirationDateTime = expirationDate;
-                        }
-                        if (notificationUrl) {
-                            postBody.notificationUrl = notificationUrl;
-                        }
-                        if (clientState) {
-                            postBody.clientState = clientState;
-                        }
-                        return [4 /*yield*/, spPatch(this, request_builders_body(postBody, request_builders_headers({ "Content-Type": "application/json" })))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { data: data, subscription: this }];
-                }
-            });
+    update(expirationDate, notificationUrl, clientState) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = {};
+            if (expirationDate) {
+                postBody.expirationDateTime = expirationDate;
+            }
+            if (notificationUrl) {
+                postBody.notificationUrl = notificationUrl;
+            }
+            if (clientState) {
+                postBody.clientState = clientState;
+            }
+            const data = yield spPatch(this, body(postBody, request_builders_headers({ "Content-Type": "application/json" })));
+            return { data, subscription: this };
         });
-    };
+    }
     /**
      * Removes this webhook subscription
      *
      */
-    _Subscription.prototype.delete = function () {
+    delete() {
         return spDelete(this);
-    };
-    __decorate([
-        tag("sub.update")
-    ], _Subscription.prototype, "update", null);
-    __decorate([
-        tag("sub.delete")
-    ], _Subscription.prototype, "delete", null);
-    return _Subscription;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Subscription = spInvokableFactory(types_Subscription);
+    }
+}
+__decorate([
+    tag("sub.update")
+], types_Subscription.prototype, "update", null);
+__decorate([
+    tag("sub.delete")
+], types_Subscription.prototype, "delete", null);
+const Subscription = spInvokableFactory(types_Subscription);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/list.js
 
@@ -14880,245 +12394,194 @@ addProp(types_List, "subscriptions", Subscriptions);
  * Describes a collection of Form objects
  *
  */
-var types_TermStore = /** @class */ (function (_super) {
-    __extends(_TermStore, _super);
-    function _TermStore() {
-        return _super !== null && _super.apply(this, arguments) || this;
+let types_TermStore = class _TermStore extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * Gets the term groups associated with this tenant
+     */
+    get groups() {
+        return tag.configure(TermGroups(this), "txts.groups");
     }
-    Object.defineProperty(_TermStore.prototype, "groups", {
-        /**
-         * Gets the term groups associated with this tenant
-         */
-        get: function () {
-            return tag.configure(TermGroups(this), "txts.groups");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_TermStore.prototype, "sets", {
-        /**
-         * Gets the term sets associated with this tenant
-         */
-        get: function () {
-            return tag.configure(TermSets(this), "txts.sets");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _TermStore = __decorate([
-        defaultPath("_api/v2.1/termstore")
-    ], _TermStore);
-    return _TermStore;
-}(sharepointqueryable_SharePointQueryableInstance));
+    /**
+     * Gets the term groups associated with this tenant
+     */
+    get sets() {
+        return tag.configure(TermSets(this), "txts.sets");
+    }
+};
+types_TermStore = __decorate([
+    defaultPath("_api/v2.1/termstore")
+], types_TermStore);
 
-var TermStore = spInvokableFactory(types_TermStore);
-var types_TermGroups = /** @class */ (function (_super) {
-    __extends(_TermGroups, _super);
-    function _TermGroups() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+const TermStore = spInvokableFactory(types_TermStore);
+let types_TermGroups = class _TermGroups extends _SharePointQueryableCollection {
     /**
      * Gets a term group by id
      *
      * @param id Id of the term group to access
      */
-    _TermGroups.prototype.getById = function (id) {
+    getById(id) {
         return tag.configure(TermGroup(this, id), "txtgs.getById");
-    };
-    _TermGroups = __decorate([
-        defaultPath("groups")
-    ], _TermGroups);
-    return _TermGroups;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var TermGroups = spInvokableFactory(types_TermGroups);
-var types_TermGroup = /** @class */ (function (_super) {
-    __extends(_TermGroup, _super);
-    function _TermGroup() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(_TermGroup.prototype, "sets", {
-        /**
-         * Gets the term sets associated with this tenant
-         */
-        get: function () {
-            return tag.configure(TermSets(this, "sets"), "txtg.sets");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _TermGroup;
-}(sharepointqueryable_SharePointQueryableInstance));
+};
+types_TermGroups = __decorate([
+    defaultPath("groups")
+], types_TermGroups);
 
-var TermGroup = spInvokableFactory(types_TermGroup);
-var types_TermSets = /** @class */ (function (_super) {
-    __extends(_TermSets, _super);
-    function _TermSets() {
-        return _super !== null && _super.apply(this, arguments) || this;
+const TermGroups = spInvokableFactory(types_TermGroups);
+class types_TermGroup extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * Gets the term sets associated with this tenant
+     */
+    get sets() {
+        return tag.configure(TermSets(this, "sets"), "txtg.sets");
     }
+}
+const TermGroup = spInvokableFactory(types_TermGroup);
+let types_TermSets = class _TermSets extends _SharePointQueryableCollection {
     /**
      * Gets a term group by id
      *
      * @param id Id of the term group to access
      */
-    _TermSets.prototype.getById = function (id) {
+    getById(id) {
         return tag.configure(TermSet(this, id), "txts.getById");
-    };
-    _TermSets = __decorate([
-        defaultPath("sets")
-    ], _TermSets);
-    return _TermSets;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var TermSets = spInvokableFactory(types_TermSets);
-var types_TermSet = /** @class */ (function (_super) {
-    __extends(_TermSet, _super);
-    function _TermSet() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    Object.defineProperty(_TermSet.prototype, "parentGroup", {
-        // public get terms(): ITerms {
-        //     return Terms(this);
-        // }
-        get: function () {
-            return tag.configure(TermGroup(this, "parentGroup"), "txts.parentGroup");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_TermSet.prototype, "children", {
-        get: function () {
-            return tag.configure(Children(this), "txts.children");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_TermSet.prototype, "relations", {
-        get: function () {
-            return tag.configure(Relations(this), "txts.relations");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _TermSet.prototype.getTermById = function (id) {
-        return tag.configure(this.clone(Term, "terms/" + id), "txts.getTermById");
-    };
-    return _TermSet;
-}(sharepointqueryable_SharePointQueryableInstance));
+};
+types_TermSets = __decorate([
+    defaultPath("sets")
+], types_TermSets);
 
-var TermSet = spInvokableFactory(types_TermSet);
-// @defaultPath("terms")
-// export class _Terms extends _SharePointQueryableCollection<ITermInfo[]> {
-//     /**
-//      * Gets a term group by id
-//      *
-//      * @param id Id of the term group to access
-//      */
-//     public getById(id: string): ITerm {
-//         return Term(this, id);
-//     }
-// }
-// export interface ITerms extends _Terms { }
-// export const Terms = spInvokableFactory<ITerms>(_Terms);
-var types_Children = /** @class */ (function (_super) {
-    __extends(_Children, _super);
-    function _Children() {
-        return _super !== null && _super.apply(this, arguments) || this;
+const TermSets = spInvokableFactory(types_TermSets);
+class types_TermSet extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+     * Gets all the terms in this set
+     */
+    get terms() {
+        return Terms(this);
     }
-    _Children = __decorate([
-        defaultPath("children")
-    ], _Children);
-    return _Children;
-}(sharepointqueryable_SharePointQueryableCollection));
+    get parentGroup() {
+        return tag.configure(TermGroup(this, "parentGroup"), "txts.parentGroup");
+    }
+    get children() {
+        return tag.configure(Children(this), "txts.children");
+    }
+    get relations() {
+        return tag.configure(Relations(this), "txts.relations");
+    }
+    getTermById(id) {
+        return tag.configure(this.clone(Term, `terms/${id}`), "txts.getTermById");
+    }
+    /**
+     * Gets all the terms in this termset in an ordered tree using the appropriate sort ordering
+     * ** This is an expensive operation and you should strongly consider caching the results **
+     */
+    getAllChildrenAsOrderedTree() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const setInfo = yield this.select("*", "customSortOrder")();
+            const tree = [];
+            const ensureOrder = (terms, sorts, setSorts) => {
+                // handle custom sort order
+                let ordering = null;
+                if (sorts === null && setSorts.length > 0) {
+                    ordering = [...setSorts];
+                }
+                else {
+                    const index = sorts.findIndex(v => v.setId === setInfo.id);
+                    if (index >= 0) {
+                        ordering = [...sorts[index].order];
+                    }
+                }
+                if (ordering !== null) {
+                    const orderedChildren = [];
+                    ordering.forEach(o => {
+                        const found = terms.find(ch => o === ch.id);
+                        if (found) {
+                            orderedChildren.push(found);
+                        }
+                    });
+                    return orderedChildren;
+                }
+                return terms;
+            };
+            const visitor = (source, parent) => __awaiter(this, void 0, void 0, function* () {
+                const children = yield source.children.select("*", "customSortOrder")();
+                for (let i = 0; i < children.length; i++) {
+                    const child = children[i];
+                    const orderedTerm = Object.assign({ children: [], defaultLabel: child.labels.find(l => l.isDefault).name }, child);
+                    if (child.childrenCount > 0) {
+                        yield visitor(this.getTermById(children[i].id), orderedTerm.children);
+                        orderedTerm.children = ensureOrder(orderedTerm.children, child.customSortOrder);
+                    }
+                    parent.push(orderedTerm);
+                }
+            });
+            yield visitor(this, tree);
+            return ensureOrder(tree, null, setInfo.customSortOrder);
+        });
+    }
+}
+const TermSet = spInvokableFactory(types_TermSet);
+let types_Children = class _Children extends _SharePointQueryableCollection {
+};
+types_Children = __decorate([
+    defaultPath("children")
+], types_Children);
 
-var Children = spInvokableFactory(types_Children);
-var types_Term = /** @class */ (function (_super) {
-    __extends(_Term, _super);
-    function _Term() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Term.prototype, "parent", {
-        get: function () {
-            return tag.configure(Term(this, "parent"), "txt.parent");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Term.prototype, "children", {
-        get: function () {
-            return tag.configure(Children(this), "txt.children");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Term.prototype, "relations", {
-        get: function () {
-            return tag.configure(Relations(this), "txt.relations");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Term.prototype, "set", {
-        get: function () {
-            return tag.configure(TermSet(this, "set"), "txt.set");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Term;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var Term = spInvokableFactory(types_Term);
-var types_Relations = /** @class */ (function (_super) {
-    __extends(_Relations, _super);
-    function _Relations() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+const Children = spInvokableFactory(types_Children);
+let types_Terms = class _Terms extends _SharePointQueryableCollection {
     /**
      * Gets a term group by id
      *
      * @param id Id of the term group to access
      */
-    _Relations.prototype.getById = function (id) {
-        return tag.configure(Relation(this, id), "txrs.getById");
-    };
-    _Relations = __decorate([
-        defaultPath("relations")
-    ], _Relations);
-    return _Relations;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var Relations = spInvokableFactory(types_Relations);
-var types_Relation = /** @class */ (function (_super) {
-    __extends(_Relation, _super);
-    function _Relation() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    getById(id) {
+        return Term(this, id);
     }
-    Object.defineProperty(_Relation.prototype, "fromTerm", {
-        get: function () {
-            return tag.configure(Term(this, "fromTerm"), "txr.fromTerm");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Relation.prototype, "toTerm", {
-        get: function () {
-            return tag.configure(Term(this, "toTerm"), "txr.toTerm");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Relation.prototype, "set", {
-        get: function () {
-            return tag.configure(TermSet(this, "set"), "txr.set");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Relation;
-}(sharepointqueryable_SharePointQueryableInstance));
+};
+types_Terms = __decorate([
+    defaultPath("terms")
+], types_Terms);
 
-var Relation = spInvokableFactory(types_Relation);
+const Terms = spInvokableFactory(types_Terms);
+class types_Term extends sharepointqueryable_SharePointQueryableInstance {
+    get children() {
+        return tag.configure(Children(this), "txt.children");
+    }
+    get relations() {
+        return tag.configure(Relations(this), "txt.relations");
+    }
+    get set() {
+        return tag.configure(TermSet(this, "set"), "txt.set");
+    }
+}
+const Term = spInvokableFactory(types_Term);
+let types_Relations = class _Relations extends _SharePointQueryableCollection {
+    /**
+     * Gets a term group by id
+     *
+     * @param id Id of the term group to access
+     */
+    getById(id) {
+        return tag.configure(Relation(this, id), "txrs.getById");
+    }
+};
+types_Relations = __decorate([
+    defaultPath("relations")
+], types_Relations);
+
+const Relations = spInvokableFactory(types_Relations);
+class types_Relation extends sharepointqueryable_SharePointQueryableInstance {
+    get fromTerm() {
+        return tag.configure(Term(this, "fromTerm"), "txr.fromTerm");
+    }
+    get toTerm() {
+        return tag.configure(Term(this, "toTerm"), "txr.toTerm");
+    }
+    get set() {
+        return tag.configure(TermSet(this, "set"), "txr.set");
+    }
+}
+const Relation = spInvokableFactory(types_Relation);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/taxonomy/index.js
 
@@ -15128,7 +12591,9 @@ Reflect.defineProperty(rest_SPRest.prototype, "termStore", {
     configurable: true,
     enumerable: true,
     get: function () {
-        return TermStore(this._baseUrl).configure(this._options);
+        return this.childConfigHook(({ options, baseUrl, runtime }) => {
+            return TermStore(baseUrl).configure(options).setRuntime(runtime);
+        });
     },
 });
 
@@ -15164,27 +12629,7 @@ addProp(types_Site, "userCustomActions", UserCustomActions);
 
 
 
-var types_Views = /** @class */ (function (_super) {
-    __extends(_Views, _super);
-    function _Views() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Gets a view by guid id
-     *
-     * @param id The GUID id of the view
-     */
-    _Views.prototype.getById = function (id) {
-        return View(this).concat("('" + id + "')");
-    };
-    /**
-     * Gets a view by title (case-sensitive)
-     *
-     * @param title The case-sensitive title of the view
-     */
-    _Views.prototype.getByTitle = function (title) {
-        return View(this, "getByTitle('" + title + "')");
-    };
+let types_Views = class _Views extends _SharePointQueryableCollection {
     /**
      * Adds a new view to the collection
      *
@@ -15192,148 +12637,140 @@ var types_Views = /** @class */ (function (_super) {
      * @param personalView True if this is a personal view, otherwise false, default = false
      * @param additionalSettings Will be passed as part of the view creation body
      */
-    _Views.prototype.add = function (title, personalView, additionalSettings) {
-        if (personalView === void 0) { personalView = false; }
-        if (additionalSettings === void 0) { additionalSettings = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = request_builders_body(Object.assign(metadata("SP.View"), {
-                            "PersonalView": personalView,
-                            "Title": title,
-                        }, additionalSettings));
-                        return [4 /*yield*/, spPost(this.clone(Views, null), postBody)];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                view: this.getById(data.Id),
-                            }];
-                }
-            });
+    add(title, personalView = false, additionalSettings = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postBody = body(Object.assign(metadata("SP.View"), {
+                "PersonalView": personalView,
+                "Title": title,
+            }, additionalSettings));
+            const data = yield spPost(this.clone(Views, null), postBody);
+            return {
+                data,
+                view: this.getById(data.Id),
+            };
         });
-    };
-    __decorate([
-        tag("vs.add")
-    ], _Views.prototype, "add", null);
-    _Views = __decorate([
-        defaultPath("views")
-    ], _Views);
-    return _Views;
-}(sharepointqueryable_SharePointQueryableCollection));
+    }
+    /**
+     * Gets a view by guid id
+     *
+     * @param id The GUID id of the view
+     */
+    getById(id) {
+        return View(this).concat(`('${id}')`);
+    }
+    /**
+     * Gets a view by title (case-sensitive)
+     *
+     * @param title The case-sensitive title of the view
+     */
+    getByTitle(title) {
+        return View(this, `getByTitle('${title}')`);
+    }
+};
+__decorate([
+    tag("vs.add")
+], types_Views.prototype, "add", null);
+types_Views = __decorate([
+    defaultPath("views")
+], types_Views);
 
-var Views = spInvokableFactory(types_Views);
-var types_View = /** @class */ (function (_super) {
-    __extends(_View, _super);
-    function _View() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.delete = deleteable("vw");
+const Views = spInvokableFactory(types_Views);
+class types_View extends sharepointqueryable_SharePointQueryableInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteable("vw");
         /**
          * Updates this view intance with the supplied properties
          *
          * @param properties A plain object hash of values to update for the view
          */
-        _this.update = _this._update("SP.View", function (data) { return ({ data: data, view: _this }); });
-        return _this;
+        this.update = this._update("SP.View", data => ({ data, view: this }));
     }
-    Object.defineProperty(_View.prototype, "fields", {
-        get: function () {
-            return ViewFields(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
+    get fields() {
+        return ViewFields(this);
+    }
     /**
      * Returns the list view as HTML.
      *
      */
-    _View.prototype.renderAsHtml = function () {
+    renderAsHtml() {
         return this.clone(View, "renderashtml")();
-    };
+    }
     /**
      * Sets the view schema
      *
      * @param viewXml The view XML to set
      */
-    _View.prototype.setViewXml = function (viewXml) {
-        return spPost(this.clone(View, "SetViewXml"), request_builders_body({ viewXml: viewXml }));
-    };
-    __decorate([
-        tag("v.renderAsHtml")
-    ], _View.prototype, "renderAsHtml", null);
-    __decorate([
-        tag("v.setViewXml")
-    ], _View.prototype, "setViewXml", null);
-    return _View;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var View = spInvokableFactory(types_View);
-var types_ViewFields = /** @class */ (function (_super) {
-    __extends(_ViewFields, _super);
-    function _ViewFields() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    setViewXml(viewXml) {
+        return spPost(this.clone(View, "SetViewXml"), body({ viewXml }));
     }
+}
+__decorate([
+    tag("v.renderAsHtml")
+], types_View.prototype, "renderAsHtml", null);
+__decorate([
+    tag("v.setViewXml")
+], types_View.prototype, "setViewXml", null);
+const View = spInvokableFactory(types_View);
+let types_ViewFields = class _ViewFields extends _SharePointQueryableCollection {
     /**
      * Gets a value that specifies the XML schema that represents the collection.
      */
-    _ViewFields.prototype.getSchemaXml = function () {
+    getSchemaXml() {
         return this.clone(ViewFields, "schemaxml")();
-    };
+    }
     /**
      * Adds the field with the specified field internal name or display name to the collection.
      *
      * @param fieldTitleOrInternalName The case-sensitive internal name or display name of the field to add.
      */
-    _ViewFields.prototype.add = function (fieldTitleOrInternalName) {
-        return spPost(this.clone(ViewFields, "addviewfield('" + fieldTitleOrInternalName + "')"));
-    };
+    add(fieldTitleOrInternalName) {
+        return spPost(this.clone(ViewFields, `addviewfield('${fieldTitleOrInternalName}')`));
+    }
     /**
      * Moves the field with the specified field internal name to the specified position in the collection.
      *
      * @param field The case-sensitive internal name of the field to move.
      * @param index The zero-based index of the new position for the field.
      */
-    _ViewFields.prototype.move = function (field, index) {
-        return spPost(this.clone(ViewFields, "moveviewfieldto"), request_builders_body({ field: field, index: index }));
-    };
+    move(field, index) {
+        return spPost(this.clone(ViewFields, "moveviewfieldto"), body({ field, index }));
+    }
     /**
      * Removes all the fields from the collection.
      */
-    _ViewFields.prototype.removeAll = function () {
+    removeAll() {
         return spPost(this.clone(ViewFields, "removeallviewfields"));
-    };
+    }
     /**
      * Removes the field with the specified field internal name from the collection.
      *
      * @param fieldInternalName The case-sensitive internal name of the field to remove from the view.
      */
-    _ViewFields.prototype.remove = function (fieldInternalName) {
-        return spPost(this.clone(ViewFields, "removeviewfield('" + fieldInternalName + "')"));
-    };
-    __decorate([
-        tag("vfs.getSchemaXml")
-    ], _ViewFields.prototype, "getSchemaXml", null);
-    __decorate([
-        tag("vfs.add")
-    ], _ViewFields.prototype, "add", null);
-    __decorate([
-        tag("vfs.move")
-    ], _ViewFields.prototype, "move", null);
-    __decorate([
-        tag("vfs.removeAll")
-    ], _ViewFields.prototype, "removeAll", null);
-    __decorate([
-        tag("vfs.remove")
-    ], _ViewFields.prototype, "remove", null);
-    _ViewFields = __decorate([
-        defaultPath("viewfields")
-    ], _ViewFields);
-    return _ViewFields;
-}(sharepointqueryable_SharePointQueryableCollection));
+    remove(fieldInternalName) {
+        return spPost(this.clone(ViewFields, `removeviewfield('${fieldInternalName}')`));
+    }
+};
+__decorate([
+    tag("vfs.getSchemaXml")
+], types_ViewFields.prototype, "getSchemaXml", null);
+__decorate([
+    tag("vfs.add")
+], types_ViewFields.prototype, "add", null);
+__decorate([
+    tag("vfs.move")
+], types_ViewFields.prototype, "move", null);
+__decorate([
+    tag("vfs.removeAll")
+], types_ViewFields.prototype, "removeAll", null);
+__decorate([
+    tag("vfs.remove")
+], types_ViewFields.prototype, "remove", null);
+types_ViewFields = __decorate([
+    defaultPath("viewfields")
+], types_ViewFields);
 
-var ViewFields = spInvokableFactory(types_ViewFields);
+const ViewFields = spInvokableFactory(types_ViewFields);
 var ViewScope;
 (function (ViewScope) {
     ViewScope[ViewScope["DefaultValue"] = 0] = "DefaultValue";
@@ -15349,7 +12786,7 @@ var ViewScope;
 addProp(types_List, "views", Views);
 addProp(types_List, "defaultView", View, "DefaultView");
 types_List.prototype.getView = function (viewId) {
-    return View(this, "getView('" + viewId + "')");
+    return View(this, `getView('${viewId}')`);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/views/index.js
@@ -15361,114 +12798,83 @@ types_List.prototype.getView = function (viewId) {
 
 
 
-
-var types_LimitedWebPartManager = /** @class */ (function (_super) {
-    __extends(_LimitedWebPartManager, _super);
-    function _LimitedWebPartManager() {
-        return _super !== null && _super.apply(this, arguments) || this;
+class types_LimitedWebPartManager extends sharepointqueryable_SharePointQueryable {
+    get scope() {
+        return tag.configure(SharePointQueryable(this, "Scope"), "f.scope");
     }
-    Object.defineProperty(_LimitedWebPartManager.prototype, "scope", {
-        get: function () {
-            return tag.configure(SharePointQueryable(this, "Scope"), "f.scope");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_LimitedWebPartManager.prototype, "webparts", {
-        get: function () {
-            return WebPartDefinitions(this, "webparts");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _LimitedWebPartManager.prototype.export = function (id) {
-        return spPost(this.clone(LimitedWebPartManagerCloneFactory, "ExportWebPart"), request_builders_body({ webPartId: id }));
-    };
-    _LimitedWebPartManager.prototype.import = function (xml) {
-        return spPost(this.clone(LimitedWebPartManagerCloneFactory, "ImportWebPart"), request_builders_body({ webPartXml: xml }));
-    };
-    return _LimitedWebPartManager;
-}(sharepointqueryable_SharePointQueryable));
-
-var LimitedWebPartManager = function (baseUrl, path) { return new types_LimitedWebPartManager(baseUrl, path); };
-var LimitedWebPartManagerCloneFactory = function (baseUrl, path) { return LimitedWebPartManager(baseUrl, path); };
-var types_WebPartDefinitions = /** @class */ (function (_super) {
-    __extends(_WebPartDefinitions, _super);
-    function _WebPartDefinitions() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    get webparts() {
+        return WebPartDefinitions(this, "webparts");
     }
+    export(id) {
+        return spPost(this.clone(LimitedWebPartManagerCloneFactory, "ExportWebPart"), body({ webPartId: id }));
+    }
+    import(xml) {
+        return spPost(this.clone(LimitedWebPartManagerCloneFactory, "ImportWebPart"), body({ webPartXml: xml }));
+    }
+}
+const LimitedWebPartManager = (baseUrl, path) => new types_LimitedWebPartManager(baseUrl, path);
+const LimitedWebPartManagerCloneFactory = (baseUrl, path) => LimitedWebPartManager(baseUrl, path);
+class types_WebPartDefinitions extends _SharePointQueryableCollection {
     /**
      * Gets a web part definition from the collection by id
      *
      * @param id The storage ID of the SPWebPartDefinition to retrieve
      */
-    _WebPartDefinitions.prototype.getById = function (id) {
-        return WebPartDefinition(this, "getbyid('" + id + "')");
-    };
+    getById(id) {
+        return WebPartDefinition(this, `getbyid('${id}')`);
+    }
     /**
      * Gets a web part definition from the collection by storage id
      *
      * @param id The WebPart.ID of the SPWebPartDefinition to retrieve
      */
-    _WebPartDefinitions.prototype.getByControlId = function (id) {
-        return WebPartDefinition(this, "getByControlId('" + id + "')");
-    };
-    return _WebPartDefinitions;
-}(sharepointqueryable_SharePointQueryableCollection));
-
-var WebPartDefinitions = spInvokableFactory(types_WebPartDefinitions);
-var types_WebPartDefinition = /** @class */ (function (_super) {
-    __extends(_WebPartDefinition, _super);
-    function _WebPartDefinition() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    getByControlId(id) {
+        return WebPartDefinition(this, `getByControlId('${id}')`);
     }
-    Object.defineProperty(_WebPartDefinition.prototype, "webpart", {
-        /**
-        * Gets the webpart information associated with this definition
-        */
-        get: function () {
-            return SharePointQueryableInstance(this, "webpart");
-        },
-        enumerable: false,
-        configurable: true
-    });
+}
+const WebPartDefinitions = spInvokableFactory(types_WebPartDefinitions);
+class types_WebPartDefinition extends sharepointqueryable_SharePointQueryableInstance {
+    /**
+    * Gets the webpart information associated with this definition
+    */
+    get webpart() {
+        return SharePointQueryableInstance(this, "webpart");
+    }
     /**
      * Saves changes to the Web Part made using other properties and methods on the SPWebPartDefinition object
      */
-    _WebPartDefinition.prototype.saveChanges = function () {
+    saveChanges() {
         return spPost(this.clone(WebPartDefinition, "SaveWebPartChanges"));
-    };
+    }
     /**
      * Moves the Web Part to a different location on a Web Part Page
      *
      * @param zoneId The ID of the Web Part Zone to which to move the Web Part
      * @param zoneIndex A Web Part zone index that specifies the position at which the Web Part is to be moved within the destination Web Part zone
      */
-    _WebPartDefinition.prototype.moveTo = function (zoneId, zoneIndex) {
-        return spPost(this.clone(WebPartDefinition, "MoveWebPartTo(zoneID='" + zoneId + "', zoneIndex=" + zoneIndex + ")"));
-    };
+    moveTo(zoneId, zoneIndex) {
+        return spPost(this.clone(WebPartDefinition, `MoveWebPartTo(zoneID='${zoneId}', zoneIndex=${zoneIndex})`));
+    }
     /**
      * Closes the Web Part. If the Web Part is already closed, this method does nothing
      */
-    _WebPartDefinition.prototype.close = function () {
+    close() {
         return spPost(this.clone(WebPartDefinition, "CloseWebPart"));
-    };
+    }
     /**
      * Opens the Web Part. If the Web Part is already closed, this method does nothing
      */
-    _WebPartDefinition.prototype.open = function () {
+    open() {
         return spPost(this.clone(WebPartDefinition, "OpenWebPart"));
-    };
+    }
     /**
      * Removes a webpart from a page, all settings will be lost
      */
-    _WebPartDefinition.prototype.delete = function () {
+    delete() {
         return spPost(this.clone(WebPartDefinition, "DeleteWebPart"));
-    };
-    return _WebPartDefinition;
-}(sharepointqueryable_SharePointQueryableInstance));
-
-var WebPartDefinition = spInvokableFactory(types_WebPartDefinition);
+    }
+}
+const WebPartDefinition = spInvokableFactory(types_WebPartDefinition);
 var WebPartsPersonalizationScope;
 (function (WebPartsPersonalizationScope) {
     WebPartsPersonalizationScope[WebPartsPersonalizationScope["User"] = 0] = "User";
@@ -15478,9 +12884,8 @@ var WebPartsPersonalizationScope;
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/file.js
 
 
-types_File.prototype.getLimitedWebPartManager = function (scope) {
-    if (scope === void 0) { scope = WebPartsPersonalizationScope.Shared; }
-    return LimitedWebPartManager(this, "getLimitedWebPartManager(scope=" + scope + ")");
+types_File.prototype.getLimitedWebPartManager = function (scope = WebPartsPersonalizationScope.Shared) {
+    return LimitedWebPartManager(this, `getLimitedWebPartManager(scope=${scope})`);
 };
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/index.js
@@ -15492,7 +12897,6 @@ types_File.prototype.getLimitedWebPartManager = function (scope) {
 /**
  * Specifies the type of a principal.
  */
-/* tslint:disable:no-bitwise */
 var PrincipalType;
 (function (PrincipalType) {
     /**
@@ -15518,13 +12922,12 @@ var PrincipalType;
     /**
      * Enumeration whose value specifies all principal types.
      */
+    // eslint-disable-next-line no-bitwise
     PrincipalType[PrincipalType["All"] = 15] = "All";
 })(PrincipalType || (PrincipalType = {}));
-/* tslint:enable:no-bitwise */
 /**
  * Specifies the source of a principal.
  */
-/* tslint:disable:no-bitwise */
 var PrincipalSource;
 (function (PrincipalSource) {
     /**
@@ -15550,6 +12953,7 @@ var PrincipalSource;
     /**
      * Enumeration whose value specifies all principal sources.
      */
+    // eslint-disable-next-line no-bitwise
     PrincipalSource[PrincipalSource["All"] = 15] = "All";
 })(PrincipalSource || (PrincipalSource = {}));
 var PageType;
@@ -15570,8 +12974,10 @@ var PageType;
 })(PageType || (PageType = {}));
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
-var InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
-var InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
 /**
  * Checks if file or folder name contains invalid characters
  *
@@ -15579,8 +12985,7 @@ var InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]
  * @param onPremise Set to true for SharePoint On-Premise
  * @returns True if contains invalid chars, false otherwise
  */
-function containsInvalidFileFolderChars(input, onPremise) {
-    if (onPremise === void 0) { onPremise = false; }
+function containsInvalidFileFolderChars(input, onPremise = false) {
     if (onPremise) {
         return InvalidFileFolderNameCharsOnPremiseRegex.test(input);
     }
@@ -15596,9 +13001,7 @@ function containsInvalidFileFolderChars(input, onPremise) {
  * @param onPremise Set to true for SharePoint On-Premise
  * @returns File or folder name with replaced invalid characters
  */
-function stripInvalidFileFolderChars(input, replacer, onPremise) {
-    if (replacer === void 0) { replacer = ""; }
-    if (onPremise === void 0) { onPremise = false; }
+function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
     if (onPremise) {
         return input.replace(InvalidFileFolderNameCharsOnPremiseRegex, replacer);
     }
@@ -15692,7 +13095,7 @@ function stripInvalidFileFolderChars(input, replacer, onPremise) {
 
 
 
-var all_sp = new rest_SPRest();
+const all_sp = new rest_SPRest();
 
 // CONCATENATED MODULE: ./pnpjs-sources/index-sp.ts
 
