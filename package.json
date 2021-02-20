@@ -1,6 +1,6 @@
 {
   "name": "sp-editor",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "private": true,
   "dependencies": {
     "@fluentui/date-time-utilities": "^7.9.0",

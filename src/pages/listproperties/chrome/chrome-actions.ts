@@ -36,7 +36,7 @@ export async function getAllListProperties(dispatch: Dispatch<ListPropertiesActi
           })
 
           // find indexed properties
-          if (vti_indexedpropertykeys) {
+          if (vti_indexedpropertykeys && vti_indexedpropertykeys.value && vti_indexedpropertykeys.value.indexOf('|') > -1) {
             listProperties = listProperties.map((property) => {
 
               const bytes = []
@@ -45,7 +45,7 @@ export async function getAllListProperties(dispatch: Dispatch<ListPropertiesActi
                 bytes.push(0)
               }
               const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes))
-              property.indexed = vti_indexedpropertykeys.value.indexOf(b64encoded + '|') > -1
+              property.indexed = vti_indexedpropertykeys.value.split('|').find(x => x === b64encoded) ? true : false
               return property
             })
           }

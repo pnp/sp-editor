@@ -121,7 +121,7 @@ export function createListProperty(...args: any) {
 
             const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes)) + '|'
             let newIndexValue = ''
-
+            // TODO check indexed using array/find
             if (indexed) {
               newIndexValue = vtiprop && vtiprop.length > 0 ?
                 vtiprop.indexOf(b64encoded) === -1 ? `${vtiprop}${b64encoded}` : vtiprop
