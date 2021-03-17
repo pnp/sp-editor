@@ -2211,6 +2211,7 @@ var UserAgentApplication = /** @class */ (function () {
                         this.logger.verbose("Navigating window to urlNavigate");
                         // This is for SP Editor Chrome Extension, remove this when adal supports logging out in Popup window.
                         if (window.location.href.indexOf("chrome-extension") === -1) {
+                            console.log(window.location.href)
                             this.navigateWindow(urlNavigate);
                         }
                         return [3 /*break*/, 6];

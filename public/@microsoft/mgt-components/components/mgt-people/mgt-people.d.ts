@@ -75,6 +75,13 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     private _peoplePresence;
     constructor();
     /**
+     * Clears the state of the component
+     *
+     * @protected
+     * @memberof MgtPeople
+     */
+    protected clearState(): void;
+    /**
      * Request to reload the state.
      * Use reload instead of load to ensure loading events are fired.
      *

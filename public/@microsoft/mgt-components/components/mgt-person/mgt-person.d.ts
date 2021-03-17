@@ -37,6 +37,16 @@ export declare enum PersonViewType {
      */
     threelines = 5
 }
+export declare enum avatarType {
+    /**
+     * Renders avatar photo if available, falls back to initials
+     */
+    photo = "photo",
+    /**
+     * Forces render avatar initials
+     */
+    initials = "initials"
+}
 /**
  * Configuration object for the Person component
  *
@@ -58,6 +68,10 @@ export interface MgtPersonConfig {
  * @export
  * @class MgtPerson
  * @extends {MgtTemplatedComponent}
+ *
+ * @fires line1clicked - Fired when line1 is clicked
+ * @fires line2clicked - Fired when line2 is clicked
+ * @fires line3clicked - Fired when line3 is clicked
  *
  * @cssprop --avatar-size - {Length} Avatar size
  * @cssprop --avatar-border - {String} Avatar border
@@ -103,6 +117,12 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     get personQuery(): string;
     set personQuery(value: string);
     /**
+     * Fallback when no user is found
+     * @type {IDynamicPerson}
+     */
+    get fallbackDetails(): IDynamicPerson;
+    set fallbackDetails(value: IDynamicPerson);
+    /**
      * user-id property allows developer to use id value to determine person
      * @type {string}
      */
@@ -141,6 +161,15 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     fetchImage: boolean;
+    /**
+     * Determines and sets person avatar
+     *
+     *
+     * @type {string}
+     * @memberof MgtPerson
+     */
+    get avatarType(): string;
+    set avatarType(value: string);
     /**
      * Gets or sets presence of person
      *
@@ -202,11 +231,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private _isInvalidImageSrc;
     private _personCardShouldRender;
     private _personDetails;
+    private _fallbackDetails;
     private _personAvatarBg;
     private _personImage;
     private _personPresence;
     private _personQuery;
     private _userId;
+    private _avatarType;
     private _mouseLeaveTimeout;
     private _mouseEnterTimeout;
     constructor();
@@ -224,6 +255,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     protected renderLoading(): TemplateResult;
+    /**
+     * Clears state of the component
+     *
+     * @protected
+     * @memberof MgtPerson
+     */
+    protected clearState(): void;
     /**
      * Render the state when no data is available
      *
@@ -259,6 +297,9 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPersonCard
      */
     protected renderAvatar(personDetails: IDynamicPerson, image: string, presence: Presence): TemplateResult;
+    private handleLine1Clicked;
+    private handleLine2Clicked;
+    private handleLine3Clicked;
     /**
      * Render the details part of the person template.
      *

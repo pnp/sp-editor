@@ -149,23 +149,23 @@ export const getExportRows = (content: string, path: string) => {
         const lib = libo[0].replace(/"/g, '').replace(/'/g, '')
         const splitIndex = locations('/', path)
         if (lib.startsWith('./')) {
-          const jee = splitIndex[splitIndex.length - 1]
-          const lib1 = path.substring(0, jee! + 1) + lib.substring(2)
-          exportTexts.push(lib1)
+          const spl1 = splitIndex[splitIndex.length - 1]
+          const lib1 = path.substring(0, spl1! + 1) + lib.substring(2)
+          exportTexts.push(lib1.replace('.js', ''))
         } else if (lib.startsWith('../../')) {
-          const jee = splitIndex[splitIndex.length - 3]
-          if (jee) {
-            const lib2 = path.substring(0, jee + 1) + lib.substring(6)
-            exportTexts.push(lib2)
+          const spl2 = splitIndex[splitIndex.length - 3]
+          if (spl2) {
+            const lib2 = path.substring(0, spl2 + 1) + lib.substring(6)
+            exportTexts.push(lib2.replace('.js', ''))
           }
         } else if (lib.startsWith('../')) {
-          const jee = splitIndex[splitIndex.length - 2]
-          if (jee) {
-            const lib3 = path.substring(0, jee + 1) + lib.substring(3)
-            exportTexts.push(lib3)
+          const spl3 = splitIndex[splitIndex.length - 2]
+          if (spl3) {
+            const lib3 = path.substring(0, spl3 + 1) + lib.substring(3)
+            exportTexts.push(lib3.replace('.js', ''))
           }
         } else {
-          exportTexts.push(lib)
+          exportTexts.push(lib.replace('.js', ''))
         }
       }
     })

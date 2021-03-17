@@ -1,3 +1,9 @@
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
 import React, { ReactNode } from 'react';
 import { Wc, WcProps, WcTypeProps } from 'wc-react';
 export declare class Mgt extends Wc {
@@ -48,5 +54,5 @@ export declare class Mgt extends Wc {
  * @param {(string | Function)} tag
  * @returns React component
  */
-export declare const wrapMgt: <T = WcProps>(tag: string) => React.FC<T>;
+export declare const wrapMgt: <T = WcProps>(tag: string) => React.FC<T & React.HTMLAttributes<any>>;
 //# sourceMappingURL=Mgt.d.ts.map

@@ -133,6 +133,13 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      */
     protected renderLoading(): TemplateResult;
     /**
+     * Clears state of the component
+     *
+     * @protected
+     * @memberof MgtAgenda
+     */
+    protected clearState(): void;
+    /**
      * Render the no-data state.
      *
      * @protected

@@ -81,7 +81,8 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
      * user-id property allows developer to use id value for component
      * @type {string}
      */
-    userId: string;
+    get userId(): string;
+    set userId(value: string);
     /**
      * Set the image of the person
      * Set to '@' to look up image from the graph
@@ -141,6 +142,7 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
     private _currentSection;
     private _personDetails;
     private _me;
+    private _userId;
     private get internalPersonDetails();
     constructor();
     /**
