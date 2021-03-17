@@ -110,6 +110,7 @@ export declare abstract class MgtBaseComponent extends LitElement {
      * Override this function to provide additional loading logic.
      */
     protected loadState(): Promise<void>;
+    protected clearState(): void;
     /**
      * helps facilitate creation of events across components
      *

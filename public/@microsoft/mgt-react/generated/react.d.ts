@@ -45,11 +45,11 @@ export declare type PeoplePickerProps = {
     groupType?: GroupType;
     transitiveSearch?: boolean;
     people?: IDynamicPerson[];
+    selectedPeople?: IDynamicPerson[];
     defaultSelectedUserIds?: string[];
     placeholder?: string;
     selectionMode?: string;
     showMax?: number;
-    selectedPeople?: IDynamicPerson[];
     disabled?: boolean;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
@@ -82,11 +82,13 @@ export declare type PersonCardProps = {
 export declare type PersonProps = {
     config?: MgtPersonConfig;
     personQuery?: string;
+    fallbackDetails?: IDynamicPerson;
     userId?: string;
     showPresence?: boolean;
     personDetails?: IDynamicPerson;
     personImage?: string;
     fetchImage?: boolean;
+    avatarType?: string;
     personPresence?: MicrosoftGraphBeta.Presence;
     personCardInteraction?: PersonCardInteraction;
     line1Property?: string;

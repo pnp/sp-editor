@@ -177,6 +177,13 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      */
     protected renderSelected(): TemplateResult;
     /**
+     * Clears the state of the component
+     *
+     * @protected
+     * @memberof MgtTeamsChannelPicker
+     */
+    protected clearState(): void;
+    /**
      * Renders search icon
      *
      * @protected

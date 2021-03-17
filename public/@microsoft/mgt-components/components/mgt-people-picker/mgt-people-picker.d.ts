@@ -180,6 +180,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     render(): TemplateResult;
     /**
+     * Clears state of the component
+     *
+     * @protected
+     * @memberof MgtPeoplePicker
+     */
+    protected clearState(): void;
+    /**
      * Request to reload the state.
      * Use reload instead of load to ensure loading events are fired.
      *

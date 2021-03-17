@@ -128,6 +128,13 @@ export declare class MgtGet extends MgtTemplatedComponent {
      */
     refresh(hardRefresh?: boolean): void;
     /**
+     * Clears state of the component
+     *
+     * @protected
+     * @memberof MgtGet
+     */
+    protected clearState(): void;
+    /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.

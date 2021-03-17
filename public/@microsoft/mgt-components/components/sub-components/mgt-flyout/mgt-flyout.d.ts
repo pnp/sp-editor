@@ -46,6 +46,8 @@ export declare class MgtFlyout extends MgtBaseComponent {
     private _renderedOnce;
     private get _flyout();
     private get _anchor();
+    private get _topScout();
+    private get _bottomScout();
     private _isOpen;
     constructor();
     /**

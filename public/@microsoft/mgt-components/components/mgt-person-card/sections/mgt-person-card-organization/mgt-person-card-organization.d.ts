@@ -39,6 +39,13 @@ export declare class MgtPersonCardOrganization extends BasePersonCardSection {
     private _me;
     constructor(state: MgtPersonCardState, me: User);
     /**
+     * Reset any state in the section
+     *
+     * @protected
+     * @memberof MgtPersonCardMessages
+     */
+    clearState(): void;
+    /**
      * The name for display in the overview section.
      *
      * @readonly

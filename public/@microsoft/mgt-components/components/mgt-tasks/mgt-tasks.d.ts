@@ -269,6 +269,7 @@ export declare class MgtTasks extends MgtTemplatedComponent {
      * @memberof MgtTasks
      */
     attributeChangedCallback(name: string, oldVal: string, newVal: string): void;
+    protected clearState(): void;
     /**
      * Invoked when the element is first updated. Implement to perform one time
      * work on the element after update.
