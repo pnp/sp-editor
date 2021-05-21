@@ -43,6 +43,19 @@ export declare class GraphPageIterator<T> {
      * @memberof GraphPageIterator
      */
     static create<T>(graph: IGraph, request: GraphRequest, version?: string): Promise<GraphPageIterator<T>>;
+    /**
+     * Creates a new GraphPageIterator from existing value
+     *
+     * @static
+     * @template T - the type of entities expected from this request
+     * @param {IGraph} graph - the graph instance to use for making requests
+     * @param value - the existing value
+     * @param nextLink - optional nextLink to use to get the next page
+     * from the graph parameter
+     * @returns a GraphPageIterator
+     * @memberof GraphPageIterator
+     */
+    static createFromValue<T>(graph: IGraph, value: any, nextLink?: any): GraphPageIterator<T>;
     private _graph;
     private _nextLink;
     private _version;

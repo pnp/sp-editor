@@ -69,10 +69,43 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     personCardInteraction: PersonCardInteraction;
+    /**
+     * The resource to get
+     *
+     * @type {string}
+     * @memberof MgtPeople
+     */
+    get resource(): string;
+    set resource(value: string);
+    /**
+     * Api version to use for request
+     *
+     * @type {string}
+     * @memberof MgtPeople
+     */
+    get version(): string;
+    set version(value: string);
+    /**
+     * The scopes to request
+     *
+     * @type {string[]}
+     * @memberof MgtPeople
+     */
+    scopes: string[];
+    /**
+     * Get the scopes required for people
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtPeople
+     */
+    static get requiredScopes(): string[];
     private _groupId;
     private _userIds;
     private _peopleQueries;
     private _peoplePresence;
+    private _resource;
+    private _version;
     constructor();
     /**
      * Clears the state of the component

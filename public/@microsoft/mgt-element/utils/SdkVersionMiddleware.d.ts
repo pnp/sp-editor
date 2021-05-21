@@ -19,7 +19,8 @@ export declare class SdkVersionMiddleware implements Middleware {
      */
     private _nextMiddleware;
     private _packageVersion;
-    constructor(packageVersion: string);
+    private _providerName;
+    constructor(packageVersion: string, providerName?: string);
     execute(context: Context): Promise<void>;
     /**
      * Handles setting of next middleware

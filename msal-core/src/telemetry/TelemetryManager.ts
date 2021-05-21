@@ -14,10 +14,11 @@ import {
     TelemetryEmitter
 } from "./TelemetryTypes";
 import DefaultEvent from "./DefaultEvent";
-import { libraryVersion, Constants } from "../utils/Constants";
+import { Constants } from "../utils/Constants";
 import ApiEvent, { API_EVENT_IDENTIFIER } from "./ApiEvent";
 import { Logger } from "../Logger";
 import HttpEvent from "./HttpEvent";
+import { version as libraryVersion } from "../packageMetadata";
 
 export default class TelemetryManager {
 
@@ -39,7 +40,7 @@ export default class TelemetryManager {
         // TODO THROW if bad options
         this.telemetryPlatform = {
             sdk: Constants.libraryName,
-            sdkVersion: libraryVersion(),
+            sdkVersion: libraryVersion,
             networkInformation: {
                 // @ts-ignore
                 connectionSpeed: typeof navigator !== "undefined" && navigator.connection && navigator.connection.effectiveType
@@ -73,7 +74,7 @@ export default class TelemetryManager {
         return new this(telemetryManagerConfig, telemetryEmitter, logger);
     }
 
-    startEvent(event: TelemetryEvent) {
+    startEvent(event: TelemetryEvent): void {
         this.logger.verbose(`Telemetry Event started: ${event.key}`);
 
         if (!this.telemetryEmitter) {
@@ -84,7 +85,7 @@ export default class TelemetryManager {
         this.inProgressEvents[event.key] = event;
     }
 
-    stopEvent(event: TelemetryEvent) {
+    stopEvent(event: TelemetryEvent): void {
         this.logger.verbose(`Telemetry Event stopped: ${event.key}`);
 
         if (!this.telemetryEmitter || !this.inProgressEvents[event.key]) {

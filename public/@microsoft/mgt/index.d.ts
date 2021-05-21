@@ -10,4 +10,5 @@ export * from '@microsoft/mgt-msal-provider';
 export * from '@microsoft/mgt-teams-provider';
 export * from '@microsoft/mgt-proxy-provider';
 export * from '@microsoft/mgt-sharepoint-provider';
+export * from '@microsoft/mgt-msal2-provider';
 //# sourceMappingURL=index.d.ts.map

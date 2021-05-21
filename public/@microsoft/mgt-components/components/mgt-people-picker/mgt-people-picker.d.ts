@@ -6,14 +6,14 @@
  */
 import { TemplateResult } from 'lit-element';
 import { GroupType } from '../../graph/graph.groups';
-import { PersonType } from '../../graph/graph.people';
+import { PersonType, UserType } from '../../graph/graph.people';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
 import '../sub-components/mgt-spinner/mgt-spinner';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 export { GroupType } from '../../graph/graph.groups';
-export { PersonType } from '../../graph/graph.people';
+export { PersonType, UserType } from '../../graph/graph.people';
 /**
  * Web component used to search for people from the Microsoft Graph
  *
@@ -89,6 +89,8 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     get groupType(): GroupType;
     set groupType(value: GroupType);
+    get userType(): UserType;
+    set userType(value: UserType);
     /**
      * whether the return should contain a flat list of all nested members
      * @type {boolean}
@@ -117,6 +119,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     defaultSelectedUserIds: string[];
     /**
+     * array of groups to be selected upon intialization
+     *
+     * @type {string[]}
+     * @memberof MgtPeoplePicker
+     */
+    defaultSelectedGroupIds: string[];
+    /**
      * Placeholder text.
      *
      * @type {string}
@@ -131,12 +140,27 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     disabled: boolean;
     /**
+     * Determines if a user can enter an email without selecting a person
+     *
+     * @type {boolean}
+     * @memberof MgtPeoplePicker
+     */
+    allowAnyEmail: boolean;
+    /**
      * Determines whether component allows multiple or single selection of people
      *
      * @type {string}
      * @memberof MgtPeoplePicker
      */
     selectionMode: string;
+    /**
+     * Get the scopes required for people picker
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtPeoplePicker
+     */
+    static get requiredScopes(): string[];
     /**
      * User input in search.
      *
@@ -149,11 +173,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private _groupId;
     private _type;
     private _groupType;
+    private _userType;
     private defaultPeople;
     private _arrowSelectionCount;
     private _groupPeople;
     private _debouncedSearch;
     private defaultSelectedUsers;
+    private defaultSelectedGroups;
     private _isFocused;
     private _foundPeople;
     constructor();
@@ -167,11 +193,11 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
      * Queries the microsoft graph for a user based on the user id and adds them to the selectedPeople array
      *
-     * @param {[string]} an array of user ids to add to selectedPeople
+     * @param {readonly string []} an array of user ids to add to selectedPeople
      * @returns {Promise<void>}
      * @memberof MgtPeoplePicker
      */
-    selectUsersById(userIds: [string]): Promise<void>;
+    selectUsersById(userIds: readonly string[]): Promise<void>;
     /**
      * Invoked on each update to perform rendering tasks. This method must return a lit-html TemplateResult.
      * Setting properties inside this method will not trigger the element to update.
@@ -308,6 +334,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * Adds debounce method for set delay on user input
      */
     private onUserKeyUp;
+    private handleAnyEmail;
     private onPersonClick;
     /**
      * Tracks event on user input in search

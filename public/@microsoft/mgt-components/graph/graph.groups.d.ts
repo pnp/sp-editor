@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IGraph } from '@microsoft/mgt-element';
+import { IGraph, CacheItem } from '@microsoft/mgt-element';
 import { Group } from '@microsoft/microsoft-graph-types';
 /**
  * Group Type enumeration
@@ -35,6 +35,15 @@ export declare enum GroupType {
     distribution = 8
 }
 /**
+ * Object to be stored in cache
+ */
+export interface CacheGroup extends CacheItem {
+    /**
+     * stringified json representing a user
+     */
+    group?: string;
+}
+/**
  * Searches the Graph for Groups
  *
  * @export
@@ -58,4 +67,21 @@ export declare function findGroups(graph: IGraph, query: string, top?: number, g
  * @returns {Promise<Group[]>} An array of Groups
  */
 export declare function findGroupsFromGroup(graph: IGraph, query: string, groupId: string, top?: number, transitive?: boolean, groupTypes?: GroupType): Promise<Group[]>;
+/**
+ * async promise, returns all Graph groups associated with the id provided
+ *
+ * @param {string} id
+ * @returns {(Promise<User>)}
+ * @memberof Graph
+ */
+export declare function getGroup(graph: IGraph, id: string, requestedProps?: string[]): Promise<Group>;
+/**
+ * Returns a Promise of Graph Groups array associated with the groupIds array
+ *
+ * @export
+ * @param {IGraph} graph
+ * @param {string[]} groupIds, an array of string ids
+ * @returns {Promise<Group[]>}
+ */
+export declare function getGroupsForGroupIds(graph: IGraph, groupIds: string[]): Promise<Group[]>;
 //# sourceMappingURL=graph.groups.d.ts.map

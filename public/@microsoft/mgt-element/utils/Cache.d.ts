@@ -67,6 +67,20 @@ export interface CacheConfig {
      * @memberof CacheConfig
      */
     response: CacheOptions;
+    /**
+     * Cache options for files store
+     *
+     * @type {CacheOptions}
+     * @memberof CacheConfig
+     */
+    files: CacheOptions;
+    /**
+     * Cache options for fileLists store
+     *
+     * @type {CacheOptions}
+     * @memberof CacheConfig
+     */
+    fileLists: CacheOptions;
 }
 /**
  * Options for each store

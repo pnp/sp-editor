@@ -88,6 +88,14 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
     get preferredTimezone(): string;
     set preferredTimezone(value: string);
     /**
+     * Get the scopes required for agenda
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtAgenda
+     */
+    static get requiredScopes(): string[];
+    /**
      * determines width available for agenda component.
      * @type {boolean}
      */

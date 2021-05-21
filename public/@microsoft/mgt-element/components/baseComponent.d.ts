@@ -142,6 +142,8 @@ export declare abstract class MgtBaseComponent extends LitElement {
      */
     protected requestStateUpdate(force?: boolean): Promise<unknown>;
     private setLoadingState;
+    private handleProviderUpdates;
+    private handleActiveAccountUpdates;
     private handleLocalizationChanged;
     private handleDirectionChanged;
 }

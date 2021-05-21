@@ -26,6 +26,7 @@ export declare abstract class IProvider implements AuthenticationProvider {
     graph: IGraph;
     private _state;
     private _loginChangedDispatcher;
+    private _activeAccountChangedDispatcher;
     /**
      * returns state of Provider
      *
@@ -34,6 +35,13 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     get state(): ProviderState;
+    /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
     constructor();
     /**
      * sets state of Provider and fires loginchangedDispatcher
@@ -71,6 +79,40 @@ export declare abstract class IProvider implements AuthenticationProvider {
      */
     logout?(): Promise<void>;
     /**
+     * Returns all signed in accounts.
+     *
+     * @return {*}  {any[]}
+     * @memberof IProvider
+     */
+    getAllAccounts?(): IProviderAccount[];
+    /**
+     * Switch between two signed in accounts
+     *
+     * @param {*} user
+     * @memberof IProvider
+     */
+    setActiveAccount?(user: IProviderAccount): void;
+    /**
+     * Event handler when Active account changes
+     *
+     * @param {EventHandler<ActiveAccountChanged>} eventHandler
+     * @memberof IProvider
+     */
+    onActiveAccountChanged(eventHandler: EventHandler<ActiveAccountChanged>): void;
+    /**
+     * Removes event handler for when Active account changes
+     *
+     * @param {EventHandler<ActiveAccountChanged>} eventHandler
+     * @memberof IProvider
+     */
+    removeActiveAccountChangedHandler(eventHandler: EventHandler<ActiveAccountChanged>): void;
+    /**
+     * Fires event when active account changes
+     *
+     * @memberof IProvider
+     */
+    private fireActiveAccountChanged;
+    /**
      * uses scopes to recieve access token
      *
      * @param {...string[]} scopes
@@ -87,6 +129,14 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     abstract getAccessToken(options?: AuthenticationProviderOptions): Promise<string>;
+}
+/**
+ * ActiveAccountChanged Event
+ *
+ * @export
+ * @interface ActiveAccountChanged
+ */
+export interface ActiveAccountChanged {
 }
 /**
  * loginChangedEvent
@@ -132,4 +182,13 @@ export declare enum ProviderState {
      */
     SignedIn = 2
 }
+/**
+ * Account details
+ *
+ * @export
+ */
+export declare type IProviderAccount = {
+    username?: string;
+    id: string;
+};
 //# sourceMappingURL=IProvider.d.ts.map

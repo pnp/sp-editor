@@ -81,6 +81,21 @@ interface ChannelPickerItemState {
     parent: ChannelPickerItemState;
 }
 /**
+ * Configuration object for the TeamsChannelPicker component
+ *
+ * @export
+ * @interface MgtTeamsChannelPickerConfig
+ */
+export interface MgtTeamsChannelPickerConfig {
+    /**
+     * Sets or gets whether the teams channel picker component should use
+     * the Teams based scopes instead of the User and Group based scopes
+     *
+     * @type {boolean}
+     */
+    useTeamsBasedScopes: boolean;
+}
+/**
  * Web component used to select channels from a User's Microsoft Teams profile
  *
  *
@@ -121,6 +136,16 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
         loadingMessage: string;
     };
     /**
+     * Global Configuration object for all
+     * teams channel picker components
+     *
+     * @static
+     * @type {MgtTeamsChannelPickerConfig}
+     * @memberof MgtTeamsChannelPicker
+     */
+    static get config(): MgtTeamsChannelPickerConfig;
+    private static _config;
+    /**
      * Gets Selected item to be used
      *
      * @readonly
@@ -128,6 +153,14 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @memberof MgtTeamsChannelPicker
      */
     get selectedItem(): SelectedChannel;
+    /**
+     * Get the scopes required for teams channel picker
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtTeamsChannelPicker
+     */
+    static get requiredScopes(): string[];
     private set items(value);
     private get items();
     private get _input();

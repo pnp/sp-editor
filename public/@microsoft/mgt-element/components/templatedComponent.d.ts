@@ -14,6 +14,8 @@ import { TemplateContext } from '../utils/TemplateContext';
  * @abstract
  * @class MgtTemplatedComponent
  * @extends {MgtBaseComponent}
+ *
+ * @fires templateRendered - fires when a template is rendered
  */
 export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
     /**

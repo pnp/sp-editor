@@ -41,6 +41,22 @@ export declare class Providers {
      */
     static removeProviderUpdatedListener(event: EventHandler<ProvidersChangedState>): void;
     /**
+     * Fires event when Provider changes state
+     *
+     * @static
+     * @param {EventHandler<ProvidersChangedState>} event
+     * @memberof Providers
+     */
+    static onActiveAccountChanged(event: EventHandler<any>): void;
+    /**
+     * Remove event handler
+     *
+     * @static
+     * @param {EventHandler<ProvidersChangedState>} event
+     * @memberof Providers
+     */
+    static removeActiveAccountChangedListener(event: EventHandler<any>): void;
+    /**
      * Gets the current signed in user
      *
      * @static
@@ -57,9 +73,11 @@ export declare class Providers {
      */
     static get client(): Client;
     private static _eventDispatcher;
+    private static _activeAccountChangedDispatcher;
     private static _globalProvider;
     private static _me;
     private static handleProviderStateChanged;
+    private static handleActiveAccountChanged;
 }
 /**
  * on Provider Change State

@@ -52,7 +52,14 @@ export declare class SharePointProvider extends IProvider {
      */
     get isLoggedIn(): boolean;
     /**
-     * privilege level for authenication
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
+    /**
+     * privilege level for authentication
      *
      * @type {string[]}
      * @memberof SharePointProvider

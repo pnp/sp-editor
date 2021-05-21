@@ -199,6 +199,13 @@ export declare class _ClientsidePage extends _SharePointQueryable {
      * @param emphasis The section emphasis
      */
     private getOrCreateSection;
+    /**
+     * Based on issue #1690 we need to take special case actions to ensure some things
+     * can be saved properly without breaking existing pages.
+     *
+     * @param control The control we are ensuring is "ready" to be saved
+     */
+    private specialSaveHandling;
 }
 export interface IClientsidePage extends _ClientsidePage {
 }
@@ -448,6 +455,18 @@ export interface IBannerImageProps {
     imageSourceType?: number;
     translateX?: number;
     translateY?: number;
+}
+export interface IRepostPage {
+    Description?: string;
+    IsBannerImageUrlExternal?: boolean;
+    OriginalSourceListId?: string;
+    ShouldSaveAsDraft?: boolean;
+    OriginalSourceSiteId?: string;
+    BannerImageUrl?: string;
+    Title?: string;
+    OriginalSourceItemId?: string;
+    OriginalSourceUrl?: string;
+    OriginalSourceWebId?: string;
 }
 export {};
 //# sourceMappingURL=types.d.ts.map
