@@ -36,7 +36,7 @@ import { Providers } from '@microsoft/mgt-element'
   {
     option: {
       key: 'login-templates',
-      text: 'Login component with custom teplates',
+      text: 'Login component with custom templates',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
@@ -231,7 +231,7 @@ import { Login } from '@microsoft/mgt-react'
   {
     option: {
       key: 'get-basic',
-      text: 'Get component with "/me" resouce',
+      text: 'Get component with "/me" resource',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
