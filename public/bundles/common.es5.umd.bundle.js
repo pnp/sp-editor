@@ -433,7 +433,7 @@ function mergeMaps(target) {
     return target;
 }
 
-// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: ./node_modules/@pnp/common/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
