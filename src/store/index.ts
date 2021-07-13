@@ -1,4 +1,6 @@
 import { combineReducers, createStore } from 'redux'
+import { fileExplorerReducer } from './fileexplorer/reducers'
+import { IFileExplorerState } from './fileexplorer/types'
 import { GraphSDKConsoleReducer } from './graphsdkconsole/reducers'
 import { IGraphSDKConsoleState } from './graphsdkconsole/types'
 import { homeReducer } from './home/reducers'
@@ -27,7 +29,8 @@ export interface IRootState {
   listProperties: IListPropertiesState
   spshoot: ISPShootState
   graphsdkconsole: IGraphSDKConsoleState,
-  mgtconsole: IMGTConsoleState
+  mgtconsole: IMGTConsoleState,
+  fileexplorer: IFileExplorerState,
 }
 
 const store = createStore<IRootState, any, any, any>(
@@ -41,6 +44,7 @@ const store = createStore<IRootState, any, any, any>(
     spshoot: spshootReducer,
     graphsdkconsole: GraphSDKConsoleReducer,
     mgtconsole: MGTConsoleReducer,
+    fileexplorer: fileExplorerReducer,
   }))
 
 export default store

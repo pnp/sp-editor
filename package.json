@@ -10,6 +10,7 @@
     "@microsoft/mgt": "^2.2.0",
     "@microsoft/mgt-react": "^2.2.0",
     "@microsoft/microsoft-graph-client": "^2.2.1",
+    "@minoru/react-dnd-treeview": "^1.4.1",
     "@uifabric/theme-samples": "^7.2.42",
     "cra-build-watch": "^3.4.0",
     "gsap": "^3.7.0",
