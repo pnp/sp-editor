@@ -43,7 +43,7 @@ export declare const getIsUsersCacheEnabled: () => boolean;
  * @returns {(Promise<User>)}
  * @memberof Graph
  */
-export declare function getMe(graph: IGraph): Promise<User>;
+export declare function getMe(graph: IGraph, requestedProps?: string[]): Promise<User>;
 /**
  * async promise, returns all Graph users associated with the userPrincipleName provided
  *
@@ -51,7 +51,7 @@ export declare function getMe(graph: IGraph): Promise<User>;
  * @returns {(Promise<User>)}
  * @memberof Graph
  */
-export declare function getUser(graph: IGraph, userPrincipleName: string): Promise<User>;
+export declare function getUser(graph: IGraph, userPrincipleName: string, requestedProps?: string[]): Promise<User>;
 /**
  * Returns a Promise of Graph Users array associated with the user ids array
  *

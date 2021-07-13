@@ -8,7 +8,6 @@ import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import '../../styles/style-helper';
-import '../mgt-person/mgt-person';
 /**
  * Web component button and flyout control to facilitate Microsoft identity platform authentication
  *
@@ -63,6 +62,14 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @memberof MgtLogin
      */
     protected get flyout(): MgtFlyout;
+    /**
+     * Get the scopes required for login
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtLogin
+     */
+    static get requiredScopes(): string[];
     /**
      * determines if login menu popup should be showing
      * @type {boolean}
@@ -158,6 +165,13 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @memberof MgtLogin
      */
     protected renderSignedInButtonContent(personDetails: IDynamicPerson, personImage: string): import("lit-element").TemplateResult;
+    /**
+     * Clears state of the component
+     *
+     * @protected
+     * @memberof MgtLogin
+     */
+    protected clearState(): void;
     /**
      * Render the button content when the user is not signed in.
      *

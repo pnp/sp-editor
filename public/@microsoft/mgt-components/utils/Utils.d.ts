@@ -75,4 +75,11 @@ export declare function blobToBase64(blob: Blob): Promise<string>;
  * @returns {string}
  */
 export declare function extractEmailAddress(emailString: string): string;
+/**
+ * checks if the email string is a valid email
+ *
+ * @param {string} emailString
+ * @returns {boolean}
+ */
+export declare function isValidEmail(emailString: string): boolean;
 //# sourceMappingURL=Utils.d.ts.map

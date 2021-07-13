@@ -74,6 +74,14 @@ export declare class MgtTodo extends MgtTasksBase {
      * @memberof MgtTodo
      */
     taskFilter: TodoFilter;
+    /**
+     * Get the scopes required for todo
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtTodo
+     */
+    static get requiredScopes(): string[];
     private _lists;
     private _tasks;
     private _currentList;

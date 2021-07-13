@@ -44,6 +44,18 @@ export declare class MgtMsalProvider extends MgtBaseProvider {
      */
     redirectUri: any;
     /**
+     * The domain hint to use during login
+     *
+     * @memberof MgtMsalProvider
+     */
+    domainHint: any;
+    /**
+     * The prompt type to use during login
+     *
+     * @memberof MgtMsalProvider
+     */
+    prompt: any;
+    /**
      * Gets whether this provider can be used in this environment
      *
      * @readonly

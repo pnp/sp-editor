@@ -452,19 +452,17 @@ function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/common/util.js
@@ -952,19 +950,17 @@ function tslib_es6_importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/common/libconfig.js
@@ -1854,19 +1850,17 @@ function tslib_tslib_es6_importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-extensions.js
@@ -3061,7 +3055,7 @@ var graphhttpclient_GraphHttpClient = /** @class */ (function () {
         }
         if (!headers.has("SdkVersion")) {
             // this marks the requests for understanding by the service
-            headers.append("SdkVersion", "PnPCoreJS/2.3.0");
+            headers.append("SdkVersion", "PnPCoreJS/2.6.0");
         }
         var opts = util_assign(options, { headers: headers });
         return this.fetchRaw(url, opts);
@@ -4092,6 +4086,20 @@ function calendarView(start, end) {
     query.query.set("endDateTime", encodeURIComponent(end));
     return query;
 }
+/**
+ * Get the emailAddress objects that represent all the meeting rooms in the user's tenant or in a specific room list.
+ *
+ * @param this IGraphQueryable instance
+ * @param roomList The SMTP address associated with the room list.
+ */
+function findRooms(roomList) {
+    var query = this.clone(GraphQueryableCollection, roomList ? "findRooms(RoomList=@roomList)" : "findRooms");
+    query.setEndpoint("beta");
+    if (roomList) {
+        query.query.set("@roomList", "'" + encodeURIComponent(roomList) + "'");
+    }
+    return query;
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/types.js
 
@@ -4291,6 +4299,7 @@ addProp(types_User, "calendar", Calendar, "calendar");
 addProp(types_User, "calendars", Calendars, "calendars");
 addProp(types_User, "events", Events);
 types_User.prototype.calendarView = calendarView;
+types_User.prototype.findRooms = findRooms;
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/index.js
 
@@ -5513,6 +5522,103 @@ addProp(types_User, "onenote", OneNote);
 
 
 
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/index.js
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/types.js
+
+
+
+
+
+/**
+ * Outlook
+ */
+var types_Outlook = /** @class */ (function (_super) {
+    __extends(_Outlook, _super);
+    function _Outlook() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(_Outlook.prototype, "masterCategories", {
+        get: function () {
+            return MasterCategories(this);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return _Outlook;
+}(graphqueryable_GraphQueryableInstance));
+
+var Outlook = graphInvokableFactory(types_Outlook);
+/**
+ * Describes an Outlook Category instance
+ */
+var types_OutlookCategory = /** @class */ (function (_super) {
+    __extends(_OutlookCategory, _super);
+    function _OutlookCategory() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    _OutlookCategory = __decorate([
+        deleteable(),
+        updateable()
+    ], _OutlookCategory);
+    return _OutlookCategory;
+}(graphqueryable_GraphQueryableInstance));
+
+var OutlookCategory = graphInvokableFactory(types_OutlookCategory);
+/**
+ * Categories
+ */
+var types_MasterCategories = /** @class */ (function (_super) {
+    __extends(_MasterCategories, _super);
+    function _MasterCategories() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    /**
+     * Adds a new event to the collection
+     *
+     * @param properties The set of properties used to create the event
+     */
+    _MasterCategories.prototype.add = function (properties) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body(properties))];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, {
+                                data: data,
+                            }];
+                }
+            });
+        });
+    };
+    _MasterCategories = __decorate([
+        defaultPath("masterCategories"),
+        getById(OutlookCategory)
+    ], _MasterCategories);
+    return _MasterCategories;
+}(graphqueryable_GraphQueryableCollection));
+
+var MasterCategories = graphInvokableFactory(types_MasterCategories);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/users.js
+
+
+
+addProp(types_User, "outlook", Outlook, "outlook");
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/index.js
+
+
+
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/types.js
 
 
@@ -6349,16 +6455,8 @@ Reflect.defineProperty(rest_GraphRest.prototype, "users", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/index.js
-
-
-
-
-
-
-
-
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/presets/all.js
+
 
 
 

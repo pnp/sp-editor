@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { TemplateResult } from 'lit-element';
-import { AvatarSize, IDynamicPerson } from '../../graph/types';
+import { AvatarSize, IDynamicPerson, ViewType } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
 import '../sub-components/mgt-flyout/mgt-flyout';
@@ -76,6 +76,7 @@ export interface MgtPersonConfig {
  * @cssprop --avatar-size - {Length} Avatar size
  * @cssprop --avatar-border - {String} Avatar border
  * @cssprop --avatar-border-radius - {String} Avatar border radius
+ * @cssprop --avatar-cursor - {String} Avatar cursor
  * @cssprop --initials-color - {Color} Initials color
  * @cssprop --initials-background-color - {Color} Initials background color
  * @cssprop --font-family - {String} Font family
@@ -98,7 +99,7 @@ export interface MgtPersonConfig {
 export declare class MgtPerson extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
-     * user the `css` tag function.
+     * using the `css` tag function.
      */
     static get styles(): import("lit-element").CSSResult[];
     /**
@@ -187,6 +188,14 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     personCardInteraction: PersonCardInteraction;
     /**
+     * Get the scopes required for person
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtPerson
+     */
+    static get requiredScopes(): string[];
+    /**
      * Gets the flyout element
      *
      * @protected
@@ -219,13 +228,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     line3Property: string;
     /**
-     * Sets what data to be rendered (avatar only, oneLine, twoLines).
-     * Default is 'avatar'.
+     * Sets what data to be rendered (image only, oneLine, twoLines).
+     * Default is 'image'.
      *
-     * @type {PersonViewType}
+     * @type {ViewType | PersonViewType}
      * @memberof MgtPerson
      */
-    view: PersonViewType;
+    view: ViewType | PersonViewType;
     private _fetchedImage;
     private _fetchedPresence;
     private _isInvalidImageSrc;

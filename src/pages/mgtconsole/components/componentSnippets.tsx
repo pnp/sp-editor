@@ -36,7 +36,7 @@ import { Providers } from '@microsoft/mgt-element'
   {
     option: {
       key: 'login-templates',
-      text: 'Login component with custom teplates',
+      text: 'Login component with custom templates',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
@@ -231,7 +231,7 @@ import { Login } from '@microsoft/mgt-react'
   {
     option: {
       key: 'get-basic',
-      text: 'Get component with "/me" resouce',
+      text: 'Get component with "/me" resource',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
@@ -624,6 +624,49 @@ import { Providers } from '@microsoft/mgt-element'
       <Login className={'mgt-dark'} />
       <Todo className={'mgt-dark'} />
     </>
+  )
+}`.trim(),
+  },
+
+  {
+    option: {
+      key: 'header-filelist',
+      text: 'MGT File and FileList component samples',
+      itemType: SelectableOptionMenuItemType.Header,
+    },
+  },
+  {
+    option: {
+      key: 'todo-filelist',
+      text: 'File and FileList component',
+      itemType: SelectableOptionMenuItemType.Normal,
+    },
+    snippet: `
+/* CTRL/CMD + D to render changes */
+import React, { useState } from 'react'
+import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
+import { LoginType, MsalProvider } from '@microsoft/mgt'
+import { Providers } from '@microsoft/mgt-element'
+
+() => {
+
+  const [file, setFile] = useState(null);
+
+  Providers.globalProvider = new MsalProvider({
+    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
+    loginType: LoginType.Popup,
+  });
+
+  const selectItem = (selectedFile: any) => {
+    setFile(selectedFile.detail)
+  }
+
+  return (
+    <div className={'mgt-dark'}>
+      <Login />
+      <FileList itemClick={selectItem} />
+      <File fileDetails={file} view={ViewType.threelines} />
+    </div>
   )
 }`.trim(),
   },

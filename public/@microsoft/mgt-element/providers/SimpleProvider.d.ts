@@ -17,6 +17,13 @@ export declare class SimpleProvider extends IProvider {
     private _getAccessTokenHandler;
     private _loginHandler;
     private _logoutHandler;
+    /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
     constructor(getAccessTokenHandler: (scopes: string[]) => Promise<string>, loginHandler?: () => Promise<void>, logoutHandler?: () => Promise<void>);
     /**
      * Invokes the getAccessToken function

@@ -26,4 +26,32 @@ export declare type IDynamicPerson = (MicrosoftGraph.User | MicrosoftGraph.Perso
  *  size of avatar. And in turn will determine presence badge added to it.
  */
 export declare type AvatarSize = 'small' | 'large' | 'auto';
+/**
+ * Insight string types used to retrive OneDrive files
+ */
+export declare type OfficeGraphInsightString = 'trending' | 'used' | 'shared';
+/**
+ * Enumeration to define what parts of the person component render
+ *
+ * @export
+ * @enum {number}
+ */
+export declare enum ViewType {
+    /**
+     * Render only the avatar
+     */
+    image = 2,
+    /**
+     * Render the avatar and one line of text
+     */
+    oneline = 3,
+    /**
+     * Render the avatar and two lines of text
+     */
+    twolines = 4,
+    /**
+     * Render the avatar and three lines of text
+     */
+    threelines = 5
+}
 //# sourceMappingURL=types.d.ts.map

@@ -43,6 +43,7 @@ export declare const schemas: {
     groups: {
         name: string;
         stores: {
+            groups: string;
             groupsQuery: string;
         };
         version: number;
@@ -51,6 +52,26 @@ export declare const schemas: {
         name: string;
         stores: {
             responses: string;
+        };
+        version: number;
+    };
+    files: {
+        name: string;
+        stores: {
+            driveFiles: string;
+            groupFiles: string;
+            siteFiles: string;
+            userFiles: string;
+            insightFiles: string;
+            fileQueries: string;
+        };
+        version: number;
+    };
+    fileLists: {
+        name: string;
+        stores: {
+            fileLists: string;
+            insightfileLists: string;
         };
         version: number;
     };

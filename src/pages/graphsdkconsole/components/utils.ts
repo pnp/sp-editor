@@ -134,9 +134,9 @@ import {
 
 export const initResult = () => {
   const code = `
-/*
-  console.log() will output here
-*/
+  {
+    "console.log() will output here" : ""
+  }
 `
   return code.substring(code.indexOf('\n') + 1)
 }

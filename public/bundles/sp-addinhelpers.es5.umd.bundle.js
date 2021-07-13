@@ -629,19 +629,17 @@ function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/common/libconfig.js
@@ -1439,19 +1437,17 @@ function tslib_es6_importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.js
@@ -1678,19 +1674,17 @@ function tslib_tslib_es6_importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/batch.js
@@ -2083,19 +2077,17 @@ function node_modules_tslib_tslib_es6_importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-extensions.js
@@ -3359,7 +3351,7 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                         }
                         if (!headers.has("X-ClientService-ClientTag")) {
                             methodName = tag.getClientTag(headers);
-                            clientTag = "PnPCoreJS:2.3.0:" + methodName;
+                            clientTag = "PnPCoreJS:2.6.0:" + methodName;
                             if (clientTag.length > 32) {
                                 clientTag = clientTag.substr(0, 32);
                             }
@@ -3401,7 +3393,8 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                 ctx.attempts++;
                 // If we have exceeded the retry count, reject.
                 if (ctx.retryCount <= ctx.attempts) {
-                    ctx.reject(Error("Retry count exceeded (" + ctx.retryCount + ") for request. Response status: [" + response.status + "] " + response.statusText));
+                    // eslint-disable-next-line max-len
+                    ctx.reject(new parsers_HttpRequestError("Retry count exceeded (" + ctx.retryCount + ") for request. Response status: [" + response.status + "] " + response.statusText, response));
                 }
                 else {
                     // Set our retry timeout for {delay} milliseconds.
@@ -4049,7 +4042,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                                 headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
                             }
                             if (!headers.has("X-ClientService-ClientTag")) {
-                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.3.0:batch");
+                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.6.0:batch");
                             }
                             // write headers into batch body
                             headers.forEach(function (value, name) {
@@ -4324,6 +4317,27 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escapeQueryStrValue.js
+
+
+function escapeQueryStrValue(value) {
+    if (stringIsNullOrEmpty(value)) {
+        return "";
+    }
+    // replace all instance of ' with ''
+    if (/!(@.*?)::(.*?)/ig.test(value)) {
+        // to ensure our param aliasing still works we need to treat these special or we'll hear about it
+        // so we encode JUST the part that will end up in the url
+        return value.replace(/!(@.*?)::(.*)$/ig, function (match, labelName, v) {
+            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + v, 0 /* Verbose */);
+            return "!" + labelName + "::" + encodeURIComponent(v.replace(/'/ig, "''"));
+        });
+    }
+    else {
+        return encodeURIComponent(value.replace(/'/ig, "''"));
+    }
+}
+
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/objectToSPKeyValueCollection.js
 
 
@@ -4381,19 +4395,6 @@ function stripInvalidFileFolderChars(input, replacer, onPremise) {
         return input.replace(InvalidFileFolderNameCharsOnlineRegex, replacer);
     }
 }
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
-
-
-
-
-
-
-
-
-
-
-
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/odata.js
 
@@ -4487,26 +4488,20 @@ function spODataEntityArray(factory) {
     return new odata_SPODataEntityArrayParserImpl(factory);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escapeQueryStrValue.js
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
 
 
-function escapeQueryStrValue(value) {
-    if (stringIsNullOrEmpty(value)) {
-        return "";
-    }
-    // replace all instance of ' with ''
-    if (/!(@.*?)::(.*?)/ig.test(value)) {
-        // to ensure our param aliasing still works we need to treat these special or we'll hear about it
-        // so we encode JUST the part that will end up in the url
-        return value.replace(/!(@.*?)::(.*)$/ig, function (match, labelName, v) {
-            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + v, 0 /* Verbose */);
-            return "!" + labelName + "::" + encodeURIComponent(v.replace(/'/ig, "''"));
-        });
-    }
-    else {
-        return encodeURIComponent(value.replace(/'/ig, "''"));
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/types.js
 
@@ -4534,7 +4529,7 @@ var types_Site = /** @class */ (function (_super) {
          *
          */
         get: function () {
-            return tag.configure(Web(this, "rootweb"), "si.rootWeb");
+            return tag.configure(Web(this, "rootweb").configureFrom(this), "si.rootWeb");
         },
         enumerable: false,
         configurable: true
@@ -4581,7 +4576,7 @@ var types_Site = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, this.rootWeb.select("Url")()];
                     case 1:
                         web = _a.sent();
-                        return [2 /*return*/, tag.configure(Web(web.Url), "si.getRootWeb")];
+                        return [2 /*return*/, tag.configure(Web(web.Url).configureFrom(this), "si.getRootWeb")];
                 }
             });
         });
@@ -4591,11 +4586,12 @@ var types_Site = /** @class */ (function (_super) {
      */
     _Site.prototype.getContextInfo = function () {
         return tslib_tslib_es6_awaiter(this, void 0, void 0, function () {
-            var q, data, info;
+            var site, q, data, info;
             return tslib_tslib_es6_generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        q = tag.configure(Site(this.parentUrl, "_api/contextinfo"), "si.getContextInfo");
+                        site = Site(this.parentUrl, "_api/contextinfo").configureFrom(this);
+                        q = tag.configure(site, "si.getContextInfo");
                         return [4 /*yield*/, spPost(q)];
                     case 1:
                         data = _a.sent();
@@ -4898,7 +4894,7 @@ var types_Webs = /** @class */ (function (_super) {
                         data = _a.sent();
                         return [2 /*return*/, {
                                 data: data,
-                                web: Web(odataUrlFrom(data).replace(/_api\/web\/?/i, "")),
+                                web: Web(odataUrlFrom(data).replace(/_api\/web\/?/i, "")).configureFrom(this),
                             }];
                 }
             });

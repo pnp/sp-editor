@@ -35,6 +35,20 @@ interface MsalConfigBase {
      * @memberof MsalConfigBase
      */
     loginHint?: string;
+    /**
+     * Domain hint value
+     *
+     * @type {string}
+     * @memberof MsalConfigBase
+     */
+    domainHint?: string;
+    /**
+     * prompt value
+     *
+     * @type {string}
+     * @memberof MsalConfigBase
+     */
+    prompt?: string;
 }
 /**
  * config for MSAL authentication where a UserAgentApplication already exists
@@ -112,6 +126,13 @@ export declare class MsalProvider extends IProvider {
      */
     get userAgentApplication(): UserAgentApplication;
     /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
+    /**
      * client-id authentication
      *
      * @protected
@@ -122,6 +143,8 @@ export declare class MsalProvider extends IProvider {
     private _userAgentApplication;
     private _loginType;
     private _loginHint;
+    private _domainHint;
+    private _prompt;
     private sessionStorageRequestedScopesKey;
     private sessionStorageDeniedScopesKey;
     constructor(config: MsalConfig | MsalUserAgentApplicationConfig);

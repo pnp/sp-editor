@@ -77,6 +77,13 @@ export declare class TeamsProvider extends MsalProvider {
     static get microsoftTeamsLib(): any;
     static set microsoftTeamsLib(value: any);
     /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
+    /**
      * Handle all authentication redirects in the authentication page and authenticates the user
      *
      * @static

@@ -229,6 +229,14 @@ export declare class MgtTasks extends MgtTemplatedComponent {
      * @memberof MgtTasks
      */
     taskFilter: TaskFilter;
+    /**
+     * Get the scopes required for tasks
+     *
+     * @static
+     * @return {*}  {string[]}
+     * @memberof MgtTasks
+     */
+    static get requiredScopes(): string[];
     private _isNewTaskVisible;
     private _newTaskBeingAdded;
     private _newTaskName;

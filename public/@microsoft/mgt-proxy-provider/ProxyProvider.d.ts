@@ -19,6 +19,13 @@ export declare class ProxyProvider extends IProvider {
      * @memberof ProxyProvider
      */
     graph: Graph;
+    /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
     constructor(graphProxyUrl: string, getCustomHeaders?: () => Promise<object>);
     /**
      * Promise returning token

@@ -43,5 +43,12 @@ export declare class MockProvider extends IProvider {
      * @memberof MockProvider
      */
     getAccessToken(): Promise<string>;
+    /**
+     * Name used for analytics
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get name(): string;
 }
 //# sourceMappingURL=MockProvider.d.ts.map

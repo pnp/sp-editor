@@ -28,6 +28,26 @@ export declare enum PersonType {
     group = "group"
 }
 /**
+ * User Type enum
+ *
+ * @export
+ * @enum {number}
+ */
+export declare enum UserType {
+    /**
+     * Any user or contact
+     */
+    any = "any",
+    /**
+     * An organization User
+     */
+    user = "user",
+    /**
+     * An implicit or personal contact
+     */
+    contact = "contact"
+}
+/**
  * async promise, returns all Graph people who are most relevant contacts to the signed in user.
  *
  * @param {string} query
@@ -35,14 +55,14 @@ export declare enum PersonType {
  * @param {PersonType} [personType=PersonType.person] - the type of person to search for
  * @returns {(Promise<Person[]>)}
  */
-export declare function findPeople(graph: IGraph, query: string, top?: number, personType?: PersonType): Promise<Person[]>;
+export declare function findPeople(graph: IGraph, query: string, top?: number, userType?: UserType): Promise<Person[]>;
 /**
  * async promise to the Graph for People, by default, it will request the most frequent contacts for the signed in user.
  *
  * @returns {(Promise<Person[]>)}
  * @memberof Graph
  */
-export declare function getPeople(graph: IGraph): Promise<Person[]>;
+export declare function getPeople(graph: IGraph, userType?: UserType): Promise<Person[]>;
 /**
  * returns a promise that resolves after specified time
  * @param time in milliseconds
@@ -56,4 +76,13 @@ export declare function getEmailFromGraphEntity(entity: IDynamicPerson): string;
  * @memberof Graph
  */
 export declare function findContactsByEmail(graph: IGraph, email: string): Promise<Contact[]>;
+/**
+ * async promise, returns Graph people matching the Graph query specified
+ * in the resource param
+ *
+ * @param {string} resource
+ * @returns {(Promise<Person[]>)}
+ * @memberof Graph
+ */
+export declare function getPeopleFromResource(graph: IGraph, version: string, resource: string, scopes: string[]): Promise<Person[]>;
 //# sourceMappingURL=graph.people.d.ts.map
