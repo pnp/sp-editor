@@ -1,8 +1,26 @@
-// /gulpfile.js
 var gulp = require('gulp');
 var del = require('del');
 var rename = require("gulp-rename");
 var replace = require('gulp-replace');
+
+gulp.task("comment-redirect", (done) => {
+  gulp.src(["./node_modules/msal/src/UserAgentApplication.ts"])
+  .pipe(replace(
+    `\n            this.navigateWindow(urlNavigate);`,
+    `\n            //this.navigateWindow(urlNavigate);`))
+  .pipe(gulp.dest("./node_modules/msal/src/"));
+  gulp.src(["./node_modules/msal/lib-es6/UserAgentApplication.js"])
+  .pipe(replace(
+    `\n                        this.navigateWindow(urlNavigate);`,
+    `\n                        //this.navigateWindow(urlNavigate);`))
+  .pipe(gulp.dest("./node_modules/msal/lib-es6/"));
+  gulp.src(["./node_modules/msal/dist/msal.js"])
+  .pipe(replace(
+    `\n                        this.navigateWindow(urlNavigate);`,
+    `\n                        //this.navigateWindow(urlNavigate);`))
+  .pipe(gulp.dest("./node_modules/msal/dist/"));
+  done();
+});
 
 gulp.task('clean', (done) => {
   console.log("Deleting old definitions");
@@ -37,7 +55,9 @@ gulp.task('clean', (done) => {
     'public/bundles/sp.es5.umd.bundle.js',
     'public/bundles/graph-sdk.es5.umd.bundle.js',
     'public/bundles/msal.js',
-    // 'public/bundles/adaljsclient.es5.umd.bundle.js',
+    'public/bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js',
+    'public/bundles/msal-browser.js',
+
   ], done);
 });
 
@@ -163,7 +183,9 @@ gulp.task('copy:microsoft-graph-types', (done) => {
 
 gulp.task('copy:microsoft-graph-client', (done) => {
   console.log("Copy @microsoft/microsoft-graph-client");
-  gulp.src(['./node_modules/@microsoft/microsoft-graph-client/lib/es/**/*.d.ts'])
+  gulp.src(['./node_modules/@microsoft/microsoft-graph-client/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@microsoft/microsoft-graph-client/'))
+    gulp.src(['./node_modules/@microsoft/microsoft-graph-client/lib/src/**/*.d.ts'])
     .pipe(gulp.dest('./public/@microsoft/microsoft-graph-client/'))
   gulp.src('./dist/graph-sdk.es5.umd.bundle.js')
   .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -179,6 +201,23 @@ gulp.task('copy:msal', (done) => {
     .pipe(rename('msal.js'))
     .pipe(gulp.dest('./public/bundles/'))
     done();
+});
+
+gulp.task('copy:msal-browser', (done) => {
+  console.log("Copy msal-browser");
+  gulp.src(['./node_modules/@azure/msal-browser/dist/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@azure/msal-browser/'))
+  gulp.src('./node_modules/@azure/msal-browser/lib/msal-browser.js')
+    .pipe(gulp.dest('./public/bundles/'))
+    done();
+});
+
+gulp.task('copy:AuthCodeMSALBrowserAuthenticationProvider', (done) => {
+  console.log("Copy AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js");
+  gulp.src('./dist/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
 });
 
 gulp.task('copy:react', (done) => {
@@ -237,6 +276,8 @@ gulp.task('default',
     'copy:microsoft-graph-types',
     'copy:microsoft-graph-client',
     'copy:msal',
+    'copy:msal-browser',
+    'copy:AuthCodeMSALBrowserAuthenticationProvider',
     'copy:react',
     'copy:mgt-react',
     'copy:monaco-editor',

@@ -4,6 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+import { Presence } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit-element';
 import { AvatarSize, IDynamicPerson, ViewType } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
@@ -11,7 +12,6 @@ import '../../styles/style-helper';
 import '../sub-components/mgt-flyout/mgt-flyout';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import { PersonCardInteraction } from './../PersonCardInteraction';
-import { Presence } from '@microsoft/microsoft-graph-types-beta';
 export { PersonCardInteraction } from '../PersonCardInteraction';
 /**
  * Enumeration to define what parts of the person component render
@@ -174,7 +174,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     /**
      * Gets or sets presence of person
      *
-     * @type {MicrosoftGraphBeta.Presence}
+     * @type {MicrosoftGraph.Presence}
      * @memberof MgtPerson
      */
     get personPresence(): Presence;
@@ -318,7 +318,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof MgtPerson
      */
-    protected renderDetails(person: IDynamicPerson): TemplateResult;
+    protected renderDetails(person: IDynamicPerson, presence?: Presence): TemplateResult;
     /**
      * Render the details flyout.
      *

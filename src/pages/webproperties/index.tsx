@@ -10,7 +10,7 @@ import WebPropertiesList from './components/webpropertieslist'
 const WebProperties = () => {
   return (
     <IonPage>
-      <Header title={"Web Properties"} />
+      <Header title={'Web Properties'} />
       {/* Actions menu */}
       <WebPropertiesCommands />
       <IonContent>
@@ -23,7 +23,7 @@ const WebProperties = () => {
         <WebPropertiesNewPanel />
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
 export default WebProperties

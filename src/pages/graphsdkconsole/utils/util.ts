@@ -7,7 +7,7 @@ import { loadDefinitions } from '../components/utils'
 
 export async function fetchDefinitions(dispatch: Dispatch<GraphSDKConsoleActions | HomeActions>) {
   const directoryEntry = await getExtensionDirectory()
-  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@microsoft', 'msal'])
+  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@microsoft', 'msal', '@azure'])
   dispatch(setDefinitions(definitions))
   return
 }

@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 28);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -113,6 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* unused harmony export __read */
 /* unused harmony export __spread */
 /* unused harmony export __spreadArrays */
+/* unused harmony export __spreadArray */
 /* unused harmony export __await */
 /* unused harmony export __asyncGenerator */
 /* unused harmony export __asyncDelegator */
@@ -141,11 +142,13 @@ PERFORMANCE OF THIS SOFTWARE.
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
 
 function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -227,13 +230,16 @@ function __generator(thisArg, body) {
     }
 }
 
-function __createBinding(o, m, k, k2) {
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
-}
+});
 
-function __exportStar(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) exports[p] = m[p];
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
@@ -265,19 +271,31 @@ function __read(o, n) {
     return ar;
 }
 
+/** @deprecated */
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
 
+/** @deprecated */
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
         for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
             r[k] = a[j];
     return r;
-};
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
+}
 
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
@@ -314,11 +332,17 @@ function __makeTemplateObject(cooked, raw) {
     return cooked;
 };
 
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 }
 
@@ -326,24 +350,77 @@ function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
-function __classPrivateFieldGet(receiver, privateMap) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to get private field on non-instance");
-    }
-    return privateMap.get(receiver);
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
-function __classPrivateFieldSet(receiver, privateMap, value) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to set private field on non-instance");
-    }
-    privateMap.set(receiver, value);
-    return value;
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraphClientError; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module GraphClientError
+ */
+/**
+ * @class
+ * Create GraphClientError object to handle client-side errors
+ * encountered within the JavaScript Client SDK.
+ * Whereas GraphError Class should be used to handle errors in the response from the Graph API.
+ */
+class GraphClientError extends Error {
+    /**
+     * @public
+     * @constructor
+     * Creates an instance of GraphClientError
+     * @param {string} message? - Error message
+     * @returns An instance of GraphClientError
+     */
+    constructor(message) {
+        super(message);
+        Object.setPrototypeOf(this, GraphClientError.prototype);
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * To set the GraphClientError object
+     * @param {any} - The error returned encountered by the Graph JavaScript Client SDK while processing request
+     * @returns GraphClientError object set to the error passed
+     */
+    static setGraphClientError(error) {
+        let graphClientError;
+        if (error instanceof Error) {
+            graphClientError = error;
+        }
+        else {
+            graphClientError = new GraphClientError();
+            graphClientError.customError = error;
+        }
+        return graphClientError;
+    }
+}
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -374,7 +451,7 @@ var RequestMethod;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -398,7 +475,6 @@ class MiddlewareControl {
      * @returns The instance of MiddlewareControl
      */
     constructor(middlewareOptions = []) {
-        // tslint:disable-next-line:ban-types
         this.middlewareOptions = new Map();
         for (const option of middlewareOptions) {
             const fn = option.constructor;
@@ -415,7 +491,6 @@ class MiddlewareControl {
      * // call this function like this:
      * getMiddlewareOptions(MiddlewareControl)
      */
-    // tslint:disable-next-line:ban-types
     getMiddlewareOptions(fn) {
         return this.middlewareOptions.get(fn);
     }
@@ -426,7 +501,6 @@ class MiddlewareControl {
      * @param {MiddlewareOptions} option - The strongly typed middleware option
      * @returns nothing
      */
-    // tslint:disable-next-line:ban-types
     setMiddlewareOptions(fn, option) {
         this.middlewareOptions.set(fn, option);
     }
@@ -434,7 +508,41 @@ class MiddlewareControl {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResponseType; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @enum
+ * Enum for ResponseType values
+ * @property {string} ARRAYBUFFER - To download response content as an [ArrayBuffer]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer}
+ * @property {string} BLOB - To download content as a [binary/blob] {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob}
+ * @property {string} DOCUMENT - This downloads content as a document or stream
+ * @property {string} JSON - To download response content as a json
+ * @property {string} STREAM - To download response as a [stream]{@link https://nodejs.org/api/stream.html}
+ * @property {string} TEXT - For downloading response as a text
+ */
+var ResponseType;
+(function (ResponseType) {
+    ResponseType["ARRAYBUFFER"] = "arraybuffer";
+    ResponseType["BLOB"] = "blob";
+    ResponseType["DOCUMENT"] = "document";
+    ResponseType["JSON"] = "json";
+    ResponseType["RAW"] = "raw";
+    ResponseType["STREAM"] = "stream";
+    ResponseType["TEXT"] = "text";
+})(ResponseType || (ResponseType = {}));
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -586,7 +694,7 @@ const appendRequestHeader = (request, options, key, value) => {
  * @param {Request} request - The request object
  * @returns A promise that resolves to request object
  */
-const cloneRequestWithNewUrl = (newUrl, request) => tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](undefined, void 0, void 0, function* () {
+const cloneRequestWithNewUrl = (newUrl, request) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(void 0, void 0, void 0, function* () {
     const body = request.headers.get("Content-Type") ? yield request.blob() : yield Promise.resolve(undefined);
     const { method, headers, referrer, referrerPolicy, mode, credentials, cache, redirect, integrity, keepalive, signal } = request;
     return new Request(newUrl, { method, headers, body, referrer, referrerPolicy, mode, credentials, cache, redirect, integrity, keepalive, signal });
@@ -594,13 +702,13 @@ const cloneRequestWithNewUrl = (newUrl, request) => tslib__WEBPACK_IMPORTED_MODU
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeatureUsageFlag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TelemetryHandlerOptions; });
-/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -617,10 +725,12 @@ const cloneRequestWithNewUrl = (newUrl, request) => tslib__WEBPACK_IMPORTED_MODU
  */
 var FeatureUsageFlag;
 (function (FeatureUsageFlag) {
+    /* eslint-disable  @typescript-eslint/naming-convention */
     FeatureUsageFlag[FeatureUsageFlag["NONE"] = 0] = "NONE";
     FeatureUsageFlag[FeatureUsageFlag["REDIRECT_HANDLER_ENABLED"] = 1] = "REDIRECT_HANDLER_ENABLED";
     FeatureUsageFlag[FeatureUsageFlag["RETRY_HANDLER_ENABLED"] = 2] = "RETRY_HANDLER_ENABLED";
     FeatureUsageFlag[FeatureUsageFlag["AUTHENTICATION_HANDLER_ENABLED"] = 4] = "AUTHENTICATION_HANDLER_ENABLED";
+    /* eslint-enable  @typescript-eslint/naming-convention */
 })(FeatureUsageFlag || (FeatureUsageFlag = {}));
 /**
  * @class
@@ -664,9 +774,7 @@ class TelemetryHandlerOptions {
      * @returns nothing
      */
     setFeatureUsage(flag) {
-        /* tslint:disable: no-bitwise */
         this.featureUsage = this.featureUsage | flag;
-        /* tslint:enable: no-bitwise */
     }
     /**
      * @public
@@ -680,7 +788,197 @@ class TelemetryHandlerOptions {
 
 
 /***/ }),
-/* 5 */
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return oDataQueryNames; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return urlJoin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return serializeContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isGraphURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isCustomHost; });
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module GraphRequestUtil
+ */
+
+
+/**
+ * To hold list of OData query params
+ */
+const oDataQueryNames = ["$select", "$expand", "$orderby", "$filter", "$top", "$skip", "$skipToken", "$count"];
+/**
+ * To construct the URL by appending the segments with "/"
+ * @param {string[]} urlSegments - The array of strings
+ * @returns The constructed URL string
+ */
+const urlJoin = (urlSegments) => {
+    const removePostSlash = (s) => s.replace(/\/+$/, "");
+    const removePreSlash = (s) => s.replace(/^\/+/, "");
+    const joiner = (pre, cur) => [removePostSlash(pre), removePreSlash(cur)].join("/");
+    const parts = Array.prototype.slice.call(urlSegments);
+    return parts.reduce(joiner);
+};
+/**
+ * Serializes the content
+ * @param {any} content - The content value that needs to be serialized
+ * @returns The serialized content
+ *
+ * Note:
+ * This conversion is required due to the following reasons:
+ * Body parameter of Request method of isomorphic-fetch only accepts Blob, ArrayBuffer, FormData, TypedArrays string.
+ * Node.js platform does not support Blob, FormData. Javascript File object inherits from Blob so it is also not supported in node. Therefore content of type Blob, File, FormData will only come from browsers.
+ * Parallel to ArrayBuffer in javascript, node provides Buffer interface. Node's Buffer is able to send the arbitrary binary data to the server successfully for both Browser and Node platform. Whereas sending binary data via ArrayBuffer or TypedArrays was only possible using Browser. To support both Node and Browser, `serializeContent` converts TypedArrays or ArrayBuffer to `Node Buffer`.
+ * If the data received is in JSON format, `serializeContent` converts the JSON to string.
+ */
+const serializeContent = (content) => {
+    const className = content && content.constructor && content.constructor.name;
+    if (className === "Buffer" || className === "Blob" || className === "File" || className === "FormData" || typeof content === "string") {
+        return content;
+    }
+    if (className === "ArrayBuffer") {
+        content = Buffer.from(content);
+    }
+    else if (className === "Int8Array" || className === "Int16Array" || className === "Int32Array" || className === "Uint8Array" || className === "Uint16Array" || className === "Uint32Array" || className === "Uint8ClampedArray" || className === "Float32Array" || className === "Float64Array" || className === "DataView") {
+        content = Buffer.from(content.buffer);
+    }
+    else {
+        try {
+            content = JSON.stringify(content);
+        }
+        catch (error) {
+            throw new Error("Unable to stringify the content");
+        }
+    }
+    return content;
+};
+/**
+ * Checks if the url is one of the service root endpoints for Microsoft Graph and Graph Explorer.
+ * @param {string} url - The url to be verified
+ * @returns {boolean} - Returns true if the url is a Graph URL
+ */
+const isGraphURL = (url) => {
+    return isValidEndpoint(url);
+};
+/**
+ * Checks if the url is for one of the custom hosts provided during client initialization
+ * @param {string} url - The url to be verified
+ * @param {Set} customHosts - The url to be verified
+ * @returns {boolean} - Returns true if the url is a for a custom host
+ */
+const isCustomHost = (url, customHosts) => {
+    customHosts.forEach((host) => isCustomHostValid(host));
+    return isValidEndpoint(url, customHosts);
+};
+/**
+ * Checks if the url is for one of the provided hosts.
+ * @param {string} url - The url to be verified
+ * @param {Set<string>} allowedHosts - A set of hosts.
+ * @returns {boolean} - Returns true is for one of the provided endpoints.
+ */
+const isValidEndpoint = (url, allowedHosts = _Constants__WEBPACK_IMPORTED_MODULE_0__[/* GRAPH_URLS */ "c"]) => {
+    // Valid Graph URL pattern - https://graph.microsoft.com/{version}/{resource}?{query-parameters}
+    // Valid Graph URL example - https://graph.microsoft.com/v1.0/
+    url = url.toLowerCase();
+    if (url.indexOf("https://") !== -1) {
+        url = url.replace("https://", "");
+        // Find where the host ends
+        const startofPortNoPos = url.indexOf(":");
+        const endOfHostStrPos = url.indexOf("/");
+        let hostName = "";
+        if (endOfHostStrPos !== -1) {
+            if (startofPortNoPos !== -1 && startofPortNoPos < endOfHostStrPos) {
+                hostName = url.substring(0, startofPortNoPos);
+                return allowedHosts.has(hostName);
+            }
+            // Parse out the host
+            hostName = url.substring(0, endOfHostStrPos);
+            return allowedHosts.has(hostName);
+        }
+    }
+    return false;
+};
+/**
+ * Throws error if the string is not a valid host/hostname and contains other url parts.
+ * @param {string} url - The host to be verified
+ */
+const isCustomHostValid = (host) => {
+    if (host.indexOf("/") !== -1) {
+        throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please add only hosts or hostnames to the CustomHosts config. If the url is `http://example.com:3000/`, host is `example:3000`");
+    }
+};
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RedirectHandlerOptions; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @class
+ * @implements MiddlewareOptions
+ * A class representing RedirectHandlerOptions
+ */
+class RedirectHandlerOptions {
+    /**
+     * @public
+     * @constructor
+     * To create an instance of RedirectHandlerOptions
+     * @param {number} [maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS] - The max redirects value
+     * @param {ShouldRedirect} [shouldRedirect = RedirectHandlerOptions.DEFAULT_SHOULD_RETRY] - The should redirect callback
+     * @returns An instance of RedirectHandlerOptions
+     */
+    constructor(maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS, shouldRedirect = RedirectHandlerOptions.defaultShouldRetry) {
+        if (maxRedirects > RedirectHandlerOptions.MAX_MAX_REDIRECTS) {
+            const error = new Error(`MaxRedirects should not be more than ${RedirectHandlerOptions.MAX_MAX_REDIRECTS}`);
+            error.name = "MaxLimitExceeded";
+            throw error;
+        }
+        if (maxRedirects < 0) {
+            const error = new Error(`MaxRedirects should not be negative`);
+            error.name = "MinExpectationNotMet";
+            throw error;
+        }
+        this.maxRedirects = maxRedirects;
+        this.shouldRedirect = shouldRedirect;
+    }
+}
+/**
+ * @private
+ * @static
+ * A member holding default max redirects value
+ */
+RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS = 5;
+/**
+ * @private
+ * @static
+ * A member holding maximum max redirects value
+ */
+RedirectHandlerOptions.MAX_MAX_REDIRECTS = 20;
+/**
+ * @private
+ * A member holding default shouldRedirect callback
+ */
+RedirectHandlerOptions.defaultShouldRetry = () => true;
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -706,7 +1004,7 @@ class RetryHandlerOptions {
      * @param {ShouldRetry} [shouldRetry = RetryHandlerOptions.DEFAULT_SHOULD_RETRY] - The shouldRetry callback function
      * @returns An instance of RetryHandlerOptions
      */
-    constructor(delay = RetryHandlerOptions.DEFAULT_DELAY, maxRetries = RetryHandlerOptions.DEFAULT_MAX_RETRIES, shouldRetry = RetryHandlerOptions.DEFAULT_SHOULD_RETRY) {
+    constructor(delay = RetryHandlerOptions.DEFAULT_DELAY, maxRetries = RetryHandlerOptions.DEFAULT_MAX_RETRIES, shouldRetry = RetryHandlerOptions.defaultShouldRetry) {
         if (delay > RetryHandlerOptions.MAX_DELAY && maxRetries > RetryHandlerOptions.MAX_MAX_RETRIES) {
             const error = new Error(`Delay and MaxRetries should not be more than ${RetryHandlerOptions.MAX_DELAY} and ${RetryHandlerOptions.MAX_MAX_RETRIES}`);
             error.name = "MaxLimitExceeded";
@@ -778,184 +1076,65 @@ RetryHandlerOptions.MAX_MAX_RETRIES = 10;
  * @private
  * A member holding default shouldRetry callback
  */
-RetryHandlerOptions.DEFAULT_SHOULD_RETRY = () => true;
+RetryHandlerOptions.defaultShouldRetry = () => true;
 
 
 /***/ }),
-/* 6 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RedirectHandlerOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Range; });
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module Range
  */
 /**
  * @class
- * @implements MiddlewareOptions
- * A class representing RedirectHandlerOptions
+ * Class representing Range
  */
-class RedirectHandlerOptions {
+class Range {
     /**
      * @public
      * @constructor
-     * To create an instance of RedirectHandlerOptions
-     * @param {number} [maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS] - The max redirects value
-     * @param {ShouldRedirect} [shouldRedirect = RedirectHandlerOptions.DEFAULT_SHOULD_RETRY] - The should redirect callback
-     * @returns An instance of RedirectHandlerOptions
+     * Creates a range for given min and max values
+     * @param {number} [minVal = -1] - The minimum value.
+     * @param {number} [maxVal = -1] - The maximum value.
+     * @returns An instance of a Range
      */
-    constructor(maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS, shouldRedirect = RedirectHandlerOptions.DEFAULT_SHOULD_RETRY) {
-        if (maxRedirects > RedirectHandlerOptions.MAX_MAX_REDIRECTS) {
-            const error = new Error(`MaxRedirects should not be more than ${RedirectHandlerOptions.MAX_MAX_REDIRECTS}`);
-            error.name = "MaxLimitExceeded";
-            throw error;
-        }
-        if (maxRedirects < 0) {
-            const error = new Error(`MaxRedirects should not be negative`);
-            error.name = "MinExpectationNotMet";
-            throw error;
-        }
-        this.maxRedirects = maxRedirects;
-        this.shouldRedirect = shouldRedirect;
+    constructor(minVal = -1, maxVal = -1) {
+        this.minValue = minVal;
+        this.maxValue = maxVal;
     }
 }
-/**
- * @private
- * @static
- * A member holding default max redirects value
- */
-RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS = 5;
-/**
- * @private
- * @static
- * A member holding maximum max redirects value
- */
-RedirectHandlerOptions.MAX_MAX_REDIRECTS = 20;
-/**
- * @private
- * A member holding default shouldRedirect callback
- */
-RedirectHandlerOptions.DEFAULT_SHOULD_RETRY = () => true;
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return oDataQueryNames; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return urlJoin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return serializeContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isGraphURL; });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module GraphRequestUtil
- */
-
-/**
- * To hold list of OData query params
- */
-const oDataQueryNames = ["$select", "$expand", "$orderby", "$filter", "$top", "$skip", "$skipToken", "$count"];
-/**
- * To construct the URL by appending the segments with "/"
- * @param {string[]} urlSegments - The array of strings
- * @returns The constructed URL string
- */
-const urlJoin = (urlSegments) => {
-    const removePostSlash = (s) => s.replace(/\/+$/, "");
-    const removePreSlash = (s) => s.replace(/^\/+/, "");
-    const joiner = (pre, cur) => [removePostSlash(pre), removePreSlash(cur)].join("/");
-    const parts = Array.prototype.slice.call(urlSegments);
-    return parts.reduce(joiner);
-};
-/**
- * Serializes the content
- * @param {any} content - The content value that needs to be serialized
- * @returns The serialized content
- *
- * Note:
- * This conversion is required due to the following reasons:
- * Body parameter of Request method of isomorphic-fetch only accepts Blob, ArrayBuffer, FormData, TypedArrays string.
- * Node.js platform does not support Blob, FormData. Javascript File object inherits from Blob so it is also not supported in node. Therefore content of type Blob, File, FormData will only come from browsers.
- * Parallel to ArrayBuffer in javascript, node provides Buffer interface. Node's Buffer is able to send the arbitrary binary data to the server successfully for both Browser and Node platform. Whereas sending binary data via ArrayBuffer or TypedArrays was only possible using Browser. To support both Node and Browser, `serializeContent` converts TypedArrays or ArrayBuffer to `Node Buffer`.
- * If the data received is in JSON format, `serializeContent` converts the JSON to string.
- */
-const serializeContent = (content) => {
-    const className = content && content.constructor && content.constructor.name;
-    if (className === "Buffer" || className === "Blob" || className === "File" || className === "FormData" || typeof content === "string") {
-        return content;
-    }
-    if (className === "ArrayBuffer") {
-        content = Buffer.from(content);
-    }
-    else if (className === "Int8Array" || className === "Int16Array" || className === "Int32Array" || className === "Uint8Array" || className === "Uint16Array" || className === "Uint32Array" || className === "Uint8ClampedArray" || className === "Float32Array" || className === "Float64Array" || className === "DataView") {
-        content = Buffer.from(content.buffer);
-    }
-    else {
-        try {
-            content = JSON.stringify(content);
-        }
-        catch (error) {
-            throw new Error("Unable to stringify the content");
-        }
-    }
-    return content;
-};
-/**
- * Checks if the url is one of the service root endpoints for Microsoft Graph and Graph Explorer.
- * @param {string} url - The url to be verified
- * @returns {boolean} - Returns true if the url is a Graph URL
- */
-const isGraphURL = (url) => {
-    // Valid Graph URL pattern - https://graph.microsoft.com/{version}/{resource}?{query-parameters}
-    // Valid Graph URL example - https://graph.microsoft.com/v1.0/
-    url = url.toLowerCase();
-    if (url.indexOf("https://") !== -1) {
-        url = url.replace("https://", "");
-        // Find where the host ends
-        const startofPortNoPos = url.indexOf(":");
-        const endOfHostStrPos = url.indexOf("/");
-        let hostName = "";
-        if (endOfHostStrPos !== -1) {
-            if (startofPortNoPos !== -1 && startofPortNoPos < endOfHostStrPos) {
-                hostName = url.substring(0, startofPortNoPos);
-                return _Constants__WEBPACK_IMPORTED_MODULE_0__[/* GRAPH_URLS */ "c"].has(hostName);
-            }
-            // Parse out the host
-            hostName = url.substring(0, endOfHostStrPos);
-            return _Constants__WEBPACK_IMPORTED_MODULE_0__[/* GRAPH_URLS */ "c"].has(hostName);
-        }
-    }
-    return false;
-};
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
-
-/***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandler; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
+/* harmony import */ var _GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @module AuthenticationHandler
  */
 
 
@@ -985,30 +1164,33 @@ class AuthenticationHandler {
      * @returns A Promise that resolves to nothing
      */
     execute(context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const url = typeof context.request === "string" ? context.request : context.request.url;
+            if (Object(_GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__[/* isGraphURL */ "b"])(url) || (context.customHosts && Object(_GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__[/* isCustomHost */ "a"])(url, context.customHosts))) {
                 let options;
-                if (context.middlewareControl instanceof _MiddlewareControl__WEBPACK_IMPORTED_MODULE_1__[/* MiddlewareControl */ "a"]) {
-                    options = context.middlewareControl.getMiddlewareOptions(_options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_3__[/* AuthenticationHandlerOptions */ "a"]);
+                if (context.middlewareControl instanceof _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__[/* MiddlewareControl */ "a"]) {
+                    options = context.middlewareControl.getMiddlewareOptions(_options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__[/* AuthenticationHandlerOptions */ "a"]);
                 }
                 let authenticationProvider;
                 let authenticationProviderOptions;
-                if (typeof options !== "undefined") {
+                if (options) {
                     authenticationProvider = options.authenticationProvider;
                     authenticationProviderOptions = options.authenticationProviderOptions;
                 }
-                if (typeof authenticationProvider === "undefined") {
+                if (!authenticationProvider) {
                     authenticationProvider = this.authenticationProvider;
                 }
                 const token = yield authenticationProvider.getAccessToken(authenticationProviderOptions);
                 const bearerKey = `Bearer ${token}`;
-                Object(_MiddlewareUtil__WEBPACK_IMPORTED_MODULE_2__[/* appendRequestHeader */ "a"])(context.request, context.options, AuthenticationHandler.AUTHORIZATION_HEADER, bearerKey);
-                _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__[/* FeatureUsageFlag */ "a"].AUTHENTICATION_HANDLER_ENABLED);
-                return yield this.nextMiddleware.execute(context);
+                Object(_MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__[/* appendRequestHeader */ "a"])(context.request, context.options, AuthenticationHandler.AUTHORIZATION_HEADER, bearerKey);
+                _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* FeatureUsageFlag */ "a"].AUTHENTICATION_HANDLER_ENABLED);
             }
-            catch (error) {
-                throw error;
+            else {
+                if (context.options.headers) {
+                    delete context.options.headers[AuthenticationHandler.AUTHORIZATION_HEADER];
+                }
             }
+            return yield this.nextMiddleware.execute(context);
         });
     }
     /**
@@ -1029,7 +1211,7 @@ AuthenticationHandler.AUTHORIZATION_HEADER = "Authorization";
 
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1056,31 +1238,25 @@ class HTTPMessageHandler {
      * @returns A promise that resolves to nothing
      */
     execute(context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                context.response = yield fetch(context.request, context.options);
-                return;
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            context.response = yield fetch(context.request, context.options);
         });
     }
 }
 
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RetryHandler; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1150,14 +1326,12 @@ class RetryHandler {
         const retryAfter = response.headers !== undefined ? response.headers.get(RetryHandler.RETRY_AFTER_HEADER) : null;
         let newDelay;
         if (retryAfter !== null) {
-            // tslint:disable: prefer-conditional-expression
             if (Number.isNaN(Number(retryAfter))) {
                 newDelay = Math.round((new Date(retryAfter).getTime() - Date.now()) / 1000);
             }
             else {
                 newDelay = Number(retryAfter);
             }
-            // tslint:enable: prefer-conditional-expression
         }
         else {
             // Adding randomness to avoid retrying at a same
@@ -1182,7 +1356,7 @@ class RetryHandler {
      * @returns Nothing
      */
     sleep(delaySeconds) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             const delayMilliseconds = delaySeconds * 1000;
             return new Promise((resolve) => setTimeout(resolve, delayMilliseconds));
         });
@@ -1207,22 +1381,17 @@ class RetryHandler {
      * @returns A Promise that resolves to nothing
      */
     executeWithRetry(context, retryAttempts, options) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                yield this.nextMiddleware.execute(context);
-                if (retryAttempts < options.maxRetries && this.isRetry(context.response) && this.isBuffered(context.request, context.options) && options.shouldRetry(options.delay, retryAttempts, context.request, context.options, context.response)) {
-                    ++retryAttempts;
-                    Object(_MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__[/* setRequestHeader */ "e"])(context.request, context.options, RetryHandler.RETRY_ATTEMPT_HEADER, retryAttempts.toString());
-                    const delay = this.getDelay(context.response, retryAttempts, options.delay);
-                    yield this.sleep(delay);
-                    return yield this.executeWithRetry(context, retryAttempts, options);
-                }
-                else {
-                    return;
-                }
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            yield this.nextMiddleware.execute(context);
+            if (retryAttempts < options.maxRetries && this.isRetry(context.response) && this.isBuffered(context.request, context.options) && options.shouldRetry(options.delay, retryAttempts, context.request, context.options, context.response)) {
+                ++retryAttempts;
+                Object(_MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__[/* setRequestHeader */ "e"])(context.request, context.options, RetryHandler.RETRY_ATTEMPT_HEADER, retryAttempts.toString());
+                const delay = this.getDelay(context.response, retryAttempts, options.delay);
+                yield this.sleep(delay);
+                return yield this.executeWithRetry(context, retryAttempts, options);
             }
-            catch (error) {
-                throw error;
+            else {
+                return;
             }
         });
     }
@@ -1234,16 +1403,11 @@ class RetryHandler {
      * @returns A Promise that resolves to nothing
      */
     execute(context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                const retryAttempts = 0;
-                const options = this.getOptions(context);
-                _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* FeatureUsageFlag */ "a"].RETRY_HANDLER_ENABLED);
-                return yield this.executeWithRetry(context, retryAttempts, options);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const retryAttempts = 0;
+            const options = this.getOptions(context);
+            _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* FeatureUsageFlag */ "a"].RETRY_HANDLER_ENABLED);
+            return yield this.executeWithRetry(context, retryAttempts, options);
         });
     }
     /**
@@ -1264,7 +1428,7 @@ class RetryHandler {
 RetryHandler.RETRY_STATUS_CODES = [
     429,
     503,
-    504,
+    504, // Gateway timeout
 ];
 /**
  * @private
@@ -1281,495 +1445,17 @@ RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ TelemetryHandler_TelemetryHandler; });
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(0);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphRequestUtil.js
-var GraphRequestUtil = __webpack_require__(7);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/Version.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-// THIS FILE IS AUTO GENERATED
-// ANY CHANGES WILL BE LOST DURING BUILD
-/**
- * @module Version
- */
-const PACKAGE_VERSION = "2.2.1";
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareControl.js
-var MiddlewareControl = __webpack_require__(2);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(3);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(4);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/TelemetryHandler.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @module TelemetryHandler
- */
-
-
-
-
-
-/**
- * @class
- * @implements Middleware
- * Class for TelemetryHandler
- */
-class TelemetryHandler_TelemetryHandler {
-    /**
-     * @public
-     * @async
-     * To execute the current middleware
-     * @param {Context} context - The context object of the request
-     * @returns A Promise that resolves to nothing
-     */
-    execute(context) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                const url = typeof context.request === "string" ? context.request : context.request.url;
-                if (Object(GraphRequestUtil["a" /* isGraphURL */])(url)) {
-                    // Add telemetry only if the request url is a Graph URL.
-                    // Errors are reported as in issue #265 if headers are present when redirecting to a non Graph URL
-                    let clientRequestId = Object(MiddlewareUtil["d" /* getRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER);
-                    if (!clientRequestId) {
-                        clientRequestId = Object(MiddlewareUtil["c" /* generateUUID */])();
-                        Object(MiddlewareUtil["e" /* setRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER, clientRequestId);
-                    }
-                    let sdkVersionValue = `${TelemetryHandler_TelemetryHandler.PRODUCT_NAME}/${PACKAGE_VERSION}`;
-                    let options;
-                    if (context.middlewareControl instanceof MiddlewareControl["a" /* MiddlewareControl */]) {
-                        options = context.middlewareControl.getMiddlewareOptions(TelemetryHandlerOptions["b" /* TelemetryHandlerOptions */]);
-                    }
-                    if (options) {
-                        const featureUsage = options.getFeatureUsage();
-                        sdkVersionValue += ` (${TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING}=${featureUsage})`;
-                    }
-                    Object(MiddlewareUtil["a" /* appendRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER, sdkVersionValue);
-                }
-                else {
-                    // Remove telemetry headers if present during redirection.
-                    delete context.options.headers[TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER];
-                    delete context.options.headers[TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER];
-                }
-                return yield this.nextMiddleware.execute(context);
-            }
-            catch (error) {
-                throw error;
-            }
-        });
-    }
-    /**
-     * @public
-     * To set the next middleware in the chain
-     * @param {Middleware} next - The middleware instance
-     * @returns Nothing
-     */
-    setNext(next) {
-        this.nextMiddleware = next;
-    }
-}
-/**
- * @private
- * @static
- * A member holding the name of the client request id header
- */
-TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER = "client-request-id";
-/**
- * @private
- * @static
- * A member holding the name of the sdk version header
- */
-TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER = "SdkVersion";
-/**
- * @private
- * @static
- * A member holding the language prefix for the sdk version header value
- */
-TelemetryHandler_TelemetryHandler.PRODUCT_NAME = "graph-js";
-/**
- * @private
- * @static
- * A member holding the key for the feature usage metrics
- */
-TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING = "featureUsage";
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GRAPH_API_VERSION; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GRAPH_BASE_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GRAPH_URLS; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module Constants
- */
-/**
- * @constant
- * A Default API endpoint version for a request
- */
-const GRAPH_API_VERSION = "v1.0";
-/**
- * @constant
- * A Default base url for a request
- */
-const GRAPH_BASE_URL = "https://graph.microsoft.com/";
-/**
- * To hold list of the service root endpoints for Microsoft Graph and Graph Explorer for each national cloud.
- * Set(iterable:Object) is not supported in Internet Explorer. The consumer is recommended to use a suitable polyfill.
- */
-const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-graph.microsoft.us", "graph.microsoft.de", "microsoftgraph.chinacloudapi.cn"]);
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandlerOptions; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @class
- * @implements MiddlewareOptions
- * Class representing AuthenticationHandlerOptions
- */
-class AuthenticationHandlerOptions {
-    /**
-     * @public
-     * @constructor
-     * To create an instance of AuthenticationHandlerOptions
-     * @param {AuthenticationProvider} [authenticationProvider] - The authentication provider instance
-     * @param {AuthenticationProviderOptions} [authenticationProviderOptions] - The authentication provider options instance
-     * @returns An instance of AuthenticationHandlerOptions
-     */
-    constructor(authenticationProvider, authenticationProviderOptions) {
-        this.authenticationProvider = authenticationProvider;
-        this.authenticationProviderOptions = authenticationProviderOptions;
-    }
-}
-
-
-/***/ }),
 /* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ LargeFileUploadTask_LargeFileUploadTask; });
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
-var tslib_es6 = __webpack_require__(0);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/Range.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module Range
- */
-/**
- * @class
- * Class representing Range
- */
-class Range {
-    /**
-     * @public
-     * @constructor
-     * Creates a range for given min and max values
-     * @param {number} [minVal = -1] - The minimum value.
-     * @param {number} [maxVal = -1] - The maximum value.
-     * @returns An instance of a Range
-     */
-    constructor(minVal = -1, maxVal = -1) {
-        this.minValue = minVal;
-        this.maxValue = maxVal;
-    }
-}
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/tasks/LargeFileUploadTask.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-/**
- * @class
- * Class representing LargeFileUploadTask
- */
-class LargeFileUploadTask_LargeFileUploadTask {
-    /**
-     * @public
-     * @constructor
-     * Constructs a LargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
-     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
-     * @param {LargeFileUploadTaskOptions} options - The upload task options
-     * @returns An instance of LargeFileUploadTask
-     */
-    constructor(client, file, uploadSession, options = {}) {
-        /**
-         * @private
-         * Default value for the rangeSize
-         */
-        this.DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
-        this.client = client;
-        this.file = file;
-        if (options.rangeSize === undefined) {
-            options.rangeSize = this.DEFAULT_FILE_SIZE;
-        }
-        this.options = options;
-        this.uploadSession = uploadSession;
-        this.nextRange = new Range(0, this.options.rangeSize - 1);
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Makes request to the server to create an upload session
-     * @param {Client} client - The GraphClient instance
-     * @param {any} payload - The payload that needs to be sent
-     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
-     * @returns The promise that resolves to LargeFileUploadSession
-     */
-    static createUploadSession(client, requestUrl, payload, headers = {}) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                const session = yield client
-                    .api(requestUrl)
-                    .headers(headers)
-                    .post(payload);
-                const largeFileUploadSession = {
-                    url: session.uploadUrl,
-                    expiry: new Date(session.expirationDateTime),
-                };
-                return largeFileUploadSession;
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-    /**
-     * @private
-     * Parses given range string to the Range instance
-     * @param {string[]} ranges - The ranges value
-     * @returns The range instance
-     */
-    parseRange(ranges) {
-        const rangeStr = ranges[0];
-        if (typeof rangeStr === "undefined" || rangeStr === "") {
-            return new Range();
-        }
-        const firstRange = rangeStr.split("-");
-        const minVal = parseInt(firstRange[0], 10);
-        let maxVal = parseInt(firstRange[1], 10);
-        if (Number.isNaN(maxVal)) {
-            maxVal = this.file.size - 1;
-        }
-        return new Range(minVal, maxVal);
-    }
-    /**
-     * @private
-     * Updates the expiration date and the next range
-     * @param {UploadStatusResponse} response - The response of the upload status
-     * @returns Nothing
-     */
-    updateTaskStatus(response) {
-        this.uploadSession.expiry = new Date(response.expirationDateTime);
-        this.nextRange = this.parseRange(response.nextExpectedRanges);
-    }
-    /**
-     * @public
-     * Gets next range that needs to be uploaded
-     * @returns The range instance
-     */
-    getNextRange() {
-        if (this.nextRange.minValue === -1) {
-            return this.nextRange;
-        }
-        const minVal = this.nextRange.minValue;
-        let maxValue = minVal + this.options.rangeSize - 1;
-        if (maxValue >= this.file.size) {
-            maxValue = this.file.size - 1;
-        }
-        return new Range(minVal, maxValue);
-    }
-    /**
-     * @public
-     * Slices the file content to the given range
-     * @param {Range} range - The range value
-     * @returns The sliced ArrayBuffer or Blob
-     */
-    sliceFile(range) {
-        const blob = this.file.content.slice(range.minValue, range.maxValue + 1);
-        return blob;
-    }
-    /**
-     * @public
-     * @async
-     * Uploads file to the server in a sequential order by slicing the file
-     * @returns The promise resolves to uploaded response
-     */
-    upload() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                while (true) {
-                    const nextRange = this.getNextRange();
-                    if (nextRange.maxValue === -1) {
-                        const err = new Error("Task with which you are trying to upload is already completed, Please check for your uploaded file");
-                        err.name = "Invalid Session";
-                        throw err;
-                    }
-                    const fileSlice = this.sliceFile(nextRange);
-                    const response = yield this.uploadSlice(fileSlice, nextRange, this.file.size);
-                    // Upon completion of upload process incase of onedrive, driveItem is returned, which contains id
-                    if (response.id !== undefined) {
-                        return response;
-                    }
-                    else {
-                        this.updateTaskStatus(response);
-                    }
-                }
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Uploads given slice to the server
-     * @param {ArrayBuffer | Blob | File} fileSlice - The file slice
-     * @param {Range} range - The range value
-     * @param {number} totalSize - The total size of a complete file
-     */
-    uploadSlice(fileSlice, range, totalSize) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return yield this.client
-                    .api(this.uploadSession.url)
-                    .headers({
-                    "Content-Length": `${range.maxValue - range.minValue + 1}`,
-                    "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
-                })
-                    .put(fileSlice);
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Deletes upload session in the server
-     * @returns The promise resolves to cancelled response
-     */
-    cancel() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return yield this.client.api(this.uploadSession.url).delete();
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Gets status for the upload session
-     * @returns The promise resolves to the status enquiry response
-     */
-    getStatus() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                const response = yield this.client.api(this.uploadSession.url).get();
-                this.updateTaskStatus(response);
-                return response;
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Resumes upload session and continue uploading the file from the last sent range
-     * @returns The promise resolves to the uploaded response
-     */
-    resume() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                yield this.getStatus();
-                return yield this.upload();
-            }
-            catch (err) {
-                throw err;
-            }
-        });
-    }
-}
-
-
-/***/ }),
-/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RedirectHandler; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1865,7 +1551,7 @@ class RedirectHandler {
      * @returns Nothing
      */
     updateRequestUrl(redirectUrl, context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             context.request = typeof context.request === "string" ? redirectUrl : yield Object(_MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__[/* cloneRequestWithNewUrl */ "b"])(redirectUrl, context.request);
         });
     }
@@ -1895,31 +1581,26 @@ class RedirectHandler {
      * @returns A promise that resolves to nothing
      */
     executeWithRedirect(context, redirectCount, options) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                yield this.nextMiddleware.execute(context);
-                const response = context.response;
-                if (redirectCount < options.maxRedirects && this.isRedirect(response) && this.hasLocationHeader(response) && options.shouldRedirect(response)) {
-                    ++redirectCount;
-                    if (response.status === RedirectHandler.STATUS_CODE_SEE_OTHER) {
-                        context.options.method = _RequestMethod__WEBPACK_IMPORTED_MODULE_1__[/* RequestMethod */ "a"].GET;
-                        delete context.options.body;
-                    }
-                    else {
-                        const redirectUrl = this.getLocationHeader(response);
-                        if (!this.isRelativeURL(redirectUrl) && this.shouldDropAuthorizationHeader(response.url, redirectUrl)) {
-                            delete context.options.headers[RedirectHandler.AUTHORIZATION_HEADER];
-                        }
-                        yield this.updateRequestUrl(redirectUrl, context);
-                    }
-                    yield this.executeWithRedirect(context, redirectCount, options);
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            yield this.nextMiddleware.execute(context);
+            const response = context.response;
+            if (redirectCount < options.maxRedirects && this.isRedirect(response) && this.hasLocationHeader(response) && options.shouldRedirect(response)) {
+                ++redirectCount;
+                if (response.status === RedirectHandler.STATUS_CODE_SEE_OTHER) {
+                    context.options.method = _RequestMethod__WEBPACK_IMPORTED_MODULE_1__[/* RequestMethod */ "a"].GET;
+                    delete context.options.body;
                 }
                 else {
-                    return;
+                    const redirectUrl = this.getLocationHeader(response);
+                    if (!this.isRelativeURL(redirectUrl) && this.shouldDropAuthorizationHeader(response.url, redirectUrl)) {
+                        delete context.options.headers[RedirectHandler.AUTHORIZATION_HEADER];
+                    }
+                    yield this.updateRequestUrl(redirectUrl, context);
                 }
+                yield this.executeWithRedirect(context, redirectCount, options);
             }
-            catch (error) {
-                throw error;
+            else {
+                return;
             }
         });
     }
@@ -1931,17 +1612,12 @@ class RedirectHandler {
      * @returns A Promise that resolves to nothing
      */
     execute(context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                const redirectCount = 0;
-                const options = this.getOptions(context);
-                context.options.redirect = RedirectHandler.MANUAL_REDIRECT;
-                _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* FeatureUsageFlag */ "a"].REDIRECT_HANDLER_ENABLED);
-                return yield this.executeWithRedirect(context, redirectCount, options);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const redirectCount = 0;
+            const options = this.getOptions(context);
+            context.options.redirect = RedirectHandler.MANUAL_REDIRECT;
+            _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* TelemetryHandlerOptions */ "b"].updateFeatureUsageFlag(context, _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__[/* FeatureUsageFlag */ "a"].REDIRECT_HANDLER_ENABLED);
+            return yield this.executeWithRedirect(context, redirectCount, options);
         });
     }
     /**
@@ -1964,7 +1640,7 @@ RedirectHandler.REDIRECT_STATUS_CODES = [
     302,
     303,
     307,
-    308,
+    308, // Moved Permanently
 ];
 /**
  * @private
@@ -1993,12 +1669,44 @@ RedirectHandler.MANUAL_REDIRECT = "manual";
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClient; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ TelemetryHandler_TelemetryHandler; });
+
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
+var tslib_es6 = __webpack_require__(0);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
+var GraphRequestUtil = __webpack_require__(7);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Version.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+// THIS FILE IS AUTO GENERATED
+// ANY CHANGES WILL BE LOST DURING BUILD
+/**
+ * @module Version
+ */
+const PACKAGE_VERSION = "3.0.0";
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
+var MiddlewareControl = __webpack_require__(3);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
+var MiddlewareUtil = __webpack_require__(5);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
+var TelemetryHandlerOptions = __webpack_require__(6);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2007,85 +1715,94 @@ RedirectHandler.MANUAL_REDIRECT = "manual";
  */
 
 /**
- * @class
- * Class representing HTTPClient
+ * @module TelemetryHandler
  */
-class HTTPClient {
-    /**
-     * @public
-     * @constructor
-     * Creates an instance of a HTTPClient
-     * @param {...Middleware} middleware - The first middleware of the middleware chain or a sequence of all the Middleware handlers
-     */
-    constructor(...middleware) {
-        if (!middleware || !middleware.length) {
-            const error = new Error();
-            error.name = "InvalidMiddlewareChain";
-            error.message = "Please provide a default middleware chain or custom middleware chain";
-            throw error;
-        }
-        this.setMiddleware(...middleware);
-    }
-    /**
-     * @private
-     * Processes the middleware parameter passed to set this.middleware property
-     * The calling function should validate if middleware is not undefined or not empty.
-     * @param {...Middleware} middleware - The middleware passed
-     * @returns Nothing
-     */
-    setMiddleware(...middleware) {
-        if (middleware.length > 1) {
-            this.parseMiddleWareArray(middleware);
-        }
-        else {
-            this.middleware = middleware[0];
-        }
-    }
-    /**
-     * @private
-     * Processes the middleware array to construct the chain
-     * and sets this.middleware property to the first middlware handler of the array
-     * The calling function should validate if middleware is not undefined or not empty
-     * @param {Middleware[]} middlewareArray - The array of middleware handlers
-     * @returns Nothing
-     */
-    parseMiddleWareArray(middlewareArray) {
-        middlewareArray.forEach((element, index) => {
-            if (index < middlewareArray.length - 1) {
-                element.setNext(middlewareArray[index + 1]);
-            }
-        });
-        this.middleware = middlewareArray[0];
-    }
+
+
+
+
+
+/**
+ * @class
+ * @implements Middleware
+ * Class for TelemetryHandler
+ */
+class TelemetryHandler_TelemetryHandler {
     /**
      * @public
      * @async
-     * To send the request through the middleware chain
-     * @param {Context} context - The context of a request
-     * @returns A promise that resolves to the Context
+     * To execute the current middleware
+     * @param {Context} context - The context object of the request
+     * @returns A Promise that resolves to nothing
      */
-    sendRequest(context) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                if (typeof context.request === "string" && context.options === undefined) {
-                    const error = new Error();
-                    error.name = "InvalidRequestOptions";
-                    error.message = "Unable to execute the middleware, Please provide valid options for a request";
-                    throw error;
+    execute(context) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const url = typeof context.request === "string" ? context.request : context.request.url;
+            if (Object(GraphRequestUtil["b" /* isGraphURL */])(url) || (context.customHosts && Object(GraphRequestUtil["a" /* isCustomHost */])(url, context.customHosts))) {
+                // Add telemetry only if the request url is a Graph URL.
+                // Errors are reported as in issue #265 if headers are present when redirecting to a non Graph URL
+                let clientRequestId = Object(MiddlewareUtil["d" /* getRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER);
+                if (!clientRequestId) {
+                    clientRequestId = Object(MiddlewareUtil["c" /* generateUUID */])();
+                    Object(MiddlewareUtil["e" /* setRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER, clientRequestId);
                 }
-                yield this.middleware.execute(context);
-                return context;
+                let sdkVersionValue = `${TelemetryHandler_TelemetryHandler.PRODUCT_NAME}/${PACKAGE_VERSION}`;
+                let options;
+                if (context.middlewareControl instanceof MiddlewareControl["a" /* MiddlewareControl */]) {
+                    options = context.middlewareControl.getMiddlewareOptions(TelemetryHandlerOptions["b" /* TelemetryHandlerOptions */]);
+                }
+                if (options) {
+                    const featureUsage = options.getFeatureUsage();
+                    sdkVersionValue += ` (${TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING}=${featureUsage})`;
+                }
+                Object(MiddlewareUtil["a" /* appendRequestHeader */])(context.request, context.options, TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER, sdkVersionValue);
             }
-            catch (error) {
-                throw error;
+            else {
+                // Remove telemetry headers if present during redirection.
+                delete context.options.headers[TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER];
+                delete context.options.headers[TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER];
             }
+            return yield this.nextMiddleware.execute(context);
         });
     }
+    /**
+     * @public
+     * To set the next middleware in the chain
+     * @param {Middleware} next - The middleware instance
+     * @returns Nothing
+     */
+    setNext(next) {
+        this.nextMiddleware = next;
+    }
 }
+/**
+ * @private
+ * @static
+ * A member holding the name of the client request id header
+ */
+TelemetryHandler_TelemetryHandler.CLIENT_REQUEST_ID_HEADER = "client-request-id";
+/**
+ * @private
+ * @static
+ * A member holding the name of the sdk version header
+ */
+TelemetryHandler_TelemetryHandler.SDK_VERSION_HEADER = "SdkVersion";
+/**
+ * @private
+ * @static
+ * A member holding the language prefix for the sdk version header value
+ */
+TelemetryHandler_TelemetryHandler.PRODUCT_NAME = "graph-js";
+/**
+ * @private
+ * @static
+ * A member holding the key for the feature usage metrics
+ */
+TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING = "featureUsage";
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2099,9 +1816,9 @@ class HTTPClient {
 
 
 
-var base64 = __webpack_require__(25)
-var ieee754 = __webpack_require__(26)
-var isArray = __webpack_require__(27)
+var base64 = __webpack_require__(32)
+var ieee754 = __webpack_require__(33)
+var isArray = __webpack_require__(34)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -3879,16 +3596,949 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(24)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(31)))
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GRAPH_API_VERSION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GRAPH_BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GRAPH_URLS; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module Constants
+ */
+/**
+ * @constant
+ * A Default API endpoint version for a request
+ */
+const GRAPH_API_VERSION = "v1.0";
+/**
+ * @constant
+ * A Default base url for a request
+ */
+const GRAPH_BASE_URL = "https://graph.microsoft.com/";
+/**
+ * To hold list of the service root endpoints for Microsoft Graph and Graph Explorer for each national cloud.
+ * Set(iterable:Object) is not supported in Internet Explorer. The consumer is recommended to use a suitable polyfill.
+ */
+const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-graph.microsoft.us", "graph.microsoft.de", "microsoftgraph.chinacloudapi.cn", "canary.graph.microsoft.com"]);
+
 
 /***/ }),
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StreamUpload; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+/**
+ * @class
+ * FileObject class for Readable Stream upload
+ */
+class StreamUpload {
+    constructor(content, name, size) {
+        this.content = content;
+        this.name = name;
+        this.size = size;
+        if (!content || !name || !size) {
+            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Readable Stream content, name of the file and size of the file");
+        }
+    }
+    /**
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced file part
+     */
+    sliceFile(range) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            let rangeSize = range.maxValue - range.minValue + 1;
+            /* readable.readable Is true if it is safe to call readable.read(),
+             * which means the stream has not been destroyed or emitted 'error' or 'end'
+             */
+            const bufs = [];
+            /**
+             * The sliceFile reads the first `rangeSize` number of bytes from the stream.
+             * The previousSlice property is used to seek the range of bytes in the previous slice.
+             * Suppose, the sliceFile reads bytes from `10 - 20` from the stream but the upload of this slice fails.
+             * When the user resumes, the stream will have bytes from position 21.
+             * The previousSlice.Range is used to compare if the requested range is cached in the previousSlice property or present in the Readable Stream.
+             */
+            if (this.previousSlice) {
+                if (range.minValue < this.previousSlice.range.minValue) {
+                    throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("An error occurred while uploading the stream. Please restart the stream upload from the first byte of the file.");
+                }
+                if (range.minValue < this.previousSlice.range.maxValue) {
+                    const previousRangeMin = this.previousSlice.range.minValue;
+                    const previousRangeMax = this.previousSlice.range.maxValue;
+                    // Check if the requested range is same as previously sliced range
+                    if (range.minValue === previousRangeMin && range.maxValue === previousRangeMax) {
+                        return this.previousSlice.fileSlice;
+                    }
+                    /**
+                     * The following check considers a possibility
+                     * of an upload failing after some of the bytes of the previous slice
+                     * were successfully uploaded.
+                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 20`.
+                     */
+                    if (range.maxValue === previousRangeMax) {
+                        return this.previousSlice.fileSlice.slice(range.minValue, range.maxValue + 1);
+                    }
+                    /**
+                     * If an upload fails after some of the bytes of the previous slice
+                     * were successfully uploaded and the new Range.Maximum is greater than the previous Range.Maximum
+                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 25`,
+                     * then read the bytes from position 15 to 20 from previousSlice.fileSlice and read bytes from position 21 to 25 from the Readable Stream
+                     */
+                    bufs.push(this.previousSlice.fileSlice.slice(range.minValue, previousRangeMax + 1));
+                    rangeSize = range.maxValue - previousRangeMax;
+                }
+            }
+            if (this.content && this.content.readable) {
+                if (this.content.readableLength >= rangeSize) {
+                    bufs.push(this.content.read(rangeSize));
+                }
+                else {
+                    bufs.push(yield this.readNBytesFromStream(rangeSize));
+                }
+            }
+            else {
+                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream is not readable.");
+            }
+            const slicedChunk = Buffer.concat(bufs);
+            this.previousSlice = { fileSlice: slicedChunk, range };
+            return slicedChunk;
+        });
+    }
+    /**
+     * @private
+     * Reads the specified byte size from the stream
+     * @param {number} size - The size of bytes to be read
+     * @returns Buffer with the given length of data.
+     */
+    readNBytesFromStream(size) {
+        return new Promise((resolve, reject) => {
+            const chunks = [];
+            let remainder = size;
+            let length = 0;
+            this.content.on("end", () => {
+                if (remainder > 0) {
+                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream ended before reading required range size"));
+                }
+            });
+            this.content.on("readable", () => {
+                /**
+                 * (chunk = this.content.read(size)) can return null if size of stream is less than 'size' parameter.
+                 * Read the remainder number of bytes from the stream iteratively as they are available.
+                 */
+                let chunk;
+                while (length < size && (chunk = this.content.read(remainder)) !== null) {
+                    length += chunk.length;
+                    chunks.push(chunk);
+                    if (remainder > 0) {
+                        remainder = size - length;
+                    }
+                }
+                if (length === size) {
+                    return resolve(Buffer.concat(chunks));
+                }
+                if (!this.content || !this.content.readable) {
+                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Error encountered while reading the stream during the upload"));
+                }
+            });
+        });
+    }
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandlerOptions; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @class
+ * @implements MiddlewareOptions
+ * Class representing AuthenticationHandlerOptions
+ */
+class AuthenticationHandlerOptions {
+    /**
+     * @public
+     * @constructor
+     * To create an instance of AuthenticationHandlerOptions
+     * @param {AuthenticationProvider} [authenticationProvider] - The authentication provider instance
+     * @param {AuthenticationProviderOptions} [authenticationProviderOptions] - The authentication provider options instance
+     * @returns An instance of AuthenticationHandlerOptions
+     */
+    constructor(authenticationProvider, authenticationProviderOptions) {
+        this.authenticationProvider = authenticationProvider;
+        this.authenticationProviderOptions = authenticationProviderOptions;
+    }
+}
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LargeFileUploadTask; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _ResponseType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
+/* harmony import */ var _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @module LargeFileUploadTask
+ */
+
+
+
+
+
+/**
+ * @class
+ * Class representing LargeFileUploadTask
+ */
+class LargeFileUploadTask {
+    /**
+     * @public
+     * @constructor
+     * Constructs a LargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
+     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
+     * @param {LargeFileUploadTaskOptions} options - The upload task options
+     * @returns An instance of LargeFileUploadTask
+     */
+    constructor(client, file, uploadSession, options = {}) {
+        /**
+         * @private
+         * Default value for the rangeSize
+         */
+        this.DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
+        this.client = client;
+        if (!file.sliceFile) {
+            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please pass the FileUpload object, StreamUpload object or any custom implementation of the FileObject interface");
+        }
+        else {
+            this.file = file;
+        }
+        this.file = file;
+        if (!options.rangeSize) {
+            options.rangeSize = this.DEFAULT_FILE_SIZE;
+        }
+        this.options = options;
+        this.uploadSession = uploadSession;
+        this.nextRange = new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](0, this.options.rangeSize - 1);
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Makes request to the server to create an upload session
+     * @param {Client} client - The GraphClient instance
+     * @param {any} payload - The payload that needs to be sent
+     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
+     * @returns The promise that resolves to LargeFileUploadSession
+     */
+    static createUploadSession(client, requestUrl, payload, headers = {}) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const session = yield client
+                .api(requestUrl)
+                .headers(headers)
+                .post(payload);
+            const largeFileUploadSession = {
+                url: session.uploadUrl,
+                expiry: new Date(session.expirationDateTime),
+                isCancelled: false,
+            };
+            return largeFileUploadSession;
+        });
+    }
+    /**
+     * @private
+     * Parses given range string to the Range instance
+     * @param {string[]} ranges - The ranges value
+     * @returns The range instance
+     */
+    parseRange(ranges) {
+        const rangeStr = ranges[0];
+        if (typeof rangeStr === "undefined" || rangeStr === "") {
+            return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"]();
+        }
+        const firstRange = rangeStr.split("-");
+        const minVal = parseInt(firstRange[0], 10);
+        let maxVal = parseInt(firstRange[1], 10);
+        if (Number.isNaN(maxVal)) {
+            maxVal = this.file.size - 1;
+        }
+        return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](minVal, maxVal);
+    }
+    /**
+     * @private
+     * Updates the expiration date and the next range
+     * @param {UploadStatusResponse} response - The response of the upload status
+     * @returns Nothing
+     */
+    updateTaskStatus(response) {
+        this.uploadSession.expiry = new Date(response.expirationDateTime);
+        this.nextRange = this.parseRange(response.nextExpectedRanges);
+    }
+    /**
+     * @public
+     * Gets next range that needs to be uploaded
+     * @returns The range instance
+     */
+    getNextRange() {
+        if (this.nextRange.minValue === -1) {
+            return this.nextRange;
+        }
+        const minVal = this.nextRange.minValue;
+        let maxValue = minVal + this.options.rangeSize - 1;
+        if (maxValue >= this.file.size) {
+            maxValue = this.file.size - 1;
+        }
+        return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](minVal, maxValue);
+    }
+    /**
+     * @deprecated This function has been moved into FileObject interface.
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced ArrayBuffer or Blob
+     */
+    sliceFile(range) {
+        console.warn("The LargeFileUploadTask.sliceFile() function has been deprecated and moved into the FileObject interface.");
+        if (this.file.content instanceof ArrayBuffer || this.file.content instanceof Blob || this.file.content instanceof Buffer) {
+            return this.file.content.slice(range.minValue, range.maxValue + 1);
+        }
+        throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("The LargeFileUploadTask.sliceFile() function expects only Blob, ArrayBuffer or Buffer file content. Please note that the sliceFile() function is deprecated.");
+    }
+    /**
+     * @public
+     * @async
+     * Uploads file to the server in a sequential order by slicing the file
+     * @returns The promise resolves to uploaded response
+     */
+    upload() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const uploadEventHandlers = this.options && this.options.uploadEventHandlers;
+            while (!this.uploadSession.isCancelled) {
+                const nextRange = this.getNextRange();
+                if (nextRange.maxValue === -1) {
+                    const err = new Error("Task with which you are trying to upload is already completed, Please check for your uploaded file");
+                    err.name = "Invalid Session";
+                    throw err;
+                }
+                const fileSlice = yield this.file.sliceFile(nextRange);
+                const rawResponse = yield this.uploadSliceGetRawResponse(fileSlice, nextRange, this.file.size);
+                if (!rawResponse) {
+                    throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Something went wrong! Large file upload slice response is null.");
+                }
+                const responseBody = yield _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__[/* GraphResponseHandler */ "a"].getResponse(rawResponse);
+                /**
+                 * (rawResponse.status === 201) -> This condition is applicable for OneDrive, PrintDocument and Outlook APIs.
+                 * (rawResponse.status === 200 && responseBody.id) -> This additional condition is applicable only for OneDrive API.
+                 */
+                if (rawResponse.status === 201 || (rawResponse.status === 200 && responseBody.id)) {
+                    const uploadResult = _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__[/* UploadResult */ "a"].CreateUploadResult(responseBody, rawResponse.headers);
+                    return uploadResult;
+                }
+                /* Handling the API issue where the case of Outlook upload response property -'nextExpectedRanges'  is not uniform.
+                 * https://github.com/microsoftgraph/msgraph-sdk-serviceissues/issues/39
+                 */
+                const res = {
+                    expirationDateTime: responseBody.expirationDateTime || responseBody.ExpirationDateTime,
+                    nextExpectedRanges: responseBody.NextExpectedRanges || responseBody.nextExpectedRanges,
+                };
+                this.updateTaskStatus(res);
+                if (uploadEventHandlers && uploadEventHandlers.progress) {
+                    uploadEventHandlers.progress(nextRange, uploadEventHandlers.extraCallbackParam);
+                }
+            }
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Uploads given slice to the server
+     * @param {ArrayBuffer | Blob | File} fileSlice - The file slice
+     * @param {Range} range - The range value
+     * @param {number} totalSize - The total size of a complete file
+     * @returns The response body of the upload slice result
+     */
+    uploadSlice(fileSlice, range, totalSize) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            return yield this.client
+                .api(this.uploadSession.url)
+                .headers({
+                "Content-Length": `${range.maxValue - range.minValue + 1}`,
+                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+            })
+                .put(fileSlice);
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Uploads given slice to the server
+     * @param {unknown} fileSlice - The file slice
+     * @param {Range} range - The range value
+     * @param {number} totalSize - The total size of a complete file
+     * @returns The raw response of the upload slice result
+     */
+    uploadSliceGetRawResponse(fileSlice, range, totalSize) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            return yield this.client
+                .api(this.uploadSession.url)
+                .headers({
+                "Content-Length": `${range.maxValue - range.minValue + 1}`,
+                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+            })
+                .responseType(_ResponseType__WEBPACK_IMPORTED_MODULE_3__[/* ResponseType */ "a"].RAW)
+                .put(fileSlice);
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Deletes upload session in the server
+     * @returns The promise resolves to cancelled response
+     */
+    cancel() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const cancelResponse = yield this.client
+                .api(this.uploadSession.url)
+                .responseType(_ResponseType__WEBPACK_IMPORTED_MODULE_3__[/* ResponseType */ "a"].RAW)
+                .delete();
+            if (cancelResponse.status === 204) {
+                this.uploadSession.isCancelled = true;
+            }
+            return cancelResponse;
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Gets status for the upload session
+     * @returns The promise resolves to the status enquiry response
+     */
+    getStatus() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const response = yield this.client.api(this.uploadSession.url).get();
+            this.updateTaskStatus(response);
+            return response;
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Resumes upload session and continue uploading the file from the last sent range
+     * @returns The promise resolves to the uploaded response
+     */
+    resume() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            yield this.getStatus();
+            return yield this.upload();
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Get the upload session information
+     * @returns The large file upload session
+     */
+    getUploadSession() {
+        return this.uploadSession;
+    }
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadResult; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * Class representing a successful file upload result
+ */
+class UploadResult {
+    /**
+     * @public
+     * @param {responseBody} responsebody - The response body from the completed upload response
+     * @param {location} location - The location value from the headers from the completed upload response
+     */
+    constructor(responseBody, location) {
+        // Response body or the location parameter can be undefined.
+        this._location = location;
+        this._responseBody = responseBody;
+    }
+    /**
+     * @public
+     * Get of the location value.
+     * Location value is looked up in the response header
+     */
+    get location() {
+        return this._location;
+    }
+    /**
+     * @public
+     * Set the location value
+     * Location value is looked up in the response header
+     */
+    set location(location) {
+        this._location = location;
+    }
+    /**
+     * @public
+     * Get The response body from the completed upload response
+     */
+    get responseBody() {
+        return this._responseBody;
+    }
+    /**
+     * @public
+     * Set the response body from the completed upload response
+     */
+    set responseBody(responseBody) {
+        this._responseBody = responseBody;
+    }
+    /**
+     * @public
+     * @param {responseBody} responseBody - The response body from the completed upload response
+     * @param {responseHeaders} responseHeaders - The headers from the completed upload response
+     */
+    static CreateUploadResult(responseBody, responseHeaders) {
+        return new UploadResult(responseBody, responseHeaders.get("location"));
+    }
+}
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileUpload; });
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @class
+ * Class used for creating LargeFileUploadTask fileobject.
+ * This class accepts files of type ArrayBuffer, Blob, Buffer.
+ */
+class FileUpload {
+    /**
+     * @public
+     * @constructor
+     * @param {ArrayBuffer | Blob | Buffer} content - The file to be uploaded
+     * @param {string} name - The name of the file to be uploaded
+     * @param {number} size - The total size of the file to be uploaded
+     * @returns An instance of the FileUpload class
+     */
+    constructor(content, name, size) {
+        this.content = content;
+        this.name = name;
+        this.size = size;
+        if (!content || !name || !size) {
+            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_0__[/* GraphClientError */ "a"]("Please provide the Readable Stream content, name of the file and size of the file");
+        }
+    }
+    /**
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced file part
+     */
+    sliceFile(range) {
+        return this.content.slice(range.minValue, range.maxValue + 1);
+    }
+}
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getValidRangeSize; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module OneDriveLargeFileUploadTaskUtil
+ */
+/**
+ * @constant
+ * Default value for the rangeSize
+ * Recommended size is between 5 - 10 MB {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#best-practices}
+ */
+const DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
+/**
+ * @constant
+ * Rounds off the given value to a multiple of 320 KB
+ * @param {number} value - The value
+ * @returns The rounded off value
+ */
+const roundTo320KB = (value) => {
+    if (value > 320 * 1024) {
+        value = Math.floor(value / (320 * 1024)) * 320 * 1024;
+    }
+    return value;
+};
+/**
+ * @constant
+ * Get the valid rangeSize for a file slicing (validity is based on the constrains mentioned in here
+ * {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#upload-bytes-to-the-upload-session})
+ *
+ * @param {number} [rangeSize = DEFAULT_FILE_SIZE] - The rangeSize value.
+ * @returns The valid rangeSize
+ */
+const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
+    const sixtyMB = 60 * 1024 * 1024;
+    if (rangeSize > sixtyMB) {
+        rangeSize = sixtyMB;
+    }
+    return roundTo320KB(rangeSize);
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export DocumentType */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraphResponseHandler; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _ResponseType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+/**
+ * @enum
+ * Enum for document types
+ * @property {string} TEXT_HTML - The text/html content type
+ * @property {string} TEXT_XML - The text/xml content type
+ * @property {string} APPLICATION_XML - The application/xml content type
+ * @property {string} APPLICATION_XHTML - The application/xhml+xml content type
+ */
+var DocumentType;
+(function (DocumentType) {
+    DocumentType["TEXT_HTML"] = "text/html";
+    DocumentType["TEXT_XML"] = "text/xml";
+    DocumentType["APPLICATION_XML"] = "application/xml";
+    DocumentType["APPLICATION_XHTML"] = "application/xhtml+xml";
+})(DocumentType || (DocumentType = {}));
+/**
+ * @enum
+ * Enum for Content types
+ * @property {string} TEXT_PLAIN - The text/plain content type
+ * @property {string} APPLICATION_JSON - The application/json content type
+ */
+var ContentType;
+(function (ContentType) {
+    ContentType["TEXT_PLAIN"] = "text/plain";
+    ContentType["APPLICATION_JSON"] = "application/json";
+})(ContentType || (ContentType = {}));
+/**
+ * @enum
+ * Enum for Content type regex
+ * @property {string} DOCUMENT - The regex to match document content types
+ * @property {string} IMAGE - The regex to match image content types
+ */
+var ContentTypeRegexStr;
+(function (ContentTypeRegexStr) {
+    ContentTypeRegexStr["DOCUMENT"] = "^(text\\/(html|xml))|(application\\/(xml|xhtml\\+xml))$";
+    ContentTypeRegexStr["IMAGE"] = "^image\\/.+";
+})(ContentTypeRegexStr || (ContentTypeRegexStr = {}));
+/**
+ * @class
+ * Class for GraphResponseHandler
+ */
+class GraphResponseHandler {
+    /**
+     * @private
+     * @static
+     * To parse Document response
+     * @param {Response} rawResponse - The response object
+     * @param {DocumentType} type - The type to which the document needs to be parsed
+     * @returns A promise that resolves to a document content
+     */
+    static parseDocumentResponse(rawResponse, type) {
+        if (typeof DOMParser !== "undefined") {
+            return new Promise((resolve, reject) => {
+                rawResponse.text().then((xmlString) => {
+                    try {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(xmlString, type);
+                        resolve(xmlDoc);
+                    }
+                    catch (error) {
+                        reject(error);
+                    }
+                });
+            });
+        }
+        else {
+            return Promise.resolve(rawResponse.body);
+        }
+    }
+    /**
+     * @private
+     * @static
+     * @async
+     * To convert the native Response to response content
+     * @param {Response} rawResponse - The response object
+     * @param {ResponseType} [responseType] - The response type value
+     * @returns A promise that resolves to the converted response content
+     */
+    static convertResponse(rawResponse, responseType) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (rawResponse.status === 204) {
+                // NO CONTENT
+                return Promise.resolve();
+            }
+            let responseValue;
+            const contentType = rawResponse.headers.get("Content-type");
+            switch (responseType) {
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].ARRAYBUFFER:
+                    responseValue = yield rawResponse.arrayBuffer();
+                    break;
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].BLOB:
+                    responseValue = yield rawResponse.blob();
+                    break;
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].DOCUMENT:
+                    responseValue = yield GraphResponseHandler.parseDocumentResponse(rawResponse, DocumentType.TEXT_XML);
+                    break;
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].JSON:
+                    responseValue = yield rawResponse.json();
+                    break;
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].STREAM:
+                    responseValue = yield Promise.resolve(rawResponse.body);
+                    break;
+                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].TEXT:
+                    responseValue = yield rawResponse.text();
+                    break;
+                default:
+                    if (contentType !== null) {
+                        const mimeType = contentType.split(";")[0];
+                        if (new RegExp(ContentTypeRegexStr.DOCUMENT).test(mimeType)) {
+                            responseValue = yield GraphResponseHandler.parseDocumentResponse(rawResponse, mimeType);
+                        }
+                        else if (new RegExp(ContentTypeRegexStr.IMAGE).test(mimeType)) {
+                            responseValue = rawResponse.blob();
+                        }
+                        else if (mimeType === ContentType.TEXT_PLAIN) {
+                            responseValue = yield rawResponse.text();
+                        }
+                        else if (mimeType === ContentType.APPLICATION_JSON) {
+                            responseValue = yield rawResponse.json();
+                        }
+                        else {
+                            responseValue = Promise.resolve(rawResponse.body);
+                        }
+                    }
+                    else {
+                        /**
+                         * RFC specification {@link https://tools.ietf.org/html/rfc7231#section-3.1.1.5} says:
+                         *  A sender that generates a message containing a payload body SHOULD
+                         *  generate a Content-Type header field in that message unless the
+                         *  intended media type of the enclosed representation is unknown to the
+                         *  sender.  If a Content-Type header field is not present, the recipient
+                         *  MAY either assume a media type of "application/octet-stream"
+                         *  ([RFC2046], Section 4.5.1) or examine the data to determine its type.
+                         *
+                         *  So assuming it as a stream type so returning the body.
+                         */
+                        responseValue = Promise.resolve(rawResponse.body);
+                    }
+                    break;
+            }
+            return responseValue;
+        });
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * To get the parsed response
+     * @param {Response} rawResponse - The response object
+     * @param {ResponseType} [responseType] - The response type value
+     * @param {GraphRequestCallback} [callback] - The graph request callback function
+     * @returns The parsed response
+     */
+    static getResponse(rawResponse, responseType, callback) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (responseType === _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].RAW) {
+                return Promise.resolve(rawResponse);
+            }
+            else {
+                const response = yield GraphResponseHandler.convertResponse(rawResponse, responseType);
+                if (rawResponse.ok) {
+                    // Status Code 2XX
+                    if (typeof callback === "function") {
+                        callback(null, response);
+                    }
+                    else {
+                        return response;
+                    }
+                }
+                else {
+                    // NOT OK Response
+                    throw response;
+                }
+            }
+        });
+    }
+}
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClient; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @class
+ * Class representing HTTPClient
+ */
+class HTTPClient {
+    /**
+     * @public
+     * @constructor
+     * Creates an instance of a HTTPClient
+     * @param {...Middleware} middleware - The first middleware of the middleware chain or a sequence of all the Middleware handlers
+     */
+    constructor(...middleware) {
+        if (!middleware || !middleware.length) {
+            const error = new Error();
+            error.name = "InvalidMiddlewareChain";
+            error.message = "Please provide a default middleware chain or custom middleware chain";
+            throw error;
+        }
+        this.setMiddleware(...middleware);
+    }
+    /**
+     * @private
+     * Processes the middleware parameter passed to set this.middleware property
+     * The calling function should validate if middleware is not undefined or not empty.
+     * @param {...Middleware} middleware - The middleware passed
+     * @returns Nothing
+     */
+    setMiddleware(...middleware) {
+        if (middleware.length > 1) {
+            this.parseMiddleWareArray(middleware);
+        }
+        else {
+            this.middleware = middleware[0];
+        }
+    }
+    /**
+     * @private
+     * Processes the middleware array to construct the chain
+     * and sets this.middleware property to the first middlware handler of the array
+     * The calling function should validate if middleware is not undefined or not empty
+     * @param {Middleware[]} middlewareArray - The array of middleware handlers
+     * @returns Nothing
+     */
+    parseMiddleWareArray(middlewareArray) {
+        middlewareArray.forEach((element, index) => {
+            if (index < middlewareArray.length - 1) {
+                element.setNext(middlewareArray[index + 1]);
+            }
+        });
+        this.middleware = middlewareArray[0];
+    }
+    /**
+     * @public
+     * @async
+     * To send the request through the middleware chain
+     * @param {Context} context - The context of a request
+     * @returns A promise that resolves to the Context
+     */
+    sendRequest(context) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (typeof context.request === "string" && context.options === undefined) {
+                const error = new Error();
+                error.name = "InvalidRequestOptions";
+                error.message = "Unable to execute the middleware, Please provide valid options for a request";
+                throw error;
+            }
+            yield this.middleware.execute(context);
+            return context;
+        });
+    }
+}
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BatchRequestContent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4030,7 +4680,7 @@ class BatchRequestContent {
      * @returns A promise that resolves to JSON representation of a request
      */
     static getRequestData(request) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             const requestData = {
                 url: "",
             };
@@ -4063,7 +4713,7 @@ class BatchRequestContent {
      * @returns The Promise that resolves to a body value of a Request
      */
     static getRequestBody(request) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             let bodyParsed = false;
             let body;
             try {
@@ -4072,7 +4722,7 @@ class BatchRequestContent {
                 bodyParsed = true;
             }
             catch (e) {
-                // tslint:disable-line: no-empty
+                //TODO- Handle empty catches
             }
             if (!bodyParsed) {
                 try {
@@ -4105,7 +4755,7 @@ class BatchRequestContent {
                     bodyParsed = true;
                 }
                 catch (e) {
-                    // tslint:disable-line: no-empty
+                    // TODO-Handle empty catches
                 }
             }
             return body;
@@ -4172,7 +4822,7 @@ class BatchRequestContent {
      * @returns The body content to make batch request
      */
     getContent() {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             const requests = [];
             const requestBody = {
                 requests,
@@ -4196,6 +4846,8 @@ class BatchRequestContent {
                 const requestStep = cur.value[1];
                 const batchRequestData = (yield BatchRequestContent.getRequestData(requestStep.request));
                 /**
+                 * @see{@https://tools.ietf.org/html/rfc7578#section-4.4}
+                 * TODO- Setting/Defaulting of content-type header to the correct value
                  * @see {@link https://developer.microsoft.com/en-us/graph/docs/concepts/json_batching#request-format}
                  */
                 if (batchRequestData.body !== undefined && (batchRequestData.headers === undefined || batchRequestData.headers["content-type"] === undefined)) {
@@ -4304,21 +4956,21 @@ class BatchRequestContent {
  */
 BatchRequestContent.requestLimit = 20;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
 
 /***/ }),
-/* 19 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiddlewareFactory; });
-/* harmony import */ var _AuthenticationHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony import */ var _RedirectHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
-/* harmony import */ var _RetryHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(10);
-/* harmony import */ var _TelemetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
+/* harmony import */ var _AuthenticationHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
+/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
+/* harmony import */ var _RedirectHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
+/* harmony import */ var _RetryHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
+/* harmony import */ var _TelemetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4370,10 +5022,10 @@ class MiddlewareFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(28)))
 
 /***/ }),
-/* 20 */
+/* 28 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -4563,14 +5215,16 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 21 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OneDriveLargeFileUploadTask; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-/* harmony import */ var _OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
+/* harmony import */ var _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+/* harmony import */ var _OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(23);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4578,13 +5232,18 @@ process.umask = function() { return 0; };
  * -------------------------------------------------------------------------------------------
  */
 
+/**
+ * @module OneDriveLargeFileUploadTask
+ */
+
+
 
 
 /**
  * @class
  * Class representing OneDriveLargeFileUploadTask
  */
-class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_1__[/* LargeFileUploadTask */ "a"] {
+class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__[/* LargeFileUploadTask */ "a"] {
     /**
      * @public
      * @constructor
@@ -4636,7 +5295,10 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
      * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
      */
     static create(client, file, options) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (!client || !file || !options) {
+                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Graph client instance, file object and OneDriveLargeFileUploadOptions value");
+            }
             const name = options.fileName;
             let content;
             let size;
@@ -4653,22 +5315,36 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
                 size = b.byteLength - b.byteOffset;
                 content = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
             }
-            try {
-                const requestUrl = OneDriveLargeFileUploadTask.constructCreateSessionUrl(options.fileName, options.path);
-                const session = yield OneDriveLargeFileUploadTask.createUploadSession(client, requestUrl, options.fileName);
-                const rangeSize = Object(_OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_2__[/* getValidRangeSize */ "a"])(options.rangeSize);
-                const fileObj = {
-                    name,
-                    content,
-                    size,
-                };
-                return new OneDriveLargeFileUploadTask(client, fileObj, session, {
-                    rangeSize,
-                });
+            const fileObj = new _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__[/* FileUpload */ "a"](content, name, size);
+            return this.createTaskWithFileObject(client, fileObj, options);
+        });
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Creates a OneDriveLargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} file - FileObject instance
+     * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
+     * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
+     */
+    static createTaskWithFileObject(client, fileObject, options) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (!client || !fileObject || !options) {
+                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Graph client instance, FileObject interface implementation and OneDriveLargeFileUploadOptions value");
             }
-            catch (err) {
-                throw err;
-            }
+            const requestUrl = OneDriveLargeFileUploadTask.constructCreateSessionUrl(options.fileName, options.path);
+            const uploadSessionPayload = {
+                fileName: options.fileName,
+                conflictBehavior: options.conflictBehavior,
+            };
+            const session = yield OneDriveLargeFileUploadTask.createUploadSession(client, requestUrl, uploadSessionPayload);
+            const rangeSize = Object(_OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__[/* getValidRangeSize */ "a"])(options.rangeSize);
+            return new OneDriveLargeFileUploadTask(client, fileObject, session, {
+                rangeSize,
+                uploadEventHandlers: options.uploadEventHandlers,
+            });
         });
     }
     /**
@@ -4679,46 +5355,38 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
      * @param {Client} client - The GraphClient instance
      * @param {string} requestUrl - The URL to create the upload session
      * @param {string} fileName - The name of a file to upload, (with extension)
+     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
      * @returns The promise that resolves to LargeFileUploadSession
      */
-    static createUploadSession(client, requestUrl, fileName) {
+    static createUploadSession(client, requestUrl, payloadOptions) {
         const _super = Object.create(null, {
             createUploadSession: { get: () => super.createUploadSession }
         });
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
             const payload = {
                 item: {
-                    "@microsoft.graph.conflictBehavior": "rename",
-                    name: fileName,
+                    "@microsoft.graph.conflictBehavior": (payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.conflictBehavior) || "rename",
+                    name: payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.fileName,
                 },
             };
-            try {
-                return _super.createUploadSession.call(this, client, requestUrl, payload);
-            }
-            catch (err) {
-                throw err;
-            }
+            return _super.createUploadSession.call(this, client, requestUrl, payload);
         });
     }
     /**
      * @public
      * Commits upload session to end uploading
      * @param {string} requestUrl - The URL to commit the upload session
+     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
      * @returns The promise resolves to committed response
      */
-    commit(requestUrl) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"](this, void 0, void 0, function* () {
-            try {
-                const payload = {
-                    name: this.file.name,
-                    "@microsoft.graph.conflictBehavior": "rename",
-                    "@microsoft.graph.sourceUrl": this.uploadSession.url,
-                };
-                return yield this.client.api(requestUrl).put(payload);
-            }
-            catch (err) {
-                throw err;
-            }
+    commit(requestUrl, conflictBehavior = "rename") {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            const payload = {
+                name: this.file.name,
+                "@microsoft.graph.conflictBehavior": conflictBehavior,
+                "@microsoft.graph.sourceUrl": this.uploadSession.url,
+            };
+            return yield this.client.api(requestUrl).put(payload);
         });
     }
 }
@@ -4729,72 +5397,22 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
  */
 OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH = "/";
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
 
 /***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getValidRangeSize; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module OneDriveLargeFileUploadTaskUtil
- */
-/**
- * @constant
- * Default value for the rangeSize
- * Recommended size is between 5 - 10 MB {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#best-practices}
- */
-const DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
-/**
- * @constant
- * Rounds off the given value to a multiple of 320 KB
- * @param {number} value - The value
- * @returns The rounded off value
- */
-const roundTo320KB = (value) => {
-    if (value > 320 * 1024) {
-        value = Math.floor(value / (320 * 1024)) * 320 * 1024;
-    }
-    return value;
-};
-/**
- * @constant
- * Get the valid rangeSize for a file slicing (validity is based on the constrains mentioned in here
- * {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#upload-bytes-to-the-upload-session})
- *
- * @param {number} [rangeSize = DEFAULT_FILE_SIZE] - The rangeSize value.
- * @returns The valid rangeSize
- */
-const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
-    const sixtyMB = 60 * 1024 * 1024;
-    if (rangeSize > sixtyMB) {
-        rangeSize = sixtyMB;
-    }
-    return roundTo320KB(rangeSize);
-};
-
-
-/***/ }),
-/* 23 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClientFactory; });
-/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _middleware_AuthenticationHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
-/* harmony import */ var _middleware_HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _middleware_options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _middleware_options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
-/* harmony import */ var _middleware_RedirectHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(15);
-/* harmony import */ var _middleware_RetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10);
-/* harmony import */ var _middleware_TelemetryHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(11);
+/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _middleware_AuthenticationHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _middleware_HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony import */ var _middleware_options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+/* harmony import */ var _middleware_options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
+/* harmony import */ var _middleware_RedirectHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
+/* harmony import */ var _middleware_RetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
+/* harmony import */ var _middleware_TelemetryHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4868,10 +5486,10 @@ class HTTPClientFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(28)))
 
 /***/ }),
-/* 24 */
+/* 31 */
 /***/ (function(module, exports) {
 
 var g;
@@ -4897,7 +5515,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 25 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5054,7 +5672,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 26 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
@@ -5145,7 +5763,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 27 */
+/* 34 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -5156,7 +5774,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 28 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5169,10 +5787,12 @@ __webpack_require__.d(__webpack_exports__, "BatchResponseContent", function() { 
 __webpack_require__.d(__webpack_exports__, "AuthenticationHandler", function() { return /* reexport */ AuthenticationHandler["a" /* AuthenticationHandler */]; });
 __webpack_require__.d(__webpack_exports__, "HTTPMessageHandler", function() { return /* reexport */ HTTPMessageHandler["a" /* HTTPMessageHandler */]; });
 __webpack_require__.d(__webpack_exports__, "RetryHandler", function() { return /* reexport */ RetryHandler["a" /* RetryHandler */]; });
+__webpack_require__.d(__webpack_exports__, "RedirectHandler", function() { return /* reexport */ RedirectHandler["a" /* RedirectHandler */]; });
 __webpack_require__.d(__webpack_exports__, "TelemetryHandler", function() { return /* reexport */ TelemetryHandler["a" /* TelemetryHandler */]; });
 __webpack_require__.d(__webpack_exports__, "MiddlewareFactory", function() { return /* reexport */ MiddlewareFactory["a" /* MiddlewareFactory */]; });
 __webpack_require__.d(__webpack_exports__, "AuthenticationHandlerOptions", function() { return /* reexport */ AuthenticationHandlerOptions["a" /* AuthenticationHandlerOptions */]; });
 __webpack_require__.d(__webpack_exports__, "RetryHandlerOptions", function() { return /* reexport */ RetryHandlerOptions["a" /* RetryHandlerOptions */]; });
+__webpack_require__.d(__webpack_exports__, "RedirectHandlerOptions", function() { return /* reexport */ RedirectHandlerOptions["a" /* RedirectHandlerOptions */]; });
 __webpack_require__.d(__webpack_exports__, "FeatureUsageFlag", function() { return /* reexport */ TelemetryHandlerOptions["a" /* FeatureUsageFlag */]; });
 __webpack_require__.d(__webpack_exports__, "TelemetryHandlerOptions", function() { return /* reexport */ TelemetryHandlerOptions["b" /* TelemetryHandlerOptions */]; });
 __webpack_require__.d(__webpack_exports__, "ChaosHandlerOptions", function() { return /* reexport */ ChaosHandlerOptions_ChaosHandlerOptions; });
@@ -5180,19 +5800,23 @@ __webpack_require__.d(__webpack_exports__, "ChaosStrategy", function() { return 
 __webpack_require__.d(__webpack_exports__, "ChaosHandler", function() { return /* reexport */ ChaosHandler_ChaosHandler; });
 __webpack_require__.d(__webpack_exports__, "LargeFileUploadTask", function() { return /* reexport */ LargeFileUploadTask["a" /* LargeFileUploadTask */]; });
 __webpack_require__.d(__webpack_exports__, "OneDriveLargeFileUploadTask", function() { return /* reexport */ OneDriveLargeFileUploadTask["a" /* OneDriveLargeFileUploadTask */]; });
+__webpack_require__.d(__webpack_exports__, "getValidRangeSize", function() { return /* reexport */ OneDriveLargeFileUploadTaskUtil["a" /* getValidRangeSize */]; });
+__webpack_require__.d(__webpack_exports__, "StreamUpload", function() { return /* reexport */ StreamUpload["a" /* StreamUpload */]; });
+__webpack_require__.d(__webpack_exports__, "FileUpload", function() { return /* reexport */ FileUpload["a" /* FileUpload */]; });
+__webpack_require__.d(__webpack_exports__, "UploadResult", function() { return /* reexport */ UploadResult["a" /* UploadResult */]; });
+__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range["a" /* Range */]; });
 __webpack_require__.d(__webpack_exports__, "PageIterator", function() { return /* reexport */ PageIterator_PageIterator; });
 __webpack_require__.d(__webpack_exports__, "Client", function() { return /* reexport */ Client_Client; });
 __webpack_require__.d(__webpack_exports__, "CustomAuthenticationProvider", function() { return /* reexport */ CustomAuthenticationProvider_CustomAuthenticationProvider; });
 __webpack_require__.d(__webpack_exports__, "GraphError", function() { return /* reexport */ GraphError; });
+__webpack_require__.d(__webpack_exports__, "GraphClientError", function() { return /* reexport */ GraphClientError["a" /* GraphClientError */]; });
 __webpack_require__.d(__webpack_exports__, "GraphRequest", function() { return /* reexport */ GraphRequest_GraphRequest; });
-__webpack_require__.d(__webpack_exports__, "ImplicitMSALAuthenticationProvider", function() { return /* reexport */ ImplicitMSALAuthenticationProvider_ImplicitMSALAuthenticationProvider; });
-__webpack_require__.d(__webpack_exports__, "MSALAuthenticationProviderOptions", function() { return /* reexport */ MSALAuthenticationProviderOptions; });
-__webpack_require__.d(__webpack_exports__, "ResponseType", function() { return /* reexport */ ResponseType; });
+__webpack_require__.d(__webpack_exports__, "ResponseType", function() { return /* reexport */ ResponseType["a" /* ResponseType */]; });
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/content/BatchRequestContent.js
-var BatchRequestContent = __webpack_require__(18);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchRequestContent.js
+var BatchRequestContent = __webpack_require__(26);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/content/BatchResponseContent.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchResponseContent.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5282,31 +5906,55 @@ class BatchResponseContent {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/AuthenticationHandler.js
-var AuthenticationHandler = __webpack_require__(8);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/AuthenticationHandler.js
+var AuthenticationHandler = __webpack_require__(11);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/HTTPMessageHandler.js
-var HTTPMessageHandler = __webpack_require__(9);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/HTTPMessageHandler.js
+var HTTPMessageHandler = __webpack_require__(12);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/RetryHandler.js
-var RetryHandler = __webpack_require__(10);
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/IMiddleware.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/TelemetryHandler.js + 1 modules
-var TelemetryHandler = __webpack_require__(11);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareFactory.js
-var MiddlewareFactory = __webpack_require__(19);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RetryHandler.js
+var RetryHandler = __webpack_require__(13);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/AuthenticationHandlerOptions.js
-var AuthenticationHandlerOptions = __webpack_require__(13);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RedirectHandler.js
+var RedirectHandler = __webpack_require__(14);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/RetryHandlerOptions.js
-var RetryHandlerOptions = __webpack_require__(5);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js + 1 modules
+var TelemetryHandler = __webpack_require__(15);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(4);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareFactory.js
+var MiddlewareFactory = __webpack_require__(27);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/ChaosStrategy.js
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/AuthenticationHandlerOptions.js
+var AuthenticationHandlerOptions = __webpack_require__(19);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/IMiddlewareOptions.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RetryHandlerOptions.js
+var RetryHandlerOptions = __webpack_require__(9);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RedirectHandlerOptions.js
+var RedirectHandlerOptions = __webpack_require__(8);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
+var TelemetryHandlerOptions = __webpack_require__(6);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosStrategy.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5326,7 +5974,7 @@ var ChaosStrategy;
     ChaosStrategy[ChaosStrategy["RANDOM"] = 1] = "RANDOM";
 })(ChaosStrategy || (ChaosStrategy = {}));
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/ChaosHandlerOptions.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5355,28 +6003,29 @@ class ChaosHandlerOptions_ChaosHandlerOptions {
      * @param {any?} responseBody - The response body to be returned in the response
      * @returns An instance of ChaosHandlerOptions
      */
-    constructor(chaosStrategy = ChaosStrategy.RANDOM, statusMessage = "Some error Happened", statusCode, chaosPercentage, responseBody) {
+    constructor(chaosStrategy = ChaosStrategy.RANDOM, statusMessage = "Some error Happened", statusCode, chaosPercentage, responseBody, headers) {
         this.chaosStrategy = chaosStrategy;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
         this.chaosPercentage = chaosPercentage !== undefined ? chaosPercentage : 10;
         this.responseBody = responseBody;
+        this.headers = headers;
         if (this.chaosPercentage > 100) {
             throw new Error("Error Pecentage can not be more than 100");
         }
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(0);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareControl.js
-var MiddlewareControl = __webpack_require__(2);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
+var MiddlewareControl = __webpack_require__(3);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(3);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
+var MiddlewareUtil = __webpack_require__(5);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/options/ChaosHandlerData.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerData.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5463,7 +6112,7 @@ const httpStatusCode = {
     511: "Network Authentication Required",
 };
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/middleware/ChaosHandler.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/ChaosHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5498,43 +6147,41 @@ class ChaosHandler_ChaosHandler {
     /**
      * Generates responseHeader
      * @private
-     * @param {number} statusCode - the status code to be returned for the request
+     * @param {ChaosHandlerOptions} chaosHandlerOptions - The ChaosHandlerOptions object
      * @param {string} requestID - request id
      * @param {string} requestDate - date of the request
      * @returns response Header
      */
-    createResponseHeaders(statusCode, requestID, requestDate) {
-        const responseHeader = new Headers();
+    createResponseHeaders(chaosHandlerOptions, requestID, requestDate) {
+        const responseHeader = chaosHandlerOptions.headers ? new Headers(chaosHandlerOptions.headers) : new Headers();
         responseHeader.append("Cache-Control", "no-store");
         responseHeader.append("request-id", requestID);
         responseHeader.append("client-request-id", requestID);
         responseHeader.append("x-ms-ags-diagnostic", "");
         responseHeader.append("Date", requestDate);
         responseHeader.append("Strict-Transport-Security", "");
-        if (statusCode === 429) {
+        if (chaosHandlerOptions.statusCode === 429) {
             // throttling case has to have a timeout scenario
-            responseHeader.append("retry-after", "300");
+            responseHeader.append("retry-after", "3");
         }
         return responseHeader;
     }
     /**
      * Generates responseBody
      * @private
-     * @param {number} statusCode - the status code to be returned for the request
-     * @param {string} statusMessage - the status message to be returned for the request
+     * @param {ChaosHandlerOptions} options - The ChaosHandlerOptions object
      * @param {string} requestID - request id
      * @param {string} requestDate - date of the request
-     * @param {any?} requestBody - the request body to be returned for the request
-     * @returns response body
+     *  * @returns response body
      */
-    createResponseBody(statusCode, statusMessage, requestID, requestDate, responseBody) {
-        if (responseBody) {
-            return responseBody;
+    createResponseBody(chaosHandlerOptions, requestID, requestDate) {
+        if (chaosHandlerOptions.responseBody) {
+            return chaosHandlerOptions.responseBody;
         }
         let body;
-        if (statusCode >= 400) {
-            const codeMessage = httpStatusCode[statusCode];
-            const errMessage = statusMessage;
+        if (chaosHandlerOptions.statusCode >= 400) {
+            const codeMessage = httpStatusCode[chaosHandlerOptions.statusCode];
+            const errMessage = chaosHandlerOptions.statusMessage;
             body = {
                 error: {
                     code: codeMessage,
@@ -5558,22 +6205,13 @@ class ChaosHandler_ChaosHandler {
      * @param {Context} context - Contains the context of the request
      */
     createResponse(chaosHandlerOptions, context) {
-        try {
-            let responseBody;
-            let responseHeader;
-            let requestID;
-            let requestDate;
-            const requestURL = context.request;
-            requestID = Object(MiddlewareUtil["c" /* generateUUID */])();
-            requestDate = new Date();
-            responseHeader = this.createResponseHeaders(chaosHandlerOptions.statusCode, requestID, requestDate.toString());
-            responseBody = this.createResponseBody(chaosHandlerOptions.statusCode, chaosHandlerOptions.statusMessage, requestID, requestDate.toString(), chaosHandlerOptions.responseBody);
-            const init = { url: requestURL, status: chaosHandlerOptions.statusCode, statusText: chaosHandlerOptions.statusMessage, headers: responseHeader };
-            context.response = new Response(responseBody, init);
-        }
-        catch (error) {
-            throw error;
-        }
+        const requestURL = context.request;
+        const requestID = Object(MiddlewareUtil["c" /* generateUUID */])();
+        const requestDate = new Date();
+        const responseHeader = this.createResponseHeaders(chaosHandlerOptions, requestID, requestDate.toString());
+        const responseBody = this.createResponseBody(chaosHandlerOptions, requestID, requestDate.toString());
+        const init = { url: requestURL, status: chaosHandlerOptions.statusCode, statusText: chaosHandlerOptions.statusMessage, headers: responseHeader };
+        context.response = new Response(typeof responseBody === "string" ? responseBody : JSON.stringify(responseBody), init);
     }
     /**
      * Decides whether to send the request to the graph or not
@@ -5583,18 +6221,13 @@ class ChaosHandler_ChaosHandler {
      * @returns nothing
      */
     sendRequest(chaosHandlerOptions, context) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                this.setStatusCode(chaosHandlerOptions, context.request, context.options.method);
-                if (!chaosHandlerOptions.statusCode) {
-                    yield this.nextMiddleware.execute(context);
-                }
-                else {
-                    this.createResponse(chaosHandlerOptions, context);
-                }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            this.setStatusCode(chaosHandlerOptions, context.request, context.options.method);
+            if ((chaosHandlerOptions.chaosStrategy === ChaosStrategy.MANUAL && !this.nextMiddleware) || Math.floor(Math.random() * 100) < chaosHandlerOptions.chaosPercentage) {
+                this.createResponse(chaosHandlerOptions, context);
             }
-            catch (error) {
-                throw error;
+            else if (this.nextMiddleware) {
+                yield this.nextMiddleware.execute(context);
             }
         });
     }
@@ -5605,13 +6238,8 @@ class ChaosHandler_ChaosHandler {
      * @returns a random status code from a given set of status codes
      */
     getRandomStatusCode(requestMethod) {
-        try {
-            const statusCodeArray = methodStatusCode[requestMethod];
-            return statusCodeArray[Math.floor(Math.random() * statusCodeArray.length)];
-        }
-        catch (error) {
-            throw error;
-        }
+        const statusCodeArray = methodStatusCode[requestMethod];
+        return statusCodeArray[Math.floor(Math.random() * statusCodeArray.length)];
     }
     /**
      * To fetch the relative URL out of the complete URL using a predefined regex pattern
@@ -5635,43 +6263,36 @@ class ChaosHandler_ChaosHandler {
      * @param {string} requestMethod - the API method for the request
      */
     setStatusCode(chaosHandlerOptions, requestURL, requestMethod) {
-        try {
-            if (chaosHandlerOptions.chaosStrategy === ChaosStrategy.MANUAL) {
-                if (chaosHandlerOptions.statusCode === undefined) {
-                    // manual mode with no status code, can be a global level or request level without statusCode
-                    const relativeURL = this.getRelativeURL(requestURL);
-                    if (this.manualMap.get(relativeURL) !== undefined) {
-                        // checking Manual Map for exact match
-                        if (this.manualMap.get(relativeURL).get(requestMethod) !== undefined) {
-                            chaosHandlerOptions.statusCode = this.manualMap.get(relativeURL).get(requestMethod);
-                        }
-                        // else statusCode would be undefined
+        if (chaosHandlerOptions.chaosStrategy === ChaosStrategy.MANUAL) {
+            if (chaosHandlerOptions.statusCode === undefined) {
+                // manual mode with no status code, can be a global level or request level without statusCode
+                const relativeURL = this.getRelativeURL(requestURL);
+                if (this.manualMap.get(relativeURL) !== undefined) {
+                    // checking Manual Map for exact match
+                    if (this.manualMap.get(relativeURL).get(requestMethod) !== undefined) {
+                        chaosHandlerOptions.statusCode = this.manualMap.get(relativeURL).get(requestMethod);
                     }
-                    else {
-                        // checking for regex match if exact match doesn't work
-                        this.manualMap.forEach((value, key) => {
-                            const regexURL = new RegExp(key + "$");
-                            if (regexURL.test(relativeURL)) {
-                                if (this.manualMap.get(key).get(requestMethod) !== undefined) {
-                                    chaosHandlerOptions.statusCode = this.manualMap.get(key).get(requestMethod);
-                                }
-                                // else statusCode would be undefined
+                    // else statusCode would be undefined
+                }
+                else {
+                    // checking for regex match if exact match doesn't work
+                    this.manualMap.forEach((value, key) => {
+                        const regexURL = new RegExp(key + "$");
+                        if (regexURL.test(relativeURL)) {
+                            if (this.manualMap.get(key).get(requestMethod) !== undefined) {
+                                chaosHandlerOptions.statusCode = this.manualMap.get(key).get(requestMethod);
                             }
-                        });
-                    }
-                    // Case of redirection or request url not in map ---> statusCode would be undefined
+                            // else statusCode would be undefined
+                        }
+                    });
                 }
-            }
-            else {
-                // Handling the case of Random here
-                if (Math.floor(Math.random() * 100) < chaosHandlerOptions.chaosPercentage) {
-                    chaosHandlerOptions.statusCode = this.getRandomStatusCode(requestMethod);
-                }
-                // else statusCode would be undefined
+                // Case of redirection or request url not in map ---> statusCode would be undefined
             }
         }
-        catch (error) {
-            throw error;
+        else {
+            // Handling the case of Random here
+            chaosHandlerOptions.statusCode = this.getRandomStatusCode(requestMethod);
+            // else statusCode would be undefined
         }
     }
     /**
@@ -5698,14 +6319,9 @@ class ChaosHandler_ChaosHandler {
      * @returns A Promise that resolves to nothing
      */
     execute(context) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                const chaosHandlerOptions = this.getOptions(context);
-                return yield this.sendRequest(chaosHandlerOptions, context);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const chaosHandlerOptions = this.getOptions(context);
+            return yield this.sendRequest(chaosHandlerOptions, context);
         });
     }
     /**
@@ -5719,13 +6335,31 @@ class ChaosHandler_ChaosHandler {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/tasks/LargeFileUploadTask.js + 1 modules
-var LargeFileUploadTask = __webpack_require__(14);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
+var LargeFileUploadTask = __webpack_require__(20);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/tasks/OneDriveLargeFileUploadTask.js
-var OneDriveLargeFileUploadTask = __webpack_require__(21);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
+var OneDriveLargeFileUploadTask = __webpack_require__(29);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/tasks/PageIterator.js
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
+var OneDriveLargeFileUploadTaskUtil = __webpack_require__(23);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/StreamUpload.js
+var StreamUpload = __webpack_require__(18);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
+var FileUpload = __webpack_require__(22);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
+var UploadResult = __webpack_require__(21);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Interfaces/IUploadEventHandlers.js
+
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
+var Range = __webpack_require__(10);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/PageIterator.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5780,28 +6414,23 @@ class PageIterator_PageIterator {
      * @returns A promise that resolves to a response data with next page collection
      */
     fetchAndUpdateNextPageData() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                let graphRequest = this.client.api(this.nextLink);
-                if (this.requestOptions) {
-                    if (this.requestOptions.headers) {
-                        graphRequest = graphRequest.headers(this.requestOptions.headers);
-                    }
-                    if (this.requestOptions.middlewareOptions) {
-                        graphRequest = graphRequest.middlewareOptions(this.requestOptions.middlewareOptions);
-                    }
-                    if (this.requestOptions.options) {
-                        graphRequest = graphRequest.options(this.requestOptions.options);
-                    }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            let graphRequest = this.client.api(this.nextLink);
+            if (this.requestOptions) {
+                if (this.requestOptions.headers) {
+                    graphRequest = graphRequest.headers(this.requestOptions.headers);
                 }
-                const response = yield graphRequest.get();
-                this.collection = response.value;
-                this.nextLink = response["@odata.nextLink"];
-                this.deltaLink = response["@odata.deltaLink"];
+                if (this.requestOptions.middlewareOptions) {
+                    graphRequest = graphRequest.middlewareOptions(this.requestOptions.middlewareOptions);
+                }
+                if (this.requestOptions.options) {
+                    graphRequest = graphRequest.options(this.requestOptions.options);
+                }
             }
-            catch (error) {
-                throw error;
-            }
+            const response = yield graphRequest.get();
+            this.collection = response.value;
+            this.nextLink = response["@odata.nextLink"];
+            this.deltaLink = response["@odata.deltaLink"];
         });
     }
     /**
@@ -5820,24 +6449,19 @@ class PageIterator_PageIterator {
      * @returns A Promise that resolves to nothing on completion and throws error incase of any discrepancy.
      */
     iterate() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                let advance = this.iterationHelper();
-                while (advance) {
-                    if (this.nextLink !== undefined) {
-                        yield this.fetchAndUpdateNextPageData();
-                        advance = this.iterationHelper();
-                    }
-                    else {
-                        advance = false;
-                    }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            let advance = this.iterationHelper();
+            while (advance) {
+                if (this.nextLink !== undefined) {
+                    yield this.fetchAndUpdateNextPageData();
+                    advance = this.iterationHelper();
                 }
-                if (this.nextLink === undefined && this.collection.length === 0) {
-                    this.complete = true;
+                else {
+                    advance = false;
                 }
             }
-            catch (error) {
-                throw error;
+            if (this.nextLink === undefined && this.collection.length === 0) {
+                this.complete = true;
             }
         });
     }
@@ -5849,13 +6473,8 @@ class PageIterator_PageIterator {
      * @returns A Promise that resolves to nothing on completion and throws error incase of any discrepancy
      */
     resume() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return this.iterate();
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return this.iterate();
         });
     }
     /**
@@ -5868,15 +6487,22 @@ class PageIterator_PageIterator {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/Constants.js
-var Constants = __webpack_require__(12);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Constants.js
+var Constants = __webpack_require__(17);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/CustomAuthenticationProvider.js
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphClientError.js
+var GraphClientError = __webpack_require__(1);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/CustomAuthenticationProvider.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @module CustomAuthenticationProvider
  */
 
 /**
@@ -5902,22 +6528,29 @@ class CustomAuthenticationProvider_CustomAuthenticationProvider {
      * @returns The promise that resolves to an access token
      */
     getAccessToken() {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                this.provider((error, accessToken) => {
+                this.provider((error, accessToken) => Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
                     if (accessToken) {
                         resolve(accessToken);
                     }
                     else {
-                        reject(error);
+                        if (!error) {
+                            const invalidTokenMessage = "Access token is undefined or empty.\
+						Please provide a valid token.\
+						For more help - https://github.com/microsoftgraph/msgraph-sdk-javascript/blob/dev/docs/CustomAuthenticationProvider.md";
+                            error = new GraphClientError["a" /* GraphClientError */](invalidTokenMessage);
+                        }
+                        const err = yield GraphClientError["a" /* GraphClientError */].setGraphClientError(error);
+                        reject(err);
                     }
-                });
+                }));
             });
         });
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphError.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphError.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5955,7 +6588,7 @@ class GraphError extends Error {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphErrorHandler.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphErrorHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5994,7 +6627,7 @@ class GraphErrorHandler_GraphErrorHandler {
      * @static
      * @async
      * Populates the GraphError instance from the Error returned by graph service
-     * @param {any} error - The error returned by graph service or some native error
+     * @param {GraphAPIErrorResponse} graphError - The error possibly returned by graph service or some native error
      * @param {number} statusCode - The status code of the response
      * @returns A promise that resolves to GraphError instance
      *
@@ -6010,20 +6643,15 @@ class GraphErrorHandler_GraphErrorHandler {
      *      }
      *  }
      */
-    static constructErrorFromResponse(error, statusCode) {
-        error = error.error;
+    static constructErrorFromResponse(graphError, statusCode) {
+        const error = graphError.error;
         const gError = new GraphError(statusCode, error.message);
         gError.code = error.code;
         if (error.innerError !== undefined) {
             gError.requestId = error.innerError["request-id"];
             gError.date = new Date(error.innerError.date);
         }
-        try {
-            gError.body = JSON.stringify(error);
-        }
-        catch (error) {
-            // tslint:disable-line: no-empty
-        }
+        gError.body = JSON.stringify(error);
         return gError;
     }
     /**
@@ -6031,22 +6659,24 @@ class GraphErrorHandler_GraphErrorHandler {
      * @static
      * @async
      * To get the GraphError object
+     * Reference - https://docs.microsoft.com/en-us/graph/errors
      * @param {any} [error = null] - The error returned by graph service or some native error
      * @param {number} [statusCode = -1] - The status code of the response
      * @param {GraphRequestCallback} [callback] - The graph request callback function
      * @returns A promise that resolves to GraphError instance
      */
     static getError(error = null, statusCode = -1, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             let gError;
             if (error && error.error) {
                 gError = GraphErrorHandler_GraphErrorHandler.constructErrorFromResponse(error, statusCode);
             }
-            else if (typeof Error !== "undefined" && error instanceof Error) {
+            else if (error instanceof Error) {
                 gError = GraphErrorHandler_GraphErrorHandler.constructError(error, statusCode);
             }
             else {
                 gError = new GraphError(statusCode);
+                gError.body = error; // if a custom error is passed which is not instance of Error object or a graph API response
             }
             if (typeof callback === "function") {
                 callback(gError, null);
@@ -6058,38 +6688,19 @@ class GraphErrorHandler_GraphErrorHandler {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphRequestUtil.js
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
 var GraphRequestUtil = __webpack_require__(7);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/ResponseType.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @enum
- * Enum for ResponseType values
- * @property {string} ARRAYBUFFER - To download response content as an [ArrayBuffer]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer}
- * @property {string} BLOB - To download content as a [binary/blob] {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob}
- * @property {string} DOCUMENT - This downloads content as a document or stream
- * @property {string} JSON - To download response content as a json
- * @property {string} STREAM - To download response as a [stream]{@link https://nodejs.org/api/stream.html}
- * @property {string} TEXT - For downloading response as a text
- */
-var ResponseType;
-(function (ResponseType) {
-    ResponseType["ARRAYBUFFER"] = "arraybuffer";
-    ResponseType["BLOB"] = "blob";
-    ResponseType["DOCUMENT"] = "document";
-    ResponseType["JSON"] = "json";
-    ResponseType["RAW"] = "raw";
-    ResponseType["STREAM"] = "stream";
-    ResponseType["TEXT"] = "text";
-})(ResponseType || (ResponseType = {}));
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
+var GraphResponseHandler = __webpack_require__(24);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphResponseHandler.js
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/RequestMethod.js
+var RequestMethod = __webpack_require__(2);
+
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ResponseType.js
+var ResponseType = __webpack_require__(4);
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequest.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -6097,209 +6708,8 @@ var ResponseType;
  * -------------------------------------------------------------------------------------------
  */
 
-
 /**
- * @enum
- * Enum for document types
- * @property {string} TEXT_HTML - The text/html content type
- * @property {string} TEXT_XML - The text/xml content type
- * @property {string} APPLICATION_XML - The application/xml content type
- * @property {string} APPLICATION_XHTML - The application/xhml+xml content type
- */
-var DocumentType;
-(function (DocumentType) {
-    DocumentType["TEXT_HTML"] = "text/html";
-    DocumentType["TEXT_XML"] = "text/xml";
-    DocumentType["APPLICATION_XML"] = "application/xml";
-    DocumentType["APPLICATION_XHTML"] = "application/xhtml+xml";
-})(DocumentType || (DocumentType = {}));
-/**
- * @enum
- * Enum for Content types
- * @property {string} TEXT_PLAIN - The text/plain content type
- * @property {string} APPLICATION_JSON - The application/json content type
- */
-var ContentType;
-(function (ContentType) {
-    ContentType["TEXT_PLAIN"] = "text/plain";
-    ContentType["APPLICATION_JSON"] = "application/json";
-})(ContentType || (ContentType = {}));
-/**
- * @enum
- * Enum for Content type regex
- * @property {string} DOCUMENT - The regex to match document content types
- * @property {string} IMAGE - The regex to match image content types
- */
-var ContentTypeRegexStr;
-(function (ContentTypeRegexStr) {
-    ContentTypeRegexStr["DOCUMENT"] = "^(text\\/(html|xml))|(application\\/(xml|xhtml\\+xml))$";
-    ContentTypeRegexStr["IMAGE"] = "^image\\/.+";
-})(ContentTypeRegexStr || (ContentTypeRegexStr = {}));
-/**
- * @class
- * Class for GraphResponseHandler
- */
-class GraphResponseHandler_GraphResponseHandler {
-    /**
-     * @private
-     * @static
-     * To parse Document response
-     * @param {Response} rawResponse - The response object
-     * @param {DocumentType} type - The type to which the document needs to be parsed
-     * @returns A promise that resolves to a document content
-     */
-    static parseDocumentResponse(rawResponse, type) {
-        try {
-            if (typeof DOMParser !== "undefined") {
-                return new Promise((resolve, reject) => {
-                    rawResponse.text().then((xmlString) => {
-                        try {
-                            const parser = new DOMParser();
-                            const xmlDoc = parser.parseFromString(xmlString, type);
-                            resolve(xmlDoc);
-                        }
-                        catch (error) {
-                            reject(error);
-                        }
-                    });
-                });
-            }
-            else {
-                return Promise.resolve(rawResponse.body);
-            }
-        }
-        catch (error) {
-            throw error;
-        }
-    }
-    /**
-     * @private
-     * @static
-     * @async
-     * To convert the native Response to response content
-     * @param {Response} rawResponse - The response object
-     * @param {ResponseType} [responseType] - The response type value
-     * @returns A promise that resolves to the converted response content
-     */
-    static convertResponse(rawResponse, responseType) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            if (rawResponse.status === 204) {
-                // NO CONTENT
-                return Promise.resolve();
-            }
-            let responseValue;
-            try {
-                switch (responseType) {
-                    case ResponseType.ARRAYBUFFER:
-                        responseValue = yield rawResponse.arrayBuffer();
-                        break;
-                    case ResponseType.BLOB:
-                        responseValue = yield rawResponse.blob();
-                        break;
-                    case ResponseType.DOCUMENT:
-                        responseValue = yield GraphResponseHandler_GraphResponseHandler.parseDocumentResponse(rawResponse, DocumentType.TEXT_XML);
-                        break;
-                    case ResponseType.JSON:
-                        responseValue = yield rawResponse.json();
-                        break;
-                    case ResponseType.STREAM:
-                        responseValue = yield Promise.resolve(rawResponse.body);
-                        break;
-                    case ResponseType.TEXT:
-                        responseValue = yield rawResponse.text();
-                        break;
-                    default:
-                        const contentType = rawResponse.headers.get("Content-type");
-                        if (contentType !== null) {
-                            const mimeType = contentType.split(";")[0];
-                            if (new RegExp(ContentTypeRegexStr.DOCUMENT).test(mimeType)) {
-                                responseValue = yield GraphResponseHandler_GraphResponseHandler.parseDocumentResponse(rawResponse, mimeType);
-                            }
-                            else if (new RegExp(ContentTypeRegexStr.IMAGE).test(mimeType)) {
-                                responseValue = rawResponse.blob();
-                            }
-                            else if (mimeType === ContentType.TEXT_PLAIN) {
-                                responseValue = yield rawResponse.text();
-                            }
-                            else if (mimeType === ContentType.APPLICATION_JSON) {
-                                responseValue = yield rawResponse.json();
-                            }
-                            else {
-                                responseValue = Promise.resolve(rawResponse.body);
-                            }
-                        }
-                        else {
-                            /**
-                             * RFC specification {@link https://tools.ietf.org/html/rfc7231#section-3.1.1.5} says:
-                             *  A sender that generates a message containing a payload body SHOULD
-                             *  generate a Content-Type header field in that message unless the
-                             *  intended media type of the enclosed representation is unknown to the
-                             *  sender.  If a Content-Type header field is not present, the recipient
-                             *  MAY either assume a media type of "application/octet-stream"
-                             *  ([RFC2046], Section 4.5.1) or examine the data to determine its type.
-                             *
-                             *  So assuming it as a stream type so returning the body.
-                             */
-                            responseValue = Promise.resolve(rawResponse.body);
-                        }
-                        break;
-                }
-            }
-            catch (error) {
-                throw error;
-            }
-            return responseValue;
-        });
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * To get the parsed response
-     * @param {Response} rawResponse - The response object
-     * @param {ResponseType} [responseType] - The response type value
-     * @param {GraphRequestCallback} [callback] - The graph request callback function
-     * @returns The parsed response
-     */
-    static getResponse(rawResponse, responseType, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                if (responseType === ResponseType.RAW) {
-                    return Promise.resolve(rawResponse);
-                }
-                else {
-                    const response = yield GraphResponseHandler_GraphResponseHandler.convertResponse(rawResponse, responseType);
-                    if (rawResponse.ok) {
-                        // Status Code 2XX
-                        if (typeof callback === "function") {
-                            callback(null, response);
-                        }
-                        else {
-                            return response;
-                        }
-                    }
-                    else {
-                        // NOT OK Response
-                        throw response;
-                    }
-                }
-            }
-            catch (error) {
-                throw error;
-            }
-        });
-    }
-}
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/RequestMethod.js
-var RequestMethod = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/GraphRequest.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
+ * @module GraphRequest
  */
 
 
@@ -6313,7 +6723,6 @@ var RequestMethod = __webpack_require__(1);
  * A Class representing GraphRequest
  */
 class GraphRequest_GraphRequest {
-    /* tslint:enable: variable-name */
     /**
      * @public
      * @constructor
@@ -6411,9 +6820,9 @@ class GraphRequest_GraphRequest {
      * @returns The URL string that is qualified to make a request to graph endpoint
      */
     buildFullUrl() {
-        const url = Object(GraphRequestUtil["d" /* urlJoin */])([this.urlComponents.host, this.urlComponents.version, this.urlComponents.path]) + this.createQueryString();
+        const url = Object(GraphRequestUtil["e" /* urlJoin */])([this.urlComponents.host, this.urlComponents.version, this.urlComponents.path]) + this.createQueryString();
         if (this.config.debugLogging) {
-            console.log(url); // tslint:disable-line: no-console
+            console.log(url);
         }
         return url;
     }
@@ -6428,14 +6837,14 @@ class GraphRequest_GraphRequest {
         const query = [];
         if (Object.keys(urlComponents.oDataQueryParams).length !== 0) {
             for (const property in urlComponents.oDataQueryParams) {
-                if (urlComponents.oDataQueryParams.hasOwnProperty(property)) {
+                if (Object.prototype.hasOwnProperty.call(urlComponents.oDataQueryParams, property)) {
                     query.push(property + "=" + urlComponents.oDataQueryParams[property]);
                 }
             }
         }
         if (Object.keys(urlComponents.otherURLQueryParams).length !== 0) {
             for (const property in urlComponents.otherURLQueryParams) {
-                if (urlComponents.otherURLQueryParams.hasOwnProperty(property)) {
+                if (Object.prototype.hasOwnProperty.call(urlComponents.otherURLQueryParams, property)) {
                     query.push(property + "=" + urlComponents.otherURLQueryParams[property]);
                 }
             }
@@ -6470,7 +6879,7 @@ class GraphRequest_GraphRequest {
         }
         else if (queryDictionaryOrString.constructor === Object) {
             for (const key in queryDictionaryOrString) {
-                if (queryDictionaryOrString.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(queryDictionaryOrString, key)) {
                     this.setURLComponentsQueryParamater(key, queryDictionaryOrString[key]);
                 }
             }
@@ -6506,7 +6915,7 @@ class GraphRequest_GraphRequest {
      * @returns nothing
      */
     setURLComponentsQueryParamater(paramKey, paramValue) {
-        if (GraphRequestUtil["b" /* oDataQueryNames */].indexOf(paramKey) !== -1) {
+        if (GraphRequestUtil["c" /* oDataQueryNames */].indexOf(paramKey) !== -1) {
             const currentValue = this.urlComponents.oDataQueryParams[paramKey];
             const isValueAppendable = currentValue && (paramKey === "$expand" || paramKey === "$select" || paramKey === "$orderby");
             this.urlComponents.oDataQueryParams[paramKey] = isValueAppendable ? currentValue + "," + paramValue : paramValue;
@@ -6565,23 +6974,29 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the response content
      */
     send(request, options, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        var _a;
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             let rawResponse;
             const middlewareControl = new MiddlewareControl["a" /* MiddlewareControl */](this._middlewareOptions);
             this.updateRequestOptions(options);
+            const customHosts = (_a = this.config) === null || _a === void 0 ? void 0 : _a.customHosts;
             try {
                 const context = yield this.httpClient.sendRequest({
                     request,
                     options,
                     middlewareControl,
+                    customHosts,
                 });
                 rawResponse = context.response;
-                const response = yield GraphResponseHandler_GraphResponseHandler.getResponse(rawResponse, this._responseType, callback);
+                const response = yield GraphResponseHandler["a" /* GraphResponseHandler */].getResponse(rawResponse, this._responseType, callback);
                 return response;
             }
             catch (error) {
+                if (error instanceof GraphClientError["a" /* GraphClientError */]) {
+                    throw error;
+                }
                 let statusCode;
-                if (typeof rawResponse !== "undefined") {
+                if (rawResponse) {
                     statusCode = rawResponse.status;
                 }
                 const gError = yield GraphErrorHandler_GraphErrorHandler.getError(error, statusCode, callback);
@@ -6628,7 +7043,7 @@ class GraphRequest_GraphRequest {
      */
     headers(headers) {
         for (const key in headers) {
-            if (headers.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(headers, key)) {
                 this._headers[key] = headers[key];
             }
         }
@@ -6653,7 +7068,7 @@ class GraphRequest_GraphRequest {
      */
     options(options) {
         for (const key in options) {
-            if (options.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(options, key)) {
                 this._options[key] = options[key];
             }
         }
@@ -6781,7 +7196,7 @@ class GraphRequest_GraphRequest {
      * @param {boolean} isCount - The count boolean
      * @returns The same GraphRequest instance that is being called with, after adding the boolean value for the $count query option
      */
-    count(isCount = false) {
+    count(isCount = true) {
         this.urlComponents.oDataQueryParams.$count = isCount.toString();
         return this;
     }
@@ -6806,18 +7221,13 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the get response
      */
     get(callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].GET,
             };
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            const response = yield this.send(url, options, callback);
+            return response;
         });
     }
     /**
@@ -6829,11 +7239,11 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the post response
      */
     post(content, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].POST,
-                body: Object(GraphRequestUtil["c" /* serializeContent */])(content),
+                body: Object(GraphRequestUtil["d" /* serializeContent */])(content),
             };
             const className = content && content.constructor && content.constructor.name;
             if (className === "FormData") {
@@ -6844,13 +7254,7 @@ class GraphRequest_GraphRequest {
                 this.setHeaderContentType();
                 options.headers = this._headers;
             }
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            return yield this.send(url, options, callback);
         });
     }
     /**
@@ -6862,13 +7266,8 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the post response
      */
     create(content, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return yield this.post(content, callback);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return yield this.post(content, callback);
         });
     }
     /**
@@ -6880,20 +7279,14 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the put response
      */
     put(content, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             this.setHeaderContentType();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].PUT,
-                body: Object(GraphRequestUtil["c" /* serializeContent */])(content),
+                body: Object(GraphRequestUtil["d" /* serializeContent */])(content),
             };
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            return yield this.send(url, options, callback);
         });
     }
     /**
@@ -6905,20 +7298,14 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the patch response
      */
     patch(content, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             this.setHeaderContentType();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].PATCH,
-                body: Object(GraphRequestUtil["c" /* serializeContent */])(content),
+                body: Object(GraphRequestUtil["d" /* serializeContent */])(content),
             };
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            return yield this.send(url, options, callback);
         });
     }
     /**
@@ -6930,13 +7317,8 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the patch response
      */
     update(content, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return yield this.patch(content, callback);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return yield this.patch(content, callback);
         });
     }
     /**
@@ -6947,18 +7329,12 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the delete response
      */
     delete(callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].DELETE,
             };
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            return yield this.send(url, options, callback);
         });
     }
     /**
@@ -6969,13 +7345,8 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the delete response
      */
     del(callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            try {
-                return yield this.delete(callback);
-            }
-            catch (error) {
-                throw error;
-            }
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return yield this.delete(callback);
         });
     }
     /**
@@ -6986,19 +7357,13 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the getStream response
      */
     getStream(callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].GET,
             };
-            this.responseType(ResponseType.STREAM);
-            try {
-                const stream = yield this.send(url, options, callback);
-                return stream;
-            }
-            catch (error) {
-                throw error;
-            }
+            this.responseType(ResponseType["a" /* ResponseType */].STREAM);
+            return yield this.send(url, options, callback);
         });
     }
     /**
@@ -7010,7 +7375,7 @@ class GraphRequest_GraphRequest {
      * @returns A promise that resolves to the putStream response
      */
     putStream(stream, callback) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             const url = this.buildFullUrl();
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].PUT,
@@ -7019,24 +7384,18 @@ class GraphRequest_GraphRequest {
                 },
                 body: stream,
             };
-            try {
-                const response = yield this.send(url, options, callback);
-                return response;
-            }
-            catch (error) {
-                throw error;
-            }
+            return yield this.send(url, options, callback);
         });
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/HTTPClient.js
-var HTTPClient = __webpack_require__(16);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClient.js
+var HTTPClient = __webpack_require__(25);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/HTTPClientFactory.js
-var HTTPClientFactory = __webpack_require__(23);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClientFactory.js
+var HTTPClientFactory = __webpack_require__(30);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/ValidatePolyFilling.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ValidatePolyFilling.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -7068,7 +7427,7 @@ const validatePolyFilling = () => {
     return true;
 };
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/Client.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Client.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -7101,14 +7460,9 @@ class Client_Client {
             debugLogging: false,
             defaultVersion: Constants["a" /* GRAPH_API_VERSION */],
         };
-        try {
-            validatePolyFilling();
-        }
-        catch (error) {
-            throw error;
-        }
+        validatePolyFilling();
         for (const key in clientOptions) {
-            if (clientOptions.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(clientOptions, key)) {
                 this.config[key] = clientOptions[key];
             }
         }
@@ -7143,7 +7497,7 @@ class Client_Client {
     static init(options) {
         const clientOptions = {};
         for (const i in options) {
-            if (options.hasOwnProperty(i)) {
+            if (Object.prototype.hasOwnProperty.call(options, i)) {
                 clientOptions[i] = i === "authProvider" ? new CustomAuthenticationProvider_CustomAuthenticationProvider(options[i]) : options[i];
             }
         }
@@ -7157,12 +7511,7 @@ class Client_Client {
      * @returns The Client instance
      */
     static initWithMiddleware(clientOptions) {
-        try {
-            return new Client_Client(clientOptions);
-        }
-        catch (error) {
-            throw error;
-        }
+        return new Client_Client(clientOptions);
     }
     /**
      * @public
@@ -7175,7 +7524,7 @@ class Client_Client {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/browser/ImplicitMSALAuthenticationProvider.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthProvider.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -7183,119 +7532,105 @@ class Client_Client {
  * -------------------------------------------------------------------------------------------
  */
 
-/**
- * @class
- * Class representing ImplicitMSALAuthenticationProvider
- * @extends AuthenticationProvider
- */
-class ImplicitMSALAuthenticationProvider_ImplicitMSALAuthenticationProvider {
-    /**
-     * @public
-     * @constructor
-     * Creates an instance of ImplicitMSALAuthenticationProvider
-     * @param {any} msalApplication - An instance of MSAL UserAgentApplication
-     * @param {MSALAuthenticationProviderOptions} options - An instance of MSALAuthenticationProviderOptions
-     * @returns An instance of ImplicitMSALAuthenticationProvider
-     */
-    constructor(msalApplication, options) {
-        this.options = options;
-        this.msalApplication = msalApplication;
-    }
-    /**
-     * @public
-     * @async
-     * To get the access token
-     * @param {AuthenticationProviderOptions} authenticationProviderOptions - The authentication provider options object
-     * @returns The promise that resolves to an access token
-     */
-    getAccessToken(authenticationProviderOptions) {
-        return tslib_es6["a" /* __awaiter */](this, void 0, void 0, function* () {
-            const options = authenticationProviderOptions;
-            let scopes;
-            if (typeof options !== "undefined") {
-                scopes = options.scopes;
-            }
-            if (typeof scopes === "undefined" || scopes.length === 0) {
-                scopes = this.options.scopes;
-            }
-            if (scopes.length === 0) {
-                const error = new Error();
-                error.name = "EmptyScopes";
-                error.message = "Scopes cannot be empty, Please provide a scopes";
-                throw error;
-            }
-            if (this.msalApplication.getAccount()) {
-                const tokenRequest = {
-                    scopes,
-                };
-                try {
-                    const authResponse = yield this.msalApplication.acquireTokenSilent(tokenRequest);
-                    return authResponse.accessToken;
-                }
-                catch (error) {
-                    if (error.name === "InteractionRequiredAuthError") {
-                        try {
-                            const authResponse = yield this.msalApplication.acquireTokenPopup(tokenRequest);
-                            return authResponse.accessToken;
-                        }
-                        catch (error) {
-                            throw error;
-                        }
-                    }
-                    else {
-                        throw error;
-                    }
-                }
-            }
-            else {
-                try {
-                    const tokenRequest = {
-                        scopes,
-                    };
-                    yield this.msalApplication.loginPopup(tokenRequest);
-                    const authResponse = yield this.msalApplication.acquireTokenSilent(tokenRequest);
-                    return authResponse.accessToken;
-                }
-                catch (error) {
-                    throw error;
-                }
-            }
-        });
-    }
-}
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/MSALAuthenticationProviderOptions.js
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthenticationProvider.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/**
- * @class
- * @implements AuthenticationProviderOptions
- * Class representing MSALAuthenticationProviderOptions
- */
-class MSALAuthenticationProviderOptions {
-    /**
-     * @public
-     * @constructor
-     * To create an instance of MSALAuthenticationProviderOptions
-     * @param {string[]} scopes - An array of scopes
-     * @returns An instance of MSALAuthenticationProviderOptions
-     */
-    constructor(scopes) {
-        this.scopes = scopes;
-    }
-}
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/browser/index.js
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthenticationProviderOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthProviderCallback.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IClientOptions.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IContext.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IFetchOptions.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IGraphRequestCallback.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IOptions.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/browser/index.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

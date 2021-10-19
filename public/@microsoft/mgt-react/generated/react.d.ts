@@ -2,7 +2,6 @@
 import { OfficeGraphInsightString, ViewType, ResponseType, IDynamicPerson, PersonType, GroupType, UserType, PersonCardInteraction, MgtPersonConfig, AvatarSize, PersonViewType, TasksStringResource, TasksSource, TaskFilter, SelectedChannel, TodoFilter } from '@microsoft/mgt-components';
 import { TemplateContext, ComponentMediaQuery } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import * as MicrosoftGraphBeta from '@microsoft/microsoft-graph-types-beta';
 export declare type AgendaProps = {
     date?: string;
     groupId?: string;
@@ -30,8 +29,12 @@ export declare type FileListProps = {
     insightType?: OfficeGraphInsightString;
     fileExtensions?: string[];
     hideMoreFilesButton?: boolean;
+    maxFileSize?: number;
+    excludedFileExtensions?: string[];
     pageSize?: number;
     itemView?: ViewType;
+    maxUploadFile?: number;
+    enableFileUpload?: boolean;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     itemClick?: (e: Event) => void;
@@ -128,7 +131,7 @@ export declare type PersonCardProps = {
     isExpanded?: boolean;
     inheritDetails?: boolean;
     showPresence?: boolean;
-    personPresence?: MicrosoftGraphBeta.Presence;
+    personPresence?: MicrosoftGraph.Presence;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     expanded?: (e: Event) => void;
@@ -144,7 +147,7 @@ export declare type PersonProps = {
     personImage?: string;
     fetchImage?: boolean;
     avatarType?: string;
-    personPresence?: MicrosoftGraphBeta.Presence;
+    personPresence?: MicrosoftGraph.Presence;
     personCardInteraction?: PersonCardInteraction;
     line1Property?: string;
     line2Property?: string;

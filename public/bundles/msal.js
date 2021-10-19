@@ -1,4 +1,4 @@
-/*! msal v1.4.11 2021-05-21 */
+/*! msal v1.4.12 2021-07-22 */
 'use strict';
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1377,10 +1377,18 @@ var UserAgentApplication = /** @class */ (function () {
         // cache keys msal - typescript throws an error if any value other than "localStorage" or "sessionStorage" is passed
         this.cacheStorage = new AuthCache_1.AuthCache(this.clientId, this.config.cache.cacheLocation, this.inCookie);
         // Initialize window handling code
-        window.activeRenewals = {};
-        window.renewStates = [];
-        window.callbackMappedToRenewStates = {};
-        window.promiseMappedToRenewStates = {};
+        if (!window.activeRenewals) {
+            window.activeRenewals = {};
+        }
+        if (!window.renewStates) {
+            window.renewStates = [];
+        }
+        if (!window.callbackMappedToRenewStates) {
+            window.callbackMappedToRenewStates = {};
+        }
+        if (!window.promiseMappedToRenewStates) {
+            window.promiseMappedToRenewStates = {};
+        }
         window.msal = this;
         var urlHash = window.location.hash;
         var urlContainsHash = UrlUtils_1.UrlUtils.urlContainsHash(urlHash);
@@ -2125,7 +2133,7 @@ var UserAgentApplication = /** @class */ (function () {
         if (!window.callbackMappedToRenewStates[expectedState]) {
             window.callbackMappedToRenewStates[expectedState] = function (response, error) {
                 // reset active renewals
-                window.activeRenewals[requestSignature] = null;
+                delete window.activeRenewals[requestSignature];
                 // for all promiseMappedtoRenewStates for a given 'state' - call the reject/resolve with error/token respectively
                 for (var i = 0; i < window.promiseMappedToRenewStates[expectedState].length; ++i) {
                     try {
@@ -2145,8 +2153,8 @@ var UserAgentApplication = /** @class */ (function () {
                     }
                 }
                 // reset
-                window.promiseMappedToRenewStates[expectedState] = null;
-                window.callbackMappedToRenewStates[expectedState] = null;
+                delete window.promiseMappedToRenewStates[expectedState];
+                delete window.callbackMappedToRenewStates[expectedState];
             };
         }
     };
@@ -2209,10 +2217,7 @@ var UserAgentApplication = /** @class */ (function () {
                         }
                         this.telemetryManager.stopAndFlushApiEvent(requestCorrelationId, apiEvent, true);
                         this.logger.verbose("Navigating window to urlNavigate");
-                        // This is for SP Editor Chrome Extension, remove this when adal supports logging out in Popup window.
-                        if (window.location.href.indexOf("chrome-extension") === -1) {
-                            this.navigateWindow(urlNavigate);
-                        }
+                        //this.navigateWindow(urlNavigate);
                         return [3 /*break*/, 6];
                     case 5:
                         error_3 = _a.sent();
@@ -4970,7 +4975,7 @@ exports.InteractionRequiredAuthError = InteractionRequiredAuthError_1.Interactio
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /* eslint-disable header/header */
 exports.name = "msal";
-exports.version = "1.4.11";
+exports.version = "1.4.12";
 
 
 /***/ }),

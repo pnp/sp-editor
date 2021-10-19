@@ -27,9 +27,8 @@ export declare class TemplateHelper {
      * @param root the root element to parent the rendered content
      * @param template the template to render
      * @param context the data context to be applied
-     * @param additionalContext additional context that could contain functions to transform the data
      */
-    static renderTemplate(root: HTMLElement, template: HTMLTemplateElement, context: object, additionalContext?: object): void;
+    static renderTemplate(root: HTMLElement, template: HTMLTemplateElement, context: object): void;
     /**
      * Set an alternative binding syntax. Default is {{ <value> }}
      *
