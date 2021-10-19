@@ -82,4 +82,12 @@ export declare function extractEmailAddress(emailString: string): string;
  * @returns {boolean}
  */
 export declare function isValidEmail(emailString: string): boolean;
+/**
+ * Convert bytes to human readable.
+ *
+ * @param bytes
+ * @param decimals
+ * @returns
+ */
+export declare function formatBytes(bytes: any, decimals?: number): string;
 //# sourceMappingURL=Utils.d.ts.map

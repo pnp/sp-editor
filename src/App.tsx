@@ -36,6 +36,7 @@ import {
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { useDispatch, useSelector } from 'react-redux'
 import MessageBar from './components/messageBar'
+import FileExplorer from './pages/fileexplorer'
 import GraphSDKConsole from './pages/graphsdkconsole'
 import ListProperties from './pages/listproperties'
 import MGTConsole from './pages/mgtconsole'
@@ -88,6 +89,7 @@ const App = () => {
                 <Route path='/spshooter' component={SPShooter} />
                 <Route path='/graphsdkconsole' component={GraphSDKConsole} />
                 <Route path='/mgtconsole' component={MGTConsole} />
+                <Route path='/fileexplorer' component={FileExplorer} />
               </Switch>
               <MessageBar />
             </IonPage>

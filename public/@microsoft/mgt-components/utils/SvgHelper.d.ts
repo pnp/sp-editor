@@ -114,7 +114,34 @@ export declare enum SvgIcon {
     /**
      * Back arrow
      */
-    Back = 25
+    Back = 25,
+    /**
+     * Upload icon
+     */
+    Upload = 26,
+    /**
+     * File Cloud icon
+     */
+    FileCloud = 27,
+    /**
+     * Drag File Mouse Icon
+     */
+    DragFile = 28,
+    /**
+     *
+     * Cancel icon
+     */
+    Cancel = 29,
+    /**
+     *
+     * Sucess icon
+     */
+    Sucess = 30,
+    /**
+     *
+     * Fail icon
+     */
+    Fail = 31
 }
 /**
  * returns an svg

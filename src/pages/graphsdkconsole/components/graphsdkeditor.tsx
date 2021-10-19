@@ -19,6 +19,7 @@ import {
   GraphSDKConsoleMonacoConfigs,
   mod_graph_sdk,
   mod_msal,
+  mod_provider,
   sj,
 } from './utils'
 
@@ -185,7 +186,7 @@ const GraphSDKEditor = () => {
 
               const execme = [
                 'var execme = function execme() {',
-                '\tPromise.all([SystemJS.import(mod_msal),SystemJS.import(mod_graph_sdk)]).then(function (modules) {',
+                '\tPromise.all([SystemJS.import(mod_msal),SystemJS.import(mod_graph_sdk),SystemJS.import(mod_provider)]).then(function (modules) {',
                 '\t\t' + prepnp.join('\n'),
                 '\t\t// Your code starts here',
                 '\t\t// #####################',
@@ -195,8 +196,10 @@ const GraphSDKEditor = () => {
                 '\t});',
                 '};'].join('\n').replace(/console.log/g, 'clone.logNew')
 
+              // tslint:disable-next-line:prefer-template
               let script = mod_msal + '\n' +
                 mod_graph_sdk + '\n' +
+                mod_provider + '\n' +
                 sj + '\n\n' +
                 exescript + '\n\n' +
                 execme + '\n\n'
@@ -212,7 +215,7 @@ const GraphSDKEditor = () => {
               }
 
               dispatch(setLoading(true))
-              // eslint-disable-next-line no-eval
+              // tslint:disable-next-line:no-eval
               eval(script)
             } catch (e) {
               console.log(e)

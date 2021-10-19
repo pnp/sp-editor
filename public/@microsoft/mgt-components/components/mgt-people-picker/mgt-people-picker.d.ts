@@ -199,6 +199,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     selectUsersById(userIds: readonly string[]): Promise<void>;
     /**
+     * Queries the microsoft graph for a group of users from a group id, and adds them to the selectedPeople
+     *
+     * @param {readonly string []} an array of group ids to add to selectedPeople
+     * @returns {Promise<void>}
+     * @memberof MgtPeoplePicker
+     */
+    selectGroupsById(groupIds: readonly string[]): Promise<void>;
+    /**
      * Invoked on each update to perform rendering tasks. This method must return a lit-html TemplateResult.
      * Setting properties inside this method will not trigger the element to update.
      * @returns {TemplateResult}

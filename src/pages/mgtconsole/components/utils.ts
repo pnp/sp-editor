@@ -54,7 +54,6 @@ export const MGTPlaygroundMonacoConfigs = () => {
     scrollBeyondLastLine: false,
     readOnly: false,
     fontSize: 16,
-    renderIndentGuides: true,
     suggestOnTriggerCharacters: true,
     colorDecorators: true,
     minimap: {
