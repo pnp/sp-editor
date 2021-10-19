@@ -35,9 +35,11 @@ export const GraphSDKConsoleMonacoConfigs = () => {
     scrollBeyondLastLine: false,
     readOnly: false,
     fontSize: 16,
-    renderIndentGuides: true,
     suggestOnTriggerCharacters: true,
     colorDecorators: true,
+    folding: true,
+    foldingHighlight: true,
+    foldingStrategy: 'auto',
     minimap: {
       enabled: true,
     },
@@ -64,70 +66,73 @@ export const GraphSDKConsoleMonacoConfigs = () => {
 
 export const initCode = () => {
   const code = `
+
 /*
   Hit 'ctrl + d' or 'cmd + d' to run the code
 */
-import {
-  UserAgentApplication,
-  Configuration,
-  AuthenticationParameters,
-} from 'msal'
 
 import {
-  MSALAuthenticationProviderOptions,
-  ImplicitMSALAuthenticationProvider,
   Client,
-  ClientOptions,
 } from '@microsoft/microsoft-graph-client'
 
-// wrapping the code inside self-excecuting async function
-// enables you to use await expression
+import {
+  PublicClientApplication,
+  InteractionType,
+  Configuration,
+  PopupRequest
+} from "@azure/msal-browser";
+
+import {
+  AuthCodeMSALBrowserAuthenticationProvider,
+  AuthCodeMSALBrowserAuthenticationProviderOptions
+} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser";
+
+const scopes = ["user.read", "mail.send"];
+
+const options: AuthCodeMSALBrowserAuthenticationProviderOptions = {
+  account: {},
+  interactionType: InteractionType.Popup,
+  scopes,
+}
+
+const msalConfig: Configuration = {
+  auth: {
+    clientId: "20d34c96-396e-4bf0-a008-472ef10a5099",
+  },
+  cache: {
+    cacheLocation: 'sessionStorage',
+  },
+};
+const publicClientApplication = new PublicClientApplication(msalConfig)
+const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(publicClientApplication, options)
+
+const graphClient = Client.initWithMiddleware({
+  authProvider
+});
+
 (async () => {
-  /*
-    - If you wish to use your own Azure AD App, remember to add
-        "chrome-extension://affnnhcbfmcbbdlcadgkdbfafigmjdkk/app/panel.html"
-      as redirectUrl
-  */
-  const msalConfig: Configuration = {
-    auth: {
-      clientId: "20d34c96-396e-4bf0-a008-472ef10a5099", // SP Editor azure ad multitenant app
-    },
-    cache: {
-      cacheLocation: 'sessionStorage',
-    }
-  };
 
-  // scopes needed in your graph query
-  const graphScopes = [
-    "user.read",
-    "mail.send"
-  ];
+  const request: PopupRequest = {
+    scopes,
+    /* uncomment this line, if you need to change account */
+    // prompt: 'select_account',
+  }
 
-  const msalApplication = new UserAgentApplication(msalConfig);
-  const msalOptions = new MSALAuthenticationProviderOptions(graphScopes);
-  const authProvider = new ImplicitMSALAuthenticationProvider(msalApplication, msalOptions);
+  await publicClientApplication.loginPopup(request);
 
-  const authParams: AuthenticationParameters = {
-    scopes: graphScopes,
-    prompt: 'select_account',
-  };
-  /* uncomment to switch account
-  await msalApplication.loginPopup(authParams);
-  */
-
-  const options: ClientOptions = {
-    authProvider,
-  };
-
-  const client = Client.initWithMiddleware(options);
-
-  let userDetails = await client.api("/me")
+  let userDetails = await graphClient.api("/me")
     .select('displayName')
     .get();
 
   console.log(userDetails)
 
+  /* uncomment this line, if you want to log out the signed in account */
+  //await publicClientApplication.logoutPopup();
+
 })().catch(console.log)
+
+
+
 `
   return code.substring(code.indexOf('\n') + 1)
 }
@@ -168,6 +173,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
       let mod = -1
       mod = line.indexOf('msal') > -1 ? 0 : mod
       mod = line.indexOf('@microsoft/microsoft-graph-client') > -1 ? 1 : mod
+      mod = line.indexOf('@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser') > -1 ? 2 : mod
       prepnp.push(`var ${lineRe![1]} = modules[${mod}];`)
     }
   })
@@ -177,7 +183,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
 // find all import lines from code
 export const getImportModules = (content: string) => {
   const importTexts: string[] = []
-  const imports = content.match(/(import|from).*(@microsoft|msal).*/g)
+  const imports = content.match(/(import|from).*(@microsoft|msal|@azure).*/g)
   if (imports) {
     imports.forEach(iText => {
       const match = iText.match(/(["'])(.*?[^\\])\1/g)
@@ -265,5 +271,6 @@ export const getDefinitionsInUse = (
 }
 
 export const sj = `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
-export const mod_msal = `var mod_msal = '${chrome.extension.getURL('bundles/msal.js')}';`
+export const mod_msal = `var mod_msal = '${chrome.extension.getURL('bundles/msal-browser.js')}';`
 export const mod_graph_sdk = `var mod_graph_sdk = '${chrome.extension.getURL('bundles/graph-sdk.es5.umd.bundle.js')}';`
+export const mod_provider = `var mod_provider = '${chrome.extension.getURL('bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js')}';`

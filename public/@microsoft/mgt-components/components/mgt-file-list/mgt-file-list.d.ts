@@ -7,8 +7,10 @@
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit-element';
-import '../sub-components/mgt-spinner/mgt-spinner';
+import './mgt-file-upload/mgt-file-upload';
 import { OfficeGraphInsightString, ViewType } from '../../graph/types';
+export { FluentDesignSystemProvider, FluentProgressRing } from '@fluentui/web-components';
+export * from './mgt-file-upload/mgt-file-upload';
 /**
  * The File List component displays a list of multiple folders and files by
  * using the file/folder name, an icon, and other properties specicified by the developer.
@@ -19,6 +21,16 @@ import { OfficeGraphInsightString, ViewType } from '../../graph/types';
  * @extends {MgtTemplatedComponent}
  *
  * @fires itemClick - Fired when user click a file. Returns the file (DriveItem) details.
+ * @cssprop --file-upload-border- {String} File upload border top style
+ * @cssprop --file-upload-background-color - {Color} File upload background color with opacity style
+ * @cssprop --file-upload-button-float - {string} Upload button float position
+ * @cssprop --file-upload-button-background-color - {Color} Background color of upload button
+ * @cssprop --file-upload-dialog-background-color - {Color} Background color of upload dialog
+ * @cssprop --file-upload-dialog-content-background-color - {Color} Background color of dialog content
+ * @cssprop --file-upload-dialog-content-color - {Color} Color of dialog content
+ * @cssprop --file-upload-dialog-primarybutton-background-color - {Color} Background color of primary button
+ * @cssprop --file-upload-dialog-primarybutton-color - {Color} Color text of primary button
+ * @cssprop --file-upload-button-color - {Color} Text color of upload button
  * @cssprop --file-list-background-color - {Color} File list background color
  * @cssprop --file-list-box-shadow - {String} File list box shadow style
  * @cssprop --file-list-border - {String} File list border styles
@@ -38,6 +50,7 @@ import { OfficeGraphInsightString, ViewType } from '../../graph/types';
  * @cssprop --show-more-button-padding - {String} Show more button padding
  * @cssprop --show-more-button-border-bottom-right-radius - {String} Show more button bottom right radius
  * @cssprop --show-more-button-border-bottom-left-radius - {String} Show more button bottom left radius
+ * @cssprop --progress-ring-size -{String} Progress ring height and width
  */
 export declare class MgtFileList extends MgtTemplatedComponent {
     /**
@@ -159,6 +172,34 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      */
     hideMoreFilesButton: boolean;
     /**
+     * A number value indication for file size upload (KB)
+     * @type {number}
+     * @memberof MgtFileList
+     */
+    get maxFileSize(): number;
+    set maxFileSize(value: number);
+    /**
+     * A boolean value indication if file upload extension should be enable or disabled
+     * @type {boolean}
+     * @memberof MgtFileList
+     */
+    enableFileUpload: boolean;
+    /**
+     * A number value to indicate the max number allowed of files to upload.
+     * @type {number}
+     * @memberof MgtFileList
+     */
+    get maxUploadFile(): number;
+    set maxUploadFile(value: number);
+    /**
+     * A Array of file extensions to be excluded from file upload.
+     *
+     * @type {string[]}
+     * @memberof MgtFileList
+     */
+    get excludedFileExtensions(): string[];
+    set excludedFileExtensions(value: string[]);
+    /**
      * Get the scopes required for file list
      *
      * @static
@@ -176,10 +217,14 @@ export declare class MgtFileList extends MgtTemplatedComponent {
     private _insightType;
     private _fileExtensions;
     private _pageSize;
+    private _excludedFileExtensions;
+    private _maxUploadFile;
+    private _maxFileSize;
     private _userId;
     private _preloadedFiles;
     private pageIterator;
     private _focusedItemIndex;
+    private _isLoadingMore;
     constructor();
     /**
      * Override requestStateUpdate to include clearstate.
@@ -235,6 +280,12 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      * @memberof MgtFileList
      */
     protected renderMoreFileButton(): TemplateResult;
+    /**
+     * Render MgtFileUpload sub component
+     *
+     * @returns
+     */
+    protected renderFileUpload(): TemplateResult;
     /**
      * Handle accessibility keyboard enter event on 'show more items' button
      *

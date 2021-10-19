@@ -4,9 +4,9 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { Presence } from '@microsoft/microsoft-graph-types-beta';
 import { TemplateResult } from 'lit-element';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { Presence } from '@microsoft/microsoft-graph-types';
 import { IDynamicPerson } from '../../graph/types';
 import { BasePersonCardSection } from './sections/BasePersonCardSection';
 import { MgtPersonCardConfig } from './mgt-person-card.types';
@@ -126,7 +126,7 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
     /**
      * Gets or sets presence of person
      *
-     * @type {MicrosoftGraphBeta.Presence}
+     * @type {MicrosoftGraph.Presence}
      * @memberof MgtPerson
      */
     personPresence: Presence;

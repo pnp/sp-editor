@@ -24,6 +24,14 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     graph: IGraph;
+    /**
+     * Enable/Disable multi account functionality
+     *
+     * @protected
+     * @type {boolean}
+     * @memberof IProvider
+     */
+    protected isMultipleAccountDisabled: boolean;
     private _state;
     private _loginChangedDispatcher;
     private _activeAccountChangedDispatcher;

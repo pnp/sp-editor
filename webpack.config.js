@@ -297,4 +297,34 @@ module.exports = [{
   optimization: {
     minimize: false
   },
+},
+{
+  // graph-sdk.js.js
+  entry: "./pnpjs-sources/index-AuthCodeMSALBrowserAuthenticationProvider.ts",
+  mode: "production",
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: [{
+          loader: "ts-loader?configFile=pnpjs-sources/tsconfig.pnpjs.json",
+        }],
+      },
+    ],
+  },
+  output: {
+    filename: "AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js",
+    library: "graph-sdk",
+    libraryTarget: "umd",
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"],
+  },
+  stats: {
+    assets: false,
+    colors: true,
+  },
+  optimization: {
+    minimize: false
+  },
 }];

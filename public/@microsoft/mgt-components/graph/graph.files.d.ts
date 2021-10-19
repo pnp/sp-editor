@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { CacheItem, CacheStore, GraphPageIterator, IGraph } from '@microsoft/mgt-element';
-import { DriveItem } from '@microsoft/microsoft-graph-types';
+import { DriveItem, UploadSession } from '@microsoft/microsoft-graph-types';
 /**
  * Object to be stored in cache
  */
@@ -18,6 +18,19 @@ interface CacheFileList extends CacheItem {
      * nextLink string to get next page
      */
     nextLink?: string;
+}
+/**
+ * document thumbnail object stored in cache
+ */
+export interface CacheThumbnail extends CacheItem {
+    /**
+     * tag associated with thumbnail
+     */
+    eTag?: string;
+    /**
+     * document thumbnail
+     */
+    thumbnail?: string;
 }
 /**
  * Clear Cache of FileList
@@ -68,7 +81,57 @@ export declare function getFilesByListQueryIterator(graph: IGraph, listQuery: st
 export declare function getMyInsightsFiles(graph: IGraph, insightType: string): Promise<DriveItem[]>;
 export declare function getUserInsightsFiles(graph: IGraph, userId: string, insightType: string): Promise<DriveItem[]>;
 export declare function getFilesByQueries(graph: IGraph, fileQueries: string[]): Promise<DriveItem[]>;
-export declare function getFileListFromCache(cache: CacheStore<CacheFileList>, key: string): Promise<CacheFileList>;
+export declare function getFileListFromCache(cache: CacheStore<CacheFileList>, store: string, key: string): Promise<CacheFileList>;
 export declare function fetchNextAndCacheForFilesPageIterator(filesPageIterator: any): Promise<void>;
+/**
+ * retrieves the specified document thumbnail
+ *
+ * @param {string} resource
+ * @param {string[]} scopes
+ * @returns {Promise<string>}
+ */
+export declare function getDocumentThumbnail(graph: IGraph, resource: string, scopes: string[]): Promise<CacheThumbnail>;
+/**
+ * retrieve file properties based on Graph query
+ *
+ * @param graph
+ * @param resource
+ * @returns
+ */
+export declare function getGraphfile(graph: IGraph, resource: string): Promise<DriveItem>;
+/**
+ * retrieve UploadSession Url for large file and send by chuncks
+ *
+ * @param graph
+ * @param resource
+ * @returns
+ */
+export declare function getUploadSession(graph: IGraph, resource: string, conflictBehavior: number): Promise<UploadSession>;
+/**
+ * send file chunck to OneDrive, SharePoint Site
+ *
+ * @param graph
+ * @param resource
+ * @param file
+ * @returns
+ */
+export declare function sendFileChunck(graph: IGraph, resource: string, contentLength: string, contentRange: string, file: Blob): Promise<any>;
+/**
+ * send file to OneDrive, SharePoint Site
+ *
+ * @param graph
+ * @param resource
+ * @param file
+ * @returns
+ */
+export declare function sendFileContent(graph: IGraph, resource: string, file: File): Promise<DriveItem>;
+/**
+ * delete upload session
+ *
+ * @param graph
+ * @param resource
+ * @returns
+ */
+export declare function deleteSessionFile(graph: IGraph, resource: string): Promise<any>;
 export {};
 //# sourceMappingURL=graph.files.d.ts.map
