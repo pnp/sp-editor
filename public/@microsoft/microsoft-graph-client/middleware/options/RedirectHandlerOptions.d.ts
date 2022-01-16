@@ -45,7 +45,7 @@ export declare class RedirectHandlerOptions implements MiddlewareOptions {
      * @private
      * A member holding default shouldRedirect callback
      */
-    private static defaultShouldRetry;
+    private static defaultShouldRedirect;
     /**
      * @public
      * @constructor

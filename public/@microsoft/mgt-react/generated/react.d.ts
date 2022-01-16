@@ -99,6 +99,7 @@ export declare type PeoplePickerProps = {
     defaultSelectedGroupIds?: string[];
     placeholder?: string;
     selectionMode?: string;
+    userIds?: string[];
     showMax?: number;
     disabled?: boolean;
     allowAnyEmail?: boolean;
@@ -117,6 +118,7 @@ export declare type PeopleProps = {
     resource?: string;
     version?: string;
     scopes?: string[];
+    fallbackDetails?: IDynamicPerson[];
     showMax?: number;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;

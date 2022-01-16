@@ -22,7 +22,7 @@ export declare abstract class BaseInteractionClient {
      * Initializer function for all request APIs
      * @param request
      */
-    protected initializeBaseRequest(request: Partial<BaseAuthRequest>): BaseAuthRequest;
+    protected initializeBaseRequest(request: Partial<BaseAuthRequest>): Promise<BaseAuthRequest>;
     /**
      *
      * Use to get the redirect uri configured in MSAL or null.

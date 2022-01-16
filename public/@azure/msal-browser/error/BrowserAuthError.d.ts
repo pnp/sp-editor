@@ -143,6 +143,14 @@ export declare const BrowserAuthErrorMessage: {
         code: string;
         desc: string;
     };
+    authCodeRequired: {
+        code: string;
+        desc: string;
+    };
+    databaseUnavailable: {
+        code: string;
+        desc: string;
+    };
 };
 /**
  * Browser library error class thrown by the MSAL.js library for SPAs
@@ -297,5 +305,13 @@ export declare class BrowserAuthError extends AuthError {
      * Create an error thrown when the queried cryptographic key is not found in IndexedDB
      */
     static createSigningKeyNotFoundInStorageError(keyId: string): BrowserAuthError;
+    /**
+     * Create an error when an authorization code is required but not provided
+     */
+    static createAuthCodeRequiredError(): BrowserAuthError;
+    /**
+     * Create an error when IndexedDB is unavailable
+     */
+    static createDatabaseUnavailableError(): BrowserAuthError;
 }
 //# sourceMappingURL=BrowserAuthError.d.ts.map

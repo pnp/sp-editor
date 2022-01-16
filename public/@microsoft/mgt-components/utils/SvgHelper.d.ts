@@ -134,9 +134,9 @@ export declare enum SvgIcon {
     Cancel = 29,
     /**
      *
-     * Sucess icon
+     * Success icon
      */
-    Sucess = 30,
+    Success = 30,
     /**
      *
      * Fail icon

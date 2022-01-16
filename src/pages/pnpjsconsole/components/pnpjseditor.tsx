@@ -127,7 +127,7 @@ const PnPjsEditor = () => {
         })
 
         // tslint:disable-next-line:no-bitwise
-        editor.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D, () => {
+        editor.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
           try {
             const model = editor.current!.getModel()!.getValue()
             const compilerOptions: CompilerOptions = getDefaultCompilerOptions()

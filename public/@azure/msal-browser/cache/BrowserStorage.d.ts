@@ -1,5 +1,5 @@
 import { IWindowStorage } from "./IWindowStorage";
-export declare class BrowserStorage implements IWindowStorage {
+export declare class BrowserStorage implements IWindowStorage<string> {
     private windowStorage;
     constructor(cacheLocation: string);
     private validateWindowStorage;

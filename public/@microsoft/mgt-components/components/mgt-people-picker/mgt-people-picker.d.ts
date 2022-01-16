@@ -153,6 +153,15 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPeoplePicker
      */
     selectionMode: string;
+    private _userIds;
+    /**
+     * Array of the only users to be searched.
+     *
+     * @type {string[]}
+     * @memberof MgtPeoplePicker
+     */
+    get userIds(): string[];
+    set userIds(value: string[]);
     /**
      * Get the scopes required for people picker
      *
@@ -180,8 +189,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private _debouncedSearch;
     private defaultSelectedUsers;
     private defaultSelectedGroups;
+    private _highlightedUsers;
+    private _currentHighlightedUserPos;
     private _isFocused;
     private _foundPeople;
+    private _mouseLeaveTimeout;
+    private _mouseEnterTimeout;
+    private _isKeyboardFocus;
     constructor();
     /**
      * Focuses the input element when focus is called
@@ -337,6 +351,10 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private handleFlyout;
     private gainedFocus;
     private lostFocus;
+    private handleMouseEnter;
+    private handleMouseLeave;
+    private hideKeyboardFocus;
+    private showKeyboardFocus;
     private renderHighlightText;
     /**
      * Adds debounce method for set delay on user input
@@ -354,6 +372,40 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @param event - event tracked on user input (keydown)
      */
     private onUserKeyDown;
+    /**
+     * Gets the text of the highlighed people and writes it to the clipboard
+     */
+    private writeHighlightedText;
+    /**
+     * Handles the cut event when it is fired
+     */
+    private handleCut;
+    /**
+     * Handles the copy event when it is fired
+     */
+    private handleCopy;
+    /**
+     * Parses the copied people text and adds them when you paste
+     */
+    private handlePaste;
+    /**
+     * Removes only the highlighted elements from the peoplePicker during cut operations.
+     */
+    private removeHighlightedOnCut;
+    /**
+     * Changes the color class to show which people are selected for copy/cut-paste
+     * @param people list of selected people classes
+     */
+    private highlightSelectedPeople;
+    /**
+     * Defaults the people class back to the normal view
+     */
+    private clearHighlighted;
+    /**
+     * Returns the original classes of a highlighted person element
+     * @param node a highlighted node element
+     */
+    private clearNodeHighlights;
     /**
      * Tracks user key selection for arrow key selection of people
      * @param event - tracks user key selection

@@ -55,12 +55,12 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
      * @param request
      * @param interactionType
      */
-    protected preflightInteractiveRequest(request: RedirectRequest | PopupRequest, interactionType: InteractionType): AuthorizationUrlRequest;
+    protected preflightInteractiveRequest(request: RedirectRequest | PopupRequest, interactionType: InteractionType): Promise<AuthorizationUrlRequest>;
     /**
      * Helper to initialize required request parameters for interactive APIs and ssoSilent()
      * @param request
      * @param interactionType
      */
-    protected initializeAuthorizationRequest(request: RedirectRequest | PopupRequest | SsoSilentRequest, interactionType: InteractionType): AuthorizationUrlRequest;
+    protected initializeAuthorizationRequest(request: RedirectRequest | PopupRequest | SsoSilentRequest, interactionType: InteractionType): Promise<AuthorizationUrlRequest>;
 }
 //# sourceMappingURL=StandardInteractionClient.d.ts.map

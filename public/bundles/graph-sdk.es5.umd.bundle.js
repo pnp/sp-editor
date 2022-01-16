@@ -402,7 +402,7 @@ class GraphClientError extends Error {
      * @static
      * @async
      * To set the GraphClientError object
-     * @param {any} - The error returned encountered by the Graph JavaScript Client SDK while processing request
+     * @param {any} error - The error returned encountered by the Graph JavaScript Client SDK while processing request
      * @returns GraphClientError object set to the error passed
      */
     static setGraphClientError(error) {
@@ -543,6 +543,92 @@ var ResponseType;
 
 /***/ }),
 /* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeatureUsageFlag; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TelemetryHandlerOptions; });
+/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @enum
+ * @property {number} NONE - The hexadecimal flag value for nothing enabled
+ * @property {number} REDIRECT_HANDLER_ENABLED - The hexadecimal flag value for redirect handler enabled
+ * @property {number} RETRY_HANDLER_ENABLED - The hexadecimal flag value for retry handler enabled
+ * @property {number} AUTHENTICATION_HANDLER_ENABLED - The hexadecimal flag value for the authentication handler enabled
+ */
+var FeatureUsageFlag;
+(function (FeatureUsageFlag) {
+    /* eslint-disable  @typescript-eslint/naming-convention */
+    FeatureUsageFlag[FeatureUsageFlag["NONE"] = 0] = "NONE";
+    FeatureUsageFlag[FeatureUsageFlag["REDIRECT_HANDLER_ENABLED"] = 1] = "REDIRECT_HANDLER_ENABLED";
+    FeatureUsageFlag[FeatureUsageFlag["RETRY_HANDLER_ENABLED"] = 2] = "RETRY_HANDLER_ENABLED";
+    FeatureUsageFlag[FeatureUsageFlag["AUTHENTICATION_HANDLER_ENABLED"] = 4] = "AUTHENTICATION_HANDLER_ENABLED";
+    /* eslint-enable  @typescript-eslint/naming-convention */
+})(FeatureUsageFlag || (FeatureUsageFlag = {}));
+/**
+ * @class
+ * @implements MiddlewareOptions
+ * Class for TelemetryHandlerOptions
+ */
+class TelemetryHandlerOptions {
+    constructor() {
+        /**
+         * @private
+         * A member to hold the OR of feature usage flags
+         */
+        this.featureUsage = FeatureUsageFlag.NONE;
+    }
+    /**
+     * @public
+     * @static
+     * To update the feature usage in the context object
+     * @param {Context} context - The request context object containing middleware options
+     * @param {FeatureUsageFlag} flag - The flag value
+     * @returns nothing
+     */
+    static updateFeatureUsageFlag(context, flag) {
+        let options;
+        if (context.middlewareControl instanceof _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__[/* MiddlewareControl */ "a"]) {
+            options = context.middlewareControl.getMiddlewareOptions(TelemetryHandlerOptions);
+        }
+        else {
+            context.middlewareControl = new _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__[/* MiddlewareControl */ "a"]();
+        }
+        if (typeof options === "undefined") {
+            options = new TelemetryHandlerOptions();
+            context.middlewareControl.setMiddlewareOptions(TelemetryHandlerOptions, options);
+        }
+        options.setFeatureUsage(flag);
+    }
+    /**
+     * @private
+     * To set the feature usage flag
+     * @param {FeatureUsageFlag} flag - The flag value
+     * @returns nothing
+     */
+    setFeatureUsage(flag) {
+        this.featureUsage = this.featureUsage | flag;
+    }
+    /**
+     * @public
+     * To get the feature usage
+     * @returns A feature usage flag as hexadecimal string
+     */
+    getFeatureUsage() {
+        return this.featureUsage.toString(16);
+    }
+}
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -702,92 +788,6 @@ const cloneRequestWithNewUrl = (newUrl, request) => Object(tslib__WEBPACK_IMPORT
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeatureUsageFlag; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TelemetryHandlerOptions; });
-/* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @enum
- * @property {number} NONE - The hexadecimal flag value for nothing enabled
- * @property {number} REDIRECT_HANDLER_ENABLED - The hexadecimal flag value for redirect handler enabled
- * @property {number} RETRY_HANDLER_ENABLED - The hexadecimal flag value for retry handler enabled
- * @property {number} AUTHENTICATION_HANDLER_ENABLED - The hexadecimal flag value for the authentication handler enabled
- */
-var FeatureUsageFlag;
-(function (FeatureUsageFlag) {
-    /* eslint-disable  @typescript-eslint/naming-convention */
-    FeatureUsageFlag[FeatureUsageFlag["NONE"] = 0] = "NONE";
-    FeatureUsageFlag[FeatureUsageFlag["REDIRECT_HANDLER_ENABLED"] = 1] = "REDIRECT_HANDLER_ENABLED";
-    FeatureUsageFlag[FeatureUsageFlag["RETRY_HANDLER_ENABLED"] = 2] = "RETRY_HANDLER_ENABLED";
-    FeatureUsageFlag[FeatureUsageFlag["AUTHENTICATION_HANDLER_ENABLED"] = 4] = "AUTHENTICATION_HANDLER_ENABLED";
-    /* eslint-enable  @typescript-eslint/naming-convention */
-})(FeatureUsageFlag || (FeatureUsageFlag = {}));
-/**
- * @class
- * @implements MiddlewareOptions
- * Class for TelemetryHandlerOptions
- */
-class TelemetryHandlerOptions {
-    constructor() {
-        /**
-         * @private
-         * A member to hold the OR of feature usage flags
-         */
-        this.featureUsage = FeatureUsageFlag.NONE;
-    }
-    /**
-     * @public
-     * @static
-     * To update the feature usage in the context object
-     * @param {Context} context - The request context object containing middleware options
-     * @param {FeatureUsageFlag} flag - The flag value
-     * @returns nothing
-     */
-    static updateFeatureUsageFlag(context, flag) {
-        let options;
-        if (context.middlewareControl instanceof _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__[/* MiddlewareControl */ "a"]) {
-            options = context.middlewareControl.getMiddlewareOptions(TelemetryHandlerOptions);
-        }
-        else {
-            context.middlewareControl = new _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__[/* MiddlewareControl */ "a"]();
-        }
-        if (typeof options === "undefined") {
-            options = new TelemetryHandlerOptions();
-            context.middlewareControl.setMiddlewareOptions(TelemetryHandlerOptions, options);
-        }
-        options.setFeatureUsage(flag);
-    }
-    /**
-     * @private
-     * To set the feature usage flag
-     * @param {FeatureUsageFlag} flag - The flag value
-     * @returns nothing
-     */
-    setFeatureUsage(flag) {
-        this.featureUsage = this.featureUsage | flag;
-    }
-    /**
-     * @public
-     * To get the feature usage
-     * @returns A feature usage flag as hexadecimal string
-     */
-    getFeatureUsage() {
-        return this.featureUsage.toString(16);
-    }
-}
-
-
-/***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -907,7 +907,7 @@ const isValidEndpoint = (url, allowedHosts = _Constants__WEBPACK_IMPORTED_MODULE
 };
 /**
  * Throws error if the string is not a valid host/hostname and contains other url parts.
- * @param {string} url - The host to be verified
+ * @param {string} host - The host to be verified
  */
 const isCustomHostValid = (host) => {
     if (host.indexOf("/") !== -1) {
@@ -943,7 +943,7 @@ class RedirectHandlerOptions {
      * @param {ShouldRedirect} [shouldRedirect = RedirectHandlerOptions.DEFAULT_SHOULD_RETRY] - The should redirect callback
      * @returns An instance of RedirectHandlerOptions
      */
-    constructor(maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS, shouldRedirect = RedirectHandlerOptions.defaultShouldRetry) {
+    constructor(maxRedirects = RedirectHandlerOptions.DEFAULT_MAX_REDIRECTS, shouldRedirect = RedirectHandlerOptions.defaultShouldRedirect) {
         if (maxRedirects > RedirectHandlerOptions.MAX_MAX_REDIRECTS) {
             const error = new Error(`MaxRedirects should not be more than ${RedirectHandlerOptions.MAX_MAX_REDIRECTS}`);
             error.name = "MaxLimitExceeded";
@@ -974,7 +974,7 @@ RedirectHandlerOptions.MAX_MAX_REDIRECTS = 20;
  * @private
  * A member holding default shouldRedirect callback
  */
-RedirectHandlerOptions.defaultShouldRetry = () => true;
+RedirectHandlerOptions.defaultShouldRedirect = () => true;
 
 
 /***/ }),
@@ -1123,9 +1123,9 @@ class Range {
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
-/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(18);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1254,9 +1254,9 @@ class HTTPMessageHandler {
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1453,9 +1453,9 @@ RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 /* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1695,16 +1695,16 @@ var GraphRequestUtil = __webpack_require__(7);
 /**
  * @module Version
  */
-const PACKAGE_VERSION = "3.0.0";
+const PACKAGE_VERSION = "3.0.1";
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
 var MiddlewareControl = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(5);
+var MiddlewareUtil = __webpack_require__(6);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(6);
+var TelemetryHandlerOptions = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
 /**
@@ -3637,137 +3637,6 @@ const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-gr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StreamUpload; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-
-
-/**
- * @class
- * FileObject class for Readable Stream upload
- */
-class StreamUpload {
-    constructor(content, name, size) {
-        this.content = content;
-        this.name = name;
-        this.size = size;
-        if (!content || !name || !size) {
-            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Readable Stream content, name of the file and size of the file");
-        }
-    }
-    /**
-     * @public
-     * Slices the file content to the given range
-     * @param {Range} range - The range value
-     * @returns The sliced file part
-     */
-    sliceFile(range) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            let rangeSize = range.maxValue - range.minValue + 1;
-            /* readable.readable Is true if it is safe to call readable.read(),
-             * which means the stream has not been destroyed or emitted 'error' or 'end'
-             */
-            const bufs = [];
-            /**
-             * The sliceFile reads the first `rangeSize` number of bytes from the stream.
-             * The previousSlice property is used to seek the range of bytes in the previous slice.
-             * Suppose, the sliceFile reads bytes from `10 - 20` from the stream but the upload of this slice fails.
-             * When the user resumes, the stream will have bytes from position 21.
-             * The previousSlice.Range is used to compare if the requested range is cached in the previousSlice property or present in the Readable Stream.
-             */
-            if (this.previousSlice) {
-                if (range.minValue < this.previousSlice.range.minValue) {
-                    throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("An error occurred while uploading the stream. Please restart the stream upload from the first byte of the file.");
-                }
-                if (range.minValue < this.previousSlice.range.maxValue) {
-                    const previousRangeMin = this.previousSlice.range.minValue;
-                    const previousRangeMax = this.previousSlice.range.maxValue;
-                    // Check if the requested range is same as previously sliced range
-                    if (range.minValue === previousRangeMin && range.maxValue === previousRangeMax) {
-                        return this.previousSlice.fileSlice;
-                    }
-                    /**
-                     * The following check considers a possibility
-                     * of an upload failing after some of the bytes of the previous slice
-                     * were successfully uploaded.
-                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 20`.
-                     */
-                    if (range.maxValue === previousRangeMax) {
-                        return this.previousSlice.fileSlice.slice(range.minValue, range.maxValue + 1);
-                    }
-                    /**
-                     * If an upload fails after some of the bytes of the previous slice
-                     * were successfully uploaded and the new Range.Maximum is greater than the previous Range.Maximum
-                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 25`,
-                     * then read the bytes from position 15 to 20 from previousSlice.fileSlice and read bytes from position 21 to 25 from the Readable Stream
-                     */
-                    bufs.push(this.previousSlice.fileSlice.slice(range.minValue, previousRangeMax + 1));
-                    rangeSize = range.maxValue - previousRangeMax;
-                }
-            }
-            if (this.content && this.content.readable) {
-                if (this.content.readableLength >= rangeSize) {
-                    bufs.push(this.content.read(rangeSize));
-                }
-                else {
-                    bufs.push(yield this.readNBytesFromStream(rangeSize));
-                }
-            }
-            else {
-                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream is not readable.");
-            }
-            const slicedChunk = Buffer.concat(bufs);
-            this.previousSlice = { fileSlice: slicedChunk, range };
-            return slicedChunk;
-        });
-    }
-    /**
-     * @private
-     * Reads the specified byte size from the stream
-     * @param {number} size - The size of bytes to be read
-     * @returns Buffer with the given length of data.
-     */
-    readNBytesFromStream(size) {
-        return new Promise((resolve, reject) => {
-            const chunks = [];
-            let remainder = size;
-            let length = 0;
-            this.content.on("end", () => {
-                if (remainder > 0) {
-                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream ended before reading required range size"));
-                }
-            });
-            this.content.on("readable", () => {
-                /**
-                 * (chunk = this.content.read(size)) can return null if size of stream is less than 'size' parameter.
-                 * Read the remainder number of bytes from the stream iteratively as they are available.
-                 */
-                let chunk;
-                while (length < size && (chunk = this.content.read(remainder)) !== null) {
-                    length += chunk.length;
-                    chunks.push(chunk);
-                    if (remainder > 0) {
-                        remainder = size - length;
-                    }
-                }
-                if (length === size) {
-                    return resolve(Buffer.concat(chunks));
-                }
-                if (!this.content || !this.content.readable) {
-                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Error encountered while reading the stream during the upload"));
-                }
-            });
-        });
-    }
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandlerOptions; });
 /**
  * -------------------------------------------------------------------------------------------
@@ -3797,17 +3666,17 @@ class AuthenticationHandlerOptions {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LargeFileUploadTask; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
 /* harmony import */ var _ResponseType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony import */ var _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
-/* harmony import */ var _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3865,6 +3734,7 @@ class LargeFileUploadTask {
      * @async
      * Makes request to the server to create an upload session
      * @param {Client} client - The GraphClient instance
+     * @param {string} requestUrl - The URL to create the upload session
      * @param {any} payload - The payload that needs to be sent
      * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
      * @returns The promise that resolves to LargeFileUploadSession
@@ -4002,6 +3872,7 @@ class LargeFileUploadTask {
                 .headers({
                 "Content-Length": `${range.maxValue - range.minValue + 1}`,
                 "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+                "Content-Type": "application/octet-stream",
             })
                 .put(fileSlice);
         });
@@ -4022,6 +3893,7 @@ class LargeFileUploadTask {
                 .headers({
                 "Content-Length": `${range.maxValue - range.minValue + 1}`,
                 "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+                "Content-Type": "application/octet-stream",
             })
                 .responseType(_ResponseType__WEBPACK_IMPORTED_MODULE_3__[/* ResponseType */ "a"].RAW)
                 .put(fileSlice);
@@ -4084,7 +3956,7 @@ class LargeFileUploadTask {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4151,7 +4023,7 @@ class UploadResult {
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4183,7 +4055,7 @@ class FileUpload {
         this.name = name;
         this.size = size;
         if (!content || !name || !size) {
-            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_0__[/* GraphClientError */ "a"]("Please provide the Readable Stream content, name of the file and size of the file");
+            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_0__[/* GraphClientError */ "a"]("Please provide the upload content, name of the file and size of the file");
         }
     }
     /**
@@ -4199,7 +4071,7 @@ class FileUpload {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4249,7 +4121,7 @@ const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4445,7 +4317,7 @@ class GraphResponseHandler {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4496,7 +4368,7 @@ class HTTPClient {
     /**
      * @private
      * Processes the middleware array to construct the chain
-     * and sets this.middleware property to the first middlware handler of the array
+     * and sets this.middleware property to the first middleware handler of the array
      * The calling function should validate if middleware is not undefined or not empty
      * @param {Middleware[]} middlewareArray - The array of middleware handlers
      * @returns Nothing
@@ -4532,7 +4404,7 @@ class HTTPClient {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4959,7 +4831,7 @@ BatchRequestContent.requestLimit = 20;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5022,10 +4894,10 @@ class MiddlewareFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(28)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(27)))
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -5215,16 +5087,16 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OneDriveLargeFileUploadTask; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(22);
-/* harmony import */ var _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
-/* harmony import */ var _OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(23);
+/* harmony import */ var _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony import */ var _OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5285,6 +5157,35 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
             .join("/")}${encodeURIComponent(fileName)}:/createUploadSession`;
     }
     /**
+     * @private
+     * @static
+     * Get file information
+     * @param {Blob | Buffer | File} file - The file entity
+     * @param {string} fileName - The file name
+     * @returns {FileInfo} The file information
+     */
+    static getFileInfo(file, fileName) {
+        let content;
+        let size;
+        if (typeof Blob !== "undefined" && file instanceof Blob) {
+            content = new File([file], fileName);
+            size = content.size;
+        }
+        else if (typeof File !== "undefined" && file instanceof File) {
+            content = file;
+            size = content.size;
+        }
+        else if (typeof Buffer !== "undefined" && file instanceof Buffer) {
+            const b = file;
+            size = b.byteLength;
+            content = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+        }
+        return {
+            content,
+            size,
+        };
+    }
+    /**
      * @public
      * @static
      * @async
@@ -5299,23 +5200,9 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
             if (!client || !file || !options) {
                 throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Graph client instance, file object and OneDriveLargeFileUploadOptions value");
             }
-            const name = options.fileName;
-            let content;
-            let size;
-            if (typeof Blob !== "undefined" && file instanceof Blob) {
-                content = new File([file], name);
-                size = content.size;
-            }
-            else if (typeof File !== "undefined" && file instanceof File) {
-                content = file;
-                size = content.size;
-            }
-            else if (typeof Buffer !== "undefined" && file instanceof Buffer) {
-                const b = file;
-                size = b.byteLength - b.byteOffset;
-                content = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
-            }
-            const fileObj = new _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__[/* FileUpload */ "a"](content, name, size);
+            const fileName = options.fileName;
+            const fileInfo = OneDriveLargeFileUploadTask.getFileInfo(file, fileName);
+            const fileObj = new _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__[/* FileUpload */ "a"](fileInfo.content, fileName, fileInfo.size);
             return this.createTaskWithFileObject(client, fileObj, options);
         });
     }
@@ -5325,7 +5212,7 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
      * @async
      * Creates a OneDriveLargeFileUploadTask
      * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - FileObject instance
+     * @param {FileObject} fileObject - FileObject instance
      * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
      * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
      */
@@ -5354,8 +5241,7 @@ class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED
      * Makes request to the server to create an upload session
      * @param {Client} client - The GraphClient instance
      * @param {string} requestUrl - The URL to create the upload session
-     * @param {string} fileName - The name of a file to upload, (with extension)
-     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
+     * @param {string} payloadOptions - The payload option. Default conflictBehavior is 'rename'
      * @returns The promise that resolves to LargeFileUploadSession
      */
     static createUploadSession(client, requestUrl, payloadOptions) {
@@ -5400,12 +5286,143 @@ OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH = "/";
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
 
 /***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StreamUpload; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+/**
+ * @class
+ * FileObject class for Readable Stream upload
+ */
+class StreamUpload {
+    constructor(content, name, size) {
+        this.content = content;
+        this.name = name;
+        this.size = size;
+        if (!content || !name || !size) {
+            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Readable Stream content, name of the file and size of the file");
+        }
+    }
+    /**
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced file part
+     */
+    sliceFile(range) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            let rangeSize = range.maxValue - range.minValue + 1;
+            /* readable.readable Is true if it is safe to call readable.read(),
+             * which means the stream has not been destroyed or emitted 'error' or 'end'
+             */
+            const bufs = [];
+            /**
+             * The sliceFile reads the first `rangeSize` number of bytes from the stream.
+             * The previousSlice property is used to seek the range of bytes in the previous slice.
+             * Suppose, the sliceFile reads bytes from `10 - 20` from the stream but the upload of this slice fails.
+             * When the user resumes, the stream will have bytes from position 21.
+             * The previousSlice.Range is used to compare if the requested range is cached in the previousSlice property or present in the Readable Stream.
+             */
+            if (this.previousSlice) {
+                if (range.minValue < this.previousSlice.range.minValue) {
+                    throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("An error occurred while uploading the stream. Please restart the stream upload from the first byte of the file.");
+                }
+                if (range.minValue < this.previousSlice.range.maxValue) {
+                    const previousRangeMin = this.previousSlice.range.minValue;
+                    const previousRangeMax = this.previousSlice.range.maxValue;
+                    // Check if the requested range is same as previously sliced range
+                    if (range.minValue === previousRangeMin && range.maxValue === previousRangeMax) {
+                        return this.previousSlice.fileSlice;
+                    }
+                    /**
+                     * The following check considers a possibility
+                     * of an upload failing after some of the bytes of the previous slice
+                     * were successfully uploaded.
+                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 20`.
+                     */
+                    if (range.maxValue === previousRangeMax) {
+                        return this.previousSlice.fileSlice.slice(range.minValue, range.maxValue + 1);
+                    }
+                    /**
+                     * If an upload fails after some of the bytes of the previous slice
+                     * were successfully uploaded and the new Range.Maximum is greater than the previous Range.Maximum
+                     * Example - Previous slice range - `10 - 20`. Current requested range is `15 - 25`,
+                     * then read the bytes from position 15 to 20 from previousSlice.fileSlice and read bytes from position 21 to 25 from the Readable Stream
+                     */
+                    bufs.push(this.previousSlice.fileSlice.slice(range.minValue, previousRangeMax + 1));
+                    rangeSize = range.maxValue - previousRangeMax;
+                }
+            }
+            if (this.content && this.content.readable) {
+                if (this.content.readableLength >= rangeSize) {
+                    bufs.push(this.content.read(rangeSize));
+                }
+                else {
+                    bufs.push(yield this.readNBytesFromStream(rangeSize));
+                }
+            }
+            else {
+                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream is not readable.");
+            }
+            const slicedChunk = Buffer.concat(bufs);
+            this.previousSlice = { fileSlice: slicedChunk, range };
+            return slicedChunk;
+        });
+    }
+    /**
+     * @private
+     * Reads the specified byte size from the stream
+     * @param {number} size - The size of bytes to be read
+     * @returns Buffer with the given length of data.
+     */
+    readNBytesFromStream(size) {
+        return new Promise((resolve, reject) => {
+            const chunks = [];
+            let remainder = size;
+            let length = 0;
+            this.content.on("end", () => {
+                if (remainder > 0) {
+                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Stream ended before reading required range size"));
+                }
+            });
+            this.content.on("readable", () => {
+                /**
+                 * (chunk = this.content.read(size)) can return null if size of stream is less than 'size' parameter.
+                 * Read the remainder number of bytes from the stream iteratively as they are available.
+                 */
+                let chunk;
+                while (length < size && (chunk = this.content.read(remainder)) !== null) {
+                    length += chunk.length;
+                    chunks.push(chunk);
+                    if (remainder > 0) {
+                        remainder = size - length;
+                    }
+                }
+                if (length === size) {
+                    return resolve(Buffer.concat(chunks));
+                }
+                if (!this.content || !this.content.readable) {
+                    return reject(new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Error encountered while reading the stream during the upload"));
+                }
+            });
+        });
+    }
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+
+/***/ }),
 /* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClientFactory; });
-/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
 /* harmony import */ var _middleware_AuthenticationHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
 /* harmony import */ var _middleware_HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
 /* harmony import */ var _middleware_options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
@@ -5451,7 +5468,7 @@ class HTTPClientFactory {
      * @returns A HTTPClient instance
      *
      * NOTE: These are the things that we need to remember while doing modifications in the below default pipeline.
-     * 		* HTTPMessageHander should be the last one in the middleware pipeline, because this makes the actual network call of the request
+     * 		* HTTPMessageHandler should be the last one in the middleware pipeline, because this makes the actual network call of the request
      * 		* TelemetryHandler should be the one prior to the last middleware in the chain, because this is the one which actually collects and appends the usage flag and placing this handler 	*		  before making the actual network call ensures that the usage of all features are recorded in the flag.
      * 		* The best place for AuthenticationHandler is in the starting of the pipeline, because every other handler might have to work for multiple times for a request but the auth token for
      * 		  them will remain same. For example, Retry and Redirect handlers might be working multiple times for a request based on the response but their auth token would remain same.
@@ -5486,7 +5503,7 @@ class HTTPClientFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(28)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(27)))
 
 /***/ }),
 /* 31 */
@@ -5814,7 +5831,7 @@ __webpack_require__.d(__webpack_exports__, "GraphRequest", function() { return /
 __webpack_require__.d(__webpack_exports__, "ResponseType", function() { return /* reexport */ ResponseType["a" /* ResponseType */]; });
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchRequestContent.js
-var BatchRequestContent = __webpack_require__(26);
+var BatchRequestContent = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchResponseContent.js
 /**
@@ -5912,15 +5929,6 @@ var AuthenticationHandler = __webpack_require__(11);
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/HTTPMessageHandler.js
 var HTTPMessageHandler = __webpack_require__(12);
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/IMiddleware.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RetryHandler.js
 var RetryHandler = __webpack_require__(13);
 
@@ -5931,19 +5939,10 @@ var RedirectHandler = __webpack_require__(14);
 var TelemetryHandler = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareFactory.js
-var MiddlewareFactory = __webpack_require__(27);
+var MiddlewareFactory = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/AuthenticationHandlerOptions.js
-var AuthenticationHandlerOptions = __webpack_require__(19);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/IMiddlewareOptions.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
+var AuthenticationHandlerOptions = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RetryHandlerOptions.js
 var RetryHandlerOptions = __webpack_require__(9);
@@ -5952,7 +5951,7 @@ var RetryHandlerOptions = __webpack_require__(9);
 var RedirectHandlerOptions = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(6);
+var TelemetryHandlerOptions = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosStrategy.js
 /**
@@ -5996,7 +5995,7 @@ class ChaosHandlerOptions_ChaosHandlerOptions {
      * @public
      * @constructor
      * To create an instance of Testing Handler Options
-     * @param {ChaosStrategy} ChaosStrategy - Specifies the startegy used for the Testing Handler -> RAMDOM/MANUAL
+     * @param {ChaosStrategy} chaosStrategy - Specifies the startegy used for the Testing Handler -> RAMDOM/MANUAL
      * @param {string} statusMessage - The Message to be returned in the response
      * @param {number?} statusCode - The statusCode to be returned in the response
      * @param {number?} chaosPercentage - The percentage of randomness/chaos in the handler
@@ -6023,7 +6022,7 @@ var tslib_es6 = __webpack_require__(0);
 var MiddlewareControl = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(5);
+var MiddlewareUtil = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerData.js
 /**
@@ -6169,7 +6168,7 @@ class ChaosHandler_ChaosHandler {
     /**
      * Generates responseBody
      * @private
-     * @param {ChaosHandlerOptions} options - The ChaosHandlerOptions object
+     * @param {ChaosHandlerOptions} chaosHandlerOptions - The ChaosHandlerOptions object
      * @param {string} requestID - request id
      * @param {string} requestDate - date of the request
      *  * @returns response body
@@ -6201,7 +6200,7 @@ class ChaosHandler_ChaosHandler {
     /**
      * creates a response
      * @private
-     * @param {ChaosHandlerOptions} ChaosHandlerOptions - The ChaosHandlerOptions object
+     * @param {ChaosHandlerOptions} chaosHandlerOptions - The ChaosHandlerOptions object
      * @param {Context} context - Contains the context of the request
      */
     createResponse(chaosHandlerOptions, context) {
@@ -6258,7 +6257,7 @@ class ChaosHandler_ChaosHandler {
     /**
      * To fetch the status code from the map(if needed), then returns response by calling createResponse
      * @private
-     * @param {ChaosHandlerOptions} ChaosHandlerOptions - The ChaosHandlerOptions object
+     * @param {ChaosHandlerOptions} chaosHandlerOptions - The ChaosHandlerOptions object
      * @param {string} requestURL - the URL for the request
      * @param {string} requestMethod - the API method for the request
      */
@@ -6336,25 +6335,22 @@ class ChaosHandler_ChaosHandler {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
-var LargeFileUploadTask = __webpack_require__(20);
+var LargeFileUploadTask = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
-var OneDriveLargeFileUploadTask = __webpack_require__(29);
+var OneDriveLargeFileUploadTask = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
-var OneDriveLargeFileUploadTaskUtil = __webpack_require__(23);
+var OneDriveLargeFileUploadTaskUtil = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/StreamUpload.js
-var StreamUpload = __webpack_require__(18);
+var StreamUpload = __webpack_require__(29);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
-var FileUpload = __webpack_require__(22);
+var FileUpload = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
-var UploadResult = __webpack_require__(21);
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Interfaces/IUploadEventHandlers.js
-
+var UploadResult = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
 var Range = __webpack_require__(10);
@@ -6573,6 +6569,8 @@ class GraphError extends Error {
      * @constructor
      * Creates an instance of GraphError
      * @param {number} [statusCode = -1] - The status code of the error
+     * @param {string} [message] - The message of the error
+     * @param {Error} [baseError] - The base error
      * @returns An instance of GraphError
      */
     constructor(statusCode = -1, message, baseError) {
@@ -6692,7 +6690,7 @@ class GraphErrorHandler_GraphErrorHandler {
 var GraphRequestUtil = __webpack_require__(7);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
-var GraphResponseHandler = __webpack_require__(24);
+var GraphResponseHandler = __webpack_require__(23);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/RequestMethod.js
 var RequestMethod = __webpack_require__(2);
@@ -7390,7 +7388,7 @@ class GraphRequest_GraphRequest {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClient.js
-var HTTPClient = __webpack_require__(25);
+var HTTPClient = __webpack_require__(24);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClientFactory.js
 var HTTPClientFactory = __webpack_require__(30);
@@ -7524,87 +7522,6 @@ class Client_Client {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthProvider.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthenticationProvider.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthenticationProviderOptions.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IAuthProviderCallback.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IClientOptions.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IContext.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IFetchOptions.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IGraphRequestCallback.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/IOptions.js
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/browser/index.js
 /**
  * -------------------------------------------------------------------------------------------
@@ -7612,19 +7529,6 @@ class Client_Client {
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

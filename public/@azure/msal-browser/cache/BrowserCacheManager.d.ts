@@ -1,4 +1,4 @@
-import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo } from "@azure/msal-common";
+import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType } from "@azure/msal-common";
 import { CacheOptions } from "../config/Configuration";
 import { InteractionType } from "../utils/BrowserConstants";
 /**
@@ -288,6 +288,10 @@ export declare class BrowserCacheManager extends CacheManager {
      * Returns username retrieved from ADAL or MSAL v1 idToken
      */
     getLegacyLoginHint(): string | null;
+    /**
+     * Updates a credential's cache key if the current cache key is outdated
+     */
+    updateCredentialCacheKey(currentCacheKey: string, credential: ValidCredentialType): string;
 }
 export declare const DEFAULT_BROWSER_CACHE_MANAGER: (clientId: string, logger: Logger) => BrowserCacheManager;
 //# sourceMappingURL=BrowserCacheManager.d.ts.map

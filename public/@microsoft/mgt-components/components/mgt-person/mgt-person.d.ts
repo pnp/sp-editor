@@ -318,7 +318,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof MgtPerson
      */
-    protected renderDetails(person: IDynamicPerson, presence?: Presence): TemplateResult;
+    protected renderDetails(personProps: IDynamicPerson, presence?: Presence): TemplateResult;
     /**
      * Render the details flyout.
      *

@@ -60,7 +60,7 @@ export declare function getUser(graph: IGraph, userPrincipleName: string, reques
  * @param {string[]} userIds, an array of string ids
  * @returns {Promise<User[]>}
  */
-export declare function getUsersForUserIds(graph: IGraph, userIds: string[]): Promise<User[]>;
+export declare function getUsersForUserIds(graph: IGraph, userIds: string[], searchInput?: string): Promise<User[]>;
 /**
  * Returns a Promise of Graph Users array associated with the people queries array
  *

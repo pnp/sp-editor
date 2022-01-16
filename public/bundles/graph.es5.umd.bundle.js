@@ -2585,7 +2585,7 @@ var graphhttpclient_GraphHttpClient = /** @class */ (function () {
         }
         if (!headers.has("SdkVersion")) {
             // this marks the requests for understanding by the service
-            headers.append("SdkVersion", "PnPCoreJS/2.10.0");
+            headers.append("SdkVersion", "PnPCoreJS/2.11.0");
         }
         var opts = util_assign(options, { headers: headers });
         return this.fetchRaw(url, opts);
@@ -5752,6 +5752,13 @@ var types_Team = /** @class */ (function (_super) {
     function _Team() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    Object.defineProperty(_Team.prototype, "primaryChannel", {
+        get: function () {
+            return Channel(this, "primaryChannel");
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(_Team.prototype, "channels", {
         get: function () {
             return Channels(this);

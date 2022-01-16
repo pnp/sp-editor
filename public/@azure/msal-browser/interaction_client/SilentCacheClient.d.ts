@@ -17,6 +17,6 @@ export declare class SilentCacheClient extends StandardInteractionClient {
      * @param authorityUrl
      */
     protected createSilentFlowClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string): Promise<SilentFlowClient>;
-    initializeSilentRequest(request: SilentRequest, account: AccountInfo): CommonSilentFlowRequest;
+    initializeSilentRequest(request: SilentRequest, account: AccountInfo): Promise<CommonSilentFlowRequest>;
 }
 //# sourceMappingURL=SilentCacheClient.d.ts.map

@@ -97,6 +97,7 @@ export declare class LargeFileUploadTask<T> {
      * @async
      * Makes request to the server to create an upload session
      * @param {Client} client - The GraphClient instance
+     * @param {string} requestUrl - The URL to create the upload session
      * @param {any} payload - The payload that needs to be sent
      * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
      * @returns The promise that resolves to LargeFileUploadSession

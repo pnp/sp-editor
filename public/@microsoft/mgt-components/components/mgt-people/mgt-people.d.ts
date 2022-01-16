@@ -93,6 +93,12 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      */
     scopes: string[];
     /**
+     * Fallback when no user is found
+     * @type {IDynamicPerson[]}
+     */
+    get fallbackDetails(): IDynamicPerson[];
+    set fallbackDetails(value: IDynamicPerson[]);
+    /**
      * Get the scopes required for people
      *
      * @static
@@ -106,6 +112,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     private _peoplePresence;
     private _resource;
     private _version;
+    private _fallbackDetails;
     constructor();
     /**
      * Clears the state of the component
