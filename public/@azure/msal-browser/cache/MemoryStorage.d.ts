@@ -1,9 +1,9 @@
 import { IWindowStorage } from "./IWindowStorage";
-export declare class MemoryStorage implements IWindowStorage {
+export declare class MemoryStorage<T> implements IWindowStorage<T> {
     private cache;
     constructor();
-    getItem(key: string): string | null;
-    setItem(key: string, value: string): void;
+    getItem(key: string): T | null;
+    setItem(key: string, value: T): void;
     removeItem(key: string): void;
     getKeys(): string[];
     containsKey(key: string): boolean;

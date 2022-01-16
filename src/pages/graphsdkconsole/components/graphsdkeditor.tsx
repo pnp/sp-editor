@@ -154,7 +154,7 @@ const GraphSDKEditor = () => {
         // tslint:disable-next-line:no-bitwise
         grapheditor.current.addCommand(
           // tslint:disable-next-line: no-bitwise
-          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD,
           () => {
             try {
               const model = grapheditor.current!.getModel()!.getValue()

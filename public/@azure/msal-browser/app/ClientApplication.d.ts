@@ -11,6 +11,7 @@ import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest";
 import { INavigationClient } from "../navigation/INavigationClient";
 import { EventHandler } from "../event/EventHandler";
 import { ITokenCache } from "../cache/ITokenCache";
+import { AuthorizationCodeRequest } from "../request/AuthorizationCodeRequest";
 export declare abstract class ClientApplication {
     protected readonly browserCrypto: ICrypto;
     protected readonly browserStorage: BrowserCacheManager;
@@ -22,6 +23,7 @@ export declare abstract class ClientApplication {
     protected isBrowserEnvironment: boolean;
     protected eventHandler: EventHandler;
     private redirectResponse;
+    private hybridAuthCodeResponses;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -86,6 +88,23 @@ export declare abstract class ClientApplication {
      * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
      */
     ssoSilent(request: SsoSilentRequest): Promise<AuthenticationResult>;
+    /**
+     * This function redeems an authorization code (passed as code) from the eSTS token endpoint.
+     * This authorization code should be acquired server-side using a confidential client to acquire a spa_code.
+     * This API is not indended for normal authorization code acquisition and redemption.
+     *
+     * Redemption of this authorization code will not require PKCE, as it was acquired by a confidential client.
+     *
+     * @param request {@link AuthorizationCodeRequest}
+     * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
+     */
+    acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult>;
+    /**
+     * Creates a SilentAuthCodeClient to redeem an authorization code.
+     * @param request
+     * @returns Result of the operation to redeem the authorization code
+     */
+    private acquireTokenByCodeAsync;
     /**
      * Use this function to obtain a token before every call to the API / resource provider
      *
@@ -203,5 +222,9 @@ export declare abstract class ClientApplication {
      * @param navigationClient
      */
     setNavigationClient(navigationClient: INavigationClient): void;
+    /**
+     * Returns the configuration object
+     */
+    getConfiguration(): BrowserConfiguration;
 }
 //# sourceMappingURL=ClientApplication.d.ts.map

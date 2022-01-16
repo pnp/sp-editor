@@ -1,9 +1,17 @@
-import { ICrypto, PkceCodes, SignedHttpRequest, SignedHttpRequestParameters } from "@azure/msal-common";
+import { ICrypto, Logger, PkceCodes, SignedHttpRequest, SignedHttpRequestParameters } from "@azure/msal-common";
+import { AsyncMemoryStorage } from "../cache/AsyncMemoryStorage";
 export declare type CachedKeyPair = {
     publicKey: CryptoKey;
     privateKey: CryptoKey;
     requestMethod?: string;
     requestUri?: string;
+};
+/**
+ * MSAL CryptoKeyStore DB Version 2
+ */
+export declare type CryptoKeyStore = {
+    asymmetricKeys: AsyncMemoryStorage<CachedKeyPair>;
+    symmetricKeys: AsyncMemoryStorage<CryptoKey>;
 };
 /**
  * This class implements MSAL's crypto interface, which allows it to perform base64 encoding and decoding, generating cryptographically random GUIDs and
@@ -15,13 +23,11 @@ export declare class CryptoOps implements ICrypto {
     private b64Encode;
     private b64Decode;
     private pkceGenerator;
+    private logger;
     private static POP_KEY_USAGES;
     private static EXTRACTABLE;
-    private static DB_VERSION;
-    private static DB_NAME;
-    private static TABLE_NAME;
     private cache;
-    constructor();
+    constructor(logger: Logger);
     /**
      * Creates a new random GUID - used to populate state and nonce.
      * @returns string (GUID)
@@ -61,5 +67,10 @@ export declare class CryptoOps implements ICrypto {
      * @param kid
      */
     signJwt(payload: SignedHttpRequest, kid: string): Promise<string>;
+    /**
+     * Returns the SHA-256 hash of an input string
+     * @param plainText
+     */
+    hashString(plainText: string): Promise<string>;
 }
 //# sourceMappingURL=CryptoOps.d.ts.map

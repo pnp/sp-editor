@@ -14,6 +14,8 @@ import { FileObject, LargeFileUploadSession, LargeFileUploadTask, LargeFileUploa
  * @property {string} fileName - Specifies the name of a file to be uploaded (with extension)
  * @property {string} [path] - The path to which the file needs to be uploaded
  * @property {number} [rangeSize] - Specifies the range chunk size
+ * @property {string} [conflictBehavior] - Conflict behaviour option
+ * @property {UploadEventHandlers} [uploadEventHandlers] - UploadEventHandlers attached to an upload task
  */
 export interface OneDriveLargeFileUploadOptions {
     fileName: string;
@@ -26,8 +28,7 @@ export interface OneDriveLargeFileUploadOptions {
  * @interface
  * Signature to define options when creating an upload task
  * @property {string} fileName - Specifies the name of a file to be uploaded (with extension)
- * @property {string} [path] - The path to which the file needs to be uploaded
- * @property {number} [rangeSize] - Specifies the range chunk size
+ * @property {string} [conflictBehavior] - Conflict behaviour option
  */
 interface OneDriveFileUploadSessionPayLoad {
     fileName: string;
@@ -54,6 +55,15 @@ export declare class OneDriveLargeFileUploadTask<T> extends LargeFileUploadTask<
      */
     private static constructCreateSessionUrl;
     /**
+     * @private
+     * @static
+     * Get file information
+     * @param {Blob | Buffer | File} file - The file entity
+     * @param {string} fileName - The file name
+     * @returns {FileInfo} The file information
+     */
+    private static getFileInfo;
+    /**
      * @public
      * @static
      * @async
@@ -70,7 +80,7 @@ export declare class OneDriveLargeFileUploadTask<T> extends LargeFileUploadTask<
      * @async
      * Creates a OneDriveLargeFileUploadTask
      * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - FileObject instance
+     * @param {FileObject} fileObject - FileObject instance
      * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
      * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
      */
@@ -82,8 +92,7 @@ export declare class OneDriveLargeFileUploadTask<T> extends LargeFileUploadTask<
      * Makes request to the server to create an upload session
      * @param {Client} client - The GraphClient instance
      * @param {string} requestUrl - The URL to create the upload session
-     * @param {string} fileName - The name of a file to upload, (with extension)
-     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
+     * @param {string} payloadOptions - The payload option. Default conflictBehavior is 'rename'
      * @returns The promise that resolves to LargeFileUploadSession
      */
     static createUploadSession(client: Client, requestUrl: string, payloadOptions: OneDriveFileUploadSessionPayLoad): Promise<LargeFileUploadSession>;

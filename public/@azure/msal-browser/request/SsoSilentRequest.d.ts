@@ -22,5 +22,5 @@ import { CommonAuthorizationUrlRequest } from "@azure/msal-common";
  * - tokenQueryParameters       - String to string map of custom query parameters added to the /token call
  * - nonce                      - A value included in the request that is returned in the id token. A randomly generated unique value is typically used to mitigate replay attacks.
  */
-export declare type SsoSilentRequest = Partial<Omit<CommonAuthorizationUrlRequest, "responseMode" | "codeChallenge" | "codeChallengeMethod">>;
+export declare type SsoSilentRequest = Partial<Omit<CommonAuthorizationUrlRequest, "responseMode" | "codeChallenge" | "codeChallengeMethod" | "requestedClaimsHash">>;
 //# sourceMappingURL=SsoSilentRequest.d.ts.map

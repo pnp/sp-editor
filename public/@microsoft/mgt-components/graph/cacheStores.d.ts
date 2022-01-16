@@ -28,6 +28,7 @@ export declare const schemas: {
         stores: {
             contacts: string;
             users: string;
+            groups: string;
         };
         version: number;
     };

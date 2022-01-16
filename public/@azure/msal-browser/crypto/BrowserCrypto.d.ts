@@ -1,10 +1,12 @@
+import { Logger } from "..";
 /**
  * This class implements functions used by the browser library to perform cryptography operations such as
  * hashing and encoding. It also has helper functions to validate the availability of specific APIs.
  */
 export declare class BrowserCrypto {
     private _keygenAlgorithmOptions;
-    constructor();
+    private logger;
+    constructor(logger: Logger);
     /**
      * Returns a sha-256 hash of the given dataString as an ArrayBuffer.
      * @param dataString

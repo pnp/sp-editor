@@ -61,6 +61,7 @@ export declare function myPhoto(graph: IGraph): Promise<string>;
  * @export
  */
 export declare function getPersonImage(graph: IGraph, person: IDynamicPerson, useContactsApis?: boolean): Promise<string>;
+export declare function getGroupImage(graph: IGraph, group: any, useContactsApis?: boolean): Promise<string>;
 /**
  * checks if user has a photo in the cache
  * @param userId

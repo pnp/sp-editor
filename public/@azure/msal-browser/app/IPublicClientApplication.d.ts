@@ -8,10 +8,13 @@ import { WrapperSKU } from "../utils/BrowserConstants";
 import { INavigationClient } from "../navigation/INavigationClient";
 import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest";
 import { ITokenCache } from "../cache/ITokenCache";
+import { AuthorizationCodeRequest } from "../request/AuthorizationCodeRequest";
+import { BrowserConfiguration } from "../config/Configuration";
 export interface IPublicClientApplication {
     acquireTokenPopup(request: PopupRequest): Promise<AuthenticationResult>;
     acquireTokenRedirect(request: RedirectRequest): Promise<void>;
     acquireTokenSilent(silentRequest: SilentRequest): Promise<AuthenticationResult>;
+    acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult>;
     addEventCallback(callback: Function): string | null;
     removeEventCallback(callbackId: string): void;
     enableAccountStorageEvents(): void;
@@ -34,6 +37,7 @@ export interface IPublicClientApplication {
     getActiveAccount(): AccountInfo | null;
     initializeWrapperLibrary(sku: WrapperSKU, version: string): void;
     setNavigationClient(navigationClient: INavigationClient): void;
+    getConfiguration(): BrowserConfiguration;
 }
 export declare const stubbedPublicClientApplication: IPublicClientApplication;
 //# sourceMappingURL=IPublicClientApplication.d.ts.map

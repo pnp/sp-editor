@@ -347,7 +347,7 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/_virtual/_tslib.js
-/*! @azure/msal-common v5.0.1 2021-10-05 */
+/*! @azure/msal-common v6.0.0 2022-01-04 */
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -439,7 +439,7 @@ function _tslib_spreadArrays() {
 
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/Constants.js
-/*! @azure/msal-common v5.0.1 2021-10-05 */
+/*! @azure/msal-common v6.0.0 2022-01-04 */
 
 
 
@@ -506,6 +506,8 @@ var HeaderNames;
     HeaderNames["CONTENT_TYPE"] = "Content-Type";
     HeaderNames["RETRY_AFTER"] = "Retry-After";
     HeaderNames["CCS_HEADER"] = "X-AnchorMailbox";
+    HeaderNames["WWWAuthenticate"] = "WWW-Authenticate";
+    HeaderNames["AuthenticationInfo"] = "Authentication-Info";
 })(HeaderNames || (HeaderNames = {}));
 /**
  * Persistent cache keys MSAL which stay while user is logged in.
@@ -576,6 +578,7 @@ var AADServerParamKeys;
     AADServerParamKeys["ON_BEHALF_OF"] = "on_behalf_of";
     AADServerParamKeys["FOCI"] = "foci";
     AADServerParamKeys["CCS_HEADER"] = "X-AnchorMailbox";
+    AADServerParamKeys["RETURN_SPA_CODE"] = "return_spa_code";
 })(AADServerParamKeys || (AADServerParamKeys = {}));
 /**
  * Claims request keys
@@ -733,8 +736,9 @@ var SERVER_TELEM_CONSTANTS = {
  */
 var AuthenticationScheme;
 (function (AuthenticationScheme) {
-    AuthenticationScheme["POP"] = "pop";
     AuthenticationScheme["BEARER"] = "Bearer";
+    AuthenticationScheme["POP"] = "pop";
+    AuthenticationScheme["SSH"] = "ssh-cert";
 })(AuthenticationScheme || (AuthenticationScheme = {}));
 /**
  * Constants related to throttling
@@ -803,7 +807,7 @@ var CacheOutcome;
 
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthError.js
-/*! @azure/msal-common v5.0.1 2021-10-05 */
+/*! @azure/msal-common v6.0.0 2022-01-04 */
 
 
 
@@ -854,7 +858,7 @@ var AuthError_AuthError = /** @class */ (function (_super) {
 
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.js
-/*! @azure/msal-common v5.0.1 2021-10-05 */
+/*! @azure/msal-common v6.0.0 2022-01-04 */
 
 
 
@@ -925,7 +929,7 @@ var InteractionRequiredAuthError_InteractionRequiredAuthError = /** @class */ (f
 
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserConstants.js
-/*! @azure/msal-browser v2.18.0 2021-10-05 */
+/*! @azure/msal-browser v2.21.0 2022-01-04 */
 
 
 
@@ -1020,6 +1024,7 @@ var ApiId;
     ApiId[ApiId["ssoSilent"] = 863] = "ssoSilent";
     ApiId[ApiId["acquireTokenSilent_authCode"] = 864] = "acquireTokenSilent_authCode";
     ApiId[ApiId["handleRedirectPromise"] = 865] = "handleRedirectPromise";
+    ApiId[ApiId["acquireTokenByCode"] = 866] = "acquireTokenByCode";
     ApiId[ApiId["acquireTokenSilent_silentFlow"] = 61] = "acquireTokenSilent_silentFlow";
     ApiId[ApiId["logout"] = 961] = "logout";
     ApiId[ApiId["logoutPopup"] = 962] = "logoutPopup";
@@ -1081,6 +1086,10 @@ var WrapperSKU;
     WrapperSKU["React"] = "@azure/msal-react";
     WrapperSKU["Angular"] = "@azure/msal-angular";
 })(WrapperSKU || (WrapperSKU = {}));
+// DatabaseStorage Constants
+var DB_NAME = "msal.db";
+var DB_VERSION = 1;
+var DB_TABLE_NAME = DB_NAME + ".keys";
 
 
 
@@ -1118,7 +1127,7 @@ class GraphClientError extends Error {
      * @static
      * @async
      * To set the GraphClientError object
-     * @param {any} - The error returned encountered by the Graph JavaScript Client SDK while processing request
+     * @param {any} error - The error returned encountered by the Graph JavaScript Client SDK while processing request
      * @returns GraphClientError object set to the error passed
      */
     static setGraphClientError(error) {

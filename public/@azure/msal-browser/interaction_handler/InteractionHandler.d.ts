@@ -1,4 +1,4 @@
-import { CommonAuthorizationCodeRequest, AuthenticationResult, AuthorizationCodeClient, Authority, INetworkModule, CcsCredential, Logger } from "@azure/msal-common";
+import { AuthorizationCodePayload, CommonAuthorizationCodeRequest, AuthenticationResult, AuthorizationCodeClient, Authority, INetworkModule, CcsCredential, Logger } from "@azure/msal-common";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
 export declare type InteractionParams = {};
 /**
@@ -19,7 +19,16 @@ export declare abstract class InteractionHandler {
      * Function to handle response parameters from hash.
      * @param locationHash
      */
-    handleCodeResponse(locationHash: string, state: string, authority: Authority, networkModule: INetworkModule): Promise<AuthenticationResult>;
+    handleCodeResponseFromHash(locationHash: string, state: string, authority: Authority, networkModule: INetworkModule): Promise<AuthenticationResult>;
+    /**
+     * Process auth code response from AAD
+     * @param authCodeResponse
+     * @param state
+     * @param authority
+     * @param networkModule
+     * @returns
+     */
+    handleCodeResponseFromServer(authCodeResponse: AuthorizationCodePayload, state: string, authority: Authority, networkModule: INetworkModule, validateNonce?: boolean): Promise<AuthenticationResult>;
     /**
      * Updates authority based on cloudInstanceHostname
      * @param cloudInstanceHostname

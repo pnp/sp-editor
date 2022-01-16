@@ -82,6 +82,7 @@ export declare enum ApiId {
     ssoSilent = 863,
     acquireTokenSilent_authCode = 864,
     handleRedirectPromise = 865,
+    acquireTokenByCode = 866,
     acquireTokenSilent_silentFlow = 61,
     logout = 961,
     logoutPopup = 962
@@ -134,4 +135,7 @@ export declare enum WrapperSKU {
     React = "@azure/msal-react",
     Angular = "@azure/msal-angular"
 }
+export declare const DB_NAME = "msal.db";
+export declare const DB_VERSION = 1;
+export declare const DB_TABLE_NAME: string;
 //# sourceMappingURL=BrowserConstants.d.ts.map

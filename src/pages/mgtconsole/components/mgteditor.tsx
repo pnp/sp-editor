@@ -60,7 +60,7 @@ const MGTEditor = () => {
     try {
       const model = mgtEditorRef.current!.getModel()!
 
-      const owner = model.getModeId()
+      const owner = model.getLanguageId()
       const markers = monaco.editor.getModelMarkers({ owner })
 
       const errors: string[] = []
@@ -202,7 +202,7 @@ const MGTEditor = () => {
 
         mgtEditorRef.current.addCommand(
           // tslint:disable-next-line:no-bitwise
-          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_D,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD,
           () => transpileIt(),
         )
         // trigget resize to make editor visible (bug in monaco 0.20.0?)

@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v2.18.0 2021-10-05 */
+/*! @azure/msal-browser v2.21.0 2022-01-04 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -107,7 +107,7 @@
         return ar;
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -194,7 +194,7 @@
         return r;
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -259,6 +259,8 @@
         HeaderNames["CONTENT_TYPE"] = "Content-Type";
         HeaderNames["RETRY_AFTER"] = "Retry-After";
         HeaderNames["CCS_HEADER"] = "X-AnchorMailbox";
+        HeaderNames["WWWAuthenticate"] = "WWW-Authenticate";
+        HeaderNames["AuthenticationInfo"] = "Authentication-Info";
     })(HeaderNames || (HeaderNames = {}));
     /**
      * Persistent cache keys MSAL which stay while user is logged in.
@@ -329,6 +331,7 @@
         AADServerParamKeys["ON_BEHALF_OF"] = "on_behalf_of";
         AADServerParamKeys["FOCI"] = "foci";
         AADServerParamKeys["CCS_HEADER"] = "X-AnchorMailbox";
+        AADServerParamKeys["RETURN_SPA_CODE"] = "return_spa_code";
     })(AADServerParamKeys || (AADServerParamKeys = {}));
     /**
      * Claims request keys
@@ -486,8 +489,9 @@
      */
     exports.AuthenticationScheme = void 0;
     (function (AuthenticationScheme) {
-        AuthenticationScheme["POP"] = "pop";
         AuthenticationScheme["BEARER"] = "Bearer";
+        AuthenticationScheme["POP"] = "pop";
+        AuthenticationScheme["SSH"] = "ssh-cert";
     })(exports.AuthenticationScheme || (exports.AuthenticationScheme = {}));
     /**
      * Constants related to throttling
@@ -552,7 +556,7 @@
         CacheOutcome["REFRESH_CACHED_ACCESS_TOKEN"] = "4";
     })(CacheOutcome || (CacheOutcome = {}));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -596,7 +600,7 @@
         return AuthError;
     }(Error));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -659,10 +663,19 @@
                     throw AuthError.createUnexpectedError(notImplErr);
                 });
             });
+        },
+        hashString: function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var notImplErr;
+                return __generator(this, function (_a) {
+                    notImplErr = "Crypto interface - hashString() has not been implemented";
+                    throw AuthError.createUnexpectedError(notImplErr);
+                });
+            });
         }
     };
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -848,6 +861,10 @@
         bindingKeyNotRemovedError: {
             code: "binding_key_not_removed",
             desc: "Could not remove the credential's binding key from storage."
+        },
+        logoutNotSupported: {
+            code: "end_session_endpoint_not_supported",
+            desc: "Provided authority does not support logout."
         }
     };
     /**
@@ -1111,10 +1128,16 @@
         ClientAuthError.createBindingKeyNotRemovedError = function () {
             return new ClientAuthError(ClientAuthErrorMessage.bindingKeyNotRemovedError.code, ClientAuthErrorMessage.bindingKeyNotRemovedError.desc);
         };
+        /**
+         * Thrown when logout is attempted for an authority that doesnt have an end_session_endpoint
+         */
+        ClientAuthError.createLogoutNotSupportedError = function () {
+            return new ClientAuthError(ClientAuthErrorMessage.logoutNotSupported.code, ClientAuthErrorMessage.logoutNotSupported.desc);
+        };
         return ClientAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1239,7 +1262,7 @@
         return StringUtils;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1419,12 +1442,12 @@
         return Logger;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /* eslint-disable header/header */
     var name$1 = "@azure/msal-common";
-    var version$1 = "5.0.1";
+    var version$1 = "6.0.0";
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1435,7 +1458,7 @@
      *
      * Key:Value Schema:
      *
-     * Key: <home_account_id*>-<environment>-<credential_type>-<client_id>-<realm*>-<target*>-<scheme>
+     * Key: <home_account_id*>-<environment>-<credential_type>-<client_id>-<realm*>-<target*>-<requestedClaims*>-<scheme*>
      *
      * Value Schema:
      * {
@@ -1449,6 +1472,7 @@
      *      target: Permissions that are included in the token, or for refresh tokens, the resource identifier.
      *      oboAssertion: access token passed in as part of OBO request
      *      tokenType: Matches the authentication scheme for which the token was issued (i.e. Bearer or pop)
+     *      requestedClaimsHash: Matches the SHA 256 hash of the claims object included in the token request
      * }
      */
     var CredentialEntity = /** @class */ (function () {
@@ -1476,7 +1500,7 @@
          * generates credential key
          */
         CredentialEntity.prototype.generateCredentialKey = function () {
-            return CredentialEntity.generateCredentialCacheKey(this.homeAccountId, this.environment, this.credentialType, this.clientId, this.realm, this.target, this.familyId, this.tokenType);
+            return CredentialEntity.generateCredentialCacheKey(this.homeAccountId, this.environment, this.credentialType, this.clientId, this.realm, this.target, this.familyId, this.tokenType, this.requestedClaimsHash);
         };
         /**
          * returns the type of the cache (in this case credential)
@@ -1520,16 +1544,14 @@
          * generates credential key
          * <home_account_id*>-\<environment>-<credential_type>-<client_id>-<realm\*>-<target\*>-<scheme\*>
          */
-        CredentialEntity.generateCredentialCacheKey = function (homeAccountId, environment, credentialType, clientId, realm, target, familyId, tokenType) {
+        CredentialEntity.generateCredentialCacheKey = function (homeAccountId, environment, credentialType, clientId, realm, target, familyId, tokenType, requestedClaimsHash) {
             var credentialKey = [
                 this.generateAccountIdForCacheKey(homeAccountId, environment),
                 this.generateCredentialIdForCacheKey(credentialType, clientId, realm, familyId),
-                this.generateTargetForCacheKey(target)
+                this.generateTargetForCacheKey(target),
+                this.generateClaimsHashForCacheKey(requestedClaimsHash),
+                this.generateSchemeForCacheKey(tokenType)
             ];
-            // PoP Tokens include scheme in cache key
-            if (tokenType === exports.AuthenticationScheme.POP) {
-                credentialKey.push(tokenType.toLowerCase());
-            }
             return credentialKey.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
         };
         /**
@@ -1565,10 +1587,26 @@
         CredentialEntity.generateTargetForCacheKey = function (scopes) {
             return (scopes || "").toLowerCase();
         };
+        /**
+         * Generate requested claims key component as per schema: <requestedClaims>
+         */
+        CredentialEntity.generateClaimsHashForCacheKey = function (requestedClaimsHash) {
+            return (requestedClaimsHash || "").toLowerCase();
+        };
+        /**
+         * Generate scheme key componenet as per schema: <scheme>
+         */
+        CredentialEntity.generateSchemeForCacheKey = function (tokenType) {
+            /*
+             * PoP Tokens and SSH certs include scheme in cache key
+             * Cast to lowercase to handle "bearer" from ADFS
+             */
+            return (tokenType && tokenType.toLowerCase() !== exports.AuthenticationScheme.BEARER.toLowerCase()) ? tokenType.toLowerCase() : "";
+        };
         return CredentialEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1640,15 +1678,31 @@
         },
         invalidCloudDiscoveryMetadata: {
             code: "invalid_cloud_discovery_metadata",
-            desc: "Invalid cloudDiscoveryMetadata provided. Must be a JSON object containing tenant_discovery_endpoint and metadata fields"
+            desc: "Invalid cloudDiscoveryMetadata provided. Must be a stringified JSON object containing tenant_discovery_endpoint and metadata fields"
         },
         invalidAuthorityMetadata: {
             code: "invalid_authority_metadata",
-            desc: "Invalid authorityMetadata provided. Must by a JSON object containing authorization_endpoint, token_endpoint, end_session_endpoint, issuer fields."
+            desc: "Invalid authorityMetadata provided. Must by a stringified JSON object containing authorization_endpoint, token_endpoint, issuer fields."
         },
         untrustedAuthority: {
             code: "untrusted_authority",
             desc: "The provided authority is not a trusted authority. Please include this authority in the knownAuthorities config parameter."
+        },
+        missingSshJwk: {
+            code: "missing_ssh_jwk",
+            desc: "Missing sshJwk in SSH certificate request. A stringified JSON Web Key is required when using the SSH authentication scheme."
+        },
+        missingSshKid: {
+            code: "missing_ssh_kid",
+            desc: "Missing sshKid in SSH certificate request. A string that uniquely identifies the public SSH key is required when using the SSH authentication scheme."
+        },
+        missingNonceAuthenticationHeader: {
+            code: "missing_nonce_authentication_header",
+            desc: "Unable to find an authentication header containing server nonce. Either the Authentication-Info or WWW-Authenticate headers must be present in order to obtain a server nonce."
+        },
+        invalidAuthenticationHeader: {
+            code: "invalid_authentication_header",
+            desc: "Invalid authentication header provided"
         }
     };
     /**
@@ -1770,10 +1824,34 @@
         ClientConfigurationError.createUntrustedAuthorityError = function () {
             return new ClientConfigurationError(ClientConfigurationErrorMessage.untrustedAuthority.code, ClientConfigurationErrorMessage.untrustedAuthority.desc);
         };
+        /*
+         * Throws an error when the authentication scheme is set to SSH but the SSH public key is omitted from the request
+         */
+        ClientConfigurationError.createMissingSshJwkError = function () {
+            return new ClientConfigurationError(ClientConfigurationErrorMessage.missingSshJwk.code, ClientConfigurationErrorMessage.missingSshJwk.desc);
+        };
+        /**
+         * Throws an error when the authentication scheme is set to SSH but the SSH public key ID is omitted from the request
+         */
+        ClientConfigurationError.createMissingSshKidError = function () {
+            return new ClientConfigurationError(ClientConfigurationErrorMessage.missingSshKid.code, ClientConfigurationErrorMessage.missingSshKid.desc);
+        };
+        /**
+         * Throws error when provided headers don't contain a header that a server nonce can be extracted from
+         */
+        ClientConfigurationError.createMissingNonceAuthenticationHeadersError = function () {
+            return new ClientConfigurationError(ClientConfigurationErrorMessage.missingNonceAuthenticationHeader.code, ClientConfigurationErrorMessage.missingNonceAuthenticationHeader.desc);
+        };
+        /**
+         * Throws error when a provided header is invalid in any way
+         */
+        ClientConfigurationError.createInvalidAuthenticationHeaderError = function (invalidHeaderName, details) {
+            return new ClientConfigurationError(ClientConfigurationErrorMessage.invalidAuthenticationHeader.code, ClientConfigurationErrorMessage.invalidAuthenticationHeader.desc + ". Invalid header: " + invalidHeaderName + ". Details: " + details);
+        };
         return ClientConfigurationError;
     }(ClientAuthError));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1957,7 +2035,7 @@
         return ScopeSet;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1995,7 +2073,7 @@
         };
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2009,7 +2087,7 @@
         AuthorityType[AuthorityType["Adfs"] = 1] = "Adfs";
     })(AuthorityType || (AuthorityType = {}));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2243,7 +2321,7 @@
         return AccountEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2281,7 +2359,7 @@
         return AuthToken;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2371,7 +2449,8 @@
                                 environment: credential.environment,
                                 homeAccountId: credential.homeAccountId,
                                 realm: credential.realm,
-                                tokenType: credential.tokenType
+                                tokenType: credential.tokenType,
+                                requestedClaimsHash: credential.requestedClaimsHash
                             });
                             currentScopes = ScopeSet.fromString(credential.target);
                             currentAccessTokens = Object.keys(currentTokenCache.accessTokens).map(function (key) { return currentTokenCache.accessTokens[key]; });
@@ -2443,7 +2522,7 @@
          * @param target
          */
         CacheManager.prototype.getCredentialsFilteredBy = function (filter) {
-            return this.getCredentialsFilteredByInternal(filter.homeAccountId, filter.environment, filter.credentialType, filter.clientId, filter.familyId, filter.realm, filter.target, filter.oboAssertion, filter.tokenType);
+            return this.getCredentialsFilteredByInternal(filter.homeAccountId, filter.environment, filter.credentialType, filter.clientId, filter.familyId, filter.realm, filter.target, filter.oboAssertion, filter.tokenType, filter.keyId, filter.requestedClaimsHash);
         };
         /**
          * Support function to help match credentials
@@ -2456,7 +2535,7 @@
          * @param oboAssertion
          * @param tokenType
          */
-        CacheManager.prototype.getCredentialsFilteredByInternal = function (homeAccountId, environment, credentialType, clientId, familyId, realm, target, oboAssertion, tokenType) {
+        CacheManager.prototype.getCredentialsFilteredByInternal = function (homeAccountId, environment, credentialType, clientId, familyId, realm, target, oboAssertion, tokenType, keyId, requestedClaimsHash) {
             var _this = this;
             var allCacheKeys = this.getKeys();
             var matchingCredentials = {
@@ -2503,27 +2582,37 @@
                 if (!!target && !_this.matchTarget(entity, target)) {
                     return;
                 }
+                // If request OR cached entity has requested Claims Hash, check if they match
+                if (requestedClaimsHash || entity.requestedClaimsHash) {
+                    // Don't match if either is undefined or they are different
+                    if (entity.requestedClaimsHash !== requestedClaimsHash) {
+                        return;
+                    }
+                }
+                // Access Token with Auth Scheme specific matching
                 if (credentialType === CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME) {
                     if (!!tokenType && !_this.matchTokenType(entity, tokenType)) {
                         return;
                     }
-                    // This check avoids matching outdated POP tokens that don't have the <-scheme> in the cache key
-                    if (cacheKey.indexOf(exports.AuthenticationScheme.POP) === -1) {
-                        // AccessToken_With_AuthScheme that doesn't have pop in the key is outdated
-                        _this.removeItem(cacheKey, CacheSchemaType.CREDENTIAL);
-                        return;
+                    // KeyId (sshKid) in request must match cached SSH certificate keyId because SSH cert is bound to a specific key
+                    if (tokenType === exports.AuthenticationScheme.SSH) {
+                        if (keyId && !_this.matchKeyId(entity, keyId)) {
+                            return;
+                        }
                     }
                 }
+                // At this point, the entity matches the request, update cache key if key schema has changed
+                var updatedCacheKey = _this.updateCredentialCacheKey(cacheKey, entity);
                 switch (credType) {
                     case CredentialType.ID_TOKEN:
-                        matchingCredentials.idTokens[cacheKey] = entity;
+                        matchingCredentials.idTokens[updatedCacheKey] = entity;
                         break;
                     case CredentialType.ACCESS_TOKEN:
                     case CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME:
-                        matchingCredentials.accessTokens[cacheKey] = entity;
+                        matchingCredentials.accessTokens[updatedCacheKey] = entity;
                         break;
                     case CredentialType.REFRESH_TOKEN:
-                        matchingCredentials.refreshTokens[cacheKey] = entity;
+                        matchingCredentials.refreshTokens[updatedCacheKey] = entity;
                         break;
                 }
             });
@@ -2682,6 +2771,7 @@
                         case 0:
                             key = credential.generateCredentialKey();
                             if (!(credential.credentialType.toLowerCase() === CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME.toLowerCase())) return [3 /*break*/, 4];
+                            if (!(credential.tokenType === exports.AuthenticationScheme.POP)) return [3 /*break*/, 4];
                             accessTokenWithAuthSchemeEntity = credential;
                             kid = accessTokenWithAuthSchemeEntity.keyId;
                             if (!kid) return [3 /*break*/, 4];
@@ -2721,10 +2811,10 @@
          * @param environment
          * @param authScheme
          */
-        CacheManager.prototype.readCacheRecord = function (account, clientId, scopes, environment, authScheme) {
+        CacheManager.prototype.readCacheRecord = function (account, clientId, request, environment) {
             var cachedAccount = this.readAccountFromCache(account);
             var cachedIdToken = this.readIdTokenFromCache(clientId, account);
-            var cachedAccessToken = this.readAccessTokenFromCache(clientId, account, scopes, authScheme);
+            var cachedAccessToken = this.readAccessTokenFromCache(clientId, account, request);
             var cachedRefreshToken = this.readRefreshTokenFromCache(clientId, account, false);
             var cachedAppMetadata = this.readAppMetadataFromCache(environment, clientId);
             if (cachedAccount && cachedIdToken) {
@@ -2778,9 +2868,14 @@
          * @param scopes
          * @param authScheme
          */
-        CacheManager.prototype.readAccessTokenFromCache = function (clientId, account, scopes, authScheme) {
-            // Distinguish between Bearer and PoP token cache types
-            var credentialType = (authScheme === exports.AuthenticationScheme.POP) ? CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME : CredentialType.ACCESS_TOKEN;
+        CacheManager.prototype.readAccessTokenFromCache = function (clientId, account, request) {
+            var scopes = new ScopeSet(request.scopes || []);
+            var authScheme = request.authenticationScheme || exports.AuthenticationScheme.BEARER;
+            /*
+             * Distinguish between Bearer and PoP/SSH token cache types
+             * Cast to lowercase to handle "bearer" from ADFS
+             */
+            var credentialType = (authScheme && authScheme.toLowerCase() !== exports.AuthenticationScheme.BEARER.toLowerCase()) ? CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME : CredentialType.ACCESS_TOKEN;
             var accessTokenFilter = {
                 homeAccountId: account.homeAccountId,
                 environment: account.environment,
@@ -2788,7 +2883,9 @@
                 clientId: clientId,
                 realm: account.tenantId,
                 target: scopes.printScopesLowerCase(),
-                tokenType: authScheme
+                tokenType: authScheme,
+                keyId: request.sshKid,
+                requestedClaimsHash: request.requestedClaimsHash
             };
             var credentialCache = this.getCredentialsFilteredBy(accessTokenFilter);
             var accessTokens = Object.keys(credentialCache.accessTokens).map(function (key) { return credentialCache.accessTokens[key]; });
@@ -2942,6 +3039,14 @@
             return !!(entity.tokenType && entity.tokenType === tokenType);
         };
         /**
+         * Returns true if the credential's keyId matches the one in the request, false otherwise
+         * @param entity
+         * @param tokenType
+         */
+        CacheManager.prototype.matchKeyId = function (entity, keyId) {
+            return !!(entity.keyId && entity.keyId === keyId);
+        };
+        /**
          * returns if a given cache entity is of the type appmetadata
          * @param key
          */
@@ -3089,10 +3194,14 @@
                 });
             });
         };
+        DefaultStorageClass.prototype.updateCredentialCacheKey = function () {
+            var notImplErr = "Storage interface - updateCredentialCacheKey() has not been implemented for the cacheStorage interface.";
+            throw AuthError.createUnexpectedError(notImplErr);
+        };
         return DefaultStorageClass;
     }(CacheManager));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3174,7 +3283,7 @@
         return __assign({ clientCapabilities: [] }, authOptions);
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3194,7 +3303,7 @@
         return ServerError;
     }(AuthError));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3277,10 +3386,12 @@
                 authority: request.authority,
                 scopes: request.scopes,
                 homeAccountIdentifier: homeAccountIdentifier,
+                claims: request.claims,
                 authenticationScheme: request.authenticationScheme,
                 resourceRequestMethod: request.resourceRequestMethod,
                 resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims
+                shrClaims: request.shrClaims,
+                sshKid: request.sshKid
             };
             var key = this.generateThrottlingStorageKey(thumbprint);
             return cacheManager.removeItem(key, CacheSchemaType.THROTTLING);
@@ -3288,7 +3399,7 @@
         return ThrottlingUtils;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3337,7 +3448,7 @@
         return NetworkManager;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3348,7 +3459,7 @@
         CcsCredentialType["UPN"] = "UPN";
     })(CcsCredentialType || (CcsCredentialType = {}));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3437,7 +3548,7 @@
         return BaseClient;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3523,7 +3634,7 @@
         return RequestValidator;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3828,6 +3939,15 @@
             }
         };
         /**
+         * add SSH JWK and key ID to query params
+         */
+        RequestParameterBuilder.prototype.addSshJwk = function (sshJwkString) {
+            if (!StringUtils.isEmpty(sshJwkString)) {
+                this.parameters.set(AADServerParamKeys.TOKEN_TYPE, exports.AuthenticationScheme.SSH);
+                this.parameters.set(AADServerParamKeys.REQ_CNF, encodeURIComponent(sshJwkString));
+            }
+        };
+        /**
          * add server telemetry fields
          * @param serverTelemetryManager
          */
@@ -3854,7 +3974,7 @@
         return RequestParameterBuilder;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3919,7 +4039,7 @@
         return IdTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3969,7 +4089,7 @@
         return TimeUtils;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4015,8 +4135,8 @@
          * @param expiresOn
          * @param extExpiresOn
          */
-        AccessTokenEntity.createAccessTokenEntity = function (homeAccountId, environment, accessToken, clientId, tenantId, scopes, expiresOn, extExpiresOn, cryptoUtils, refreshOn, tokenType, oboAssertion) {
-            var _a;
+        AccessTokenEntity.createAccessTokenEntity = function (homeAccountId, environment, accessToken, clientId, tenantId, scopes, expiresOn, extExpiresOn, cryptoUtils, refreshOn, tokenType, oboAssertion, keyId, requestedClaims, requestedClaimsHash) {
+            var _a, _b;
             var atEntity = new AccessTokenEntity();
             atEntity.homeAccountId = homeAccountId;
             atEntity.credentialType = CredentialType.ACCESS_TOKEN;
@@ -4038,15 +4158,28 @@
             atEntity.target = scopes;
             atEntity.oboAssertion = oboAssertion;
             atEntity.tokenType = StringUtils.isEmpty(tokenType) ? exports.AuthenticationScheme.BEARER : tokenType;
-            // Create Access Token With AuthScheme instead of regular access token
-            if (atEntity.tokenType === exports.AuthenticationScheme.POP) {
+            if (requestedClaims) {
+                atEntity.requestedClaims = requestedClaims;
+                atEntity.requestedClaimsHash = requestedClaimsHash;
+            }
+            /*
+             * Create Access Token With Auth Scheme instead of regular access token
+             * Cast to lower to handle "bearer" from ADFS
+             */
+            if (((_a = atEntity.tokenType) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== exports.AuthenticationScheme.BEARER.toLowerCase()) {
                 atEntity.credentialType = CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME;
-                // Make sure keyId is present and add it to credential
-                var tokenClaims = AuthToken.extractTokenClaims(accessToken, cryptoUtils);
-                if (!((_a = tokenClaims === null || tokenClaims === void 0 ? void 0 : tokenClaims.cnf) === null || _a === void 0 ? void 0 : _a.kid)) {
-                    throw ClientAuthError.createTokenClaimsRequiredError();
+                switch (atEntity.tokenType) {
+                    case exports.AuthenticationScheme.POP:
+                        // Make sure keyId is present and add it to credential
+                        var tokenClaims = AuthToken.extractTokenClaims(accessToken, cryptoUtils);
+                        if (!((_b = tokenClaims === null || tokenClaims === void 0 ? void 0 : tokenClaims.cnf) === null || _b === void 0 ? void 0 : _b.kid)) {
+                            throw ClientAuthError.createTokenClaimsRequiredError();
+                        }
+                        atEntity.keyId = tokenClaims.cnf.kid;
+                        break;
+                    case exports.AuthenticationScheme.SSH:
+                        atEntity.keyId = keyId;
                 }
-                atEntity.keyId = tokenClaims.cnf.kid;
             }
             return atEntity;
         };
@@ -4070,7 +4203,7 @@
         return AccessTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4137,7 +4270,7 @@
         return RefreshTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4201,7 +4334,7 @@
         return InteractionRequiredAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4217,7 +4350,7 @@
         return CacheRecord;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4288,7 +4421,7 @@
         return ProtocolUtils;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4489,7 +4622,7 @@
         return UrlString;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4548,14 +4681,14 @@
         };
         PopTokenGenerator.prototype.signPayload = function (payload, kid, request, claims) {
             return __awaiter(this, void 0, void 0, function () {
-                var resourceRequestMethod, resourceRequestUri, shrClaims, resourceUrlString, resourceUrlComponents;
+                var resourceRequestMethod, resourceRequestUri, shrClaims, shrNonce, resourceUrlString, resourceUrlComponents;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            resourceRequestMethod = request.resourceRequestMethod, resourceRequestUri = request.resourceRequestUri, shrClaims = request.shrClaims;
+                            resourceRequestMethod = request.resourceRequestMethod, resourceRequestUri = request.resourceRequestUri, shrClaims = request.shrClaims, shrNonce = request.shrNonce;
                             resourceUrlString = (resourceRequestUri) ? new UrlString(resourceRequestUri) : undefined;
                             resourceUrlComponents = resourceUrlString === null || resourceUrlString === void 0 ? void 0 : resourceUrlString.getUrlComponents();
-                            return [4 /*yield*/, this.cryptoUtils.signJwt(__assign({ at: payload, ts: TimeUtils.nowSeconds(), m: resourceRequestMethod === null || resourceRequestMethod === void 0 ? void 0 : resourceRequestMethod.toUpperCase(), u: resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.HostNameAndPort, nonce: this.cryptoUtils.createNewGuid(), p: resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.AbsolutePath, q: (resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.QueryString) ? [[], resourceUrlComponents.QueryString] : undefined, client_claims: shrClaims || undefined }, claims), kid)];
+                            return [4 /*yield*/, this.cryptoUtils.signJwt(__assign({ at: payload, ts: TimeUtils.nowSeconds(), m: resourceRequestMethod === null || resourceRequestMethod === void 0 ? void 0 : resourceRequestMethod.toUpperCase(), u: resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.HostNameAndPort, nonce: shrNonce || this.cryptoUtils.createNewGuid(), p: resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.AbsolutePath, q: (resourceUrlComponents === null || resourceUrlComponents === void 0 ? void 0 : resourceUrlComponents.QueryString) ? [[], resourceUrlComponents.QueryString] : undefined, client_claims: shrClaims || undefined }, claims), kid)];
                         case 1: return [2 /*return*/, _a.sent()];
                     }
                 });
@@ -4564,7 +4697,7 @@
         return PopTokenGenerator;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4634,7 +4767,7 @@
         return AppMetadataEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4670,7 +4803,7 @@
         return TokenCacheContext;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4751,7 +4884,9 @@
                             if (!!authCodePayload && !!authCodePayload.state) {
                                 requestStateObj = ProtocolUtils.parseRequestState(this.cryptoObj, authCodePayload.state);
                             }
-                            cacheRecord = this.generateCacheRecord(serverTokenResponse, authority, reqTimestamp, idTokenObj, request.scopes, oboAssertion, authCodePayload);
+                            // Add keyId from request to serverTokenResponse if defined
+                            serverTokenResponse.key_id = serverTokenResponse.key_id || request.sshKid || undefined;
+                            cacheRecord = this.generateCacheRecord(serverTokenResponse, authority, reqTimestamp, request, idTokenObj, oboAssertion, authCodePayload);
                             _a.label = 1;
                         case 1:
                             _a.trys.push([1, , 5, 8]);
@@ -4788,7 +4923,7 @@
                             _a.sent();
                             _a.label = 7;
                         case 7: return [7 /*endfinally*/];
-                        case 8: return [2 /*return*/, ResponseHandler.generateAuthenticationResult(this.cryptoObj, authority, cacheRecord, false, request, idTokenObj, requestStateObj)];
+                        case 8: return [2 /*return*/, ResponseHandler.generateAuthenticationResult(this.cryptoObj, authority, cacheRecord, false, request, idTokenObj, requestStateObj, serverTokenResponse.spa_code)];
                     }
                 });
             });
@@ -4799,7 +4934,7 @@
          * @param idTokenObj
          * @param authority
          */
-        ResponseHandler.prototype.generateCacheRecord = function (serverTokenResponse, authority, reqTimestamp, idTokenObj, requestScopes, oboAssertion, authCodePayload) {
+        ResponseHandler.prototype.generateCacheRecord = function (serverTokenResponse, authority, reqTimestamp, request, idTokenObj, oboAssertion, authCodePayload) {
             var env = authority.getPreferredCache();
             if (StringUtils.isEmpty(env)) {
                 throw ClientAuthError.createInvalidCacheEnvironmentError();
@@ -4815,7 +4950,7 @@
             var cachedAccessToken = null;
             if (!StringUtils.isEmpty(serverTokenResponse.access_token)) {
                 // If scopes not returned in server response, use request scopes
-                var responseScopes = serverTokenResponse.scope ? ScopeSet.fromString(serverTokenResponse.scope) : new ScopeSet(requestScopes || []);
+                var responseScopes = serverTokenResponse.scope ? ScopeSet.fromString(serverTokenResponse.scope) : new ScopeSet(request.scopes || []);
                 /*
                  * Use timestamp calculated before request
                  * Server may return timestamps as strings, parse to numbers if so.
@@ -4827,7 +4962,7 @@
                 var extendedTokenExpirationSeconds = tokenExpirationSeconds + extExpiresIn;
                 var refreshOnSeconds = refreshIn && refreshIn > 0 ? reqTimestamp + refreshIn : undefined;
                 // non AAD scenarios can have empty realm
-                cachedAccessToken = AccessTokenEntity.createAccessTokenEntity(this.homeAccountIdentifier, env, serverTokenResponse.access_token || Constants.EMPTY_STRING, this.clientId, idTokenObj ? idTokenObj.claims.tid || Constants.EMPTY_STRING : authority.tenant, responseScopes.printScopes(), tokenExpirationSeconds, extendedTokenExpirationSeconds, this.cryptoObj, refreshOnSeconds, serverTokenResponse.token_type, oboAssertion);
+                cachedAccessToken = AccessTokenEntity.createAccessTokenEntity(this.homeAccountIdentifier, env, serverTokenResponse.access_token || Constants.EMPTY_STRING, this.clientId, idTokenObj ? idTokenObj.claims.tid || Constants.EMPTY_STRING : authority.tenant, responseScopes.printScopes(), tokenExpirationSeconds, extendedTokenExpirationSeconds, this.cryptoObj, refreshOnSeconds, serverTokenResponse.token_type, oboAssertion, serverTokenResponse.key_id, request.claims, request.requestedClaimsHash);
             }
             // refreshToken
             var cachedRefreshToken = null;
@@ -4874,7 +5009,7 @@
          * @param fromTokenCache
          * @param stateString
          */
-        ResponseHandler.generateAuthenticationResult = function (cryptoObj, authority, cacheRecord, fromTokenCache, request, idTokenObj, requestState) {
+        ResponseHandler.generateAuthenticationResult = function (cryptoObj, authority, cacheRecord, fromTokenCache, request, idTokenObj, requestState, code) {
             var _a, _b, _c;
             return __awaiter(this, void 0, void 0, function () {
                 var accessToken, responseScopes, expiresOn, extExpiresOn, familyId, popTokenGenerator, uid, tid;
@@ -4923,7 +5058,8 @@
                                     tokenType: ((_a = cacheRecord.accessToken) === null || _a === void 0 ? void 0 : _a.tokenType) || Constants.EMPTY_STRING,
                                     state: requestState ? requestState.userRequestState : Constants.EMPTY_STRING,
                                     cloudGraphHostName: ((_b = cacheRecord.account) === null || _b === void 0 ? void 0 : _b.cloudGraphHostName) || Constants.EMPTY_STRING,
-                                    msGraphHost: ((_c = cacheRecord.account) === null || _c === void 0 ? void 0 : _c.msGraphHost) || Constants.EMPTY_STRING
+                                    msGraphHost: ((_c = cacheRecord.account) === null || _c === void 0 ? void 0 : _c.msGraphHost) || Constants.EMPTY_STRING,
+                                    code: code
                                 }];
                     }
                 });
@@ -4932,7 +5068,7 @@
         return ResponseHandler;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4944,7 +5080,10 @@
     var AuthorizationCodeClient = /** @class */ (function (_super) {
         __extends(AuthorizationCodeClient, _super);
         function AuthorizationCodeClient(configuration) {
-            return _super.call(this, configuration) || this;
+            var _this = _super.call(this, configuration) || this;
+            // Flag to indicate if client is for hybrid spa auth code redemption
+            _this.includeRedirectUri = true;
+            return _this;
         }
         /**
          * Creates the URL of the authorization request letting the user input credentials and consent to the
@@ -5044,10 +5183,12 @@
                                 clientId: this.config.authOptions.clientId,
                                 authority: authority.canonicalAuthority,
                                 scopes: request.scopes,
+                                claims: request.claims,
                                 authenticationScheme: request.authenticationScheme,
                                 resourceRequestMethod: request.resourceRequestMethod,
                                 resourceRequestUri: request.resourceRequestUri,
-                                shrClaims: request.shrClaims
+                                shrClaims: request.shrClaims,
+                                sshKid: request.sshKid
                             };
                             return [4 /*yield*/, this.createTokenRequestBody(request)];
                         case 1:
@@ -5091,13 +5232,24 @@
         AuthorizationCodeClient.prototype.createTokenRequestBody = function (request) {
             return __awaiter(this, void 0, void 0, function () {
                 var parameterBuilder, clientAssertion, popTokenGenerator, cnfString, correlationId, ccsCred, clientInfo, clientInfo;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             parameterBuilder = new RequestParameterBuilder();
                             parameterBuilder.addClientId(this.config.authOptions.clientId);
-                            // validate the redirectUri (to be a non null value)
-                            parameterBuilder.addRedirectUri(request.redirectUri);
+                            /*
+                             * For hybrid spa flow, there will be a code but no verifier
+                             * In this scenario, don't include redirect uri as auth code will not be bound to redirect URI
+                             */
+                            if (!this.includeRedirectUri) {
+                                // Just validate
+                                RequestValidator.validateRedirectUri(request.redirectUri);
+                            }
+                            else {
+                                // Validate and include redirect uri
+                                parameterBuilder.addRedirectUri(request.redirectUri);
+                            }
                             // Add scope array, parameter builder will add default scopes and dedupe
                             parameterBuilder.addScopes(request.scopes);
                             // add code: user set, not validated
@@ -5126,10 +5278,20 @@
                             popTokenGenerator = new PopTokenGenerator(this.cryptoUtils);
                             return [4 /*yield*/, popTokenGenerator.generateCnf(request)];
                         case 1:
-                            cnfString = _a.sent();
+                            cnfString = _b.sent();
                             parameterBuilder.addPopToken(cnfString);
-                            _a.label = 2;
+                            return [3 /*break*/, 3];
                         case 2:
+                            if (request.authenticationScheme === exports.AuthenticationScheme.SSH) {
+                                if (request.sshJwk) {
+                                    parameterBuilder.addSshJwk(request.sshJwk);
+                                }
+                                else {
+                                    throw ClientConfigurationError.createMissingSshJwkError();
+                                }
+                            }
+                            _b.label = 3;
+                        case 3:
                             correlationId = request.correlationId || this.config.cryptoInterface.createNewGuid();
                             parameterBuilder.addCorrelationId(correlationId);
                             if (!StringUtils.isEmptyObj(request.claims) || this.config.authOptions.clientCapabilities && this.config.authOptions.clientCapabilities.length > 0) {
@@ -5167,6 +5329,15 @@
                                         parameterBuilder.addCcsUpn(ccsCred.credential);
                                         break;
                                 }
+                            }
+                            if (request.tokenBodyParameters) {
+                                parameterBuilder.addExtraQueryParameters(request.tokenBodyParameters);
+                            }
+                            // Add hybrid spa parameters if not already provided
+                            if (request.enableSpaAuthorizationCode && (!request.tokenBodyParameters || !request.tokenBodyParameters[AADServerParamKeys.RETURN_SPA_CODE])) {
+                                parameterBuilder.addExtraQueryParameters((_a = {},
+                                    _a[AADServerParamKeys.RETURN_SPA_CODE] = "1",
+                                    _a));
                             }
                             return [2 /*return*/, parameterBuilder.createQueryString()];
                     }
@@ -5305,7 +5476,7 @@
         return AuthorizationCodeClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5416,10 +5587,12 @@
                                 clientId: this.config.authOptions.clientId,
                                 authority: authority.canonicalAuthority,
                                 scopes: request.scopes,
+                                claims: request.claims,
                                 authenticationScheme: request.authenticationScheme,
                                 resourceRequestMethod: request.resourceRequestMethod,
                                 resourceRequestUri: request.resourceRequestUri,
-                                shrClaims: request.shrClaims
+                                shrClaims: request.shrClaims,
+                                sshKid: request.sshKid
                             };
                             endpoint = UrlString.appendQueryString(authority.tokenEndpoint, queryParameters);
                             return [2 /*return*/, this.executePostToTokenEndpoint(endpoint, requestBody, headers, thumbprint)];
@@ -5444,9 +5617,9 @@
          */
         RefreshTokenClient.prototype.createTokenRequestBody = function (request) {
             return __awaiter(this, void 0, void 0, function () {
-                var parameterBuilder, correlationId, clientAssertion, popTokenGenerator, _a, _b, clientInfo;
-                return __generator(this, function (_c) {
-                    switch (_c.label) {
+                var parameterBuilder, correlationId, clientAssertion, popTokenGenerator, cnfString, clientInfo;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
                         case 0:
                             parameterBuilder = new RequestParameterBuilder();
                             parameterBuilder.addClientId(this.config.authOptions.clientId);
@@ -5471,12 +5644,22 @@
                             }
                             if (!(request.authenticationScheme === exports.AuthenticationScheme.POP)) return [3 /*break*/, 2];
                             popTokenGenerator = new PopTokenGenerator(this.cryptoUtils);
-                            _b = (_a = parameterBuilder).addPopToken;
                             return [4 /*yield*/, popTokenGenerator.generateCnf(request)];
                         case 1:
-                            _b.apply(_a, [_c.sent()]);
-                            _c.label = 2;
+                            cnfString = _a.sent();
+                            parameterBuilder.addPopToken(cnfString);
+                            return [3 /*break*/, 3];
                         case 2:
+                            if (request.authenticationScheme === exports.AuthenticationScheme.SSH) {
+                                if (request.sshJwk) {
+                                    parameterBuilder.addSshJwk(request.sshJwk);
+                                }
+                                else {
+                                    throw ClientConfigurationError.createMissingSshJwkError();
+                                }
+                            }
+                            _a.label = 3;
+                        case 3:
                             if (!StringUtils.isEmptyObj(request.claims) || this.config.authOptions.clientCapabilities && this.config.authOptions.clientCapabilities.length > 0) {
                                 parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
                             }
@@ -5504,7 +5687,7 @@
         return RefreshTokenClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5550,7 +5733,7 @@
         SilentFlowClient.prototype.acquireCachedToken = function (request) {
             var _a, _b, _c, _d;
             return __awaiter(this, void 0, void 0, function () {
-                var requestScopes, environment, authScheme, cacheRecord;
+                var environment, cacheRecord;
                 return __generator(this, function (_e) {
                     switch (_e.label) {
                         case 0:
@@ -5558,37 +5741,35 @@
                             if (!request) {
                                 throw ClientConfigurationError.createEmptyTokenRequestError();
                             }
+                            if (request.forceRefresh) {
+                                // Must refresh due to present force_refresh flag.
+                                (_a = this.serverTelemetryManager) === null || _a === void 0 ? void 0 : _a.setCacheOutcome(CacheOutcome.FORCE_REFRESH);
+                                this.logger.info("SilentFlowClient:acquireCachedToken - Skipping cache because forceRefresh is true.");
+                                throw ClientAuthError.createRefreshRequiredError();
+                            }
                             // We currently do not support silent flow for account === null use cases; This will be revisited for confidential flow usecases
                             if (!request.account) {
                                 throw ClientAuthError.createNoAccountInSilentRequestError();
                             }
-                            requestScopes = new ScopeSet(request.scopes || []);
                             environment = request.authority || this.authority.getPreferredCache();
-                            authScheme = request.authenticationScheme || exports.AuthenticationScheme.BEARER;
-                            cacheRecord = this.cacheManager.readCacheRecord(request.account, this.config.authOptions.clientId, requestScopes, environment, authScheme);
-                            if (request.forceRefresh) {
-                                // Must refresh due to present force_refresh flag.
-                                (_a = this.serverTelemetryManager) === null || _a === void 0 ? void 0 : _a.setCacheOutcome(CacheOutcome.FORCE_REFRESH);
-                                throw ClientAuthError.createRefreshRequiredError();
-                            }
-                            else if (!cacheRecord.accessToken) {
+                            cacheRecord = this.cacheManager.readCacheRecord(request.account, this.config.authOptions.clientId, request, environment);
+                            if (!cacheRecord.accessToken) {
                                 // Must refresh due to non-existent access_token.
                                 (_b = this.serverTelemetryManager) === null || _b === void 0 ? void 0 : _b.setCacheOutcome(CacheOutcome.NO_CACHED_ACCESS_TOKEN);
+                                this.logger.info("SilentFlowClient:acquireCachedToken - No access token found in cache for the given properties.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
                             else if (TimeUtils.wasClockTurnedBack(cacheRecord.accessToken.cachedAt) ||
                                 TimeUtils.isTokenExpired(cacheRecord.accessToken.expiresOn, this.config.systemOptions.tokenRenewalOffsetSeconds)) {
                                 // Must refresh due to expired access_token.
                                 (_c = this.serverTelemetryManager) === null || _c === void 0 ? void 0 : _c.setCacheOutcome(CacheOutcome.CACHED_ACCESS_TOKEN_EXPIRED);
+                                this.logger.info("SilentFlowClient:acquireCachedToken - Cached access token is expired or will expire within " + this.config.systemOptions.tokenRenewalOffsetSeconds + " seconds.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
                             else if (cacheRecord.accessToken.refreshOn && TimeUtils.isTokenExpired(cacheRecord.accessToken.refreshOn, 0)) {
                                 // Must refresh due to the refresh_in value.
                                 (_d = this.serverTelemetryManager) === null || _d === void 0 ? void 0 : _d.setCacheOutcome(CacheOutcome.REFRESH_CACHED_ACCESS_TOKEN);
-                                throw ClientAuthError.createRefreshRequiredError();
-                            }
-                            else if (!StringUtils.isEmptyObj(request.claims)) {
-                                // Must refresh due to request parameters.
+                                this.logger.info("SilentFlowClient:acquireCachedToken - Cached access token's refreshOn property has been exceeded'.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
                             if (this.config.serverTelemetryManager) {
@@ -5622,7 +5803,7 @@
         return SilentFlowClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5630,11 +5811,10 @@
     function isOpenIdConfigResponse(response) {
         return (response.hasOwnProperty("authorization_endpoint") &&
             response.hasOwnProperty("token_endpoint") &&
-            response.hasOwnProperty("end_session_endpoint") &&
             response.hasOwnProperty("issuer"));
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5648,7 +5828,7 @@
         ProtocolMode["OIDC"] = "OIDC";
     })(exports.ProtocolMode || (exports.ProtocolMode = {}));
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5715,7 +5895,6 @@
                 entity.hasOwnProperty("canonical_authority") &&
                 entity.hasOwnProperty("authorization_endpoint") &&
                 entity.hasOwnProperty("token_endpoint") &&
-                entity.hasOwnProperty("end_session_endpoint") &&
                 entity.hasOwnProperty("issuer") &&
                 entity.hasOwnProperty("aliasesFromNetwork") &&
                 entity.hasOwnProperty("endpointsFromNetwork") &&
@@ -5724,7 +5903,7 @@
         return AuthorityMetadataEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5734,7 +5913,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5848,7 +6027,7 @@
         return RegionDiscovery;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6002,6 +6181,10 @@
              */
             get: function () {
                 if (this.discoveryComplete()) {
+                    // ROPC policies may not have end_session_endpoint set
+                    if (!this.metadata.end_session_endpoint) {
+                        throw ClientAuthError.createLogoutNotSupportedError();
+                    }
                     var endpoint = this.replacePath(this.metadata.end_session_endpoint);
                     return this.replaceTenant(endpoint);
                 }
@@ -6402,13 +6585,15 @@
             metadata.authorization_endpoint = Authority.buildRegionalAuthorityString(metadata.authorization_endpoint, azureRegion);
             // TODO: Enquire on whether we should leave the query string or remove it before releasing the feature
             metadata.token_endpoint = Authority.buildRegionalAuthorityString(metadata.token_endpoint, azureRegion, "allowestsrnonmsi=true");
-            metadata.end_session_endpoint = Authority.buildRegionalAuthorityString(metadata.end_session_endpoint, azureRegion);
+            if (metadata.end_session_endpoint) {
+                metadata.end_session_endpoint = Authority.buildRegionalAuthorityString(metadata.end_session_endpoint, azureRegion);
+            }
             return metadata;
         };
         return Authority;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6469,7 +6654,7 @@
         return AuthorityFactory;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6500,7 +6685,7 @@
         return ServerTelemetryEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6528,7 +6713,7 @@
         return ThrottlingEntity;
     }());
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6545,7 +6730,66 @@
         }
     };
 
-    /*! @azure/msal-common v5.0.1 2021-10-05 */
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * This is a helper class that parses supported HTTP response authentication headers to extract and return
+     * header challenge values that can be used outside the basic authorization flows.
+     */
+    var AuthenticationHeaderParser = /** @class */ (function () {
+        function AuthenticationHeaderParser(headers) {
+            this.headers = headers;
+        }
+        /**
+         * This method parses the SHR nonce value out of either the Authentication-Info or WWW-Authenticate authentication headers.
+         * @returns
+         */
+        AuthenticationHeaderParser.prototype.getShrNonce = function () {
+            // Attempt to parse nonce from Authentiacation-Info
+            var authenticationInfo = this.headers[HeaderNames.AuthenticationInfo];
+            if (authenticationInfo) {
+                var authenticationInfoChallenges = this.parseChallenges(authenticationInfo);
+                if (authenticationInfoChallenges.nextnonce) {
+                    return authenticationInfoChallenges.nextnonce;
+                }
+                throw ClientConfigurationError.createInvalidAuthenticationHeaderError(HeaderNames.AuthenticationInfo, "nextnonce challenge is missing.");
+            }
+            // Attempt to parse nonce from WWW-Authenticate
+            var wwwAuthenticate = this.headers[HeaderNames.WWWAuthenticate];
+            if (wwwAuthenticate) {
+                var wwwAuthenticateChallenges = this.parseChallenges(wwwAuthenticate);
+                if (wwwAuthenticateChallenges.nonce) {
+                    return wwwAuthenticateChallenges.nonce;
+                }
+                throw ClientConfigurationError.createInvalidAuthenticationHeaderError(HeaderNames.WWWAuthenticate, "nonce challenge is missing.");
+            }
+            // If neither header is present, throw missing headers error
+            throw ClientConfigurationError.createMissingNonceAuthenticationHeadersError();
+        };
+        /**
+         * Parses an HTTP header's challenge set into a key/value map.
+         * @param header
+         * @returns
+         */
+        AuthenticationHeaderParser.prototype.parseChallenges = function (header) {
+            var schemeSeparator = header.indexOf(" ");
+            var challenges = header.substr(schemeSeparator + 1).split(",");
+            var challengeMap = {};
+            challenges.forEach(function (challenge) {
+                var _a = challenge.split("="), key = _a[0], value = _a[1];
+                // Remove escaped quotation marks (', ") from challenge string to keep only the challenge value
+                challengeMap[key] = unescape(value.replace(/['"]+/g, ""));
+            });
+            return challengeMap;
+        };
+        return AuthenticationHeaderParser;
+    }());
+
+    /*! @azure/msal-common v6.0.0 2022-01-04 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6798,6 +7042,7 @@
         ApiId[ApiId["ssoSilent"] = 863] = "ssoSilent";
         ApiId[ApiId["acquireTokenSilent_authCode"] = 864] = "acquireTokenSilent_authCode";
         ApiId[ApiId["handleRedirectPromise"] = 865] = "handleRedirectPromise";
+        ApiId[ApiId["acquireTokenByCode"] = 866] = "acquireTokenByCode";
         ApiId[ApiId["acquireTokenSilent_silentFlow"] = 61] = "acquireTokenSilent_silentFlow";
         ApiId[ApiId["logout"] = 961] = "logout";
         ApiId[ApiId["logoutPopup"] = 962] = "logoutPopup";
@@ -6859,6 +7104,10 @@
         WrapperSKU["React"] = "@azure/msal-react";
         WrapperSKU["Angular"] = "@azure/msal-angular";
     })(exports.WrapperSKU || (exports.WrapperSKU = {}));
+    // DatabaseStorage Constants
+    var DB_NAME = "msal.db";
+    var DB_VERSION = 1;
+    var DB_TABLE_NAME = DB_NAME + ".keys";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7334,7 +7583,7 @@
         },
         noTokenRequestCacheError: {
             code: "no_token_request_cache_error",
-            desc: "No token request in found in cache."
+            desc: "No token request found in cache."
         },
         unableToParseTokenRequestCacheError: {
             code: "unable_to_parse_token_request_cache_error",
@@ -7383,6 +7632,14 @@
         signingKeyNotFoundInStorage: {
             code: "crypto_key_not_found",
             desc: "Cryptographic Key or Keypair not found in browser storage."
+        },
+        authCodeRequired: {
+            code: "auth_code_required",
+            desc: "An authorization code must be provided (as the `code` property on the request) to this flow."
+        },
+        databaseUnavailable: {
+            code: "database_unavailable",
+            desc: "IndexedDB, which is required for persistent cryptographic key storage, is unavailable. This may be caused by browser privacy features which block persistent storage in third-party contexts."
         }
     };
     /**
@@ -7616,6 +7873,18 @@
         BrowserAuthError.createSigningKeyNotFoundInStorageError = function (keyId) {
             return new BrowserAuthError(BrowserAuthErrorMessage.signingKeyNotFoundInStorage.code, BrowserAuthErrorMessage.signingKeyNotFoundInStorage.desc + " | No match found for KeyId: " + keyId);
         };
+        /**
+         * Create an error when an authorization code is required but not provided
+         */
+        BrowserAuthError.createAuthCodeRequiredError = function () {
+            return new BrowserAuthError(BrowserAuthErrorMessage.authCodeRequired.code, BrowserAuthErrorMessage.authCodeRequired.desc);
+        };
+        /**
+         * Create an error when IndexedDB is unavailable
+         */
+        BrowserAuthError.createDatabaseUnavailableError = function () {
+            return new BrowserAuthError(BrowserAuthErrorMessage.databaseUnavailable.code, BrowserAuthErrorMessage.databaseUnavailable.desc);
+        };
         return BrowserAuthError;
     }(AuthError));
 
@@ -7718,7 +7987,8 @@
      * hashing and encoding. It also has helper functions to validate the availability of specific APIs.
      */
     var BrowserCrypto = /** @class */ (function () {
-        function BrowserCrypto() {
+        function BrowserCrypto(logger) {
+            this.logger = logger;
             if (!(this.hasCryptoAPI())) {
                 throw BrowserAuthError.createCryptoNotAvailableError("Browser crypto or msCrypto object not available.");
             }
@@ -7977,10 +8247,10 @@
      * Storage wrapper for IndexedDB storage in browsers: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
      */
     var DatabaseStorage = /** @class */ (function () {
-        function DatabaseStorage(dbName, tableName, version) {
-            this.dbName = dbName;
-            this.tableName = tableName;
-            this.version = version;
+        function DatabaseStorage() {
+            this.dbName = DB_NAME;
+            this.version = DB_VERSION;
+            this.tableName = DB_TABLE_NAME;
             this.dbOpen = false;
         }
         /**
@@ -7991,7 +8261,6 @@
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     return [2 /*return*/, new Promise(function (resolve, reject) {
-                            // TODO: Add timeouts?
                             var openDB = window.indexedDB.open(_this.dbName, _this.version);
                             openDB.addEventListener("upgradeneeded", function (e) {
                                 var event = e;
@@ -8003,8 +8272,24 @@
                                 _this.dbOpen = true;
                                 resolve();
                             });
-                            openDB.addEventListener("error", function (error) { return reject(error); });
+                            openDB.addEventListener("error", function () { return reject(BrowserAuthError.createDatabaseUnavailableError()); });
                         })];
+                });
+            });
+        };
+        /**
+         * Opens database if it's not already open
+         */
+        DatabaseStorage.prototype.validateDbIsOpen = function () {
+            return __awaiter$1(this, void 0, void 0, function () {
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!!this.dbOpen) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.open()];
+                        case 1: return [2 /*return*/, _a.sent()];
+                        case 2: return [2 /*return*/];
+                    }
                 });
             });
         };
@@ -8012,31 +8297,28 @@
          * Retrieves item from IndexedDB instance.
          * @param key
          */
-        DatabaseStorage.prototype.get = function (key) {
+        DatabaseStorage.prototype.getItem = function (key) {
             return __awaiter$1(this, void 0, void 0, function () {
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            if (!!this.dbOpen) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.open()];
+                        case 0: return [4 /*yield*/, this.validateDbIsOpen()];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, new Promise(function (resolve, reject) {
-                                // TODO: Add timeouts?
-                                if (!_this.db) {
-                                    return reject(BrowserAuthError.createDatabaseNotOpenError());
-                                }
-                                var transaction = _this.db.transaction([_this.tableName], "readonly");
-                                var objectStore = transaction.objectStore(_this.tableName);
-                                var dbGet = objectStore.get(key);
-                                dbGet.addEventListener("success", function (e) {
-                                    var event = e;
-                                    resolve(event.target.result);
-                                });
-                                dbGet.addEventListener("error", function (e) { return reject(e); });
-                            })];
+                            return [2 /*return*/, new Promise(function (resolve, reject) {
+                                    // TODO: Add timeouts?
+                                    if (!_this.db) {
+                                        return reject(BrowserAuthError.createDatabaseNotOpenError());
+                                    }
+                                    var transaction = _this.db.transaction([_this.tableName], "readonly");
+                                    var objectStore = transaction.objectStore(_this.tableName);
+                                    var dbGet = objectStore.get(key);
+                                    dbGet.addEventListener("success", function (e) {
+                                        var event = e;
+                                        resolve(event.target.result);
+                                    });
+                                    dbGet.addEventListener("error", function (e) { return reject(e); });
+                                })];
                     }
                 });
             });
@@ -8046,31 +8328,25 @@
          * @param key
          * @param payload
          */
-        DatabaseStorage.prototype.put = function (key, payload) {
+        DatabaseStorage.prototype.setItem = function (key, payload) {
             return __awaiter$1(this, void 0, void 0, function () {
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            if (!!this.dbOpen) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.open()];
+                        case 0: return [4 /*yield*/, this.validateDbIsOpen()];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, new Promise(function (resolve, reject) {
-                                // TODO: Add timeouts?
-                                if (!_this.db) {
-                                    return reject(BrowserAuthError.createDatabaseNotOpenError());
-                                }
-                                var transaction = _this.db.transaction([_this.tableName], "readwrite");
-                                var objectStore = transaction.objectStore(_this.tableName);
-                                var dbPut = objectStore.put(payload, key);
-                                dbPut.addEventListener("success", function (e) {
-                                    var event = e;
-                                    resolve(event.target.result);
-                                });
-                                dbPut.addEventListener("error", function (e) { return reject(e); });
-                            })];
+                            return [2 /*return*/, new Promise(function (resolve, reject) {
+                                    // TODO: Add timeouts?
+                                    if (!_this.db) {
+                                        return reject(BrowserAuthError.createDatabaseNotOpenError());
+                                    }
+                                    var transaction = _this.db.transaction([_this.tableName], "readwrite");
+                                    var objectStore = transaction.objectStore(_this.tableName);
+                                    var dbPut = objectStore.put(payload, key);
+                                    dbPut.addEventListener("success", function () { return resolve(); });
+                                    dbPut.addEventListener("error", function (e) { return reject(e); });
+                                })];
                     }
                 });
             });
@@ -8079,63 +8355,321 @@
          * Removes item from IndexedDB under given key
          * @param key
          */
-        DatabaseStorage.prototype.delete = function (key) {
+        DatabaseStorage.prototype.removeItem = function (key) {
             return __awaiter$1(this, void 0, void 0, function () {
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            if (!!this.dbOpen) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.open()];
+                        case 0: return [4 /*yield*/, this.validateDbIsOpen()];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, new Promise(function (resolve, reject) {
-                                if (!_this.db) {
-                                    return reject(BrowserAuthError.createDatabaseNotOpenError());
-                                }
-                                var transaction = _this.db.transaction([_this.tableName], "readwrite");
-                                var objectStore = transaction.objectStore(_this.tableName);
-                                var dbDelete = objectStore.delete(key);
-                                dbDelete.addEventListener("success", function (e) {
-                                    var event = e;
-                                    resolve(event.target.result === undefined);
-                                });
-                                dbDelete.addEventListener("error", function (e) { return reject(e); });
-                            })];
+                            return [2 /*return*/, new Promise(function (resolve, reject) {
+                                    if (!_this.db) {
+                                        return reject(BrowserAuthError.createDatabaseNotOpenError());
+                                    }
+                                    var transaction = _this.db.transaction([_this.tableName], "readwrite");
+                                    var objectStore = transaction.objectStore(_this.tableName);
+                                    var dbDelete = objectStore.delete(key);
+                                    dbDelete.addEventListener("success", function () { return resolve(); });
+                                    dbDelete.addEventListener("error", function (e) { return reject(e); });
+                                })];
                     }
                 });
             });
         };
-        DatabaseStorage.prototype.clear = function () {
+        /**
+         * Get all the keys from the storage object as an iterable array of strings.
+         */
+        DatabaseStorage.prototype.getKeys = function () {
             return __awaiter$1(this, void 0, void 0, function () {
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            if (!!this.dbOpen) return [3 /*break*/, 2];
-                            return [4 /*yield*/, this.open()];
+                        case 0: return [4 /*yield*/, this.validateDbIsOpen()];
                         case 1:
                             _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, new Promise(function (resolve, reject) {
-                                if (!_this.db) {
-                                    return reject(BrowserAuthError.createDatabaseNotOpenError());
-                                }
-                                var transaction = _this.db.transaction([_this.tableName], "readwrite");
-                                var objectStore = transaction.objectStore(_this.tableName);
-                                var dbDelete = objectStore.clear();
-                                dbDelete.addEventListener("success", function (e) {
-                                    var event = e;
-                                    resolve(event.target.result === undefined);
-                                });
-                                dbDelete.addEventListener("error", function (e) { return reject(e); });
-                            })];
+                            return [2 /*return*/, new Promise(function (resolve, reject) {
+                                    if (!_this.db) {
+                                        return reject(BrowserAuthError.createDatabaseNotOpenError());
+                                    }
+                                    var transaction = _this.db.transaction([_this.tableName], "readonly");
+                                    var objectStore = transaction.objectStore(_this.tableName);
+                                    var dbGetKeys = objectStore.getAllKeys();
+                                    dbGetKeys.addEventListener("success", function (e) {
+                                        var event = e;
+                                        resolve(event.target.result);
+                                    });
+                                    dbGetKeys.addEventListener("error", function (e) { return reject(e); });
+                                })];
                     }
+                });
+            });
+        };
+        /**
+         *
+         * Checks whether there is an object under the search key in the object store
+         */
+        DatabaseStorage.prototype.containsKey = function (key) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var _this = this;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.validateDbIsOpen()];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/, new Promise(function (resolve, reject) {
+                                    if (!_this.db) {
+                                        return reject(BrowserAuthError.createDatabaseNotOpenError());
+                                    }
+                                    var transaction = _this.db.transaction([_this.tableName], "readonly");
+                                    var objectStore = transaction.objectStore(_this.tableName);
+                                    var dbContainsKey = objectStore.count(key);
+                                    dbContainsKey.addEventListener("success", function (e) {
+                                        var event = e;
+                                        resolve(event.target.result === 1);
+                                    });
+                                    dbContainsKey.addEventListener("error", function (e) { return reject(e); });
+                                })];
+                    }
+                });
+            });
+        };
+        /**
+         * Deletes the MSAL database. The database is deleted rather than cleared to make it possible
+         * for client applications to downgrade to a previous MSAL version without worrying about forward compatibility issues
+         * with IndexedDB database versions.
+         */
+        DatabaseStorage.prototype.deleteDatabase = function () {
+            return __awaiter$1(this, void 0, void 0, function () {
+                return __generator$1(this, function (_a) {
+                    return [2 /*return*/, new Promise(function (resolve, reject) {
+                            var deleteDbRequest = window.indexedDB.deleteDatabase(DB_NAME);
+                            deleteDbRequest.addEventListener("success", function () { return resolve(true); });
+                            deleteDbRequest.addEventListener("error", function () { return reject(false); });
+                        })];
                 });
             });
         };
         return DatabaseStorage;
+    }());
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    var MemoryStorage = /** @class */ (function () {
+        function MemoryStorage() {
+            this.cache = new Map();
+        }
+        MemoryStorage.prototype.getItem = function (key) {
+            return this.cache.get(key) || null;
+        };
+        MemoryStorage.prototype.setItem = function (key, value) {
+            this.cache.set(key, value);
+        };
+        MemoryStorage.prototype.removeItem = function (key) {
+            this.cache.delete(key);
+        };
+        MemoryStorage.prototype.getKeys = function () {
+            var cacheKeys = [];
+            this.cache.forEach(function (value, key) {
+                cacheKeys.push(key);
+            });
+            return cacheKeys;
+        };
+        MemoryStorage.prototype.containsKey = function (key) {
+            return this.cache.has(key);
+        };
+        MemoryStorage.prototype.clear = function () {
+            this.cache.clear();
+        };
+        return MemoryStorage;
+    }());
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * This class allows MSAL to store artifacts asynchronously using the DatabaseStorage IndexedDB wrapper,
+     * backed up with the more volatile MemoryStorage object for cases in which IndexedDB may be unavailable.
+     */
+    var AsyncMemoryStorage = /** @class */ (function () {
+        function AsyncMemoryStorage(logger) {
+            this.inMemoryCache = new MemoryStorage();
+            this.indexedDBCache = new DatabaseStorage();
+            this.logger = logger;
+        }
+        AsyncMemoryStorage.prototype.handleDatabaseAccessError = function (error) {
+            if (error instanceof BrowserAuthError && error.errorCode === BrowserAuthErrorMessage.databaseUnavailable.code) {
+                this.logger.error("Could not access persistent storage. This may be caused by browser privacy features which block persistent storage in third-party contexts.");
+            }
+        };
+        /**
+         * Get the item matching the given key. Tries in-memory cache first, then in the asynchronous
+         * storage object if item isn't found in-memory.
+         * @param key
+         */
+        AsyncMemoryStorage.prototype.getItem = function (key) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var item, e_1;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            item = this.inMemoryCache.getItem(key);
+                            if (!!item) return [3 /*break*/, 4];
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            this.logger.verbose("Queried item not found in in-memory cache, now querying persistent storage.");
+                            return [4 /*yield*/, this.indexedDBCache.getItem(key)];
+                        case 2: return [2 /*return*/, _a.sent()];
+                        case 3:
+                            e_1 = _a.sent();
+                            this.handleDatabaseAccessError(e_1);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/, item];
+                    }
+                });
+            });
+        };
+        /**
+         * Sets the item in the in-memory cache and then tries to set it in the asynchronous
+         * storage object with the given key.
+         * @param key
+         * @param value
+         */
+        AsyncMemoryStorage.prototype.setItem = function (key, value) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var e_2;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.inMemoryCache.setItem(key, value);
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, this.indexedDBCache.setItem(key, value)];
+                        case 2:
+                            _a.sent();
+                            return [3 /*break*/, 4];
+                        case 3:
+                            e_2 = _a.sent();
+                            this.handleDatabaseAccessError(e_2);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        /**
+         * Removes the item matching the key from the in-memory cache, then tries to remove it from the asynchronous storage object.
+         * @param key
+         */
+        AsyncMemoryStorage.prototype.removeItem = function (key) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var e_3;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.inMemoryCache.removeItem(key);
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, this.indexedDBCache.removeItem(key)];
+                        case 2:
+                            _a.sent();
+                            return [3 /*break*/, 4];
+                        case 3:
+                            e_3 = _a.sent();
+                            this.handleDatabaseAccessError(e_3);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        /**
+         * Get all the keys from the in-memory cache as an iterable array of strings. If no keys are found, query the keys in the
+         * asynchronous storage object.
+         */
+        AsyncMemoryStorage.prototype.getKeys = function () {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var cacheKeys, e_4;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            cacheKeys = this.inMemoryCache.getKeys();
+                            if (!(cacheKeys.length === 0)) return [3 /*break*/, 4];
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            this.logger.verbose("In-memory cache is empty, now querying persistent storage.");
+                            return [4 /*yield*/, this.indexedDBCache.getKeys()];
+                        case 2: return [2 /*return*/, _a.sent()];
+                        case 3:
+                            e_4 = _a.sent();
+                            this.handleDatabaseAccessError(e_4);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/, cacheKeys];
+                    }
+                });
+            });
+        };
+        /**
+         * Returns true or false if the given key is present in the cache.
+         * @param key
+         */
+        AsyncMemoryStorage.prototype.containsKey = function (key) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var containsKey, e_5;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            containsKey = this.inMemoryCache.containsKey(key);
+                            if (!!containsKey) return [3 /*break*/, 4];
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            this.logger.verbose("Key not found in in-memory cache, now querying persistent storage.");
+                            return [4 /*yield*/, this.indexedDBCache.containsKey(key)];
+                        case 2: return [2 /*return*/, _a.sent()];
+                        case 3:
+                            e_5 = _a.sent();
+                            this.handleDatabaseAccessError(e_5);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/, containsKey];
+                    }
+                });
+            });
+        };
+        /**
+         * Clears in-memory Map and tries to delete the IndexedDB database.
+         */
+        AsyncMemoryStorage.prototype.clear = function () {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var e_6;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.inMemoryCache.clear();
+                            _a.label = 1;
+                        case 1:
+                            _a.trys.push([1, 3, , 4]);
+                            return [4 /*yield*/, this.indexedDBCache.deleteDatabase()];
+                        case 2:
+                            _a.sent();
+                            return [3 /*break*/, 4];
+                        case 3:
+                            e_6 = _a.sent();
+                            this.handleDatabaseAccessError(e_6);
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        return AsyncMemoryStorage;
     }());
 
     /*
@@ -8147,14 +8681,18 @@
      * implementing Proof Key for Code Exchange specs for the OAuth Authorization Code Flow using PKCE (rfc here: https://tools.ietf.org/html/rfc7636).
      */
     var CryptoOps = /** @class */ (function () {
-        function CryptoOps() {
+        function CryptoOps(logger) {
+            this.logger = logger;
             // Browser crypto needs to be validated first before any other classes can be set.
-            this.browserCrypto = new BrowserCrypto();
+            this.browserCrypto = new BrowserCrypto(this.logger);
             this.b64Encode = new Base64Encode();
             this.b64Decode = new Base64Decode();
             this.guidGenerator = new GuidGenerator(this.browserCrypto);
             this.pkceGenerator = new PkceGenerator(this.browserCrypto);
-            this.cache = new DatabaseStorage(CryptoOps.DB_NAME, CryptoOps.TABLE_NAME, CryptoOps.DB_VERSION);
+            this.cache = {
+                asymmetricKeys: new AsyncMemoryStorage(this.logger),
+                symmetricKeys: new AsyncMemoryStorage(this.logger)
+            };
         }
         /**
          * Creates a new random GUID - used to populate state and nonce.
@@ -8193,7 +8731,7 @@
          */
         CryptoOps.prototype.getPublicKeyThumbprint = function (request) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var keyPair, publicKeyJwk, pubKeyThumprintObj, publicJwkString, publicJwkBuffer, publicJwkHash, privateKeyJwk, unextractablePrivateKey;
+                var keyPair, publicKeyJwk, pubKeyThumprintObj, publicJwkString, publicJwkHash, privateKeyJwk, unextractablePrivateKey;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, this.browserCrypto.generateKeyPair(CryptoOps.EXTRACTABLE, CryptoOps.POP_KEY_USAGES)];
@@ -8208,10 +8746,9 @@
                                 n: publicKeyJwk.n
                             };
                             publicJwkString = BrowserCrypto.getJwkString(pubKeyThumprintObj);
-                            return [4 /*yield*/, this.browserCrypto.sha256Digest(publicJwkString)];
+                            return [4 /*yield*/, this.hashString(publicJwkString)];
                         case 3:
-                            publicJwkBuffer = _a.sent();
-                            publicJwkHash = this.b64Encode.urlEncodeArr(new Uint8Array(publicJwkBuffer));
+                            publicJwkHash = _a.sent();
                             return [4 /*yield*/, this.browserCrypto.exportJwk(keyPair.privateKey)];
                         case 4:
                             privateKeyJwk = _a.sent();
@@ -8219,7 +8756,7 @@
                         case 5:
                             unextractablePrivateKey = _a.sent();
                             // Store Keypair data in keystore
-                            return [4 /*yield*/, this.cache.put(publicJwkHash, {
+                            return [4 /*yield*/, this.cache.asymmetricKeys.setItem(publicJwkHash, {
                                     privateKey: unextractablePrivateKey,
                                     publicKey: keyPair.publicKey,
                                     requestMethod: request.resourceRequestMethod,
@@ -8239,8 +8776,17 @@
          */
         CryptoOps.prototype.removeTokenBindingKey = function (kid) {
             return __awaiter$1(this, void 0, void 0, function () {
+                var keyFound;
                 return __generator$1(this, function (_a) {
-                    return [2 /*return*/, this.cache.delete(kid)];
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.cache.asymmetricKeys.removeItem(kid)];
+                        case 1:
+                            _a.sent();
+                            return [4 /*yield*/, this.cache.asymmetricKeys.containsKey(kid)];
+                        case 2:
+                            keyFound = _a.sent();
+                            return [2 /*return*/, !keyFound];
+                    }
                 });
             });
         };
@@ -8249,8 +8795,22 @@
          */
         CryptoOps.prototype.clearKeystore = function () {
             return __awaiter$1(this, void 0, void 0, function () {
-                return __generator$1(this, function (_a) {
-                    return [2 /*return*/, this.cache.clear()];
+                var dataStoreNames, databaseStorage, _a;
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            dataStoreNames = Object.keys(this.cache);
+                            databaseStorage = this.cache[dataStoreNames[0]];
+                            if (!databaseStorage) return [3 /*break*/, 2];
+                            return [4 /*yield*/, databaseStorage.deleteDatabase()];
+                        case 1:
+                            _a = _b.sent();
+                            return [3 /*break*/, 3];
+                        case 2:
+                            _a = false;
+                            _b.label = 3;
+                        case 3: return [2 /*return*/, _a];
+                    }
                 });
             });
         };
@@ -8264,7 +8824,7 @@
                 var cachedKeyPair, publicKeyJwk, publicKeyJwkString, header, encodedHeader, encodedPayload, tokenString, tokenBuffer, signatureBuffer, encodedSignature;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, this.cache.get(kid)];
+                        case 0: return [4 /*yield*/, this.cache.asymmetricKeys.getItem(kid)];
                         case 1:
                             cachedKeyPair = _a.sent();
                             if (!cachedKeyPair) {
@@ -8295,11 +8855,26 @@
                 });
             });
         };
+        /**
+         * Returns the SHA-256 hash of an input string
+         * @param plainText
+         */
+        CryptoOps.prototype.hashString = function (plainText) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var hashBuffer, hashBytes;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.browserCrypto.sha256Digest(plainText)];
+                        case 1:
+                            hashBuffer = _a.sent();
+                            hashBytes = new Uint8Array(hashBuffer);
+                            return [2 /*return*/, this.b64Encode.urlEncodeArr(hashBytes)];
+                    }
+                });
+            });
+        };
         CryptoOps.POP_KEY_USAGES = ["sign", "verify"];
         CryptoOps.EXTRACTABLE = true;
-        CryptoOps.DB_VERSION = 1;
-        CryptoOps.DB_NAME = "msal.db";
-        CryptoOps.TABLE_NAME = CryptoOps.DB_NAME + ".keys";
         return CryptoOps;
     }());
 
@@ -8427,39 +9002,6 @@
             return this.windowStorage.hasOwnProperty(key);
         };
         return BrowserStorage;
-    }());
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    var MemoryStorage = /** @class */ (function () {
-        function MemoryStorage() {
-            this.cache = new Map();
-        }
-        MemoryStorage.prototype.getItem = function (key) {
-            return this.cache.get(key) || null;
-        };
-        MemoryStorage.prototype.setItem = function (key, value) {
-            this.cache.set(key, value);
-        };
-        MemoryStorage.prototype.removeItem = function (key) {
-            this.cache.delete(key);
-        };
-        MemoryStorage.prototype.getKeys = function () {
-            var cacheKeys = [];
-            this.cache.forEach(function (value, key) {
-                cacheKeys.push(key);
-            });
-            return cacheKeys;
-        };
-        MemoryStorage.prototype.containsKey = function (key) {
-            return this.cache.has(key);
-        };
-        MemoryStorage.prototype.clear = function () {
-            this.cache.clear();
-        };
-        return MemoryStorage;
     }());
 
     /*
@@ -9252,6 +9794,7 @@
                 }
             });
             this.clearMsalCookies();
+            this.setInteractionInProgress(false);
         };
         BrowserCacheManager.prototype.cacheCodeRequest = function (authCodeRequest, browserCrypto) {
             this.logger.trace("BrowserCacheManager.cacheCodeRequest called");
@@ -9341,6 +9884,25 @@
                 }
             }
             return null;
+        };
+        /**
+         * Updates a credential's cache key if the current cache key is outdated
+         */
+        BrowserCacheManager.prototype.updateCredentialCacheKey = function (currentCacheKey, credential) {
+            var updatedCacheKey = credential.generateCredentialKey();
+            if (currentCacheKey !== updatedCacheKey) {
+                var cacheItem = this.getItem(currentCacheKey);
+                if (cacheItem) {
+                    this.removeItem(currentCacheKey);
+                    this.setItem(updatedCacheKey, cacheItem);
+                    this.logger.verbose("Updated an outdated " + credential.credentialType + " cache key");
+                    return updatedCacheKey;
+                }
+                else {
+                    this.logger.error("Attempted to update an outdated " + credential.credentialType + " cache key but no item matching the outdated key was found in storage");
+                }
+            }
+            return currentCacheKey;
         };
         return BrowserCacheManager;
     }(CacheManager));
@@ -9842,7 +10404,7 @@
 
     /* eslint-disable header/header */
     var name = "@azure/msal-browser";
-    var version = "2.18.0";
+    var version = "2.21.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9862,6 +10424,9 @@
         EventType["SSO_SILENT_START"] = "msal:ssoSilentStart";
         EventType["SSO_SILENT_SUCCESS"] = "msal:ssoSilentSuccess";
         EventType["SSO_SILENT_FAILURE"] = "msal:ssoSilentFailure";
+        EventType["ACQUIRE_TOKEN_BY_CODE_START"] = "msal:acquireTokenByCodeStart";
+        EventType["ACQUIRE_TOKEN_BY_CODE_SUCCESS"] = "msal:acquireTokenByCodeSuccess";
+        EventType["ACQUIRE_TOKEN_BY_CODE_FAILURE"] = "msal:acquireTokenByCodeFailure";
         EventType["HANDLE_REDIRECT_START"] = "msal:handleRedirectStart";
         EventType["HANDLE_REDIRECT_END"] = "msal:handleRedirectEnd";
         EventType["POPUP_OPENED"] = "msal:popupOpened";
@@ -10056,20 +10621,43 @@
          * @param request
          */
         BaseInteractionClient.prototype.initializeBaseRequest = function (request) {
-            this.logger.verbose("Initializing BaseAuthRequest");
-            var authority = request.authority || this.config.auth.authority;
-            var scopes = __spread(((request && request.scopes) || []));
-            // Set authenticationScheme to BEARER if not explicitly set in the request
-            if (!request.authenticationScheme) {
-                request.authenticationScheme = exports.AuthenticationScheme.BEARER;
-                this.logger.verbose("Authentication Scheme wasn't explicitly set in request, defaulting to \"Bearer\" request");
-            }
-            else {
-                this.logger.verbose("Authentication Scheme set to \"" + request.authenticationScheme + "\" as configured in Auth request");
-            }
-            var validatedRequest = __assign$1(__assign$1({}, request), { correlationId: this.correlationId, authority: authority,
-                scopes: scopes });
-            return validatedRequest;
+            return __awaiter$1(this, void 0, void 0, function () {
+                var authority, scopes, _a, validatedRequest;
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            this.logger.verbose("Initializing BaseAuthRequest");
+                            authority = request.authority || this.config.auth.authority;
+                            scopes = __spread(((request && request.scopes) || []));
+                            // Set authenticationScheme to BEARER if not explicitly set in the request
+                            if (!request.authenticationScheme) {
+                                request.authenticationScheme = exports.AuthenticationScheme.BEARER;
+                                this.logger.verbose("Authentication Scheme wasn't explicitly set in request, defaulting to \"Bearer\" request");
+                            }
+                            else {
+                                if (request.authenticationScheme === exports.AuthenticationScheme.SSH) {
+                                    if (!request.sshJwk) {
+                                        throw ClientConfigurationError.createMissingSshJwkError();
+                                    }
+                                    if (!request.sshKid) {
+                                        throw ClientConfigurationError.createMissingSshKidError();
+                                    }
+                                }
+                                this.logger.verbose("Authentication Scheme set to \"" + request.authenticationScheme + "\" as configured in Auth request");
+                            }
+                            if (!(request.claims && !StringUtils.isEmpty(request.claims))) return [3 /*break*/, 2];
+                            _a = request;
+                            return [4 /*yield*/, this.browserCrypto.hashString(request.claims)];
+                        case 1:
+                            _a.requestedClaimsHash = _b.sent();
+                            _b.label = 2;
+                        case 2:
+                            validatedRequest = __assign$1(__assign$1({}, request), { correlationId: this.correlationId, authority: authority,
+                                scopes: scopes });
+                            return [2 /*return*/, validatedRequest];
+                    }
+                });
+            });
         };
         /**
          *
@@ -10299,14 +10887,22 @@
          * @param interactionType
          */
         StandardInteractionClient.prototype.preflightInteractiveRequest = function (request, interactionType) {
-            this.logger.verbose("preflightInteractiveRequest called, validating app environment", request === null || request === void 0 ? void 0 : request.correlationId);
-            // block the reload if it occurred inside a hidden iframe
-            BrowserUtils.blockReloadInHiddenIframes();
-            // Check if interaction is in progress. Throw error if true.
-            if (this.browserStorage.isInteractionInProgress(false)) {
-                throw BrowserAuthError.createInteractionInProgressError();
-            }
-            return this.initializeAuthorizationRequest(request, interactionType);
+            return __awaiter$1(this, void 0, void 0, function () {
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.logger.verbose("preflightInteractiveRequest called, validating app environment", request === null || request === void 0 ? void 0 : request.correlationId);
+                            // block the reload if it occurred inside a hidden iframe
+                            BrowserUtils.blockReloadInHiddenIframes();
+                            // Check if interaction is in progress. Throw error if true.
+                            if (this.browserStorage.isInteractionInProgress(false)) {
+                                throw BrowserAuthError.createInteractionInProgressError();
+                            }
+                            return [4 /*yield*/, this.initializeAuthorizationRequest(request, interactionType)];
+                        case 1: return [2 /*return*/, _a.sent()];
+                    }
+                });
+            });
         };
         /**
          * Helper to initialize required request parameters for interactive APIs and ssoSilent()
@@ -10314,28 +10910,39 @@
          * @param interactionType
          */
         StandardInteractionClient.prototype.initializeAuthorizationRequest = function (request, interactionType) {
-            this.logger.verbose("initializeAuthorizationRequest called");
-            var redirectUri = this.getRedirectUri(request.redirectUri);
-            var browserState = {
-                interactionType: interactionType
-            };
-            var state = ProtocolUtils.setRequestState(this.browserCrypto, (request && request.state) || "", browserState);
-            var validatedRequest = __assign$1(__assign$1({}, this.initializeBaseRequest(request)), { redirectUri: redirectUri, state: state, nonce: request.nonce || this.browserCrypto.createNewGuid(), responseMode: ResponseMode.FRAGMENT });
-            var account = request.account || this.browserStorage.getActiveAccount();
-            if (account) {
-                this.logger.verbose("Setting validated request account");
-                this.logger.verbosePii("Setting validated request account: " + account);
-                validatedRequest.account = account;
-            }
-            // Check for ADAL/MSAL v1 SSO
-            if (StringUtils.isEmpty(validatedRequest.loginHint) && !account) {
-                var legacyLoginHint = this.browserStorage.getLegacyLoginHint();
-                if (legacyLoginHint) {
-                    validatedRequest.loginHint = legacyLoginHint;
-                }
-            }
-            this.browserStorage.updateCacheEntries(validatedRequest.state, validatedRequest.nonce, validatedRequest.authority, validatedRequest.loginHint || "", validatedRequest.account || null);
-            return validatedRequest;
+            return __awaiter$1(this, void 0, void 0, function () {
+                var redirectUri, browserState, state, validatedRequest, _a, account, legacyLoginHint;
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            this.logger.verbose("initializeAuthorizationRequest called");
+                            redirectUri = this.getRedirectUri(request.redirectUri);
+                            browserState = {
+                                interactionType: interactionType
+                            };
+                            state = ProtocolUtils.setRequestState(this.browserCrypto, (request && request.state) || "", browserState);
+                            _a = [{}];
+                            return [4 /*yield*/, this.initializeBaseRequest(request)];
+                        case 1:
+                            validatedRequest = __assign$1.apply(void 0, [__assign$1.apply(void 0, _a.concat([_b.sent()])), { redirectUri: redirectUri, state: state, nonce: request.nonce || this.browserCrypto.createNewGuid(), responseMode: ResponseMode.FRAGMENT }]);
+                            account = request.account || this.browserStorage.getActiveAccount();
+                            if (account) {
+                                this.logger.verbose("Setting validated request account");
+                                this.logger.verbosePii("Setting validated request account: " + account);
+                                validatedRequest.account = account;
+                            }
+                            // Check for ADAL/MSAL v1 SSO
+                            if (StringUtils.isEmpty(validatedRequest.loginHint) && !account) {
+                                legacyLoginHint = this.browserStorage.getLegacyLoginHint();
+                                if (legacyLoginHint) {
+                                    validatedRequest.loginHint = legacyLoginHint;
+                                }
+                            }
+                            this.browserStorage.updateCacheEntries(validatedRequest.state, validatedRequest.nonce, validatedRequest.authority, validatedRequest.loginHint || "", validatedRequest.account || null);
+                            return [2 /*return*/, validatedRequest];
+                    }
+                });
+            });
         };
         return StandardInteractionClient;
     }(BaseInteractionClient));
@@ -10535,23 +11142,46 @@
          * Function to handle response parameters from hash.
          * @param locationHash
          */
-        InteractionHandler.prototype.handleCodeResponse = function (locationHash, state, authority, networkModule) {
+        InteractionHandler.prototype.handleCodeResponseFromHash = function (locationHash, state, authority, networkModule) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var stateKey, requestState, authCodeResponse, nonceKey, cachedNonce, cachedCcsCred, tokenResponse;
+                var stateKey, requestState, authCodeResponse;
+                return __generator$1(this, function (_a) {
+                    this.browserRequestLogger.verbose("InteractionHandler.handleCodeResponse called");
+                    // Check that location hash isn't empty.
+                    if (StringUtils.isEmpty(locationHash)) {
+                        throw BrowserAuthError.createEmptyHashError(locationHash);
+                    }
+                    stateKey = this.browserStorage.generateStateKey(state);
+                    requestState = this.browserStorage.getTemporaryCache(stateKey);
+                    if (!requestState) {
+                        throw ClientAuthError.createStateNotFoundError("Cached State");
+                    }
+                    authCodeResponse = this.authModule.handleFragmentResponse(locationHash, requestState);
+                    return [2 /*return*/, this.handleCodeResponseFromServer(authCodeResponse, state, authority, networkModule)];
+                });
+            });
+        };
+        /**
+         * Process auth code response from AAD
+         * @param authCodeResponse
+         * @param state
+         * @param authority
+         * @param networkModule
+         * @returns
+         */
+        InteractionHandler.prototype.handleCodeResponseFromServer = function (authCodeResponse, state, authority, networkModule, validateNonce) {
+            if (validateNonce === void 0) { validateNonce = true; }
+            return __awaiter$1(this, void 0, void 0, function () {
+                var stateKey, requestState, nonceKey, cachedNonce, cachedCcsCred, tokenResponse;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            this.browserRequestLogger.verbose("InteractionHandler.handleCodeResponse called");
-                            // Check that location hash isn't empty.
-                            if (StringUtils.isEmpty(locationHash)) {
-                                throw BrowserAuthError.createEmptyHashError(locationHash);
-                            }
+                            this.browserRequestLogger.trace("InteractionHandler.handleCodeResponseFromServer called");
                             stateKey = this.browserStorage.generateStateKey(state);
                             requestState = this.browserStorage.getTemporaryCache(stateKey);
                             if (!requestState) {
                                 throw ClientAuthError.createStateNotFoundError("Cached State");
                             }
-                            authCodeResponse = this.authModule.handleFragmentResponse(locationHash, requestState);
                             nonceKey = this.browserStorage.generateNonceKey(requestState);
                             cachedNonce = this.browserStorage.getTemporaryCache(nonceKey);
                             // Assign code to request
@@ -10562,7 +11192,10 @@
                             _a.sent();
                             _a.label = 2;
                         case 2:
-                            authCodeResponse.nonce = cachedNonce || undefined;
+                            // Nonce validation not needed when redirect not involved (e.g. hybrid spa, renewing token via rt)
+                            if (validateNonce) {
+                                authCodeResponse.nonce = cachedNonce || undefined;
+                            }
                             authCodeResponse.state = requestState;
                             // Add CCS parameters if available
                             if (authCodeResponse.client_info) {
@@ -10699,26 +11332,36 @@
          * @param request
          */
         PopupClient.prototype.acquireToken = function (request) {
-            try {
-                var validRequest = this.preflightInteractiveRequest(request, exports.InteractionType.Popup);
-                var popupName = PopupUtils.generatePopupName(this.config.auth.clientId, validRequest);
-                var popupWindowAttributes = request.popupWindowAttributes || {};
-                // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
-                if (this.config.system.asyncPopups) {
-                    this.logger.verbose("asyncPopups set to true, acquiring token");
-                    // Passes on popup position and dimensions if in request
-                    return this.acquireTokenPopupAsync(validRequest, popupName, popupWindowAttributes);
-                }
-                else {
-                    // asyncPopups flag is set to false. Opens popup before acquiring token.
-                    this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
-                    var popup = PopupUtils.openSizedPopup("about:blank", popupName, popupWindowAttributes, this.logger);
-                    return this.acquireTokenPopupAsync(validRequest, popupName, popupWindowAttributes, popup);
-                }
-            }
-            catch (e) {
-                return Promise.reject(e);
-            }
+            return __awaiter$1(this, void 0, void 0, function () {
+                var validRequest, popupName, popupWindowAttributes, popup, e_1;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, this.preflightInteractiveRequest(request, exports.InteractionType.Popup)];
+                        case 1:
+                            validRequest = _a.sent();
+                            popupName = PopupUtils.generatePopupName(this.config.auth.clientId, validRequest);
+                            popupWindowAttributes = request.popupWindowAttributes || {};
+                            // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
+                            if (this.config.system.asyncPopups) {
+                                this.logger.verbose("asyncPopups set to true, acquiring token");
+                                // Passes on popup position and dimensions if in request
+                                return [2 /*return*/, this.acquireTokenPopupAsync(validRequest, popupName, popupWindowAttributes)];
+                            }
+                            else {
+                                // asyncPopups flag is set to false. Opens popup before acquiring token.
+                                this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
+                                popup = PopupUtils.openSizedPopup("about:blank", popupName, popupWindowAttributes, this.logger);
+                                return [2 /*return*/, this.acquireTokenPopupAsync(validRequest, popupName, popupWindowAttributes, popup)];
+                            }
+                        case 2:
+                            e_1 = _a.sent();
+                            return [2 /*return*/, Promise.reject(e_1)];
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            });
         };
         /**
          * Clears local cache for the current user then opens a popup window prompting the user to sign-out of the server
@@ -10761,7 +11404,7 @@
          */
         PopupClient.prototype.acquireTokenPopupAsync = function (validRequest, popupName, popupWindowAttributes, popup) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var serverTelemetryManager, authCodeRequest, authClient, navigateUrl, interactionHandler, popupParameters, popupWindow, hash, state, result, e_1;
+                var serverTelemetryManager, authCodeRequest, authClient, navigateUrl, interactionHandler, popupParameters, popupWindow, hash, state, result, e_2;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -10794,22 +11437,22 @@
                             state = this.validateAndExtractStateFromHash(hash, exports.InteractionType.Popup, validRequest.correlationId);
                             // Remove throttle if it exists
                             ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, authCodeRequest);
-                            return [4 /*yield*/, interactionHandler.handleCodeResponse(hash, state, authClient.authority, this.networkClient)];
+                            return [4 /*yield*/, interactionHandler.handleCodeResponseFromHash(hash, state, authClient.authority, this.networkClient)];
                         case 6:
                             result = _a.sent();
                             return [2 /*return*/, result];
                         case 7:
-                            e_1 = _a.sent();
+                            e_2 = _a.sent();
                             if (popup) {
                                 // Close the synchronous popup if an error is thrown before the window unload event is registered
                                 popup.close();
                             }
-                            if (e_1 instanceof AuthError) {
-                                e_1.setCorrelationId(this.correlationId);
+                            if (e_2 instanceof AuthError) {
+                                e_2.setCorrelationId(this.correlationId);
                             }
-                            serverTelemetryManager.cacheFailedRequest(e_1);
+                            serverTelemetryManager.cacheFailedRequest(e_2);
                             this.browserStorage.cleanRequestByState(validRequest.state);
-                            throw e_1;
+                            throw e_2;
                         case 8: return [2 /*return*/];
                     }
                 });
@@ -10826,7 +11469,7 @@
          */
         PopupClient.prototype.logoutPopupAsync = function (validRequest, popupName, popupWindowAttributes, requestAuthority, popup, mainWindowRedirectUri) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var serverTelemetryManager, authClient, logoutUri, popupUtils, popupWindow, e_2, navigationOptions, absoluteUrl, e_3;
+                var serverTelemetryManager, authClient, logoutUri, popupUtils, popupWindow, e_3, navigationOptions, absoluteUrl, e_4;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -10862,8 +11505,8 @@
                             this.logger.verbose("Popup successfully redirected to postLogoutRedirectUri");
                             return [3 /*break*/, 7];
                         case 6:
-                            e_2 = _a.sent();
-                            this.logger.verbose("Error occurred while monitoring popup for same origin. Session on server may remain active. Error: " + e_2);
+                            e_3 = _a.sent();
+                            this.logger.verbose("Error occurred while monitoring popup for same origin. Session on server may remain active. Error: " + e_3);
                             return [3 /*break*/, 7];
                         case 7:
                             popupUtils.cleanPopup(popupWindow);
@@ -10883,19 +11526,19 @@
                             }
                             return [3 /*break*/, 9];
                         case 8:
-                            e_3 = _a.sent();
+                            e_4 = _a.sent();
                             if (popup) {
                                 // Close the synchronous popup if an error is thrown before the window unload event is registered
                                 popup.close();
                             }
-                            if (e_3 instanceof AuthError) {
-                                e_3.setCorrelationId(this.correlationId);
+                            if (e_4 instanceof AuthError) {
+                                e_4.setCorrelationId(this.correlationId);
                             }
                             this.browserStorage.setInteractionInProgress(false);
-                            this.eventHandler.emitEvent(exports.EventType.LOGOUT_FAILURE, exports.InteractionType.Popup, null, e_3);
+                            this.eventHandler.emitEvent(exports.EventType.LOGOUT_FAILURE, exports.InteractionType.Popup, null, e_4);
                             this.eventHandler.emitEvent(exports.EventType.LOGOUT_END, exports.InteractionType.Popup);
-                            serverTelemetryManager.cacheFailedRequest(e_3);
-                            throw e_3;
+                            serverTelemetryManager.cacheFailedRequest(e_4);
+                            throw e_4;
                         case 9:
                             this.eventHandler.emitEvent(exports.EventType.LOGOUT_END, exports.InteractionType.Popup);
                             return [2 /*return*/];
@@ -10978,7 +11621,7 @@
          * Handle authorization code response in the window.
          * @param hash
          */
-        RedirectHandler.prototype.handleCodeResponse = function (locationHash, state, authority, networkModule, clientId) {
+        RedirectHandler.prototype.handleCodeResponseFromHash = function (locationHash, state, authority, networkModule, clientId) {
             return __awaiter$1(this, void 0, void 0, function () {
                 var stateKey, requestState, authCodeResponse, nonceKey, cachedNonce, cachedCcsCred, tokenResponse;
                 return __generator$1(this, function (_a) {
@@ -11053,22 +11696,23 @@
                 var validRequest, serverTelemetryManager, authCodeRequest, authClient, interactionHandler, navigateUrl, redirectStartPage, e_1;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            validRequest = this.preflightInteractiveRequest(request, exports.InteractionType.Redirect);
-                            serverTelemetryManager = this.initializeServerTelemetryManager(exports.ApiId.acquireTokenRedirect);
-                            _a.label = 1;
+                        case 0: return [4 /*yield*/, this.preflightInteractiveRequest(request, exports.InteractionType.Redirect)];
                         case 1:
-                            _a.trys.push([1, 6, , 7]);
-                            return [4 /*yield*/, this.initializeAuthorizationCodeRequest(validRequest)];
+                            validRequest = _a.sent();
+                            serverTelemetryManager = this.initializeServerTelemetryManager(exports.ApiId.acquireTokenRedirect);
+                            _a.label = 2;
                         case 2:
+                            _a.trys.push([2, 7, , 8]);
+                            return [4 /*yield*/, this.initializeAuthorizationCodeRequest(validRequest)];
+                        case 3:
                             authCodeRequest = _a.sent();
                             return [4 /*yield*/, this.createAuthCodeClient(serverTelemetryManager, validRequest.authority)];
-                        case 3:
+                        case 4:
                             authClient = _a.sent();
                             this.logger.verbose("Auth code client created");
                             interactionHandler = new RedirectHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.browserCrypto);
                             return [4 /*yield*/, authClient.getAuthCodeUrl(validRequest)];
-                        case 4:
+                        case 5:
                             navigateUrl = _a.sent();
                             redirectStartPage = this.getRedirectStartPage(request.redirectStartPage);
                             this.logger.verbosePii("Redirect start page: " + redirectStartPage);
@@ -11078,10 +11722,10 @@
                                     redirectStartPage: redirectStartPage,
                                     onRedirectNavigate: request.onRedirectNavigate
                                 })];
-                        case 5: 
+                        case 6: 
                         // Show the UI once the url has been created. Response will come back in the hash, which will be handled in the handleRedirectCallback function.
                         return [2 /*return*/, _a.sent()];
-                        case 6:
+                        case 7:
                             e_1 = _a.sent();
                             if (e_1 instanceof AuthError) {
                                 e_1.setCorrelationId(this.correlationId);
@@ -11089,7 +11733,7 @@
                             serverTelemetryManager.cacheFailedRequest(e_1);
                             this.browserStorage.cleanRequestByState(validRequest.state);
                             throw e_1;
-                        case 7: return [2 /*return*/];
+                        case 8: return [2 /*return*/];
                     }
                 });
             });
@@ -11151,7 +11795,7 @@
                             this.logger.verbose("NavigateToLoginRequestUrl set to false, handling hash");
                             return [2 /*return*/, this.handleHash(responseHash, state, serverTelemetryManager)];
                         case 4:
-                            if (!!BrowserUtils.isInIframe()) return [3 /*break*/, 9];
+                            if (!(!BrowserUtils.isInIframe() || this.config.system.allowRedirectInIframe)) return [3 /*break*/, 9];
                             /*
                              * Returned from authority using redirect - need to perform navigation before processing response
                              * Cache the hash to be retrieved after the next redirect
@@ -11239,7 +11883,7 @@
                             authClient = _a.sent();
                             this.logger.verbose("Auth code client created");
                             interactionHandler = new RedirectHandler(authClient, this.browserStorage, cachedRequest, this.logger, this.browserCrypto);
-                            return [4 /*yield*/, interactionHandler.handleCodeResponse(hash, state, authClient.authority, this.networkClient, this.config.auth.clientId)];
+                            return [4 /*yield*/, interactionHandler.handleCodeResponseFromHash(hash, state, authClient.authority, this.networkClient, this.config.auth.clientId)];
                         case 2: return [2 /*return*/, _a.sent()];
                     }
                 });
@@ -11505,24 +12149,26 @@
                             if (request.prompt && request.prompt !== PromptValue.NONE) {
                                 throw BrowserAuthError.createSilentPromptValueError(request.prompt);
                             }
-                            silentRequest = this.initializeAuthorizationRequest(__assign$1(__assign$1({}, request), { prompt: PromptValue.NONE }), exports.InteractionType.Silent);
-                            serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
-                            _a.label = 1;
+                            return [4 /*yield*/, this.initializeAuthorizationRequest(__assign$1(__assign$1({}, request), { prompt: PromptValue.NONE }), exports.InteractionType.Silent)];
                         case 1:
-                            _a.trys.push([1, 6, , 7]);
-                            return [4 /*yield*/, this.initializeAuthorizationCodeRequest(silentRequest)];
+                            silentRequest = _a.sent();
+                            serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                            _a.label = 2;
                         case 2:
+                            _a.trys.push([2, 7, , 8]);
+                            return [4 /*yield*/, this.initializeAuthorizationCodeRequest(silentRequest)];
+                        case 3:
                             authCodeRequest = _a.sent();
                             return [4 /*yield*/, this.createAuthCodeClient(serverTelemetryManager, silentRequest.authority)];
-                        case 3:
+                        case 4:
                             authClient = _a.sent();
                             this.logger.verbose("Auth code client created");
                             return [4 /*yield*/, authClient.getAuthCodeUrl(silentRequest)];
-                        case 4:
+                        case 5:
                             navigateUrl = _a.sent();
                             return [4 /*yield*/, this.silentTokenHelper(navigateUrl, authCodeRequest, authClient, this.logger)];
-                        case 5: return [2 /*return*/, _a.sent()];
-                        case 6:
+                        case 6: return [2 /*return*/, _a.sent()];
+                        case 7:
                             e_1 = _a.sent();
                             if (e_1 instanceof AuthError) {
                                 e_1.setCorrelationId(this.correlationId);
@@ -11530,7 +12176,7 @@
                             serverTelemetryManager.cacheFailedRequest(e_1);
                             this.browserStorage.cleanRequestByState(silentRequest.state);
                             throw e_1;
-                        case 7: return [2 /*return*/];
+                        case 8: return [2 /*return*/];
                     }
                 });
             });
@@ -11563,7 +12209,7 @@
                             hash = _a.sent();
                             state = this.validateAndExtractStateFromHash(hash, exports.InteractionType.Silent, authCodeRequest.correlationId);
                             // Handle response from hash string
-                            return [2 /*return*/, silentHandler.handleCodeResponse(hash, state, authClient.authority, this.networkClient)];
+                            return [2 /*return*/, silentHandler.handleCodeResponseFromHash(hash, state, authClient.authority, this.networkClient)];
                     }
                 });
             });
@@ -11586,16 +12232,19 @@
          */
         SilentRefreshClient.prototype.acquireToken = function (request) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var silentRequest, serverTelemetryManager, refreshTokenClient;
+                var silentRequest, _a, serverTelemetryManager, refreshTokenClient;
                 var _this = this;
-                return __generator$1(this, function (_a) {
-                    switch (_a.label) {
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
-                            silentRequest = __assign$1(__assign$1({}, request), this.initializeBaseRequest(request));
+                            _a = [__assign$1({}, request)];
+                            return [4 /*yield*/, this.initializeBaseRequest(request)];
+                        case 1:
+                            silentRequest = __assign$1.apply(void 0, _a.concat([_b.sent()]));
                             serverTelemetryManager = this.initializeServerTelemetryManager(exports.ApiId.acquireTokenSilent_silentFlow);
                             return [4 /*yield*/, this.createRefreshTokenClient(serverTelemetryManager, silentRequest.authority)];
-                        case 1:
-                            refreshTokenClient = _a.sent();
+                        case 2:
+                            refreshTokenClient = _b.sent();
                             this.logger.verbose("Refresh token client created");
                             // Send request to renew token. Auth module will throw errors if token cannot be renewed.
                             return [2 /*return*/, refreshTokenClient.acquireTokenByRefreshToken(silentRequest).catch(function (e) {
@@ -11758,6 +12407,90 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    var HybridSpaAuthorizationCodeClient = /** @class */ (function (_super) {
+        __extends$1(HybridSpaAuthorizationCodeClient, _super);
+        function HybridSpaAuthorizationCodeClient(config) {
+            var _this = _super.call(this, config) || this;
+            _this.includeRedirectUri = false;
+            return _this;
+        }
+        return HybridSpaAuthorizationCodeClient;
+    }(AuthorizationCodeClient));
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    var SilentAuthCodeClient = /** @class */ (function (_super) {
+        __extends$1(SilentAuthCodeClient, _super);
+        function SilentAuthCodeClient(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, apiId, correlationId) {
+            var _this = _super.call(this, config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, correlationId) || this;
+            _this.apiId = apiId;
+            return _this;
+        }
+        /**
+         * Acquires a token silently by redeeming an authorization code against the /token endpoint
+         * @param request
+         */
+        SilentAuthCodeClient.prototype.acquireToken = function (request) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var silentRequest, serverTelemetryManager, authCodeRequest, clientConfig, authClient, silentHandler, e_1;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.logger.trace("SilentAuthCodeClient.acquireToken called");
+                            // Auth code payload is required
+                            if (!request.code) {
+                                throw BrowserAuthError.createAuthCodeRequiredError();
+                            }
+                            return [4 /*yield*/, this.initializeAuthorizationRequest(request, exports.InteractionType.Silent)];
+                        case 1:
+                            silentRequest = _a.sent();
+                            serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                            _a.label = 2;
+                        case 2:
+                            _a.trys.push([2, 4, , 5]);
+                            authCodeRequest = __assign$1(__assign$1({}, silentRequest), { code: request.code });
+                            return [4 /*yield*/, this.getClientConfiguration(serverTelemetryManager, silentRequest.authority)];
+                        case 3:
+                            clientConfig = _a.sent();
+                            authClient = new HybridSpaAuthorizationCodeClient(clientConfig);
+                            this.logger.verbose("Auth code client created");
+                            silentHandler = new SilentHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.config.system.navigateFrameWait);
+                            // Handle auth code parameters from request
+                            return [2 /*return*/, silentHandler.handleCodeResponseFromServer({
+                                    code: request.code,
+                                    msgraph_host: request.msGraphHost,
+                                    cloud_graph_host_name: request.cloudGraphHostName,
+                                    cloud_instance_host_name: request.cloudInstanceHostName
+                                }, silentRequest.state, authClient.authority, this.networkClient, false)];
+                        case 4:
+                            e_1 = _a.sent();
+                            if (e_1 instanceof AuthError) {
+                                e_1.setCorrelationId(this.correlationId);
+                            }
+                            serverTelemetryManager.cacheFailedRequest(e_1);
+                            this.browserStorage.cleanRequestByState(silentRequest.state);
+                            throw e_1;
+                        case 5: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        /**
+         * Currently Unsupported
+         */
+        SilentAuthCodeClient.prototype.logout = function () {
+            // Synchronous so we must reject
+            return Promise.reject(BrowserAuthError.createSilentLogoutUnsupportedError());
+        };
+        return SilentAuthCodeClient;
+    }(StandardInteractionClient));
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     var ClientApplication = /** @class */ (function () {
         /**
          * @constructor
@@ -11797,8 +12530,10 @@
             this.navigationClient = this.config.system.navigationClient;
             // Initialize redirectResponse Map
             this.redirectResponse = new Map();
+            // Initial hybrid spa map
+            this.hybridAuthCodeResponses = new Map();
             // Initialize the crypto class.
-            this.browserCrypto = this.isBrowserEnvironment ? new CryptoOps() : DEFAULT_CRYPTO_IMPLEMENTATION;
+            this.browserCrypto = this.isBrowserEnvironment ? new CryptoOps(this.logger) : DEFAULT_CRYPTO_IMPLEMENTATION;
             this.eventHandler = new EventHandler(this.logger, this.browserCrypto);
             // Initialize the browser storage class.
             this.browserStorage = this.isBrowserEnvironment ?
@@ -12002,6 +12737,77 @@
             });
         };
         /**
+         * This function redeems an authorization code (passed as code) from the eSTS token endpoint.
+         * This authorization code should be acquired server-side using a confidential client to acquire a spa_code.
+         * This API is not indended for normal authorization code acquisition and redemption.
+         *
+         * Redemption of this authorization code will not require PKCE, as it was acquired by a confidential client.
+         *
+         * @param request {@link AuthorizationCodeRequest}
+         * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
+         */
+        ClientApplication.prototype.acquireTokenByCode = function (request) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var response;
+                var _this = this;
+                return __generator$1(this, function (_a) {
+                    this.preflightBrowserEnvironmentCheck(exports.InteractionType.Silent);
+                    this.logger.trace("acquireTokenByCode called", request.correlationId);
+                    this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_BY_CODE_START, exports.InteractionType.Silent, request);
+                    try {
+                        if (!request.code) {
+                            throw BrowserAuthError.createAuthCodeRequiredError();
+                        }
+                        response = this.hybridAuthCodeResponses.get(request.code);
+                        if (!response) {
+                            this.logger.verbose("Initiating new acquireTokenByCode request", request.correlationId);
+                            response = this.acquireTokenByCodeAsync(request)
+                                .then(function (result) {
+                                _this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_BY_CODE_SUCCESS, exports.InteractionType.Silent, result);
+                                _this.hybridAuthCodeResponses.delete(request.code);
+                                return result;
+                            })
+                                .catch(function (error) {
+                                _this.hybridAuthCodeResponses.delete(request.code);
+                                throw error;
+                            });
+                            this.hybridAuthCodeResponses.set(request.code, response);
+                        }
+                        else {
+                            this.logger.verbose("Existing acquireTokenByCode request found", request.correlationId);
+                        }
+                        return [2 /*return*/, response];
+                    }
+                    catch (e) {
+                        this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_BY_CODE_FAILURE, exports.InteractionType.Silent, null, e);
+                        throw e;
+                    }
+                    return [2 /*return*/];
+                });
+            });
+        };
+        /**
+         * Creates a SilentAuthCodeClient to redeem an authorization code.
+         * @param request
+         * @returns Result of the operation to redeem the authorization code
+         */
+        ClientApplication.prototype.acquireTokenByCodeAsync = function (request) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var silentAuthCodeClient, silentTokenResult;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.logger.trace("acquireTokenByCodeAsync called", request.correlationId);
+                            silentAuthCodeClient = new SilentAuthCodeClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, exports.ApiId.acquireTokenByCode, request.correlationId);
+                            return [4 /*yield*/, silentAuthCodeClient.acquireToken(request)];
+                        case 1:
+                            silentTokenResult = _a.sent();
+                            return [2 /*return*/, silentTokenResult];
+                    }
+                });
+            });
+        };
+        /**
          * Use this function to obtain a token before every call to the API / resource provider
          *
          * MSAL return's a cached token when available
@@ -12027,7 +12833,7 @@
                             var isInvalidGrantError = (e.errorCode === BrowserConstants.INVALID_GRANT_ERROR);
                             if (isServerError && isInvalidGrantError && !isInteractionRequiredError) {
                                 _this.logger.verbose("Refresh token expired or invalid, attempting acquire token by iframe", request.correlationId);
-                                var silentIframeClient = new SilentIframeClient(_this.config, _this.browserStorage, _this.browserCrypto, _this.logger, _this.eventHandler, _this.navigationClient, exports.ApiId.acquireTokenSilent_authCode);
+                                var silentIframeClient = new SilentIframeClient(_this.config, _this.browserStorage, _this.browserCrypto, _this.logger, _this.eventHandler, _this.navigationClient, exports.ApiId.acquireTokenSilent_authCode, request.correlationId);
                                 return silentIframeClient.acquireToken(request);
                             }
                             throw e;
@@ -12247,6 +13053,12 @@
         ClientApplication.prototype.setNavigationClient = function (navigationClient) {
             this.navigationClient = navigationClient;
         };
+        /**
+         * Returns the configuration object
+         */
+        ClientApplication.prototype.getConfiguration = function () {
+            return this.config;
+        };
         return ClientApplication;
     }());
 
@@ -12319,7 +13131,17 @@
             });
         };
         SilentCacheClient.prototype.initializeSilentRequest = function (request, account) {
-            return __assign$1(__assign$1(__assign$1({}, request), this.initializeBaseRequest(request)), { account: account, forceRefresh: request.forceRefresh || false });
+            return __awaiter$1(this, void 0, void 0, function () {
+                var _a;
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = [__assign$1({}, request)];
+                            return [4 /*yield*/, this.initializeBaseRequest(request)];
+                        case 1: return [2 /*return*/, __assign$1.apply(void 0, [__assign$1.apply(void 0, _a.concat([_b.sent()])), { account: account, forceRefresh: request.forceRefresh || false }])];
+                    }
+                });
+            });
         };
         return SilentCacheClient;
     }(StandardInteractionClient));
@@ -12410,10 +13232,12 @@
                         authority: request.authority || "",
                         scopes: request.scopes,
                         homeAccountIdentifier: account.homeAccountId,
+                        claims: request.claims,
                         authenticationScheme: request.authenticationScheme,
                         resourceRequestMethod: request.resourceRequestMethod,
                         resourceRequestUri: request.resourceRequestUri,
-                        shrClaims: request.shrClaims
+                        shrClaims: request.shrClaims,
+                        sshKid: request.sshKid
                     };
                     silentRequestKey = JSON.stringify(thumbprint);
                     cachedResponse = this.activeSilentTokenRequests.get(silentRequestKey);
@@ -12449,28 +13273,33 @@
                 var silentCacheClient, silentRequest;
                 var _this = this;
                 return __generator$1(this, function (_a) {
-                    silentCacheClient = new SilentCacheClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient);
-                    silentRequest = silentCacheClient.initializeSilentRequest(request, account);
-                    this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_START, exports.InteractionType.Silent, request);
-                    return [2 /*return*/, silentCacheClient.acquireToken(silentRequest).catch(function () { return __awaiter$1(_this, void 0, void 0, function () {
-                            var tokenRenewalResult, tokenRenewalError_1;
-                            return __generator$1(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        _a.trys.push([0, 2, , 3]);
-                                        return [4 /*yield*/, this.acquireTokenByRefreshToken(silentRequest)];
-                                    case 1:
-                                        tokenRenewalResult = _a.sent();
-                                        this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, tokenRenewalResult);
-                                        return [2 /*return*/, tokenRenewalResult];
-                                    case 2:
-                                        tokenRenewalError_1 = _a.sent();
-                                        this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null, tokenRenewalError_1);
-                                        throw tokenRenewalError_1;
-                                    case 3: return [2 /*return*/];
-                                }
-                            });
-                        }); })];
+                    switch (_a.label) {
+                        case 0:
+                            silentCacheClient = new SilentCacheClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, request.correlationId);
+                            return [4 /*yield*/, silentCacheClient.initializeSilentRequest(request, account)];
+                        case 1:
+                            silentRequest = _a.sent();
+                            this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_START, exports.InteractionType.Silent, request);
+                            return [2 /*return*/, silentCacheClient.acquireToken(silentRequest).catch(function () { return __awaiter$1(_this, void 0, void 0, function () {
+                                    var tokenRenewalResult, tokenRenewalError_1;
+                                    return __generator$1(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                _a.trys.push([0, 2, , 3]);
+                                                return [4 /*yield*/, this.acquireTokenByRefreshToken(silentRequest)];
+                                            case 1:
+                                                tokenRenewalResult = _a.sent();
+                                                this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, tokenRenewalResult);
+                                                return [2 /*return*/, tokenRenewalResult];
+                                            case 2:
+                                                tokenRenewalError_1 = _a.sent();
+                                                this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null, tokenRenewalError_1);
+                                                throw tokenRenewalError_1;
+                                            case 3: return [2 /*return*/];
+                                        }
+                                    });
+                                }); })];
+                    }
                 });
             });
         };
@@ -12489,6 +13318,9 @@
             return Promise.reject(BrowserConfigurationAuthError.createStubPcaInstanceCalledError());
         },
         acquireTokenSilent: function () {
+            return Promise.reject(BrowserConfigurationAuthError.createStubPcaInstanceCalledError());
+        },
+        acquireTokenByCode: function () {
             return Promise.reject(BrowserConfigurationAuthError.createStubPcaInstanceCalledError());
         },
         getAllAccounts: function () {
@@ -12556,6 +13388,9 @@
         },
         setNavigationClient: function () {
             return;
+        },
+        getConfiguration: function () {
+            throw BrowserConfigurationAuthError.createStubPcaInstanceCalledError();
         }
     };
 
@@ -12628,8 +13463,10 @@
      * Licensed under the MIT License.
      */
     var SignedHttpRequest = /** @class */ (function () {
-        function SignedHttpRequest(shrParameters) {
-            this.cryptoOps = new CryptoOps();
+        function SignedHttpRequest(shrParameters, shrOptions) {
+            var loggerOptions = (shrOptions && shrOptions.loggerOptions) || {};
+            this.logger = new Logger(loggerOptions, name, version);
+            this.cryptoOps = new CryptoOps(this.logger);
             this.popTokenGenerator = new PopTokenGenerator(this.cryptoOps);
             this.shrParameters = shrParameters;
         }
@@ -12672,7 +13509,10 @@
         SignedHttpRequest.prototype.removeKeys = function (publicKeyThumbprint) {
             return __awaiter$1(this, void 0, void 0, function () {
                 return __generator$1(this, function (_a) {
-                    return [2 /*return*/, this.cryptoOps.removeTokenBindingKey(publicKeyThumbprint)];
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.cryptoOps.removeTokenBindingKey(publicKeyThumbprint)];
+                        case 1: return [2 /*return*/, _a.sent()];
+                    }
                 });
             });
         };
@@ -12682,6 +13522,7 @@
     exports.AccountEntity = AccountEntity;
     exports.AuthError = AuthError;
     exports.AuthErrorMessage = AuthErrorMessage;
+    exports.AuthenticationHeaderParser = AuthenticationHeaderParser;
     exports.BrowserAuthError = BrowserAuthError;
     exports.BrowserAuthErrorMessage = BrowserAuthErrorMessage;
     exports.BrowserConfigurationAuthError = BrowserConfigurationAuthError;

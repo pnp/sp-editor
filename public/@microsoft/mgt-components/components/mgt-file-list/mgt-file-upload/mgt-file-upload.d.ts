@@ -8,7 +8,7 @@ import { TemplateResult } from 'lit-element';
 import { IGraph, MgtBaseComponent } from '@microsoft/mgt-element';
 import { ViewType } from '../../../graph/types';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
-export { FluentProgress, FluentButton, FluentCheckbox } from '@fluentui/web-components';
+export { FluentProgress, FluentButton, FluentCheckbox, FluentCard } from '@fluentui/web-components';
 /**
  * Upload conflict behavior status
  */

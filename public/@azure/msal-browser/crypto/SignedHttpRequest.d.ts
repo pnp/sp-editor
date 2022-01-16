@@ -1,9 +1,13 @@
-import { SignedHttpRequestParameters } from "@azure/msal-common";
+import { LoggerOptions, SignedHttpRequestParameters } from "@azure/msal-common";
+export declare type SignedHttpRequestOptions = {
+    loggerOptions: LoggerOptions;
+};
 export declare class SignedHttpRequest {
     private popTokenGenerator;
     private cryptoOps;
     private shrParameters;
-    constructor(shrParameters: SignedHttpRequestParameters);
+    private logger;
+    constructor(shrParameters: SignedHttpRequestParameters, shrOptions?: SignedHttpRequestOptions);
     /**
      * Generates and caches a keypair for the given request options.
      * @returns Public key digest, which should be sent to the token issuer.
