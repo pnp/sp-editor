@@ -10,14 +10,6 @@ import store from './store'
 
 initializeIcons();
 
-// create global connection
-(window as any).port = chrome.runtime.connect();
-// send message to background script to register the tab inspected
-(window as any).port.postMessage({
-  type: 'init',
-  tabId: chrome.devtools.inspectedWindow.tabId,
-})
-
 // this is to catch chrome developertools shortcut
 // add all keykeyCodes to block the shorcuts
 document.addEventListener('keydown', function(e) {

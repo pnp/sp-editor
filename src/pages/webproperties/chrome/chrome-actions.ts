@@ -13,7 +13,7 @@ export async function getAllWebProperties(dispatch: Dispatch<WebPropertiesAction
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getAllWebPropertiesCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getAllWebPropertiesCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -65,7 +65,7 @@ export async function getAllWebProperties(dispatch: Dispatch<WebPropertiesAction
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getAllWebPropertiesCallback)
+        chrome.runtime.onMessage.removeListener(getAllWebPropertiesCallback)
         break
     }
   })
@@ -89,7 +89,7 @@ export async function addWebProperty(dispatch: Dispatch<WebPropertiesActions | H
   }
 
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function addWebPropertyCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function addWebPropertyCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -126,7 +126,7 @@ export async function addWebProperty(dispatch: Dispatch<WebPropertiesActions | H
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(addWebPropertyCallback)
+        chrome.runtime.onMessage.removeListener(addWebPropertyCallback)
         break
     }
   })
@@ -144,7 +144,7 @@ export async function removeWebProperties(dispatch: Dispatch<WebPropertiesAction
   // show loading spinner
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function deleteWebPropertiesCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function deleteWebPropertiesCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -180,7 +180,7 @@ export async function removeWebProperties(dispatch: Dispatch<WebPropertiesAction
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(deleteWebPropertiesCallback)
+        chrome.runtime.onMessage.removeListener(deleteWebPropertiesCallback)
         break
     }
   })

@@ -197,15 +197,15 @@ export const getDefinitionsInUse = (codeWithOutComments: string, definitions: ID
   return currentLibs
 }
 
-export const mod_common = `var mod_common = '${chrome.extension.getURL('bundles/common.es5.umd.bundle.js')}';`
-export const mod_config = `var mod_config = '${chrome.extension.getURL('bundles/config-store.es5.umd.bundle.js')}';`
-export const mod_graph = `var mod_graph = '${chrome.extension.getURL('bundles/graph.es5.umd.bundle.js')}';`
-export const mod_logging = `var mod_logging = '${chrome.extension.getURL('bundles/logging.es5.umd.bundle.js')}';`
-export const mod_odata = `var mod_odata = '${chrome.extension.getURL('bundles/odata.es5.umd.bundle.js')}';`
-export const mod_pnpjs = `var mod_pnpjs = '${chrome.extension.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
-export const mod_addin = `var mod_addin = '${chrome.extension.getURL('bundles/sp-addinhelpers.es5.umd.bundle.js')}';`
-export const mod_client = `var mod_client = '${chrome.extension.getURL('bundles/sp-clientsvc.es5.umd.bundle.js')}';`
-export const mod_taxonomy = `var mod_taxonomy = '${chrome.extension.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
-export const mod_sp = `var mod_sp = '${chrome.extension.getURL('bundles/sp.es5.umd.bundle.js')}';`
-export const mod_adaljs = `var mod_adaljs = '${chrome.extension.getURL('bundles/adaljsclient.es5.umd.bundle.js')}';`
-export const sj = `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
+export const mod_common = `var mod_common = '${chrome.runtime.getURL('bundles/common.es5.umd.bundle.js')}';`
+export const mod_config = `var mod_config = '${chrome.runtime.getURL('bundles/config-store.es5.umd.bundle.js')}';`
+export const mod_graph = `var mod_graph = '${chrome.runtime.getURL('bundles/graph.es5.umd.bundle.js')}';`
+export const mod_logging = `var mod_logging = '${chrome.runtime.getURL('bundles/logging.es5.umd.bundle.js')}';`
+export const mod_odata = `var mod_odata = '${chrome.runtime.getURL('bundles/odata.es5.umd.bundle.js')}';`
+export const mod_pnpjs = `var mod_pnpjs = '${chrome.runtime.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
+export const mod_addin = `var mod_addin = '${chrome.runtime.getURL('bundles/sp-addinhelpers.es5.umd.bundle.js')}';`
+export const mod_client = `var mod_client = '${chrome.runtime.getURL('bundles/sp-clientsvc.es5.umd.bundle.js')}';`
+export const mod_taxonomy = `var mod_taxonomy = '${chrome.runtime.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
+export const mod_sp = `var mod_sp = '${chrome.runtime.getURL('bundles/sp.es5.umd.bundle.js')}';`
+export const mod_adaljs = `var mod_adaljs = '${chrome.runtime.getURL('bundles/adaljsclient.es5.umd.bundle.js')}';`
+export const sj = `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`

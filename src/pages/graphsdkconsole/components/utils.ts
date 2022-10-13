@@ -270,7 +270,7 @@ export const getDefinitionsInUse = (
   return currentLibs
 }
 
-export const sj = `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
-export const mod_msal = `var mod_msal = '${chrome.extension.getURL('bundles/msal-browser.js')}';`
-export const mod_graph_sdk = `var mod_graph_sdk = '${chrome.extension.getURL('bundles/graph-sdk.es5.umd.bundle.js')}';`
-export const mod_provider = `var mod_provider = '${chrome.extension.getURL('bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js')}';`
+export const sj = `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`
+export const mod_msal = `var mod_msal = '${chrome.runtime.getURL('bundles/msal-browser.js')}';`
+export const mod_graph_sdk = `var mod_graph_sdk = '${chrome.runtime.getURL('bundles/graph-sdk.es5.umd.bundle.js')}';`
+export const mod_provider = `var mod_provider = '${chrome.runtime.getURL('bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js')}';`

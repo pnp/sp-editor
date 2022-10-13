@@ -11,7 +11,7 @@ export async function gertAllFiles(dispatch: Dispatch<FileExplorerActions | Home
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function grtAllFilesCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function grtAllFilesCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -43,7 +43,7 @@ export async function gertAllFiles(dispatch: Dispatch<FileExplorerActions | Home
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(grtAllFilesCallback)
+        chrome.runtime.onMessage.removeListener(grtAllFilesCallback)
         break
     }
   })
