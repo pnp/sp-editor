@@ -66,73 +66,20 @@ export const GraphSDKConsoleMonacoConfigs = () => {
 
 export const initCode = () => {
   const code = `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
-/*
-  Hit 'ctrl + d' or 'cmd + d' to run the code
-*/
-
-import {
-  Client,
-} from '@microsoft/microsoft-graph-client'
-
-import {
-  PublicClientApplication,
-  InteractionType,
-  Configuration,
-  PopupRequest
-} from "@azure/msal-browser";
-
-import {
-  AuthCodeMSALBrowserAuthenticationProvider,
-  AuthCodeMSALBrowserAuthenticationProviderOptions
-} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser";
-
-const scopes = ["user.read", "mail.send"];
-
-const options: AuthCodeMSALBrowserAuthenticationProviderOptions = {
-  account: {},
-  interactionType: InteractionType.Popup,
-  scopes,
-}
-
-const msalConfig: Configuration = {
-  auth: {
-    clientId: "20d34c96-396e-4bf0-a008-472ef10a5099",
-  },
-  cache: {
-    cacheLocation: 'sessionStorage',
-  },
-};
-const publicClientApplication = new PublicClientApplication(msalConfig)
-const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(publicClientApplication, options)
-
-const graphClient = Client.initWithMiddleware({
-  authProvider
-});
+import { graphClient } from "@speditor"
+import { User } from "@microsoft/microsoft-graph-types/microsoft-graph";
 
 (async () => {
 
-  const request: PopupRequest = {
-    scopes,
-    /* uncomment this line, if you need to change account */
-    // prompt: 'select_account',
-  }
-
-  await publicClientApplication.loginPopup(request);
-
-  let userDetails = await graphClient.api("/me")
+  const userDetails: User = await graphClient.api("/me")
     .select('displayName')
     .get();
 
-  console.log(userDetails)
-
-  /* uncomment this line, if you want to log out the signed in account */
-  //await publicClientApplication.logoutPopup();
+  console.log(userDetails.displayName)
 
 })().catch(console.log)
-
-
-
 `
   return code.substring(code.indexOf('\n') + 1)
 }
@@ -171,9 +118,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
       // fix imports
       const lineRe = line.match('var (.*) = require')
       let mod = -1
-      mod = line.indexOf('msal') > -1 ? 0 : mod
-      mod = line.indexOf('@microsoft/microsoft-graph-client') > -1 ? 1 : mod
-      mod = line.indexOf('@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser') > -1 ? 2 : mod
+      mod = line.indexOf('@microsoft/microsoft-graph-client') > -1 ? 0 : mod
       prepnp.push(`var ${lineRe![1]} = modules[${mod}];`)
     }
   })
@@ -183,7 +128,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
 // find all import lines from code
 export const getImportModules = (content: string) => {
   const importTexts: string[] = []
-  const imports = content.match(/(import|from).*(@microsoft|msal|@azure).*/g)
+  const imports = content.match(/(import|from).*(@microsoft|msal|@azure|@speditor).*/g)
   if (imports) {
     imports.forEach(iText => {
       const match = iText.match(/(["'])(.*?[^\\])\1/g)
@@ -271,6 +216,4 @@ export const getDefinitionsInUse = (
 }
 
 export const sj = `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`
-export const mod_msal = `var mod_msal = '${chrome.runtime.getURL('bundles/msal-browser.js')}';`
 export const mod_graph_sdk = `var mod_graph_sdk = '${chrome.runtime.getURL('bundles/graph-sdk.es5.umd.bundle.js')}';`
-export const mod_provider = `var mod_provider = '${chrome.runtime.getURL('bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js')}';`

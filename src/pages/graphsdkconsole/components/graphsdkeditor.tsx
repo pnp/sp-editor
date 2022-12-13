@@ -1,6 +1,6 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { Stack } from '@fluentui/react'
+import { Panel, Stack } from '@fluentui/react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -9,24 +9,29 @@ import {
   transpileModule,
 } from 'typescript'
 import { IRootState } from '../../../store'
-import { setCode, setResult } from '../../../store/graphsdkconsole/actions'
 import { setLoading } from '../../../store/home/actions'
-import { IDefinitions } from '../../../store/home/types'
+import { IDefinitions, MessageBarColors } from '../../../store/home/types'
 import { fetchDefinitions } from '../utils/util'
+import { useIsAuthenticated, useMsal } from '@azure/msal-react';
 import {
   fixImports,
   getDefinitionsInUse,
   GraphSDKConsoleMonacoConfigs,
   mod_graph_sdk,
-  mod_msal,
-  mod_provider,
   sj,
 } from './utils'
+import * as rootActions from '../../../store/home/actions'
+import { loginRequest } from '../../..'
+import { setScopes, setUser } from '../../../store/graphsdkconsole/actions'
+import { GraphClient } from '../../../services/graph-client/graph-client'
+import { Organization, Photo } from "@microsoft/microsoft-graph-types";
 
 const GraphSDKEditor = () => {
   const dispatch = useDispatch()
   const [grapgEditorInitialized, setGrapgEditorInitialized] = useState(false)
   const [graphOutputinitialized, setGraphOutputinitialized] = useState(false)
+  const { instance, accounts } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
 
   const { definitions, code, result } = useSelector(
     (state: IRootState) => state.graphsdkconsole,
@@ -60,7 +65,7 @@ const GraphSDKEditor = () => {
     }
   }, [])
 
-  const initGraphEditor = useCallback(() => {
+  const initGraphEditor = useCallback(async () => {
     if (grapgsdkEditorDiv.current) {
       grapheditor.current = monaco.editor.create(grapgsdkEditorDiv.current, {
         model: monaco.editor.createModel(
@@ -87,6 +92,7 @@ const GraphSDKEditor = () => {
       })
 
       monaco.languages.typescript.typescriptDefaults.setExtraLibs(newLibs)
+
       if (grapheditor && grapheditor.current) {
         // adds auto-complete for @pnp module imports
         completionItems.current = monaco.languages.registerCompletionItemProvider(
@@ -155,73 +161,145 @@ const GraphSDKEditor = () => {
         grapheditor.current.addCommand(
           // tslint:disable-next-line: no-bitwise
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD,
-          () => {
-            try {
-              const model = grapheditor.current!.getModel()!.getValue()
-              const compilerOptions: CompilerOptions = getDefaultCompilerOptions()
-              const js = transpileModule(model, {
-                compilerOptions,
-              })
+          async () => {
 
-              const lines = js.outputText.split('\n')
-              const ecode: string[] = []
-              const prepnp: string[] = fixImports(lines, ecode)
+            if (!instance.getActiveAccount()) {
 
-              ecode.pop() // remove the last empty line
+              dispatch(rootActions.setAppMessage({
+                showMessage: true,
+                message: 'You need to signin before you can run the script!',
+                color: MessageBarColors.warning,
+              }))
 
-              const exescript = [
-                'var exescript = function (script) {',
-                '\t var params = arguments;',
-                '\t\t if (typeof SystemJS == "undefined") {',
-                '\t\t\t var s = document.createElement("script");',
-                '\t\t\t s.src = sj;',
-                '\t\t\t s.onload = function () {',
-                '\t\t\t\t script.apply(this, params);',
-                '\t\t\t };',
-                '\t\t\t (document.head || document.documentElement).appendChild(s);',
-                '\t\t }',
-                '\t\t else script.apply(this, params);',
-                '}',
-              ].join('\n')
+            }
+            else {
 
-              const execme = [
-                'var execme = function execme() {',
-                '\tPromise.all([SystemJS.import(mod_msal),SystemJS.import(mod_graph_sdk),SystemJS.import(mod_provider)]).then(function (modules) {',
-                '\t\t' + prepnp.join('\n'),
-                '\t\t// Your code starts here',
-                '\t\t// #####################',
-                '' + ecode.map(function (e) { return '\t\t\t' + e }).join('\n'),
-                '\t\t// #####################',
-                '\t\t// Your code ends here',
-                '\t});',
-                '};'].join('\n').replace(/console.log/g, 'clone.logNew')
+              try {
+                const code = grapheditor.current!.getModel()!.getValue()
+                console.log(code)
+                var modCode = code.replace("(async () => {",
+                  `
+                  import {
+                    Client
+                  } from '@microsoft/microsoft-graph-client'
 
-              // tslint:disable-next-line:prefer-template
-              let script = mod_msal + '\n' +
-                mod_graph_sdk + '\n' +
-                mod_provider + '\n' +
-                sj + '\n\n' +
-                exescript + '\n\n' +
-                execme + '\n\n'
+                  const graphClient = Client.initWithMiddleware({
+                    authProvider: {
+                      getAccessToken: async () => {
+                        return "TOKENHERE";
+                      },
+                    },
+                  });
+                  (async () => {`)
+                console.log(modCode)
+                const compilerOptions: CompilerOptions = getDefaultCompilerOptions()
+                const js = transpileModule(modCode, {
+                  compilerOptions,
+                })
+                const lines = js.outputText.split('\n')
+                const ecode: string[] = []
+                const prepnp: string[] = fixImports(lines, ecode)
 
-              script += 'exescript(execme);'
+                ecode.pop() // remove the last empty line
 
-              const clone = Object.create(console)
+                const exescript = [
+                  'var exescript = function (script) {',
+                  '\t var params = arguments;',
+                  '\t\t if (typeof SystemJS == "undefined") {',
+                  '\t\t\t var s = document.createElement("script");',
+                  '\t\t\t s.src = sj;',
+                  '\t\t\t s.onload = function () {',
+                  '\t\t\t\t script.apply(this, params);',
+                  '\t\t\t };',
+                  '\t\t\t (document.head || document.documentElement).appendChild(s);',
+                  '\t\t }',
+                  '\t\t else script.apply(this, params);',
+                  '}',
+                ].join('\n')
 
-              clone.logNew = console.log
-              clone.logNew = function (value: string) {
+                const execme = [
+                  'var execme = function execme() {',
+                  '\tPromise.all([SystemJS.import(mod_graph_sdk)]).then(function (modules) {',
+                  '\t\t' + prepnp.join('\n'),
+                  '\t\t// Your code starts here',
+                  '\t\t// #####################',
+                  '' + ecode.map(function (e) { return '\t\t\t' + e }).join('\n'),
+                  '\t\t// #####################',
+                  '\t\t// Your code ends here',
+                  '\t});',
+                  '};'].join('\n')
+
+                // tslint:disable-next-line:prefer-template
+                let script = mod_graph_sdk + '\n' +
+                  sj + '\n\n' +
+                  exescript + '\n\n' +
+                  execme + '\n\n'
+
+                script += 'exescript(execme);'
+
+                dispatch(setLoading(true))
+
+                try {
+                  const response = await instance.acquireTokenSilent({
+                    ...loginRequest,
+                    account: accounts[0],
+                  })
+                  console.log(response.scopes)
+                  chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
+
+                } catch (e) {
+                  const response = await instance.acquireTokenPopup({
+                    ...loginRequest,
+                    account: accounts[0],
+                  });
+                  console.log(response.scopes)
+                  chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
+                }
                 dispatch(setLoading(false))
-                dispatch(setResult(JSON.stringify(value, null, 2)))
+              } catch (e) {
+                console.log(e)
               }
-
-              dispatch(setLoading(true))
-              // tslint:disable-next-line:no-eval
-              eval(script)
-            } catch (e) {
-              console.log(e)
             }
           },
         )
+        if (isAuthenticated) {
+          try {
+            const response = await instance.acquireTokenSilent({
+              ...loginRequest,
+              account: accounts[0],
+            })
+            dispatch(setScopes(response.scopes))
+
+            var client = GraphClient.createInstance(instance, accounts[0])
+
+            const org = await client.api('organization').get()
+            console.log(org)
+
+            const user = await client.api('me/profile').version('beta').get()
+            console.log(user)
+
+            var image;
+            try {
+              const photo = await client.api('me/photo/$value').version('beta').get()
+              const buffer = await photo.arrayBuffer();
+              const blob = new Blob([buffer], { type: 'image/jpeg' });
+              image = URL.createObjectURL(blob)
+            } catch (e) {
+            }
+
+            var koko = {
+              Name: user.names[0].displayName,
+              Initials: '',
+              TenantName: org.value[0].displayName,
+              TenantId: org.value[0].id,
+              userId: user.account[0].userPrincipalName,
+              imageUrl: image
+            }
+            dispatch(setUser(koko))
+
+          }
+          catch { }
+        }
         // trigget resize to make editor visible (bug in monaco 0.20.0?)
         setTimeout(() => {
           window.dispatchEvent(new Event('resize'))
@@ -260,9 +338,7 @@ const GraphSDKEditor = () => {
   useEffect(() => {
     return () => {
       // cleaning models
-      const models = grapheditor.current!.getModel()!.getValue()
       completionItems.current?.dispose()
-      dispatch(setCode(models))
       monaco.languages.typescript.typescriptDefaults.setExtraLibs([])
       monaco.editor.getModels().forEach((model) => model.dispose())
     }
@@ -295,8 +371,7 @@ const GraphSDKEditor = () => {
 
   return (
     <Stack grow horizontal style={{ height: '100%' }}>
-      <div ref={grapgsdkEditorDiv} style={{ width: '60%', height: '100%' }} />
-      <div ref={graphOutputDiv} style={{ width: '40%', height: '100%' }} />
+      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: '100%' }} />
     </Stack>
   )
 }

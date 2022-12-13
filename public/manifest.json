@@ -38,8 +38,12 @@
         "bundles/sp.es5.umd.bundle.js",
         "bundles/sp-taxonomy.es5.umd.bundle.js",
         "bundles/adaljsclient.es5.umd.bundle.js",
-        "bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js.js",
-        "bundles/sp-scriptlinks.sppkg"
+        "bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js",
+        "bundles/sp-scriptlinks.sppkg",
+        "bundles/graph-sdk.es5.umd.bundle.js",
+        "bundles/msal.js",
+        "bundles/msal-browser.js",
+        "index.html"
       ],
       "matches": [
         "<all_urls>"
