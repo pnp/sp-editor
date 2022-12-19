@@ -5,6 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { AuthenticationHandlerOptions, Middleware } from '@microsoft/microsoft-graph-client';
+import { GraphEndpoint } from '..';
 /**
  * creates an AuthenticationHandlerOptions from scopes array that
  * can be used in the Graph sdk middleware chain
@@ -21,4 +22,10 @@ export declare function prepScopes(...scopes: string[]): AuthenticationHandlerOp
  * @returns {Middleware}
  */
 export declare function chainMiddleware(...middleware: Middleware[]): Middleware;
+/**
+ * Helper method to validate a base URL string
+ * @param url a URL string
+ * @returns GraphEndpoint
+ */
+export declare function validateBaseURL(url: string): GraphEndpoint;
 //# sourceMappingURL=GraphHelpers.d.ts.map

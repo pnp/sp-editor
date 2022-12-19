@@ -76,9 +76,15 @@ export declare class PageIterator {
      */
     private complete;
     /**
+     * @private
      * Information to be added to the request
      */
     private requestOptions;
+    /**
+     * @private
+     * Member holding the current position on the collection
+     */
+    private cursor;
     /**
      * @public
      * @constructor

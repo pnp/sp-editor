@@ -1,8 +1,5 @@
 import { IGraphQueryable, IGraphQueryableCollection } from "../graphqueryable.js";
 import { EmailAddress, Event as IEvent } from "@microsoft/microsoft-graph-types";
-/**
- * Temporary until graph types include this type
- */
 interface IEventWithTag extends IEvent {
     "@odata.etag": string;
 }
@@ -18,6 +15,7 @@ export declare function calendarView(this: IGraphQueryable, start: string, end: 
 export declare type ICalendarViewInfo = IEventWithTag;
 /**
  * Get the emailAddress objects that represent all the meeting rooms in the user's tenant or in a specific room list.
+ *  - This is a beta graph feature and uses the beta endpoint.
  *
  * @param this IGraphQueryable instance
  * @param roomList The SMTP address associated with the room list.

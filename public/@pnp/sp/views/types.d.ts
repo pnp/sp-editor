@@ -1,6 +1,5 @@
-import { ITypedHash } from "@pnp/common";
-import { _SharePointQueryableInstance, _SharePointQueryableCollection, IDeleteable } from "../sharepointqueryable.js";
-export declare class _Views extends _SharePointQueryableCollection<IViewInfo[]> {
+import { _SPCollection, _SPInstance, IDeleteable } from "../spqueryable.js";
+export declare class _Views extends _SPCollection<IViewInfo[]> {
     /**
      * Adds a new view to the collection
      *
@@ -8,7 +7,7 @@ export declare class _Views extends _SharePointQueryableCollection<IViewInfo[]> 
      * @param personalView True if this is a personal view, otherwise false, default = false
      * @param additionalSettings Will be passed as part of the view creation body
      */
-    add(title: string, personalView?: boolean, additionalSettings?: ITypedHash<any>): Promise<IViewAddResult>;
+    add(Title: string, PersonalView?: boolean, additionalSettings?: Record<string, any>): Promise<IViewAddResult>;
     /**
      * Gets a view by guid id
      *
@@ -24,16 +23,16 @@ export declare class _Views extends _SharePointQueryableCollection<IViewInfo[]> 
 }
 export interface IViews extends _Views {
 }
-export declare const Views: import("../sharepointqueryable.js").ISPInvokableFactory<IViews>;
-export declare class _View extends _SharePointQueryableInstance<IViewInfo> {
-    delete: (this: import("../sharepointqueryable.js").ISharePointQueryable<any>) => Promise<void>;
+export declare const Views: import("../spqueryable.js").ISPInvokableFactory<IViews>;
+export declare class _View extends _SPInstance<IViewInfo> {
+    delete: (this: import("../spqueryable.js").ISPQueryable<any>) => Promise<void>;
     get fields(): IViewFields;
     /**
      * Updates this view intance with the supplied properties
      *
      * @param properties A plain object hash of values to update for the view
      */
-    update: any;
+    update(props: Partial<IViewInfo>): Promise<IViewUpdateResult>;
     /**
      * Returns the list view as HTML.
      *
@@ -48,8 +47,9 @@ export declare class _View extends _SharePointQueryableInstance<IViewInfo> {
 }
 export interface IView extends _View, IDeleteable {
 }
-export declare const View: import("../sharepointqueryable.js").ISPInvokableFactory<IView>;
-export declare class _ViewFields extends _SharePointQueryableCollection<{
+export declare const View: import("../spqueryable.js").ISPInvokableFactory<IView>;
+export declare class _ViewFields extends _SPCollection<{
+    Items: string[];
     SchemaXml: string;
 }> {
     /**
@@ -82,7 +82,7 @@ export declare class _ViewFields extends _SharePointQueryableCollection<{
 }
 export interface IViewFields extends _ViewFields {
 }
-export declare const ViewFields: import("../sharepointqueryable.js").ISPInvokableFactory<IViewFields>;
+export declare const ViewFields: import("../spqueryable.js").ISPInvokableFactory<IViewFields>;
 export interface IViewAddResult {
     view: IView;
     data: IViewInfo;
@@ -98,6 +98,11 @@ export declare enum ViewScope {
     FilesOnly = 3
 }
 export interface IViewInfo {
+    AssociatedContentTypeId: string | null;
+    CalendarViewStyles: string | null;
+    CustomFormatter: string | null;
+    DefaultView: boolean;
+    DefaultViewForContentType: boolean;
     EditorModified: boolean;
     Formats: string | null;
     Hidden: boolean;
@@ -136,6 +141,7 @@ export interface IViewInfo {
     } | null;
     ViewQuery: string;
     ViewType: string;
+    ViewType2: "KANBAN" | "TILES" | "COMPACTLIST" | "MODERNCALENDAR" | null;
     VisualizationInfo: any | null;
 }
 //# sourceMappingURL=types.d.ts.map

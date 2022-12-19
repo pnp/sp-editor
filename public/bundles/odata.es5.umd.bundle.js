@@ -1978,7 +1978,7 @@ var queryable_Queryable = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/logger.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/logger.js
 /**
  * Class used to subscribe ILogListener and log messages throughout an application
  *
@@ -2121,7 +2121,7 @@ var LogLevel;
     LogLevel[LogLevel["Off"] = 99] = "Off";
 })(LogLevel || (LogLevel = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/listeners.js
 /**
  * Implementation of LogListener which logs to the console
  *
@@ -2196,7 +2196,7 @@ var FunctionListener = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/index.js
 
 
 

@@ -18,5 +18,10 @@ export declare class BrowserStringUtils {
      * @param aBytes
      */
     static utf8ArrToString(aBytes: Uint8Array): string;
+    /**
+     * Returns stringified jwk.
+     * @param jwk
+     */
+    static getSortedObjectString(obj: object): string;
 }
 //# sourceMappingURL=BrowserStringUtils.d.ts.map

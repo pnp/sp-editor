@@ -150,6 +150,14 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      */
     protected renderBucketIcon(): TemplateResult;
     /**
+     * Render a calendar icon.
+     *
+     * @protected
+     * @returns
+     * @memberof MgtTodo
+     */
+    protected renderCalendarIcon(): TemplateResult;
+    /**
      * Create a new todo task and add it to the list
      *
      * @protected

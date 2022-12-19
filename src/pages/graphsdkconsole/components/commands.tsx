@@ -51,14 +51,10 @@ const GraphSDKCommands = () => {
               }
 
               var client = GraphClient.createInstance(instance, accounts[0])
-
               const org = await client.api('organization').get()
-              console.log(org)
-  
               const user = await client.api('me/profile').version('beta').get()
-              console.log(user)
   
-              var image;
+              var image: string;
               try {
                 const photo = await client.api('me/photo/$value').version('beta').get()
                 const buffer = await photo.arrayBuffer();

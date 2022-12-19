@@ -1,7 +1,7 @@
-import { AccountInfo, INetworkModule, AuthenticationResult, Logger, CommonSilentFlowRequest, ICrypto } from "@azure/msal-common";
+import { AccountInfo, INetworkModule, AuthenticationResult, Logger, CommonSilentFlowRequest, ICrypto, PerformanceCallbackFunction, IPerformanceClient, BaseAuthRequest } from "@azure/msal-common";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
 import { BrowserConfiguration, Configuration } from "../config/Configuration";
-import { InteractionType, WrapperSKU } from "../utils/BrowserConstants";
+import { InteractionType, ApiId, WrapperSKU } from "../utils/BrowserConstants";
 import { RedirectRequest } from "../request/RedirectRequest";
 import { PopupRequest } from "../request/PopupRequest";
 import { SsoSilentRequest } from "../request/SsoSilentRequest";
@@ -10,11 +10,20 @@ import { EndSessionRequest } from "../request/EndSessionRequest";
 import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest";
 import { INavigationClient } from "../navigation/INavigationClient";
 import { EventHandler } from "../event/EventHandler";
+import { PopupClient } from "../interaction_client/PopupClient";
+import { RedirectClient } from "../interaction_client/RedirectClient";
+import { SilentIframeClient } from "../interaction_client/SilentIframeClient";
+import { SilentRefreshClient } from "../interaction_client/SilentRefreshClient";
 import { ITokenCache } from "../cache/ITokenCache";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
+import { SilentRequest } from "../request/SilentRequest";
+import { SilentCacheClient } from "../interaction_client/SilentCacheClient";
+import { SilentAuthCodeClient } from "../interaction_client/SilentAuthCodeClient";
 import { AuthorizationCodeRequest } from "../request/AuthorizationCodeRequest";
 export declare abstract class ClientApplication {
     protected readonly browserCrypto: ICrypto;
     protected readonly browserStorage: BrowserCacheManager;
+    protected readonly nativeInternalStorage: BrowserCacheManager;
     protected readonly networkClient: INetworkModule;
     protected navigationClient: INavigationClient;
     protected config: BrowserConfiguration;
@@ -22,8 +31,11 @@ export declare abstract class ClientApplication {
     protected logger: Logger;
     protected isBrowserEnvironment: boolean;
     protected eventHandler: EventHandler;
-    private redirectResponse;
+    protected redirectResponse: Map<string, Promise<AuthenticationResult | null>>;
+    protected nativeExtensionProvider: NativeMessageHandler | undefined;
     private hybridAuthCodeResponses;
+    protected performanceClient: IPerformanceClient;
+    protected initialized: boolean;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -46,6 +58,10 @@ export declare abstract class ClientApplication {
      * @param configuration Object for the MSAL PublicClientApplication instance
      */
     constructor(configuration: Configuration);
+    /**
+     * Initializer function to perform async startup tasks such as connecting to WAM extension
+     */
+    initialize(): Promise<void>;
     /**
      * Event handler function which allows users to fire events after the PublicClientApplication object
      * has loaded during redirect flows. This should be invoked on all page loads involved in redirect
@@ -106,17 +122,26 @@ export declare abstract class ClientApplication {
      */
     private acquireTokenByCodeAsync;
     /**
-     * Use this function to obtain a token before every call to the API / resource provider
-     *
-     * MSAL return's a cached token when available
-     * Or it send's a request to the STS to obtain a new token using a refresh token.
-     *
-     * @param {@link SilentRequest}
-     *
-     * To renew idToken, please pass clientId as the only scope in the Authentication Parameters
-     * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
+     * Attempt to acquire an access token from the cache
+     * @param silentCacheClient SilentCacheClient
+     * @param commonRequest CommonSilentFlowRequest
+     * @param silentRequest SilentRequest
+     * @returns A promise that, when resolved, returns the access token
      */
-    protected acquireTokenByRefreshToken(request: CommonSilentFlowRequest): Promise<AuthenticationResult>;
+    protected acquireTokenFromCache(silentCacheClient: SilentCacheClient, commonRequest: CommonSilentFlowRequest, silentRequest: SilentRequest): Promise<AuthenticationResult>;
+    /**
+     * Attempt to acquire an access token via a refresh token
+     * @param commonRequest CommonSilentFlowRequest
+     * @param silentRequest SilentRequest
+     * @returns A promise that, when resolved, returns the access token
+     */
+    protected acquireTokenByRefreshToken(commonRequest: CommonSilentFlowRequest, silentRequest: SilentRequest): Promise<AuthenticationResult>;
+    /**
+     * Attempt to acquire an access token via an iframe
+     * @param request CommonSilentFlowRequest
+     * @returns A promise that, when resolved, returns the access token
+     */
+    protected acquireTokenBySilentIframe(request: CommonSilentFlowRequest): Promise<AuthenticationResult>;
     /**
      * Deprecated logout function. Use logoutRedirect or logoutPopup instead
      * @param logoutRequest
@@ -177,9 +202,62 @@ export declare abstract class ClientApplication {
     getActiveAccount(): AccountInfo | null;
     /**
      * Helper to validate app environment before making an auth request
-     * * @param interactionType
+     *
+     * @protected
+     * @param {InteractionType} interactionType What kind of interaction is being used
+     * @param {boolean} [setInteractionInProgress=true] Whether to set interaction in progress temp cache flag
      */
-    protected preflightBrowserEnvironmentCheck(interactionType: InteractionType): void;
+    protected preflightBrowserEnvironmentCheck(interactionType: InteractionType, setInteractionInProgress?: boolean): void;
+    /**
+     * Preflight check for interactive requests
+     *
+     * @protected
+     * @param {boolean} setInteractionInProgress Whether to set interaction in progress temp cache flag
+     */
+    protected preflightInteractiveRequest(setInteractionInProgress: boolean): void;
+    /**
+     * Acquire a token from native device (e.g. WAM)
+     * @param request
+     */
+    protected acquireTokenNative(request: PopupRequest | SilentRequest | SsoSilentRequest, apiId: ApiId, accountId?: string): Promise<AuthenticationResult>;
+    /**
+     * Returns boolean indicating if this request can use the native broker
+     * @param request
+     */
+    protected canUseNative(request: RedirectRequest | PopupRequest | SsoSilentRequest, accountId?: string): boolean;
+    /**
+     * Get the native accountId from the account
+     * @param request
+     * @returns
+     */
+    protected getNativeAccountId(request: RedirectRequest | PopupRequest | SsoSilentRequest): string;
+    /**
+     * Returns new instance of the Popup Interaction Client
+     * @param correlationId
+     */
+    protected createPopupClient(correlationId?: string): PopupClient;
+    /**
+     * Returns new instance of the Redirect Interaction Client
+     * @param correlationId
+     */
+    protected createRedirectClient(correlationId?: string): RedirectClient;
+    /**
+     * Returns new instance of the Silent Iframe Interaction Client
+     * @param correlationId
+     */
+    protected createSilentIframeClient(correlationId?: string): SilentIframeClient;
+    /**
+     * Returns new instance of the Silent Cache Interaction Client
+     */
+    protected createSilentCacheClient(correlationId?: string): SilentCacheClient;
+    /**
+     * Returns new instance of the Silent Refresh Interaction Client
+     */
+    protected createSilentRefreshClient(correlationId?: string): SilentRefreshClient;
+    /**
+     * Returns new instance of the Silent AuthCode Interaction Client
+     */
+    protected createSilentAuthCodeClient(correlationId?: string): SilentAuthCodeClient;
     /**
      * Adds event callbacks to array
      * @param callback
@@ -190,6 +268,20 @@ export declare abstract class ClientApplication {
      * @param callbackId
      */
     removeEventCallback(callbackId: string): void;
+    /**
+     * Registers a callback to receive performance events.
+     *
+     * @param {PerformanceCallbackFunction} callback
+     * @returns {string}
+     */
+    addPerformanceCallback(callback: PerformanceCallbackFunction): string;
+    /**
+     * Removes a callback registered with addPerformanceCallback.
+     *
+     * @param {string} callbackId
+     * @returns {boolean}
+     */
+    removePerformanceCallback(callbackId: string): boolean;
     /**
      * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
      */
@@ -226,5 +318,13 @@ export declare abstract class ClientApplication {
      * Returns the configuration object
      */
     getConfiguration(): BrowserConfiguration;
+    /**
+     * Generates a correlation id for a request if none is provided.
+     *
+     * @protected
+     * @param {?Partial<BaseAuthRequest>} [request]
+     * @returns {string}
+     */
+    protected getRequestCorrelationId(request?: Partial<BaseAuthRequest>): string;
 }
 //# sourceMappingURL=ClientApplication.d.ts.map

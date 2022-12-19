@@ -31,6 +31,10 @@ export declare const BrowserConfigurationAuthErrorMessage: {
         code: string;
         desc: string;
     };
+    entropyNotProvided: {
+        code: string;
+        desc: string;
+    };
 };
 /**
  * Browser library error class thrown by the MSAL.js library for SPAs
@@ -59,5 +63,9 @@ export declare class BrowserConfigurationAuthError extends AuthError {
      */
     static createStubPcaInstanceCalledError(): BrowserConfigurationAuthError;
     static createInMemoryRedirectUnavailableError(): BrowserConfigurationAuthError;
+    /**
+     * Creates an error thrown when a crypto interface that requires entropy is initialized without entropy
+     */
+    static createEntropyNotProvided(): BrowserConfigurationAuthError;
 }
 //# sourceMappingURL=BrowserConfigurationAuthError.d.ts.map

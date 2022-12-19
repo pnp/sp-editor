@@ -8,5 +8,9 @@ export declare const strings: {
     inputPlaceholderText: string;
     noResultsFound: string;
     loadingMessage: string;
+    suggestedContact: string;
+    suggestedContacts: string;
+    selected: string;
+    removeSelectedItem: string;
 };
 //# sourceMappingURL=strings.d.ts.map

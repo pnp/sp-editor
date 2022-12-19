@@ -243,6 +243,5 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
     private loadEvents;
     private prettyPrintTimeFromDateTime;
     private getDateHeaderFromDateTimeString;
-    private getEventDuration;
 }
 //# sourceMappingURL=mgt-agenda.d.ts.map

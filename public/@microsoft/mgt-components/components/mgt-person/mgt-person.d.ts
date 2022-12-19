@@ -102,6 +102,11 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * using the `css` tag function.
      */
     static get styles(): import("lit-element").CSSResult[];
+    protected get strings(): {
+        photoFor: string;
+        emailAddress: string;
+        initials: string;
+    };
     /**
      * Global Configuration object for all
      * person components
@@ -141,6 +146,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     avatarSize: AvatarSize;
     /**
      * object containing Graph details on person
+     * a copy of person-details attribute
+     * @type {IDynamicPerson}
+     */
+    private get personDetailsInternal();
+    private set personDetailsInternal(value);
+    /**
+     * object containing Graph details on person
      * @type {IDynamicPerson}
      */
     get personDetails(): IDynamicPerson;
@@ -155,13 +167,21 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     set personImage(value: string);
     /**
      * Sets whether the person image should be fetched
-     * from the Microsoft Graph based on the personDetails
+     * from the Microsoft Graph based on the personDetailsInternal
      * provided by the user
      *
      * @type {boolean}
      * @memberof MgtPerson
      */
     fetchImage: boolean;
+    /**
+     * Sets whether to disable the person image fetch
+     * from the Microsoft Graph
+     *
+     * @type {boolean}
+     * @memberof MgtPerson
+     */
+    disableImageFetch: boolean;
     /**
      * Determines and sets person avatar
      *
@@ -204,7 +224,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     protected get flyout(): MgtFlyout;
     /**
-     * Sets the property of the personDetails to use for the first line of text.
+     * Sets the property of the personDetailsInternal to use for the first line of text.
      * Default is displayName.
      *
      * @type {string}
@@ -212,7 +232,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     line1Property: string;
     /**
-     * Sets the property of the personDetails to use for the second line of text.
+     * Sets the property of the personDetailsInternal to use for the second line of text.
      * Default is mail.
      *
      * @type {string}
@@ -220,7 +240,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     line2Property: string;
     /**
-     * Sets the property of the personDetails to use for the second line of text.
+     * Sets the property of the personDetailsInternal to use for the second line of text.
      * Default is mail.
      *
      * @type {string}
@@ -239,6 +259,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private _fetchedPresence;
     private _isInvalidImageSrc;
     private _personCardShouldRender;
+    private _personDetailsInternal;
     private _personDetails;
     private _fallbackDetails;
     private _personAvatarBg;
@@ -285,11 +306,11 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      *
      * @protected
      * @param {string} [imageSrc]
-     * @param {IDynamicPerson} [personDetails]
+     * @param {IDynamicPerson} [personDetailsInternal]
      * @returns
      * @memberof MgtPerson
      */
-    protected renderImage(personDetails: IDynamicPerson, imageSrc: string): TemplateResult;
+    protected renderImage(personDetailsInternal: IDynamicPerson, imageSrc: string): TemplateResult;
     /**
      * Render presence for the person.
      *
@@ -305,7 +326,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @param
      * @memberof MgtPersonCard
      */
-    protected renderAvatar(personDetails: IDynamicPerson, image: string, presence: Presence): TemplateResult;
+    protected renderAvatar(personDetailsInternal: IDynamicPerson, image: string, presence: Presence): TemplateResult;
     private handleLine1Clicked;
     private handleLine2Clicked;
     private handleLine3Clicked;
@@ -365,6 +386,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private getTextFromProperty;
     private isLargeAvatar;
     private handleMouseClick;
+    private handleKeyDown;
     private handleMouseEnter;
     private handleMouseLeave;
     private hidePersonCard;

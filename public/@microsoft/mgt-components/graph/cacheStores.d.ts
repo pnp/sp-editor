@@ -20,6 +20,7 @@ export declare const schemas: {
         stores: {
             users: string;
             usersQuery: string;
+            userFilters: string;
         };
         version: number;
     };

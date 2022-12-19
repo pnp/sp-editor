@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="node" />
 import { Client } from "../index";
 import { UploadEventHandlers } from "./FileUploadTask/Interfaces/IUploadEventHandlers";
 import { FileObject, LargeFileUploadSession, LargeFileUploadTask, LargeFileUploadTaskOptions } from "./LargeFileUploadTask";
@@ -12,6 +11,7 @@ import { FileObject, LargeFileUploadSession, LargeFileUploadTask, LargeFileUploa
  * @interface
  * Signature to define options when creating an upload task
  * @property {string} fileName - Specifies the name of a file to be uploaded (with extension)
+ * @property {string} [fileDescription] - Specifies the description of the file to be uploaded
  * @property {string} [path] - The path to which the file needs to be uploaded
  * @property {number} [rangeSize] - Specifies the range chunk size
  * @property {string} [conflictBehavior] - Conflict behaviour option
@@ -19,19 +19,23 @@ import { FileObject, LargeFileUploadSession, LargeFileUploadTask, LargeFileUploa
  */
 export interface OneDriveLargeFileUploadOptions {
     fileName: string;
+    fileDescription?: string;
     path?: string;
     rangeSize?: number;
     conflictBehavior?: string;
     uploadEventHandlers?: UploadEventHandlers;
+    uploadSessionURL?: string;
 }
 /**
  * @interface
  * Signature to define options when creating an upload task
  * @property {string} fileName - Specifies the name of a file to be uploaded (with extension)
+ * @property {string} [fileDescription] - Specifies the description of the file to be uploaded
  * @property {string} [conflictBehavior] - Conflict behaviour option
  */
 interface OneDriveFileUploadSessionPayLoad {
     fileName: string;
+    fileDescription?: string;
     conflictBehavior?: string;
 }
 /**
@@ -58,7 +62,7 @@ export declare class OneDriveLargeFileUploadTask<T> extends LargeFileUploadTask<
      * @private
      * @static
      * Get file information
-     * @param {Blob | Buffer | File} file - The file entity
+     * @param {Blob | Uint8Array | File} file - The file entity
      * @param {string} fileName - The file name
      * @returns {FileInfo} The file information
      */
@@ -69,11 +73,11 @@ export declare class OneDriveLargeFileUploadTask<T> extends LargeFileUploadTask<
      * @async
      * Creates a OneDriveLargeFileUploadTask
      * @param {Client} client - The GraphClient instance
-     * @param {Blob | Buffer | File} file - File represented as Blob, Buffer or File
+     * @param {Blob | Uint8Array | File} file - File represented as Blob, Uint8Array or File
      * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
      * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
      */
-    static create(client: Client, file: Blob | Buffer | File, options: OneDriveLargeFileUploadOptions): Promise<OneDriveLargeFileUploadTask<Blob | ArrayBuffer | Buffer>>;
+    static create(client: Client, file: Blob | Uint8Array | File, options: OneDriveLargeFileUploadOptions): Promise<OneDriveLargeFileUploadTask<Blob | ArrayBuffer | Uint8Array>>;
     /**
      * @public
      * @static

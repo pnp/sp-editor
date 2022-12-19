@@ -1,46 +1,49 @@
 import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType } from "@azure/msal-common";
 import { CacheOptions } from "../config/Configuration";
-import { InteractionType } from "../utils/BrowserConstants";
+import { BrowserCacheLocation, InteractionType } from "../utils/BrowserConstants";
+import { MemoryStorage } from "./MemoryStorage";
+import { IWindowStorage } from "./IWindowStorage";
+import { NativeTokenRequest } from "../broker/nativeBroker/NativeRequest";
 /**
  * This class implements the cache storage interface for MSAL through browser local or session storage.
  * Cookies are only used if storeAuthStateInCookie is true, and are only used for
  * parameters such as state and nonce, generally.
  */
 export declare class BrowserCacheManager extends CacheManager {
-    private cacheConfig;
-    private browserStorage;
-    private internalStorage;
-    private temporaryCacheStorage;
-    private logger;
-    private readonly COOKIE_LIFE_MULTIPLIER;
+    protected cacheConfig: Required<CacheOptions>;
+    protected browserStorage: IWindowStorage<string>;
+    protected internalStorage: MemoryStorage<string>;
+    protected temporaryCacheStorage: IWindowStorage<string>;
+    protected logger: Logger;
+    protected readonly COOKIE_LIFE_MULTIPLIER: number;
     constructor(clientId: string, cacheConfig: Required<CacheOptions>, cryptoImpl: ICrypto, logger: Logger);
     /**
      * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured cacheLocation.
      * @param cacheLocation
      */
-    private setupBrowserStorage;
+    protected setupBrowserStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
     /**
      *
      * @param cacheLocation
      */
-    private setupTemporaryCacheStorage;
+    protected setupTemporaryCacheStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
     /**
      * Migrate all old cache entries to new schema. No rollback supported.
      * @param storeAuthStateInCookie
      */
-    private migrateCacheEntries;
+    protected migrateCacheEntries(): void;
     /**
      * Utility function to help with migration.
      * @param newKey
      * @param value
      * @param storeAuthStateInCookie
      */
-    private migrateCacheEntry;
+    protected migrateCacheEntry(newKey: string, value: string | null): void;
     /**
      * Parses passed value as JSON object, JSON.parse() will throw an error.
      * @param input
      */
-    private validateAndParseJson;
+    protected validateAndParseJson(jsonValue: string): object | null;
     /**
      * fetches the entry from the browser storage based off the key
      * @param key
@@ -151,6 +154,12 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param account
      */
     getAccountInfoByFilter(accountFilter: Partial<Omit<AccountInfo, "idTokenClaims" | "name">>): AccountInfo[];
+    /**
+     * Checks the cache for accounts matching loginHint or SID
+     * @param loginHint
+     * @param sid
+     */
+    getAccountInfoByHints(loginHint?: string, sid?: string): AccountInfo | null;
     /**
      * fetch throttling entity from the platform cache
      * @param throttlingCacheKey
@@ -281,6 +290,10 @@ export declare class BrowserCacheManager extends CacheManager {
      * Gets the token exchange parameters from the cache. Throws an error if nothing is found.
      */
     getCachedRequest(state: string, browserCrypto: ICrypto): CommonAuthorizationCodeRequest;
+    /**
+     * Gets cached native request for redirect flows
+     */
+    getCachedNativeRequest(): NativeTokenRequest | null;
     isInteractionInProgress(matchClientId?: boolean): boolean;
     getInteractionInProgress(): string | null;
     setInteractionInProgress(inProgress: boolean): void;
@@ -292,6 +305,15 @@ export declare class BrowserCacheManager extends CacheManager {
      * Updates a credential's cache key if the current cache key is outdated
      */
     updateCredentialCacheKey(currentCacheKey: string, credential: ValidCredentialType): string;
+    /**
+     * Returns application id as redirect context during AcquireTokenRedirect flow.
+     */
+    getRedirectRequestContext(): string | null;
+    /**
+     * Sets application id as the redirect context during AcquireTokenRedirect flow.
+     * @param value
+     */
+    setRedirectRequestContext(value: string): void;
 }
 export declare const DEFAULT_BROWSER_CACHE_MANAGER: (clientId: string, logger: Logger) => BrowserCacheManager;
 //# sourceMappingURL=BrowserCacheManager.d.ts.map

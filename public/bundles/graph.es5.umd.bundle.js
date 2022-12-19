@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -99,137 +99,1017 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return safeGlobal; });
-// export either window or global
-var safeGlobal = typeof global === "undefined" ? window : global;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(1)))
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "Attachment", function() { return /* reexport */ Attachment; });
-__webpack_require__.d(__webpack_exports__, "Attachments", function() { return /* reexport */ Attachments; });
-__webpack_require__.d(__webpack_exports__, "Calendar", function() { return /* reexport */ Calendar; });
-__webpack_require__.d(__webpack_exports__, "Calendars", function() { return /* reexport */ Calendars; });
-__webpack_require__.d(__webpack_exports__, "Event", function() { return /* reexport */ Event; });
-__webpack_require__.d(__webpack_exports__, "Events", function() { return /* reexport */ Events; });
-__webpack_require__.d(__webpack_exports__, "Contact", function() { return /* reexport */ Contact; });
-__webpack_require__.d(__webpack_exports__, "ContactFolder", function() { return /* reexport */ ContactFolder; });
-__webpack_require__.d(__webpack_exports__, "ContactFolders", function() { return /* reexport */ ContactFolders; });
-__webpack_require__.d(__webpack_exports__, "Contacts", function() { return /* reexport */ Contacts; });
-__webpack_require__.d(__webpack_exports__, "Conversation", function() { return /* reexport */ Conversation; });
-__webpack_require__.d(__webpack_exports__, "Conversations", function() { return /* reexport */ Conversations; });
-__webpack_require__.d(__webpack_exports__, "Post", function() { return /* reexport */ Post; });
-__webpack_require__.d(__webpack_exports__, "Posts", function() { return /* reexport */ Posts; });
-__webpack_require__.d(__webpack_exports__, "Senders", function() { return /* reexport */ Senders; });
-__webpack_require__.d(__webpack_exports__, "Thread", function() { return /* reexport */ Thread; });
-__webpack_require__.d(__webpack_exports__, "Threads", function() { return /* reexport */ Threads; });
-__webpack_require__.d(__webpack_exports__, "DirectoryObjectTypes", function() { return /* reexport */ DirectoryObjectTypes; });
-__webpack_require__.d(__webpack_exports__, "DirectoryObject", function() { return /* reexport */ DirectoryObject; });
-__webpack_require__.d(__webpack_exports__, "DirectoryObjects", function() { return /* reexport */ DirectoryObjects; });
-__webpack_require__.d(__webpack_exports__, "Group", function() { return /* reexport */ Group; });
-__webpack_require__.d(__webpack_exports__, "GroupType", function() { return /* reexport */ GroupType; });
-__webpack_require__.d(__webpack_exports__, "Groups", function() { return /* reexport */ Groups; });
-__webpack_require__.d(__webpack_exports__, "Insights", function() { return /* reexport */ Insights; });
-__webpack_require__.d(__webpack_exports__, "SharedInsight", function() { return /* reexport */ SharedInsight; });
-__webpack_require__.d(__webpack_exports__, "SharedInsights", function() { return /* reexport */ SharedInsights; });
-__webpack_require__.d(__webpack_exports__, "TrendingInsight", function() { return /* reexport */ TrendingInsight; });
-__webpack_require__.d(__webpack_exports__, "TrendingInsights", function() { return /* reexport */ TrendingInsights; });
-__webpack_require__.d(__webpack_exports__, "UsedInsight", function() { return /* reexport */ UsedInsight; });
-__webpack_require__.d(__webpack_exports__, "UsedInsights", function() { return /* reexport */ UsedInsights; });
-__webpack_require__.d(__webpack_exports__, "Resource", function() { return /* reexport */ Resource; });
-__webpack_require__.d(__webpack_exports__, "Invitations", function() { return /* reexport */ Invitations; });
-__webpack_require__.d(__webpack_exports__, "Member", function() { return /* reexport */ Member; });
-__webpack_require__.d(__webpack_exports__, "Members", function() { return /* reexport */ Members; });
-__webpack_require__.d(__webpack_exports__, "MailFolder", function() { return /* reexport */ MailFolder; });
-__webpack_require__.d(__webpack_exports__, "MailFolders", function() { return /* reexport */ MailFolders; });
-__webpack_require__.d(__webpack_exports__, "MailboxSettings", function() { return /* reexport */ MailboxSettings; });
-__webpack_require__.d(__webpack_exports__, "Message", function() { return /* reexport */ Message; });
-__webpack_require__.d(__webpack_exports__, "Messages", function() { return /* reexport */ Messages; });
-__webpack_require__.d(__webpack_exports__, "Drive", function() { return /* reexport */ Drive; });
-__webpack_require__.d(__webpack_exports__, "DriveItem", function() { return /* reexport */ DriveItem; });
-__webpack_require__.d(__webpack_exports__, "DriveItems", function() { return /* reexport */ DriveItems; });
-__webpack_require__.d(__webpack_exports__, "Drives", function() { return /* reexport */ Drives; });
-__webpack_require__.d(__webpack_exports__, "Root", function() { return /* reexport */ Root; });
-__webpack_require__.d(__webpack_exports__, "Notebook", function() { return /* reexport */ Notebook; });
-__webpack_require__.d(__webpack_exports__, "Notebooks", function() { return /* reexport */ Notebooks; });
-__webpack_require__.d(__webpack_exports__, "OneNote", function() { return /* reexport */ OneNote; });
-__webpack_require__.d(__webpack_exports__, "Section", function() { return /* reexport */ Section; });
-__webpack_require__.d(__webpack_exports__, "Sections", function() { return /* reexport */ Sections; });
-__webpack_require__.d(__webpack_exports__, "Photo", function() { return /* reexport */ Photo; });
-__webpack_require__.d(__webpack_exports__, "Bucket", function() { return /* reexport */ Bucket; });
-__webpack_require__.d(__webpack_exports__, "Buckets", function() { return /* reexport */ Buckets; });
-__webpack_require__.d(__webpack_exports__, "Plan", function() { return /* reexport */ Plan; });
-__webpack_require__.d(__webpack_exports__, "Planner", function() { return /* reexport */ Planner; });
-__webpack_require__.d(__webpack_exports__, "Plans", function() { return /* reexport */ Plans; });
-__webpack_require__.d(__webpack_exports__, "Task", function() { return /* reexport */ Task; });
-__webpack_require__.d(__webpack_exports__, "Tasks", function() { return /* reexport */ Tasks; });
-__webpack_require__.d(__webpack_exports__, "TaskDetails", function() { return /* reexport */ TaskDetails; });
-__webpack_require__.d(__webpack_exports__, "PlanDetails", function() { return /* reexport */ PlanDetails; });
-__webpack_require__.d(__webpack_exports__, "Search", function() { return /* reexport */ Search; });
-__webpack_require__.d(__webpack_exports__, "Subscription", function() { return /* reexport */ Subscription; });
-__webpack_require__.d(__webpack_exports__, "Subscriptions", function() { return /* reexport */ Subscriptions; });
-__webpack_require__.d(__webpack_exports__, "Channel", function() { return /* reexport */ Channel; });
-__webpack_require__.d(__webpack_exports__, "Channels", function() { return /* reexport */ Channels; });
-__webpack_require__.d(__webpack_exports__, "Tab", function() { return /* reexport */ Tab; });
-__webpack_require__.d(__webpack_exports__, "Tabs", function() { return /* reexport */ Tabs; });
-__webpack_require__.d(__webpack_exports__, "Team", function() { return /* reexport */ Team; });
-__webpack_require__.d(__webpack_exports__, "Teams", function() { return /* reexport */ Teams; });
-__webpack_require__.d(__webpack_exports__, "User", function() { return /* reexport */ User; });
-__webpack_require__.d(__webpack_exports__, "Users", function() { return /* reexport */ Users; });
-__webpack_require__.d(__webpack_exports__, "People", function() { return /* reexport */ People; });
-__webpack_require__.d(__webpack_exports__, "graph", function() { return /* reexport */ graph; });
-__webpack_require__.d(__webpack_exports__, "GraphRest", function() { return /* reexport */ rest_GraphRest; });
-__webpack_require__.d(__webpack_exports__, "GraphBatch", function() { return /* reexport */ batch_GraphBatch; });
+__webpack_require__.d(__webpack_exports__, "graphfi", function() { return /* reexport */ graphfi; });
+__webpack_require__.d(__webpack_exports__, "GraphFI", function() { return /* reexport */ fi_GraphFI; });
 __webpack_require__.d(__webpack_exports__, "GraphQueryable", function() { return /* reexport */ GraphQueryable; });
 __webpack_require__.d(__webpack_exports__, "GraphQueryableCollection", function() { return /* reexport */ GraphQueryableCollection; });
 __webpack_require__.d(__webpack_exports__, "GraphQueryableInstance", function() { return /* reexport */ GraphQueryableInstance; });
-__webpack_require__.d(__webpack_exports__, "GraphQueryableSearchableCollection", function() { return /* reexport */ GraphQueryableSearchableCollection; });
-__webpack_require__.d(__webpack_exports__, "GraphHttpClient", function() { return /* reexport */ graphhttpclient_GraphHttpClient; });
-__webpack_require__.d(__webpack_exports__, "GraphEndpoints", function() { return /* reexport */ GraphEndpoints; });
-__webpack_require__.d(__webpack_exports__, "registerCustomRequestClientFactory", function() { return /* reexport */ registerCustomRequestClientFactory; });
 __webpack_require__.d(__webpack_exports__, "graphGet", function() { return /* reexport */ graphGet; });
 __webpack_require__.d(__webpack_exports__, "graphPost", function() { return /* reexport */ graphPost; });
 __webpack_require__.d(__webpack_exports__, "graphDelete", function() { return /* reexport */ graphDelete; });
 __webpack_require__.d(__webpack_exports__, "graphPatch", function() { return /* reexport */ graphPatch; });
 __webpack_require__.d(__webpack_exports__, "graphPut", function() { return /* reexport */ graphPut; });
-__webpack_require__.d(__webpack_exports__, "toAbsoluteUrl", function() { return /* reexport */ toAbsoluteUrl; });
+__webpack_require__.d(__webpack_exports__, "ConsistencyLevel", function() { return /* reexport */ ConsistencyLevel; });
+__webpack_require__.d(__webpack_exports__, "DefaultInit", function() { return /* reexport */ DefaultInit; });
+__webpack_require__.d(__webpack_exports__, "DefaultHeaders", function() { return /* reexport */ DefaultHeaders; });
+__webpack_require__.d(__webpack_exports__, "Endpoint", function() { return /* reexport */ Endpoint; });
+__webpack_require__.d(__webpack_exports__, "GraphBrowser", function() { return /* reexport */ GraphBrowser; });
+__webpack_require__.d(__webpack_exports__, "AsPaged", function() { return /* reexport */ AsPaged; });
+__webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ Paged; });
+__webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
+__webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
 
-// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
+// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+/**
+ * Adds a value to a date
+ *
+ * @param date The date to which we will add units, done in local time
+ * @param interval The name of the interval to add, one of: ['year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second']
+ * @param units The amount to add to date of the given interval
+ *
+ * http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
+ */
+function dateAdd(date, interval, units) {
+    let ret = new Date(date.toString()); // don't change original date
+    switch (interval.toLowerCase()) {
+        case "year":
+            ret.setFullYear(ret.getFullYear() + units);
+            break;
+        case "quarter":
+            ret.setMonth(ret.getMonth() + 3 * units);
+            break;
+        case "month":
+            ret.setMonth(ret.getMonth() + units);
+            break;
+        case "week":
+            ret.setDate(ret.getDate() + 7 * units);
+            break;
+        case "day":
+            ret.setDate(ret.getDate() + units);
+            break;
+        case "hour":
+            ret.setTime(ret.getTime() + units * 3600000);
+            break;
+        case "minute":
+            ret.setTime(ret.getTime() + units * 60000);
+            break;
+        case "second":
+            ret.setTime(ret.getTime() + units * 1000);
+            break;
+        default:
+            ret = undefined;
+            break;
+    }
+    return ret;
+}
+/**
+ * Combines an arbitrary set of paths ensuring and normalizes the slashes
+ *
+ * @param paths 0 to n path parts to combine
+ */
+function combine(...paths) {
+    return paths
+        .filter(path => !stringIsNullOrEmpty(path))
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
+        .join("/")
+        .replace(/\\/g, "/");
+}
+/**
+ * Gets a random string of chars length
+ *
+ * https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+ *
+ * @param chars The length of the random string to generate
+ */
+function getRandomString(chars) {
+    const text = new Array(chars);
+    for (let i = 0; i < chars; i++) {
+        text[i] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 62));
+    }
+    return text.join("");
+}
+/**
+ * Gets a random GUID value
+ *
+ * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+ */
+/* eslint-disable no-bitwise */
+function getGUID() {
+    let d = Date.now();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+        const r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+/* eslint-enable no-bitwise */
+/**
+ * Determines if a given value is a function
+ *
+ * @param f The thing to test for functionness
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isFunc(f) {
+    return typeof f === "function";
+}
+/**
+ * @returns whether the provided parameter is a JavaScript Array or not.
+*/
+function isArray(array) {
+    return Array.isArray(array);
+}
+/**
+ * Determines if a given url is absolute
+ *
+ * @param url The url to check to see if it is absolute
+ */
+function isUrlAbsolute(url) {
+    return /^https?:\/\/|^\/\//i.test(url);
+}
+/**
+ * Determines if a string is null or empty or undefined
+ *
+ * @param s The string to test
+ */
+function stringIsNullOrEmpty(s) {
+    return typeof s === "undefined" || s === null || s.length < 1;
+}
+/**
+ * Determines if an object is both defined and not null
+ * @param obj Object to test
+ */
+function objectDefinedNotNull(obj) {
+    return typeof obj !== "undefined" && obj !== null;
+}
+/**
+ * Shorthand for JSON.stringify
+ *
+ * @param o Any type of object
+ */
+function jsS(o) {
+    return JSON.stringify(o);
+}
+/**
+ * Shorthand for Object.hasOwnProperty
+ *
+ * @param o Object to check for
+ * @param p Name of the property
+ */
+function hOP(o, p) {
+    return Object.hasOwnProperty.call(o, p);
+}
+/**
+ * Generates a ~unique hash code
+ *
+ * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
+ */
+/* eslint-disable no-bitwise */
+function getHashCode(s) {
+    let hash = 0;
+    if (s.length === 0) {
+        return hash;
+    }
+    for (let i = 0; i < s.length; i++) {
+        const chr = s.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+/* eslint-enable no-bitwise */
+/**
+ * Waits a specified number of milliseconds before resolving
+ *
+ * @param ms Number of ms to wait
+ */
+function delay(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+
+let storageShim;
+function getStorageShim() {
+    if (typeof storageShim === "undefined") {
+        storageShim = new MemoryStorage();
+    }
+    return storageShim;
+}
+/**
+ * A wrapper class to provide a consistent interface to browser based storage
+ *
+ */
+class storage_PnPClientStorageWrapper {
+    /**
+     * Creates a new instance of the PnPClientStorageWrapper class
+     *
+     * @constructor
+     */
+    constructor(store) {
+        this.store = store;
+        this.enabled = this.test();
+    }
+    /**
+     * Get a value from storage, or null if that value does not exist
+     *
+     * @param key The key whose value we want to retrieve
+     */
+    get(key) {
+        if (!this.enabled) {
+            return null;
+        }
+        const o = this.store.getItem(key);
+        if (!objectDefinedNotNull(o)) {
+            return null;
+        }
+        const persistable = JSON.parse(o);
+        if (new Date(persistable.expiration) <= new Date()) {
+            this.delete(key);
+            return null;
+        }
+        else {
+            return persistable.value;
+        }
+    }
+    /**
+     * Adds a value to the underlying storage
+     *
+     * @param key The key to use when storing the provided value
+     * @param o The value to store
+     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
+     */
+    put(key, o, expire) {
+        if (this.enabled) {
+            this.store.setItem(key, this.createPersistable(o, expire));
+        }
+    }
+    /**
+     * Deletes a value from the underlying storage
+     *
+     * @param key The key of the pair we want to remove from storage
+     */
+    delete(key) {
+        if (this.enabled) {
+            this.store.removeItem(key);
+        }
+    }
+    /**
+     * Gets an item from the underlying storage, or adds it if it does not exist using the supplied getter function
+     *
+     * @param key The key to use when storing the provided value
+     * @param getter A function which will upon execution provide the desired value
+     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
+     */
+    async getOrPut(key, getter, expire) {
+        if (!this.enabled) {
+            return getter();
+        }
+        let o = this.get(key);
+        if (o === null) {
+            o = await getter();
+            this.put(key, o, expire);
+        }
+        return o;
+    }
+    /**
+     * Deletes any expired items placed in the store by the pnp library, leaves other items untouched
+     */
+    async deleteExpired() {
+        if (!this.enabled) {
+            return;
+        }
+        for (let i = 0; i < this.store.length; i++) {
+            const key = this.store.key(i);
+            if (key !== null) {
+                // test the stored item to see if we stored it
+                if (/["|']?pnp["|']? ?: ?1/i.test(this.store.getItem(key))) {
+                    // get those items as get will delete from cache if they are expired
+                    await this.get(key);
+                }
+            }
+        }
+    }
+    /**
+     * Used to determine if the wrapped storage is available currently
+     */
+    test() {
+        const str = "t";
+        try {
+            this.store.setItem(str, str);
+            this.store.removeItem(str);
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+    /**
+     * Creates the persistable to store
+     */
+    createPersistable(o, expire) {
+        if (expire === undefined) {
+            expire = dateAdd(new Date(), "minute", 5);
+        }
+        return jsS({ pnp: 1, expiration: expire, value: o });
+    }
+}
+/**
+ * A thin implementation of in-memory storage for use in nodejs
+ */
+class MemoryStorage {
+    constructor(_store = new Map()) {
+        this._store = _store;
+    }
+    get length() {
+        return this._store.size;
+    }
+    clear() {
+        this._store.clear();
+    }
+    getItem(key) {
+        return this._store.get(key);
+    }
+    key(index) {
+        return Array.from(this._store)[index][0];
+    }
+    removeItem(key) {
+        this._store.delete(key);
+    }
+    setItem(key, data) {
+        this._store.set(key, data);
+    }
+}
+/**
+ * A class that will establish wrappers for both local and session storage, substituting basic memory storage for nodejs
+ */
+class PnPClientStorage {
+    /**
+     * Creates a new instance of the PnPClientStorage class
+     *
+     * @constructor
+     */
+    constructor(_local = null, _session = null) {
+        this._local = _local;
+        this._session = _session;
+    }
+    /**
+     * Provides access to the local storage of the browser
+     */
+    get local() {
+        if (this._local === null) {
+            this._local = new storage_PnPClientStorageWrapper(typeof localStorage === "undefined" ? getStorageShim() : localStorage);
+        }
+        return this._local;
+    }
+    /**
+     * Provides access to the session storage of the browser
+     */
+    get session() {
+        if (this._session === null) {
+            this._session = new storage_PnPClientStorageWrapper(typeof sessionStorage === "undefined" ? getStorageShim() : sessionStorage);
+        }
+        return this._session;
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+
+/**
+ * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
+ *
+ * @returns void
+ */
+function broadcast() {
+    return function (observers, ...args) {
+        const obs = [...observers];
+        for (let i = 0; i < obs.length; i++) {
+            Reflect.apply(obs[i], this, args);
+        }
+    };
+}
+/**
+ * Defines a moment that executes each observer asynchronously in parallel awaiting all promises to resolve or reject before continuing
+ *
+ * @returns The final set of arguments
+ */
+function asyncBroadcast() {
+    return async function (observers, ...args) {
+        // get our initial values
+        const r = args;
+        const obs = [...observers];
+        const promises = [];
+        // process each handler which updates our "state" in order
+        for (let i = 0; i < obs.length; i++) {
+            promises.push(Reflect.apply(obs[i], this, r));
+        }
+        return Promise.all(promises);
+    };
+}
+/**
+ * Defines a moment that executes each observer synchronously, passing the returned arguments as the arguments to the next observer.
+ * This is very much like the redux pattern taking the arguments as the state which each observer may modify then returning a new state
+ *
+ * @returns The final set of arguments
+ */
+function reduce() {
+    return function (observers, ...args) {
+        const obs = [...observers];
+        return obs.reduce((params, func) => Reflect.apply(func, this, params), args);
+    };
+}
+/**
+ * Defines a moment that executes each observer asynchronously, awaiting the result and passes the returned arguments as the arguments to the next observer.
+ * This is very much like the redux pattern taking the arguments as the state which each observer may modify then returning a new state
+ *
+ * @returns The final set of arguments
+ */
+function asyncReduce() {
+    return async function (observers, ...args) {
+        const obs = [...observers];
+        return obs.reduce((prom, func) => prom.then((params) => Reflect.apply(func, this, params)), Promise.resolve(args));
+    };
+}
+/**
+ * Defines a moment where the first registered observer is used to asynchronously execute a request, returning a single result
+ * If no result is returned (undefined) no further action is taken and the result will be undefined (i.e. additional observers are not used)
+ *
+ * @returns The result returned by the first registered observer
+ */
+function request() {
+    return async function (observers, ...args) {
+        if (!isArray(observers) || observers.length < 1) {
+            return undefined;
+        }
+        const handler = observers[0];
+        return Reflect.apply(handler, this, args);
+    };
+}
+/**
+ * Defines a special moment used to configure the timeline itself before starting. Each observer is executed in order,
+ * possibly modifying the "this" instance, with the final product returned
+ *
+ */
+function lifecycle() {
+    return function (observers, ...args) {
+        const obs = [...observers];
+        // process each handler which updates our instance in order
+        // very similar to asyncReduce but the state is the object itself
+        for (let i = 0; i < obs.length; i++) {
+            Reflect.apply(obs[i], this, args);
+        }
+        return this;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+
+
+/**
+ * Field name to hold any flags on observer functions used to modify their behavior
+ */
+const flags = Symbol.for("ObserverLifecycleFlags");
+/**
+ * Bitwise flags to indicate modified behavior
+ */
+var ObserverLifecycleFlags;
+(function (ObserverLifecycleFlags) {
+    // eslint-disable-next-line no-bitwise
+    ObserverLifecycleFlags[ObserverLifecycleFlags["noInherit"] = 1] = "noInherit";
+    // eslint-disable-next-line no-bitwise
+    ObserverLifecycleFlags[ObserverLifecycleFlags["once"] = 2] = "once";
+})(ObserverLifecycleFlags || (ObserverLifecycleFlags = {}));
+/**
+ * Creates a filter function for use in Array.filter that will filter OUT any observers with the specified [flag]
+ *
+ * @param flag The flag used to exclude observers
+ * @returns An Array.filter function
+ */
+// eslint-disable-next-line no-bitwise
+const byFlag = (flag) => ((observer) => !((observer[flags] || 0) & flag));
+/**
+ * Creates an observer lifecycle modification flag application function
+ * @param flag The flag to the bound function should add
+ * @returns A function that can be used to apply [flag] to any valid observer
+ */
+const addFlag = (flag) => ((observer) => {
+    // eslint-disable-next-line no-bitwise
+    observer[flags] = (observer[flags] || 0) | flag;
+    return observer;
+});
+/**
+ * Observer lifecycle modifier that indicates this observer should NOT be inherited by any child
+ * timelines.
+ */
+const noInherit = addFlag(1 /* noInherit */);
+/**
+ * Observer lifecycle modifier that indicates this observer should only fire once per instance, it is then removed.
+ *
+ * Note: If you have a parent and child timeline "once" will affect both and the observer will fire once for a parent lifecycle
+ * and once for a child lifecycle
+ */
+const once = addFlag(2 /* once */);
+/**
+ * Timeline represents a set of operations executed in order of definition,
+ * with each moment's behavior controlled by the implementing function
+ */
+class timeline_Timeline {
+    /**
+     * Creates a new instance of Timeline with the supplied moments and optionally any observers to include
+     *
+     * @param moments The moment object defining this timeline
+     * @param observers Any observers to include (optional)
+     */
+    constructor(moments, observers = {}) {
+        this.moments = moments;
+        this.observers = observers;
+        this._onProxy = null;
+        this._emitProxy = null;
+        this._inheritingObservers = true;
+    }
+    /**
+     * Apply the supplied behavior(s) to this timeline
+     *
+     * @param behaviors One or more behaviors
+     * @returns `this` Timeline
+     */
+    using(...behaviors) {
+        for (let i = 0; i < behaviors.length; i++) {
+            behaviors[i](this);
+        }
+        return this;
+    }
+    /**
+     * Property allowing access to manage observers on moments within this timeline
+     */
+    get on() {
+        if (this._onProxy === null) {
+            this._onProxy = new Proxy(this, {
+                get: (target, p) => Object.assign((handler) => {
+                    target.cloneObserversOnChange();
+                    addObserver(target.observers, p, handler, "add");
+                    return target;
+                }, {
+                    toArray: () => {
+                        return Reflect.has(target.observers, p) ? [...Reflect.get(target.observers, p)] : [];
+                    },
+                    replace: (handler) => {
+                        target.cloneObserversOnChange();
+                        addObserver(target.observers, p, handler, "replace");
+                        return target;
+                    },
+                    prepend: (handler) => {
+                        target.cloneObserversOnChange();
+                        addObserver(target.observers, p, handler, "prepend");
+                        return target;
+                    },
+                    clear: () => {
+                        if (Reflect.has(target.observers, p)) {
+                            target.cloneObserversOnChange();
+                            // we trust ourselves that this will be an array
+                            target.observers[p].length = 0;
+                            return true;
+                        }
+                        return false;
+                    },
+                }),
+            });
+        }
+        return this._onProxy;
+    }
+    /**
+     * Shorthand method to emit a logging event tied to this timeline
+     *
+     * @param message The message to log
+     * @param level The level at which the message applies
+     */
+    log(message, level = 0) {
+        this.emit.log(message, level);
+    }
+    /**
+     * Shorthand method to emit an error event tied to this timeline
+     *
+     * @param e Optional. Any error object to emit. If none is provided no emit occurs
+     */
+    error(e) {
+        if (objectDefinedNotNull(e)) {
+            this.emit.error(e);
+        }
+    }
+    /**
+     * Property allowing access to invoke a moment from within this timeline
+     */
+    get emit() {
+        if (this._emitProxy === null) {
+            this._emitProxy = new Proxy(this, {
+                get: (target, p) => (...args) => {
+                    // handle the case where no observers registered for the target moment
+                    const observers = Reflect.has(target.observers, p) ? Reflect.get(target.observers, p) : [];
+                    if ((!isArray(observers) || observers.length < 1) && p === "error") {
+                        // if we are emitting an error, and no error observers are defined, we throw
+                        throw Error(`Unhandled Exception: ${args[0]}`);
+                    }
+                    try {
+                        // default to broadcasting any events without specific impl (will apply to log and error)
+                        const moment = Reflect.has(target.moments, p) ? Reflect.get(target.moments, p) : p === "init" || p === "dispose" ? lifecycle() : broadcast();
+                        // pass control to the individual moment's implementation
+                        return Reflect.apply(moment, target, [observers, ...args]);
+                    }
+                    catch (e) {
+                        if (p !== "error") {
+                            this.error(e);
+                        }
+                        else {
+                            // if all else fails, re-throw as we are getting errors from error observers meaning something is sideways
+                            throw e;
+                        }
+                    }
+                    finally {
+                        // here we need to remove any "once" observers
+                        Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                    }
+                },
+            });
+        }
+        return this._emitProxy;
+    }
+    /**
+     * Starts a timeline
+     *
+     * @description This method first emits "init" to allow for any needed initial conditions then calls execute with any supplied init
+     *
+     * @param init A value passed into the execute logic from the initiator of the timeline
+     * @returns The result of this.execute
+     */
+    start(init) {
+        // initialize our timeline
+        this.emit.init();
+        // attach our dispose logic
+        return this.execute(init).finally(() => {
+            try {
+                // provide an opportunity for cleanup of the timeline
+                this.emit.dispose();
+            }
+            catch (e) {
+                // shouldn't happen, but possible dispose throws - which may be missed as the usercode await will have resolved.
+                const e2 = Object.assign(Error("Error in dispose."), {
+                    innerException: e,
+                });
+                this.error(e2);
+            }
+        });
+    }
+    /**
+     * By default a timeline references the same observer collection as a parent timeline,
+     * if any changes are made to the observers this method first clones them ensuring we
+     * maintain a local copy and de-ref the parent
+     */
+    cloneObserversOnChange() {
+        if (this._inheritingObservers) {
+            this._inheritingObservers = false;
+            this.observers = cloneObserverCollection(this.observers);
+        }
+    }
+}
+/**
+ * Adds an observer to a given target
+ *
+ * @param target The object to which events are registered
+ * @param moment The name of the moment to which the observer is registered
+ * @param addBehavior Determines how the observer is added to the collection
+ *
+ */
+function addObserver(target, moment, observer, addBehavior) {
+    if (!isFunc(observer)) {
+        throw Error("Observers must be functions.");
+    }
+    if (!Reflect.has(target, moment)) {
+        // if we don't have a registration for this moment, then we just add a new prop
+        target[moment] = [observer];
+    }
+    else {
+        // if we have an existing property then we follow the specified behavior
+        switch (addBehavior) {
+            case "add":
+                target[moment].push(observer);
+                break;
+            case "prepend":
+                target[moment].unshift(observer);
+                break;
+            case "replace":
+                target[moment].length = 0;
+                target[moment].push(observer);
+                break;
+        }
+    }
+    return target[moment];
+}
+function cloneObserverCollection(source) {
+    return Reflect.ownKeys(source).reduce((clone, key) => {
+        // eslint-disable-next-line no-bitwise
+        clone[key] = [...source[key].filter(byFlag(1 /* noInherit */))];
+        return clone;
+    }, {});
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/extendable.js
+
+let _enableExtensions = false;
+const ObjExtensionsSym = Symbol.for("PnPExt");
+const factoryExtensions = new Map();
+/**
+ * Decorator factory wrapping any tagged class in the extension proxy, enabling the use of object extensions
+ *
+ * @description MUST be applied last (i.e. be the first decorator in the list top to bottom applied to a class)
+ *
+ * @returns Decorator implementation
+ */
+function extendable() {
+    return (target) => {
+        return new Proxy(target, {
+            construct(clz, args, newTarget) {
+                let r = Reflect.construct(clz, args, newTarget);
+                // this block handles the factory function extensions by picking
+                // them off the factory and applying them to the created object
+                const proto = Reflect.getPrototypeOf(target);
+                if (Reflect.has(proto, ObjExtensionsSym)) {
+                    const extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
+                    if (extensions) {
+                        r = extend(r, extensions);
+                    }
+                }
+                const proxied = new Proxy(r, {
+                    apply: (target, _thisArg, argArray) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        return extensionOrDefault("apply", (...a) => Reflect.apply(...a), target, proxied, argArray);
+                    },
+                    get: (target, p, receiver) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        return extensionOrDefault("get", (...a) => Reflect.get(...a), target, p, receiver);
+                    },
+                    has: (target, p) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        return extensionOrDefault("has", (...a) => Reflect.has(...a), target, p);
+                    },
+                    set: (target, p, value, receiver) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        return extensionOrDefault("set", (...a) => Reflect.set(...a), target, p, value, receiver);
+                    },
+                });
+                return proxied;
+            },
+        });
+    };
+}
+/**
+ * Applies the supplied extensions to a single instance
+ *
+ * @param target Object to which extensions are applied
+ * @param extensions Extensions to apply
+ */
+function extend(target, extensions) {
+    _enableExtensions = true;
+    if (!Reflect.has(target, ObjExtensionsSym)) {
+        Reflect.defineProperty(target, ObjExtensionsSym, {
+            writable: true,
+            value: [],
+        });
+    }
+    extendCol(Reflect.get(target, ObjExtensionsSym), extensions);
+    return target;
+}
+/**
+ * Allows applying extensions to all instances created from the supplied factory
+ *
+ * @param factory The Invokable Factory method to extend
+ * @param extensions Extensions to apply
+ */
+function extendFactory(factory, extensions) {
+    _enableExtensions = true;
+    // factoryExtensions
+    const proto = Reflect.getPrototypeOf(factory);
+    if (proto) {
+        if (!Reflect.has(proto, ObjExtensionsSym)) {
+            Reflect.defineProperty(proto, ObjExtensionsSym, {
+                value: getGUID(),
+            });
+        }
+        const key = proto[ObjExtensionsSym];
+        if (!factoryExtensions.has(key)) {
+            factoryExtensions.set(key, []);
+        }
+        extendCol(factoryExtensions.get(key), extensions);
+    }
+}
+function extendCol(a, e) {
+    if (isArray(e)) {
+        a.push(...e);
+    }
+    else {
+        a.push(e);
+    }
+}
+/**
+ * Disables all extensions
+ */
+const disableExtensions = () => {
+    _enableExtensions = false;
+};
+/**
+ * Enables all extensions
+ */
+const enableExtensions = () => {
+    _enableExtensions = true;
+};
+/**
+ * Executes the extended functionality if present, or the default action
+ *
+ * @param op Current operation type
+ * @param or The default non-extended functionality
+ * @param target The current "this" to which the current call applies
+ * @param rest Any arguments required for the called method
+ * @returns Whatever the underlying extension or method returns
+ */
+function extensionOrDefault(op, or, target, ...rest) {
+    if (_enableExtensions && Reflect.has(target, ObjExtensionsSym)) {
+        const extensions = [...Reflect.get(target, ObjExtensionsSym)];
+        let result = undefined;
+        for (let i = 0; i < extensions.length; i++) {
+            const extension = extensions[i];
+            if (isFunc(extension)) {
+                // this extension is a function which we call
+                result = extension(op, target, ...rest);
+            }
+            else if (op === "get" && Reflect.has(extension, rest[0])) {
+                // this extension is a named extension meaning we are adding/overriding a specific method/property
+                result = Reflect.get(extension, rest[0], target);
+            }
+            else if (Reflect.has(extension, op)) {
+                // this extension is a ProxyHandler that has a handler defined for {op} so we pass control and see if we get a result
+                result = Reflect.get(extension, op)(target, ...rest);
+            }
+            if (typeof result !== "undefined") {
+                // if a extension returned a result, we return that
+                // this means that this extension overrides any other extensions and no more are executed
+                // first extension in the list to return "wins"
+                return result;
+            }
+        }
+    }
+    return or(target, ...rest);
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+/**
+ * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
+ *
+ * @param source The source instance from which we will assign the observers
+ */
+function AssignFrom(source) {
+    return (instance) => {
+        instance.observers = source.observers;
+        instance._inheritingObservers = true;
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+
+
+/**
+ * Behavior that will copy all the observers in the source timeline and apply it to the incoming instance
+ *
+ * @param source The source instance from which we will copy the observers
+ * @param behavior replace = observers are cleared before adding, append preserves any observers already present
+ * @param filter If provided filters the moments from which the observers are copied. It should return true for each moment to include.
+ * @returns The mutated this
+ */
+function CopyFrom(source, behavior = "append", filter) {
+    return (instance) => {
+        return Reflect.apply(copyObservers, instance, [source, behavior, filter]);
+    };
+}
+/**
+ * Function with implied this allows us to access protected members
+ *
+ * @param this The timeline whose observers we will copy
+ * @param source The source instance from which we will copy the observers
+ * @param behavior replace = observers are cleared before adding, append preserves any observers already present
+ * @returns The mutated this
+ */
+function copyObservers(source, behavior, filter) {
+    if (!objectDefinedNotNull(source) || !objectDefinedNotNull(source.observers)) {
+        return this;
+    }
+    if (!isFunc(filter)) {
+        filter = () => true;
+    }
+    const clonedSource = cloneObserverCollection(source.observers);
+    const keys = Object.keys(clonedSource).filter(filter);
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const on = this.on[key];
+        if (behavior === "replace") {
+            on.clear();
+        }
+        const momentObservers = clonedSource[key];
+        momentObservers.forEach(v => on(v));
+    }
+    return this;
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
+
+
+
+
+
+/**
+ * Behavior exports
+ */
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/add-prop.js
+/**
+ * Adds a property to a target instance
+ *
+ * @param target The object to whose prototype we will add a property
+ * @param name Property name
+ * @param factory Factory method used to produce the property value
+ * @param path Any additional path required to produce the value
+ */
+function addProp(target, name, factory, path) {
+    Reflect.defineProperty(target.prototype, name, {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+            return factory(this, path || name);
+        },
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/operations.js
+function ensureInit(method, init = { headers: {} }) {
+    return { method, ...init, headers: { ...init.headers } };
+}
+function get(init) {
+    return this.start(ensureInit("GET", init));
+}
+function post(init) {
+    return this.start(ensureInit("POST", init));
+}
+function put(init) {
+    return this.start(ensureInit("PUT", init));
+}
+function patch(init) {
+    return this.start(ensureInit("PATCH", init));
+}
+function del(init) {
+    return this.start(ensureInit("DELETE", init));
+}
+function operations_op(q, operation, init) {
+    return Reflect.apply(operation, q, [init]);
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/invokable.js
+
+
+/**
+ * Allows a decorated object to be invoked as a function, optionally providing an implementation for that action
+ *
+ * @param invokeableAction Optional. The logic to execute upon invoking the object as a function.
+ * @returns Decorator which applies the invokable logic to the tagged class
+ */
+function invokable(invokeableAction) {
+    if (!isFunc(invokeableAction)) {
+        invokeableAction = function (init) {
+            return operations_op(this, get, init);
+        };
+    }
+    return (target) => {
+        return new Proxy(target, {
+            construct(clz, args, newTarget) {
+                const invokableInstance = Object.assign(function (init) {
+                    // the "this" for our invoked object will be set by extendable OR we use invokableInstance directly
+                    const localThis = typeof this === "undefined" ? invokableInstance : this;
+                    return Reflect.apply(invokeableAction, localThis, [init]);
+                }, Reflect.construct(clz, args, newTarget));
+                Reflect.setPrototypeOf(invokableInstance, newTarget.prototype);
+                return invokableInstance;
+            },
+        });
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.js
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -338,7 +1218,11 @@ function __generator(thisArg, body) {
 
 var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -400,7 +1284,7 @@ function __spreadArray(to, from, pack) {
             ar[i] = from[i];
         }
     }
-    return to.concat(ar || from);
+    return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function __await(v) {
@@ -469,5633 +1353,1198 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/util.js
-/**
- * Gets a callback function which will maintain context across async calls.
- * Allows for the calling pattern getCtxCallback(thisobj, method, methodarg1, methodarg2, ...)
- *
- * @param context The object that will be the 'this' value in the callback
- * @param method The method to which we will apply the context and parameters
- * @param params Optional, additional arguments to supply to the wrapped method when it is invoked
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function getCtxCallback(context, method) {
-    var params = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        params[_i - 2] = arguments[_i];
-    }
-    return function () {
-        method.apply(context, params);
-    };
-}
-/**
- * Adds a value to a date
- *
- * @param date The date to which we will add units, done in local time
- * @param interval The name of the interval to add, one of: ['year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second']
- * @param units The amount to add to date of the given interval
- *
- * http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
- */
-function dateAdd(date, interval, units) {
-    var ret = new Date(date.toString()); // don't change original date
-    switch (interval.toLowerCase()) {
-        case "year":
-            ret.setFullYear(ret.getFullYear() + units);
-            break;
-        case "quarter":
-            ret.setMonth(ret.getMonth() + 3 * units);
-            break;
-        case "month":
-            ret.setMonth(ret.getMonth() + units);
-            break;
-        case "week":
-            ret.setDate(ret.getDate() + 7 * units);
-            break;
-        case "day":
-            ret.setDate(ret.getDate() + units);
-            break;
-        case "hour":
-            ret.setTime(ret.getTime() + units * 3600000);
-            break;
-        case "minute":
-            ret.setTime(ret.getTime() + units * 60000);
-            break;
-        case "second":
-            ret.setTime(ret.getTime() + units * 1000);
-            break;
-        default:
-            ret = undefined;
-            break;
-    }
-    return ret;
-}
-/**
- * Combines an arbitrary set of paths ensuring and normalizes the slashes
- *
- * @param paths 0 to n path parts to combine
- */
-function combine() {
-    var paths = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        paths[_i] = arguments[_i];
-    }
-    return paths
-        .filter(function (path) { return !stringIsNullOrEmpty(path); })
-        .map(function (path) { return path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""); })
-        .join("/")
-        .replace(/\\/g, "/");
-}
-/**
- * Gets a random string of chars length
- *
- * https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
- *
- * @param chars The length of the random string to generate
- */
-function getRandomString(chars) {
-    var text = new Array(chars);
-    for (var i = 0; i < chars; i++) {
-        text[i] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 62));
-    }
-    return text.join("");
-}
-/**
- * Gets a random GUID value
- *
- * http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
- */
-/* eslint-disable no-bitwise */
-function getGUID() {
-    var d = Date.now();
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
-/* eslint-enable no-bitwise */
-/**
- * Determines if a given value is a function
- *
- * @param cf The thing to test for functionness
- */
-function isFunc(f) {
-    return typeof f === "function";
-}
-/**
- * Determines if an object is both defined and not null
- * @param obj Object to test
- */
-function objectDefinedNotNull(obj) {
-    return typeof obj !== "undefined" && obj !== null;
-}
-/**
- * @returns whether the provided parameter is a JavaScript Array or not.
-*/
-function isArray(array) {
-    return Array.isArray ? Array.isArray(array) : array && typeof array.length === "number" && array.constructor === Array;
-}
-/**
- * Provides functionality to extend the given object by doing a shallow copy
- *
- * @param target The object to which properties will be copied
- * @param source The source object from which properties will be copied
- * @param noOverwrite If true existing properties on the target are not overwritten from the source
- * @param filter If provided allows additional filtering on what properties are copied (propName: string) => boolean
- *
- */
-function util_assign(target, source, noOverwrite, filter) {
-    if (noOverwrite === void 0) { noOverwrite = false; }
-    if (filter === void 0) { filter = function () { return true; }; }
-    if (!objectDefinedNotNull(source)) {
-        return target;
-    }
-    // ensure we don't overwrite things we don't want overwritten
-    var check = noOverwrite ? function (o, i) { return !(i in o); } : function () { return true; };
-    // final filter we will use
-    var f = function (v) { return check(target, v) && filter(v); };
-    return Object.getOwnPropertyNames(source)
-        .filter(f)
-        .reduce(function (t, v) {
-        t[v] = source[v];
-        return t;
-    }, target);
-}
-/**
- * Determines if a given url is absolute
- *
- * @param url The url to check to see if it is absolute
- */
-function isUrlAbsolute(url) {
-    return /^https?:\/\/|^\/\//i.test(url);
-}
-/**
- * Determines if a string is null or empty or undefined
- *
- * @param s The string to test
- */
-function stringIsNullOrEmpty(s) {
-    return s === undefined || s === null || s.length < 1;
-}
-/**
- * Ensures guid values are represented consistently as "ea123463-137d-4ae3-89b8-cf3fc578ca05"
- *
- * @param guid The candidate guid
- */
-function sanitizeGuid(guid) {
-    if (stringIsNullOrEmpty(guid)) {
-        return guid;
-    }
-    var matches = /([0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})/i.exec(guid);
-    return matches === null ? guid : matches[1];
-}
-/**
- * Shorthand for JSON.stringify
- *
- * @param o Any type of object
- */
-function jsS(o) {
-    return JSON.stringify(o);
-}
-/**
- * Shorthand for Object.hasOwnProperty
- *
- * @param o Object to check for
- * @param p Name of the property
- */
-function hOP(o, p) {
-    return Object.hasOwnProperty.call(o, p);
-}
-/**
- * Generates a ~unique hash code
- *
- * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
- */
-/* eslint-disable no-bitwise */
-function getHashCode(s) {
-    var hash = 0;
-    if (s.length === 0) {
-        return hash;
-    }
-    for (var i = 0; i < s.length; i++) {
-        var chr = s.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-}
-/* eslint-enable no-bitwise */
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/collections.js
-
-/**
- * Used to calculate the object properties, with polyfill if needed
- */
-var objectEntries = isFunc(Object.entries) ? Object.entries : function (o) { return Object.keys(o).map(function (k) { return [k, o[k]]; }); };
-/**
- * Converts the supplied object to a map
- *
- * @param o The object to map
- */
-function objectToMap(o) {
-    if (objectDefinedNotNull(o)) {
-        return new Map(objectEntries(o));
-    }
-    return new Map();
-}
-/**
- * Merges to Map instances together, overwriting values in target with matching keys, last in wins
- *
- * @param target map into which the other maps are merged
- * @param maps One or more maps to merge into the target
- */
-function mergeMaps(target) {
-    var maps = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        maps[_i - 1] = arguments[_i];
-    }
-    for (var i = 0; i < maps.length; i++) {
-        maps[i].forEach(function (v, k) {
-            // let's not run the spfx context through Object.assign :)
-            if ((typeof k === "string" && k !== "spfxContext") && Object.prototype.toString.call(v) === "[object Object]") {
-                // we only handle one level of deep object merging
-                target.set(k, Object.assign({}, target.get(k) || {}, v));
-            }
-            else {
-                target.set(k, v);
-            }
-        });
-    }
-    return target;
+function __classPrivateFieldIn(state, receiver) {
+    if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+    return typeof state === "function" ? receiver === state : state.has(receiver);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/common/libconfig.js
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
 
 
-function setup(config, runtime) {
-    if (runtime === void 0) { runtime = DefaultRuntime; }
-    runtime.assign(config);
-}
-// lable mapping for known config values
-var libconfig_s = [
-    "defaultCachingStore",
-    "defaultCachingTimeoutSeconds",
-    "globalCacheDisable",
-    "enableCacheExpiration",
-    "cacheExpirationIntervalMilliseconds",
-    "spfxContext",
-    "ie11",
-];
-var runtimeCreateHooks = [];
-function onRuntimeCreate(hook) {
-    if (runtimeCreateHooks.indexOf(hook) < 0) {
-        // apply hook logic to default runtime
-        hook(DefaultRuntime);
-        runtimeCreateHooks.push(hook);
-    }
-}
-var libconfig_Runtime = /** @class */ (function () {
-    function Runtime(_v) {
-        var _this = this;
-        if (_v === void 0) { _v = new Map(); }
-        this._v = _v;
-        var defaulter = function (key, def) {
-            if (!_this._v.has(key)) {
-                _this._v.set(key, def);
-            }
-        };
-        // setup defaults
-        defaulter(libconfig_s[0], "session");
-        defaulter(libconfig_s[1], 60);
-        defaulter(libconfig_s[2], false);
-        defaulter(libconfig_s[3], false);
-        defaulter(libconfig_s[4], 750);
-        defaulter(libconfig_s[5], null);
-        defaulter(libconfig_s[6], false);
-        runtimeCreateHooks.forEach(function (hook) { return hook(_this); });
-    }
-    /**
-     *
-     * @param config The set of properties to add to this runtime instance
-     */
-    Runtime.prototype.assign = function (config) {
-        this._v = mergeMaps(this._v, objectToMap(config));
-    };
-    /**
-     * Gets a runtime value using T to define the available keys, and R to define the type returned by that key
-     *
-     * @param key
-     */
-    Runtime.prototype.get = function (key) {
-        return this._v.get(key);
-    };
-    /**
-     * Exports the internal Map representing this runtime
-     */
-    Runtime.prototype.export = function () {
-        var e_1, _a;
-        var expt = new Map();
-        try {
-            for (var _b = __values(this._v), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var _d = __read(_c.value, 2), key = _d[0], value = _d[1];
-                if (key !== "__isDefault__") {
-                    expt.set(key, value);
-                }
-            }
+
+const DefaultMoments = {
+    construct: lifecycle(),
+    pre: asyncReduce(),
+    auth: asyncReduce(),
+    send: request(),
+    parse: asyncReduce(),
+    post: asyncReduce(),
+    data: broadcast(),
+};
+let queryable_Queryable = class Queryable extends timeline_Timeline {
+    constructor(init, path) {
+        super(DefaultMoments);
+        // these keys represent internal events for Queryable, users are not expected to
+        // subscribe directly to these, rather they enable functionality within Queryable
+        // they are Symbols such that there are NOT cloned between queryables as we only grab string keys (by design)
+        this.InternalResolve = Symbol.for("Queryable_Resolve");
+        this.InternalReject = Symbol.for("Queryable_Reject");
+        this.InternalPromise = Symbol.for("Queryable_Promise");
+        this._query = new URLSearchParams();
+        // add an intneral moment with specific implementaion for promise creation
+        this.moments[this.InternalPromise] = reduce();
+        let parent;
+        if (typeof init === "string") {
+            this._url = combine(init, path);
         }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        else if (isArray(init)) {
+            if (init.length !== 2) {
+                throw Error("When using the tuple param exactly two arguments are expected.");
             }
-            finally { if (e_1) throw e_1.error; }
-        }
-        return expt;
-    };
-    return Runtime;
-}());
-
-// default runtime used globally
-var libconfig_runtime = new libconfig_Runtime(new Map([["__isDefault__", true]]));
-var DefaultRuntime = libconfig_runtime;
-
-// EXTERNAL MODULE: ./node_modules/@pnp/common/safe-global.js
-var safe_global = __webpack_require__(0);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/net.js
-
-
-
-function mergeHeaders(target, source) {
-    if (objectDefinedNotNull(source)) {
-        var temp = new Request("", { headers: source });
-        temp.headers.forEach(function (value, name) {
-            target.append(name, value);
-        });
-    }
-}
-function mergeOptions(target, source) {
-    if (objectDefinedNotNull(source)) {
-        var headers = util_assign(target.headers || {}, source.headers);
-        target = util_assign(target, source);
-        target.headers = headers;
-    }
-}
-/**
- * Parses out the root of the request url to use as the resource when getting the token
- *
-  * @param url The url to parse
- */
-function getADALResource(url) {
-    var u = new URL(url);
-    return u.protocol + "//" + u.hostname;
-}
-/**
- * Makes requests using the global/window fetch API
- */
-var net_FetchClient = /** @class */ (function () {
-    function FetchClient() {
-    }
-    FetchClient.prototype.fetch = function (url, options) {
-        return safe_global["a" /* safeGlobal */].fetch(url, options);
-    };
-    return FetchClient;
-}());
-
-/**
- * Makes requests using the fetch API adding the supplied token to the Authorization header
- */
-var net_BearerTokenFetchClient = /** @class */ (function (_super) {
-    __extends(BearerTokenFetchClient, _super);
-    function BearerTokenFetchClient(token) {
-        var _this = _super.call(this) || this;
-        _this.token = token;
-        return _this;
-    }
-    BearerTokenFetchClient.prototype.fetch = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var headers = new Headers();
-        mergeHeaders(headers, options.headers);
-        headers.set("Authorization", "Bearer " + this.token);
-        options.headers = headers;
-        return _super.prototype.fetch.call(this, url, options);
-    };
-    return BearerTokenFetchClient;
-}(net_FetchClient));
-
-var net_LambdaFetchClient = /** @class */ (function (_super) {
-    __extends(LambdaFetchClient, _super);
-    function LambdaFetchClient(tokenFactory) {
-        var _this = _super.call(this, null) || this;
-        _this.tokenFactory = tokenFactory;
-        return _this;
-    }
-    /**
-     * Executes a fetch request using the supplied url and options
-     *
-     * @param url Absolute url of the request
-     * @param options Any options
-     */
-    LambdaFetchClient.prototype.fetch = function (url, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _a = this;
-                        return [4 /*yield*/, this.tokenFactory({ url: url, options: options })];
-                    case 1:
-                        _a.token = _b.sent();
-                        return [2 /*return*/, _super.prototype.fetch.call(this, url, options)];
-                }
-            });
-        });
-    };
-    return LambdaFetchClient;
-}(net_BearerTokenFetchClient));
-
-/**
- * Client wrapping the aadTokenProvider available from SPFx >= 1.6
- */
-var net_SPFxAdalClient = /** @class */ (function (_super) {
-    __extends(SPFxAdalClient, _super);
-    /**
-     *
-     * @param context provide the appropriate SPFx Context object
-     */
-    function SPFxAdalClient(context) {
-        var _this = _super.call(this, function (params) { return __awaiter(_this, void 0, void 0, function () {
-            var provider;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, context.aadTokenProviderFactory.getTokenProvider()];
-                    case 1:
-                        provider = _a.sent();
-                        return [2 /*return*/, provider.getToken(getADALResource(params.url))];
-                }
-            });
-        }); }) || this;
-        _this.context = context;
-        return _this;
-    }
-    /**
-     * Gets an AAD token for the provided resource using the SPFx AADTokenProvider
-     *
-     * @param resource Resource for which a token is to be requested (ex: https://graph.microsoft.com)
-     */
-    SPFxAdalClient.prototype.getToken = function (resource) {
-        return __awaiter(this, void 0, void 0, function () {
-            var provider;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.context.aadTokenProviderFactory.getTokenProvider()];
-                    case 1:
-                        provider = _a.sent();
-                        return [2 /*return*/, provider.getToken(resource)];
-                }
-            });
-        });
-    };
-    return SPFxAdalClient;
-}(net_LambdaFetchClient));
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/spfxcontextinterface.js
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/storage.js
-
-
-
-/**
- * A wrapper class to provide a consistent interface to browser based storage
- *
- */
-var storage_PnPClientStorageWrapper = /** @class */ (function () {
-    /**
-     * Creates a new instance of the PnPClientStorageWrapper class
-     *
-     * @constructor
-     */
-    function PnPClientStorageWrapper(store, defaultTimeoutMinutes) {
-        if (defaultTimeoutMinutes === void 0) { defaultTimeoutMinutes = -1; }
-        this.store = store;
-        this.defaultTimeoutMinutes = defaultTimeoutMinutes;
-        this.enabled = this.test();
-        // if the cache timeout is enabled call the handler
-        // this will clear any expired items and set the timeout function
-        if (DefaultRuntime.get("enableCacheExpiration")) {
-            this.cacheExpirationHandler();
-        }
-    }
-    PnPClientStorageWrapper.bind = function (store) {
-        return new PnPClientStorageWrapper(typeof (store) === "undefined" ? new MemoryStorage() : store);
-    };
-    /**
-     * Get a value from storage, or null if that value does not exist
-     *
-     * @param key The key whose value we want to retrieve
-     */
-    PnPClientStorageWrapper.prototype.get = function (key) {
-        if (!this.enabled) {
-            return null;
-        }
-        var o = this.store.getItem(key);
-        if (!objectDefinedNotNull(o)) {
-            return null;
-        }
-        var persistable = JSON.parse(o);
-        if (new Date(persistable.expiration) <= new Date()) {
-            this.delete(key);
-            return null;
+            if (typeof init[1] !== "string") {
+                throw Error("Expected second tuple param to be a string.");
+            }
+            parent = init[0];
+            this._url = combine(init[1], path);
         }
         else {
-            return persistable.value;
+            parent = init;
+            this._url = combine(parent._url, path);
         }
-    };
+        if (typeof parent !== "undefined") {
+            this.observers = parent.observers;
+            this._inheritingObservers = true;
+        }
+    }
     /**
-     * Adds a value to the underlying storage
+     * Directly concatenates the supplied string to the current url, not normalizing "/" chars
      *
-     * @param key The key to use when storing the provided value
-     * @param o The value to store
-     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
+     * @param pathPart The string to concatenate to the url
      */
-    PnPClientStorageWrapper.prototype.put = function (key, o, expire) {
-        if (this.enabled) {
-            this.store.setItem(key, this.createPersistable(o, expire));
-        }
-    };
-    /**
-     * Deletes a value from the underlying storage
-     *
-     * @param key The key of the pair we want to remove from storage
-     */
-    PnPClientStorageWrapper.prototype.delete = function (key) {
-        if (this.enabled) {
-            this.store.removeItem(key);
-        }
-    };
-    /**
-     * Gets an item from the underlying storage, or adds it if it does not exist using the supplied getter function
-     *
-     * @param key The key to use when storing the provided value
-     * @param getter A function which will upon execution provide the desired value
-     * @param expire Optional, if provided the expiration of the item, otherwise the default is used
-     */
-    PnPClientStorageWrapper.prototype.getOrPut = function (key, getter, expire) {
-        return __awaiter(this, void 0, void 0, function () {
-            var o;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.enabled) {
-                            return [2 /*return*/, getter()];
-                        }
-                        o = this.get(key);
-                        if (!(o === null)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, getter()];
-                    case 1:
-                        o = _a.sent();
-                        this.put(key, o, expire);
-                        _a.label = 2;
-                    case 2: return [2 /*return*/, o];
-                }
-            });
-        });
-    };
-    /**
-     * Deletes any expired items placed in the store by the pnp library, leaves other items untouched
-     */
-    PnPClientStorageWrapper.prototype.deleteExpired = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var i, key;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.enabled) {
-                            return [2 /*return*/];
-                        }
-                        i = 0;
-                        _a.label = 1;
-                    case 1:
-                        if (!(i < this.store.length)) return [3 /*break*/, 4];
-                        key = this.store.key(i);
-                        if (!(key !== null)) return [3 /*break*/, 3];
-                        if (!/["|']?pnp["|']? ?: ?1/i.test(this.store.getItem(key))) return [3 /*break*/, 3];
-                        // get those items as get will delete from cache if they are expired
-                        return [4 /*yield*/, this.get(key)];
-                    case 2:
-                        // get those items as get will delete from cache if they are expired
-                        _a.sent();
-                        _a.label = 3;
-                    case 3:
-                        i++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
-     * Used to determine if the wrapped storage is available currently
-     */
-    PnPClientStorageWrapper.prototype.test = function () {
-        var str = "t";
-        try {
-            this.store.setItem(str, str);
-            this.store.removeItem(str);
-            return true;
-        }
-        catch (e) {
-            return false;
-        }
-    };
-    /**
-     * Creates the persistable to store
-     */
-    PnPClientStorageWrapper.prototype.createPersistable = function (o, expire) {
-        if (expire === undefined) {
-            // ensure we are by default inline with the global library setting
-            var defaultTimeout = DefaultRuntime.get("defaultCachingTimeoutSeconds");
-            if (this.defaultTimeoutMinutes > 0) {
-                defaultTimeout = this.defaultTimeoutMinutes * 60;
-            }
-            expire = dateAdd(new Date(), "second", defaultTimeout);
-        }
-        return jsS({ pnp: 1, expiration: expire, value: o });
-    };
-    /**
-     * Deletes expired items added by this library in this.store and sets a timeout to call itself
-     */
-    PnPClientStorageWrapper.prototype.cacheExpirationHandler = function () {
-        var _this = this;
-        if (!this.enabled) {
-            return;
-        }
-        this.deleteExpired().then(function () {
-            // call ourself in the future
-            setTimeout(getCtxCallback(_this, _this.cacheExpirationHandler), DefaultRuntime.get("cacheExpirationIntervalMilliseconds"));
-        }).catch(console.error);
-    };
-    return PnPClientStorageWrapper;
-}());
-
-/**
- * A thin implementation of in-memory storage for use in nodejs
- */
-var MemoryStorage = /** @class */ (function () {
-    function MemoryStorage(_store) {
-        if (_store === void 0) { _store = new Map(); }
-        this._store = _store;
-    }
-    Object.defineProperty(MemoryStorage.prototype, "length", {
-        get: function () {
-            return this._store.size;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    MemoryStorage.prototype.clear = function () {
-        this._store.clear();
-    };
-    MemoryStorage.prototype.getItem = function (key) {
-        return this._store.get(key);
-    };
-    MemoryStorage.prototype.key = function (index) {
-        return Array.from(this._store)[index][0];
-    };
-    MemoryStorage.prototype.removeItem = function (key) {
-        this._store.delete(key);
-    };
-    MemoryStorage.prototype.setItem = function (key, data) {
-        this._store.set(key, data);
-    };
-    return MemoryStorage;
-}());
-/**
- * A class that will establish wrappers for both local and session storage
- */
-var PnPClientStorage = /** @class */ (function () {
-    /**
-     * Creates a new instance of the PnPClientStorage class
-     *
-     * @constructor
-     */
-    function PnPClientStorage(_local, _session) {
-        if (_local === void 0) { _local = null; }
-        if (_session === void 0) { _session = null; }
-        this._local = _local;
-        this._session = _session;
-    }
-    Object.defineProperty(PnPClientStorage.prototype, "local", {
-        /**
-         * Provides access to the local storage of the browser
-         */
-        get: function () {
-            if (this._local === null) {
-                this._local = new storage_PnPClientStorageWrapper(typeof (localStorage) === "undefined" ? new MemoryStorage() : localStorage);
-            }
-            return this._local;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(PnPClientStorage.prototype, "session", {
-        /**
-         * Provides access to the session storage of the browser
-         */
-        get: function () {
-            if (this._session === null) {
-                this._session = new storage_PnPClientStorageWrapper(typeof (sessionStorage) === "undefined" ? new MemoryStorage() : sessionStorage);
-            }
-            return this._session;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return PnPClientStorage;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/common/index.js
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/batch.js
-
-var batch_Batch = /** @class */ (function () {
-    function Batch(_batchId) {
-        if (_batchId === void 0) { _batchId = getGUID(); }
-        this._batchId = _batchId;
-        this._reqs = [];
-        this._deps = [];
-        this._rDeps = [];
-        this._index = -1;
-    }
-    Object.defineProperty(Batch.prototype, "batchId", {
-        get: function () {
-            return this._batchId;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Batch.prototype, "requests", {
-        /**
-         * The requests contained in this batch
-         */
-        get: function () {
-            // we sort these each time this is accessed
-            return this._reqs.sort(function (info1, info2) { return info1.index - info2.index; });
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Not meant for use directly
-     *
-     * @param batchee The IQueryable for this batch to track in order
-     */
-    Batch.prototype.track = function (batchee) {
-        batchee.data.batch = this;
-        // we need to track the order requests are added to the batch to ensure we always
-        // operate on them in order
-        if (typeof batchee.data.batchIndex === "undefined" || batchee.data.batchIndex < 0) {
-            batchee.data.batchIndex = ++this._index;
-        }
-    };
-    /**
-     * Adds the given request context to the batch for execution
-     *
-     * @param context Details of the request to batch
-     */
-    Batch.prototype.add = function (context) {
-        var info = {
-            id: context.requestId,
-            index: context.batchIndex,
-            method: context.method.toUpperCase(),
-            options: context.options,
-            parser: context.parser,
-            reject: null,
-            resolve: null,
-            url: context.url,
-        };
-        // we create a new promise that will be resolved within the batch
-        var p = new Promise(function (resolve, reject) {
-            info.resolve = resolve;
-            info.reject = reject;
-        });
-        this._reqs.push(info);
-        return p;
-    };
-    /**
-     * Adds a dependency insuring that some set of actions will occur before a batch is processed.
-     * MUST be cleared using the returned resolve delegate to allow batches to run
-     */
-    Batch.prototype.addDependency = function () {
-        var resolver = function () { return void (0); };
-        this._deps.push(new Promise(function (resolve) {
-            resolver = resolve;
-        }));
-        return resolver;
-    };
-    /**
-     * The batch's execute method will not resolve util any promises added here resolve
-     *
-     * @param p The dependent promise
-     */
-    Batch.prototype.addResolveBatchDependency = function (p) {
-        this._rDeps.push(p);
-    };
-    /**
-     * Execute the current batch and resolve the associated promises
-     *
-     * @returns A promise which will be resolved once all of the batch's child promises have resolved
-     */
-    Batch.prototype.execute = function () {
-        var _this = this;
-        // we need to check the dependencies twice due to how different engines handle things.
-        // We can get a second set of promises added during the first set resolving
-        return Promise.all(this._deps)
-            .then(function () { return Promise.all(_this._deps); })
-            .then(function () { return _this.executeImpl(); })
-            .then(function () { return Promise.all(_this._rDeps); })
-            .then(function () { return void (0); });
-    };
-    return Batch;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/caching.js
-
-var storage = new PnPClientStorage();
-var CachingOptions = /** @class */ (function () {
-    function CachingOptions(key, storeName, expiration) {
-        this.key = key;
-        this.storeName = storeName;
-        this.expiration = expiration;
-    }
-    Object.defineProperty(CachingOptions.prototype, "store", {
-        get: function () {
-            if (this.storeName === "local") {
-                return storage.local;
-            }
-            else {
-                return storage.session;
-            }
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return CachingOptions;
-}());
-
-var CachingParserWrapper = /** @class */ (function () {
-    function CachingParserWrapper(parser, cacheOptions) {
-        this.parser = parser;
-        this.cacheOptions = cacheOptions;
-    }
-    CachingParserWrapper.prototype.parse = function (response) {
-        var _this = this;
-        return this.parser.parse(response).then(function (r) { return _this.cacheData(r); });
-    };
-    CachingParserWrapper.prototype.cacheData = function (data) {
-        if (this.cacheOptions.store !== null) {
-            this.cacheOptions.store.put(this.cacheOptions.key, data, this.cacheOptions.expiration);
-        }
-        return data;
-    };
-    return CachingParserWrapper;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/add-prop.js
-/**
- * Adds a property to a target instance
- *
- * @param target The object to whose prototype we will add a property
- * @param name Property name
- * @param factory Factory method used to produce the property value
- * @param path Any additional path required to produce the value
- */
-function addProp(target, name, factory, path) {
-    Reflect.defineProperty(target.prototype, name, {
-        configurable: true,
-        enumerable: true,
-        get: function () {
-            return factory(this, path);
-        },
-    });
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-extensions.js
-
-
-var _enableExtensions = false;
-var globalExtensions = [];
-var factoryExtensions = new Map();
-var ObjExtensionsSym = Symbol.for("43f7a601");
-/**
- * Creates global extensions across all invokable objects
- *
- * @param e The global extensions to apply
- */
-var extendGlobal = function (e) {
-    _enableExtensions = true;
-    extendCol(globalExtensions, e);
-};
-/**
- * Applies the supplied extensions to a single instance
- *
- * @param target Object to which extensions are applied
- * @param extensions Extensions to apply
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-var extendObj = function (target, extensions) {
-    _enableExtensions = true;
-    if (!Reflect.has(target, ObjExtensionsSym)) {
-        Reflect.set(target, ObjExtensionsSym, []);
-    }
-    extendCol(Reflect.get(target, ObjExtensionsSym), extensions);
-    return target;
-};
-/**
- * Allows applying extensions to all instances created from the supplied factory
- *
- * @param factory The Invokable Factory method to extend
- * @param extensions Extensions to apply
- */
-var extendFactory = function (factory, extensions) {
-    _enableExtensions = true;
-    // factoryExtensions
-    var proto = Reflect.getPrototypeOf(factory);
-    if (!Reflect.has(proto, ObjExtensionsSym)) {
-        Reflect.defineProperty(proto, ObjExtensionsSym, {
-            value: getGUID(),
-        });
-    }
-    var key = proto[ObjExtensionsSym];
-    if (!factoryExtensions.has(key)) {
-        factoryExtensions.set(key, []);
-    }
-    extendCol(factoryExtensions.get(key), extensions);
-};
-function extendCol(a, e) {
-    if (Array.isArray(e)) {
-        a.push.apply(a, __spreadArray([], __read(e), false));
-    }
-    else {
-        a.push(e);
-    }
-}
-/**
- * Clears all global extensions
- */
-var clearGlobalExtensions = function () {
-    globalExtensions.length = 0;
-};
-/**
- * Disables all extensions
- */
-var disableExtensions = function () {
-    _enableExtensions = false;
-};
-/**
- * Enables all extensions
- */
-var enableExtensions = function () {
-    _enableExtensions = true;
-};
-/**
- * Applies a set of extension previously applied to a factory using extendFactory to an object created from that factory
- *
- * @param factory
- * @param args
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-var applyFactoryExtensions = function (factory, args) {
-    var o = factory(args);
-    var proto = Reflect.getPrototypeOf(factory);
-    if (Reflect.has(proto, ObjExtensionsSym)) {
-        var extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
-        o = extendObj(o, extensions);
-    }
-    return o;
-};
-function extensionOrDefault(op, or, target) {
-    var rest = [];
-    for (var _i = 3; _i < arguments.length; _i++) {
-        rest[_i - 3] = arguments[_i];
-    }
-    if (_enableExtensions) {
-        var extensions = [];
-        // we need to first invoke extensions tied to only this object
-        if (Reflect.has(target, ObjExtensionsSym)) {
-            extensions.push.apply(extensions, __spreadArray([], __read(Reflect.get(target, ObjExtensionsSym)), false));
-        }
-        // second we need to process any global extensions
-        extensions.push.apply(extensions, __spreadArray([], __read(globalExtensions), false));
-        for (var i = 0; i < extensions.length; i++) {
-            var extension = extensions[i];
-            var result = undefined;
-            if (isFunc(extension)) {
-                // this extension is a function which we call
-                result = extension.apply(void 0, __spreadArray([op, target], __read(rest), false));
-            }
-            else if (op === "get" && Reflect.has(extension, rest[0])) {
-                // this extension is a named extension meaning we are overriding a specific method/property
-                result = Reflect.get(extension, rest[0], target);
-            }
-            else if (Reflect.has(extension, op)) {
-                // this extension is a ProxyHandler that has a handler defined for {op} so we pass control and see if we get a result
-                result = Reflect.get(extension, op).apply(void 0, __spreadArray([target], __read(rest), false));
-            }
-            if (typeof result !== "undefined") {
-                // if a extension returned a result, we return that
-                // this means that this extension overrides any other extensions and no more are executed
-                // first extension in the list to return "wins"
-                return result;
-            }
-        }
-    }
-    return or.apply(void 0, __spreadArray([target], __read(rest), false));
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/invokable-binder.js
-
-
-
-var invokableBinder = function (invoker) { return function (constructor) {
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        var factory = function (as) {
-            var r = Object.assign(function () {
-                var ags = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    ags[_i] = arguments[_i];
-                }
-                return invoker.call.apply(invoker, __spreadArray([r], __read(ags), false));
-            }, new (constructor.bind.apply(constructor, __spreadArray([void 0], __read(as), false)))());
-            Reflect.setPrototypeOf(r, constructor.prototype);
-            return r;
-        };
-        // ie11 setting is always global
-        if (DefaultRuntime.get("ie11") || false) {
-            return factory(args);
-        }
-        else {
-            return new Proxy(applyFactoryExtensions(factory, args), {
-                apply: function (target, _thisArg, argArray) {
-                    return extensionOrDefault("apply", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.apply(a[0], a[1], a[2]);
-                    }, target, _thisArg, argArray);
-                },
-                get: function (target, p, receiver) {
-                    return extensionOrDefault("get", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.get(a[0], a[1], a[2]);
-                    }, target, p, receiver);
-                },
-                has: function (target, p) {
-                    return extensionOrDefault("has", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.has(a[0], a[1]);
-                    }, target, p);
-                },
-                set: function (target, p, value, receiver) {
-                    return extensionOrDefault("set", function () {
-                        var a = [];
-                        for (var _i = 0; _i < arguments.length; _i++) {
-                            a[_i] = arguments[_i];
-                        }
-                        return Reflect.set(a[0], a[1], a[2], a[3]);
-                    }, target, p, value, receiver);
-                },
-            });
-        }
-    };
-}; };
-var invokableFactory = invokableBinder(function (options) {
-    return this.defaultAction(options);
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/parsers.js
-
-
-var parsers_ODataParser = /** @class */ (function () {
-    function ODataParser() {
-    }
-    ODataParser.prototype.parse = function (r) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            if (_this.handleError(r, reject)) {
-                _this.parseImpl(r, resolve, reject);
-            }
-        });
-    };
-    ODataParser.prototype.parseImpl = function (r, resolve, reject) {
-        var _this = this;
-        if ((r.headers.has("Content-Length") && parseFloat(r.headers.get("Content-Length")) === 0) || r.status === 204) {
-            resolve({});
-        }
-        else {
-            // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
-            r.text()
-                .then(function (txt) { return txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {}; })
-                .then(function (json) { return resolve(_this.parseODataJSON(json)); })
-                .catch(function (e) { return reject(e); });
-        }
-    };
-    /**
-     * Handles a response with ok === false by parsing the body and creating a ProcessHttpClientResponseException
-     * which is passed to the reject delegate. This method returns true if there is no error, otherwise false
-     *
-     * @param r Current response object
-     * @param reject reject delegate for the surrounding promise
-     */
-    ODataParser.prototype.handleError = function (r, reject) {
-        if (!r.ok) {
-            parsers_HttpRequestError.init(r).then(reject);
-        }
-        return r.ok;
-    };
-    /**
-     * Normalizes the json response by removing the various nested levels
-     *
-     * @param json json object to parse
-     */
-    ODataParser.prototype.parseODataJSON = function (json) {
-        var result = json;
-        if (hOP(json, "d")) {
-            if (hOP(json.d, "results")) {
-                result = json.d.results;
-            }
-            else {
-                result = json.d;
-            }
-        }
-        else if (hOP(json, "value")) {
-            result = json.value;
-        }
-        return result;
-    };
-    return ODataParser;
-}());
-
-var parsers_TextParser = /** @class */ (function (_super) {
-    __extends(TextParser, _super);
-    function TextParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    TextParser.prototype.parseImpl = function (r, resolve) {
-        r.text().then(resolve);
-    };
-    return TextParser;
-}(parsers_ODataParser));
-
-var parsers_BlobParser = /** @class */ (function (_super) {
-    __extends(BlobParser, _super);
-    function BlobParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    BlobParser.prototype.parseImpl = function (r, resolve) {
-        r.blob().then(resolve);
-    };
-    return BlobParser;
-}(parsers_ODataParser));
-
-var parsers_JSONParser = /** @class */ (function (_super) {
-    __extends(JSONParser, _super);
-    function JSONParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    JSONParser.prototype.parseImpl = function (r, resolve) {
-        r.json().then(resolve);
-    };
-    return JSONParser;
-}(parsers_ODataParser));
-
-var parsers_BufferParser = /** @class */ (function (_super) {
-    __extends(BufferParser, _super);
-    function BufferParser() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    BufferParser.prototype.parseImpl = function (r, resolve) {
-        if (isFunc(r.arrayBuffer)) {
-            r.arrayBuffer().then(resolve);
-        }
-        else {
-            r.buffer().then(resolve);
-        }
-    };
-    return BufferParser;
-}(parsers_ODataParser));
-
-var parsers_LambdaParser = /** @class */ (function (_super) {
-    __extends(LambdaParser, _super);
-    function LambdaParser(parser) {
-        var _this = _super.call(this) || this;
-        _this.parser = parser;
-        return _this;
-    }
-    LambdaParser.prototype.parseImpl = function (r, resolve) {
-        this.parser(r).then(resolve);
-    };
-    return LambdaParser;
-}(parsers_ODataParser));
-
-var parsers_HttpRequestError = /** @class */ (function (_super) {
-    __extends(HttpRequestError, _super);
-    function HttpRequestError(message, response, status, statusText) {
-        if (status === void 0) { status = response.status; }
-        if (statusText === void 0) { statusText = response.statusText; }
-        var _this = _super.call(this, message) || this;
-        _this.response = response;
-        _this.status = status;
-        _this.statusText = statusText;
-        _this.isHttpRequestError = true;
-        return _this;
-    }
-    HttpRequestError.init = function (r) {
-        return __awaiter(this, void 0, void 0, function () {
-            var t;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, r.clone().text()];
-                    case 1:
-                        t = _a.sent();
-                        return [2 /*return*/, new HttpRequestError("Error making HttpClient request in queryable [" + r.status + "] " + r.statusText + " ::> " + t, r.clone())];
-                }
-            });
-        });
-    };
-    return HttpRequestError;
-}(Error));
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/queryable.js
-
-
-
-function cloneQueryableData(source) {
-    var body;
-    // this handles bodies that cannot be JSON encoded (Blob, etc)
-    // Note however, even bodies that can be serialized will not be cloned.
-    if (source.options && source.options.body) {
-        body = source.options.body;
-        source.options.body = "-";
-    }
-    var s = JSON.stringify(source, function (key, value) {
-        switch (key) {
-            case "query":
-                return JSON.stringify(__spreadArray([], __read(value), false));
-            case "batch":
-            case "batchDependency":
-            case "cachingOptions":
-            case "clientFactory":
-            case "parser":
-                return "-";
-            default:
-                return value;
-        }
-    }, 0);
-    var parsed = JSON.parse(s, function (key, value) {
-        switch (key) {
-            case "query":
-                return new Map(JSON.parse(value));
-            case "batch":
-            case "batchDependency":
-            case "cachingOptions":
-            case "clientFactory":
-            case "parser":
-                return source[key];
-            default:
-                return value;
-        }
-    });
-    if (body) {
-        parsed.options.body = body;
-        source.options.body = body;
-    }
-    return parsed;
-}
-var queryable_Queryable = /** @class */ (function () {
-    function Queryable(dataSeed) {
-        if (dataSeed === void 0) { dataSeed = {}; }
-        this._data = Object.assign({}, {
-            cloneParentWasCaching: false,
-            options: {},
-            parentUrl: "",
-            parser: new parsers_ODataParser(),
-            query: new Map(),
-            url: "",
-            useCaching: false,
-        }, cloneQueryableData(dataSeed));
-        this._runtime = null;
-    }
-    Object.defineProperty(Queryable.prototype, "data", {
-        get: function () {
-            return this._data;
-        },
-        set: function (value) {
-            this._data = Object.assign({}, this.data, cloneQueryableData(value));
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Queryable.prototype.getRuntime = function () {
-        if (this._runtime === null) {
-            return DefaultRuntime;
-        }
-        return this._runtime;
-    };
-    Queryable.prototype.setRuntime = function () {
-        // need to wait for ts update in spfx: [runtime: Runtime] | [cloneGlobal: boolean, additionalConfig?: ITypedHash<any>]
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        if (args[0] instanceof libconfig_Runtime) {
-            this._runtime = args[0];
-        }
-        else {
-            this._runtime = args[0] ? new libconfig_Runtime(DefaultRuntime.export()) : new libconfig_Runtime();
-            if (args.length > 1 && objectDefinedNotNull(args[1])) {
-                this._runtime.assign(args[1]);
-            }
-        }
+    concat(pathPart) {
+        this._url += pathPart;
         return this;
-    };
+    }
     /**
-  * Gets the current url
-  *
-  */
-    Queryable.prototype.toUrl = function () {
-        return this.data.url;
-    };
-    /**
-   * Directly concatenates the supplied string to the current url, not normalizing "/" chars
-   *
-   * @param pathPart The string to concatenate to the url
-   */
-    Queryable.prototype.concat = function (pathPart) {
-        this.data.url += pathPart;
-        return this;
-    };
-    Object.defineProperty(Queryable.prototype, "query", {
-        /**
-       * Provides access to the query builder for this url
-       *
-       */
-        get: function () {
-            return this.data.query;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-   * Sets custom options for current object and all derived objects accessible via chaining
-   *
-   * @param options custom options
-   */
-    Queryable.prototype.configure = function (options) {
-        mergeOptions(this.data.options, options);
-        return this;
-    };
-    /**
-   * Configures this instance from the configure options of the supplied instance
-   *
-   * @param o Instance from which options should be taken
-   */
-    Queryable.prototype.configureFrom = function (o) {
-        mergeOptions(this.data.options, o.data.options);
-        var sourceRuntime = o.getRuntime();
-        if (!sourceRuntime.get("__isDefault__")) {
-            this.setRuntime(sourceRuntime);
+     * Gets the full url with query information
+     *
+     */
+    toRequestUrl() {
+        let url = this.toUrl();
+        const query = this.query.toString();
+        if (!stringIsNullOrEmpty(query)) {
+            url += `${url.indexOf("?") > -1 ? "&" : "?"}${query}`;
         }
-        return this;
-    };
+        return url;
+    }
     /**
-   * Enables caching for this request
-   *
-   * @param options Defines the options used when caching this request
-   */
-    Queryable.prototype.usingCaching = function (options) {
-        var runtime = this.getRuntime();
-        if (!runtime.get("globalCacheDisable")) {
-            this.data.useCaching = true;
-            // handle getting just the key
-            if (typeof options === "string") {
-                if (stringIsNullOrEmpty(options)) {
-                    throw Error("Cache key cannot be empty.");
-                }
-                options = { key: options };
-            }
-            // this uses our local options if they are defined as defaults
-            var defaultOpts = {
-                expiration: dateAdd(new Date(), "second", runtime.get("defaultCachingTimeoutSeconds")),
-                storeName: runtime.get("defaultCachingStore"),
+     * Querystring key, value pairs which will be included in the request
+     */
+    get query() {
+        return this._query;
+    }
+    /**
+     * Gets the current url
+     *
+     */
+    toUrl() {
+        return this._url;
+    }
+    execute(userInit) {
+        // if there are NO observers registered this is likely either a bug in the library or a user error, direct to docs
+        if (Reflect.ownKeys(this.observers).length < 1) {
+            throw Error("No observers registered for this request. (https://pnp.github.io/pnpjs/queryable/queryable#no-observers-registered-for-this-request)");
+        }
+        // schedule the execution after we return the promise below in the next event loop
+        setTimeout(async () => {
+            const requestId = getGUID();
+            let requestUrl;
+            const log = (msg, level) => {
+                // this allows us to easily and consistently format our messages
+                this.log(`[${requestId}] ${msg}`, level);
             };
-            this.data.cachingOptions = util_assign(defaultOpts, options);
-        }
-        return this;
-    };
-    Queryable.prototype.usingParser = function (parser) {
-        this.data.parser = parser;
-        return this;
-    };
-    /**
-   * Allows you to set a request specific processing pipeline
-   *
-   * @param pipeline The set of methods, in order, to execute a given request
-   */
-    Queryable.prototype.withPipeline = function (pipeline) {
-        this.data.pipes = pipeline.slice(0);
-        return this;
-    };
-    /**
-   * Appends the given string and normalizes "/" chars
-   *
-   * @param pathPart The string to append
-   */
-    Queryable.prototype.append = function (pathPart) {
-        this.data.url = combine(this.data.url, pathPart);
-    };
-    /**
-   * Adds this query to the supplied batch
-   *
-   * @example
-   * ```
-   *
-   * let b = pnp.sp.createBatch();
-   * pnp.sp.web.inBatch(b).get().then(...);
-   * b.execute().then(...)
-   * ```
-   */
-    Queryable.prototype.inBatch = function (batch) {
-        if (this.hasBatch) {
-            throw Error("This query is already part of a batch.");
-        }
-        if (objectDefinedNotNull(batch)) {
-            batch.track(this);
-        }
-        return this;
-    };
-    /**
-   * Blocks a batch call from occuring, MUST be cleared by calling the returned function
-  */
-    Queryable.prototype.addBatchDependency = function () {
-        if (objectDefinedNotNull(this.data.batch)) {
-            return this.data.batch.addDependency();
-        }
-        return function () { return null; };
-    };
-    Object.defineProperty(Queryable.prototype, "hasBatch", {
-        /**
-       * Indicates if the current query has a batch associated
-       *
-       */
-        get: function () {
-            return objectDefinedNotNull(this.data.batch);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Queryable.prototype, "batch", {
-        /**
-       * The batch currently associated with this query or null
-       *
-       */
-        get: function () {
-            return this.hasBatch ? this.data.batch : null;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Queryable.prototype, "parentUrl", {
-        /**
-       * Gets the parent url used when creating this instance
-       *
-       */
-        get: function () {
-            return this.data.parentUrl;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-   * Clones this instance's data to target
-   *
-   * @param target Instance to which data is written
-   * @param settings [Optional] Settings controlling how clone is applied
-   */
-    Queryable.prototype.cloneTo = function (target, settings) {
-        if (settings === void 0) { settings = {}; }
-        // default values for settings
-        settings = util_assign({
-            includeBatch: true,
-            includeQuery: false,
-        }, settings);
-        target.data = Object.assign({}, cloneQueryableData(this.data), {
-            batch: null,
-            cloneParentCacheOptions: null,
-            cloneParentWasCaching: false,
-        }, cloneQueryableData(target.data));
-        target.configureFrom(this);
-        if (settings.includeBatch) {
-            target.inBatch(this.batch);
-        }
-        if (settings.includeQuery && this.query.size > 0) {
-            this.query.forEach(function (v, k) { return target.query.set(k, v); });
-        }
-        if (this.data.useCaching) {
-            target.data.cloneParentWasCaching = true;
-            target.data.cloneParentCacheOptions = this.data.cachingOptions;
-        }
-        return target;
-    };
-    return Queryable;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/logger.js
-/**
- * Class used to subscribe ILogListener and log messages throughout an application
- *
- */
-var Logger = /** @class */ (function () {
-    function Logger() {
-    }
-    Object.defineProperty(Logger, "activeLogLevel", {
-        /**
-       * Gets or sets the active log level to apply for log filtering
-       */
-        get: function () {
-            return Logger.instance.activeLogLevel;
-        },
-        set: function (value) {
-            Logger.instance.activeLogLevel = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Logger, "instance", {
-        get: function () {
-            if (Logger._instance === undefined || Logger._instance === null) {
-                Logger._instance = new LoggerImpl();
-            }
-            return Logger._instance;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-   * Adds ILogListener instances to the set of subscribed listeners
-   *
-   * @param listeners One or more listeners to subscribe to this log
-   */
-    Logger.subscribe = function () {
-        var listeners = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            listeners[_i] = arguments[_i];
-        }
-        listeners.forEach(function (listener) { return Logger.instance.subscribe(listener); });
-    };
-    /**
-   * Clears the subscribers collection, returning the collection before modification
-   */
-    Logger.clearSubscribers = function () {
-        return Logger.instance.clearSubscribers();
-    };
-    Object.defineProperty(Logger, "count", {
-        /**
-       * Gets the current subscriber count
-       */
-        get: function () {
-            return Logger.instance.count;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-   * Writes the supplied string to the subscribed listeners
-   *
-   * @param message The message to write
-   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
-   */
-    Logger.write = function (message, level) {
-        if (level === void 0) { level = 1 /* Info */; }
-        Logger.instance.log({ level: level, message: message });
-    };
-    /**
-   * Writes the supplied string to the subscribed listeners
-   *
-   * @param json The json object to stringify and write
-   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
-   */
-    Logger.writeJSON = function (json, level) {
-        if (level === void 0) { level = 1 /* Info */; }
-        this.write(JSON.stringify(json), level);
-    };
-    /**
-   * Logs the supplied entry to the subscribed listeners
-   *
-   * @param entry The message to log
-   */
-    Logger.log = function (entry) {
-        Logger.instance.log(entry);
-    };
-    /**
-   * Logs an error object to the subscribed listeners
-   *
-   * @param err The error object
-   */
-    Logger.error = function (err) {
-        Logger.instance.log({ data: err, level: 3 /* Error */, message: err.message });
-    };
-    return Logger;
-}());
-
-var LoggerImpl = /** @class */ (function () {
-    function LoggerImpl(activeLogLevel, subscribers) {
-        if (activeLogLevel === void 0) { activeLogLevel = 2 /* Warning */; }
-        if (subscribers === void 0) { subscribers = []; }
-        this.activeLogLevel = activeLogLevel;
-        this.subscribers = subscribers;
-    }
-    LoggerImpl.prototype.subscribe = function (listener) {
-        this.subscribers.push(listener);
-    };
-    LoggerImpl.prototype.clearSubscribers = function () {
-        var s = this.subscribers.slice(0);
-        this.subscribers.length = 0;
-        return s;
-    };
-    Object.defineProperty(LoggerImpl.prototype, "count", {
-        get: function () {
-            return this.subscribers.length;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    LoggerImpl.prototype.write = function (message, level) {
-        if (level === void 0) { level = 1 /* Info */; }
-        this.log({ level: level, message: message });
-    };
-    LoggerImpl.prototype.log = function (entry) {
-        if (entry !== undefined && this.activeLogLevel <= entry.level) {
-            this.subscribers.map(function (subscriber) { return subscriber.log(entry); });
-        }
-    };
-    return LoggerImpl;
-}());
-/**
- * A set of logging levels
- */
-var LogLevel;
-(function (LogLevel) {
-    LogLevel[LogLevel["Verbose"] = 0] = "Verbose";
-    LogLevel[LogLevel["Info"] = 1] = "Info";
-    LogLevel[LogLevel["Warning"] = 2] = "Warning";
-    LogLevel[LogLevel["Error"] = 3] = "Error";
-    LogLevel[LogLevel["Off"] = 99] = "Off";
-})(LogLevel || (LogLevel = {}));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
-/**
- * Implementation of LogListener which logs to the console
- *
- */
-var ConsoleListener = /** @class */ (function () {
-    function ConsoleListener() {
-    }
-    /**
-     * Any associated data that a given logging listener may choose to log or ignore
-     *
-     * @param entry The information to be logged
-     */
-    ConsoleListener.prototype.log = function (entry) {
-        var msg = this.format(entry);
-        switch (entry.level) {
-            case 0 /* Verbose */:
-            case 1 /* Info */:
-                console.log(msg);
-                break;
-            case 2 /* Warning */:
-                console.warn(msg);
-                break;
-            case 3 /* Error */:
-                console.error(msg);
-                break;
-        }
-    };
-    /**
-     * Formats the message
-     *
-     * @param entry The information to format into a string
-     */
-    ConsoleListener.prototype.format = function (entry) {
-        var msg = [];
-        msg.push("Message: " + entry.message);
-        if (entry.data !== undefined) {
             try {
-                msg.push(" Data: " + JSON.stringify(entry.data));
+                log("Beginning request", 0);
+                // include the request id in the headers to assist with debugging against logs
+                const initSeed = {
+                    ...userInit,
+                    headers: { ...userInit.headers, "X-PnPjs-RequestId": requestId },
+                };
+                // eslint-disable-next-line prefer-const
+                let [url, init, result] = await this.emit.pre(this.toRequestUrl(), initSeed, undefined);
+                log(`Url: ${url}`, 1);
+                if (typeof result !== "undefined") {
+                    log("Result returned from pre, Emitting data");
+                    this.emit.data(result);
+                    log("Emitted data");
+                    return;
+                }
+                log("Emitting auth");
+                [requestUrl, init] = await this.emit.auth(new URL(url), init);
+                log("Emitted auth");
+                // we always resepect user supplied init over observer modified init
+                init = { ...init, ...userInit, headers: { ...init.headers, ...userInit.headers } };
+                log("Emitting send");
+                let response = await this.emit.send(requestUrl, init);
+                log("Emitted send");
+                log("Emitting parse");
+                [requestUrl, response, result] = await this.emit.parse(requestUrl, response, result);
+                log("Emitted parse");
+                log("Emitting post");
+                [requestUrl, result] = await this.emit.post(requestUrl, result);
+                log("Emitted post");
+                log("Emitting data");
+                this.emit.data(result);
+                log("Emitted data");
             }
             catch (e) {
-                msg.push(" Data: Error in stringify of supplied data " + e);
+                log(`Emitting error: "${e.message || e}"`, 3);
+                // anything that throws we emit and continue
+                this.error(e);
+                log("Emitted error", 3);
             }
-        }
-        return msg.join("");
-    };
-    return ConsoleListener;
-}());
-
-/**
- * Implementation of LogListener which logs to the supplied function
- *
- */
-var FunctionListener = /** @class */ (function () {
-    /**
-     * Creates a new instance of the FunctionListener class
-     *
-     * @constructor
-     * @param  method The method to which any logging data will be passed
-     */
-    function FunctionListener(method) {
-        this.method = method;
-    }
-    /**
-     * Any associated data that a given logging listener may choose to log or ignore
-     *
-     * @param entry The information to be logged
-     */
-    FunctionListener.prototype.log = function (entry) {
-        this.method(entry);
-    };
-    return FunctionListener;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/pipeline.js
-
-
-
-
-/**
- * Resolves the context's result value
- *
- * @param context The current context
- */
-function returnResult(context) {
-    Logger.log({
-        data: Logger.activeLogLevel === 0 /* Verbose */ ? context.result : {},
-        level: 1 /* Info */,
-        message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Returning result from pipeline. Set logging to verbose to see data.",
-    });
-    return Promise.resolve(context.result);
-}
-/**
- * Sets the result on the context
- */
-function setResult(context, value) {
-    return new Promise(function (resolve) {
-        context.result = value;
-        context.hasResult = true;
-        resolve(context);
-    });
-}
-/**
- * Invokes the next method in the provided context's pipeline
- *
- * @param c The current request context
- */
-function next(c) {
-    return c.pipes.length > 0 ? c.pipes.shift()(c) : Promise.resolve(c);
-}
-/**
- * Executes the current request context's pipeline
- *
- * @param context Current context
- */
-function pipe(context) {
-    if (context.pipes.length < 1) {
-        Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Request pipeline contains no methods!", 3 /* Error */);
-        throw Error("Request pipeline contains no methods!");
-    }
-    var promise = next(context).then(function (ctx) { return returnResult(ctx); }).catch(function (e) {
-        Logger.error(e);
-        throw e;
-    });
-    if (context.isBatched) {
-        // this will block the batch's execute method from returning until the child requests have been resolved
-        context.batch.addResolveBatchDependency(promise);
-    }
-    return promise;
-}
-/**
- * decorator factory applied to methods in the pipeline to control behavior
- */
-function requestPipelineMethod(alwaysRun) {
-    if (alwaysRun === void 0) { alwaysRun = false; }
-    return function (target, propertyKey, descriptor) {
-        var method = descriptor.value;
-        descriptor.value = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
+            finally {
+                log("Finished request", 0);
             }
-            // if we have a result already in the pipeline, pass it along and don't call the tagged method
-            if (!alwaysRun && args.length > 0 && hOP(args[0], "hasResult") && args[0].hasResult) {
-                Logger.write("[" + args[0].requestId + "] (" + (new Date()).getTime() + ") Skipping request pipeline method " + propertyKey + ", existing result in pipeline.", 0 /* Verbose */);
-                return Promise.resolve(args[0]);
-            }
-            // apply the tagged method
-            Logger.write("[" + args[0].requestId + "] (" + (new Date()).getTime() + ") Calling request pipeline method " + propertyKey + ".", 0 /* Verbose */);
-            // then chain the next method in the context's pipeline - allows for dynamic pipeline
-            return method.apply(target, args).then(function (ctx) { return next(ctx); });
-        };
-    };
-}
-/**
- * Contains the methods used within the request pipeline
- */
-var pipeline_PipelineMethods = /** @class */ (function () {
-    function PipelineMethods() {
-    }
-    /**
-     * Logs the start of the request
-     */
-    PipelineMethods.logStart = function (context) {
-        return new Promise(function (resolve) {
-            Logger.log({
-                data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
-                level: 1 /* Info */,
-                message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Beginning " + context.method + " request (" + context.url + ")",
-            });
-            resolve(context);
+        }, 0);
+        // this is the promise that the calling code will recieve and await
+        let promise = new Promise((resolve, reject) => {
+            // we overwrite any pre-existing internal events as a
+            // given queryable only processes a single request at a time
+            this.on[this.InternalResolve].replace(resolve);
+            this.on[this.InternalReject].replace(reject);
         });
-    };
-    /**
-     * Handles caching of the request
-     */
-    PipelineMethods.caching = function (context) {
-        return new Promise(function (resolve) {
-            // handle caching, if applicable
-            if (context.useCaching) {
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Caching is enabled for request, checking cache...", 1 /* Info */);
-                var cacheOptions = new CachingOptions(context.url.toLowerCase());
-                if (context.cachingOptions !== undefined) {
-                    cacheOptions = util_assign(cacheOptions, context.cachingOptions);
-                }
-                // we may not have a valid store
-                if (cacheOptions.store !== null) {
-                    // check if we have the data in cache and if so resolve the promise and return
-                    var data = cacheOptions.store.get(cacheOptions.key);
-                    if (data !== null) {
-                        Logger.log({
-                            data: Logger.activeLogLevel === 1 /* Info */ ? {} : data,
-                            level: 1 /* Info */,
-                            message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Value returned from cache.",
-                        });
-                        // ensure we clear any held batch dependency we are resolving from the cache
-                        if (isFunc(context.batchDependency)) {
-                            context.batchDependency();
-                        }
-                        // handle the case where a parser needs to take special actions with a cached result
-                        if (hOP(context.parser, "hydrate")) {
-                            data = context.parser.hydrate(data);
-                        }
-                        return setResult(context, data).then(function (ctx) { return resolve(ctx); });
-                    }
-                }
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Value not found in cache.", 1 /* Info */);
-                // if we don't then wrap the supplied parser in the caching parser wrapper
-                // and send things on their way
-                context.parser = new CachingParserWrapper(context.parser, cacheOptions);
-            }
-            return resolve(context);
-        });
-    };
-    /**
-     * Sends the request
-     */
-    PipelineMethods.send = function (context) {
-        return new Promise(function (resolve, reject) {
-            // send or batch the request
-            if (context.isBatched) {
-                var p = context.batch.add(context);
-                // we release the dependency here to ensure the batch does not execute until the request is added to the batch
-                if (isFunc(context.batchDependency)) {
-                    context.batchDependency();
-                }
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Batching request in batch " + context.batch.batchId + ".", 1 /* Info */);
-                // we set the result as the promise which will be resolved by the batch's execution
-                resolve(setResult(context, p));
-            }
-            else {
-                Logger.write("[" + context.requestId + "] (" + (new Date()).getTime() + ") Sending request.", 1 /* Info */);
-                // we are not part of a batch, so proceed as normal
-                var client = context.clientFactory();
-                var opts = util_assign(context.options || {}, { method: context.method });
-                client.fetch(context.url, opts)
-                    .then(function (response) { return context.parser.parse(response); })
-                    .then(function (result) { return setResult(context, result); })
-                    .then(function (ctx) { return resolve(ctx); })
-                    .catch(function (e) { return reject(e); });
-            }
-        });
-    };
-    /**
-     * Logs the end of the request
-     */
-    PipelineMethods.logEnd = function (context) {
-        return new Promise(function (resolve) {
-            if (context.isBatched) {
-                Logger.log({
-                    data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
-                    level: 1 /* Info */,
-                    message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") " + context.method + " request will complete in batch " + context.batch.batchId + ".",
-                });
-            }
-            else {
-                Logger.log({
-                    data: Logger.activeLogLevel === 1 /* Info */ ? {} : context,
-                    level: 1 /* Info */,
-                    message: "[" + context.requestId + "] (" + (new Date()).getTime() + ") Completing " + context.method + " request.",
-                });
-            }
-            resolve(context);
-        });
-    };
-    __decorate([
-        requestPipelineMethod(true)
-    ], PipelineMethods, "logStart", null);
-    __decorate([
-        requestPipelineMethod()
-    ], PipelineMethods, "caching", null);
-    __decorate([
-        requestPipelineMethod()
-    ], PipelineMethods, "send", null);
-    __decorate([
-        requestPipelineMethod(true)
-    ], PipelineMethods, "logEnd", null);
-    return PipelineMethods;
-}());
-
-function getDefaultPipeline() {
-    return [
-        pipeline_PipelineMethods.logStart,
-        pipeline_PipelineMethods.caching,
-        pipeline_PipelineMethods.send,
-        pipeline_PipelineMethods.logEnd,
-    ].slice(0);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/pipeline-binder.js
+        // this allows us to internally hook the promise creation and modify it. This was introduced to allow for
+        // cancelable to work as envisioned, but may have other users. Meant for internal use in the library accessed via behaviors.
+        [promise] = this.emit[this.InternalPromise](promise);
+        return promise;
+    }
+};
+queryable_Queryable = __decorate([
+    extendable(),
+    invokable()
+], queryable_Queryable);
 
 
-
-
-// first we bind the pipeline we will use for all requests within this closure
-function pipelineBinder(pipes) {
-    // then we bind the client factory we'll use (typically done in an implementing library such as sp)
-    return function (clientFactory) {
-        // then we create a binder we can apply for each type of method (GET, POST, etc.)
-        return function (method) {
-            // finally we get a function back to which we can pass an IQueryableData instance and execute the request it defines
-            return function (o) {
-                // send the IQueryableData down the pipeline
-                return pipe(Object.assign({}, {
-                    batch: null,
-                    batchDependency: null,
-                    batchIndex: -1,
-                    cachingOptions: null,
-                    clientFactory: clientFactory,
-                    cloneParentCacheOptions: null,
-                    cloneParentWasCaching: false,
-                    hasResult: false,
-                    isBatched: objectDefinedNotNull(o.batch),
-                    method: method,
-                    options: null,
-                    parentUrl: "",
-                    parser: new parsers_ODataParser(),
-                    pipes: pipes.slice(0),
-                    query: new Map(),
-                    requestId: getGUID(),
-                    url: "",
-                    useCaching: /^get$/i.test(o.method) && o.useCaching,
-                }, cloneQueryableData(o)));
-            };
-        };
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable-factory.js
+function queryableFactory(constructor) {
+    return (init, path) => {
+        // construct the concrete instance
+        const instance = new constructor(init, path);
+        // we emit the construct event from the factory because we need all of the decorators and constructors
+        // to have fully finished before we emit, which is now true. We type the instance to any to get around
+        // the protected nature of emit
+        instance.emit.construct(init, path);
+        return instance;
     };
 }
-var defaultPipelineBinder = pipelineBinder(getDefaultPipeline());
 
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/request-builders.js
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/request-builders.js
 
-function request_builders_body(o, previous) {
+/**
+ * takes the supplied object of type U, JSON.stringify's it, and sets it as the value of a "body" property
+ */
+function body(o, previous) {
     return Object.assign({ body: jsS(o) }, previous);
 }
+/**
+ * Adds headers to an new/existing RequestInit
+ *
+ * @param o Headers to add
+ * @param previous Any previous partial RequestInit
+ * @returns RequestInit combining previous and specified headers
+ */
 // eslint-disable-next-line @typescript-eslint/ban-types
-function request_builders_headers(o, previous) {
-    return Object.assign({ headers: o }, previous);
+function headers(o, previous) {
+    return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/odata/index.js
-
-
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/types.js
-var GraphEndpoints = /** @class */ (function () {
-    function GraphEndpoints() {
-    }
-    /**
-     *
-     * @param url The url to set the endpoint
-     */
-    GraphEndpoints.ensure = function (url, endpoint) {
-        var all = [GraphEndpoints.Beta, GraphEndpoints.V1];
-        var regex = new RegExp(endpoint, "i");
-        var replaces = all.filter(function (s) { return !regex.test(s); }).map(function (s) { return s.replace(".", "\\."); });
-        regex = new RegExp("/?(" + replaces.join("|") + ")/?", "ig");
-        return url.replace(regex, "/" + endpoint + "/");
-    };
-    GraphEndpoints.Beta = "beta";
-    GraphEndpoints.V1 = "v1.0";
-    return GraphEndpoints;
-}());
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/graphhttpclient.js
-
-var graphhttpclient_GraphHttpClient = /** @class */ (function () {
-    function GraphHttpClient() {
-        // constructor(...args: [runtime: Runtime] | [impl: IHttpClientImpl, runtime?: Runtime]) {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        this._runtime = args.length > 0 && args[0] instanceof libconfig_Runtime ? args[0] : DefaultRuntime;
-        this._impl = args.length > 1 && objectDefinedNotNull(args[1]) ?
-            args[1] : this._runtime.get("graph").fetchClientFactory() || null;
-        if (this._impl === null) {
-            throw Error("Could not generate fetchClientFactory in SPHttpClient.");
-        }
-    }
-    GraphHttpClient.prototype.fetch = function (url, options) {
-        var _a;
-        if (options === void 0) { options = {}; }
-        var headers = new Headers();
-        // first we add the global headers so they can be overwritten by any passed in locally to this call
-        mergeHeaders(headers, (_a = this._runtime.get("graph")) === null || _a === void 0 ? void 0 : _a.headers);
-        // second we add the local options so we can overwrite the globals
-        mergeHeaders(headers, options.headers);
-        if (!headers.has("Content-Type")) {
-            headers.append("Content-Type", "application/json");
-        }
-        if (!headers.has("SdkVersion")) {
-            // this marks the requests for understanding by the service
-            headers.append("SdkVersion", "PnPCoreJS/2.11.0");
-        }
-        var opts = util_assign(options, { headers: headers });
-        return this.fetchRaw(url, opts);
-    };
-    GraphHttpClient.prototype.fetchRaw = function (url, options) {
-        var _this = this;
-        if (options === void 0) { options = {}; }
-        // here we need to normalize the headers
-        var rawHeaders = new Headers();
-        mergeHeaders(rawHeaders, options.headers);
-        options = util_assign(options, { headers: rawHeaders });
-        var retry = function (ctx) {
-            _this._impl.fetch(url, options).then(function (response) { return ctx.resolve(response); }).catch(function (response) {
-                // Check if request was throttled - http status code 429
-                // Check if request failed due to server unavailable - http status code 503
-                // Check if request failed due to gateway timeout - http status code 504
-                if (response.status !== 429 && response.status !== 503 && response.status !== 504) {
-                    ctx.reject(response);
-                }
-                // grab our current delay
-                var delay = ctx.delay;
-                // Increment our counters.
-                ctx.delay *= 2;
-                ctx.attempts++;
-                // If we have exceeded the retry count, reject.
-                if (ctx.retryCount <= ctx.attempts) {
-                    ctx.reject(response);
-                }
-                // Set our retry timeout for {delay} milliseconds.
-                setTimeout(getCtxCallback(_this, retry, ctx), delay);
-            });
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/inject-headers.js
+function InjectHeaders(headers, prepend = false) {
+    return (instance) => {
+        const f = async function (url, init, result) {
+            init.headers = { ...init.headers, ...headers };
+            return [url, init, result];
         };
-        return new Promise(function (resolve, reject) {
-            var retryContext = {
-                attempts: 0,
-                delay: 100,
-                reject: reject,
-                resolve: resolve,
-                retryCount: 7,
-            };
-            retry.call(_this, retryContext);
+        if (prepend) {
+            instance.on.pre.prepend(f);
+        }
+        else {
+            instance.on.pre(f);
+        }
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/bearer-token.js
+
+function BearerToken(token) {
+    return (instance) => {
+        instance.using(InjectHeaders({
+            "Authorization": `Bearer ${token}`,
+        }));
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
+
+
+function DefaultParse() {
+    return parseBinderWithErrorCheck(async (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        if ((response.headers.has("Content-Length") && parseFloat(response.headers.get("Content-Length")) === 0) || response.status === 204) {
+            return {};
+        }
+        // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
+        const txt = await response.text();
+        const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
+        return parseODataJSON(json);
+    });
+}
+function TextParse() {
+    return parseBinderWithErrorCheck(r => r.text());
+}
+function BlobParse() {
+    return parseBinderWithErrorCheck(r => r.blob());
+}
+function JSONParse() {
+    return parseBinderWithErrorCheck(r => r.json());
+}
+function BufferParse() {
+    return parseBinderWithErrorCheck(r => isFunc(r.arrayBuffer) ? r.arrayBuffer() : r.buffer());
+}
+function HeaderParse() {
+    return parseBinderWithErrorCheck(async (r) => r.headers);
+}
+function JSONHeaderParse() {
+    return parseBinderWithErrorCheck(async (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        if ((response.headers.has("Content-Length") && parseFloat(response.headers.get("Content-Length")) === 0) || response.status === 204) {
+            return {};
+        }
+        // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
+        const txt = await response.text();
+        const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
+        const all = { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
+        return all;
+    });
+}
+async function errorCheck(url, response, result) {
+    if (!response.ok) {
+        throw await HttpRequestError.init(response);
+    }
+    return [url, response, result];
+}
+function parseODataJSON(json) {
+    let result = json;
+    if (hOP(json, "d")) {
+        if (hOP(json.d, "results")) {
+            result = json.d.results;
+        }
+        else {
+            result = json.d;
+        }
+    }
+    else if (hOP(json, "value")) {
+        result = json.value;
+    }
+    return result;
+}
+/**
+ * Provides a clean way to create new parse bindings without having to duplicate a lot of boilerplate
+ * Includes errorCheck ahead of the supplied impl
+ *
+ * @param impl Method used to parse the response
+ * @returns Queryable behavior binding function
+ */
+function parseBinderWithErrorCheck(impl) {
+    return (instance) => {
+        // we clear anything else registered for parse
+        // add error check
+        // add the impl function we are supplied
+        instance.on.parse.replace(errorCheck);
+        instance.on.parse(async (url, response, result) => {
+            if (response.ok && typeof result === "undefined") {
+                result = await impl(response);
+            }
+            return [url, response, result];
         });
+        return instance;
     };
-    GraphHttpClient.prototype.get = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = util_assign(options, { method: "GET" });
-        return this.fetch(url, opts);
-    };
-    GraphHttpClient.prototype.post = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = util_assign(options, { method: "POST" });
-        return this.fetch(url, opts);
-    };
-    GraphHttpClient.prototype.patch = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = util_assign(options, { method: "PATCH" });
-        return this.fetch(url, opts);
-    };
-    GraphHttpClient.prototype.delete = function (url, options) {
-        if (options === void 0) { options = {}; }
-        var opts = util_assign(options, { method: "DELETE" });
-        return this.fetch(url, opts);
-    };
-    return GraphHttpClient;
-}());
+}
+class HttpRequestError extends Error {
+    constructor(message, response, status = response.status, statusText = response.statusText) {
+        super(message);
+        this.response = response;
+        this.status = status;
+        this.statusText = statusText;
+        this.isHttpRequestError = true;
+    }
+    static async init(r) {
+        const t = await r.clone().text();
+        return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/utils/toabsoluteurl.js
+function BrowserFetch(props) {
+    const { replace } = {
+        replace: true,
+        ...props,
+    };
+    return (instance) => {
+        if (replace) {
+            instance.on.send.clear();
+        }
+        instance.on.send(function (url, init) {
+            this.log(`Fetch: ${init.method} ${url.toString()}`, 0);
+            return fetch(url.toString(), init);
+        });
+        return instance;
+    };
+}
+function BrowserFetchWithRetry(props) {
+    const { interval, replace, retries } = {
+        replace: true,
+        interval: 200,
+        retries: 3,
+        ...props,
+    };
+    return (instance) => {
+        if (replace) {
+            instance.on.send.clear();
+        }
+        instance.on.send(function (url, init) {
+            let response;
+            let wait = interval;
+            let count = 0;
+            let lastErr;
+            const retry = async () => {
+                // if we've tried too many times, throw
+                if (count >= retries) {
+                    throw lastErr || new HttpRequestError(`Retry count exceeded (${retries}) for this request. ${response.status}: ${response.statusText};`, response);
+                }
+                count++;
+                if (typeof response === "undefined" || (response === null || response === void 0 ? void 0 : response.status) === 429 || (response === null || response === void 0 ? void 0 : response.status) === 503 || (response === null || response === void 0 ? void 0 : response.status) === 504) {
+                    // this is our first try and response isn't defined yet
+                    // we have been throttled OR http status code 503 or 504, we can retry this
+                    if (typeof response !== "undefined") {
+                        // this isn't our first try so we need to calculate delay
+                        if (response.headers.has("Retry-After")) {
+                            // if we have gotten a header, use that value as the delay value in seconds
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            wait = parseInt(response.headers.get("Retry-After"), 10) * 1000;
+                        }
+                        else {
+                            // Increment our counters.
+                            wait *= 2;
+                        }
+                        this.log(`Attempt #${count} to retry request which failed with ${response.status}: ${response.statusText}`, 0);
+                        await delay(wait);
+                    }
+                    try {
+                        const u = url.toString();
+                        this.log(`Fetch: ${init.method} ${u}`, 0);
+                        response = await fetch(u, init);
+                        // if we got a good response, return it, otherwise see if we can retry
+                        return response.ok ? response : retry();
+                    }
+                    catch (err) {
+                        if (/AbortError/.test(err.name)) {
+                            // don't retry aborted requests
+                            throw err;
+                        }
+                        // if there is no network the response is undefined and err is all we have
+                        // so we grab the err and save it to throw if we exceed the number of retries
+                        // #2226 first reported this
+                        lastErr = err;
+                        return retry();
+                    }
+                }
+                else {
+                    return response;
+                }
+            };
+            // this the the first call to retry that starts the cycle
+            // response is undefined and the other values have their defaults
+            return retry();
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
+
+/**
+ * Behavior that forces caching for the request regardless of "method"
+ *
+ * @returns TimelinePipe
+ */
+function CacheAlways() {
+    return (instance) => {
+        instance.on.pre.prepend(async function (url, init, result) {
+            init.headers = { ...init.headers, "X-PnP-CacheAlways": "1" };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+/**
+ * Behavior that blocks caching for the request regardless of "method"
+ *
+ * Note: If both Caching and CacheAlways are present AND CacheNever is present the request will not be cached
+ * as we give priority to the CacheNever case
+ *
+ * @returns TimelinePipe
+ */
+function CacheNever() {
+    return (instance) => {
+        instance.on.pre.prepend(async function (url, init, result) {
+            init.headers = { ...init.headers, "X-PnP-CacheNever": "1" };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+/**
+ * Behavior that allows you to specify a cache key for a request
+ *
+ * @param key The key to use for caching
+  */
+function CacheKey(key) {
+    return (instance) => {
+        instance.on.pre.prepend(async function (url, init, result) {
+            init.headers = { ...init.headers, "X-PnP-CacheKey": key };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+/**
+ * Adds caching to the requests based on the supplied props
+ *
+ * @param props Optional props that configure how caching will work
+ * @returns TimelinePipe used to configure requests
+ */
+function Caching(props) {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            const [shouldCache, getCachedValue, setCachedValue] = bindCachingCore(url, init, props);
+            // only cache get requested data or where the CacheAlways header is present (allows caching of POST requests)
+            if (shouldCache) {
+                const cached = getCachedValue();
+                // we need to ensure that result stays "undefined" unless we mean to set null as the result
+                if (cached === null) {
+                    // if we don't have a cached result we need to get it after the request is sent and parsed
+                    this.on.post(noInherit(async function (url, result) {
+                        setCachedValue(result);
+                        return [url, result];
+                    }));
+                }
+                else {
+                    result = cached;
+                }
+            }
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+const storage = new PnPClientStorage();
+/**
+ * Based on the supplied properties, creates bound logic encapsulating common caching configuration
+ * sharable across implementations to more easily provide consistent behavior across behaviors
+ *
+ * @param props Any caching props used to initialize the core functions
+ */
+function bindCachingCore(url, init, props) {
+    var _a, _b;
+    const { store, keyFactory, expireFunc } = {
+        store: "local",
+        keyFactory: (url) => getHashCode(url.toLowerCase()).toString(),
+        expireFunc: () => dateAdd(new Date(), "minute", 5),
+        ...props,
+    };
+    const s = store === "session" ? storage.session : storage.local;
+    const key = (init === null || init === void 0 ? void 0 : init.headers["X-PnP-CacheKey"]) ? init.headers["X-PnP-CacheKey"] : keyFactory(url);
+    return [
+        // calculated value indicating if we should cache this request
+        (/get/i.test(init.method) || ((_a = init === null || init === void 0 ? void 0 : init.headers["X-PnP-CacheAlways"]) !== null && _a !== void 0 ? _a : false)) && !((_b = init === null || init === void 0 ? void 0 : init.headers["X-PnP-CacheNever"]) !== null && _b !== void 0 ? _b : false),
+        // gets the cached value
+        () => s.get(key),
+        // sets the cached value
+        (value) => s.put(key, value, expireFunc(url)),
+    ];
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
+
 
 
 /**
- * Ensures that a given url is absolute for the current web based on context
+ * Pessimistic Caching Behavior
+ * Always returns the cached value if one exists but asynchronously executes the call and updates the cache.
+ * If a expireFunc is included then the cache update only happens if the cache has expired.
  *
- * @param candidateUrl The url to make absolute
- *
+ * @param store Use local or session storage
+ * @param keyFactory: a function that returns the key for the cache value, if not provided a default hash of the url will be used
+ * @param expireFunc: a function that returns a date of expiration for the cache value, if not provided the cache never expires but is always updated.
  */
-function toAbsoluteUrl(candidateUrl, runtime) {
-    var _a, _b, _c;
-    if (runtime === void 0) { runtime = DefaultRuntime; }
-    return __awaiter(this, void 0, void 0, function () {
-        var baseUrl, spFxContext, client, e_1;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
-                case 0:
-                    if (isUrlAbsolute(candidateUrl)) {
-                        // if we are already absolute, then just return the url
-                        return [2 /*return*/, candidateUrl];
-                    }
-                    baseUrl = (_a = runtime.get("graph")) === null || _a === void 0 ? void 0 : _a.baseUrl;
-                    if (!stringIsNullOrEmpty(baseUrl)) {
-                        // base url specified either with baseUrl of spfxContext config property
-                        return [2 /*return*/, combine(baseUrl, candidateUrl)];
-                    }
-                    spFxContext = runtime.get("spfxContext");
-                    if (!objectDefinedNotNull(spFxContext)) return [3 /*break*/, 4];
-                    _d.label = 1;
-                case 1:
-                    _d.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, spFxContext.msGraphClientFactory.getClient()];
-                case 2:
-                    client = _d.sent();
-                    baseUrl = (_c = (_b = client) === null || _b === void 0 ? void 0 : _b.constructor) === null || _c === void 0 ? void 0 : _c._graphBaseUrl;
-                    if (!stringIsNullOrEmpty(baseUrl)) {
-                        return [2 /*return*/, combine(baseUrl, candidateUrl)];
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_1 = _d.sent();
-                    return [3 /*break*/, 4];
-                case 4: 
-                // try one last time with the default
-                return [2 /*return*/, combine("https://graph.microsoft.com", candidateUrl)];
+function CachingPessimisticRefresh(props) {
+    return (instance) => {
+        const pre = async function (url, init, result) {
+            const [shouldCache, getCachedValue, setCachedValue] = bindCachingCore(url, init, props);
+            if (!shouldCache) {
+                return [url, init, result];
             }
-        });
+            const cached = getCachedValue();
+            if (objectDefinedNotNull(cached)) {
+                // set our result
+                result = cached;
+                setTimeout(async () => {
+                    const q = new queryable_Queryable(this);
+                    const a = q.on.pre.toArray();
+                    q.on.pre.clear();
+                    // filter out this pre handler from the original queryable as we don't want to re-run it
+                    a.filter(v => v !== pre).map(v => q.on.pre(v));
+                    // in this case the init should contain the correct "method"
+                    const value = await q(init);
+                    setCachedValue(value);
+                }, 0);
+            }
+            else {
+                // register the post handler to cache the value as there is not one already in the cache
+                // and we need to run this request as normal
+                this.on.post(noInherit(async function (url, result) {
+                    setCachedValue(result);
+                    return [url, result];
+                }));
+            }
+            return [url, init, result];
+        };
+        instance.on.pre(pre);
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
+
+/**
+ * Cancelable is a fairly complex behavior as there is a lot to consider through multiple timelines. We have
+ * two main cases:
+ *
+ * 1. basic method that is a single call and returns the result of an operation (return spPost(...))
+ * 2. complex method that has multiple async calls within
+ *
+ * 1. For basic calls the cancel info is attached in init as it is only involved within a single request.
+ *    This works because there is only one request and the cancel logic doesn't need to persist across
+ *    inheriting instances. Also, many of these requests are so fast canceling is likely unnecessary
+ *
+ * 2. Complex method present a larger challenge because they are comprised of > 1 request and the promise
+ *    that is actually returned to the user is not directly from one of our calls. This promise is the
+ *    one "created" by the language when you await. For complex methods we have two things that solve these
+ *    needs.
+ *
+ *    The first is the use of either the cancelableScope decorator or the asCancelableScope method
+ *    wrapper. These create an upper level cancel info that is then shared across the child requests within
+ *    the complex method. Meaning if I do a files.addChunked the same cancel info (and cancel method)
+ *    are set on the current "this" which is user object on which the method was called. This info is then
+ *    passed down to any child requests using the original "this" as a base using the construct moment.
+ *
+ *    The CancelAction behavior is used to apply additional actions to a request once it is canceled. For example
+ *    in the case of uploading files chunked in sp we cancel the upload by id.
+ */
+// this is a special moment used to broadcast when a request is canceled
+const MomentName = "__CancelMoment__";
+// this value is used to track cancel state and the value is represetented by IScopeInfo
+const ScopeId = Symbol.for("CancelScopeId");
+// module map of all currently tracked cancel scopes
+const cancelScopes = new Map();
+/**
+ * This method is bound to a scope id and used as the cancel method exposed to the user via cancelable promise
+ *
+ * @param this unused, the current promise
+ * @param scopeId Id bound at creation time
+ */
+async function cancelPrimitive(scopeId) {
+    const scope = cancelScopes.get(scopeId);
+    scope.controller.abort();
+    if (isArray(scope === null || scope === void 0 ? void 0 : scope.actions)) {
+        scope.actions.map(action => scope.currentSelf.on[MomentName](action));
+    }
+    try {
+        await scope.currentSelf.emit[MomentName]();
+    }
+    catch (e) {
+        scope.currentSelf.log(`Error in cancel: ${e}`, 3);
+    }
+}
+/**
+ * Creates a new scope id, sets it on the instance's ScopeId property, and adds the info to the map
+ *
+ * @returns the new scope id (GUID)
+ */
+function createScope(instance) {
+    const id = getGUID();
+    instance[ScopeId] = id;
+    cancelScopes.set(id, {
+        cancel: cancelPrimitive.bind({}, id),
+        actions: [],
+        controller: null,
+        currentSelf: instance,
     });
+    return id;
 }
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations.js
-
-
-
-
-
-function registerCustomRequestClientFactory(requestClientFactory) {
-    httpClientFactory = isFunc(requestClientFactory) ? function () { return requestClientFactory; } : defaultFactory;
-}
-var defaultFactory = function (runtime) { return function () { return new graphhttpclient_GraphHttpClient(runtime); }; };
-var httpClientFactory = defaultFactory;
-var send = function (method) {
-    return function (o, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            var runtime, operation, data, batchDependency, url;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        runtime = o.getRuntime();
-                        operation = defaultPipelineBinder(httpClientFactory(runtime))(method);
-                        data = cloneQueryableData(o.data);
-                        batchDependency = objectDefinedNotNull(data.batch) ? data.batch.addDependency() : function () {
-                            return;
-                        };
-                        return [4 /*yield*/, toAbsoluteUrl(o.toUrlAndQuery(), runtime)];
-                    case 1:
-                        url = _a.sent();
-                        mergeOptions(data.options, options);
-                        return [2 /*return*/, operation(Object.assign({}, data, {
-                                batchDependency: batchDependency,
-                                url: url,
-                            }))];
-                }
-            });
+/**
+ * Function wrapper that turns the supplied function into a cancellation scope
+ *
+ * @param func Func to wrap
+ * @returns The same func signature, wrapped with our cancel scoping logic
+ */
+const asCancelableScope = (func) => {
+    return function (...args) {
+        // ensure we have setup "this" to cancel
+        // 1. for single requests the value is set in the behavior's init observer
+        // 2. for complex requests the value is set here
+        if (!Reflect.has(this, ScopeId)) {
+            createScope(this);
+        }
+        // execute the original function, but don't await it
+        const result = func.apply(this, args).finally(() => {
+            // remove any cancel scope values tied to this instance
+            cancelScopes.delete(this[ScopeId]);
+            delete this[ScopeId];
         });
+        // ensure the synthetic promise from a complex method has a cancel method
+        result.cancel = cancelScopes.get(this[ScopeId]).cancel;
+        return result;
     };
 };
-var graphGet = function (o, options) { return send("GET")(o, options); };
-var graphPost = function (o, options) { return send("POST")(o, options); };
-var graphDelete = function (o, options) { return send("DELETE")(o, options); };
-var graphPatch = function (o, options) { return send("PATCH")(o, options); };
-var graphPut = function (o, options) { return send("PUT")(o, options); };
+/**
+ * Decorator used to mark multi-step methods to ensure all subrequests are properly cancelled
+ */
+function cancelableScope(_target, _propertyKey, descriptor) {
+    // wrapping the original method
+    descriptor.value = asCancelableScope(descriptor.value);
+}
+/**
+ * Allows requests to be canceled by the caller by adding a cancel method to the Promise returned by the library
+ *
+ * @returns Timeline pipe to setup canelability
+ */
+function Cancelable() {
+    if (!AbortController) {
+        throw Error("The current environment appears to not support AbortController, please include a suitable polyfill.");
+    }
+    return (instance) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        instance.on.construct(function (init, path) {
+            if (typeof init !== "string") {
+                const parent = isArray(init) ? init[0] : init;
+                if (Reflect.has(parent, ScopeId)) {
+                    // ensure we carry over the scope id to the new instance from the parent
+                    this[ScopeId] = parent[ScopeId];
+                }
+                // define the moment's implementation
+                this.moments[MomentName] = asyncBroadcast();
+            }
+        });
+        // init our queryable to support cancellation
+        instance.on.init(function () {
+            if (!Reflect.has(this, ScopeId)) {
+                // ensure we have setup "this" to cancel
+                // 1. for single requests this will set the value
+                // 2. for complex requests the value is set in asCancelableScope
+                const id = createScope(this);
+                // if we are creating the scope here, we have not created it within asCancelableScope
+                // meaning the finally handler there will not delete the tracked scope reference
+                this.on.dispose(() => {
+                    cancelScopes.delete(id);
+                });
+            }
+            this.on[this.InternalPromise]((promise) => {
+                // when a new promise is created add a cancel method
+                promise.cancel = cancelScopes.get(this[ScopeId]).cancel;
+                return [promise];
+            });
+        });
+        instance.on.pre(async function (url, init, result) {
+            // grab the current scope, update the controller and currentSelf
+            const existingScope = cancelScopes.get(this[ScopeId]);
+            // if we are here without a scope we are likely running a CancelAction request so we just ignore canceling
+            if (objectDefinedNotNull(existingScope)) {
+                const controller = new AbortController();
+                existingScope.controller = controller;
+                existingScope.currentSelf = this;
+                if (init.signal) {
+                    // we do our best to hook our logic to the existing signal
+                    init.signal.addEventListener("abort", () => {
+                        existingScope.cancel();
+                    });
+                }
+                else {
+                    init.signal = controller.signal;
+                }
+            }
+            return [url, init, result];
+        });
+        // clean up any cancel info from the object after the request lifecycle is complete
+        instance.on.dispose(function () {
+            delete this[ScopeId];
+            delete this.moments[MomentName];
+        });
+        return instance;
+    };
+}
+/**
+ * Allows you to define an action that is run when a request is cancelled
+ *
+ * @param action The action to run
+ * @returns A timeline pipe used in the request lifecycle
+ */
+function CancelAction(action) {
+    return (instance) => {
+        instance.on.pre(async function (...args) {
+            const existingScope = cancelScopes.get(this[ScopeId]);
+            // if we don't have a scope this request is not using Cancelable so we do nothing
+            if (objectDefinedNotNull(existingScope)) {
+                if (!isArray(existingScope.actions)) {
+                    existingScope.actions = [];
+                }
+                if (existingScope.actions.indexOf(action) < 0) {
+                    existingScope.actions.push(action);
+                }
+            }
+            return args;
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/timeout.js
+/**
+ * Behavior that will cause a timeout in the request after the specified milliseconds
+ *
+ * @param timeout Number of milliseconds to set the timeout
+ */
+function Timeout(timeout) {
+    return (instance) => {
+        instance.on.pre(async (url, init, result) => {
+            const controller = new AbortController();
+            init.signal = controller.signal;
+            setTimeout(() => controller.abort(), timeout);
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/resolvers.js
+function ResolveOnData() {
+    return (instance) => {
+        instance.on.data(function (data) {
+            this.emit[this.InternalResolve](data);
+        });
+        return instance;
+    };
+}
+function RejectOnError() {
+    return (instance) => {
+        instance.on.error(function (err) {
+            this.emit[this.InternalReject](err);
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
+
+
+
+
+
+
+/**
+ * Behavior exports
+ */
+
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/consistency-level.js
+function ConsistencyLevel(level = "eventual") {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            init.headers = { ...init.headers, "ConsistencyLevel": level };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/paged.js
+
+
+
+
+/**
+ * Configures a collection query to returned paged results
+ *
+ * @param col Collection forming the basis of the paged collection, this param is NOT modified
+ * @returns A duplicate collection which will return paged results
+ */
+function AsPaged(col, supportsCount = false) {
+    const q = GraphQueryableCollection(col).using(Paged(supportsCount), ConsistencyLevel());
+    const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
+    if (supportsCount) {
+        // we might be constructing our query with a next url that will already contain $count so we need
+        // to ensure we don't add it again, likewise if it is already in our query collection we don't add it again
+        if (!q.query.has("$count") && !/\$count=true/i.test(q.toUrl())) {
+            q.query.set("$count", "true");
+        }
+        queryParams.push("$count");
+    }
+    for (let i = 0; i < queryParams.length; i++) {
+        const param = col.query.get(queryParams[i]);
+        if (objectDefinedNotNull(param)) {
+            q.query.set(queryParams[i], param);
+        }
+    }
+    return q;
+}
+/**
+ * Behavior that converts results to pages when used with a collection (exposed through the paged method of GraphCollection)
+ *
+ * @returns A TimelinePipe used to configure the queryable
+ */
+function Paged(supportsCount = false) {
+    return (instance) => {
+        instance.on.parse.replace(errorCheck);
+        instance.on.parse(async (url, response, result) => {
+            const txt = await response.text();
+            const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
+            const nextLink = json["@odata.nextLink"];
+            const count = supportsCount && hOP(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : 0;
+            const hasNext = !stringIsNullOrEmpty(nextLink);
+            result = {
+                count,
+                hasNext,
+                next: () => (hasNext ? AsPaged(GraphQueryableCollection([instance, nextLink]), supportsCount)() : null),
+                value: parseODataJSON(json),
+            };
+            return [url, response, result];
+        });
+        return instance;
+    };
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/graphqueryable.js
 
 
 
 
-
-var graphInvokableFactory = function (f) {
-    return invokableFactory(f);
+const graphInvokableFactory = (f) => {
+    return queryableFactory(f);
 };
 /**
  * Queryable Base Class
  *
  */
-var graphqueryable_GraphQueryable = /** @class */ (function (_super) {
-    __extends(_GraphQueryable, _super);
+class graphqueryable_GraphQueryable extends queryable_Queryable {
     /**
      * Creates a new instance of the Queryable class
      *
      * @constructor
-     * @param baseUrl A string or Queryable that should form the base part of the url
+     * @param base A string or Queryable that should form the base part of the url
      *
      */
-    function _GraphQueryable(baseUrl, path) {
-        var _this = this;
-        var url = "";
-        var parentUrl = "";
-        var query = new Map();
-        if (typeof baseUrl === "string") {
-            parentUrl = baseUrl;
-            url = combine(parentUrl, path);
+    constructor(base, path) {
+        super(base, path);
+        if (typeof base === "string") {
+            this.parentUrl = base;
+        }
+        else if (isArray(base)) {
+            this.parentUrl = base[0].toUrl();
         }
         else {
-            parentUrl = baseUrl.toUrl();
-            url = combine(parentUrl, path);
+            this.parentUrl = base.toUrl();
         }
-        _this = _super.call(this, {
-            parentUrl: parentUrl,
-            query: query,
-            url: url,
-        }) || this;
-        // post init actions
-        if (typeof baseUrl !== "string") {
-            _this.configureFrom(baseUrl);
-        }
-        return _this;
     }
     /**
      * Choose which fields to return
      *
      * @param selects One or more fields to return
      */
-    _GraphQueryable.prototype.select = function () {
-        var selects = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            selects[_i] = arguments[_i];
-        }
+    select(...selects) {
         if (selects.length > 0) {
-            this.query.set("$select", selects.map(encodeURIComponent).join(","));
+            this.query.set("$select", selects.join(","));
         }
         return this;
-    };
+    }
     /**
      * Expands fields such as lookups to get additional data
      *
      * @param expands The Fields for which to expand the values
      */
-    _GraphQueryable.prototype.expand = function () {
-        var expands = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            expands[_i] = arguments[_i];
-        }
+    expand(...expands) {
         if (expands.length > 0) {
-            this.query.set("$expand", expands.map(encodeURIComponent).join(","));
+            this.query.set("$expand", expands.join(","));
         }
         return this;
-    };
-    _GraphQueryable.prototype.defaultAction = function (options) {
-        return graphGet(this, options);
-    };
-    _GraphQueryable.prototype.get = function (options) {
-        return graphGet(this, options);
-    };
-    /**
-     * Gets the full url with query information
-     *
-     */
-    _GraphQueryable.prototype.toUrlAndQuery = function () {
-        var url = this.toUrl();
-        if (this.query.size > 0) {
-            var char = url.indexOf("?") > -1 ? "&" : "?";
-            url += "" + char + Array.from(this.query).map(function (v) { return v[0] + "=" + v[1]; }).join("&");
-        }
-        return url;
-    };
-    _GraphQueryable.prototype.setEndpoint = function (endpoint) {
-        this.data.url = GraphEndpoints.ensure(this.data.url, endpoint);
-        return this;
-    };
-    /**
-     * Clones this queryable into a new queryable instance of T
-     * @param factory Constructor used to create the new instance
-     * @param additionalPath Any additional path to include in the clone
-     * @param includeBatch If true this instance's batch will be added to the cloned instance
-     * @param includeQuery If true all of the query values will be copied to the cloned instance
-     */
-    _GraphQueryable.prototype.clone = function (factory, additionalPath, includeBatch, includeQuery) {
-        if (includeBatch === void 0) { includeBatch = true; }
-        if (includeQuery === void 0) { includeQuery = false; }
-        return _super.prototype.cloneTo.call(this, factory(this, additionalPath), { includeBatch: includeBatch, includeQuery: includeQuery });
-    };
+    }
     /**
      * Gets a parent for this instance as specified
      *
      * @param factory The contructor for the class to create
      */
-    _GraphQueryable.prototype.getParent = function (factory, baseUrl, path) {
-        if (baseUrl === void 0) { baseUrl = this.parentUrl; }
-        return new factory(baseUrl, path);
-    };
-    /**
-     * Gets the current base url of this object (https://graph.microsoft.com/v1.0 or https://graph.microsoft.com/beta)
-     */
-    _GraphQueryable.prototype.getUrlBase = function () {
-        var url = this.toUrl();
-        var index = url.indexOf("v1.0/");
-        if (index > -1) {
-            return url.substring(0, index + 5);
+    getParent(factory, base = this.parentUrl, path) {
+        if (typeof base === "string") {
+            // we need to ensure the parent has observers, even if we are rebasing the url (#2435)
+            base = [this, base];
         }
-        index = url.indexOf("beta/");
-        if (index > -1) {
-            return url.substring(0, index + 5);
-        }
-        return url;
-    };
-    return _GraphQueryable;
-}(queryable_Queryable));
-
-var GraphQueryable = graphInvokableFactory(graphqueryable_GraphQueryable);
+        return new factory(base, path);
+    }
+}
+const GraphQueryable = graphInvokableFactory(graphqueryable_GraphQueryable);
 /**
  * Represents a REST collection which can be filtered, paged, and selected
  *
  */
-var graphqueryable_GraphQueryableCollection = /** @class */ (function (_super) {
-    __extends(_GraphQueryableCollection, _super);
-    function _GraphQueryableCollection() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
+class graphqueryable_GraphQueryableCollection extends graphqueryable_GraphQueryable {
     /**
      *
      * @param filter The string representing the filter query
      */
-    _GraphQueryableCollection.prototype.filter = function (filter) {
+    filter(filter) {
         this.query.set("$filter", filter);
         return this;
-    };
+    }
     /**
      * Orders based on the supplied fields
      *
      * @param orderby The name of the field on which to sort
      * @param ascending If false DESC is appended, otherwise ASC (default)
      */
-    _GraphQueryableCollection.prototype.orderBy = function (orderBy, ascending) {
-        if (ascending === void 0) { ascending = true; }
-        var o = "$orderby";
-        var query = this.query.has(o) ? this.query.get(o).split(",") : [];
-        query.push(encodeURIComponent(orderBy) + " " + (ascending ? "asc" : "desc"));
+    orderBy(orderBy, ascending = true) {
+        var _a;
+        const o = "$orderby";
+        const query = ((_a = this.query.get(o)) === null || _a === void 0 ? void 0 : _a.split(",")) || [];
+        query.push(`${orderBy} ${ascending ? "asc" : "desc"}`);
         this.query.set(o, query.join(","));
         return this;
-    };
+    }
     /**
      * Limits the query to only return the specified number of items
      *
      * @param top The query row limit
      */
-    _GraphQueryableCollection.prototype.top = function (top) {
+    top(top) {
         this.query.set("$top", top.toString());
         return this;
-    };
+    }
     /**
      * Skips a set number of items in the return set
      *
      * @param num Number of items to skip
      */
-    _GraphQueryableCollection.prototype.skip = function (num) {
+    skip(num) {
         this.query.set("$skip", num.toString());
         return this;
-    };
+    }
     /**
-     * 	To request second and subsequent pages of Graph data
+     * Skips a set number of items in the return set
+     *
+     * @param num Number of items to skip
      */
-    _GraphQueryableCollection.prototype.skipToken = function (token) {
-        this.query.set("$skiptoken", token);
+    search(query) {
+        this.using(ConsistencyLevel());
+        this.query.set("$search", query);
         return this;
-    };
-    Object.defineProperty(_GraphQueryableCollection.prototype, "count", {
-        /**
-         * 	Retrieves the total count of matching resources
-         */
-        get: function () {
-            this.configure({
-                headers: {
-                    ConsistencyLevel: "eventual",
-                },
-            });
-            this.query.set("$count", "true");
-            return this;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _GraphQueryableCollection;
-}(graphqueryable_GraphQueryable));
-
-var GraphQueryableCollection = graphInvokableFactory(graphqueryable_GraphQueryableCollection);
-var graphqueryable_GraphQueryableSearchableCollection = /** @class */ (function (_super) {
-    __extends(_GraphQueryableSearchableCollection, _super);
-    function _GraphQueryableSearchableCollection() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
      * 	To request second and subsequent pages of Graph data
      */
-    _GraphQueryableSearchableCollection.prototype.search = function (query) {
-        this.configure({
-            headers: {
-                ConsistencyLevel: "eventual",
-            },
-        });
-        this.query.set("$search", "" + query);
+    skipToken(token) {
+        this.query.set("$skiptoken", token);
         return this;
-    };
-    return _GraphQueryableSearchableCollection;
-}(graphqueryable_GraphQueryableCollection));
-
-var GraphQueryableSearchableCollection = graphInvokableFactory(graphqueryable_GraphQueryableSearchableCollection);
+    }
+    /**
+     * 	Retrieves the total count of matching resources
+     *  If the resource doesn't support count, this value will always be zero
+     */
+    async count() {
+        const q = AsPaged(this);
+        const r = await q.top(1)();
+        return r.count;
+    }
+    /**
+     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
+     *
+     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
+     */
+    paged() {
+        return AsPaged(this)();
+    }
+}
+const GraphQueryableCollection = graphInvokableFactory(graphqueryable_GraphQueryableCollection);
 /**
  * Represents an instance that can be selected
  *
  */
-var graphqueryable_GraphQueryableInstance = /** @class */ (function (_super) {
-    __extends(_GraphQueryableInstance, _super);
-    function _GraphQueryableInstance() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _GraphQueryableInstance;
-}(graphqueryable_GraphQueryable));
-
-var GraphQueryableInstance = graphInvokableFactory(graphqueryable_GraphQueryableInstance);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/decorators.js
-
-
-
-/**
- * Decorator used to specify the default path for Queryable objects
- *
- * @param path
- */
-function defaultPath(path) {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_1, _super);
-            function class_1() {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                return _super.call(this, args[0], args.length > 1 && args[1] !== undefined ? args[1] : path) || this;
-            }
-            return class_1;
-        }(target));
-    };
+class _GraphQueryableInstance extends graphqueryable_GraphQueryable {
 }
-/**
- * Adds the delete method to the tagged class
- */
-function deleteable() {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_2, _super);
-            function class_2() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_2.prototype.delete = function () {
-                return graphDelete(this);
-            };
-            return class_2;
-        }(target));
-    };
-}
-/**
- * Adds the delete method to the tagged class
- */
-function deleteableWithETag() {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_3, _super);
-            function class_3() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_3.prototype.delete = function (eTag) {
-                if (eTag === void 0) { eTag = "*"; }
-                return graphDelete(this, request_builders_headers({
-                    "If-Match": eTag,
-                }));
-            };
-            return class_3;
-        }(target));
-    };
-}
-/**
- * Adds the update method to the tagged class
- */
-function updateable() {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_4, _super);
-            function class_4() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_4.prototype.update = function (props) {
-                return graphPatch(this, request_builders_body(props));
-            };
-            return class_4;
-        }(target));
-    };
-}
-/**
- * Adds the update method to the tagged class
- */
-function updateableWithETag() {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_5, _super);
-            function class_5() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_5.prototype.update = function (props, eTag) {
-                if (eTag === void 0) { eTag = "*"; }
-                return graphPatch(this, request_builders_body(props, request_builders_headers({
-                    "If-Match": eTag,
-                })));
-            };
-            return class_5;
-        }(target));
-    };
-}
-/**
- * Adds the add method to the tagged class
- */
-function addable() {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_6, _super);
-            function class_6() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_6.prototype.add = function (props) {
-                return graphPost(this, request_builders_body(props));
-            };
-            return class_6;
-        }(target));
-    };
-}
-/**
- * Adds the getById method to a collection
- */
-function getById(factory) {
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    return function (target) {
-        return /** @class */ (function (_super) {
-            __extends(class_7, _super);
-            function class_7() {
-                return _super !== null && _super.apply(this, arguments) || this;
-            }
-            class_7.prototype.getById = function (id) {
-                return factory(this, id);
-            };
-            return class_7;
-        }(target));
-    };
-}
+const GraphQueryableInstance = graphInvokableFactory(_GraphQueryableInstance);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/types.js
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/fi.js
 
-
-
-
-
-/**
- * Conversation
- */
-var types_Conversation = /** @class */ (function (_super) {
-    __extends(_Conversation, _super);
-    function _Conversation() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Conversation.prototype, "threads", {
-        /**
-         * Get all the threads in a group conversation.
-         */
-        get: function () {
-            return Threads(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Conversation = __decorate([
-        updateable(),
-        deleteable()
-    ], _Conversation);
-    return _Conversation;
-}(graphqueryable_GraphQueryableInstance));
-
-var Conversation = graphInvokableFactory(types_Conversation);
-/**
- * Conversations
- */
-var types_Conversations = /** @class */ (function (_super) {
-    __extends(_Conversations, _super);
-    function _Conversations() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Conversations = __decorate([
-        defaultPath("conversations"),
-        addable(),
-        getById(Conversation)
-    ], _Conversations);
-    return _Conversations;
-}(graphqueryable_GraphQueryableCollection));
-
-var Conversations = graphInvokableFactory(types_Conversations);
-/**
- * Thread
- */
-var types_Thread = /** @class */ (function (_super) {
-    __extends(_Thread, _super);
-    function _Thread() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Thread.prototype, "posts", {
-        /**
-         * Get all the threads in a group conversation.
-         */
-        get: function () {
-            return Posts(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
+class fi_GraphFI {
     /**
-     * Reply to a thread in a group conversation and add a new post to it
+     * Creates a new instance of the GraphFI class
      *
-     * @param post Contents of the post
+     * @param root Establishes a root url/configuration
      */
-    _Thread.prototype.reply = function (post) {
-        return graphPost(this.clone(Thread, "reply"), request_builders_body(post));
-    };
-    _Thread = __decorate([
-        deleteable()
-    ], _Thread);
-    return _Thread;
-}(graphqueryable_GraphQueryableInstance));
-
-var Thread = graphInvokableFactory(types_Thread);
-/**
- * Threads
- */
-var types_Threads = /** @class */ (function (_super) {
-    __extends(_Threads, _super);
-    function _Threads() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Threads = __decorate([
-        defaultPath("threads"),
-        addable(),
-        getById(Thread)
-    ], _Threads);
-    return _Threads;
-}(graphqueryable_GraphQueryableCollection));
-
-var Threads = graphInvokableFactory(types_Threads);
-/**
- * Post
- */
-var types_Post = /** @class */ (function (_super) {
-    __extends(_Post, _super);
-    function _Post() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    constructor(root = "") {
+        this._root = GraphQueryable(root);
     }
     /**
-     * Forward a post to a recipient
-     */
-    _Post.prototype.forward = function (info) {
-        return graphPost(this.clone(Post, "forward"), request_builders_body(info));
-    };
-    /**
-     * Reply to a thread in a group conversation and add a new post to it
+     * Applies one or more behaviors which will be inherited by all instances chained from this root
      *
-     * @param post Contents of the post
      */
-    _Post.prototype.reply = function (post) {
-        return graphPost(this.clone(Post, "reply"), request_builders_body(post));
-    };
-    _Post = __decorate([
-        deleteable()
-    ], _Post);
-    return _Post;
-}(graphqueryable_GraphQueryableInstance));
-
-var Post = graphInvokableFactory(types_Post);
-/**
- * Posts
- */
-var types_Posts = /** @class */ (function (_super) {
-    __extends(_Posts, _super);
-    function _Posts() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Posts = __decorate([
-        defaultPath("posts"),
-        addable(),
-        getById(Post)
-    ], _Posts);
-    return _Posts;
-}(graphqueryable_GraphQueryableCollection));
-
-var Posts = graphInvokableFactory(types_Posts);
-/**
- * Senders
- */
-var types_Senders = /** @class */ (function (_super) {
-    __extends(_Senders, _super);
-    function _Senders() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Add a new user or group to this senders collection
-     * @param id The full @odata.id value to add (ex: https://graph.microsoft.com/v1.0/users/user@contoso.com)
-     */
-    _Senders.prototype.add = function (id) {
-        return graphPost(this.clone(Senders, "$ref"), request_builders_body({ "@odata.id": id }));
-    };
-    /**
-     * Removes the entity from the collection
-     *
-     * @param id The full @odata.id value to remove (ex: https://graph.microsoft.com/v1.0/users/user@contoso.com)
-     */
-    _Senders.prototype.remove = function (id) {
-        var remover = this.clone(Senders, "$ref");
-        remover.query.set("$id", id);
-        return graphDelete(remover);
-    };
-    return _Senders;
-}(graphqueryable_GraphQueryableCollection));
-
-var Senders = graphInvokableFactory(types_Senders);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/utils/type.js
-function type_type(n, a) {
-    return Object.assign({ "@odata.type": n }, a);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/types.js
-
-
-
-
-
-
-/**
- * Attachment
- */
-var types_Attachment = /** @class */ (function (_super) {
-    __extends(_Attachment, _super);
-    function _Attachment() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _Attachment;
-}(graphqueryable_GraphQueryableInstance));
-
-var Attachment = graphInvokableFactory(types_Attachment);
-/**
- * Attachments
- */
-var types_Attachments = /** @class */ (function (_super) {
-    __extends(_Attachments, _super);
-    function _Attachments() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Add attachment to this collection
-     *
-     * @param name Name given to the attachment file
-     * @param bytes File content
-     */
-    _Attachments.prototype.addFile = function (name, bytes) {
-        return graphPost(this, request_builders_body(type_type("#microsoft.graph.fileAttachment", {
-            contentBytes: bytes,
-            name: name,
-        })));
-    };
-    _Attachments = __decorate([
-        defaultPath("attachments"),
-        getById(Attachment)
-    ], _Attachments);
-    return _Attachments;
-}(graphqueryable_GraphQueryableCollection));
-
-var Attachments = graphInvokableFactory(types_Attachments);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/conversations.js
-
-
-
-addProp(types_Post, "attachments", Attachments);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/types.js
-
-
-
-
-
-/**
- * Represents a Directory Object entity
- */
-var types_DirectoryObject = /** @class */ (function (_super) {
-    __extends(_DirectoryObject, _super);
-    function _DirectoryObject() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-   * Returns all the groups and directory roles that the specified Directory Object is a member of. The check is transitive
-   *
-   * @param securityEnabledOnly
-   */
-    _DirectoryObject.prototype.getMemberObjects = function (securityEnabledOnly) {
-        if (securityEnabledOnly === void 0) { securityEnabledOnly = false; }
-        return graphPost(this.clone(DirectoryObject, "getMemberObjects"), request_builders_body({ securityEnabledOnly: securityEnabledOnly }));
-    };
-    /**
-   * Returns all the groups that the specified Directory Object is a member of. The check is transitive
-   *
-   * @param securityEnabledOnly
-   */
-    _DirectoryObject.prototype.getMemberGroups = function (securityEnabledOnly) {
-        if (securityEnabledOnly === void 0) { securityEnabledOnly = false; }
-        return graphPost(this.clone(DirectoryObject, "getMemberGroups"), request_builders_body({ securityEnabledOnly: securityEnabledOnly }));
-    };
-    /**
-   * Check for membership in a specified list of groups, and returns from that list those groups of which the specified user, group, or directory object is a member.
-   * This function is transitive.
-   * @param groupIds A collection that contains the object IDs of the groups in which to check membership. Up to 20 groups may be specified.
-   */
-    _DirectoryObject.prototype.checkMemberGroups = function (groupIds) {
-        return graphPost(this.clone(DirectoryObject, "checkMemberGroups"), request_builders_body({ groupIds: groupIds }));
-    };
-    _DirectoryObject = __decorate([
-        deleteable()
-    ], _DirectoryObject);
-    return _DirectoryObject;
-}(graphqueryable_GraphQueryableInstance));
-
-var DirectoryObject = graphInvokableFactory(types_DirectoryObject);
-/**
- * Describes a collection of Directory Objects
- *
- */
-var types_DirectoryObjects = /** @class */ (function (_super) {
-    __extends(_DirectoryObjects, _super);
-    function _DirectoryObjects() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-  * Returns the directory objects specified in a list of ids. NOTE: The directory objects returned are the full objects containing all their properties.
-  * The $select query option is not available for this operation.
-  *
-  * @param ids A collection of ids for which to return objects. You can specify up to 1000 ids.
-  * @param type A collection of resource types that specifies the set of resource collections to search. Default is directoryObject.
-  */
-    _DirectoryObjects.prototype.getByIds = function (ids, type) {
-        if (type === void 0) { type = DirectoryObjectTypes.directoryObject; }
-        return graphPost(this.clone(DirectoryObjects, "getByIds"), request_builders_body({ ids: ids, type: type }));
-    };
-    _DirectoryObjects = __decorate([
-        defaultPath("directoryObjects"),
-        getById(DirectoryObject)
-    ], _DirectoryObjects);
-    return _DirectoryObjects;
-}(graphqueryable_GraphQueryableCollection));
-
-var DirectoryObjects = graphInvokableFactory(types_DirectoryObjects);
-/**
- * DirectoryObjectTypes
- */
-var DirectoryObjectTypes;
-(function (DirectoryObjectTypes) {
-    /**
-   * Directory Objects
-   */
-    DirectoryObjectTypes[DirectoryObjectTypes["directoryObject"] = 0] = "directoryObject";
-    /**
-   * User
-   */
-    DirectoryObjectTypes[DirectoryObjectTypes["user"] = 1] = "user";
-    /**
-   * Group
-   */
-    DirectoryObjectTypes[DirectoryObjectTypes["group"] = 2] = "group";
-    /**
-   * Device
-   */
-    DirectoryObjectTypes[DirectoryObjectTypes["device"] = 3] = "device";
-})(DirectoryObjectTypes || (DirectoryObjectTypes = {}));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/groups/types.js
-
-
-
-
-
-
-
-var GroupType;
-(function (GroupType) {
-    /**
-     * Office 365 (aka unified group)
-     */
-    GroupType[GroupType["Office365"] = 0] = "Office365";
-    /**
-     * Dynamic membership
-     */
-    GroupType[GroupType["Dynamic"] = 1] = "Dynamic";
-    /**
-     * Security
-     */
-    GroupType[GroupType["Security"] = 2] = "Security";
-})(GroupType || (GroupType = {}));
-/**
- * Represents a group entity
- */
-var types_Group = /** @class */ (function (_super) {
-    __extends(_Group, _super);
-    function _Group() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Add the group to the list of the current user's favorite groups. Supported for only Office 365 groups
-     */
-    _Group.prototype.addFavorite = function () {
-        return graphPost(this.clone(Group, "addFavorite"));
-    };
-    /**
-     * Remove the group from the list of the current user's favorite groups. Supported for only Office 365 groups
-     */
-    _Group.prototype.removeFavorite = function () {
-        return graphPost(this.clone(Group, "removeFavorite"));
-    };
-    /**
-     * Reset the unseenCount of all the posts that the current user has not seen since their last visit
-     */
-    _Group.prototype.resetUnseenCount = function () {
-        return graphPost(this.clone(Group, "resetUnseenCount"));
-    };
-    /**
-     * Calling this method will enable the current user to receive email notifications for this group,
-     * about new posts, events, and files in that group. Supported for only Office 365 groups
-     */
-    _Group.prototype.subscribeByMail = function () {
-        return graphPost(this.clone(Group, "subscribeByMail"));
-    };
-    /**
-     * Calling this method will prevent the current user from receiving email notifications for this group
-     * about new posts, events, and files in that group. Supported for only Office 365 groups
-     */
-    _Group.prototype.unsubscribeByMail = function () {
-        return graphPost(this.clone(Group, "unsubscribeByMail"));
-    };
-    /**
-     * Get the occurrences, exceptions, and single instances of events in a calendar view defined by a time range, from the default calendar of a group
-     *
-     * @param start Start date and time of the time range
-     * @param end End date and time of the time range
-     */
-    _Group.prototype.getCalendarView = function (start, end) {
-        var view = this.clone(Group, "calendarView");
-        view.query.set("startDateTime", start.toISOString());
-        view.query.set("endDateTime", end.toISOString());
-        return view();
-    };
-    _Group = __decorate([
-        deleteable(),
-        updateable()
-    ], _Group);
-    return _Group;
-}(types_DirectoryObject));
-
-var Group = graphInvokableFactory(types_Group);
-/**
- * Describes a collection of Field objects
- *
- */
-var types_Groups = /** @class */ (function (_super) {
-    __extends(_Groups, _super);
-    function _Groups() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new group as specified in the request body.
-     *
-     * @param name Name to display in the address book for the group
-     * @param mailNickname Mail alias for the group
-     * @param groupType Type of group being created
-     * @param additionalProperties A plain object collection of additional properties you want to set on the new group
-     */
-    _Groups.prototype.add = function (name, mailNickname, groupType, additionalProperties) {
-        if (additionalProperties === void 0) { additionalProperties = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({
-                            displayName: name,
-                            mailEnabled: groupType === GroupType.Office365,
-                            mailNickname: mailNickname,
-                            securityEnabled: groupType !== GroupType.Office365,
-                        }, additionalProperties);
-                        // include a group type if required
-                        if (groupType !== GroupType.Security) {
-                            postBody = util_assign(postBody, {
-                                groupTypes: groupType === GroupType.Office365 ? ["Unified"] : ["DynamicMembership"],
-                            });
-                        }
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                group: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Groups = __decorate([
-        defaultPath("groups"),
-        getById(Group)
-    ], _Groups);
-    return _Groups;
-}(graphqueryable_GraphQueryableSearchableCollection));
-
-var Groups = graphInvokableFactory(types_Groups);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/funcs.js
-
-/**
- * Get the occurrences, exceptions, and single instances of events in a calendar view defined by a time range,
- * from the user's default calendar, or from some other calendar of the user's
- *
- * @param this IGraphQueryable instance
- * @param start start time
- * @param end end time
- */
-function calendarView(start, end) {
-    var query = this.clone(GraphQueryableCollection, "calendarView");
-    query.query.set("startDateTime", encodeURIComponent(start));
-    query.query.set("endDateTime", encodeURIComponent(end));
-    return query;
-}
-/**
- * Get the emailAddress objects that represent all the meeting rooms in the user's tenant or in a specific room list.
- *
- * @param this IGraphQueryable instance
- * @param roomList The SMTP address associated with the room list.
- */
-function findRooms(roomList) {
-    var query = this.clone(GraphQueryableCollection, roomList ? "findRooms(RoomList=@roomList)" : "findRooms");
-    query.setEndpoint("beta");
-    if (roomList) {
-        query.query.set("@roomList", "'" + encodeURIComponent(roomList) + "'");
-    }
-    return query;
-}
-/**
- * Get the instances (occurrences) of an event for a specified time range.
- * If the event is a seriesMaster type, this returns the occurrences and exceptions of the event in the specified time range.
- *
- * @param this IGraphQueryable instance
- * @param start start time
- * @param end end time
- */
-function instances(start, end) {
-    var query = this.clone(GraphQueryableCollection, "instances");
-    query.query.set("startDateTime", encodeURIComponent(start));
-    query.query.set("endDateTime", encodeURIComponent(end));
-    return query;
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/types.js
-
-
-
-
-
-
-/**
- * Calendar
- */
-var types_Calendar = /** @class */ (function (_super) {
-    __extends(_Calendar, _super);
-    function _Calendar() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.calendarView = calendarView;
-        return _this;
-    }
-    Object.defineProperty(_Calendar.prototype, "events", {
-        get: function () {
-            return Events(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Calendar;
-}(graphqueryable_GraphQueryableInstance));
-
-var Calendar = graphInvokableFactory(types_Calendar);
-/**
- * Calendars
- */
-var types_Calendars = /** @class */ (function (_super) {
-    __extends(_Calendars, _super);
-    function _Calendars() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Calendars = __decorate([
-        defaultPath("calendars"),
-        getById(Calendar)
-    ], _Calendars);
-    return _Calendars;
-}(graphqueryable_GraphQueryableCollection));
-
-var Calendars = graphInvokableFactory(types_Calendars);
-/**
- * Event
- */
-var types_Event = /** @class */ (function (_super) {
-    __extends(_Event, _super);
-    function _Event() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.instances = instances;
-        return _this;
-    }
-    _Event = __decorate([
-        deleteable(),
-        updateable()
-    ], _Event);
-    return _Event;
-}(graphqueryable_GraphQueryableInstance));
-
-var Event = graphInvokableFactory(types_Event);
-/**
- * Events
- */
-var types_Events = /** @class */ (function (_super) {
-    __extends(_Events, _super);
-    function _Events() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Adds a new event to the collection
-     *
-     * @param properties The set of properties used to create the event
-     */
-    _Events.prototype.add = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body(properties))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                event: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Events = __decorate([
-        defaultPath("events"),
-        getById(Event)
-    ], _Events);
-    return _Events;
-}(graphqueryable_GraphQueryableCollection));
-
-var Events = graphInvokableFactory(types_Events);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/groups.js
-
-
-
-addProp(types_Group, "calendar", Calendar, "calendar");
-addProp(types_Group, "events", Events);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/users/types.js
-
-
-
-
-var types_User = /** @class */ (function (_super) {
-    __extends(_User, _super);
-    function _User() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_User.prototype, "memberOf", {
-        /**
-        * The groups and directory roles associated with the user
-        */
-        get: function () {
-            return DirectoryObjects(this, "memberOf");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_User.prototype, "people", {
-        /**
-         * Retrieve a collection of person objects ordered by their relevance to the user
-         */
-        get: function () {
-            return People(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_User.prototype, "directReports", {
-        /**
-        * People that have direct reports to the user
-        */
-        get: function () {
-            return People(this, "directReports");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_User.prototype, "manager", {
-        /**
-        * The manager associated with this user
-        */
-        get: function () {
-            return User(this, "manager");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _User = __decorate([
-        updateable(),
-        deleteable()
-    ], _User);
-    return _User;
-}(types_DirectoryObject));
-
-var User = graphInvokableFactory(types_User);
-var types_Users = /** @class */ (function (_super) {
-    __extends(_Users, _super);
-    function _Users() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Users = __decorate([
-        defaultPath("users"),
-        getById(User)
-    ], _Users);
-    return _Users;
-}(graphqueryable_GraphQueryableSearchableCollection));
-
-var Users = graphInvokableFactory(types_Users);
-var types_People = /** @class */ (function (_super) {
-    __extends(_People, _super);
-    function _People() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _People = __decorate([
-        defaultPath("people")
-    ], _People);
-    return _People;
-}(graphqueryable_GraphQueryableSearchableCollection));
-
-var People = graphInvokableFactory(types_People);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/users.js
-
-
-
-
-addProp(types_User, "calendar", Calendar, "calendar");
-addProp(types_User, "calendars", Calendars, "calendars");
-addProp(types_User, "events", Events);
-types_User.prototype.calendarView = calendarView;
-types_User.prototype.findRooms = findRooms;
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/index.js
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/types.js
-
-
-
-
-
-
-/**
- * Contact
- */
-var types_Contact = /** @class */ (function (_super) {
-    __extends(_Contact, _super);
-    function _Contact() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Contact = __decorate([
-        updateable(),
-        deleteable()
-    ], _Contact);
-    return _Contact;
-}(graphqueryable_GraphQueryableInstance));
-
-var Contact = graphInvokableFactory(types_Contact);
-/**
- * Contacts
- */
-var types_Contacts = /** @class */ (function (_super) {
-    __extends(_Contacts, _super);
-    function _Contacts() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-    * Create a new Contact for the user.
-    *
-    * @param givenName The contact's given name.
-    * @param surName The contact's surname.
-    * @param emailAddresses The contact's email addresses.
-    * @param businessPhones The contact's business phone numbers.
-    * @param additionalProperties A plain object collection of additional properties you want to set on the new contact
-    */
-    _Contacts.prototype.add = function (givenName, surName, emailAddresses, businessPhones, additionalProperties) {
-        if (additionalProperties === void 0) { additionalProperties = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({ businessPhones: businessPhones, emailAddresses: emailAddresses, givenName: givenName, surName: surName }, additionalProperties);
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                contact: this.getById(data.id),
-                                data: data,
-                            }];
-                }
-            });
-        });
-    };
-    _Contacts = __decorate([
-        defaultPath("contacts"),
-        getById(Contact)
-    ], _Contacts);
-    return _Contacts;
-}(graphqueryable_GraphQueryableCollection));
-
-var Contacts = graphInvokableFactory(types_Contacts);
-/**
- * Contact Folder
- */
-var types_ContactFolder = /** @class */ (function (_super) {
-    __extends(_ContactFolder, _super);
-    function _ContactFolder() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_ContactFolder.prototype, "contacts", {
-        /**
-         * Gets the contacts in this contact folder
-         */
-        get: function () {
-            return Contacts(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_ContactFolder.prototype, "childFolders", {
-        /**
-        * Gets the contacts in this contact folder
-        */
-        get: function () {
-            return ContactFolders(this, "childFolders");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _ContactFolder = __decorate([
-        deleteable(),
-        updateable()
-    ], _ContactFolder);
-    return _ContactFolder;
-}(graphqueryable_GraphQueryableInstance));
-
-var ContactFolder = graphInvokableFactory(types_ContactFolder);
-/**
- * Contact Folders
- */
-var types_ContactFolders = /** @class */ (function (_super) {
-    __extends(_ContactFolders, _super);
-    function _ContactFolders() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Contact Folder for the user.
-     *
-     * @param displayName The folder's display name.
-     * @param parentFolderId The ID of the folder's parent folder.
-     */
-    _ContactFolders.prototype.add = function (displayName, parentFolderId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            displayName: displayName,
-                            parentFolderId: parentFolderId,
-                        };
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                contactFolder: this.getById(data.id),
-                                data: data,
-                            }];
-                }
-            });
-        });
-    };
-    _ContactFolders = __decorate([
-        defaultPath("contactFolders"),
-        getById(ContactFolder)
-    ], _ContactFolders);
-    return _ContactFolders;
-}(graphqueryable_GraphQueryableCollection));
-
-var ContactFolders = graphInvokableFactory(types_ContactFolders);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/users.js
-
-
-
-addProp(types_User, "contacts", Contacts);
-addProp(types_User, "contactFolders", ContactFolders);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/groups.js
-
-
-
-addProp(types_Group, "conversations", Conversations);
-addProp(types_Group, "acceptedSenders", Senders, "acceptedsenders");
-addProp(types_Group, "rejectedSenders", Senders, "rejectedsenders");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/graphlibconfig.js
-
-onRuntimeCreate(function (runtime) {
-    var existing = runtime.get("graph");
-    var graphPart = Object.assign({}, {
-        fetchClientFactory: function () {
-            // we keep a ref to the runtime within which we are assigned
-            var context = runtime.get("spfxContext");
-            if (objectDefinedNotNull(context)) {
-                return new net_SPFxAdalClient(context);
-            }
-            throw Error("There is no Graph Client available, either set one using configuration or provide a valid SPFx Context.");
-        },
-    }, existing);
-    runtime.assign({ graph: graphPart });
-});
-function graphlibconfig_setup(config, runtime) {
-    if (runtime === void 0) { runtime = DefaultRuntime; }
-    runtime.assign(config);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/batch.js
-
-
-
-
-
-
-var batch_GraphBatch = /** @class */ (function (_super) {
-    __extends(GraphBatch, _super);
-    function GraphBatch(batchUrl, maxRequests, runtime) {
-        if (batchUrl === void 0) { batchUrl = "v1.0/$batch"; }
-        if (maxRequests === void 0) { maxRequests = 20; }
-        if (runtime === void 0) { runtime = DefaultRuntime; }
-        var _this = _super.call(this) || this;
-        _this.batchUrl = batchUrl;
-        _this.maxRequests = maxRequests;
-        _this.runtime = runtime;
-        return _this;
-    }
-    GraphBatch.prototype.setRuntime = function (runtime) {
-        this.runtime = runtime;
+    using(...behaviors) {
+        this._root.using(...behaviors);
         return this;
-    };
-    GraphBatch.prototype.executeImpl = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var client, requests, _loop_1, this_1;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Executing batch with " + this.requests.length + " requests.", 1 /* Info */);
-                        if (this.requests.length < 1) {
-                            Logger.write("Resolving empty batch.", 1 /* Info */);
-                            return [2 /*return*/, Promise.resolve()];
-                        }
-                        client = new graphhttpclient_GraphHttpClient(this.runtime);
-                        requests = this.requests.slice();
-                        _loop_1 = function () {
-                            var requestsChunk, batchRequest, batchOptions, queryUrl;
-                            return __generator(this, function (_b) {
-                                switch (_b.label) {
-                                    case 0:
-                                        requestsChunk = requests.splice(0, this_1.maxRequests);
-                                        batchRequest = {
-                                            requests: this_1.formatRequests(requestsChunk),
-                                        };
-                                        batchOptions = {
-                                            body: jsS(batchRequest),
-                                            headers: {
-                                                "Accept": "application/json",
-                                                "Content-Type": "application/json",
-                                            },
-                                            method: "POST",
-                                        };
-                                        Logger.write("[" + this_1.batchId + "] (" + (new Date()).getTime() + ") Sending batch request.", 1 /* Info */);
-                                        return [4 /*yield*/, toAbsoluteUrl(this_1.batchUrl, this_1.runtime)];
-                                    case 1:
-                                        queryUrl = _b.sent();
-                                        return [4 /*yield*/, client.fetch(queryUrl, batchOptions)
-                                                .then(function (r) { return r.json(); })
-                                                .then(function (j) { return _this.parseResponse(requestsChunk, j); })
-                                                .then(function (parsedResponse) {
-                                                Logger.write("[" + _this.batchId + "] (" + (new Date()).getTime() + ") Resolving batched requests.", 1 /* Info */);
-                                                parsedResponse.responses.reduce(function (chain, response, index) {
-                                                    var request = requestsChunk[index];
-                                                    Logger.write("[" + _this.batchId + "] (" + (new Date()).getTime() + ") Resolving batched request " + request.method + " " + request.url + ".", 0 /* Verbose */);
-                                                    return chain.then(function () { return request.parser.parse(response).then(request.resolve).catch(request.reject); });
-                                                }, Promise.resolve());
-                                            }).catch(function (e) {
-                                                throw e;
-                                            })];
-                                    case 2:
-                                        _b.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        };
-                        this_1 = this;
-                        _a.label = 1;
-                    case 1:
-                        if (!(requests.length > 0)) return [3 /*break*/, 3];
-                        return [5 /*yield**/, _loop_1()];
-                    case 2:
-                        _a.sent();
-                        return [3 /*break*/, 1];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
+    }
     /**
-     * Urls come to the batch absolute, but the processor expects relative
-     * @param url Url to ensure is relative
-     */
-    GraphBatch.prototype.makeUrlRelative = function (url) {
-        if (!isUrlAbsolute(url)) {
-            // already not absolute, just give it back
-            return url;
-        }
-        var index = url.indexOf("/v1.0/");
-        if (index < 0) {
-            index = url.indexOf("/beta/");
-            if (index > -1) {
-                // beta url
-                return url.substr(index + 6);
-            }
-        }
-        else {
-            // v1.0 url
-            return url.substr(index + 5);
-        }
-        // no idea
-        return url;
-    };
-    GraphBatch.prototype.formatRequests = function (requests) {
-        var _this = this;
-        return requests.map(function (reqInfo, index) {
-            var _a;
-            var requestFragment = {
-                id: "" + ++index,
-                method: reqInfo.method,
-                url: _this.makeUrlRelative(reqInfo.url),
-            };
-            var headers = {};
-            // merge runtime headers
-            headers = util_assign(headers, (_a = _this.runtime.get("graph")) === null || _a === void 0 ? void 0 : _a.headers);
-            if (reqInfo.options !== undefined) {
-                // merge per request headers
-                if (reqInfo.options.headers !== undefined && reqInfo.options.headers !== null) {
-                    headers = util_assign(headers, reqInfo.options.headers);
-                }
-                // all non-get requests need their own content-type header
-                if (reqInfo.method !== "GET") {
-                    headers["Content-Type"] = "application/json";
-                }
-                // add a request body
-                if (reqInfo.options.body !== undefined && reqInfo.options.body !== null) {
-                    // we need to parse the body which was previously turned into a string
-                    requestFragment = util_assign(requestFragment, {
-                        body: JSON.parse(reqInfo.options.body),
-                    });
-                }
-            }
-            requestFragment = util_assign(requestFragment, {
-                headers: headers,
-            });
-            return requestFragment;
-        });
-    };
-    GraphBatch.prototype.parseResponse = function (requests, graphResponse) {
-        return new Promise(function (resolve, reject) {
-            // we need to see if we have an error and report that
-            if (hOP(graphResponse, "error")) {
-                return reject(Error("Error Porcessing Batch: (" + graphResponse.error.code + ") " + graphResponse.error.message));
-            }
-            var parsedResponses = new Array(requests.length).fill(null);
-            for (var i = 0; i < graphResponse.responses.length; ++i) {
-                var response = graphResponse.responses[i];
-                // we create the request id by adding 1 to the index, so we place the response by subtracting one to match
-                // the array of requests and make it easier to map them by index
-                var responseId = parseInt(response.id, 10) - 1;
-                if (response.status === 204) {
-                    parsedResponses[responseId] = new Response();
-                }
-                else {
-                    parsedResponses[responseId] = new Response(JSON.stringify(response.body), response);
-                }
-            }
-            resolve({
-                nextLink: graphResponse.nextLink,
-                responses: parsedResponses,
-            });
-        });
-    };
-    return GraphBatch;
-}(batch_Batch));
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/rest.js
-
-
-
-
-var rest_GraphRest = /** @class */ (function () {
-    /**
-     * Creates a new instance of the SPRest class
+     * Used by extending classes to create new objects directly from the root
      *
-     * @param options Additional options
-     * @param baseUrl A string that should form the base part of the url
+     * @param factory The factory for the type of object to create
+     * @returns A configured instance of that object
      */
-    function GraphRest(_options, _baseUrl, _runtime) {
-        if (_options === void 0) { _options = {}; }
-        if (_baseUrl === void 0) { _baseUrl = "v1.0"; }
-        if (_runtime === void 0) { _runtime = DefaultRuntime; }
-        this._options = _options;
-        this._baseUrl = _baseUrl;
-        this._runtime = _runtime;
+    create(factory, path) {
+        return factory(this._root, path);
     }
-    GraphRest.prototype.createBatch = function () {
-        return new batch_GraphBatch().setRuntime(this._runtime);
-    };
-    GraphRest.prototype.setup = function (config) {
-        if (config.pageContext) {
-            graphlibconfig_setup({
-                spfxContext: config,
-            }, this._runtime);
-        }
-        else {
-            graphlibconfig_setup(config, this._runtime);
-        }
-    };
-    GraphRest.prototype.createIsolated = function (init) {
-        return __awaiter(this, void 0, void 0, function () {
-            var baseUrl, cloneGlobal, options, config, runtime;
-            return __generator(this, function (_a) {
-                // merge our defaults
-                init = Object.assign({
-                    baseUrl: "v1.0",
-                    cloneGlobal: true,
-                    config: {},
-                    options: {},
-                }, init || {});
-                baseUrl = init.baseUrl, cloneGlobal = init.cloneGlobal, options = init.options, config = init.config;
-                runtime = cloneGlobal ? new libconfig_Runtime(DefaultRuntime.export()) : new libconfig_Runtime();
-                runtime.assign(config);
-                return [2 /*return*/, new GraphRest(options, baseUrl, runtime)];
-            });
-        });
-    };
-    GraphRest.prototype.childConfigHook = function (callback) {
-        return callback({ options: this._options, baseUrl: this._baseUrl, runtime: this._runtime });
-    };
-    return GraphRest;
-}());
-
-var graph = new rest_GraphRest();
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/index.js
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "directoryObjects", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return DirectoryObjects(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/groups/index.js
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "groups", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Groups(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/types.js
-
-
-
-/**
- * Represents a insights entity
- */
-var types_Insights = /** @class */ (function (_super) {
-    __extends(_Insights, _super);
-    function _Insights() {
-        return _super !== null && _super.apply(this, arguments) || this;
+}
+function graphfi(root = "") {
+    if (typeof root === "object" && !Reflect.has(root, "length")) {
+        root = root._root;
     }
-    Object.defineProperty(_Insights.prototype, "trending", {
-        get: function () {
-            return TrendingInsights(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Insights.prototype, "used", {
-        get: function () {
-            return UsedInsights(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Insights.prototype, "shared", {
-        get: function () {
-            return SharedInsights(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Insights = __decorate([
-        defaultPath("insights")
-    ], _Insights);
-    return _Insights;
-}(graphqueryable_GraphQueryableInstance));
+    return new fi_GraphFI(root);
+}
 
-var Insights = graphInvokableFactory(types_Insights);
-/**
- * Describes a Trending Insight instance
- */
-var types_TrendingInsight = /** @class */ (function (_super) {
-    __extends(_TrendingInsight, _super);
-    function _TrendingInsight() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_TrendingInsight.prototype, "resource", {
-        get: function () {
-            return Resource(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _TrendingInsight;
-}(graphqueryable_GraphQueryableInstance));
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations.js
 
-var TrendingInsight = graphInvokableFactory(types_TrendingInsight);
-/**
- * Describes a collection of Trending Insight objects
- *
- */
-var types_TrendingInsights = /** @class */ (function (_super) {
-    __extends(_TrendingInsights, _super);
-    function _TrendingInsights() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _TrendingInsights = __decorate([
-        defaultPath("trending"),
-        getById(TrendingInsight)
-    ], _TrendingInsights);
-    return _TrendingInsights;
-}(graphqueryable_GraphQueryableCollection));
-
-var TrendingInsights = graphInvokableFactory(types_TrendingInsights);
-/**
- * Describes a Used Insight instance
- */
-var types_UsedInsight = /** @class */ (function (_super) {
-    __extends(_UsedInsight, _super);
-    function _UsedInsight() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_UsedInsight.prototype, "resource", {
-        get: function () {
-            return Resource(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _UsedInsight;
-}(graphqueryable_GraphQueryableInstance));
-
-var UsedInsight = graphInvokableFactory(types_UsedInsight);
-/**
- * Describes a collection of Used Insight objects
- *
- */
-var types_UsedInsights = /** @class */ (function (_super) {
-    __extends(_UsedInsights, _super);
-    function _UsedInsights() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _UsedInsights = __decorate([
-        defaultPath("used"),
-        getById(UsedInsight)
-    ], _UsedInsights);
-    return _UsedInsights;
-}(graphqueryable_GraphQueryableCollection));
-
-var UsedInsights = graphInvokableFactory(types_UsedInsights);
-/**
- * Describes a Shared Insight instance
- */
-var types_SharedInsight = /** @class */ (function (_super) {
-    __extends(_SharedInsight, _super);
-    function _SharedInsight() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_SharedInsight.prototype, "resource", {
-        get: function () {
-            return Resource(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _SharedInsight;
-}(graphqueryable_GraphQueryableInstance));
-
-var SharedInsight = graphInvokableFactory(types_SharedInsight);
-/**
- * Describes a collection of Shared Insight objects
- *
- */
-var types_SharedInsights = /** @class */ (function (_super) {
-    __extends(_SharedInsights, _super);
-    function _SharedInsights() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _SharedInsights = __decorate([
-        defaultPath("shared"),
-        getById(SharedInsight)
-    ], _SharedInsights);
-    return _SharedInsights;
-}(graphqueryable_GraphQueryableCollection));
-
-var SharedInsights = graphInvokableFactory(types_SharedInsights);
-/**
- * Describes a Resource Entity instance
- */
-var types_Resource = /** @class */ (function (_super) {
-    __extends(_Resource, _super);
-    function _Resource() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Resource = __decorate([
-        defaultPath("resource")
-    ], _Resource);
-    return _Resource;
-}(graphqueryable_GraphQueryableInstance));
-
-var Resource = graphInvokableFactory(types_Resource);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/users.js
-
-
-
-addProp(types_User, "insights", Insights);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/invitations/types.js
-
-
-
-
-
-
-/**
- * Invitations
- */
-var types_Invitations = /** @class */ (function (_super) {
-    __extends(_Invitations, _super);
-    function _Invitations() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Invitation via invitation manager.
-     *
-     * @param invitedUserEmailAddress The email address of the user being invited.
-     * @param inviteRedirectUrl The URL user should be redirected to once the invitation is redeemed.
-     * @param additionalProperties A plain object collection of additional properties you want to set in the invitation
-     */
-    _Invitations.prototype.create = function (invitedUserEmailAddress, inviteRedirectUrl, additionalProperties) {
-        if (additionalProperties === void 0) { additionalProperties = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({ inviteRedirectUrl: inviteRedirectUrl, invitedUserEmailAddress: invitedUserEmailAddress }, additionalProperties);
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, { data: data }];
-                }
-            });
-        });
-    };
-    _Invitations = __decorate([
-        defaultPath("invitations")
-    ], _Invitations);
-    return _Invitations;
-}(graphqueryable_GraphQueryableCollection));
-
-var Invitations = graphInvokableFactory(types_Invitations);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/invitations/index.js
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "invitations", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Invitations(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/types.js
-
-
-
-
-
-/**
- * Member
- */
-var types_Member = /** @class */ (function (_super) {
-    __extends(_Member, _super);
-    function _Member() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Removes this Member
-     */
-    _Member.prototype.remove = function () {
-        return graphDelete(this.clone(Member, "$ref"));
-    };
-    return _Member;
-}(graphqueryable_GraphQueryableInstance));
-
-var Member = graphInvokableFactory(types_Member);
-/**
- * Members
- */
-var types_Members = /** @class */ (function (_super) {
-    __extends(_Members, _super);
-    function _Members() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Use this API to add a member to an Office 365 group, a security group or a mail-enabled security group through
-     * the members navigation property. You can add users or other groups.
-     * Important: You can add only users to Office 365 groups.
-     *
-     * @param id Full @odata.id of the directoryObject, user, or group object you want to add (ex: `https://graph.microsoft.com/v1.0/directoryObjects/${id}`)
-     */
-    _Members.prototype.add = function (id) {
-        return graphPost(this.clone(Members, "$ref"), request_builders_body({ "@odata.id": id }));
-    };
-    _Members = __decorate([
-        defaultPath("members"),
-        getById(Member)
-    ], _Members);
-    return _Members;
-}(graphqueryable_GraphQueryableCollection));
-
-var Members = graphInvokableFactory(types_Members);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/groups.js
-
-
-
-addProp(types_Group, "owners", Members, "owners");
-addProp(types_Group, "members", Members);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/messages/types.js
-
-
-
-/**
- * Message
- */
-var types_Message = /** @class */ (function (_super) {
-    __extends(_Message, _super);
-    function _Message() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _Message;
-}(graphqueryable_GraphQueryableInstance));
-
-var Message = graphInvokableFactory(types_Message);
-/**
- * Messages
- */
-var types_Messages = /** @class */ (function (_super) {
-    __extends(_Messages, _super);
-    function _Messages() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Messages = __decorate([
-        defaultPath("messages"),
-        getById(Message),
-        addable()
-    ], _Messages);
-    return _Messages;
-}(graphqueryable_GraphQueryableSearchableCollection));
-
-var Messages = graphInvokableFactory(types_Messages);
-/**
- * MailFolder
- */
-var types_MailFolder = /** @class */ (function (_super) {
-    __extends(_MailFolder, _super);
-    function _MailFolder() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _MailFolder;
-}(graphqueryable_GraphQueryableInstance));
-
-var MailFolder = graphInvokableFactory(types_MailFolder);
-/**
- * MailFolders
- */
-var types_MailFolders = /** @class */ (function (_super) {
-    __extends(_MailFolders, _super);
-    function _MailFolders() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _MailFolders = __decorate([
-        defaultPath("mailFolders"),
-        getById(MailFolder),
-        addable()
-    ], _MailFolders);
-    return _MailFolders;
-}(graphqueryable_GraphQueryableCollection));
-
-var MailFolders = graphInvokableFactory(types_MailFolders);
-/**
- * MailboxSettings
- */
-var types_MailboxSettings = /** @class */ (function (_super) {
-    __extends(_MailboxSettings, _super);
-    function _MailboxSettings() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _MailboxSettings = __decorate([
-        defaultPath("mailboxSettings"),
-        updateable()
-    ], _MailboxSettings);
-    return _MailboxSettings;
-}(graphqueryable_GraphQueryableInstance));
-
-var MailboxSettings = graphInvokableFactory(types_MailboxSettings);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/messages/users.js
-
-
-
-
-addProp(types_User, "messages", Messages);
-addProp(types_User, "mailboxSettings", MailboxSettings);
-addProp(types_User, "mailFolders", MailFolders);
-types_User.prototype.sendMail = function (message) {
-    return graphPost(this.clone(User, "sendMail"), request_builders_body(message));
+const graphGet = (o, init) => {
+    return operations_op(o, get, init);
+};
+const graphPost = (o, init) => {
+    return operations_op(o, post, init);
+};
+const graphDelete = (o, init) => {
+    return operations_op(o, del, init);
+};
+const graphPatch = (o, init) => {
+    return operations_op(o, patch, init);
+};
+const graphPut = (o, init) => {
+    return operations_op(o, put, init);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/messages/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/types.js
-
-
-
-
-
-
-/**
- * Describes a Drive instance
- *
- */
-var types_Drive = /** @class */ (function (_super) {
-    __extends(_Drive, _super);
-    function _Drive() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Drive.prototype, "root", {
-        get: function () {
-            return Root(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Drive.prototype, "list", {
-        get: function () {
-            return this.clone(GraphQueryableInstance, "list");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Drive.prototype, "recent", {
-        get: function () {
-            return DriveItems(this, "recent");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Drive.prototype, "sharedWithMe", {
-        get: function () {
-            return DriveItems(this, "sharedWithMe");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Drive.prototype.getItemById = function (id) {
-        return DriveItem(this, combine("items", id));
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/telemetry.js
+function Telemetry() {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.10.0" };
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
+            this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
+            return [url, init, result];
+        });
+        return instance;
     };
-    _Drive = __decorate([
-        defaultPath("drive")
-    ], _Drive);
-    return _Drive;
-}(graphqueryable_GraphQueryableInstance));
+}
 
-var Drive = graphInvokableFactory(types_Drive);
-/**
- * Describes a collection of Drive objects
- *
- */
-var types_Drives = /** @class */ (function (_super) {
-    __extends(_Drives, _super);
-    function _Drives() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Drives.prototype.getById = function (id) {
-        return Drive(this.getUrlBase(), "drives/" + id);
-    };
-    _Drives = __decorate([
-        defaultPath("drives")
-    ], _Drives);
-    return _Drives;
-}(graphqueryable_GraphQueryableCollection));
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/defaults.js
 
-var Drives = graphInvokableFactory(types_Drives);
-/**
- * Describes a Root instance
- *
- */
-var types_Root = /** @class */ (function (_super) {
-    __extends(_Root, _super);
-    function _Root() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Root.prototype, "children", {
-        get: function () {
-            return DriveItems(this, "children");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Root.prototype.search = function (query) {
-        var searcher = this.clone(Root);
-        searcher.query.set("search", "'" + query + "'");
-        return searcher();
-    };
-    Object.defineProperty(_Root.prototype, "thumbnails", {
-        get: function () {
-            return this.clone(GraphQueryableCollection, "thumbnails");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Root = __decorate([
-        defaultPath("root")
-    ], _Root);
-    return _Root;
-}(graphqueryable_GraphQueryableInstance));
 
-var Root = graphInvokableFactory(types_Root);
-/**
- * Describes a Drive Item instance
- *
- */
-var types_DriveItem = /** @class */ (function (_super) {
-    __extends(_DriveItem, _super);
-    function _DriveItem() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_DriveItem.prototype, "children", {
-        get: function () {
-            return DriveItems(this, "children");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_DriveItem.prototype, "thumbnails", {
-        get: function () {
-            return this.clone(GraphQueryableCollection, "thumbnails");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_DriveItem.prototype, "versions", {
-        get: function () {
-            return this.clone(GraphQueryableCollection, "versions");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _DriveItem.prototype.move = function (parentReference, name) {
-        return graphPatch(this, request_builders_body(util_assign(parentReference, { name: name })));
+
+function DefaultInit(graphUrl = "https://graph.microsoft.com/v1.0") {
+    return (instance) => {
+        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
+        instance.on.pre(async (url, init, result) => {
+            init.cache = "default";
+            init.credentials = "same-origin";
+            if (!isUrlAbsolute(url)) {
+                url = combine(graphUrl, url);
+            }
+            return [url, init, result];
+        });
+        return instance;
     };
-    _DriveItem.prototype.getContent = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var info, r, p;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.get()];
-                    case 1:
-                        info = _a.sent();
-                        return [4 /*yield*/, safe_global["a" /* safeGlobal */].fetch(info["@microsoft.graph.downloadUrl"], {
-                                headers: {
-                                    "accept": "application/json",
-                                },
-                                method: "GET",
-                                responseType: "arraybuffer",
-                            })];
-                    case 2:
-                        r = _a.sent();
-                        p = new parsers_BlobParser();
-                        return [2 /*return*/, p.parse(r)];
+}
+function DefaultHeaders() {
+    return (instance) => {
+        instance
+            .using(InjectHeaders({
+            "Content-Type": "application/json",
+        }));
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/endpoint.js
+function Endpoint(endpoint) {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            const all = ["beta", "v1.0"];
+            let regex = new RegExp(endpoint, "i");
+            const replaces = all.filter(s => !regex.test(s)).map(s => s.replace(".", "\\."));
+            regex = new RegExp(`/?(${replaces.join("|")})/?`, "ig");
+            url = url.replace(regex, `/${endpoint}/`);
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/graphbrowser.js
+
+
+
+function GraphBrowser(props) {
+    if ((props === null || props === void 0 ? void 0 : props.baseUrl) && !isUrlAbsolute(props.baseUrl)) {
+        throw Error("GraphBrowser props.baseUrl must be absolute when supplied.");
+    }
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse());
+        if (props === null || props === void 0 ? void 0 : props.baseUrl) {
+            // we want to fix up the url first
+            instance.on.pre.prepend(async (url, init, result) => {
+                if (!isUrlAbsolute(url)) {
+                    url = combine(props.baseUrl, url);
                 }
+                return [url, init, result];
             });
-        });
+        }
+        return instance;
     };
-    _DriveItem.prototype.setContent = function (content) {
-        return graphPut(this.clone(DriveItem, "content"), {
-            body: content,
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/spfx.js
+
+
+function SPFx(context) {
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse());
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
         });
+        return instance;
     };
-    _DriveItem = __decorate([
-        deleteable(),
-        updateable()
-    ], _DriveItem);
-    return _DriveItem;
-}(graphqueryable_GraphQueryableInstance));
-
-var DriveItem = graphInvokableFactory(types_DriveItem);
-/**
- * Describes a collection of Drive Item objects
- *
- */
-var types_DriveItems = /** @class */ (function (_super) {
-    __extends(_DriveItems, _super);
-    function _DriveItems() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _DriveItems_1 = _DriveItems;
-    _DriveItems.prototype.add = function (filename, content) {
-        return __awaiter(this, void 0, void 0, function () {
-            var parent, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        parent = this.getParent(_DriveItems_1);
-                        parent.concat(":/" + filename + ":/content");
-                        return [4 /*yield*/, graphPut(parent, { body: content })];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                driveItem: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    /**
-     * Adds a folder to this collection of drive items
-     *
-     * @param name Name of the new folder
-     * @returns result with folder data and chainable drive item object
-     */
-    _DriveItems.prototype.addFolder = function (name) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            name: name,
-                            folder: {},
-                            "@microsoft.graph.conflictBehavior": "rename",
-                        };
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                driveItem: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    var _DriveItems_1;
-    _DriveItems = _DriveItems_1 = __decorate([
-        getById(DriveItem)
-    ], _DriveItems);
-    return _DriveItems;
-}(graphqueryable_GraphQueryableCollection));
-
-var DriveItems = graphInvokableFactory(types_DriveItems);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/users.js
-
-
-
-addProp(types_User, "drive", Drive);
-addProp(types_User, "drives", Drives);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/types.js
-
-
-
-
-
-/**
- * Represents a onenote entity
- */
-var types_OneNote = /** @class */ (function (_super) {
-    __extends(_OneNote, _super);
-    function _OneNote() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_OneNote.prototype, "notebooks", {
-        get: function () {
-            return Notebooks(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_OneNote.prototype, "sections", {
-        get: function () {
-            return Sections(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_OneNote.prototype, "pages", {
-        get: function () {
-            return this.clone(GraphQueryableCollection, "pages");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _OneNote = __decorate([
-        defaultPath("onenote")
-    ], _OneNote);
-    return _OneNote;
-}(graphqueryable_GraphQueryableInstance));
-
-var OneNote = graphInvokableFactory(types_OneNote);
-/**
- * Describes a notebook instance
- *
- */
-var types_Notebook = /** @class */ (function (_super) {
-    __extends(_Notebook, _super);
-    function _Notebook() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Notebook.prototype, "sections", {
-        get: function () {
-            return Sections(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Notebook;
-}(graphqueryable_GraphQueryableInstance));
-
-var Notebook = graphInvokableFactory(types_Notebook);
-/**
- * Describes a collection of Notebook objects
- *
- */
-var types_Notebooks = /** @class */ (function (_super) {
-    __extends(_Notebooks, _super);
-    function _Notebooks() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new notebook as specified in the request body.
-     *
-     * @param displayName Notebook display name
-     */
-    _Notebooks.prototype.add = function (displayName) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body({ displayName: displayName }))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                notebook: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Notebooks = __decorate([
-        defaultPath("notebooks"),
-        getById(Notebook)
-    ], _Notebooks);
-    return _Notebooks;
-}(graphqueryable_GraphQueryableCollection));
-
-var Notebooks = graphInvokableFactory(types_Notebooks);
-/**
- * Describes a sections instance
- */
-var types_Section = /** @class */ (function (_super) {
-    __extends(_Section, _super);
-    function _Section() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return _Section;
-}(graphqueryable_GraphQueryableInstance));
-
-var Section = graphInvokableFactory(types_Section);
-/**
- * Describes a collection of Sections objects
- *
- */
-var types_Sections = /** @class */ (function (_super) {
-    __extends(_Sections, _super);
-    function _Sections() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Adds a new section
-     *
-     * @param displayName New section display name
-     */
-    _Sections.prototype.add = function (displayName) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body({ displayName: displayName }))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                section: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Sections = __decorate([
-        defaultPath("sections"),
-        getById(Section)
-    ], _Sections);
-    return _Sections;
-}(graphqueryable_GraphQueryableCollection));
-
-var Sections = graphInvokableFactory(types_Sections);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/users.js
-
-
-
-addProp(types_User, "onenote", OneNote);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/index.js
-
-
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/index.js
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/types.js
-
-
-
-
-
-/**
- * Outlook
- */
-var types_Outlook = /** @class */ (function (_super) {
-    __extends(_Outlook, _super);
-    function _Outlook() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Outlook.prototype, "masterCategories", {
-        get: function () {
-            return MasterCategories(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Outlook;
-}(graphqueryable_GraphQueryableInstance));
-
-var Outlook = graphInvokableFactory(types_Outlook);
-/**
- * Describes an Outlook Category instance
- */
-var types_OutlookCategory = /** @class */ (function (_super) {
-    __extends(_OutlookCategory, _super);
-    function _OutlookCategory() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _OutlookCategory = __decorate([
-        deleteable(),
-        updateable()
-    ], _OutlookCategory);
-    return _OutlookCategory;
-}(graphqueryable_GraphQueryableInstance));
-
-var OutlookCategory = graphInvokableFactory(types_OutlookCategory);
-/**
- * Categories
- */
-var types_MasterCategories = /** @class */ (function (_super) {
-    __extends(_MasterCategories, _super);
-    function _MasterCategories() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Adds a new event to the collection
-     *
-     * @param properties The set of properties used to create the event
-     */
-    _MasterCategories.prototype.add = function (properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body(properties))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                            }];
-                }
-            });
-        });
-    };
-    _MasterCategories = __decorate([
-        defaultPath("masterCategories"),
-        getById(OutlookCategory)
-    ], _MasterCategories);
-    return _MasterCategories;
-}(graphqueryable_GraphQueryableCollection));
-
-var MasterCategories = graphInvokableFactory(types_MasterCategories);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/users.js
-
-
-
-addProp(types_User, "outlook", Outlook, "outlook");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/outlook/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/types.js
-
-
-
-
-
-var types_Photo = /** @class */ (function (_super) {
-    __extends(_Photo, _super);
-    function _Photo() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Gets the image bytes as a blob (browser)
-     */
-    _Photo.prototype.getBlob = function () {
-        return this.clone(Photo, "$value", false).usingParser(new parsers_BlobParser())();
-    };
-    /**
-     * Gets the image file bytes as a Buffer (node.js)
-     */
-    _Photo.prototype.getBuffer = function () {
-        return this.clone(Photo, "$value", false).usingParser(new parsers_BufferParser())();
-    };
-    /**
-     * Sets the file bytes
-     *
-     * @param content Image file contents, max 4 MB
-     */
-    _Photo.prototype.setContent = function (content) {
-        return graphPatch(this.clone(Photo, "$value", false), { body: content });
-    };
-    _Photo = __decorate([
-        defaultPath("photo")
-    ], _Photo);
-    return _Photo;
-}(graphqueryable_GraphQueryableInstance));
-
-var Photo = graphInvokableFactory(types_Photo);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/groups.js
-
-
-
-addProp(types_Group, "photo", Photo);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/users.js
-
-
-
-addProp(types_User, "photo", Photo);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/index.js
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/types.js
-
-
-
-
-
-
-
-/**
- * Planner
- */
-var types_Planner = /** @class */ (function (_super) {
-    __extends(_Planner, _super);
-    function _Planner() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Planner.prototype, "plans", {
-        // Should Only be able to get by id, or else error occur
-        get: function () {
-            return Plans(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Planner.prototype, "tasks", {
-        // Should Only be able to get by id, or else error occur
-        get: function () {
-            return Tasks(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Planner.prototype, "buckets", {
-        // Should Only be able to get by id, or else error occur
-        get: function () {
-            return Buckets(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Planner = __decorate([
-        defaultPath("planner")
-    ], _Planner);
-    return _Planner;
-}(graphqueryable_GraphQueryableInstance));
-
-var Planner = graphInvokableFactory(types_Planner);
-/**
- * Details
- */
-var types_PlanDetails = /** @class */ (function (_super) {
-    __extends(_PlanDetails, _super);
-    function _PlanDetails() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _PlanDetails = __decorate([
-        defaultPath("details"),
-        updateableWithETag()
-    ], _PlanDetails);
-    return _PlanDetails;
-}(graphqueryable_GraphQueryableInstance));
-
-var PlanDetails = graphInvokableFactory(types_PlanDetails);
-/**
- * Plan
- */
-var types_Plan = /** @class */ (function (_super) {
-    __extends(_Plan, _super);
-    function _Plan() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Plan.prototype, "tasks", {
-        get: function () {
-            return Tasks(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Plan.prototype, "buckets", {
-        get: function () {
-            return Buckets(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Plan.prototype, "details", {
-        get: function () {
-            return PlanDetails(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Plan = __decorate([
-        updateableWithETag(),
-        deleteableWithETag()
-    ], _Plan);
-    return _Plan;
-}(graphqueryable_GraphQueryableInstance));
-
-var Plan = graphInvokableFactory(types_Plan);
-var types_Plans = /** @class */ (function (_super) {
-    __extends(_Plans, _super);
-    function _Plans() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Planner Plan.
-     *
-     * @param owner Id of Group object.
-     * @param title The Title of the Plan.
-     */
-    _Plans.prototype.add = function (owner, title) {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, graphPost(this, request_builders_body({ owner: owner, title: title }))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                plan: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Plans = __decorate([
-        defaultPath("plans"),
-        getById(Plan)
-    ], _Plans);
-    return _Plans;
-}(graphqueryable_GraphQueryableCollection));
-
-var Plans = graphInvokableFactory(types_Plans);
-/**
- * Details
- */
-var types_TaskDetails = /** @class */ (function (_super) {
-    __extends(_TaskDetails, _super);
-    function _TaskDetails() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _TaskDetails = __decorate([
-        defaultPath("details"),
-        updateableWithETag()
-    ], _TaskDetails);
-    return _TaskDetails;
-}(graphqueryable_GraphQueryableInstance));
-
-var TaskDetails = graphInvokableFactory(types_TaskDetails);
-/**
- * Task
- */
-var types_Task = /** @class */ (function (_super) {
-    __extends(_Task, _super);
-    function _Task() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Task.prototype, "details", {
-        get: function () {
-            return TaskDetails(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Task = __decorate([
-        updateableWithETag(),
-        deleteableWithETag()
-    ], _Task);
-    return _Task;
-}(graphqueryable_GraphQueryableInstance));
-
-var Task = graphInvokableFactory(types_Task);
-/**
- * Tasks
- */
-var types_Tasks = /** @class */ (function (_super) {
-    __extends(_Tasks, _super);
-    function _Tasks() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Planner Task.
-     *
-     * @param planId Id of Plan.
-     * @param title The Title of the Task.
-     * @param assignments Assign the task
-     * @param bucketId Id of Bucket
-     */
-    _Tasks.prototype.add = function (planId, title, assignments, bucketId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({
-                            planId: planId,
-                            title: title,
-                        }, assignments);
-                        if (bucketId) {
-                            postBody = util_assign(postBody, {
-                                bucketId: bucketId,
-                            });
-                        }
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                task: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Tasks = __decorate([
-        defaultPath("tasks"),
-        getById(Task)
-    ], _Tasks);
-    return _Tasks;
-}(graphqueryable_GraphQueryableCollection));
-
-var Tasks = graphInvokableFactory(types_Tasks);
-/**
- * Bucket
- */
-var types_Bucket = /** @class */ (function (_super) {
-    __extends(_Bucket, _super);
-    function _Bucket() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Bucket.prototype, "tasks", {
-        get: function () {
-            return Tasks(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    _Bucket = __decorate([
-        updateableWithETag(),
-        deleteableWithETag()
-    ], _Bucket);
-    return _Bucket;
-}(graphqueryable_GraphQueryableInstance));
-
-var Bucket = graphInvokableFactory(types_Bucket);
-/**
- * Buckets
- */
-var types_Buckets = /** @class */ (function (_super) {
-    __extends(_Buckets, _super);
-    function _Buckets() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Bucket.
-     *
-     * @param name Name of Bucket object.
-     * @param planId The Id of the Plan.
-     * @param oderHint Hint used to order items of this type in a list view.
-     */
-    _Buckets.prototype.add = function (name, planId, orderHint) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            name: name,
-                            orderHint: orderHint ? orderHint : "",
-                            planId: planId,
-                        };
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                bucket: this.getById(data.id),
-                                data: data,
-                            }];
-                }
-            });
-        });
-    };
-    _Buckets = __decorate([
-        defaultPath("buckets"),
-        getById(Bucket)
-    ], _Buckets);
-    return _Buckets;
-}(graphqueryable_GraphQueryableCollection));
-
-var Buckets = graphInvokableFactory(types_Buckets);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/groups.js
-
-
-
-addProp(types_Group, "plans", Plans, "planner/plans");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/users.js
-
-
-
-addProp(types_User, "tasks", Tasks, "planner/tasks");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/index.js
-
-
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "planner", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Planner(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/search/types.js
-
-
-
-
-
-/**
- * Search
- */
-var types_Search = /** @class */ (function (_super) {
-    __extends(_Search, _super);
-    function _Search() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Search.prototype.executeQuery = function (request) {
-        return graphPost(Search(this, "query"), request_builders_body(request));
-    };
-    _Search = __decorate([
-        defaultPath("search")
-    ], _Search);
-    return _Search;
-}(graphqueryable_GraphQueryableInstance));
-
-var Search = graphInvokableFactory(types_Search);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/search/index.js
-
-
-
-
-rest_GraphRest.prototype.query = function () {
-    var requests = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        requests[_i] = arguments[_i];
-    }
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, this.childConfigHook(function (_a) {
-                    var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-                    return Search(baseUrl).configure(options).setRuntime(runtime).executeQuery({ requests: requests });
-                })];
-        });
-    });
-};
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/subscriptions/types.js
-
-
-
-
-
-
-/**
- * Subscription
- */
-var types_Subscription = /** @class */ (function (_super) {
-    __extends(_Subscription, _super);
-    function _Subscription() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Subscription = __decorate([
-        deleteable(),
-        updateable()
-    ], _Subscription);
-    return _Subscription;
-}(graphqueryable_GraphQueryableInstance));
-
-var Subscription = graphInvokableFactory(types_Subscription);
-/**
- * Subscriptions
- */
-var types_Subscriptions = /** @class */ (function (_super) {
-    __extends(_Subscriptions, _super);
-    function _Subscriptions() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Create a new Subscription.
-     *
-     * @param changeType Indicates the type of change in the subscribed resource that will raise a notification. The supported values are: created, updated, deleted.
-     * @param notificationUrl The URL of the endpoint that will receive the notifications. This URL must make use of the HTTPS protocol.
-     * @param resource Specifies the resource that will be monitored for changes. Do not include the base URL (https://graph.microsoft.com/v1.0/).
-     * @param expirationDateTime Specifies the date and time when the webhook subscription expires. The time is in UTC.
-     * @param props A plain object collection of additional properties you want to set on the new subscription
-     *
-     */
-    _Subscriptions.prototype.add = function (changeType, notificationUrl, resource, expirationDateTime, props) {
-        if (props === void 0) { props = {}; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({
-                            changeType: changeType,
-                            expirationDateTime: expirationDateTime,
-                            notificationUrl: notificationUrl,
-                            resource: resource,
-                        }, props);
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                subscription: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Subscriptions = __decorate([
-        defaultPath("subscriptions"),
-        getById(Subscription)
-    ], _Subscriptions);
-    return _Subscriptions;
-}(graphqueryable_GraphQueryableCollection));
-
-var Subscriptions = graphInvokableFactory(types_Subscriptions);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/subscriptions/index.js
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "subscriptions", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Subscriptions(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/types.js
-
-
-
-
-
-
-
-/**
- * Represents a Microsoft Team
- */
-var types_Team = /** @class */ (function (_super) {
-    __extends(_Team, _super);
-    function _Team() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Team.prototype, "primaryChannel", {
-        get: function () {
-            return Channel(this, "primaryChannel");
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(_Team.prototype, "channels", {
-        get: function () {
-            return Channels(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Archives this Team
-     *
-     * @param shouldSetSpoSiteReadOnlyForMembers Should members have Read-only in associated Team Site
-     */
-    _Team.prototype.archive = function (shouldSetSpoSiteReadOnlyForMembers) {
-        if (shouldSetSpoSiteReadOnlyForMembers === void 0) { shouldSetSpoSiteReadOnlyForMembers = false; }
-        return graphPost(this.clone(Team, "archive"), request_builders_body({ shouldSetSpoSiteReadOnlyForMembers: shouldSetSpoSiteReadOnlyForMembers }));
-    };
-    /**
-    * Unarchives this Team
-    */
-    _Team.prototype.unarchive = function () {
-        return graphPost(this.clone(Team, "unarchive"));
-    };
-    /**
-     * Clones this Team
-     * @param name The name of the new Group
-     * @param description Optional description of the group
-     * @param partsToClone Parts to clone ex: apps,tabs,settings,channels,members
-     * @param visibility Set visibility to public or private
-     */
-    _Team.prototype.cloneTeam = function (name, description, partsToClone, visibility) {
-        if (description === void 0) { description = ""; }
-        if (partsToClone === void 0) { partsToClone = "apps,tabs,settings,channels,members"; }
-        if (visibility === void 0) { visibility = "private"; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, parser, creator, data, result, location_1, locationArray;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            description: description ? description : "",
-                            displayName: name,
-                            mailNickname: name,
-                            partsToClone: partsToClone,
-                            visibility: visibility,
-                        };
-                        parser = new parsers_LambdaParser(function (r) { return Promise.resolve(r.headers); });
-                        creator = Teams(this, "clone").usingParser(parser);
-                        return [4 /*yield*/, graphPost(creator, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        result = { teamId: "", operationId: "" };
-                        if (data.has("location")) {
-                            location_1 = data.get("location");
-                            locationArray = location_1.split("/");
-                            if (locationArray.length === 3) {
-                                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
-                                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
-                            }
-                        }
-                        return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    _Team.prototype.getOperationById = function (id) {
-        return GraphQueryableInstance(this, "operations/" + id)();
-    };
-    _Team = __decorate([
-        defaultPath("team"),
-        updateable()
-    ], _Team);
-    return _Team;
-}(graphqueryable_GraphQueryableInstance));
-
-var Team = graphInvokableFactory(types_Team);
-/**
- * Teams
- */
-var types_Teams = /** @class */ (function (_super) {
-    __extends(_Teams, _super);
-    function _Teams() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Teams.prototype.create = function (team) {
-        return __awaiter(this, void 0, void 0, function () {
-            var parser, creator, data, result, location_2, locationArray;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        parser = new parsers_LambdaParser(function (r) { return Promise.resolve(r.headers); });
-                        creator = Teams(this, null).usingParser(parser);
-                        return [4 /*yield*/, graphPost(creator, request_builders_body(team))];
-                    case 1:
-                        data = _a.sent();
-                        result = { teamId: "", operationId: "" };
-                        if (data.has("location")) {
-                            location_2 = data.get("location");
-                            locationArray = location_2.split("/");
-                            if (locationArray.length === 3) {
-                                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
-                                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
-                            }
-                        }
-                        return [2 /*return*/, result];
-                }
-            });
-        });
-    };
-    _Teams = __decorate([
-        defaultPath("teams"),
-        getById(Team)
-    ], _Teams);
-    return _Teams;
-}(graphqueryable_GraphQueryableCollection));
-
-var Teams = graphInvokableFactory(types_Teams);
-/**
- * Channel
- */
-var types_Channel = /** @class */ (function (_super) {
-    __extends(_Channel, _super);
-    function _Channel() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(_Channel.prototype, "tabs", {
-        get: function () {
-            return Tabs(this);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return _Channel;
-}(graphqueryable_GraphQueryableInstance));
-
-var Channel = graphInvokableFactory(types_Channel);
-/**
- * Channels
- */
-var types_Channels = /** @class */ (function (_super) {
-    __extends(_Channels, _super);
-    function _Channels() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Creates a new Channel in the Team
-     * @param displayName The display name of the new channel
-     * @param description Optional description of the channel
-     *
-     */
-    _Channels.prototype.add = function (displayName, description) {
-        if (description === void 0) { description = ""; }
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = {
-                            description: description,
-                            displayName: displayName,
-                        };
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                channel: this.getById(data.id),
-                                data: data,
-                            }];
-                }
-            });
-        });
-    };
-    _Channels = __decorate([
-        defaultPath("channels"),
-        getById(Channel)
-    ], _Channels);
-    return _Channels;
-}(graphqueryable_GraphQueryableCollection));
-
-var Channels = graphInvokableFactory(types_Channels);
-/**
- * Tab
- */
-var types_Tab = /** @class */ (function (_super) {
-    __extends(_Tab, _super);
-    function _Tab() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    _Tab = __decorate([
-        defaultPath("tab"),
-        updateable(),
-        deleteable()
-    ], _Tab);
-    return _Tab;
-}(graphqueryable_GraphQueryableInstance));
-
-var Tab = graphInvokableFactory(types_Tab);
-/**
- * Tabs
- */
-var types_Tabs = /** @class */ (function (_super) {
-    __extends(_Tabs, _super);
-    function _Tabs() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Adds a tab to the channel
-     * @param name The name of the new Tab
-     * @param appUrl The url to an app ex: https://graph.microsoft.com/beta/appCatalogs/teamsApps/12345678-9abc-def0-123456789a
-     * @param tabsConfiguration visit https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamstab_add for reference
-     */
-    _Tabs.prototype.add = function (name, appUrl, properties) {
-        return __awaiter(this, void 0, void 0, function () {
-            var postBody, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        postBody = util_assign({
-                            displayName: name,
-                            "teamsApp@odata.bind": appUrl,
-                        }, properties);
-                        return [4 /*yield*/, graphPost(this, request_builders_body(postBody))];
-                    case 1:
-                        data = _a.sent();
-                        return [2 /*return*/, {
-                                data: data,
-                                tab: this.getById(data.id),
-                            }];
-                }
-            });
-        });
-    };
-    _Tabs = __decorate([
-        defaultPath("tabs"),
-        getById(Tab)
-    ], _Tabs);
-    return _Tabs;
-}(graphqueryable_GraphQueryableCollection));
-
-var Tabs = graphInvokableFactory(types_Tabs);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/users.js
-
-
-
-addProp(types_User, "joinedTeams", Teams, "joinedTeams");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/index.js
-
-
-
-
-
-
-
-
-addProp(types_Group, "team", Team);
-types_Group.prototype.createTeam = function (props) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, graphPut(this.clone(Group, "team"), request_builders_body(props))];
-                case 1:
-                    data = _a.sent();
-                    return [2 /*return*/, {
-                            data: data,
-                            team: this.team,
-                        }];
-            }
-        });
-    });
-};
-Reflect.defineProperty(rest_GraphRest.prototype, "teams", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Teams(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/users/index.js
-
-
-
-Reflect.defineProperty(rest_GraphRest.prototype, "me", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return User(baseUrl, "me").configure(options).setRuntime(runtime);
-        });
-    },
-});
-Reflect.defineProperty(rest_GraphRest.prototype, "users", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.childConfigHook(function (_a) {
-            var options = _a.options, baseUrl = _a.baseUrl, runtime = _a.runtime;
-            return Users(baseUrl).configure(options).setRuntime(runtime);
-        });
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/presets/all.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

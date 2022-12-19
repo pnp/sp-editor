@@ -1,5 +1,5 @@
 import { StandardInteractionClient } from "./StandardInteractionClient";
-import { CommonSilentFlowRequest, AuthenticationResult, SilentFlowClient, ServerTelemetryManager, AccountInfo } from "@azure/msal-common";
+import { CommonSilentFlowRequest, AuthenticationResult, SilentFlowClient, ServerTelemetryManager, AccountInfo, AzureCloudOptions } from "@azure/msal-common";
 import { SilentRequest } from "../request/SilentRequest";
 export declare class SilentCacheClient extends StandardInteractionClient {
     /**
@@ -16,7 +16,7 @@ export declare class SilentCacheClient extends StandardInteractionClient {
      * @param serverTelemetryManager
      * @param authorityUrl
      */
-    protected createSilentFlowClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string): Promise<SilentFlowClient>;
+    protected createSilentFlowClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string, azureCloudOptions?: AzureCloudOptions): Promise<SilentFlowClient>;
     initializeSilentRequest(request: SilentRequest, account: AccountInfo): Promise<CommonSilentFlowRequest>;
 }
 //# sourceMappingURL=SilentCacheClient.d.ts.map

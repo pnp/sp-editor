@@ -1,20 +1,15 @@
-import { ITypedHash } from "@pnp/common";
-import { _SharePointQueryableInstance, ISharePointQueryableCollection, _SharePointQueryableCollection, ISharePointQueryableInstance, ISharePointQueryable, IDeleteableWithETag } from "../sharepointqueryable.js";
+import { _SPCollection, _SPInstance, ISPInstance, IDeleteableWithETag, ISPQueryable } from "../spqueryable.js";
 import { IItem } from "../items/types.js";
-import { IResourcePath } from "../utils/toResourcePath.js";
-export declare class _Folders extends _SharePointQueryableCollection<IFolderInfo[]> {
+import { IResourcePath } from "../utils/to-resource-path.js";
+import "../context-info/index.js";
+import { IMoveCopyOptions } from "../types.js";
+export declare class _Folders extends _SPCollection<IFolderInfo[]> {
     /**
      * Gets a folder by it's name
      *
      * @param name Folder's name
      */
-    getByName(name: string): IFolder;
-    /**
-     * Adds a new folder at the specified URL
-     *
-     * @param url
-     */
-    add(url: string): Promise<IFolderAddResult>;
+    getByUrl(name: string): IFolder;
     /**
      * Adds a new folder by path and should be prefered over add
      *
@@ -25,14 +20,9 @@ export declare class _Folders extends _SharePointQueryableCollection<IFolderInfo
 }
 export interface IFolders extends _Folders {
 }
-export declare const Folders: import("../sharepointqueryable.js").ISPInvokableFactory<IFolders>;
-export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
-    delete: (this: ISharePointQueryable<any>, eTag?: string) => Promise<void>;
-    /**
-     * Specifies the sequence in which content types are displayed.
-     *
-     */
-    get contentTypeOrder(): ISharePointQueryableCollection;
+export declare const Folders: import("../spqueryable.js").ISPInvokableFactory<IFolders>;
+export declare class _Folder extends _SPInstance<IFolderInfo> {
+    delete: (this: ISPQueryable<any>, eTag?: string) => Promise<void>;
     /**
      * Gets this folder's sub folders
      *
@@ -42,7 +32,7 @@ export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
      * Gets this folder's list item field values
      *
      */
-    get listItemAllFields(): ISharePointQueryableInstance;
+    get listItemAllFields(): ISPInstance;
     /**
      * Gets the parent folder, if available
      *
@@ -52,22 +42,17 @@ export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
      * Gets this folder's properties
      *
      */
-    get properties(): ISharePointQueryableInstance;
+    get properties(): ISPInstance;
     /**
-     * Gets this folder's server relative url
+     * Gets this folder's storage metrics information
      *
      */
-    get serverRelativeUrl(): ISharePointQueryable;
-    /**
-     * Gets a value that specifies the content type order.
-     *
-     */
-    get uniqueContentTypeOrder(): ISharePointQueryableCollection;
+    get storageMetrics(): ISPInstance<IStorageMetrics>;
     /**
      * Updates folder's properties
      * @param props Folder's properties to update
      */
-    update: (props: ITypedHash<any>) => Promise<IFolderUpdateResult>;
+    update(props: Partial<IFolderInfo>): Promise<IFolderUpdateResult>;
     /**
      * Moves the folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
@@ -77,25 +62,31 @@ export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
      */
     getItem<T>(...selects: string[]): Promise<IItem & T>;
     /**
-     * Moves a folder to destination path
-     *
-     * @param destUrl Absolute or relative URL of the destination path
-     */
-    moveTo(destUrl: string): Promise<void>;
-    /**
-     * Moves a folder by path to destination path
+     * Moves the file by path to the specified destination url.
      * Also works with different site collections.
      *
-     * @param destUrl Absolute or relative URL of the destination path
-     * @param keepBoth Keep both if folder with the same name in the same location already exists?
+     * @param destUrl The absolute url or server relative url of the destination file path to move to.
+     * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
+     * @param options Allows you to supply the full set of options controlling the move behavior
      */
-    moveByPath(destUrl: string, KeepBoth?: boolean): Promise<void>;
+    moveByPath(destUrl: string, options: Partial<Omit<IMoveCopyOptions, "ResetAuthorAndCreatedOnCopy">>): Promise<IFolder>;
     /**
-     * Copies a folder to destination path
+     * Moves the file by path to the specified destination url.
+     * Also works with different site collections.
      *
-     * @param destUrl Absolute or relative URL of the destination path
+     * @param destUrl The absolute url or server relative url of the destination file path to move to.
+     * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
      */
-    copyTo(destUrl: string): Promise<void>;
+    moveByPath(destUrl: string, KeepBoth?: boolean): Promise<IFolder>;
+    /**
+     * Moves the folder by path to the specified destination url.
+     * Also works with different site collections.
+     *
+     * @param destUrl The absolute url or server relative url of the destination folder path to move to.
+     * @param shouldOverWrite Should a folder with the same name in the same location be overwritten?
+     * @param options Allows you to supply the full set of options controlling the copy behavior
+     */
+    copyByPath(destUrl: string, options: Partial<Omit<IMoveCopyOptions, "RetainEditorAndModifiedOnMove">>): Promise<IFolder>;
     /**
      * Copies a folder by path to destination path
      * Also works with different site collections.
@@ -103,7 +94,7 @@ export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
      * @param destUrl Absolute or relative URL of the destination path
      * @param keepBoth Keep both if folder with the same name in the same location already exists?
      */
-    copyByPath(destUrl: string, KeepBoth?: boolean): Promise<void>;
+    copyByPath(destUrl: string, KeepBoth?: boolean): Promise<IFolder>;
     /**
      * Deletes the folder object with options.
      *
@@ -120,14 +111,34 @@ export declare class _Folder extends _SharePointQueryableInstance<IFolderInfo> {
      * Gets the parent information for this folder's list and web
      */
     getParentInfos(): Promise<IFolderParentInfos>;
-    /**
-     * Gets the shareable item associated with this folder
-     */
-    protected getShareable(): Promise<IItem>;
 }
 export interface IFolder extends _Folder, IDeleteableWithETag {
 }
-export declare const Folder: import("../sharepointqueryable.js").ISPInvokableFactory<IFolder>;
+export declare const Folder: import("../spqueryable.js").ISPInvokableFactory<IFolder>;
+/**
+ * Creates an IFolder instance given a base object and a server relative path
+ *
+ * @param base Valid SPQueryable from which the observers will be used and the web url extracted
+ * @param serverRelativePath The server relative url to the folder (ex: '/sites/dev/documents/folder3')
+ * @returns IFolder instance referencing the folder described by the supplied parameters
+ */
+export declare function folderFromServerRelativePath(base: ISPQueryable, serverRelativePath: string): IFolder;
+/**
+ * Creates an IFolder instance given a base object and an absolute path
+ *
+ * @param base Valid SPQueryable from which the observers will be used
+ * @param serverRelativePath The absolute url to the folder (ex: 'https://tenant.sharepoint.com/sites/dev/documents/folder/')
+ * @returns IFolder instance referencing the folder described by the supplied parameters
+ */
+export declare function folderFromAbsolutePath(base: ISPQueryable, absoluteFolderPath: string): Promise<IFolder>;
+/**
+ * Creates an IFolder intance given a base object and either an absolute or server relative path to a folder
+ *
+ * @param base Valid SPQueryable from which the observers will be used
+ * @param serverRelativePath server relative or absolute url to the file (ex: 'https://tenant.sharepoint.com/sites/dev/documents/folder' or '/sites/dev/documents/folder')
+ * @returns IFile instance referencing the file described by the supplied parameters
+ */
+export declare function folderFromPath(base: ISPQueryable, path: string): Promise<IFolder>;
 /**
  * Describes result of adding a folder
  */
@@ -167,6 +178,15 @@ export interface IFolderInfo {
     TimeLastModified: string;
     UniqueId: string;
     WelcomePage: string;
+    ContentTypeOrder: string[];
+    UniqueContentTypeOrder: string[];
+    StorageMetrics?: IStorageMetrics;
+}
+export interface IStorageMetrics {
+    LastModified: string;
+    TotalFileCount: number;
+    TotalFileStreamSize: number;
+    TotalSize: number;
 }
 export interface IFolderDeleteParams {
     /**

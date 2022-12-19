@@ -10,7 +10,7 @@ import { BasePersonCardSection } from '../BasePersonCardSection';
 /**
  * Represents a contact part and its metadata
  *
- * @interface IContectPart
+ * @interface IContactPart
  */
 interface IContactPart {
     icon: TemplateResult;
@@ -34,6 +34,13 @@ export declare class MgtPersonCardContact extends BasePersonCardSection {
     static get styles(): import("lit-element").CSSResult[];
     protected get strings(): {
         contactSectionTitle: string;
+        emailTitle: string;
+        chatTitle: string;
+        businessPhoneTitle: string;
+        cellPhoneTitle: string;
+        departmentTitle: string;
+        titleTitle: string;
+        officeLocationTitle: string;
     };
     /**
      * Returns true if the component has data it can render
@@ -44,7 +51,7 @@ export declare class MgtPersonCardContact extends BasePersonCardSection {
      * @memberof BasePersonCardSection
      */
     get hasData(): boolean;
-    private _person;
+    private _person?;
     private _contactParts;
     constructor(person: User);
     /**
@@ -100,27 +107,28 @@ export declare class MgtPersonCardContact extends BasePersonCardSection {
      * @memberof MgtPersonCardContact
      */
     protected handlePartClick(e: MouseEvent, value: string): void;
+    private sendLink;
     /**
      * Send a chat message to the user
      *
      * @protected
      * @memberof MgtPersonCardContact
      */
-    protected sendChat(): void;
+    protected sendChat(upn: string): void;
     /**
      * Send an email to the user
      *
      * @protected
      * @memberof MgtPersonCardContact
      */
-    protected sendEmail(): void;
+    protected sendEmail(email: string): void;
     /**
      * Send a call to the user
      *
      * @protected
      * @memberof MgtPersonCardContact
      */
-    protected sendCall(): void;
+    protected sendCall: (phone: string) => void;
 }
 export {};
 //# sourceMappingURL=mgt-person-card-contact.d.ts.map

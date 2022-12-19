@@ -38,6 +38,8 @@ export { PersonType, UserType } from '../../graph/graph.people';
  *
  * @cssprop --dropdown-background-color - {Color} Background color of dropdown area
  * @cssprop --dropdown-item-hover-background - {Color} Background color of person during hover
+ * @cssprop --dropdown-item-text-color - {Color} Color of person text
+ * @cssprop --dropdown-item-text-hover-color - {Color} Color of person text during hover
  *
  * @cssprop --placeholder-color--focus - {Color} Color of placeholder text during focus state
  * @cssprop --placeholder-color - {Color} Color of placeholder text
@@ -53,6 +55,10 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
         inputPlaceholderText: string;
         noResultsFound: string;
         loadingMessage: string;
+        suggestedContact: string;
+        suggestedContacts: string;
+        selected: string;
+        removeSelectedItem: string;
     };
     /**
      * Gets the flyout element
@@ -76,6 +82,12 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     get groupId(): string;
     set groupId(value: string);
+    /**
+     * array of groups for search to be filtered by.
+     * @type {string[]}
+     */
+    get groupIds(): string[];
+    set groupIds(value: string[]);
     /**
      * value determining if search is filtered to a group.
      * @type {PersonType}
@@ -106,6 +118,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @type {number}
      */
     showMax: number;
+    /**
+     * Sets whether the person image should be fetched
+     * from the Microsoft Graph
+     *
+     * @type {boolean}
+     * @memberof MgtPerson
+     */
+    disableImages: boolean;
     /**
      *  array of user picked people.
      * @type {IDynamicPerson[]}
@@ -163,6 +183,26 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     get userIds(): string[];
     set userIds(value: string[]);
     /**
+     * Filters that can be set on the user properties query.
+     */
+    get userFilters(): string;
+    set userFilters(value: string);
+    /**
+     * Filters that can be set on the people query properties.
+     */
+    get peopleFilters(): string;
+    set peopleFilters(value: string);
+    /**
+     * Filters that can be set on the group query properties.
+     */
+    get groupFilters(): string;
+    set groupFilters(value: string);
+    /**
+     * Label that can be set on the people picker input to provide context to
+     * assistive technologies
+     */
+    ariaLabel: string;
+    /**
      * Get the scopes required for people picker
      *
      * @static
@@ -180,9 +220,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     protected userInput: string;
     private _showLoading;
     private _groupId;
+    private _groupIds;
     private _type;
     private _groupType;
     private _userType;
+    private _currentSelectedUser;
+    private _userFilters;
+    private _groupFilters;
+    private _peopleFilters;
     private defaultPeople;
     private _arrowSelectionCount;
     private _groupPeople;
@@ -193,9 +238,6 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private _currentHighlightedUserPos;
     private _isFocused;
     private _foundPeople;
-    private _mouseLeaveTimeout;
-    private _mouseEnterTimeout;
-    private _isKeyboardFocus;
     constructor();
     /**
      * Focuses the input element when focus is called
@@ -298,7 +340,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtPeoplePicker
      */
-    protected renderSearchResults(people?: IDynamicPerson[]): TemplateResult;
+    protected renderSearchResults(people: IDynamicPerson[]): TemplateResult;
     /**
      * Render an individual person search result.
      *
@@ -323,6 +365,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     protected loadState(): Promise<void>;
     /**
+     * Gets the Groups in a list of group IDs.
+     *
+     * @param graph the graph object
+     * @param people already found groups
+     * @returns groups found
+     */
+    private getGroupsForGroupIds;
+    /**
      * Hide the results flyout.
      *
      * @protected
@@ -340,7 +390,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * Removes person from selected people
      * @param person - person and details pertaining to user selected
      */
-    protected removePerson(person: IDynamicPerson, e: MouseEvent): void;
+    protected removePerson(person: IDynamicPerson, e: UIEvent): void;
+    /**
+     * Checks if key pressed is an `Enter` key before removing person
+     * @param person
+     * @param e
+     */
+    protected handleRemovePersonKeyDown(person: IDynamicPerson, e: KeyboardEvent): void;
     /**
      * Tracks when user selects person from picker
      * @param person - contains details pertaining to selected user
@@ -348,20 +404,16 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     protected addPerson(person: IDynamicPerson): void;
     private clearInput;
-    private handleFlyout;
+    private handleInputClick;
     private gainedFocus;
     private lostFocus;
-    private handleMouseEnter;
-    private handleMouseLeave;
-    private hideKeyboardFocus;
-    private showKeyboardFocus;
     private renderHighlightText;
     /**
      * Adds debounce method for set delay on user input
      */
     private onUserKeyUp;
     private handleAnyEmail;
-    private onPersonClick;
+    private handleSuggestionClick;
     /**
      * Tracks event on user input in search
      * @param input - input text

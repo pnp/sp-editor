@@ -10,7 +10,7 @@ export declare type RedirectParams = InteractionParams & {
 };
 export declare class RedirectHandler extends InteractionHandler {
     private browserCrypto;
-    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, browserRequestLogger: Logger, browserCrypto: ICrypto);
+    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger, browserCrypto: ICrypto);
     /**
      * Redirects window to given URL.
      * @param urlNavigate
@@ -20,6 +20,6 @@ export declare class RedirectHandler extends InteractionHandler {
      * Handle authorization code response in the window.
      * @param hash
      */
-    handleCodeResponseFromHash(locationHash: string, state: string, authority: Authority, networkModule: INetworkModule, clientId?: string): Promise<AuthenticationResult>;
+    handleCodeResponseFromHash(locationHash: string, state: string, authority: Authority, networkModule: INetworkModule): Promise<AuthenticationResult>;
 }
 //# sourceMappingURL=RedirectHandler.d.ts.map

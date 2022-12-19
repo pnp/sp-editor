@@ -6,5 +6,12 @@
  */
 export declare const strings: {
     contactSectionTitle: string;
+    emailTitle: string;
+    chatTitle: string;
+    businessPhoneTitle: string;
+    cellPhoneTitle: string;
+    departmentTitle: string;
+    titleTitle: string;
+    officeLocationTitle: string;
 };
 //# sourceMappingURL=strings.d.ts.map

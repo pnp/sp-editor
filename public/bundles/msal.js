@@ -1,4 +1,4 @@
-/*! msal v1.4.15 2021-11-02 */
+/*! msal v1.4.17 2022-08-01 */
 'use strict';
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1076,7 +1076,6 @@ exports.ServerRequestParameters = void 0;
 var tslib_1 = __webpack_require__(795);
 var CryptoUtils_1 = __webpack_require__(453);
 var Constants_1 = __webpack_require__(91);
-var StringUtils_1 = __webpack_require__(454);
 var ScopeSet_1 = __webpack_require__(55);
 var packageMetadata_1 = __webpack_require__(700);
 /**
@@ -1167,15 +1166,20 @@ var ServerRequestParameters = /** @class */ (function () {
      */
     // TODO: check how this behaves when domain_hint only is sent in extraparameters and idToken has no upn.
     ServerRequestParameters.prototype.constructUnifiedCacheQueryParameter = function (request, idTokenObject) {
+        var _a;
         // preference order: account > sid > login_hint
         var ssoType;
         var ssoData;
         var serverReqParam = {};
-        // if account info is passed, account.sid > account.login_hint
+        // if account info is passed, account.login_hint claim > account.sid > account.username
         if (request) {
             if (request.account) {
                 var account = request.account;
-                if (account.sid) {
+                if ((_a = account.idTokenClaims) === null || _a === void 0 ? void 0 : _a.login_hint) {
+                    ssoType = Constants_1.SSOTypes.LOGIN_HINT;
+                    ssoData = account.idTokenClaims.login_hint;
+                }
+                else if (account.sid) {
                     ssoType = Constants_1.SSOTypes.SID;
                     ssoData = account.sid;
                 }
@@ -1220,21 +1224,24 @@ var ServerRequestParameters = /** @class */ (function () {
      * @ignore
      */
     ServerRequestParameters.prototype.addHintParameters = function (account, params) {
+        var _a, _b;
         /*
          * This is a final check for all queryParams added so far; preference order: sid > login_hint
          * sid cannot be passed along with login_hint or domain_hint, hence we check both are not populated yet in queryParameters
          */
         var qParams = params;
-        if (account && !qParams[Constants_1.SSOTypes.SID]) {
-            // sid - populate only if login_hint is not already populated and the account has sid
-            var populateSID = !qParams[Constants_1.SSOTypes.LOGIN_HINT] && account.sid && this.promptValue === Constants_1.PromptState.NONE;
-            if (populateSID) {
-                qParams = this.addSSOParameter(Constants_1.SSOTypes.SID, account.sid, qParams);
-            }
-            // login_hint - account.userName
-            else {
-                var populateLoginHint = !qParams[Constants_1.SSOTypes.LOGIN_HINT] && account.userName && !StringUtils_1.StringUtils.isEmpty(account.userName);
-                if (populateLoginHint) {
+        if (account) {
+            if (!qParams[Constants_1.SSOTypes.SID] && !qParams[Constants_1.SSOTypes.LOGIN_HINT]) {
+                if ((_a = account.idTokenClaims) === null || _a === void 0 ? void 0 : _a.login_hint) {
+                    // Use login_hint claim if available over sid or email/upn
+                    qParams = this.addSSOParameter(Constants_1.SSOTypes.LOGIN_HINT, (_b = account.idTokenClaims) === null || _b === void 0 ? void 0 : _b.login_hint, qParams);
+                }
+                else if (account.sid && this.promptValue === Constants_1.PromptState.NONE) {
+                    // sid - populate only if login_hint is not already populated and the account has sid
+                    qParams = this.addSSOParameter(Constants_1.SSOTypes.SID, account.sid, qParams);
+                }
+                else if (account.userName) {
+                    // Add username/upn as loginHint if nothing else available
                     qParams = this.addSSOParameter(Constants_1.SSOTypes.LOGIN_HINT, account.userName, qParams);
                 }
             }
@@ -1497,6 +1504,7 @@ var UserAgentApplication = /** @class */ (function () {
     };
     UserAgentApplication.prototype.authResponseHandler = function (interactionType, response, resolve) {
         this.logger.verbose("AuthResponseHandler has been called");
+        this.cacheStorage.setInteractionInProgress(false);
         if (interactionType === Constants_1.Constants.interactionTypeRedirect) {
             this.logger.verbose("Interaction type is redirect");
             if (this.errorReceivedCallback) {
@@ -1633,17 +1641,19 @@ var UserAgentApplication = /** @class */ (function () {
         this.logger.verbose("AcquireTokenInteractive has been called");
         // block the request if made from the hidden iframe
         WindowUtils_1.WindowUtils.blockReloadInHiddenIframes();
-        var interactionProgress = this.cacheStorage.isInteractionInProgress(false);
-        if (interactionType === Constants_1.Constants.interactionTypeRedirect) {
-            this.cacheStorage.setItem(Constants_1.TemporaryCacheKeys.REDIRECT_REQUEST, "" + Constants_1.Constants.inProgress + Constants_1.Constants.resourceDelimiter + request.state);
+        try {
+            this.cacheStorage.setInteractionInProgress(true);
         }
-        // If already in progress, do not proceed
-        if (interactionProgress) {
+        catch (e) {
+            // If already in progress, do not proceed
             var thrownError = isLoginCall ? ClientAuthError_1.ClientAuthError.createLoginInProgressError() : ClientAuthError_1.ClientAuthError.createAcquireTokenInProgressError();
             var stateOnlyResponse = AuthResponse_1.buildResponseStateOnly(this.getAccountState(request.state));
             this.cacheStorage.resetTempCacheItems(request.state);
             this.authErrorHandler(interactionType, thrownError, stateOnlyResponse, reject);
             return;
+        }
+        if (interactionType === Constants_1.Constants.interactionTypeRedirect) {
+            this.cacheStorage.setItem(Constants_1.TemporaryCacheKeys.REDIRECT_REQUEST, "" + Constants_1.Constants.inProgress + Constants_1.Constants.resourceDelimiter + request.state);
         }
         // Get the account object if a session exists
         var account;
@@ -1713,8 +1723,6 @@ var UserAgentApplication = /** @class */ (function () {
                     case 0:
                         this.logger.verbose("AcquireTokenHelper has been called");
                         this.logger.verbose("Interaction type: " + interactionType + ". isLoginCall: " + isLoginCall);
-                        // Track the acquireToken progress
-                        this.cacheStorage.setInteractionInProgress(true);
                         requestSignature = request.scopes ? request.scopes.join(" ").toLowerCase() : Constants_1.Constants.oidcScopes.join(" ");
                         this.logger.verbosePii("Request signature: " + requestSignature);
                         acquireTokenAuthority = (request && request.authority) ? AuthorityFactory_1.AuthorityFactory.CreateInstance(request.authority, this.config.auth.validateAuthority, request.authorityMetadata) : this.authorityInstance;
@@ -4012,6 +4020,7 @@ var BrowserStorage_1 = __webpack_require__(96);
 var RequestUtils_1 = __webpack_require__(52);
 var StringUtils_1 = __webpack_require__(454);
 var IdToken_1 = __webpack_require__(881);
+var ClientAuthError_1 = __webpack_require__(356);
 /**
  * @hidden
  */
@@ -4300,9 +4309,14 @@ var AuthCache = /** @class */ (function (_super) {
      * @param isInProgress
      */
     AuthCache.prototype.setInteractionInProgress = function (newInProgressValue) {
-        if (newInProgressValue && !this.isInteractionInProgress(false)) {
-            // Ensure we don't overwrite interaction in progress for a different clientId
-            this.setTemporaryItem(this.generateCacheKey(Constants_1.TemporaryCacheKeys.INTERACTION_STATUS, false), this.clientId);
+        if (newInProgressValue) {
+            if (this.isInteractionInProgress(false)) {
+                throw ClientAuthError_1.ClientAuthError.createAcquireTokenInProgressError();
+            }
+            else {
+                // Ensure we don't overwrite interaction in progress for a different clientId
+                this.setTemporaryItem(this.generateCacheKey(Constants_1.TemporaryCacheKeys.INTERACTION_STATUS, false), this.clientId);
+            }
         }
         else if (!newInProgressValue && this.isInteractionInProgress(true)) {
             // Only remove if the current in progress interaction is for this clientId
@@ -5015,7 +5029,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.version = exports.name = void 0;
 /* eslint-disable header/header */
 exports.name = "msal";
-exports.version = "1.4.15";
+exports.version = "1.4.17";
 
 
 /***/ }),

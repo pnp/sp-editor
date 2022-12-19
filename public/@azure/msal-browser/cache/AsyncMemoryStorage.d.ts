@@ -8,7 +8,8 @@ export declare class AsyncMemoryStorage<T> implements IAsyncStorage<T> {
     private inMemoryCache;
     private indexedDBCache;
     private logger;
-    constructor(logger: Logger);
+    private storeName;
+    constructor(logger: Logger, storeName: string);
     private handleDatabaseAccessError;
     /**
      * Get the item matching the given key. Tries in-memory cache first, then in the asynchronous
@@ -39,8 +40,13 @@ export declare class AsyncMemoryStorage<T> implements IAsyncStorage<T> {
      */
     containsKey(key: string): Promise<boolean>;
     /**
-     * Clears in-memory Map and tries to delete the IndexedDB database.
+     * Clears in-memory Map
      */
-    clear(): Promise<void>;
+    clearInMemory(): void;
+    /**
+     * Tries to delete the IndexedDB database
+     * @returns
+     */
+    clearPersistent(): Promise<boolean>;
 }
 //# sourceMappingURL=AsyncMemoryStorage.d.ts.map

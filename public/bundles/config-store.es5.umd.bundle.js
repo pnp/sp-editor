@@ -2103,7 +2103,7 @@ var queryable_Queryable = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/logger.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/logger.js
 /**
  * Class used to subscribe ILogListener and log messages throughout an application
  *
@@ -2246,7 +2246,7 @@ var LogLevel;
     LogLevel[LogLevel["Off"] = 99] = "Off";
 })(LogLevel || (LogLevel = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/listeners.js
 /**
  * Implementation of LogListener which logs to the console
  *
@@ -2321,7 +2321,7 @@ var FunctionListener = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
+// CONCATENATED MODULE: ./node_modules/@pnp/odata/node_modules/@pnp/logging/index.js
 
 
 
@@ -2602,14 +2602,236 @@ function request_builders_headers(o, previous) {
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/metadata.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/logging/logger.js
+/**
+ * Class used to subscribe ILogListener and log messages throughout an application
+ *
+ */
+var logger_Logger = /** @class */ (function () {
+    function Logger() {
+    }
+    Object.defineProperty(Logger, "activeLogLevel", {
+        /**
+       * Gets or sets the active log level to apply for log filtering
+       */
+        get: function () {
+            return Logger.instance.activeLogLevel;
+        },
+        set: function (value) {
+            Logger.instance.activeLogLevel = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Logger, "instance", {
+        get: function () {
+            if (Logger._instance === undefined || Logger._instance === null) {
+                Logger._instance = new logger_LoggerImpl();
+            }
+            return Logger._instance;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+   * Adds ILogListener instances to the set of subscribed listeners
+   *
+   * @param listeners One or more listeners to subscribe to this log
+   */
+    Logger.subscribe = function () {
+        var listeners = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            listeners[_i] = arguments[_i];
+        }
+        listeners.forEach(function (listener) { return Logger.instance.subscribe(listener); });
+    };
+    /**
+   * Clears the subscribers collection, returning the collection before modification
+   */
+    Logger.clearSubscribers = function () {
+        return Logger.instance.clearSubscribers();
+    };
+    Object.defineProperty(Logger, "count", {
+        /**
+       * Gets the current subscriber count
+       */
+        get: function () {
+            return Logger.instance.count;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /**
+   * Writes the supplied string to the subscribed listeners
+   *
+   * @param message The message to write
+   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
+   */
+    Logger.write = function (message, level) {
+        if (level === void 0) { level = 1 /* Info */; }
+        Logger.instance.log({ level: level, message: message });
+    };
+    /**
+   * Writes the supplied string to the subscribed listeners
+   *
+   * @param json The json object to stringify and write
+   * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
+   */
+    Logger.writeJSON = function (json, level) {
+        if (level === void 0) { level = 1 /* Info */; }
+        this.write(JSON.stringify(json), level);
+    };
+    /**
+   * Logs the supplied entry to the subscribed listeners
+   *
+   * @param entry The message to log
+   */
+    Logger.log = function (entry) {
+        Logger.instance.log(entry);
+    };
+    /**
+   * Logs an error object to the subscribed listeners
+   *
+   * @param err The error object
+   */
+    Logger.error = function (err) {
+        Logger.instance.log({ data: err, level: 3 /* Error */, message: err.message });
+    };
+    return Logger;
+}());
+
+var logger_LoggerImpl = /** @class */ (function () {
+    function LoggerImpl(activeLogLevel, subscribers) {
+        if (activeLogLevel === void 0) { activeLogLevel = 2 /* Warning */; }
+        if (subscribers === void 0) { subscribers = []; }
+        this.activeLogLevel = activeLogLevel;
+        this.subscribers = subscribers;
+    }
+    LoggerImpl.prototype.subscribe = function (listener) {
+        this.subscribers.push(listener);
+    };
+    LoggerImpl.prototype.clearSubscribers = function () {
+        var s = this.subscribers.slice(0);
+        this.subscribers.length = 0;
+        return s;
+    };
+    Object.defineProperty(LoggerImpl.prototype, "count", {
+        get: function () {
+            return this.subscribers.length;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    LoggerImpl.prototype.write = function (message, level) {
+        if (level === void 0) { level = 1 /* Info */; }
+        this.log({ level: level, message: message });
+    };
+    LoggerImpl.prototype.log = function (entry) {
+        if (entry !== undefined && this.activeLogLevel <= entry.level) {
+            this.subscribers.map(function (subscriber) { return subscriber.log(entry); });
+        }
+    };
+    return LoggerImpl;
+}());
+/**
+ * A set of logging levels
+ */
+var logger_LogLevel;
+(function (LogLevel) {
+    LogLevel[LogLevel["Verbose"] = 0] = "Verbose";
+    LogLevel[LogLevel["Info"] = 1] = "Info";
+    LogLevel[LogLevel["Warning"] = 2] = "Warning";
+    LogLevel[LogLevel["Error"] = 3] = "Error";
+    LogLevel[LogLevel["Off"] = 99] = "Off";
+})(logger_LogLevel || (logger_LogLevel = {}));
+
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/logging/listeners.js
+/**
+ * Implementation of LogListener which logs to the console
+ *
+ */
+var listeners_ConsoleListener = /** @class */ (function () {
+    function ConsoleListener() {
+    }
+    /**
+     * Any associated data that a given logging listener may choose to log or ignore
+     *
+     * @param entry The information to be logged
+     */
+    ConsoleListener.prototype.log = function (entry) {
+        var msg = this.format(entry);
+        switch (entry.level) {
+            case 0 /* Verbose */:
+            case 1 /* Info */:
+                console.log(msg);
+                break;
+            case 2 /* Warning */:
+                console.warn(msg);
+                break;
+            case 3 /* Error */:
+                console.error(msg);
+                break;
+        }
+    };
+    /**
+     * Formats the message
+     *
+     * @param entry The information to format into a string
+     */
+    ConsoleListener.prototype.format = function (entry) {
+        var msg = [];
+        msg.push("Message: " + entry.message);
+        if (entry.data !== undefined) {
+            try {
+                msg.push(" Data: " + JSON.stringify(entry.data));
+            }
+            catch (e) {
+                msg.push(" Data: Error in stringify of supplied data " + e);
+            }
+        }
+        return msg.join("");
+    };
+    return ConsoleListener;
+}());
+
+/**
+ * Implementation of LogListener which logs to the supplied function
+ *
+ */
+var listeners_FunctionListener = /** @class */ (function () {
+    /**
+     * Creates a new instance of the FunctionListener class
+     *
+     * @constructor
+     * @param  method The method to which any logging data will be passed
+     */
+    function FunctionListener(method) {
+        this.method = method;
+    }
+    /**
+     * Any associated data that a given logging listener may choose to log or ignore
+     *
+     * @param entry The information to be logged
+     */
+    FunctionListener.prototype.log = function (entry) {
+        this.method(entry);
+    };
+    return FunctionListener;
+}());
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/logging/index.js
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/utils/metadata.js
 function metadata(type) {
     return {
         "__metadata": { "type": type },
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extractweburl.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/utils/extractweburl.js
 
 function extractWebUrl(candidateUrl) {
     if (stringIsNullOrEmpty(candidateUrl)) {
@@ -2626,7 +2848,7 @@ function extractWebUrl(candidateUrl) {
     return candidateUrl;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/telemetry.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/telemetry.js
 
 
 
@@ -2676,7 +2898,7 @@ tag.isTagged = function (o) {
     return o.data.options.headers && o.data.options.headers["X-PnPjs-Tracking"];
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sphttpclient.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/sphttpclient.js
 
 
 
@@ -2721,7 +2943,7 @@ var sphttpclient_SPHttpClient = /** @class */ (function () {
                         }
                         if (!headers.has("X-ClientService-ClientTag")) {
                             methodName = tag.getClientTag(headers);
-                            clientTag = "PnPCoreJS:2.11.0:" + methodName;
+                            clientTag = "PnPCoreJS:2.14.0:" + methodName;
                             if (clientTag.length > 32) {
                                 clientTag = clientTag.substr(0, 32);
                             }
@@ -2867,7 +3089,7 @@ function getDigestFactory(client) {
     }); };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/toabsoluteurl.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/utils/toabsoluteurl.js
 
 
 /**
@@ -2930,7 +3152,7 @@ function toAbsoluteUrl(candidateUrl, runtime) {
     });
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/operations.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/operations.js
 
 
 
@@ -2995,7 +3217,7 @@ var spPostDeleteETag = function (o, options, eTag) {
     return spPost(o, opts);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharepointqueryable.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/sharepointqueryable.js
 
 
 
@@ -3072,7 +3294,7 @@ var sharepointqueryable_SharePointQueryable = /** @class */ (function (_super) {
     _SharePointQueryable.prototype.toUrlAndQuery = function () {
         var aliasedParams = new Map(this.query);
         var url = this.toUrl().replace(/'!(@.*?)::(.*?)'/ig, function (match, labelName, value) {
-            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + value, 0 /* Verbose */);
+            logger_Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + value, 0 /* Verbose */);
             aliasedParams.set(labelName, "'" + value + "'");
             return labelName;
         });
@@ -3262,7 +3484,7 @@ function deleteableWithETag(t) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/decorators.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/decorators.js
 /**
  * Class Decorators
  */
@@ -3292,7 +3514,7 @@ function defaultPath(path) {
 // performance tracking method decorator
 // redirect to graph api
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/odata.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/odata.js
 
 
 
@@ -3328,7 +3550,7 @@ function odataUrlFrom(candidate) {
         }
     }
     if (parts.length < 1) {
-        Logger.write("No uri information found in ODataEntity parsing, chaining will fail for this object.", 2 /* Warning */);
+        logger_Logger.write("No uri information found in ODataEntity parsing, chaining will fail for this object.", 2 /* Warning */);
         return "";
     }
     return combine.apply(void 0, __spreadArray([], __read(parts), false));
@@ -3384,7 +3606,7 @@ function spODataEntityArray(factory) {
     return new odata_SPODataEntityArrayParserImpl(factory);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/batch.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/batch.js
 
 
 
@@ -3469,11 +3691,11 @@ var batch_SPBatch = /** @class */ (function (_super) {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Executing batch with " + this.requests.length + " requests.", 1 /* Info */);
+                        logger_Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Executing batch with " + this.requests.length + " requests.", 1 /* Info */);
                         // if we don't have any requests, don't bother sending anything
                         // this could be due to caching further upstream, or just an empty batch
                         if (this.requests.length < 1) {
-                            Logger.write("Resolving empty batch.", 1 /* Info */);
+                            logger_Logger.write("Resolving empty batch.", 1 /* Info */);
                             return [2 /*return*/];
                         }
                         client = new sphttpclient_SPHttpClient(this.runtime);
@@ -3506,7 +3728,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                             batchBody.push("Content-Transfer-Encoding: binary\n\n");
                             headers = new Headers();
                             url = isUrlAbsolute(reqInfo.url) ? reqInfo.url : combine(absoluteRequestUrl, reqInfo.url);
-                            Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Adding request " + reqInfo.method + " " + url + " to batch.", 0 /* Verbose */);
+                            logger_Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Adding request " + reqInfo.method + " " + url + " to batch.", 0 /* Verbose */);
                             if (reqInfo.method !== "GET") {
                                 method = reqInfo.method;
                                 castHeaders = reqInfo.options.headers;
@@ -3534,7 +3756,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                                 headers.append("Content-Type", "application/json;odata=verbose;charset=utf-8");
                             }
                             if (!headers.has("X-ClientService-ClientTag")) {
-                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.11.0:batch");
+                                headers.append("X-ClientService-ClientTag", "PnPCoreJS:@pnp-2.14.0:batch");
                             }
                             // write headers into batch body
                             headers.forEach(function (value, name) {
@@ -3558,7 +3780,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                             },
                             "method": "POST",
                         };
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Sending batch request.", 1 /* Info */);
+                        logger_Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Sending batch request.", 1 /* Info */);
                         return [4 /*yield*/, client.fetch(combine(absoluteRequestUrl, "/_api/$batch"), batchOptions)];
                     case 2:
                         fetchResponse = _b.sent();
@@ -3575,7 +3797,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                         if (responses.length !== this.requests.length) {
                             throw Error("Could not properly parse responses to match requests in batch.");
                         }
-                        Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Resolving batched requests.", 1 /* Info */);
+                        logger_Logger.write("[" + this.batchId + "] (" + (new Date()).getTime() + ") Resolving batched requests.", 1 /* Info */);
                         // this structure ensures that we resolve the batched requests in the order we expect
                         // using async this is not guaranteed depending on the requests
                         return [2 /*return*/, responses.reduce(function (p, response, index) { return p.then(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -3584,7 +3806,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
                                     switch (_c.label) {
                                         case 0:
                                             request = this.requests[index];
-                                            Logger.write("[" + request.id + "] (" + (new Date()).getTime() + ") Resolving request in batch " + this.batchId + ".", 1 /* Info */);
+                                            logger_Logger.write("[" + request.id + "] (" + (new Date()).getTime() + ") Resolving request in batch " + this.batchId + ".", 1 /* Info */);
                                             _c.label = 1;
                                         case 1:
                                             _c.trys.push([1, 3, , 4]);
@@ -3609,7 +3831,7 @@ var batch_SPBatch = /** @class */ (function (_super) {
 }(batch_Batch));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/splibconfig.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/splibconfig.js
 
 var emptyGuid = "00000000-0000-0000-0000-000000000000";
 onRuntimeCreate(function (runtime) {
@@ -3624,7 +3846,7 @@ function splibconfig_setup(config, runtime) {
     runtime.assign(config);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/rest.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/rest.js
 
 
 
@@ -3698,7 +3920,7 @@ var rest_SPRest = /** @class */ (function () {
 
 var sp = new rest_SPRest();
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escapeQueryStrValue.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/utils/escapeQueryStrValue.js
 
 
 function escapeQueryStrValue(value) {
@@ -3710,7 +3932,7 @@ function escapeQueryStrValue(value) {
         // to ensure our param aliasing still works we need to treat these special or we'll hear about it
         // so we encode JUST the part that will end up in the url
         return value.replace(/!(@.*?)::(.*)$/ig, function (match, labelName, v) {
-            Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + v, 0 /* Verbose */);
+            logger_Logger.write("Rewriting aliased parameter from match " + match + " to label: " + labelName + " value: " + v, 0 /* Verbose */);
             return "!" + labelName + "::" + encodeURIComponent(v.replace(/'/ig, "''"));
         });
     }
@@ -3719,7 +3941,7 @@ function escapeQueryStrValue(value) {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/types.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/sites/types.js
 
 
 
@@ -4042,7 +4264,7 @@ var types_Site = /** @class */ (function (_super) {
 
 var Site = spInvokableFactory(types_Site);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/index.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/sites/index.js
 
 
 
@@ -4057,7 +4279,7 @@ Reflect.defineProperty(rest_SPRest.prototype, "site", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/webs/types.js
 
 
 
@@ -4354,7 +4576,7 @@ var types_Web = /** @class */ (function (_super) {
 
 var Web = spInvokableFactory(types_Web);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/toResourcePath.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/utils/toResourcePath.js
 function toResourcePath(url) {
     return {
         DecodedUrl: url,
@@ -4362,7 +4584,7 @@ function toResourcePath(url) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/types.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/lists/types.js
 
 
 
@@ -4886,7 +5108,7 @@ var ControlMode;
     ControlMode[ControlMode["New"] = 3] = "New";
 })(ControlMode || (ControlMode = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/web.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/lists/web.js
 
 
 
@@ -4915,7 +5137,7 @@ types_Web.prototype.getCatalog = function (type) {
     });
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/types.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/items/types.js
 
 
 
@@ -4986,7 +5208,7 @@ var types_Items = /** @class */ (function (_super) {
     _Items.prototype.getAll = function (requestSize, acceptHeader) {
         if (requestSize === void 0) { requestSize = 2000; }
         if (acceptHeader === void 0) { acceptHeader = "application/json;odata=nometadata"; }
-        Logger.write("Calling items.getAll should be done sparingly. Ensure this is the correct choice. If you are unsure, it is not.", 2 /* Warning */);
+        logger_Logger.write("Calling items.getAll should be done sparingly. Ensure this is the correct choice. If you are unsure, it is not.", 2 /* Warning */);
         // this will be used for the actual query
         // and we set no metadata here to try and reduce traffic
         var items = Items(this, "").top(requestSize).configure({
@@ -5466,7 +5688,7 @@ var types_ItemUpdatedParser = /** @class */ (function (_super) {
     return ItemUpdatedParser;
 }(parsers_ODataParser));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/list.js
+// CONCATENATED MODULE: ./node_modules/@pnp/config-store/node_modules/@pnp/sp/items/list.js
 
 
 

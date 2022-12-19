@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 27);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -512,40 +512,6 @@ class MiddlewareControl {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResponseType; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @enum
- * Enum for ResponseType values
- * @property {string} ARRAYBUFFER - To download response content as an [ArrayBuffer]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer}
- * @property {string} BLOB - To download content as a [binary/blob] {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob}
- * @property {string} DOCUMENT - This downloads content as a document or stream
- * @property {string} JSON - To download response content as a json
- * @property {string} STREAM - To download response as a [stream]{@link https://nodejs.org/api/stream.html}
- * @property {string} TEXT - For downloading response as a text
- */
-var ResponseType;
-(function (ResponseType) {
-    ResponseType["ARRAYBUFFER"] = "arraybuffer";
-    ResponseType["BLOB"] = "blob";
-    ResponseType["DOCUMENT"] = "document";
-    ResponseType["JSON"] = "json";
-    ResponseType["RAW"] = "raw";
-    ResponseType["STREAM"] = "stream";
-    ResponseType["TEXT"] = "text";
-})(ResponseType || (ResponseType = {}));
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeatureUsageFlag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TelemetryHandlerOptions; });
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
@@ -628,7 +594,7 @@ class TelemetryHandlerOptions {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -788,7 +754,7 @@ const cloneRequestWithNewUrl = (newUrl, request) => Object(tslib__WEBPACK_IMPORT
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -797,7 +763,7 @@ const cloneRequestWithNewUrl = (newUrl, request) => Object(tslib__WEBPACK_IMPORT
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return serializeContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isGraphURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return isCustomHost; });
-/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _Constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
 /**
  * -------------------------------------------------------------------------------------------
@@ -915,10 +881,10 @@ const isCustomHostValid = (host) => {
     }
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -978,7 +944,7 @@ RedirectHandlerOptions.defaultShouldRedirect = () => true;
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1080,52 +1046,17 @@ RetryHandlerOptions.defaultShouldRetry = () => true;
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Range; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module Range
- */
-/**
- * @class
- * Class representing Range
- */
-class Range {
-    /**
-     * @public
-     * @constructor
-     * Creates a range for given min and max values
-     * @param {number} [minVal = -1] - The minimum value.
-     * @param {number} [maxVal = -1] - The maximum value.
-     * @returns An instance of a Range
-     */
-    constructor(minVal = -1, maxVal = -1) {
-        this.minValue = minVal;
-        this.maxValue = maxVal;
-    }
-}
-
-
-/***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandler; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _GraphRequestUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(18);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_AuthenticationHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1211,7 +1142,7 @@ AuthenticationHandler.AUTHORIZATION_HEADER = "Authorization";
 
 
 /***/ }),
-/* 12 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1246,7 +1177,7 @@ class HTTPMessageHandler {
 
 
 /***/ }),
-/* 13 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1254,9 +1185,9 @@ class HTTPMessageHandler {
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1445,7 +1376,7 @@ RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 
 
 /***/ }),
-/* 14 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1453,9 +1384,9 @@ RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
 /* harmony import */ var _RequestMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _MiddlewareControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
-/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(5);
+/* harmony import */ var _MiddlewareUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
+/* harmony import */ var _options_TelemetryHandlerOptions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1669,7 +1600,7 @@ RedirectHandler.MANUAL_REDIRECT = "manual";
 
 
 /***/ }),
-/* 15 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1681,7 +1612,7 @@ __webpack_require__.d(__webpack_exports__, "a", function() { return /* binding *
 var tslib_es6 = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
-var GraphRequestUtil = __webpack_require__(7);
+var GraphRequestUtil = __webpack_require__(6);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Version.js
 /**
@@ -1695,16 +1626,16 @@ var GraphRequestUtil = __webpack_require__(7);
 /**
  * @module Version
  */
-const PACKAGE_VERSION = "3.0.1";
+const PACKAGE_VERSION = "3.0.4";
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
 var MiddlewareControl = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(6);
+var MiddlewareUtil = __webpack_require__(5);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(5);
+var TelemetryHandlerOptions = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
 /**
@@ -1802,7 +1733,161 @@ TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING = "featureUsage";
 
 
 /***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GRAPH_API_VERSION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GRAPH_BASE_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GRAPH_URLS; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module Constants
+ */
+/**
+ * @constant
+ * A Default API endpoint version for a request
+ */
+const GRAPH_API_VERSION = "v1.0";
+/**
+ * @constant
+ * A Default base url for a request
+ */
+const GRAPH_BASE_URL = "https://graph.microsoft.com/";
+/**
+ * To hold list of the service root endpoints for Microsoft Graph and Graph Explorer for each national cloud.
+ * Set(iterable:Object) is not supported in Internet Explorer. The consumer is recommended to use a suitable polyfill.
+ */
+const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-graph.microsoft.us", "graph.microsoft.de", "microsoftgraph.chinacloudapi.cn", "canary.graph.microsoft.com"]);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandlerOptions; });
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @class
+ * @implements MiddlewareOptions
+ * Class representing AuthenticationHandlerOptions
+ */
+class AuthenticationHandlerOptions {
+    /**
+     * @public
+     * @constructor
+     * To create an instance of AuthenticationHandlerOptions
+     * @param {AuthenticationProvider} [authenticationProvider] - The authentication provider instance
+     * @param {AuthenticationProviderOptions} [authenticationProviderOptions] - The authentication provider options instance
+     * @returns An instance of AuthenticationHandlerOptions
+     */
+    constructor(authenticationProvider, authenticationProviderOptions) {
+        this.authenticationProvider = authenticationProvider;
+        this.authenticationProviderOptions = authenticationProviderOptions;
+    }
+}
+
+
+/***/ }),
 /* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClient; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @class
+ * Class representing HTTPClient
+ */
+class HTTPClient {
+    /**
+     * @public
+     * @constructor
+     * Creates an instance of a HTTPClient
+     * @param {...Middleware} middleware - The first middleware of the middleware chain or a sequence of all the Middleware handlers
+     */
+    constructor(...middleware) {
+        if (!middleware || !middleware.length) {
+            const error = new Error();
+            error.name = "InvalidMiddlewareChain";
+            error.message = "Please provide a default middleware chain or custom middleware chain";
+            throw error;
+        }
+        this.setMiddleware(...middleware);
+    }
+    /**
+     * @private
+     * Processes the middleware parameter passed to set this.middleware property
+     * The calling function should validate if middleware is not undefined or not empty.
+     * @param {...Middleware} middleware - The middleware passed
+     * @returns Nothing
+     */
+    setMiddleware(...middleware) {
+        if (middleware.length > 1) {
+            this.parseMiddleWareArray(middleware);
+        }
+        else {
+            this.middleware = middleware[0];
+        }
+    }
+    /**
+     * @private
+     * Processes the middleware array to construct the chain
+     * and sets this.middleware property to the first middleware handler of the array
+     * The calling function should validate if middleware is not undefined or not empty
+     * @param {Middleware[]} middlewareArray - The array of middleware handlers
+     * @returns Nothing
+     */
+    parseMiddleWareArray(middlewareArray) {
+        middlewareArray.forEach((element, index) => {
+            if (index < middlewareArray.length - 1) {
+                element.setNext(middlewareArray[index + 1]);
+            }
+        });
+        this.middleware = middlewareArray[0];
+    }
+    /**
+     * @public
+     * @async
+     * To send the request through the middleware chain
+     * @param {Context} context - The context of a request
+     * @returns A promise that resolves to the Context
+     */
+    sendRequest(context) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
+            if (typeof context.request === "string" && context.options === undefined) {
+                const error = new Error();
+                error.name = "InvalidRequestOptions";
+                error.message = "Unable to execute the middleware, Please provide valid options for a request";
+                throw error;
+            }
+            yield this.middleware.execute(context);
+            return context;
+        });
+    }
+}
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1816,9 +1901,9 @@ TelemetryHandler_TelemetryHandler.FEATURE_USAGE_STRING = "featureUsage";
 
 
 
-var base64 = __webpack_require__(32)
-var ieee754 = __webpack_require__(33)
-var isArray = __webpack_require__(34)
+var base64 = __webpack_require__(24)
+var ieee754 = __webpack_require__(25)
+var isArray = __webpack_require__(26)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -3596,815 +3681,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(31)))
-
-/***/ }),
-/* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GRAPH_API_VERSION; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GRAPH_BASE_URL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GRAPH_URLS; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module Constants
- */
-/**
- * @constant
- * A Default API endpoint version for a request
- */
-const GRAPH_API_VERSION = "v1.0";
-/**
- * @constant
- * A Default base url for a request
- */
-const GRAPH_BASE_URL = "https://graph.microsoft.com/";
-/**
- * To hold list of the service root endpoints for Microsoft Graph and Graph Explorer for each national cloud.
- * Set(iterable:Object) is not supported in Internet Explorer. The consumer is recommended to use a suitable polyfill.
- */
-const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-graph.microsoft.us", "graph.microsoft.de", "microsoftgraph.chinacloudapi.cn", "canary.graph.microsoft.com"]);
-
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(23)))
 
 /***/ }),
 /* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationHandlerOptions; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @class
- * @implements MiddlewareOptions
- * Class representing AuthenticationHandlerOptions
- */
-class AuthenticationHandlerOptions {
-    /**
-     * @public
-     * @constructor
-     * To create an instance of AuthenticationHandlerOptions
-     * @param {AuthenticationProvider} [authenticationProvider] - The authentication provider instance
-     * @param {AuthenticationProviderOptions} [authenticationProviderOptions] - The authentication provider options instance
-     * @returns An instance of AuthenticationHandlerOptions
-     */
-    constructor(authenticationProvider, authenticationProviderOptions) {
-        this.authenticationProvider = authenticationProvider;
-        this.authenticationProviderOptions = authenticationProviderOptions;
-    }
-}
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LargeFileUploadTask; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var _ResponseType__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-/* harmony import */ var _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
-/* harmony import */ var _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @module LargeFileUploadTask
- */
-
-
-
-
-
-/**
- * @class
- * Class representing LargeFileUploadTask
- */
-class LargeFileUploadTask {
-    /**
-     * @public
-     * @constructor
-     * Constructs a LargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
-     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
-     * @param {LargeFileUploadTaskOptions} options - The upload task options
-     * @returns An instance of LargeFileUploadTask
-     */
-    constructor(client, file, uploadSession, options = {}) {
-        /**
-         * @private
-         * Default value for the rangeSize
-         */
-        this.DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
-        this.client = client;
-        if (!file.sliceFile) {
-            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please pass the FileUpload object, StreamUpload object or any custom implementation of the FileObject interface");
-        }
-        else {
-            this.file = file;
-        }
-        this.file = file;
-        if (!options.rangeSize) {
-            options.rangeSize = this.DEFAULT_FILE_SIZE;
-        }
-        this.options = options;
-        this.uploadSession = uploadSession;
-        this.nextRange = new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](0, this.options.rangeSize - 1);
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Makes request to the server to create an upload session
-     * @param {Client} client - The GraphClient instance
-     * @param {string} requestUrl - The URL to create the upload session
-     * @param {any} payload - The payload that needs to be sent
-     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
-     * @returns The promise that resolves to LargeFileUploadSession
-     */
-    static createUploadSession(client, requestUrl, payload, headers = {}) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const session = yield client
-                .api(requestUrl)
-                .headers(headers)
-                .post(payload);
-            const largeFileUploadSession = {
-                url: session.uploadUrl,
-                expiry: new Date(session.expirationDateTime),
-                isCancelled: false,
-            };
-            return largeFileUploadSession;
-        });
-    }
-    /**
-     * @private
-     * Parses given range string to the Range instance
-     * @param {string[]} ranges - The ranges value
-     * @returns The range instance
-     */
-    parseRange(ranges) {
-        const rangeStr = ranges[0];
-        if (typeof rangeStr === "undefined" || rangeStr === "") {
-            return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"]();
-        }
-        const firstRange = rangeStr.split("-");
-        const minVal = parseInt(firstRange[0], 10);
-        let maxVal = parseInt(firstRange[1], 10);
-        if (Number.isNaN(maxVal)) {
-            maxVal = this.file.size - 1;
-        }
-        return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](minVal, maxVal);
-    }
-    /**
-     * @private
-     * Updates the expiration date and the next range
-     * @param {UploadStatusResponse} response - The response of the upload status
-     * @returns Nothing
-     */
-    updateTaskStatus(response) {
-        this.uploadSession.expiry = new Date(response.expirationDateTime);
-        this.nextRange = this.parseRange(response.nextExpectedRanges);
-    }
-    /**
-     * @public
-     * Gets next range that needs to be uploaded
-     * @returns The range instance
-     */
-    getNextRange() {
-        if (this.nextRange.minValue === -1) {
-            return this.nextRange;
-        }
-        const minVal = this.nextRange.minValue;
-        let maxValue = minVal + this.options.rangeSize - 1;
-        if (maxValue >= this.file.size) {
-            maxValue = this.file.size - 1;
-        }
-        return new _FileUploadTask_Range__WEBPACK_IMPORTED_MODULE_4__[/* Range */ "a"](minVal, maxValue);
-    }
-    /**
-     * @deprecated This function has been moved into FileObject interface.
-     * @public
-     * Slices the file content to the given range
-     * @param {Range} range - The range value
-     * @returns The sliced ArrayBuffer or Blob
-     */
-    sliceFile(range) {
-        console.warn("The LargeFileUploadTask.sliceFile() function has been deprecated and moved into the FileObject interface.");
-        if (this.file.content instanceof ArrayBuffer || this.file.content instanceof Blob || this.file.content instanceof Buffer) {
-            return this.file.content.slice(range.minValue, range.maxValue + 1);
-        }
-        throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("The LargeFileUploadTask.sliceFile() function expects only Blob, ArrayBuffer or Buffer file content. Please note that the sliceFile() function is deprecated.");
-    }
-    /**
-     * @public
-     * @async
-     * Uploads file to the server in a sequential order by slicing the file
-     * @returns The promise resolves to uploaded response
-     */
-    upload() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const uploadEventHandlers = this.options && this.options.uploadEventHandlers;
-            while (!this.uploadSession.isCancelled) {
-                const nextRange = this.getNextRange();
-                if (nextRange.maxValue === -1) {
-                    const err = new Error("Task with which you are trying to upload is already completed, Please check for your uploaded file");
-                    err.name = "Invalid Session";
-                    throw err;
-                }
-                const fileSlice = yield this.file.sliceFile(nextRange);
-                const rawResponse = yield this.uploadSliceGetRawResponse(fileSlice, nextRange, this.file.size);
-                if (!rawResponse) {
-                    throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Something went wrong! Large file upload slice response is null.");
-                }
-                const responseBody = yield _GraphResponseHandler__WEBPACK_IMPORTED_MODULE_2__[/* GraphResponseHandler */ "a"].getResponse(rawResponse);
-                /**
-                 * (rawResponse.status === 201) -> This condition is applicable for OneDrive, PrintDocument and Outlook APIs.
-                 * (rawResponse.status === 200 && responseBody.id) -> This additional condition is applicable only for OneDrive API.
-                 */
-                if (rawResponse.status === 201 || (rawResponse.status === 200 && responseBody.id)) {
-                    const uploadResult = _FileUploadTask_UploadResult__WEBPACK_IMPORTED_MODULE_5__[/* UploadResult */ "a"].CreateUploadResult(responseBody, rawResponse.headers);
-                    return uploadResult;
-                }
-                /* Handling the API issue where the case of Outlook upload response property -'nextExpectedRanges'  is not uniform.
-                 * https://github.com/microsoftgraph/msgraph-sdk-serviceissues/issues/39
-                 */
-                const res = {
-                    expirationDateTime: responseBody.expirationDateTime || responseBody.ExpirationDateTime,
-                    nextExpectedRanges: responseBody.NextExpectedRanges || responseBody.nextExpectedRanges,
-                };
-                this.updateTaskStatus(res);
-                if (uploadEventHandlers && uploadEventHandlers.progress) {
-                    uploadEventHandlers.progress(nextRange, uploadEventHandlers.extraCallbackParam);
-                }
-            }
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Uploads given slice to the server
-     * @param {ArrayBuffer | Blob | File} fileSlice - The file slice
-     * @param {Range} range - The range value
-     * @param {number} totalSize - The total size of a complete file
-     * @returns The response body of the upload slice result
-     */
-    uploadSlice(fileSlice, range, totalSize) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            return yield this.client
-                .api(this.uploadSession.url)
-                .headers({
-                "Content-Length": `${range.maxValue - range.minValue + 1}`,
-                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
-                "Content-Type": "application/octet-stream",
-            })
-                .put(fileSlice);
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Uploads given slice to the server
-     * @param {unknown} fileSlice - The file slice
-     * @param {Range} range - The range value
-     * @param {number} totalSize - The total size of a complete file
-     * @returns The raw response of the upload slice result
-     */
-    uploadSliceGetRawResponse(fileSlice, range, totalSize) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            return yield this.client
-                .api(this.uploadSession.url)
-                .headers({
-                "Content-Length": `${range.maxValue - range.minValue + 1}`,
-                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
-                "Content-Type": "application/octet-stream",
-            })
-                .responseType(_ResponseType__WEBPACK_IMPORTED_MODULE_3__[/* ResponseType */ "a"].RAW)
-                .put(fileSlice);
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Deletes upload session in the server
-     * @returns The promise resolves to cancelled response
-     */
-    cancel() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const cancelResponse = yield this.client
-                .api(this.uploadSession.url)
-                .responseType(_ResponseType__WEBPACK_IMPORTED_MODULE_3__[/* ResponseType */ "a"].RAW)
-                .delete();
-            if (cancelResponse.status === 204) {
-                this.uploadSession.isCancelled = true;
-            }
-            return cancelResponse;
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Gets status for the upload session
-     * @returns The promise resolves to the status enquiry response
-     */
-    getStatus() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const response = yield this.client.api(this.uploadSession.url).get();
-            this.updateTaskStatus(response);
-            return response;
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Resumes upload session and continue uploading the file from the last sent range
-     * @returns The promise resolves to the uploaded response
-     */
-    resume() {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            yield this.getStatus();
-            return yield this.upload();
-        });
-    }
-    /**
-     * @public
-     * @async
-     * Get the upload session information
-     * @returns The large file upload session
-     */
-    getUploadSession() {
-        return this.uploadSession;
-    }
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadResult; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * Class representing a successful file upload result
- */
-class UploadResult {
-    /**
-     * @public
-     * @param {responseBody} responsebody - The response body from the completed upload response
-     * @param {location} location - The location value from the headers from the completed upload response
-     */
-    constructor(responseBody, location) {
-        // Response body or the location parameter can be undefined.
-        this._location = location;
-        this._responseBody = responseBody;
-    }
-    /**
-     * @public
-     * Get of the location value.
-     * Location value is looked up in the response header
-     */
-    get location() {
-        return this._location;
-    }
-    /**
-     * @public
-     * Set the location value
-     * Location value is looked up in the response header
-     */
-    set location(location) {
-        this._location = location;
-    }
-    /**
-     * @public
-     * Get The response body from the completed upload response
-     */
-    get responseBody() {
-        return this._responseBody;
-    }
-    /**
-     * @public
-     * Set the response body from the completed upload response
-     */
-    set responseBody(responseBody) {
-        this._responseBody = responseBody;
-    }
-    /**
-     * @public
-     * @param {responseBody} responseBody - The response body from the completed upload response
-     * @param {responseHeaders} responseHeaders - The headers from the completed upload response
-     */
-    static CreateUploadResult(responseBody, responseHeaders) {
-        return new UploadResult(responseBody, responseHeaders.get("location"));
-    }
-}
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileUpload; });
-/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @class
- * Class used for creating LargeFileUploadTask fileobject.
- * This class accepts files of type ArrayBuffer, Blob, Buffer.
- */
-class FileUpload {
-    /**
-     * @public
-     * @constructor
-     * @param {ArrayBuffer | Blob | Buffer} content - The file to be uploaded
-     * @param {string} name - The name of the file to be uploaded
-     * @param {number} size - The total size of the file to be uploaded
-     * @returns An instance of the FileUpload class
-     */
-    constructor(content, name, size) {
-        this.content = content;
-        this.name = name;
-        this.size = size;
-        if (!content || !name || !size) {
-            throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_0__[/* GraphClientError */ "a"]("Please provide the upload content, name of the file and size of the file");
-        }
-    }
-    /**
-     * @public
-     * Slices the file content to the given range
-     * @param {Range} range - The range value
-     * @returns The sliced file part
-     */
-    sliceFile(range) {
-        return this.content.slice(range.minValue, range.maxValue + 1);
-    }
-}
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getValidRangeSize; });
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-/**
- * @module OneDriveLargeFileUploadTaskUtil
- */
-/**
- * @constant
- * Default value for the rangeSize
- * Recommended size is between 5 - 10 MB {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#best-practices}
- */
-const DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
-/**
- * @constant
- * Rounds off the given value to a multiple of 320 KB
- * @param {number} value - The value
- * @returns The rounded off value
- */
-const roundTo320KB = (value) => {
-    if (value > 320 * 1024) {
-        value = Math.floor(value / (320 * 1024)) * 320 * 1024;
-    }
-    return value;
-};
-/**
- * @constant
- * Get the valid rangeSize for a file slicing (validity is based on the constrains mentioned in here
- * {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#upload-bytes-to-the-upload-session})
- *
- * @param {number} [rangeSize = DEFAULT_FILE_SIZE] - The rangeSize value.
- * @returns The valid rangeSize
- */
-const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
-    const sixtyMB = 60 * 1024 * 1024;
-    if (rangeSize > sixtyMB) {
-        rangeSize = sixtyMB;
-    }
-    return roundTo320KB(rangeSize);
-};
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export DocumentType */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraphResponseHandler; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _ResponseType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-
-/**
- * @enum
- * Enum for document types
- * @property {string} TEXT_HTML - The text/html content type
- * @property {string} TEXT_XML - The text/xml content type
- * @property {string} APPLICATION_XML - The application/xml content type
- * @property {string} APPLICATION_XHTML - The application/xhml+xml content type
- */
-var DocumentType;
-(function (DocumentType) {
-    DocumentType["TEXT_HTML"] = "text/html";
-    DocumentType["TEXT_XML"] = "text/xml";
-    DocumentType["APPLICATION_XML"] = "application/xml";
-    DocumentType["APPLICATION_XHTML"] = "application/xhtml+xml";
-})(DocumentType || (DocumentType = {}));
-/**
- * @enum
- * Enum for Content types
- * @property {string} TEXT_PLAIN - The text/plain content type
- * @property {string} APPLICATION_JSON - The application/json content type
- */
-var ContentType;
-(function (ContentType) {
-    ContentType["TEXT_PLAIN"] = "text/plain";
-    ContentType["APPLICATION_JSON"] = "application/json";
-})(ContentType || (ContentType = {}));
-/**
- * @enum
- * Enum for Content type regex
- * @property {string} DOCUMENT - The regex to match document content types
- * @property {string} IMAGE - The regex to match image content types
- */
-var ContentTypeRegexStr;
-(function (ContentTypeRegexStr) {
-    ContentTypeRegexStr["DOCUMENT"] = "^(text\\/(html|xml))|(application\\/(xml|xhtml\\+xml))$";
-    ContentTypeRegexStr["IMAGE"] = "^image\\/.+";
-})(ContentTypeRegexStr || (ContentTypeRegexStr = {}));
-/**
- * @class
- * Class for GraphResponseHandler
- */
-class GraphResponseHandler {
-    /**
-     * @private
-     * @static
-     * To parse Document response
-     * @param {Response} rawResponse - The response object
-     * @param {DocumentType} type - The type to which the document needs to be parsed
-     * @returns A promise that resolves to a document content
-     */
-    static parseDocumentResponse(rawResponse, type) {
-        if (typeof DOMParser !== "undefined") {
-            return new Promise((resolve, reject) => {
-                rawResponse.text().then((xmlString) => {
-                    try {
-                        const parser = new DOMParser();
-                        const xmlDoc = parser.parseFromString(xmlString, type);
-                        resolve(xmlDoc);
-                    }
-                    catch (error) {
-                        reject(error);
-                    }
-                });
-            });
-        }
-        else {
-            return Promise.resolve(rawResponse.body);
-        }
-    }
-    /**
-     * @private
-     * @static
-     * @async
-     * To convert the native Response to response content
-     * @param {Response} rawResponse - The response object
-     * @param {ResponseType} [responseType] - The response type value
-     * @returns A promise that resolves to the converted response content
-     */
-    static convertResponse(rawResponse, responseType) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            if (rawResponse.status === 204) {
-                // NO CONTENT
-                return Promise.resolve();
-            }
-            let responseValue;
-            const contentType = rawResponse.headers.get("Content-type");
-            switch (responseType) {
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].ARRAYBUFFER:
-                    responseValue = yield rawResponse.arrayBuffer();
-                    break;
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].BLOB:
-                    responseValue = yield rawResponse.blob();
-                    break;
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].DOCUMENT:
-                    responseValue = yield GraphResponseHandler.parseDocumentResponse(rawResponse, DocumentType.TEXT_XML);
-                    break;
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].JSON:
-                    responseValue = yield rawResponse.json();
-                    break;
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].STREAM:
-                    responseValue = yield Promise.resolve(rawResponse.body);
-                    break;
-                case _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].TEXT:
-                    responseValue = yield rawResponse.text();
-                    break;
-                default:
-                    if (contentType !== null) {
-                        const mimeType = contentType.split(";")[0];
-                        if (new RegExp(ContentTypeRegexStr.DOCUMENT).test(mimeType)) {
-                            responseValue = yield GraphResponseHandler.parseDocumentResponse(rawResponse, mimeType);
-                        }
-                        else if (new RegExp(ContentTypeRegexStr.IMAGE).test(mimeType)) {
-                            responseValue = rawResponse.blob();
-                        }
-                        else if (mimeType === ContentType.TEXT_PLAIN) {
-                            responseValue = yield rawResponse.text();
-                        }
-                        else if (mimeType === ContentType.APPLICATION_JSON) {
-                            responseValue = yield rawResponse.json();
-                        }
-                        else {
-                            responseValue = Promise.resolve(rawResponse.body);
-                        }
-                    }
-                    else {
-                        /**
-                         * RFC specification {@link https://tools.ietf.org/html/rfc7231#section-3.1.1.5} says:
-                         *  A sender that generates a message containing a payload body SHOULD
-                         *  generate a Content-Type header field in that message unless the
-                         *  intended media type of the enclosed representation is unknown to the
-                         *  sender.  If a Content-Type header field is not present, the recipient
-                         *  MAY either assume a media type of "application/octet-stream"
-                         *  ([RFC2046], Section 4.5.1) or examine the data to determine its type.
-                         *
-                         *  So assuming it as a stream type so returning the body.
-                         */
-                        responseValue = Promise.resolve(rawResponse.body);
-                    }
-                    break;
-            }
-            return responseValue;
-        });
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * To get the parsed response
-     * @param {Response} rawResponse - The response object
-     * @param {ResponseType} [responseType] - The response type value
-     * @param {GraphRequestCallback} [callback] - The graph request callback function
-     * @returns The parsed response
-     */
-    static getResponse(rawResponse, responseType, callback) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            if (responseType === _ResponseType__WEBPACK_IMPORTED_MODULE_1__[/* ResponseType */ "a"].RAW) {
-                return Promise.resolve(rawResponse);
-            }
-            else {
-                const response = yield GraphResponseHandler.convertResponse(rawResponse, responseType);
-                if (rawResponse.ok) {
-                    // Status Code 2XX
-                    if (typeof callback === "function") {
-                        callback(null, response);
-                    }
-                    else {
-                        return response;
-                    }
-                }
-                else {
-                    // NOT OK Response
-                    throw response;
-                }
-            }
-        });
-    }
-}
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClient; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @class
- * Class representing HTTPClient
- */
-class HTTPClient {
-    /**
-     * @public
-     * @constructor
-     * Creates an instance of a HTTPClient
-     * @param {...Middleware} middleware - The first middleware of the middleware chain or a sequence of all the Middleware handlers
-     */
-    constructor(...middleware) {
-        if (!middleware || !middleware.length) {
-            const error = new Error();
-            error.name = "InvalidMiddlewareChain";
-            error.message = "Please provide a default middleware chain or custom middleware chain";
-            throw error;
-        }
-        this.setMiddleware(...middleware);
-    }
-    /**
-     * @private
-     * Processes the middleware parameter passed to set this.middleware property
-     * The calling function should validate if middleware is not undefined or not empty.
-     * @param {...Middleware} middleware - The middleware passed
-     * @returns Nothing
-     */
-    setMiddleware(...middleware) {
-        if (middleware.length > 1) {
-            this.parseMiddleWareArray(middleware);
-        }
-        else {
-            this.middleware = middleware[0];
-        }
-    }
-    /**
-     * @private
-     * Processes the middleware array to construct the chain
-     * and sets this.middleware property to the first middleware handler of the array
-     * The calling function should validate if middleware is not undefined or not empty
-     * @param {Middleware[]} middlewareArray - The array of middleware handlers
-     * @returns Nothing
-     */
-    parseMiddleWareArray(middlewareArray) {
-        middlewareArray.forEach((element, index) => {
-            if (index < middlewareArray.length - 1) {
-                element.setNext(middlewareArray[index + 1]);
-            }
-        });
-        this.middleware = middlewareArray[0];
-    }
-    /**
-     * @public
-     * @async
-     * To send the request through the middleware chain
-     * @param {Context} context - The context of a request
-     * @returns A promise that resolves to the Context
-     */
-    sendRequest(context) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            if (typeof context.request === "string" && context.options === undefined) {
-                const error = new Error();
-                error.name = "InvalidRequestOptions";
-                error.message = "Unable to execute the middleware, Please provide valid options for a request";
-                throw error;
-            }
-            yield this.middleware.execute(context);
-            return context;
-        });
-    }
-}
-
-
-/***/ }),
-/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4828,21 +4108,21 @@ class BatchRequestContent {
  */
 BatchRequestContent.requestLimit = 20;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
 
 /***/ }),
-/* 26 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiddlewareFactory; });
-/* harmony import */ var _AuthenticationHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var _HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
-/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
-/* harmony import */ var _RedirectHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
-/* harmony import */ var _RetryHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
-/* harmony import */ var _TelemetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(15);
+/* harmony import */ var _AuthenticationHandler__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(10);
+/* harmony import */ var _options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+/* harmony import */ var _RedirectHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
+/* harmony import */ var _RetryHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(11);
+/* harmony import */ var _TelemetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4894,10 +4174,10 @@ class MiddlewareFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(20)))
 
 /***/ }),
-/* 27 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -5087,206 +4367,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Buffer) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OneDriveLargeFileUploadTask; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _GraphClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
-/* harmony import */ var _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
-/* harmony import */ var _OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(22);
-/**
- * -------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
- * See License in the project root for license information.
- * -------------------------------------------------------------------------------------------
- */
-
-/**
- * @module OneDriveLargeFileUploadTask
- */
-
-
-
-
-/**
- * @class
- * Class representing OneDriveLargeFileUploadTask
- */
-class OneDriveLargeFileUploadTask extends _LargeFileUploadTask__WEBPACK_IMPORTED_MODULE_3__[/* LargeFileUploadTask */ "a"] {
-    /**
-     * @public
-     * @constructor
-     * Constructs a OneDriveLargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
-     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
-     * @param {LargeFileUploadTaskOptions} options - The upload task options
-     * @returns An instance of OneDriveLargeFileUploadTask
-     */
-    constructor(client, file, uploadSession, options) {
-        super(client, file, uploadSession, options);
-    }
-    /**
-     * @private
-     * @static
-     * Constructs the create session url for Onedrive
-     * @param {string} fileName - The name of the file
-     * @param {path} [path = OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH] - The path for the upload
-     * @returns The constructed create session url
-     */
-    static constructCreateSessionUrl(fileName, path = OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH) {
-        fileName = fileName.trim();
-        path = path.trim();
-        if (path === "") {
-            path = "/";
-        }
-        if (path[0] !== "/") {
-            path = `/${path}`;
-        }
-        if (path[path.length - 1] !== "/") {
-            path = `${path}/`;
-        }
-        // we choose to encode each component of the file path separately because when encoding full URI
-        // with encodeURI, special characters like # or % in the file name doesn't get encoded as desired
-        return `/me/drive/root:${path
-            .split("/")
-            .map((p) => encodeURIComponent(p))
-            .join("/")}${encodeURIComponent(fileName)}:/createUploadSession`;
-    }
-    /**
-     * @private
-     * @static
-     * Get file information
-     * @param {Blob | Buffer | File} file - The file entity
-     * @param {string} fileName - The file name
-     * @returns {FileInfo} The file information
-     */
-    static getFileInfo(file, fileName) {
-        let content;
-        let size;
-        if (typeof Blob !== "undefined" && file instanceof Blob) {
-            content = new File([file], fileName);
-            size = content.size;
-        }
-        else if (typeof File !== "undefined" && file instanceof File) {
-            content = file;
-            size = content.size;
-        }
-        else if (typeof Buffer !== "undefined" && file instanceof Buffer) {
-            const b = file;
-            size = b.byteLength;
-            content = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
-        }
-        return {
-            content,
-            size,
-        };
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Creates a OneDriveLargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {Blob | Buffer | File} file - File represented as Blob, Buffer or File
-     * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
-     * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
-     */
-    static create(client, file, options) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            if (!client || !file || !options) {
-                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Graph client instance, file object and OneDriveLargeFileUploadOptions value");
-            }
-            const fileName = options.fileName;
-            const fileInfo = OneDriveLargeFileUploadTask.getFileInfo(file, fileName);
-            const fileObj = new _FileUploadTask_FileObjectClasses_FileUpload__WEBPACK_IMPORTED_MODULE_2__[/* FileUpload */ "a"](fileInfo.content, fileName, fileInfo.size);
-            return this.createTaskWithFileObject(client, fileObj, options);
-        });
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Creates a OneDriveLargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {FileObject} fileObject - FileObject instance
-     * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
-     * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
-     */
-    static createTaskWithFileObject(client, fileObject, options) {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            if (!client || !fileObject || !options) {
-                throw new _GraphClientError__WEBPACK_IMPORTED_MODULE_1__[/* GraphClientError */ "a"]("Please provide the Graph client instance, FileObject interface implementation and OneDriveLargeFileUploadOptions value");
-            }
-            const requestUrl = OneDriveLargeFileUploadTask.constructCreateSessionUrl(options.fileName, options.path);
-            const uploadSessionPayload = {
-                fileName: options.fileName,
-                conflictBehavior: options.conflictBehavior,
-            };
-            const session = yield OneDriveLargeFileUploadTask.createUploadSession(client, requestUrl, uploadSessionPayload);
-            const rangeSize = Object(_OneDriveLargeFileUploadTaskUtil__WEBPACK_IMPORTED_MODULE_4__[/* getValidRangeSize */ "a"])(options.rangeSize);
-            return new OneDriveLargeFileUploadTask(client, fileObject, session, {
-                rangeSize,
-                uploadEventHandlers: options.uploadEventHandlers,
-            });
-        });
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Makes request to the server to create an upload session
-     * @param {Client} client - The GraphClient instance
-     * @param {string} requestUrl - The URL to create the upload session
-     * @param {string} payloadOptions - The payload option. Default conflictBehavior is 'rename'
-     * @returns The promise that resolves to LargeFileUploadSession
-     */
-    static createUploadSession(client, requestUrl, payloadOptions) {
-        const _super = Object.create(null, {
-            createUploadSession: { get: () => super.createUploadSession }
-        });
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const payload = {
-                item: {
-                    "@microsoft.graph.conflictBehavior": (payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.conflictBehavior) || "rename",
-                    name: payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.fileName,
-                },
-            };
-            return _super.createUploadSession.call(this, client, requestUrl, payload);
-        });
-    }
-    /**
-     * @public
-     * Commits upload session to end uploading
-     * @param {string} requestUrl - The URL to commit the upload session
-     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
-     * @returns The promise resolves to committed response
-     */
-    commit(requestUrl, conflictBehavior = "rename") {
-        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__[/* __awaiter */ "a"])(this, void 0, void 0, function* () {
-            const payload = {
-                name: this.file.name,
-                "@microsoft.graph.conflictBehavior": conflictBehavior,
-                "@microsoft.graph.sourceUrl": this.uploadSession.url,
-            };
-            return yield this.client.api(requestUrl).put(payload);
-        });
-    }
-}
-/**
- * @private
- * @static
- * Default path for the file being uploaded
- */
-OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH = "/";
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
-
-/***/ }),
-/* 29 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5414,22 +4495,22 @@ class StreamUpload {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16).Buffer))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17).Buffer))
 
 /***/ }),
-/* 30 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HTTPClientFactory; });
-/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
-/* harmony import */ var _middleware_AuthenticationHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
-/* harmony import */ var _middleware_HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
-/* harmony import */ var _middleware_options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-/* harmony import */ var _middleware_options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
-/* harmony import */ var _middleware_RedirectHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(14);
-/* harmony import */ var _middleware_RetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
-/* harmony import */ var _middleware_TelemetryHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
+/* harmony import */ var _HTTPClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _middleware_AuthenticationHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+/* harmony import */ var _middleware_HTTPMessageHandler__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var _middleware_options_RedirectHandlerOptions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _middleware_options_RetryHandlerOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _middleware_RedirectHandler__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(12);
+/* harmony import */ var _middleware_RetryHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
+/* harmony import */ var _middleware_TelemetryHandler__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5503,10 +4584,10 @@ class HTTPClientFactory {
     }
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(20)))
 
 /***/ }),
-/* 31 */
+/* 23 */
 /***/ (function(module, exports) {
 
 var g;
@@ -5532,7 +4613,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 32 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5689,7 +4770,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 33 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
@@ -5780,7 +4861,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 34 */
+/* 26 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -5791,7 +4872,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 35 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5815,23 +4896,23 @@ __webpack_require__.d(__webpack_exports__, "TelemetryHandlerOptions", function()
 __webpack_require__.d(__webpack_exports__, "ChaosHandlerOptions", function() { return /* reexport */ ChaosHandlerOptions_ChaosHandlerOptions; });
 __webpack_require__.d(__webpack_exports__, "ChaosStrategy", function() { return /* reexport */ ChaosStrategy; });
 __webpack_require__.d(__webpack_exports__, "ChaosHandler", function() { return /* reexport */ ChaosHandler_ChaosHandler; });
-__webpack_require__.d(__webpack_exports__, "LargeFileUploadTask", function() { return /* reexport */ LargeFileUploadTask["a" /* LargeFileUploadTask */]; });
-__webpack_require__.d(__webpack_exports__, "OneDriveLargeFileUploadTask", function() { return /* reexport */ OneDriveLargeFileUploadTask["a" /* OneDriveLargeFileUploadTask */]; });
-__webpack_require__.d(__webpack_exports__, "getValidRangeSize", function() { return /* reexport */ OneDriveLargeFileUploadTaskUtil["a" /* getValidRangeSize */]; });
+__webpack_require__.d(__webpack_exports__, "LargeFileUploadTask", function() { return /* reexport */ LargeFileUploadTask_LargeFileUploadTask; });
+__webpack_require__.d(__webpack_exports__, "OneDriveLargeFileUploadTask", function() { return /* reexport */ OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask; });
+__webpack_require__.d(__webpack_exports__, "getValidRangeSize", function() { return /* reexport */ getValidRangeSize; });
 __webpack_require__.d(__webpack_exports__, "StreamUpload", function() { return /* reexport */ StreamUpload["a" /* StreamUpload */]; });
-__webpack_require__.d(__webpack_exports__, "FileUpload", function() { return /* reexport */ FileUpload["a" /* FileUpload */]; });
-__webpack_require__.d(__webpack_exports__, "UploadResult", function() { return /* reexport */ UploadResult["a" /* UploadResult */]; });
-__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range["a" /* Range */]; });
+__webpack_require__.d(__webpack_exports__, "FileUpload", function() { return /* reexport */ FileUpload_FileUpload; });
+__webpack_require__.d(__webpack_exports__, "UploadResult", function() { return /* reexport */ UploadResult; });
+__webpack_require__.d(__webpack_exports__, "Range", function() { return /* reexport */ Range; });
 __webpack_require__.d(__webpack_exports__, "PageIterator", function() { return /* reexport */ PageIterator_PageIterator; });
 __webpack_require__.d(__webpack_exports__, "Client", function() { return /* reexport */ Client_Client; });
 __webpack_require__.d(__webpack_exports__, "CustomAuthenticationProvider", function() { return /* reexport */ CustomAuthenticationProvider_CustomAuthenticationProvider; });
 __webpack_require__.d(__webpack_exports__, "GraphError", function() { return /* reexport */ GraphError; });
 __webpack_require__.d(__webpack_exports__, "GraphClientError", function() { return /* reexport */ GraphClientError["a" /* GraphClientError */]; });
 __webpack_require__.d(__webpack_exports__, "GraphRequest", function() { return /* reexport */ GraphRequest_GraphRequest; });
-__webpack_require__.d(__webpack_exports__, "ResponseType", function() { return /* reexport */ ResponseType["a" /* ResponseType */]; });
+__webpack_require__.d(__webpack_exports__, "ResponseType", function() { return /* reexport */ ResponseType; });
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchRequestContent.js
-var BatchRequestContent = __webpack_require__(25);
+var BatchRequestContent = __webpack_require__(18);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchResponseContent.js
 /**
@@ -5924,34 +5005,34 @@ class BatchResponseContent {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/AuthenticationHandler.js
-var AuthenticationHandler = __webpack_require__(11);
+var AuthenticationHandler = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/HTTPMessageHandler.js
-var HTTPMessageHandler = __webpack_require__(12);
+var HTTPMessageHandler = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RetryHandler.js
-var RetryHandler = __webpack_require__(13);
+var RetryHandler = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RedirectHandler.js
-var RedirectHandler = __webpack_require__(14);
+var RedirectHandler = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js + 1 modules
-var TelemetryHandler = __webpack_require__(15);
+var TelemetryHandler = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareFactory.js
-var MiddlewareFactory = __webpack_require__(26);
+var MiddlewareFactory = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/AuthenticationHandlerOptions.js
-var AuthenticationHandlerOptions = __webpack_require__(18);
+var AuthenticationHandlerOptions = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RetryHandlerOptions.js
-var RetryHandlerOptions = __webpack_require__(9);
+var RetryHandlerOptions = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RedirectHandlerOptions.js
-var RedirectHandlerOptions = __webpack_require__(8);
+var RedirectHandlerOptions = __webpack_require__(7);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
-var TelemetryHandlerOptions = __webpack_require__(5);
+var TelemetryHandlerOptions = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosStrategy.js
 /**
@@ -6022,7 +5103,7 @@ var tslib_es6 = __webpack_require__(0);
 var MiddlewareControl = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
-var MiddlewareUtil = __webpack_require__(6);
+var MiddlewareUtil = __webpack_require__(5);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerData.js
 /**
@@ -6334,26 +5415,870 @@ class ChaosHandler_ChaosHandler {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
-var LargeFileUploadTask = __webpack_require__(19);
+// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphClientError.js
+var GraphClientError = __webpack_require__(1);
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
-var OneDriveLargeFileUploadTask = __webpack_require__(28);
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ResponseType.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @enum
+ * Enum for ResponseType values
+ * @property {string} ARRAYBUFFER - To download response content as an [ArrayBuffer]{@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer}
+ * @property {string} BLOB - To download content as a [binary/blob] {@link https://developer.mozilla.org/en-US/docs/Web/API/Blob}
+ * @property {string} DOCUMENT - This downloads content as a document or stream
+ * @property {string} JSON - To download response content as a json
+ * @property {string} STREAM - To download response as a [stream]{@link https://nodejs.org/api/stream.html}
+ * @property {string} TEXT - For downloading response as a text
+ */
+var ResponseType;
+(function (ResponseType) {
+    ResponseType["ARRAYBUFFER"] = "arraybuffer";
+    ResponseType["BLOB"] = "blob";
+    ResponseType["DOCUMENT"] = "document";
+    ResponseType["JSON"] = "json";
+    ResponseType["RAW"] = "raw";
+    ResponseType["STREAM"] = "stream";
+    ResponseType["TEXT"] = "text";
+})(ResponseType || (ResponseType = {}));
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
-var OneDriveLargeFileUploadTaskUtil = __webpack_require__(22);
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+
+/**
+ * @enum
+ * Enum for document types
+ * @property {string} TEXT_HTML - The text/html content type
+ * @property {string} TEXT_XML - The text/xml content type
+ * @property {string} APPLICATION_XML - The application/xml content type
+ * @property {string} APPLICATION_XHTML - The application/xhml+xml content type
+ */
+var DocumentType;
+(function (DocumentType) {
+    DocumentType["TEXT_HTML"] = "text/html";
+    DocumentType["TEXT_XML"] = "text/xml";
+    DocumentType["APPLICATION_XML"] = "application/xml";
+    DocumentType["APPLICATION_XHTML"] = "application/xhtml+xml";
+})(DocumentType || (DocumentType = {}));
+/**
+ * @enum
+ * Enum for Content types
+ * @property {string} TEXT_PLAIN - The text/plain content type
+ * @property {string} APPLICATION_JSON - The application/json content type
+ */
+var ContentType;
+(function (ContentType) {
+    ContentType["TEXT_PLAIN"] = "text/plain";
+    ContentType["APPLICATION_JSON"] = "application/json";
+})(ContentType || (ContentType = {}));
+/**
+ * @enum
+ * Enum for Content type regex
+ * @property {string} DOCUMENT - The regex to match document content types
+ * @property {string} IMAGE - The regex to match image content types
+ */
+var ContentTypeRegexStr;
+(function (ContentTypeRegexStr) {
+    ContentTypeRegexStr["DOCUMENT"] = "^(text\\/(html|xml))|(application\\/(xml|xhtml\\+xml))$";
+    ContentTypeRegexStr["IMAGE"] = "^image\\/.+";
+})(ContentTypeRegexStr || (ContentTypeRegexStr = {}));
+/**
+ * @class
+ * Class for GraphResponseHandler
+ */
+class GraphResponseHandler_GraphResponseHandler {
+    /**
+     * @private
+     * @static
+     * To parse Document response
+     * @param {Response} rawResponse - The response object
+     * @param {DocumentType} type - The type to which the document needs to be parsed
+     * @returns A promise that resolves to a document content
+     */
+    static parseDocumentResponse(rawResponse, type) {
+        if (typeof DOMParser !== "undefined") {
+            return new Promise((resolve, reject) => {
+                rawResponse.text().then((xmlString) => {
+                    try {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(xmlString, type);
+                        resolve(xmlDoc);
+                    }
+                    catch (error) {
+                        reject(error);
+                    }
+                });
+            });
+        }
+        else {
+            return Promise.resolve(rawResponse.body);
+        }
+    }
+    /**
+     * @private
+     * @static
+     * @async
+     * To convert the native Response to response content
+     * @param {Response} rawResponse - The response object
+     * @param {ResponseType} [responseType] - The response type value
+     * @returns A promise that resolves to the converted response content
+     */
+    static convertResponse(rawResponse, responseType) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            if (rawResponse.status === 204) {
+                // NO CONTENT
+                return Promise.resolve();
+            }
+            let responseValue;
+            const contentType = rawResponse.headers.get("Content-type");
+            switch (responseType) {
+                case ResponseType.ARRAYBUFFER:
+                    responseValue = yield rawResponse.arrayBuffer();
+                    break;
+                case ResponseType.BLOB:
+                    responseValue = yield rawResponse.blob();
+                    break;
+                case ResponseType.DOCUMENT:
+                    responseValue = yield GraphResponseHandler_GraphResponseHandler.parseDocumentResponse(rawResponse, DocumentType.TEXT_XML);
+                    break;
+                case ResponseType.JSON:
+                    responseValue = yield rawResponse.json();
+                    break;
+                case ResponseType.STREAM:
+                    responseValue = yield Promise.resolve(rawResponse.body);
+                    break;
+                case ResponseType.TEXT:
+                    responseValue = yield rawResponse.text();
+                    break;
+                default:
+                    if (contentType !== null) {
+                        const mimeType = contentType.split(";")[0];
+                        if (new RegExp(ContentTypeRegexStr.DOCUMENT).test(mimeType)) {
+                            responseValue = yield GraphResponseHandler_GraphResponseHandler.parseDocumentResponse(rawResponse, mimeType);
+                        }
+                        else if (new RegExp(ContentTypeRegexStr.IMAGE).test(mimeType)) {
+                            responseValue = rawResponse.blob();
+                        }
+                        else if (mimeType === ContentType.TEXT_PLAIN) {
+                            responseValue = yield rawResponse.text();
+                        }
+                        else if (mimeType === ContentType.APPLICATION_JSON) {
+                            responseValue = yield rawResponse.json();
+                        }
+                        else {
+                            responseValue = Promise.resolve(rawResponse.body);
+                        }
+                    }
+                    else {
+                        /**
+                         * RFC specification {@link https://tools.ietf.org/html/rfc7231#section-3.1.1.5} says:
+                         *  A sender that generates a message containing a payload body SHOULD
+                         *  generate a Content-Type header field in that message unless the
+                         *  intended media type of the enclosed representation is unknown to the
+                         *  sender.  If a Content-Type header field is not present, the recipient
+                         *  MAY either assume a media type of "application/octet-stream"
+                         *  ([RFC2046], Section 4.5.1) or examine the data to determine its type.
+                         *
+                         *  So assuming it as a stream type so returning the body.
+                         */
+                        responseValue = Promise.resolve(rawResponse.body);
+                    }
+                    break;
+            }
+            return responseValue;
+        });
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * To get the parsed response
+     * @param {Response} rawResponse - The response object
+     * @param {ResponseType} [responseType] - The response type value
+     * @param {GraphRequestCallback} [callback] - The graph request callback function
+     * @returns The parsed response
+     */
+    static getResponse(rawResponse, responseType, callback) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            if (responseType === ResponseType.RAW) {
+                return Promise.resolve(rawResponse);
+            }
+            else {
+                const response = yield GraphResponseHandler_GraphResponseHandler.convertResponse(rawResponse, responseType);
+                if (rawResponse.ok) {
+                    // Status Code 2XX
+                    if (typeof callback === "function") {
+                        callback(null, response);
+                    }
+                    else {
+                        return response;
+                    }
+                }
+                else {
+                    // NOT OK Response
+                    throw response;
+                }
+            }
+        });
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module Range
+ */
+/**
+ * @class
+ * Class representing Range
+ */
+class Range {
+    /**
+     * @public
+     * @constructor
+     * Creates a range for given min and max values
+     * @param {number} [minVal = -1] - The minimum value.
+     * @param {number} [maxVal = -1] - The maximum value.
+     * @returns An instance of a Range
+     */
+    constructor(minVal = -1, maxVal = -1) {
+        this.minValue = minVal;
+        this.maxValue = maxVal;
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * Class representing a successful file upload result
+ */
+class UploadResult {
+    /**
+     * @public
+     * @param {responseBody} responsebody - The response body from the completed upload response
+     * @param {location} location - The location value from the headers from the completed upload response
+     */
+    constructor(responseBody, location) {
+        // Response body or the location parameter can be undefined.
+        this._location = location;
+        this._responseBody = responseBody;
+    }
+    /**
+     * @public
+     * Get of the location value.
+     * Location value is looked up in the response header
+     */
+    get location() {
+        return this._location;
+    }
+    /**
+     * @public
+     * Set the location value
+     * Location value is looked up in the response header
+     */
+    set location(location) {
+        this._location = location;
+    }
+    /**
+     * @public
+     * Get The response body from the completed upload response
+     */
+    get responseBody() {
+        return this._responseBody;
+    }
+    /**
+     * @public
+     * Set the response body from the completed upload response
+     */
+    set responseBody(responseBody) {
+        this._responseBody = responseBody;
+    }
+    /**
+     * @public
+     * @param {responseBody} responseBody - The response body from the completed upload response
+     * @param {responseHeaders} responseHeaders - The headers from the completed upload response
+     */
+    static CreateUploadResult(responseBody, responseHeaders) {
+        return new UploadResult(responseBody, responseHeaders.get("location"));
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @module LargeFileUploadTask
+ */
+
+
+
+
+
+/**
+ * @class
+ * Class representing LargeFileUploadTask
+ */
+class LargeFileUploadTask_LargeFileUploadTask {
+    /**
+     * @public
+     * @constructor
+     * Constructs a LargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
+     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
+     * @param {LargeFileUploadTaskOptions} options - The upload task options
+     * @returns An instance of LargeFileUploadTask
+     */
+    constructor(client, file, uploadSession, options = {}) {
+        /**
+         * @private
+         * Default value for the rangeSize
+         */
+        this.DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
+        this.client = client;
+        if (!file.sliceFile) {
+            throw new GraphClientError["a" /* GraphClientError */]("Please pass the FileUpload object, StreamUpload object or any custom implementation of the FileObject interface");
+        }
+        else {
+            this.file = file;
+        }
+        this.file = file;
+        if (!options.rangeSize) {
+            options.rangeSize = this.DEFAULT_FILE_SIZE;
+        }
+        this.options = options;
+        this.uploadSession = uploadSession;
+        this.nextRange = new Range(0, this.options.rangeSize - 1);
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Makes request to the server to create an upload session
+     * @param {Client} client - The GraphClient instance
+     * @param {string} requestUrl - The URL to create the upload session
+     * @param {any} payload - The payload that needs to be sent
+     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
+     * @returns The promise that resolves to LargeFileUploadSession
+     */
+    static createUploadSession(client, requestUrl, payload, headers = {}) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const session = yield client
+                .api(requestUrl)
+                .headers(headers)
+                .post(payload);
+            const largeFileUploadSession = {
+                url: session.uploadUrl,
+                expiry: new Date(session.expirationDateTime),
+                isCancelled: false,
+            };
+            return largeFileUploadSession;
+        });
+    }
+    /**
+     * @private
+     * Parses given range string to the Range instance
+     * @param {string[]} ranges - The ranges value
+     * @returns The range instance
+     */
+    parseRange(ranges) {
+        const rangeStr = ranges[0];
+        if (typeof rangeStr === "undefined" || rangeStr === "") {
+            return new Range();
+        }
+        const firstRange = rangeStr.split("-");
+        const minVal = parseInt(firstRange[0], 10);
+        let maxVal = parseInt(firstRange[1], 10);
+        if (Number.isNaN(maxVal)) {
+            maxVal = this.file.size - 1;
+        }
+        return new Range(minVal, maxVal);
+    }
+    /**
+     * @private
+     * Updates the expiration date and the next range
+     * @param {UploadStatusResponse} response - The response of the upload status
+     * @returns Nothing
+     */
+    updateTaskStatus(response) {
+        this.uploadSession.expiry = new Date(response.expirationDateTime);
+        this.nextRange = this.parseRange(response.nextExpectedRanges);
+    }
+    /**
+     * @public
+     * Gets next range that needs to be uploaded
+     * @returns The range instance
+     */
+    getNextRange() {
+        if (this.nextRange.minValue === -1) {
+            return this.nextRange;
+        }
+        const minVal = this.nextRange.minValue;
+        let maxValue = minVal + this.options.rangeSize - 1;
+        if (maxValue >= this.file.size) {
+            maxValue = this.file.size - 1;
+        }
+        return new Range(minVal, maxValue);
+    }
+    /**
+     * @deprecated This function has been moved into FileObject interface.
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced ArrayBuffer or Blob
+     */
+    sliceFile(range) {
+        console.warn("The LargeFileUploadTask.sliceFile() function has been deprecated and moved into the FileObject interface.");
+        if (this.file.content instanceof ArrayBuffer || this.file.content instanceof Blob || this.file.content instanceof Uint8Array) {
+            return this.file.content.slice(range.minValue, range.maxValue + 1);
+        }
+        throw new GraphClientError["a" /* GraphClientError */]("The LargeFileUploadTask.sliceFile() function expects only Blob, ArrayBuffer or Uint8Array file content. Please note that the sliceFile() function is deprecated.");
+    }
+    /**
+     * @public
+     * @async
+     * Uploads file to the server in a sequential order by slicing the file
+     * @returns The promise resolves to uploaded response
+     */
+    upload() {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const uploadEventHandlers = this.options && this.options.uploadEventHandlers;
+            while (!this.uploadSession.isCancelled) {
+                const nextRange = this.getNextRange();
+                if (nextRange.maxValue === -1) {
+                    const err = new Error("Task with which you are trying to upload is already completed, Please check for your uploaded file");
+                    err.name = "Invalid Session";
+                    throw err;
+                }
+                const fileSlice = yield this.file.sliceFile(nextRange);
+                const rawResponse = yield this.uploadSliceGetRawResponse(fileSlice, nextRange, this.file.size);
+                if (!rawResponse) {
+                    throw new GraphClientError["a" /* GraphClientError */]("Something went wrong! Large file upload slice response is null.");
+                }
+                const responseBody = yield GraphResponseHandler_GraphResponseHandler.getResponse(rawResponse);
+                /**
+                 * (rawResponse.status === 201) -> This condition is applicable for OneDrive, PrintDocument and Outlook APIs.
+                 * (rawResponse.status === 200 && responseBody.id) -> This additional condition is applicable only for OneDrive API.
+                 */
+                if (rawResponse.status === 201 || (rawResponse.status === 200 && responseBody.id)) {
+                    this.reportProgress(uploadEventHandlers, nextRange);
+                    return UploadResult.CreateUploadResult(responseBody, rawResponse.headers);
+                }
+                /* Handling the API issue where the case of Outlook upload response property -'nextExpectedRanges'  is not uniform.
+                 * https://github.com/microsoftgraph/msgraph-sdk-serviceissues/issues/39
+                 */
+                const res = {
+                    expirationDateTime: responseBody.expirationDateTime || responseBody.ExpirationDateTime,
+                    nextExpectedRanges: responseBody.NextExpectedRanges || responseBody.nextExpectedRanges,
+                };
+                this.updateTaskStatus(res);
+                this.reportProgress(uploadEventHandlers, nextRange);
+            }
+        });
+    }
+    reportProgress(uploadEventHandlers, nextRange) {
+        if (uploadEventHandlers && uploadEventHandlers.progress) {
+            uploadEventHandlers.progress(nextRange, uploadEventHandlers.extraCallbackParam);
+        }
+    }
+    /**
+     * @public
+     * @async
+     * Uploads given slice to the server
+     * @param {ArrayBuffer | Blob | File} fileSlice - The file slice
+     * @param {Range} range - The range value
+     * @param {number} totalSize - The total size of a complete file
+     * @returns The response body of the upload slice result
+     */
+    uploadSlice(fileSlice, range, totalSize) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return yield this.client
+                .api(this.uploadSession.url)
+                .headers({
+                "Content-Length": `${range.maxValue - range.minValue + 1}`,
+                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+                "Content-Type": "application/octet-stream",
+            })
+                .put(fileSlice);
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Uploads given slice to the server
+     * @param {unknown} fileSlice - The file slice
+     * @param {Range} range - The range value
+     * @param {number} totalSize - The total size of a complete file
+     * @returns The raw response of the upload slice result
+     */
+    uploadSliceGetRawResponse(fileSlice, range, totalSize) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            return yield this.client
+                .api(this.uploadSession.url)
+                .headers({
+                "Content-Length": `${range.maxValue - range.minValue + 1}`,
+                "Content-Range": `bytes ${range.minValue}-${range.maxValue}/${totalSize}`,
+                "Content-Type": "application/octet-stream",
+            })
+                .responseType(ResponseType.RAW)
+                .put(fileSlice);
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Deletes upload session in the server
+     * @returns The promise resolves to cancelled response
+     */
+    cancel() {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const cancelResponse = yield this.client
+                .api(this.uploadSession.url)
+                .responseType(ResponseType.RAW)
+                .delete();
+            if (cancelResponse.status === 204) {
+                this.uploadSession.isCancelled = true;
+            }
+            return cancelResponse;
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Gets status for the upload session
+     * @returns The promise resolves to the status enquiry response
+     */
+    getStatus() {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const response = yield this.client.api(this.uploadSession.url).get();
+            this.updateTaskStatus(response);
+            return response;
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Resumes upload session and continue uploading the file from the last sent range
+     * @returns The promise resolves to the uploaded response
+     */
+    resume() {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            yield this.getStatus();
+            return yield this.upload();
+        });
+    }
+    /**
+     * @public
+     * @async
+     * Get the upload session information
+     * @returns The large file upload session
+     */
+    getUploadSession() {
+        return this.uploadSession;
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @class
+ * Class used for creating LargeFileUploadTask fileobject.
+ * This class accepts files of type ArrayBuffer, Blob, Uint8Array.
+ */
+class FileUpload_FileUpload {
+    /**
+     * @public
+     * @constructor
+     * @param {ArrayBuffer | Blob | Uint8Array} content - The file to be uploaded
+     * @param {string} name - The name of the file to be uploaded
+     * @param {number} size - The total size of the file to be uploaded
+     * @returns An instance of the FileUpload class
+     */
+    constructor(content, name, size) {
+        this.content = content;
+        this.name = name;
+        this.size = size;
+        if (!content || !name || !size) {
+            throw new GraphClientError["a" /* GraphClientError */]("Please provide the upload content, name of the file and size of the file");
+        }
+    }
+    /**
+     * @public
+     * Slices the file content to the given range
+     * @param {Range} range - The range value
+     * @returns The sliced file part
+     */
+    sliceFile(range) {
+        return this.content.slice(range.minValue, range.maxValue + 1);
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+/**
+ * @module OneDriveLargeFileUploadTaskUtil
+ */
+/**
+ * @constant
+ * Default value for the rangeSize
+ * Recommended size is between 5 - 10 MB {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#best-practices}
+ */
+const DEFAULT_FILE_SIZE = 5 * 1024 * 1024;
+/**
+ * @constant
+ * Rounds off the given value to a multiple of 320 KB
+ * @param {number} value - The value
+ * @returns The rounded off value
+ */
+const roundTo320KB = (value) => {
+    if (value > 320 * 1024) {
+        value = Math.floor(value / (320 * 1024)) * 320 * 1024;
+    }
+    return value;
+};
+/**
+ * @constant
+ * Get the valid rangeSize for a file slicing (validity is based on the constrains mentioned in here
+ * {@link https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/driveitem_createuploadsession#upload-bytes-to-the-upload-session})
+ *
+ * @param {number} [rangeSize = DEFAULT_FILE_SIZE] - The rangeSize value.
+ * @returns The valid rangeSize
+ */
+const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
+    const sixtyMB = 60 * 1024 * 1024;
+    if (rangeSize > sixtyMB) {
+        rangeSize = sixtyMB;
+    }
+    return roundTo320KB(rangeSize);
+};
+
+// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
+/**
+ * -------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
+ * See License in the project root for license information.
+ * -------------------------------------------------------------------------------------------
+ */
+
+/**
+ * @module OneDriveLargeFileUploadTask
+ */
+
+
+
+
+/**
+ * @class
+ * Class representing OneDriveLargeFileUploadTask
+ */
+class OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask extends LargeFileUploadTask_LargeFileUploadTask {
+    /**
+     * @public
+     * @constructor
+     * Constructs a OneDriveLargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
+     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
+     * @param {LargeFileUploadTaskOptions} options - The upload task options
+     * @returns An instance of OneDriveLargeFileUploadTask
+     */
+    constructor(client, file, uploadSession, options) {
+        super(client, file, uploadSession, options);
+    }
+    /**
+     * @private
+     * @static
+     * Constructs the create session url for Onedrive
+     * @param {string} fileName - The name of the file
+     * @param {path} [path = OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH] - The path for the upload
+     * @returns The constructed create session url
+     */
+    static constructCreateSessionUrl(fileName, path = OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH) {
+        fileName = fileName.trim();
+        path = path.trim();
+        if (path === "") {
+            path = "/";
+        }
+        if (path[0] !== "/") {
+            path = `/${path}`;
+        }
+        if (path[path.length - 1] !== "/") {
+            path = `${path}/`;
+        }
+        // we choose to encode each component of the file path separately because when encoding full URI
+        // with encodeURI, special characters like # or % in the file name doesn't get encoded as desired
+        return `/me/drive/root:${path
+            .split("/")
+            .map((p) => encodeURIComponent(p))
+            .join("/")}${encodeURIComponent(fileName)}:/createUploadSession`;
+    }
+    /**
+     * @private
+     * @static
+     * Get file information
+     * @param {Blob | Uint8Array | File} file - The file entity
+     * @param {string} fileName - The file name
+     * @returns {FileInfo} The file information
+     */
+    static getFileInfo(file, fileName) {
+        let content;
+        let size;
+        if (typeof Blob !== "undefined" && file instanceof Blob) {
+            content = new File([file], fileName);
+            size = content.size;
+        }
+        else if (typeof File !== "undefined" && file instanceof File) {
+            content = file;
+            size = content.size;
+        }
+        else if (typeof Uint8Array !== "undefined" && file instanceof Uint8Array) {
+            const b = file;
+            size = b.byteLength;
+            content = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+        }
+        return {
+            content,
+            size,
+        };
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Creates a OneDriveLargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {Blob | Uint8Array | File} file - File represented as Blob, Uint8Array or File
+     * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
+     * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
+     */
+    static create(client, file, options) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            if (!client || !file || !options) {
+                throw new GraphClientError["a" /* GraphClientError */]("Please provide the Graph client instance, file object and OneDriveLargeFileUploadOptions value");
+            }
+            const fileName = options.fileName;
+            const fileInfo = OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask.getFileInfo(file, fileName);
+            const fileObj = new FileUpload_FileUpload(fileInfo.content, fileName, fileInfo.size);
+            return this.createTaskWithFileObject(client, fileObj, options);
+        });
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Creates a OneDriveLargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} fileObject - FileObject instance
+     * @param {OneDriveLargeFileUploadOptions} options - The options for upload task
+     * @returns The promise that will be resolves to OneDriveLargeFileUploadTask instance
+     */
+    static createTaskWithFileObject(client, fileObject, options) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            if (!client || !fileObject || !options) {
+                throw new GraphClientError["a" /* GraphClientError */]("Please provide the Graph client instance, FileObject interface implementation and OneDriveLargeFileUploadOptions value");
+            }
+            const requestUrl = options.uploadSessionURL ? options.uploadSessionURL : OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask.constructCreateSessionUrl(options.fileName, options.path);
+            const uploadSessionPayload = {
+                fileName: options.fileName,
+                fileDescription: options.fileDescription,
+                conflictBehavior: options.conflictBehavior,
+            };
+            const session = yield OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask.createUploadSession(client, requestUrl, uploadSessionPayload);
+            const rangeSize = getValidRangeSize(options.rangeSize);
+            return new OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask(client, fileObject, session, {
+                rangeSize,
+                uploadEventHandlers: options.uploadEventHandlers,
+            });
+        });
+    }
+    /**
+     * @public
+     * @static
+     * @async
+     * Makes request to the server to create an upload session
+     * @param {Client} client - The GraphClient instance
+     * @param {string} requestUrl - The URL to create the upload session
+     * @param {string} payloadOptions - The payload option. Default conflictBehavior is 'rename'
+     * @returns The promise that resolves to LargeFileUploadSession
+     */
+    static createUploadSession(client, requestUrl, payloadOptions) {
+        const _super = Object.create(null, {
+            createUploadSession: { get: () => super.createUploadSession }
+        });
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const payload = {
+                item: {
+                    "@microsoft.graph.conflictBehavior": (payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.conflictBehavior) || "rename",
+                    name: payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.fileName,
+                    description: payloadOptions === null || payloadOptions === void 0 ? void 0 : payloadOptions.fileDescription,
+                },
+            };
+            return _super.createUploadSession.call(this, client, requestUrl, payload);
+        });
+    }
+    /**
+     * @public
+     * Commits upload session to end uploading
+     * @param {string} requestUrl - The URL to commit the upload session
+     * @param {string} conflictBehavior - Conflict behaviour option. Default is 'rename'
+     * @returns The promise resolves to committed response
+     */
+    commit(requestUrl, conflictBehavior = "rename") {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const payload = {
+                name: this.file.name,
+                "@microsoft.graph.conflictBehavior": conflictBehavior,
+                "@microsoft.graph.sourceUrl": this.uploadSession.url,
+            };
+            return yield this.client.api(requestUrl).put(payload);
+        });
+    }
+}
+/**
+ * @private
+ * @static
+ * Default path for the file being uploaded
+ */
+OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH = "/";
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/StreamUpload.js
-var StreamUpload = __webpack_require__(29);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
-var FileUpload = __webpack_require__(21);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
-var UploadResult = __webpack_require__(20);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
-var Range = __webpack_require__(10);
+var StreamUpload = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/PageIterator.js
 /**
@@ -6384,6 +6309,7 @@ class PageIterator_PageIterator {
         this.nextLink = pageCollection["@odata.nextLink"];
         this.deltaLink = pageCollection["@odata.deltaLink"];
         this.callback = callback;
+        this.cursor = 0;
         this.complete = false;
         this.requestOptions = requestOptions;
     }
@@ -6397,9 +6323,10 @@ class PageIterator_PageIterator {
             return false;
         }
         let advance = true;
-        while (advance && this.collection.length !== 0) {
-            const item = this.collection.shift();
+        while (advance && this.cursor < this.collection.length) {
+            const item = this.collection[this.cursor];
             advance = this.callback(item);
+            this.cursor++;
         }
         return advance;
     }
@@ -6425,6 +6352,7 @@ class PageIterator_PageIterator {
             }
             const response = yield graphRequest.get();
             this.collection = response.value;
+            this.cursor = 0;
             this.nextLink = response["@odata.nextLink"];
             this.deltaLink = response["@odata.deltaLink"];
         });
@@ -6456,7 +6384,7 @@ class PageIterator_PageIterator {
                     advance = false;
                 }
             }
-            if (this.nextLink === undefined && this.collection.length === 0) {
+            if (this.nextLink === undefined && this.cursor >= this.collection.length) {
                 this.complete = true;
             }
         });
@@ -6484,10 +6412,7 @@ class PageIterator_PageIterator {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Constants.js
-var Constants = __webpack_require__(17);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphClientError.js
-var GraphClientError = __webpack_require__(1);
+var Constants = __webpack_require__(14);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/CustomAuthenticationProvider.js
 /**
@@ -6687,16 +6612,10 @@ class GraphErrorHandler_GraphErrorHandler {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
-var GraphRequestUtil = __webpack_require__(7);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
-var GraphResponseHandler = __webpack_require__(23);
+var GraphRequestUtil = __webpack_require__(6);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/RequestMethod.js
 var RequestMethod = __webpack_require__(2);
-
-// EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ResponseType.js
-var ResponseType = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequest.js
 /**
@@ -6986,7 +6905,7 @@ class GraphRequest_GraphRequest {
                     customHosts,
                 });
                 rawResponse = context.response;
-                const response = yield GraphResponseHandler["a" /* GraphResponseHandler */].getResponse(rawResponse, this._responseType, callback);
+                const response = yield GraphResponseHandler_GraphResponseHandler.getResponse(rawResponse, this._responseType, callback);
                 return response;
             }
             catch (error) {
@@ -7360,7 +7279,7 @@ class GraphRequest_GraphRequest {
             const options = {
                 method: RequestMethod["a" /* RequestMethod */].GET,
             };
-            this.responseType(ResponseType["a" /* ResponseType */].STREAM);
+            this.responseType(ResponseType.STREAM);
             return yield this.send(url, options, callback);
         });
     }
@@ -7388,10 +7307,10 @@ class GraphRequest_GraphRequest {
 }
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClient.js
-var HTTPClient = __webpack_require__(24);
+var HTTPClient = __webpack_require__(16);
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClientFactory.js
-var HTTPClientFactory = __webpack_require__(30);
+var HTTPClientFactory = __webpack_require__(22);
 
 // CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ValidatePolyFilling.js
 /**
@@ -7529,6 +7448,8 @@ class Client_Client {
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path= "../../shims.d.ts" />
 
 
 

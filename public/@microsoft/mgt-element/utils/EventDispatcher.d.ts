@@ -7,7 +7,7 @@
 /**
  * An EventHandler for custom events
  */
-export declare type EventHandler<E> = (event: E) => void;
+export type EventHandler<E> = (event: E) => void;
 /**
  * Provider EventDispatcher
  *

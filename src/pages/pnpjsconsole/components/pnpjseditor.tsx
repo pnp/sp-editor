@@ -18,6 +18,9 @@ import {
   fixImports,
   getDefinitionsInUse,
   mod_adaljs,
+  mod_queryable,
+  mod_core,
+  mod_msaljsclient,
   mod_addin,
   mod_client,
   mod_common,
@@ -154,6 +157,9 @@ const PnPjsEditor = () => {
             ${mod_sp}
             ${mod_taxonomy}
             ${mod_adaljs}
+            ${mod_queryable}
+            ${mod_core}
+            ${mod_msaljsclient}
             ${sj}
             ${exescript}
             ${execme(prepnp, ecode)}

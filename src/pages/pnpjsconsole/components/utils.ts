@@ -61,8 +61,10 @@ export const pnpjsMonacoConfigs = () => {
 export const initCode = () => {
   const code = `
 // CTRL/CMD + D to execute the code
-import { sp } from "@pnp/sp";
+import { spfi, SPBrowser } from "@pnp/sp";
 import "@pnp/sp/webs";
+
+const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }));
 
 // wrapping the code inside self-excecuting async function
 // enables you to use await expression
@@ -79,7 +81,7 @@ import "@pnp/sp/webs";
 export const execme = (prepnp: string[], ecode: string[]) => {
   return `
 var execme = function execme() {
-  Promise.all([SystemJS.import(mod_common),SystemJS.import(mod_config),SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_odata),SystemJS.import(mod_pnpjs),SystemJS.import(mod_addin),SystemJS.import(mod_client),SystemJS.import(mod_sp),SystemJS.import(mod_taxonomy),SystemJS.import(mod_adaljs)]).then(function (modules) {
+  Promise.all([SystemJS.import(mod_common),SystemJS.import(mod_config),SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_odata),SystemJS.import(mod_pnpjs),SystemJS.import(mod_addin),SystemJS.import(mod_client),SystemJS.import(mod_sp),SystemJS.import(mod_taxonomy),SystemJS.import(mod_adaljs),SystemJS.import(mod_queryable),SystemJS.import(mod_core),SystemJS.import(mod_msaljsclient)]).then(function (modules) {
     ${prepnp.join('\n')}
     // Your code starts here
     // #####################
@@ -111,6 +113,9 @@ export const fixImports = (lines: string[], ecode: string[]) => {
       mod = line.indexOf('@pnp/sp-clientsvc') > -1 ? 7 : mod
       mod = line.indexOf('@pnp/sp-taxonomy') > -1 ? 9 : mod
       mod = line.indexOf('@pnp/adaljsclient') > -1 ? 10 : mod
+      mod = line.indexOf('@pnp/queryable') > -1 ? 11 : mod
+      mod = line.indexOf('@pnp/core') > -1 ? 12 : mod
+      mod = line.indexOf('@pnp/msaljsclient') > -1 ? 13 : mod
       mod = mod === -1 && line.indexOf('@pnp/sp') > -1 ? 8 : mod
       prepnp.push(`var ${lineRe![1]} = modules[${mod}];`)
     }
@@ -208,4 +213,7 @@ export const mod_client = `var mod_client = '${chrome.runtime.getURL('bundles/sp
 export const mod_taxonomy = `var mod_taxonomy = '${chrome.runtime.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
 export const mod_sp = `var mod_sp = '${chrome.runtime.getURL('bundles/sp.es5.umd.bundle.js')}';`
 export const mod_adaljs = `var mod_adaljs = '${chrome.runtime.getURL('bundles/adaljsclient.es5.umd.bundle.js')}';`
+export const mod_queryable = `var mod_queryable = '${chrome.runtime.getURL('bundles/queryable.es5.umd.bundle.js')}';`
+export const mod_core = `var mod_core = '${chrome.runtime.getURL('bundles/core.es5.umd.bundle.js')}';`
+export const mod_msaljsclient = `var mod_msaljsclient = '${chrome.runtime.getURL('bundles/msaljsclient.es5.umd.bundle.js')}';`
 export const sj = `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`

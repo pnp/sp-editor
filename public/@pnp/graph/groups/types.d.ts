@@ -1,8 +1,6 @@
-import { ITypedHash } from "@pnp/common";
 import { Event as IEventType, Group as IGroupType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableSearchableCollection } from "../graphqueryable.js";
 import { IDeleteable, IUpdateable, IGetById } from "../decorators.js";
-import { _DirectoryObject } from "../directory-objects/types.js";
+import { _DirectoryObject, _DirectoryObjects } from "../directory-objects/types.js";
 export declare enum GroupType {
     /**
      * Office 365 (aka unified group)
@@ -53,12 +51,12 @@ export declare class _Group extends _DirectoryObject<IGroupType> {
 }
 export interface IGroup extends _Group, IDeleteable, IUpdateable {
 }
-export declare const Group: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => IGroup & import("@pnp/odata").IInvokable<any>;
+export declare const Group: import("../graphqueryable.js").IGraphInvokableFactory<IGroup>;
 /**
- * Describes a collection of Field objects
+ * Describes a collection of Group objects
  *
  */
-export declare class _Groups extends _GraphQueryableSearchableCollection<IGroupType[]> {
+export declare class _Groups extends _DirectoryObjects<IGroupType[]> {
     /**
      * Create a new group as specified in the request body.
      *
@@ -67,11 +65,11 @@ export declare class _Groups extends _GraphQueryableSearchableCollection<IGroupT
      * @param groupType Type of group being created
      * @param additionalProperties A plain object collection of additional properties you want to set on the new group
      */
-    add(name: string, mailNickname: string, groupType: GroupType, additionalProperties?: ITypedHash<any>): Promise<IGroupAddResult>;
+    add(name: string, mailNickname: string, groupType: GroupType, additionalProperties?: Record<string, any>): Promise<IGroupAddResult>;
 }
 export interface IGroups extends _Groups, IGetById<IGroup> {
 }
-export declare const Groups: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => IGroups & import("@pnp/odata").IInvokable<any>;
+export declare const Groups: import("../graphqueryable.js").IGraphInvokableFactory<IGroups>;
 /**
  * IGroupAddResult
  */

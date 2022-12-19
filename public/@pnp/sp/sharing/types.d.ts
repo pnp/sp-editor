@@ -122,9 +122,10 @@ export interface ISharedFuncs {
      *
      * @param request The SharingInformationRequest Object.
      * @param expands Expand more fields.
+     * @param selects Used to select only specific fields
      *
      */
-    getSharingInformation(request?: ISharingInformationRequest, expands?: string[]): Promise<ISharingInformation>;
+    getSharingInformation(request?: Partial<ISharingInformationRequest>, expands?: string[], selects?: string[]): Promise<ISharingInformation>;
     /**
      * Gets the sharing settings of an item.
      *
@@ -335,6 +336,10 @@ export interface ISharingInformationRequest {
      * Supported Features (For future use by Office Client).
      */
     clientSupportedFeatures: string;
+    /**
+     * Get links inherited from parent objects
+     */
+    populateInheritedLinks: boolean;
 }
 export interface IObjectSharingSettings {
     /**

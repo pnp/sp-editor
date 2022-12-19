@@ -43,6 +43,7 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
         sendEmailLinkSubtitle: string;
         startChatLinkSubtitle: string;
         showMoreSectionButton: string;
+        endOfCard: string;
     };
     /**
      * Get the scopes required for the person card
@@ -80,6 +81,11 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
      * @type {string}
      */
     personQuery: string;
+    /**
+     * allows the locking of navigation using tabs to not flow out of the card section
+     * @type {boolean}
+     */
+    lockTabNavigation: boolean;
     /**
      * user-id property allows developer to use id value for component
      * @type {string}
@@ -145,6 +151,8 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
     private _currentSection;
     private _personDetails;
     private _me;
+    private _smallView;
+    private _windowHeight;
     private _userId;
     private get internalPersonDetails();
     constructor();
@@ -184,6 +192,7 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
      * trigger the element to update.
      */
     protected render(): TemplateResult;
+    private handleEndOfCard;
     /**
      * Render the state when no data is available.
      *
@@ -307,5 +316,6 @@ export declare class MgtPersonCard extends MgtTemplatedComponent {
     private getPersonBusinessPhones;
     private updateCurrentSection;
     private handleSectionScroll;
+    private handleKeyDown;
 }
 //# sourceMappingURL=mgt-person-card.d.ts.map

@@ -36,6 +36,14 @@ export declare abstract class IProvider implements AuthenticationProvider {
     private _loginChangedDispatcher;
     private _activeAccountChangedDispatcher;
     /**
+     * Enable/Disable incremental consent
+     *
+     * @protected
+     * @type {boolean}
+     * @memberof IProvider
+     */
+    private _isIncrementalConsentDisabled;
+    /**
      * returns state of Provider
      *
      * @readonly
@@ -43,6 +51,20 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     get state(): ProviderState;
+    /**
+     * Incremental consent setting
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    get isIncrementalConsentDisabled(): boolean;
+    /**
+     * Enable/Disable incremental consent
+     *
+     * @readonly
+     * @memberof IProvider
+     */
+    set isIncrementalConsentDisabled(disabled: boolean);
     /**
      * Name used for analytics
      *
@@ -195,7 +217,7 @@ export declare enum ProviderState {
  *
  * @export
  */
-export declare type IProviderAccount = {
+export type IProviderAccount = {
     username?: string;
     id: string;
 };

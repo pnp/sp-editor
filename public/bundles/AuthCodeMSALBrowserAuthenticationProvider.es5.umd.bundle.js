@@ -346,8 +346,8 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
-// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/_virtual/_tslib.js
-/*! @azure/msal-common v6.0.0 2022-01-04 */
+// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/node_modules/@azure/msal-common/dist/_virtual/_tslib.js
+/*! @azure/msal-common v9.0.1 2022-12-07 */
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -438,8 +438,8 @@ function _tslib_spreadArrays() {
 
 
 
-// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/Constants.js
-/*! @azure/msal-common v6.0.0 2022-01-04 */
+// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/node_modules/@azure/msal-common/dist/utils/Constants.js
+/*! @azure/msal-common v9.0.1 2022-12-07 */
 
 
 
@@ -455,8 +455,10 @@ var Constants = {
     // default authority
     DEFAULT_AUTHORITY: "https://login.microsoftonline.com/common/",
     DEFAULT_AUTHORITY_HOST: "login.microsoftonline.com",
+    DEFAULT_COMMON_TENANT: "common",
     // ADFS String
     ADFS: "adfs",
+    DSTS: "dstsv2",
     // Default AAD Instance Discovery Endpoint
     AAD_INSTANCE_DISCOVERY_ENDPT: "https://login.microsoftonline.com/common/discovery/instance?api-version=1.1&authorization_endpoint=",
     // Resource delimiter - used for certain cache entries
@@ -482,13 +484,19 @@ var Constants = {
     AUTHORIZATION_PENDING: "authorization_pending",
     NOT_DEFINED: "not_defined",
     EMPTY_STRING: "",
+    NOT_APPLICABLE: "N/A",
     FORWARD_SLASH: "/",
     IMDS_ENDPOINT: "http://169.254.169.254/metadata/instance/compute/location",
     IMDS_VERSION: "2020-06-01",
     IMDS_TIMEOUT: 2000,
     AZURE_REGION_AUTO_DISCOVER_FLAG: "TryAutoDetect",
     REGIONAL_AUTH_PUBLIC_CLOUD_SUFFIX: "login.microsoft.com",
-    KNOWN_PUBLIC_CLOUDS: ["login.microsoftonline.com", "login.windows.net", "login.microsoft.com", "sts.windows.net"]
+    REGIONAL_AUTH_NON_MSI_QUERY_STRING: "allowestsrnonmsi=true",
+    KNOWN_PUBLIC_CLOUDS: ["login.microsoftonline.com", "login.windows.net", "login.microsoft.com", "sts.windows.net"],
+    TOKEN_RESPONSE_TYPE: "token",
+    ID_TOKEN_RESPONSE_TYPE: "id_token",
+    SHR_NONCE_VALIDITY: 240,
+    INVALID_INSTANCE: "invalid_instance",
 };
 var OIDC_DEFAULT_SCOPES = [
     Constants.OPENID_SCOPE,
@@ -508,6 +516,7 @@ var HeaderNames;
     HeaderNames["CCS_HEADER"] = "X-AnchorMailbox";
     HeaderNames["WWWAuthenticate"] = "WWW-Authenticate";
     HeaderNames["AuthenticationInfo"] = "Authentication-Info";
+    HeaderNames["X_MS_REQUEST_ID"] = "x-ms-request-id";
 })(HeaderNames || (HeaderNames = {}));
 /**
  * Persistent cache keys MSAL which stay while user is logged in.
@@ -520,6 +529,7 @@ var PersistentCacheKeys;
     PersistentCacheKeys["ERROR"] = "error";
     PersistentCacheKeys["ERROR_DESC"] = "error.description";
     PersistentCacheKeys["ACTIVE_ACCOUNT"] = "active-account";
+    PersistentCacheKeys["ACTIVE_ACCOUNT_FILTERS"] = "active-account-filters"; // new cache entry for active_account for a more robust version for browser
 })(PersistentCacheKeys || (PersistentCacheKeys = {}));
 /**
  * String constants related to AAD Authority
@@ -565,6 +575,8 @@ var AADServerParamKeys;
     AADServerParamKeys["X_CLIENT_CURR_TELEM"] = "x-client-current-telemetry";
     AADServerParamKeys["X_CLIENT_LAST_TELEM"] = "x-client-last-telemetry";
     AADServerParamKeys["X_MS_LIB_CAPABILITY"] = "x-ms-lib-capability";
+    AADServerParamKeys["X_APP_NAME"] = "x-app-name";
+    AADServerParamKeys["X_APP_VER"] = "x-app-ver";
     AADServerParamKeys["POST_LOGOUT_URI"] = "post_logout_redirect_uri";
     AADServerParamKeys["ID_TOKEN_HINT"] = "id_token_hint";
     AADServerParamKeys["DEVICE_CODE"] = "device_code";
@@ -579,6 +591,8 @@ var AADServerParamKeys;
     AADServerParamKeys["FOCI"] = "foci";
     AADServerParamKeys["CCS_HEADER"] = "X-AnchorMailbox";
     AADServerParamKeys["RETURN_SPA_CODE"] = "return_spa_code";
+    AADServerParamKeys["NATIVE_BROKER"] = "nativebroker";
+    AADServerParamKeys["LOGOUT_HINT"] = "logout_hint";
 })(AADServerParamKeys || (AADServerParamKeys = {}));
 /**
  * Claims request keys
@@ -598,7 +612,8 @@ var PromptValue = {
     SELECT_ACCOUNT: "select_account",
     CONSENT: "consent",
     NONE: "none",
-    CREATE: "create"
+    CREATE: "create",
+    NO_SESSION: "no_session"
 };
 /**
  * SSO Types - generated to populate hints
@@ -718,6 +733,7 @@ var AuthorityMetadataSource;
     AuthorityMetadataSource["CONFIG"] = "config";
     AuthorityMetadataSource["CACHE"] = "cache";
     AuthorityMetadataSource["NETWORK"] = "network";
+    AuthorityMetadataSource["HARDCODED_VALUES"] = "hardcoded_values";
 })(AuthorityMetadataSource || (AuthorityMetadataSource = {}));
 var SERVER_TELEM_CONSTANTS = {
     SCHEMA_VERSION: 5,
@@ -802,12 +818,18 @@ var CacheOutcome;
     CacheOutcome["CACHED_ACCESS_TOKEN_EXPIRED"] = "3";
     CacheOutcome["REFRESH_CACHED_ACCESS_TOKEN"] = "4";
 })(CacheOutcome || (CacheOutcome = {}));
+var JsonTypes;
+(function (JsonTypes) {
+    JsonTypes["Jwt"] = "JWT";
+    JsonTypes["Jwk"] = "JWK";
+})(JsonTypes || (JsonTypes = {}));
+var ONE_DAY_IN_MS = 86400000;
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthError.js
-/*! @azure/msal-common v6.0.0 2022-01-04 */
+// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/node_modules/@azure/msal-common/dist/error/AuthError.js
+/*! @azure/msal-common v9.0.1 2022-12-07 */
 
 
 
@@ -823,6 +845,10 @@ var AuthErrorMessage = {
     unexpectedError: {
         code: "unexpected_error",
         desc: "Unexpected error in authentication."
+    },
+    postRequestFailed: {
+        code: "post_request_failed",
+        desc: "Post request failed from the network, could be a 4xx/5xx or a network unavailability. Please check the exact error code for details."
     }
 };
 /**
@@ -836,8 +862,8 @@ var AuthError_AuthError = /** @class */ (function (_super) {
         _this = _super.call(this, errorString) || this;
         Object.setPrototypeOf(_this, AuthError.prototype);
         _this.errorCode = errorCode || Constants.EMPTY_STRING;
-        _this.errorMessage = errorMessage || "";
-        _this.subError = suberror || "";
+        _this.errorMessage = errorMessage || Constants.EMPTY_STRING;
+        _this.subError = suberror || Constants.EMPTY_STRING;
         _this.name = "AuthError";
         return _this;
     }
@@ -851,14 +877,22 @@ var AuthError_AuthError = /** @class */ (function (_super) {
     AuthError.createUnexpectedError = function (errDesc) {
         return new AuthError(AuthErrorMessage.unexpectedError.code, AuthErrorMessage.unexpectedError.desc + ": " + errDesc);
     };
+    /**
+     * Creates an error for post request failures.
+     * @param errDesc
+     * @returns
+     */
+    AuthError.createPostRequestFailed = function (errDesc) {
+        return new AuthError(AuthErrorMessage.postRequestFailed.code, AuthErrorMessage.postRequestFailed.desc + ": " + errDesc);
+    };
     return AuthError;
 }(Error));
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.js
-/*! @azure/msal-common v6.0.0 2022-01-04 */
+// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.js
+/*! @azure/msal-common v9.0.1 2022-12-07 */
 
 
 
@@ -889,6 +923,10 @@ var InteractionRequiredAuthErrorMessage = {
     noTokensFoundError: {
         code: "no_tokens_found",
         desc: "No refresh token found in the cache. Please sign-in."
+    },
+    native_account_unavailable: {
+        code: "native_account_unavailable",
+        desc: "The requested account is not available in the native broker. It may have been deleted or logged out. Please sign-in again using an interactive API."
     }
 };
 /**
@@ -922,6 +960,13 @@ var InteractionRequiredAuthError_InteractionRequiredAuthError = /** @class */ (f
     InteractionRequiredAuthError.createNoTokensFoundError = function () {
         return new InteractionRequiredAuthError(InteractionRequiredAuthErrorMessage.noTokensFoundError.code, InteractionRequiredAuthErrorMessage.noTokensFoundError.desc);
     };
+    /**
+     * Creates an error thrown when the native broker returns ACCOUNT_UNAVAILABLE status, indicating that the account was removed and interactive sign-in is required
+     * @returns
+     */
+    InteractionRequiredAuthError.createNativeAccountUnavailableError = function () {
+        return new InteractionRequiredAuthError(InteractionRequiredAuthErrorMessage.native_account_unavailable.code, InteractionRequiredAuthErrorMessage.native_account_unavailable.desc);
+    };
     return InteractionRequiredAuthError;
 }(AuthError_AuthError));
 
@@ -929,7 +974,7 @@ var InteractionRequiredAuthError_InteractionRequiredAuthError = /** @class */ (f
 
 
 // CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserConstants.js
-/*! @azure/msal-browser v2.21.0 2022-01-04 */
+/*! @azure/msal-browser v2.32.1 2022-12-07 */
 
 
 
@@ -964,12 +1009,24 @@ var BrowserConstants = {
     /**
      * Default popup monitor poll interval in milliseconds
      */
-    POLL_INTERVAL_MS: 50,
+    DEFAULT_POLL_INTERVAL_MS: 30,
     /**
      * Msal-browser SKU
      */
     MSAL_SKU: "msal.js.browser",
 };
+var NativeConstants = {
+    CHANNEL_ID: "53ee284d-920a-4b59-9d30-a60315b26836",
+    PREFERRED_EXTENSION_ID: "ppnbnpeolgkicgegkbkbjmhlideopiji",
+    MATS_TELEMETRY: "MATS"
+};
+var NativeExtensionMethod;
+(function (NativeExtensionMethod) {
+    NativeExtensionMethod["HandshakeRequest"] = "Handshake";
+    NativeExtensionMethod["HandshakeResponse"] = "HandshakeResponse";
+    NativeExtensionMethod["GetToken"] = "GetToken";
+    NativeExtensionMethod["Response"] = "Response";
+})(NativeExtensionMethod || (NativeExtensionMethod = {}));
 var BrowserCacheLocation;
 (function (BrowserCacheLocation) {
     BrowserCacheLocation["LocalStorage"] = "localStorage";
@@ -1002,6 +1059,8 @@ var TemporaryCacheKeys;
     TemporaryCacheKeys["INTERACTION_STATUS_KEY"] = "interaction.status";
     TemporaryCacheKeys["CCS_CREDENTIAL"] = "ccs.credential";
     TemporaryCacheKeys["CORRELATION_ID"] = "request.correlationId";
+    TemporaryCacheKeys["NATIVE_REQUEST"] = "request.native";
+    TemporaryCacheKeys["REDIRECT_CONTEXT"] = "request.redirect.context";
 })(TemporaryCacheKeys || (TemporaryCacheKeys = {}));
 /**
  * Cache keys stored in-memory
@@ -1037,6 +1096,7 @@ var InteractionType;
     InteractionType["Redirect"] = "redirect";
     InteractionType["Popup"] = "popup";
     InteractionType["Silent"] = "silent";
+    InteractionType["None"] = "none";
 })(InteractionType || (InteractionType = {}));
 /**
  * Types of interaction currently in progress.
@@ -1090,6 +1150,43 @@ var WrapperSKU;
 var DB_NAME = "msal.db";
 var DB_VERSION = 1;
 var DB_TABLE_NAME = DB_NAME + ".keys";
+var CacheLookupPolicy;
+(function (CacheLookupPolicy) {
+    /*
+     * acquireTokenSilent will attempt to retrieve an access token from the cache. If the access token is expired
+     * or cannot be found the refresh token will be used to acquire a new one. Finally, if the refresh token
+     * is expired acquireTokenSilent will attempt to acquire new access and refresh tokens.
+     */
+    CacheLookupPolicy[CacheLookupPolicy["Default"] = 0] = "Default";
+    /*
+     * acquireTokenSilent will only look for access tokens in the cache. It will not attempt to renew access or
+     * refresh tokens.
+     */
+    CacheLookupPolicy[CacheLookupPolicy["AccessToken"] = 1] = "AccessToken";
+    /*
+     * acquireTokenSilent will attempt to retrieve an access token from the cache. If the access token is expired or
+     * cannot be found, the refresh token will be used to acquire a new one. If the refresh token is expired, it
+     * will not be renewed and acquireTokenSilent will fail.
+     */
+    CacheLookupPolicy[CacheLookupPolicy["AccessTokenAndRefreshToken"] = 2] = "AccessTokenAndRefreshToken";
+    /*
+     * acquireTokenSilent will not attempt to retrieve access tokens from the cache and will instead attempt to
+     * exchange the cached refresh token for a new access token. If the refresh token is expired, it will not be
+     * renewed and acquireTokenSilent will fail.
+     */
+    CacheLookupPolicy[CacheLookupPolicy["RefreshToken"] = 3] = "RefreshToken";
+    /*
+     * acquireTokenSilent will not look in the cache for the access token. It will go directly to network with the
+     * cached refresh token. If the refresh token is expired an attempt will be made to renew it. This is equivalent to
+     * setting "forceRefresh: true".
+     */
+    CacheLookupPolicy[CacheLookupPolicy["RefreshTokenAndNetwork"] = 4] = "RefreshTokenAndNetwork";
+    /*
+     * acquireTokenSilent will attempt to renew both access and refresh tokens. It will not look in the cache. This will
+     * always fail if 3rd party cookies are blocked by the browser.
+     */
+    CacheLookupPolicy[CacheLookupPolicy["Skip"] = 5] = "Skip";
+})(CacheLookupPolicy || (CacheLookupPolicy = {}));
 
 
 

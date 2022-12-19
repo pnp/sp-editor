@@ -2,7 +2,7 @@
 import { OfficeGraphInsightString, ViewType, ResponseType, IDynamicPerson, PersonType, GroupType, UserType, PersonCardInteraction, MgtPersonConfig, AvatarSize, PersonViewType, TasksStringResource, TasksSource, TaskFilter, SelectedChannel, TodoFilter } from '@microsoft/mgt-components';
 import { TemplateContext, ComponentMediaQuery } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-export declare type AgendaProps = {
+export type AgendaProps = {
     date?: string;
     groupId?: string;
     days?: number;
@@ -16,7 +16,7 @@ export declare type AgendaProps = {
     eventClick?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type FileListProps = {
+export type FileListProps = {
     fileListQuery?: string;
     fileQueries?: string[];
     files?: MicrosoftGraph.DriveItem[];
@@ -40,7 +40,7 @@ export declare type FileListProps = {
     itemClick?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type FileProps = {
+export type FileProps = {
     fileQuery?: string;
     siteId?: string;
     driveId?: string;
@@ -62,7 +62,7 @@ export declare type FileProps = {
     mediaQuery?: ComponentMediaQuery;
     templateRendered?: (e: Event) => void;
 };
-export declare type GetProps = {
+export type GetProps = {
     resource?: string;
     scopes?: string[];
     version?: string;
@@ -76,7 +76,7 @@ export declare type GetProps = {
     dataChange?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type LoginProps = {
+export type LoginProps = {
     userDetails?: IDynamicPerson;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
@@ -87,8 +87,9 @@ export declare type LoginProps = {
     logoutCompleted?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type PeoplePickerProps = {
+export type PeoplePickerProps = {
     groupId?: string;
+    groupIds?: string[];
     type?: PersonType;
     groupType?: GroupType;
     userType?: UserType;
@@ -100,7 +101,12 @@ export declare type PeoplePickerProps = {
     placeholder?: string;
     selectionMode?: string;
     userIds?: string[];
+    userFilters?: string;
+    peopleFilters?: string;
+    groupFilters?: string;
+    ariaLabel?: string;
     showMax?: number;
+    disableImages?: boolean;
     disabled?: boolean;
     allowAnyEmail?: boolean;
     templateContext?: TemplateContext;
@@ -108,7 +114,7 @@ export declare type PeoplePickerProps = {
     selectionChanged?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type PeopleProps = {
+export type PeopleProps = {
     groupId?: string;
     userIds?: string[];
     people?: IDynamicPerson[];
@@ -124,9 +130,10 @@ export declare type PeopleProps = {
     mediaQuery?: ComponentMediaQuery;
     templateRendered?: (e: Event) => void;
 };
-export declare type PersonCardProps = {
+export type PersonCardProps = {
     personDetails?: IDynamicPerson;
     personQuery?: string;
+    lockTabNavigation?: boolean;
     userId?: string;
     personImage?: string;
     fetchImage?: boolean;
@@ -139,7 +146,7 @@ export declare type PersonCardProps = {
     expanded?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type PersonProps = {
+export type PersonProps = {
     config?: MgtPersonConfig;
     personQuery?: string;
     fallbackDetails?: IDynamicPerson;
@@ -156,6 +163,7 @@ export declare type PersonProps = {
     line3Property?: string;
     view?: ViewType | PersonViewType;
     avatarSize?: AvatarSize;
+    disableImageFetch?: boolean;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     line1clicked?: (e: Event) => void;
@@ -163,7 +171,7 @@ export declare type PersonProps = {
     line3clicked?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type TasksProps = {
+export type TasksProps = {
     res?: TasksStringResource;
     isNewTaskVisible?: boolean;
     readOnly?: boolean;
@@ -184,14 +192,14 @@ export declare type TasksProps = {
     taskRemoved?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type TeamsChannelPickerProps = {
+export type TeamsChannelPickerProps = {
     selectedItem?: SelectedChannel;
     templateContext?: TemplateContext;
     mediaQuery?: ComponentMediaQuery;
     selectionChanged?: (e: Event) => void;
     templateRendered?: (e: Event) => void;
 };
-export declare type TodoProps = {
+export type TodoProps = {
     taskFilter?: TodoFilter;
     readOnly?: boolean;
     hideHeader?: boolean;

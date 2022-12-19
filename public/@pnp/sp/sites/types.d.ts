@@ -1,8 +1,8 @@
-import { _SharePointQueryableInstance } from "../sharepointqueryable.js";
+import { _SPInstance, SPInit } from "../spqueryable.js";
 import { IWeb } from "../webs/types.js";
-import { SPBatch } from "../batch.js";
 import { IChangeQuery } from "../types.js";
-export declare class _Site extends _SharePointQueryableInstance {
+export declare class _Site extends _SPInstance {
+    constructor(base: SPInit, path?: string);
     /**
      * Gets the root web of the site collection
      *
@@ -25,11 +25,6 @@ export declare class _Site extends _SharePointQueryableInstance {
      * correctly setup for chaining within the library
      */
     getRootWeb(): Promise<IWeb>;
-    /**
-     * Gets the context information for this site collection
-     */
-    getContextInfo(): Promise<IContextInfo>;
-    createBatch(): SPBatch;
     /**
      * Deletes the current site
      *
@@ -87,24 +82,13 @@ export declare class _Site extends _SharePointQueryableInstance {
 }
 export interface ISite extends _Site {
 }
-export declare const Site: import("../sharepointqueryable.js").ISPInvokableFactory<ISite>;
+export declare const Site: import("../spqueryable.js").ISPInvokableFactory<ISite>;
 /**
  * The result of opening a web by id: contains the data returned as well as a chainable web instance
  */
 export interface IOpenWebByIdResult {
     data: any;
     web: IWeb;
-}
-/**
- * This is the interface to expose data i.e. context information of a site
- */
-export interface IContextInfo {
-    FormDigestTimeoutSeconds?: number;
-    FormDigestValue?: number;
-    LibraryVersion?: string;
-    SiteFullUrl?: string;
-    SupportedSchemaVersions?: string[];
-    WebFullUrl?: string;
 }
 /**
  * This is the interface to expose data for Document Library

@@ -1,6 +1,7 @@
 import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
 import { DirectoryObject as IDirectoryObjectType } from "@microsoft/microsoft-graph-types";
 import { IGetById, IDeleteable } from "../decorators.js";
+import { IPagedResult } from "../behaviors/paged.js";
 /**
  * Represents a Directory Object entity
  */
@@ -26,7 +27,7 @@ export declare class _DirectoryObject<GetType = IDirectoryObjectType> extends _G
 }
 export interface IDirectoryObject extends _DirectoryObject, IDeleteable {
 }
-export declare const DirectoryObject: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => IDirectoryObject & import("@pnp/odata").IInvokable<any>;
+export declare const DirectoryObject: import("../graphqueryable.js").IGraphInvokableFactory<IDirectoryObject>;
 /**
  * Describes a collection of Directory Objects
  *
@@ -40,10 +41,21 @@ export declare class _DirectoryObjects<GetType = IDirectoryObjectType[]> extends
   * @param type A collection of resource types that specifies the set of resource collections to search. Default is directoryObject.
   */
     getByIds(ids: string[], type?: DirectoryObjectTypes): Promise<IDirectoryObjectType[]>;
+    /**
+     * 	Retrieves the total count of matching resources
+     *  If the resource doesn't support count, this value will always be zero
+     */
+    count(): Promise<number>;
+    /**
+     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
+     *
+     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
+     */
+    paged(): Promise<IPagedResult>;
 }
 export interface IDirectoryObjects extends _DirectoryObjects, IGetById<IDirectoryObjectType> {
 }
-export declare const DirectoryObjects: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => IDirectoryObjects & import("@pnp/odata").IInvokable<any>;
+export declare const DirectoryObjects: import("../graphqueryable.js").IGraphInvokableFactory<IDirectoryObjects>;
 /**
  * DirectoryObjectTypes
  */

@@ -15,7 +15,7 @@ import '../sub-components/mgt-spinner/mgt-spinner';
  * @export
  * @interface SelectedChannel
  */
-export declare type Team = MicrosoftGraph.Team & {
+export type Team = MicrosoftGraph.Team & {
     /**
      * Display name Of Team
      *

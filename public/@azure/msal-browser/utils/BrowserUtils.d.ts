@@ -53,6 +53,12 @@ export declare class BrowserUtils {
      */
     static blockNonBrowserEnvironment(isBrowserEnvironment: boolean): void;
     /**
+     * Throws error if native brokering is enabled but initialize hasn't been called
+     * @param allowNativeBroker
+     * @param initialized
+     */
+    static blockNativeBrokerCalledBeforeInitialized(allowNativeBroker: boolean, initialized: boolean): void;
+    /**
      * Returns boolean of whether current browser is an Internet Explorer or Edge browser.
      */
     static detectIEOrEdge(): boolean;

@@ -287,7 +287,7 @@ const GraphSDKEditor = () => {
             } catch (e) {
             }
 
-            var koko = {
+            var payload = {
               Name: user.names[0].displayName,
               Initials: '',
               TenantName: org.value[0].displayName,
@@ -295,7 +295,7 @@ const GraphSDKEditor = () => {
               userId: user.account[0].userPrincipalName,
               imageUrl: image
             }
-            dispatch(setUser(koko))
+            dispatch(setUser(payload))
 
           }
           catch { }

@@ -11,6 +11,7 @@ export function getWebProperties(...args: any) {
 
   /* import pnp */
   (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
+    console.log('here');
     /*** setup pnp ***/
     $pnp.setup({
       sp: {

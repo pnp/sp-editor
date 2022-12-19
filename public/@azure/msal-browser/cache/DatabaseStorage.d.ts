@@ -14,6 +14,11 @@ export declare class DatabaseStorage<T> implements IAsyncStorage<T> {
      */
     open(): Promise<void>;
     /**
+     * Closes the connection to IndexedDB database when all pending transactions
+     * complete.
+     */
+    closeConnection(): void;
+    /**
      * Opens database if it's not already open
      */
     private validateDbIsOpen;

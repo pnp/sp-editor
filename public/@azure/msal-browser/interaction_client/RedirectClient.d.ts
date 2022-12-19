@@ -1,8 +1,15 @@
-import { AuthenticationResult } from "@azure/msal-common";
+import { AuthenticationResult, ServerTelemetryManager, ICrypto, Logger, IPerformanceClient } from "@azure/msal-common";
 import { StandardInteractionClient } from "./StandardInteractionClient";
 import { EndSessionRequest } from "../request/EndSessionRequest";
 import { RedirectRequest } from "../request/RedirectRequest";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
+import { BrowserConfiguration } from "../config/Configuration";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager";
+import { EventHandler } from "../event/EventHandler";
+import { INavigationClient } from "../navigation/INavigationClient";
 export declare class RedirectClient extends StandardInteractionClient {
+    protected nativeStorage: BrowserCacheManager;
+    constructor(config: BrowserConfiguration, storageImpl: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, performanceClient: IPerformanceClient, nativeStorageImpl: BrowserCacheManager, nativeMessageHandler?: NativeMessageHandler, correlationId?: string);
     /**
      * Redirects the page to the /authorize endpoint of the IDP
      * @param request
@@ -20,13 +27,13 @@ export declare class RedirectClient extends StandardInteractionClient {
      * Returns null if interactionType in the state value is not "redirect" or the hash does not contain known properties
      * @param hash
      */
-    private getRedirectResponseHash;
+    protected getRedirectResponseHash(hash: string): string | null;
     /**
      * Checks if hash exists and handles in window.
      * @param hash
      * @param state
      */
-    private handleHash;
+    protected handleHash(hash: string, state: string, serverTelemetryManager: ServerTelemetryManager): Promise<AuthenticationResult>;
     /**
      * Use to log out the current user, and redirect the user to the postLogoutRedirectUri.
      * Default behaviour is to redirect the user to `window.location.href`.

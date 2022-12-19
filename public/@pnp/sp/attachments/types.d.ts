@@ -1,5 +1,6 @@
-import { _SharePointQueryableInstance, _SharePointQueryableCollection, IDeleteableWithETag } from "../sharepointqueryable.js";
-export declare class _Attachments extends _SharePointQueryableCollection<IAttachmentInfo[]> {
+import { ReadableFile } from "../files/readable-file.js";
+import { IDeleteableWithETag, _SPCollection } from "../spqueryable.js";
+export declare class _Attachments extends _SPCollection<IAttachmentInfo[]> {
     /**
     * Gets a Attachment File by filename
     *
@@ -13,65 +14,28 @@ export declare class _Attachments extends _SharePointQueryableCollection<IAttach
      * @param content The Base64 file content.
      */
     add(name: string, content: string | Blob | ArrayBuffer): Promise<IAttachmentAddResult>;
-    /**
-     * Adds multiple new attachment to the collection. Not supported for batching.
-     *
-     * @param files The collection of files to add
-     */
-    addMultiple(files: IAttachmentFileInfo[]): Promise<void>;
-    /**
-     * Delete multiple attachments from the collection. Not supported for batching.
-     *
-     * @param files The collection of files to delete
-     */
-    deleteMultiple(...files: string[]): Promise<void>;
-    /**
-     * Delete multiple attachments from the collection and send to recycle bin. Not supported for batching.
-     *
-     * @param files The collection of files to be deleted and sent to recycle bin
-     */
-    recycleMultiple(...files: string[]): Promise<void>;
 }
 export interface IAttachments extends _Attachments {
 }
-export declare const Attachments: import("../sharepointqueryable.js").ISPInvokableFactory<IAttachments>;
-export declare class _Attachment extends _SharePointQueryableInstance<IAttachmentInfo> {
-    delete: (this: import("../sharepointqueryable.js").ISharePointQueryable<any>, eTag?: string) => Promise<void>;
-    /**
-     * Gets the contents of the file as text
-     *
-     */
-    getText(): Promise<string>;
-    /**
-     * Gets the contents of the file as a blob, does not work in Node.js
-     *
-     */
-    getBlob(): Promise<Blob>;
-    /**
-     * Gets the contents of a file as an ArrayBuffer, works in Node.js
-     */
-    getBuffer(): Promise<ArrayBuffer>;
-    /**
-     * Gets the contents of a file as an ArrayBuffer, works in Node.js
-     */
-    getJSON(): Promise<any>;
+export declare const Attachments: import("../spqueryable.js").ISPInvokableFactory<IAttachments>;
+export declare class _Attachment extends ReadableFile<IAttachmentInfo> {
+    delete: (this: import("../spqueryable.js").ISPQueryable<any>, eTag?: string) => Promise<void>;
     /**
      * Sets the content of a file. Not supported for batching
      *
      * @param content The value to set for the file contents
      */
-    setContent(content: string | ArrayBuffer | Blob): Promise<IAttachment>;
+    setContent(body: string | ArrayBuffer | Blob): Promise<IAttachment>;
     /**
      * Delete this attachment file and send it to recycle bin
      *
      * @param eTag Value used in the IF-Match header, by default "*"
      */
     recycle(eTag?: string): Promise<void>;
-    private getParsed;
 }
 export interface IAttachment extends _Attachment, IDeleteableWithETag {
 }
-export declare const Attachment: import("../sharepointqueryable.js").ISPInvokableFactory<IAttachment>;
+export declare const Attachment: import("../spqueryable.js").ISPInvokableFactory<IAttachment>;
 export interface IAttachmentAddResult {
     file: IAttachment;
     data: IAttachmentFileInfo;

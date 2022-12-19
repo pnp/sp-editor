@@ -89,7 +89,7 @@ const App = () => {
                 <Route path='/spshooter' component={SPShooter} />
                 <Route path='/graphsdkconsole' component={GraphSDKConsole} />
                 <Route path='/mgtconsole' component={MGTConsole} />
-                <Route path='/fileexplorer' component={FileExplorer} />
+                {/* <Route path='/fileexplorer' component={FileExplorer} /> */}
               </Switch>
               <MessageBar />
             </IonPage>

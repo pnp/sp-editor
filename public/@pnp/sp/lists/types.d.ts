@@ -1,4 +1,4 @@
-import { ISharePointQueryableCollection, _SharePointQueryableInstance, _SharePointQueryableCollection, ISharePointQueryable, IDeleteableWithETag } from "../sharepointqueryable.js";
+import { _SPCollection, _SPInstance, ISPQueryable, ISPCollection, IDeleteableWithETag } from "../spqueryable.js";
 import { IChangeQuery } from "../types.js";
 import { IBasePermissions } from "../security/types.js";
 import { IFieldInfo } from "../fields/types.js";
@@ -6,8 +6,8 @@ import { IFormInfo } from "../forms/types.js";
 import { IFolderInfo } from "../folders/types.js";
 import { IViewInfo } from "../views/types.js";
 import { IUserCustomActionInfo } from "../user-custom-actions/types.js";
-import { IResourcePath } from "../utils/toResourcePath.js";
-export declare class _Lists extends _SharePointQueryableCollection<IListInfo[]> {
+import { IResourcePath } from "../utils/to-resource-path.js";
+export declare class _Lists extends _SPCollection<IListInfo[]> {
     /**
      * Gets a list from the collection by guid id
      *
@@ -51,29 +51,29 @@ export declare class _Lists extends _SharePointQueryableCollection<IListInfo[]> 
 }
 export interface ILists extends _Lists {
 }
-export declare const Lists: import("../sharepointqueryable.js").ISPInvokableFactory<ILists>;
-export declare class _List extends _SharePointQueryableInstance<IListInfo> {
-    delete: (this: ISharePointQueryable<any>, eTag?: string) => Promise<void>;
+export declare const Lists: import("../spqueryable.js").ISPInvokableFactory<ILists>;
+export declare class _List extends _SPInstance<IListInfo> {
+    delete: (this: ISPQueryable<any>, eTag?: string) => Promise<void>;
     /**
      * Gets the effective base permissions of this list
      *
      */
-    get effectiveBasePermissions(): ISharePointQueryable;
+    get effectiveBasePermissions(): ISPQueryable;
     /**
      * Gets the event receivers attached to this list
      *
      */
-    get eventReceivers(): ISharePointQueryableCollection;
+    get eventReceivers(): ISPCollection;
     /**
      * Gets the related fields of this list
      *
      */
-    get relatedFields(): ISharePointQueryable;
+    get relatedFields(): ISPQueryable;
     /**
      * Gets the IRM settings for this list
      *
      */
-    get informationRightsManagementSettings(): ISharePointQueryable;
+    get informationRightsManagementSettings(): ISPQueryable;
     /**
      * Updates this list intance with the supplied properties
      *
@@ -113,7 +113,7 @@ export declare class _List extends _SharePointQueryableInstance<IListInfo> {
      * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
      * @param query Allows setting of query parameters
      */
-    renderListDataAsStream(parameters: IRenderListDataParameters, overrideParams?: any, query?: Map<string, string>): Promise<IRenderListDataAsStreamResult>;
+    renderListDataAsStream(parameters: IRenderListDataParameters, overrideParameters?: any, query?: Map<string, string>): Promise<IRenderListDataAsStreamResult>;
     /**
      * Gets the field values and field schema attributes for a list item.
      * @param itemId Item id of the item to render form data for
@@ -125,10 +125,6 @@ export declare class _List extends _SharePointQueryableInstance<IListInfo> {
      * Reserves a list item ID for idempotent list item creation.
      */
     reserveListItemId(): Promise<number>;
-    /**
-     * Returns the ListItemEntityTypeFullName for this list, used when adding/updating list items. Does not support batching.
-     */
-    getListItemEntityTypeFullName(): Promise<string>;
     /**
      * Creates an item using path (in a folder), validates and sets its field values.
      *
@@ -155,20 +151,20 @@ export declare class _List extends _SharePointQueryableInstance<IListInfo> {
 }
 export interface IList extends _List, IDeleteableWithETag {
 }
-export declare const List: import("../sharepointqueryable.js").ISPInvokableFactory<IList>;
+export declare const List: import("../spqueryable.js").ISPInvokableFactory<IList>;
 /**
  * Represents the output of the add method
  */
 export interface IListAddResult {
     list: IList;
-    data: any;
+    data: IListInfo;
 }
 /**
  * Represents the output of the update method
  */
 export interface IListUpdateResult {
     list: IList;
-    data: any;
+    data: IListInfo;
 }
 /**
  * Represents the output of the ensure method
@@ -176,7 +172,7 @@ export interface IListUpdateResult {
 export interface IListEnsureResult {
     list: IList;
     created: boolean;
-    data: any;
+    data: IListInfo;
 }
 /**
  * Specifies a Collaborative Application Markup Language (CAML) query on a list or joined lists.
@@ -305,37 +301,171 @@ export declare enum RenderListDataOptions {
     ListSchema = 4,
     MenuView = 8,
     ListContentType = 16,
+    /**
+     * The returned list will have a FileSystemItemId field on each item if possible.
+     */
     FileSystemItemId = 32,
+    /**
+     * Returns the client form schema to add and edit items.
+     */
     ClientFormSchema = 64,
+    /**
+     * Returns QuickLaunch navigation nodes.
+     */
     QuickLaunch = 128,
+    /**
+     * Returns Spotlight rendering information.
+     */
     Spotlight = 256,
+    /**
+     * Returns Visualization rendering information.
+     */
     Visualization = 512,
+    /**
+     * Returns view XML and other information about the current view.
+     */
     ViewMetadata = 1024,
+    /**
+     * Prevents AutoHyperlink from being run on text fields in this query.
+     */
     DisableAutoHyperlink = 2048,
+    /**
+     * Enables urls pointing to Media TA service, such as .thumbnailUrl, .videoManifestUrl, .pdfConversionUrls.
+     */
     EnableMediaTAUrls = 4096,
+    /**
+     * Return Parant folder information.
+     */
     ParentInfo = 8192,
+    /**
+     * Return Page context info for the current list being rendered.
+     */
     PageContextInfo = 16384,
-    ClientSideComponentManifest = 32768
+    /**
+     * Return client-side component manifest information associated with the list.
+     */
+    ClientSideComponentManifest = 32768,
+    /**
+     * Return all content-types available on the list.
+     */
+    ListAvailableContentTypes = 65536,
+    /**
+      * Return the order of items in the new-item menu.
+      */
+    FolderContentTypeOrder = 131072,
+    /**
+     * Return information to initialize Grid for quick edit.
+     */
+    GridInitInfo = 262144,
+    /**
+     * Indicator if the vroom API of the SPItemUrl returned in MediaTAUrlGenerator should use site url as host.
+     */
+    SiteUrlAsMediaTASPItemHost = 524288,
+    /**
+     * Return the files representing mount points in the list.
+     */
+    AddToOneDrive = 1048576,
+    /**
+     * Return SPFX CustomAction.
+     */
+    SPFXCustomActions = 2097152,
+    /**
+     * Do not return non-SPFX CustomAction.
+     */
+    CustomActions = 4194304
 }
 /**
  * Represents the parameters to be used to render list data as JSON string in the RenderListDataAsStream method of IList.
  */
 export interface IRenderListDataParameters {
+    /**
+     * Gets or sets a value indicating whether to add all fields to the return
+     */
+    AddAllFields?: boolean;
+    /**
+     * Gets or sets a value indicating whether to add all fields in all views and contetnt types to the return
+     */
+    AddAllViewFields?: boolean;
+    /**
+     * Gets or sets a value indicating whether to return regional settings as part of listschema
+     */
+    AddRegionalSettings?: boolean;
+    /**
+     * This parameter indicates if we always return required fields.
+     */
     AddRequiredFields?: boolean;
+    /**
+     * This parameter indicates whether multi value filtering is allowed for taxonomy fields
+     */
     AllowMultipleValueFilterForTaxonomyFields?: boolean;
+    /**
+     * Gets or sets a value indicating whether to audience target the resulting content
+     */
     AudienceTarget?: boolean;
+    /**
+     * Specifies if we return DateTime field in UTC or local time
+     */
     DatesInUtc?: boolean;
-    DeferredRender?: boolean;
+    /**
+     * Specifies if we want to expand the grouping or not
+     */
     ExpandGroups?: boolean;
+    /**
+     * Gets or sets a value indicating whether to expand user field to return jobtitle etc
+     */
+    ExpandUserField?: boolean;
+    /**
+     * Gets or sets a value indicating whether to filter out folders with ProgId="Team.Channel"
+     */
+    FilterOutChannelFoldersInDefaultDocLib?: boolean;
+    /**
+     * Specifies if we only return first group (regardless of view schema) or not
+     */
     FirstGroupOnly?: boolean;
+    /**
+     * Specifies the url to the folder from which to return items
+     */
     FolderServerRelativeUrl?: string;
+    /**
+     * This parameter indicates which fields to try and ReWrite to CDN Urls, The format of this parameter should be a comma seperated list of field names
+     */
     ImageFieldsToTryRewriteToCdnUrls?: string;
     MergeDefaultView?: boolean;
+    /**
+     * Gets or sets a value indicating whether we're in Modern List boot code path, in which we don't need to check modern vs classic
+     */
+    ModernListBoot?: boolean;
+    /**
+     * Specifies if we return always DateTime field original value
+     */
     OriginalDate?: boolean;
+    /**
+     * Specified the override XML to be combined with the View CAML
+     */
     OverrideViewXml?: string;
+    /**
+     * Specifies the paging information
+     */
     Paging?: string;
+    /**
+     * Specifies if we want to replace the grouping or not to deal with GroupBy throttling
+     */
     ReplaceGroup?: boolean;
+    /**
+     * Gets or sets a value indicating whether to add Url fields in JSON format.
+     */
+    RenderURLFieldInJSON?: boolean;
+    /**
+     * Specifies the type of output to return.
+     */
     RenderOptions?: RenderListDataOptions[] | number;
+    /**
+     * Gets or sets a value indicating whether to not filter out Stub files (0 byte files created for upload).
+     */
+    ShowStubFile?: boolean;
+    /**
+     * Specifies the CAML view XML
+     */
     ViewXml?: string;
 }
 /**

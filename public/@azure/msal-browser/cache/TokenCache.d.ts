@@ -1,10 +1,11 @@
-import { ICrypto, Logger, ExternalTokenResponse } from "@azure/msal-common";
+import { ICrypto, Logger, ExternalTokenResponse, AuthenticationResult } from "@azure/msal-common";
 import { BrowserConfiguration } from "../config/Configuration";
 import { SilentRequest } from "../request/SilentRequest";
 import { BrowserCacheManager } from "./BrowserCacheManager";
 import { ITokenCache } from "./ITokenCache";
 export declare type LoadTokenOptions = {
     clientInfo?: string;
+    expiresOn?: number;
     extendedExpiresOn?: number;
 };
 /**
@@ -22,27 +23,55 @@ export declare class TokenCache implements ITokenCache {
      * @param request
      * @param response
      * @param options
+     * @returns `AuthenticationResult` for the response that was loaded.
      */
-    loadExternalTokens(request: SilentRequest, response: ExternalTokenResponse, options: LoadTokenOptions): void;
+    loadExternalTokens(request: SilentRequest, response: ExternalTokenResponse, options: LoadTokenOptions): AuthenticationResult;
+    /**
+     * Helper function to load account to msal-browser cache
+     * @param idToken
+     * @param environment
+     * @param clientInfo
+     * @param authorityType
+     * @param requestHomeAccountId
+     * @returns `AccountEntity`
+     */
+    private loadAccount;
     /**
      * Helper function to load id tokens to msal-browser cache
      * @param idToken
      * @param homeAccountId
      * @param environment
      * @param tenantId
-     * @param options
+     * @returns `IdTokenEntity`
      */
     private loadIdToken;
     /**
      * Helper function to load access tokens to msal-browser cache
      * @param request
      * @param response
-     * @param options
      * @param homeAccountId
      * @param environment
      * @param tenantId
-     * @returns
+     * @returns `AccessTokenEntity`
      */
     private loadAccessToken;
+    /**
+     * Helper function to load refresh tokens to msal-browser cache
+     * @param request
+     * @param response
+     * @param homeAccountId
+     * @param environment
+     * @returns `RefreshTokenEntity`
+     */
+    private loadRefreshToken;
+    /**
+     * Helper function to generate an `AuthenticationResult` for the result.
+     * @param request
+     * @param idTokenObj
+     * @param cacheRecord
+     * @param authority
+     * @returns `AuthenticationResult`
+     */
+    private generateAuthenticationResult;
 }
 //# sourceMappingURL=TokenCache.d.ts.map

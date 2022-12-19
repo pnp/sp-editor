@@ -4,8 +4,9 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+/// <reference path="../../../shims.d.ts" />
 export { BatchRequestBody, RequestData, BatchRequestContent, BatchRequestData, BatchRequestStep } from "./content/BatchRequestContent";
-export { BatchResponseContent } from "./content/BatchResponseContent";
+export { BatchResponseBody, BatchResponseContent } from "./content/BatchResponseContent";
 export { AuthenticationHandler } from "./middleware/AuthenticationHandler";
 export { HTTPMessageHandler } from "./middleware/HTTPMessageHandler";
 export { Middleware } from "./middleware/IMiddleware";
