@@ -207,7 +207,7 @@ export const mod_config = `var mod_config = '${chrome.runtime.getURL('bundles/co
 export const mod_graph = `var mod_graph = '${chrome.runtime.getURL('bundles/graph.es5.umd.bundle.js')}';`
 export const mod_logging = `var mod_logging = '${chrome.runtime.getURL('bundles/logging.es5.umd.bundle.js')}';`
 export const mod_odata = `var mod_odata = '${chrome.runtime.getURL('bundles/odata.es5.umd.bundle.js')}';`
-export const mod_pnpjs = `var mod_pnpjs = '${chrome.runtime.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
+export const mod_pnpjs = `var mod_pnpjs = '${chrome.runtime.getURL('bundles/sp.es5.umd.bundle.js')}';`
 export const mod_addin = `var mod_addin = '${chrome.runtime.getURL('bundles/sp-addinhelpers.es5.umd.bundle.js')}';`
 export const mod_client = `var mod_client = '${chrome.runtime.getURL('bundles/sp-clientsvc.es5.umd.bundle.js')}';`
 export const mod_taxonomy = `var mod_taxonomy = '${chrome.runtime.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
