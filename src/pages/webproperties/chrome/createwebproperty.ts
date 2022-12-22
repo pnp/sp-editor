@@ -1,5 +1,6 @@
-import { ILogEntry } from '@pnp/logging'
-import * as pnp from '@pnp/pnpjs'
+import * as SP from '@pnp/sp/presets/all'
+import * as Logging from '@pnp/logging'
+import * as Queryable from '@pnp/queryable'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',
 // async methods works when running 'npm run watch'
@@ -11,22 +12,48 @@ export function createWebProperty(...args: any) {
   const key = params[1]
   const value = params[2]
   const indexed = params[3];
+
   /* import pnp */
-  (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
-    /*** setup pnp ***/
-    $pnp.setup({
-      sp: {
-        headers: {
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        },
-      },
-    })
+  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
+
+  Promise.all<libTypes>([
+    (window as any).SystemJS.import((window as any).mod_sp),
+    (window as any).SystemJS.import((window as any).mod_logging),
+    (window as any).SystemJS.import((window as any).mod_queryable)
+  ]).then(([pnpsp, pnplogging, pnpqueryable]) => {
+
+    function SPSoapHandler() {
+      return (instance) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse(),
+          pnpsp.RequestDigest());
+
+        // fix url for SOAP call
+        instance.on.pre.prepend(async (url, init, result) => {
+          if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
+            url = url.replace(/_api.*_vti_bin/, '_vti_bin')
+          }
+          return [url, init, result];
+        });
+        return instance;
+      };
+    }
+
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(SPSoapHandler())
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
     /*** clear previous log listeners ***/
-    $pnp.log.clearSubscribers()
+    pnplogging.Logger.clearSubscribers()
     /*** setup log listener ***/
-    const listener = new $pnp.FunctionListener((entry: ILogEntry) => {
+    const listener = pnplogging.FunctionListener((entry) => {
       entry.data.response.clone().json().then((error: any) => {
         window.postMessage(JSON.stringify({
           function: functionName,
@@ -37,7 +64,7 @@ export function createWebProperty(...args: any) {
         }), '*')
       })
     })
-    $pnp.log.subscribe(listener)
+    pnplogging.Logger.subscribe(listener)
     /* *** */
 
     const postMessage = () => {
@@ -53,11 +80,11 @@ export function createWebProperty(...args: any) {
     let webid = ''
     let siteid = ''
 
-    $pnp.sp.site.select('Id')().then((site) => {
+    sp.site.select('Id')().then((site) => {
       siteid = site.Id
-      $pnp.sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
 
-        if (!$pnp.sp.web.hasPermissions(web.EffectiveBasePermissions, $pnp.SPNS.PermissionKind.AddAndCustomizePages)) {
+        if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
           window.postMessage(JSON.stringify({
             function: functionName,
             success: false,
@@ -69,7 +96,6 @@ export function createWebProperty(...args: any) {
         }
 
         webid = web.Id
-        const endpoint = _spPageContextInfo.webAbsoluteUrl + '/_vti_bin/client.svc/ProcessQuery'
         const payload = `
           <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
             <Actions>
@@ -87,17 +113,7 @@ export function createWebProperty(...args: any) {
             </ObjectPaths>
           </Request>`
 
-        const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
-        client.post(endpoint, {
-          headers: {
-            Accept: '*/*',
-            'Content-Type': 'text/xml;charset="UTF-8"',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Cache-Control': 'no-cache',
-          },
-          body: payload,
-        })
-          .then((r) => r.json())
+        pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload })
           .then(r => {
             if (r[0]?.ErrorInfo?.ErrorMessage) {
               window.postMessage(JSON.stringify({
@@ -109,7 +125,7 @@ export function createWebProperty(...args: any) {
               }), '*')
               return
             }
-            $pnp.sp.web.allProperties.select('vti_indexedpropertykeys')().then(result => {
+            sp.web.allProperties.select('vti_indexedpropertykeys')().then(result => {
 
               const allProps = []
               for (let prop in result) {
@@ -171,15 +187,7 @@ export function createWebProperty(...args: any) {
                   </ObjectPaths>
                 </Request>`
 
-                client.post(endpoint, {
-                  headers: {
-                    Accept: '*/*',
-                    'Content-Type': 'text/xml;charset="UTF-8"',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Cache-Control': 'no-cache',
-                  },
-                  body: payload2,
-                }).then((r2) => r2.json())
+                pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload2 })
                   .then(r2 => {
                     if (r2[0]?.ErrorInfo?.ErrorMessage) {
                       window.postMessage(JSON.stringify({

@@ -1,5 +1,6 @@
-import { ILogEntry } from '@pnp/logging'
-import * as pnp from '@pnp/pnpjs'
+import * as SP from '@pnp/sp/presets/all'
+import * as Logging from '@pnp/logging'
+import * as Queryable from '@pnp/queryable'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',
 // async methods works when running 'npm run watch'
@@ -47,21 +48,46 @@ export function createListProperty(...args: any) {
   }
 
   /* import pnp */
-  (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
-    /*** setup pnp ***/
-    $pnp.setup({
-      sp: {
-        headers: {
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        },
-      },
-    })
+  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
+
+  Promise.all<libTypes>([
+    (window as any).SystemJS.import((window as any).mod_sp),
+    (window as any).SystemJS.import((window as any).mod_logging),
+    (window as any).SystemJS.import((window as any).mod_queryable)
+  ]).then(([pnpsp, pnplogging, pnpqueryable]) => {
+
+    function SPSoapHandler() {
+      return (instance) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse(),
+          pnpsp.RequestDigest());
+
+        // fix url for SOAP call
+        instance.on.pre.prepend(async (url, init, result) => {
+          if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
+            url = url.replace(/_api.*_vti_bin/, '_vti_bin')
+          }
+          return [url, init, result];
+        });
+        return instance;
+      };
+    }
+
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(SPSoapHandler())
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
     /*** clear previous log listeners ***/
-    $pnp.log.clearSubscribers()
+    pnplogging.Logger.clearSubscribers()
     /*** setup log listener ***/
-    const listener = new $pnp.FunctionListener((entry: ILogEntry) => {
+    const listener = pnplogging.FunctionListener((entry) => {
       entry.data.response.clone().json().then((error: any) => {
         window.postMessage(JSON.stringify({
           function: functionName,
@@ -72,7 +98,7 @@ export function createListProperty(...args: any) {
         }), '*')
       })
     })
-    $pnp.log.subscribe(listener)
+    pnplogging.Logger.subscribe(listener)
     /* *** */
 
     const postMessage = () => {
@@ -85,19 +111,7 @@ export function createListProperty(...args: any) {
       }), '*')
     }
 
-    const endpoint = _spPageContextInfo.webAbsoluteUrl + '/_vti_bin/client.svc/ProcessQuery'
-
-    const client = new $pnp.SPNS.SPHttpClient($pnp.DefaultRuntime)
-    client.post(endpoint, {
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'text/xml;charset="UTF-8"',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Cache-Control': 'no-cache',
-      },
-      body: listPropertyPayload(key, value, listId),
-    })
-      .then(r => r.json())
+    pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload(key, value, listId) })
       .then(r => {
         if (r[0]?.ErrorInfo?.ErrorMessage) {
           window.postMessage(JSON.stringify({
@@ -109,7 +123,7 @@ export function createListProperty(...args: any) {
           }), '*')
           return
         }
-        $pnp.sp.web.lists.getById(listId).expand('RootFolder/Properties')
+        sp.web.lists.getById(listId).expand('RootFolder/Properties')
           .select('RootFolder/Properties/vti_x005f_indexedpropertykeys')().then((res: any) => {
             const vtiprop = res.RootFolder.Properties.vti_x005f_indexedpropertykeys
 
@@ -135,16 +149,7 @@ export function createListProperty(...args: any) {
             if ((!vtiprop && !indexed) || (vtiprop && !indexed && vtiprop.indexOf(b64encoded) === -1)) {
               postMessage()
             } else {
-              client.post(endpoint, {
-                headers: {
-                  Accept: '*/*',
-                  'Content-Type': 'text/xml;charset="UTF-8"',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'Cache-Control': 'no-cache',
-                },
-                body: listPropertyPayload('vti_indexedpropertykeys', newIndexValue, listId),
-              })
-                .then(r2 => r2.json())
+              pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload('vti_indexedpropertykeys', newIndexValue, listId) })
                 .then(r2 => {
                   if (r2[0]?.ErrorInfo?.ErrorMessage) {
                     window.postMessage(JSON.stringify({
