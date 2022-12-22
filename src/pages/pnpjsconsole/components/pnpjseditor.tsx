@@ -138,7 +138,6 @@ const PnPjsEditor = () => {
               compilerOptions,
             })
 
-            console.log(js)
             const lines = js.outputText.split('\n')
             const ecode: string[] = []
             const prepnp: string[] = fixImports(lines, ecode)

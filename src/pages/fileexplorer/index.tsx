@@ -22,9 +22,6 @@ const FileExplorer = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('files:')
-  console.log(files)
-
   return (
     <IonPage>
       <Header title={'File Explorer'} />

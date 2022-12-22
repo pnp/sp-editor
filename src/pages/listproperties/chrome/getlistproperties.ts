@@ -18,7 +18,11 @@ export function getListProperties(...args: any) {
     (window as any).SystemJS.import((window as any).mod_sp),
     (window as any).SystemJS.import((window as any).mod_logging),
     (window as any).SystemJS.import((window as any).mod_queryable)
-  ]).then(([pnpsp, pnplogging, pnpqueryable]) => {
+  ]).then((modules) => {
+
+    var pnpsp = modules[0]
+    var pnplogging = modules[1]
+    var pnpqueryable = modules[2]
 
     const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
       .using(pnpqueryable.InjectHeaders({

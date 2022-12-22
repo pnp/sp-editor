@@ -176,7 +176,6 @@ const GraphSDKEditor = () => {
 
               try {
                 const code = grapheditor.current!.getModel()!.getValue()
-                console.log(code)
                 var modCode = code.replace("(async () => {",
                   `
                   import {
@@ -191,7 +190,6 @@ const GraphSDKEditor = () => {
                     },
                   });
                   (async () => {`)
-                console.log(modCode)
                 const compilerOptions: CompilerOptions = getDefaultCompilerOptions()
                 const js = transpileModule(modCode, {
                   compilerOptions,
@@ -244,7 +242,6 @@ const GraphSDKEditor = () => {
                     ...loginRequest,
                     account: accounts[0],
                   })
-                  console.log(response.scopes)
                   chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
 
                 } catch (e) {
@@ -252,7 +249,6 @@ const GraphSDKEditor = () => {
                     ...loginRequest,
                     account: accounts[0],
                   });
-                  console.log(response.scopes)
                   chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
                 }
                 dispatch(setLoading(false))
@@ -273,10 +269,8 @@ const GraphSDKEditor = () => {
             var client = GraphClient.createInstance(instance, accounts[0])
 
             const org = await client.api('organization').get()
-            console.log(org)
 
             const user = await client.api('me/profile').version('beta').get()
-            console.log(user)
 
             var image;
             try {

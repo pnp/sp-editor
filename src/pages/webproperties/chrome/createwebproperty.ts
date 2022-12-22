@@ -20,7 +20,11 @@ export function createWebProperty(...args: any) {
     (window as any).SystemJS.import((window as any).mod_sp),
     (window as any).SystemJS.import((window as any).mod_logging),
     (window as any).SystemJS.import((window as any).mod_queryable)
-  ]).then(([pnpsp, pnplogging, pnpqueryable]) => {
+  ]).then((modules) => {
+
+    var pnpsp = modules[0]
+    var pnplogging = modules[1]
+    var pnpqueryable = modules[2]
 
     function SPSoapHandler() {
       return (instance) => {
@@ -32,7 +36,7 @@ export function createWebProperty(...args: any) {
           pnpsp.RequestDigest());
 
         // fix url for SOAP call
-        instance.on.pre.prepend(async (url, init, result) => {
+        instance.on.pre.prepend((url, init, result) => {
           if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
             url = url.replace(/_api.*_vti_bin/, '_vti_bin')
           }
