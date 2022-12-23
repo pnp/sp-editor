@@ -17,20 +17,13 @@ import {
   execme,
   fixImports,
   getDefinitionsInUse,
-  mod_adaljs,
   mod_queryable,
   mod_core,
   mod_msaljsclient,
-  mod_addin,
-  mod_client,
-  mod_common,
-  mod_config,
   mod_graph,
   mod_logging,
-  mod_odata,
-  mod_pnpjs,
   mod_sp,
-  mod_taxonomy,
+  mod_spadmin,
   pnpjsMonacoConfigs,
   sj,
 } from './utils'
@@ -145,17 +138,11 @@ const PnPjsEditor = () => {
             ecode.pop() // remove the last empty line
 
             const script = `
-            ${mod_common}
-            ${mod_config}
             ${mod_graph}
             ${mod_logging}
-            ${mod_odata}
-            ${mod_pnpjs}
-            ${mod_addin}
-            ${mod_client}
             ${mod_sp}
-            ${mod_taxonomy}
-            ${mod_adaljs}
+            ${mod_spadmin}
+            ${mod_spadmin}
             ${mod_queryable}
             ${mod_core}
             ${mod_msaljsclient}

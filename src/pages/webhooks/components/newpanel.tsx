@@ -1,4 +1,3 @@
-import { dateAdd } from '@pnp/pnpjs'
 import {
   DatePicker,
   DayOfWeek,
@@ -19,6 +18,7 @@ import { IRootState } from '../../../store'
 import { setNewPanel } from '../../../store/webhooks/actions'
 import { INewWebHook } from '../../../store/webhooks/types'
 import { addWebHook } from '../chrome/chrome-actions'
+import { dateAdd } from '@pnp/core'
 
 const WebhooksNewPanel = () => {
 

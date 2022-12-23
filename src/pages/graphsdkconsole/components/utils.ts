@@ -96,7 +96,7 @@ export const initResult = () => {
 export const execme = (prepnp: string[], ecode: string[]) => {
   return `
 var execme = function execme() {
-  Promise.all([SystemJS.import(mod_common),SystemJS.import(mod_config),SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_odata),SystemJS.import(mod_pnpjs),SystemJS.import(mod_addin),SystemJS.import(mod_client),SystemJS.import(mod_sp),SystemJS.import(mod_taxonomy),SystemJS.import(mod_adaljs)]).then(function (modules) {
+  Promise.all([SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_sp)]).then(function (modules) {
     ${prepnp.join('\n')}
     // Your code starts here
     // #####################

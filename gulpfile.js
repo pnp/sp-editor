@@ -36,10 +36,11 @@ gulp.task('clean', (done) => {
     'public/@pnp/msaljsclient/**/*',
     'public/@pnp/queryable/**/*',
     'public/@pnp/core/**/*',
+    'public/@pnp/sp-admin/**/*',
     'public/@microsoft/**/*',
     'public/msal/**/*',
     'public/react/**/*',
-    // 'app/@pnp/adaljsclient/**/*',
+    'app/@pnp/adaljsclient/**/*',
     'public/vs/**/*',
     'public/@pnp/sp-addinhelpers/**/*',
     'public/@pnp/sp-clientsvc/**/*',
@@ -165,6 +166,16 @@ gulp.task('copy:msaljsclient', (done) => {
   gulp.src(['./node_modules/@pnp/msaljsclient/**/*.d.ts', '!./node_modules/@pnp/msaljsclient/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/msaljsclient/'))
   gulp.src('./dist/msaljsclient.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
+});
+
+gulp.task('copy:sp-admin', (done) => {
+  console.log("Copy @pnp/sp-admin");
+  gulp.src(['./node_modules/@pnp/sp-admin/**/*.d.ts', '!./node_modules/@pnp/sp-admin/node_modules/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@pnp/sp-admin/'))
+  gulp.src('./dist/sp-admin.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
     .pipe(gulp.dest('./public/bundles/'))
   done();
@@ -298,25 +309,26 @@ gulp.task('copy:monaco-editor', (done) => {
 
 gulp.task('default',
   gulp.series(['clean',
-    'copy:commmon',
-    'copy:config-store',
+  //  'copy:commmon',
+   // 'copy:config-store',
     'copy:graph',
     'copy:logging',
-    'copy:odata',
-    'copy:pnpjs',
+   // 'copy:odata',
+   // 'copy:pnpjs',
     'copy:sp',
+    'copy:sp-admin',
     'copy:queryable',
     'copy:core',
     'copy:msaljsclient',
     // 'copy:adaljsclient',
-    'copy:sp-addinhelpers',
-    'copy:sp-clientsvc',
-    'copy:sp-taxonomy',
+   // 'copy:sp-addinhelpers',
+   // 'copy:sp-clientsvc',
+   // 'copy:sp-taxonomy',
     'copy:microsoft-graph-types',
     'copy:microsoft-graph-client',
     'copy:msal',
     'copy:msal-browser',
-    'copy:AuthCodeMSALBrowserAuthenticationProvider',
+   // 'copy:AuthCodeMSALBrowserAuthenticationProvider',
     'copy:react',
     'copy:mgt-react',
     'copy:monaco-editor',
