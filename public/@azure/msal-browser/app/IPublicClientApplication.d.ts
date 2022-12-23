@@ -1,4 +1,4 @@
-import { AuthenticationResult, AccountInfo, Logger } from "@azure/msal-common";
+import { AuthenticationResult, AccountInfo, Logger, PerformanceCallbackFunction } from "@azure/msal-common";
 import { RedirectRequest } from "../request/RedirectRequest";
 import { PopupRequest } from "../request/PopupRequest";
 import { SilentRequest } from "../request/SilentRequest";
@@ -11,12 +11,15 @@ import { ITokenCache } from "../cache/ITokenCache";
 import { AuthorizationCodeRequest } from "../request/AuthorizationCodeRequest";
 import { BrowserConfiguration } from "../config/Configuration";
 export interface IPublicClientApplication {
+    initialize(): Promise<void>;
     acquireTokenPopup(request: PopupRequest): Promise<AuthenticationResult>;
     acquireTokenRedirect(request: RedirectRequest): Promise<void>;
     acquireTokenSilent(silentRequest: SilentRequest): Promise<AuthenticationResult>;
     acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult>;
     addEventCallback(callback: Function): string | null;
     removeEventCallback(callbackId: string): void;
+    addPerformanceCallback(callback: PerformanceCallbackFunction): string;
+    removePerformanceCallback(callbackId: string): boolean;
     enableAccountStorageEvents(): void;
     disableAccountStorageEvents(): void;
     getAccountByHomeId(homeAccountId: string): AccountInfo | null;

@@ -31,7 +31,7 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * @memberof MgtDotOptions
      */
     options: {
-        [option: string]: (e: MouseEvent) => void | any;
+        [option: string]: (e: Event) => void | any;
     };
     private _clickHandler;
     constructor();
@@ -47,11 +47,13 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * Used by the render method to attach click handler to each dot item
      *
      * @param {string} name
-     * @param {((e: MouseEvent) => void | any)} click
+     * @param {((e: Event) => void | any)} click
      * @returns
      * @memberof MgtDotOptions
      */
-    getMenuOption(name: string, click: (e: MouseEvent) => void | any): import("lit-element").TemplateResult;
+    getMenuOption(name: string, click: (e: Event) => void | any): import("lit-element").TemplateResult;
     private onDotClick;
+    private onDotKeydown;
+    private handleKeydownMenuOption;
 }
 //# sourceMappingURL=mgt-dot-options.d.ts.map

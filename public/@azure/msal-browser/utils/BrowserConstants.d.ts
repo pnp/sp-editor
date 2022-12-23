@@ -27,12 +27,23 @@ export declare const BrowserConstants: {
     /**
      * Default popup monitor poll interval in milliseconds
      */
-    POLL_INTERVAL_MS: number;
+    DEFAULT_POLL_INTERVAL_MS: number;
     /**
      * Msal-browser SKU
      */
     MSAL_SKU: string;
 };
+export declare const NativeConstants: {
+    CHANNEL_ID: string;
+    PREFERRED_EXTENSION_ID: string;
+    MATS_TELEMETRY: string;
+};
+export declare enum NativeExtensionMethod {
+    HandshakeRequest = "Handshake",
+    HandshakeResponse = "HandshakeResponse",
+    GetToken = "GetToken",
+    Response = "Response"
+}
 export declare enum BrowserCacheLocation {
     LocalStorage = "localStorage",
     SessionStorage = "sessionStorage",
@@ -61,7 +72,9 @@ export declare enum TemporaryCacheKeys {
     SCOPES = "scopes",
     INTERACTION_STATUS_KEY = "interaction.status",
     CCS_CREDENTIAL = "ccs.credential",
-    CORRELATION_ID = "request.correlationId"
+    CORRELATION_ID = "request.correlationId",
+    NATIVE_REQUEST = "request.native",
+    REDIRECT_CONTEXT = "request.redirect.context"
 }
 /**
  * Cache keys stored in-memory
@@ -90,7 +103,8 @@ export declare enum ApiId {
 export declare enum InteractionType {
     Redirect = "redirect",
     Popup = "popup",
-    Silent = "silent"
+    Silent = "silent",
+    None = "none"
 }
 /**
  * Types of interaction currently in progress.
@@ -138,4 +152,12 @@ export declare enum WrapperSKU {
 export declare const DB_NAME = "msal.db";
 export declare const DB_VERSION = 1;
 export declare const DB_TABLE_NAME: string;
+export declare enum CacheLookupPolicy {
+    Default = 0,
+    AccessToken = 1,
+    AccessTokenAndRefreshToken = 2,
+    RefreshToken = 3,
+    RefreshTokenAndNetwork = 4,
+    Skip = 5
+}
 //# sourceMappingURL=BrowserConstants.d.ts.map

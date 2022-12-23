@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="node" />
 import { Client } from "../index";
 import { UploadEventHandlers } from "./FileUploadTask/Interfaces/IUploadEventHandlers";
 import { Range } from "./FileUploadTask/Range";
@@ -42,7 +41,7 @@ export interface LargeFileUploadSession {
  * @type
  * Representing the return type of the sliceFile function that is type of the slice of a given range.
  */
-export declare type SliceType = ArrayBuffer | Blob | Buffer;
+export declare type SliceType = ArrayBuffer | Blob | Uint8Array;
 /**
  * @interface
  * Signature to define the properties and content of the file in upload task
@@ -149,6 +148,7 @@ export declare class LargeFileUploadTask<T> {
      * @returns The promise resolves to uploaded response
      */
     upload(): Promise<UploadResult>;
+    private reportProgress;
     /**
      * @public
      * @async

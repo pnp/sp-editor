@@ -1,4 +1,4 @@
-import { AuthenticationResult } from "@azure/msal-common";
+import { AccountInfo, AuthenticationResult } from "@azure/msal-common";
 import { Configuration } from "../config/Configuration";
 import { IPublicClientApplication } from "./IPublicClientApplication";
 import { RedirectRequest } from "../request/RedirectRequest";
@@ -64,6 +64,6 @@ export declare class PublicClientApplication extends ClientApplication implement
      * @param {@link (AccountInfo:type)}
      * @returns {Promise.<AuthenticationResult>} - a promise that is fulfilled when this function has completed, or rejected if an error was raised. Returns the {@link AuthResponse}
      */
-    private acquireTokenSilentAsync;
+    protected acquireTokenSilentAsync(request: SilentRequest, account: AccountInfo): Promise<AuthenticationResult>;
 }
 //# sourceMappingURL=PublicClientApplication.d.ts.map

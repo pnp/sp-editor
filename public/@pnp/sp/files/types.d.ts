@@ -1,29 +1,24 @@
-import { _SharePointQueryableInstance, ISharePointQueryableInstance, _SharePointQueryableCollection, IDeleteableWithETag } from "../sharepointqueryable.js";
+import { _SPCollection, ISPInstance, IDeleteableWithETag, ISPQueryable, IDeleteable } from "../spqueryable.js";
 import { IItem } from "../items/index.js";
+import { ISiteUserProps } from "../site-users/types.js";
+import { IMoveCopyOptions } from "../types.js";
+import { ReadableFile } from "./readable-file.js";
+import "../context-info/index.js";
 /**
  * Describes a collection of File objects
  *
  */
-export declare class _Files extends _SharePointQueryableCollection<IFileInfo[]> {
+export declare class _Files extends _SPCollection<IFileInfo[]> {
     /**
      * Gets a File by filename
      *
      * @param name The name of the file, including extension.
      */
-    getByName(name: string): IFile;
-    /**
-     * Uploads a file. Not supported for batching
-     *
-     * @param url The folder-relative url of the file.
-     * @param content The file contents
-     * @param shouldOverWrite Should a file with the same name in the same location be overwritten? (default: true)
-     * @returns The new File and the raw response.
-     */
-    add(url: string, content: any, shouldOverWrite?: boolean): Promise<IFileAddResult>;
+    getByUrl(name: string): IFile;
     /**
      * Adds a file using the pound percent safe methods
      *
-     * @param url Excoded url of the file
+     * @param url Encoded url of the file
      * @param content The file content
      * @param parameters Additional parameters to control method behavior
      */
@@ -50,23 +45,28 @@ export declare class _Files extends _SharePointQueryableCollection<IFileInfo[]> 
 }
 export interface IFiles extends _Files {
 }
-export declare const Files: import("../sharepointqueryable.js").ISPInvokableFactory<IFiles>;
+export declare const Files: import("../spqueryable.js").ISPInvokableFactory<IFiles>;
 /**
  * Describes a single File instance
  *
  */
-export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
-    delete: (this: import("../sharepointqueryable.js").ISharePointQueryable<any>, eTag?: string) => Promise<void>;
+export declare class _File extends ReadableFile<IFileInfo> {
+    delete: (this: ISPQueryable<any>, eTag?: string) => Promise<void>;
     /**
      * Gets a value that specifies the list item field values for the list item corresponding to the file.
      *
      */
-    get listItemAllFields(): ISharePointQueryableInstance;
+    get listItemAllFields(): ISPInstance;
     /**
      * Gets a collection of versions
      *
      */
     get versions(): IVersions;
+    /**
+     * Gets the current locked by user
+     *
+     */
+    getLockedByUser(): Promise<ISiteUserProps | null>;
     /**
      * Approves the file submitted for content approval with the specified comment.
      * Only documents in lists that are enabled for content approval can be approved.
@@ -103,28 +103,14 @@ export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
      */
     copyTo(url: string, shouldOverWrite?: boolean): Promise<void>;
     /**
-     * Copies the file by path to destination path.
+     * Moves the file by path to the specified destination url.
      * Also works with different site collections.
      *
-     * @param destUrl The absolute url or server relative url of the destination file path to copy to.
+     * @param destUrl The absolute url or server relative url of the destination file path to move to.
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
-     * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
+     * @param options Allows you to supply the full set of options controlling the copy behavior
      */
-    copyByPath(destUrl: string, shouldOverWrite: boolean, KeepBoth?: boolean): Promise<void>;
-    /**
-     * Denies approval for a file that was submitted for content approval.
-     * Only documents in lists that are enabled for content approval can be denied.
-     *
-     * @param comment The comment for the denial.
-     */
-    deny(comment?: string): Promise<void>;
-    /**
-     * Moves the file to the specified destination url.
-     *
-     * @param url The absolute url or server relative url of the destination file path to move to.
-     * @param moveOperations The bitwise MoveOperations value for how to move the file.
-     */
-    moveTo(url: string, moveOperations?: MoveOperations): Promise<void>;
+    copyByPath(destUrl: string, shouldOverWrite: boolean, options: Partial<Omit<IMoveCopyOptions, "RetainEditorAndModifiedOnMove">>): Promise<IFile>;
     /**
      * Moves the file by path to the specified destination url.
      * Also works with different site collections.
@@ -133,7 +119,32 @@ export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
      * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
      * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
      */
-    moveByPath(destUrl: string, shouldOverWrite: boolean, KeepBoth?: boolean): Promise<void>;
+    copyByPath(destUrl: string, shouldOverWrite: boolean, KeepBoth?: boolean): Promise<IFile>;
+    /**
+     * Denies approval for a file that was submitted for content approval.
+     * Only documents in lists that are enabled for content approval can be denied.
+     *
+     * @param comment The comment for the denial.
+     */
+    deny(comment?: string): Promise<void>;
+    /**
+     * Moves the file by path to the specified destination url.
+     * Also works with different site collections.
+     *
+     * @param destUrl The absolute url or server relative url of the destination file path to move to.
+     * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
+     * @param options Allows you to supply the full set of options controlling the move behavior
+     */
+    moveByPath(destUrl: string, shouldOverWrite: boolean, options: Partial<Omit<IMoveCopyOptions, "ResetAuthorAndCreatedOnCopy">>): Promise<IFile>;
+    /**
+     * Moves the file by path to the specified destination url.
+     * Also works with different site collections.
+     *
+     * @param destUrl The absolute url or server relative url of the destination file path to move to.
+     * @param shouldOverWrite Should a file with the same name in the same location be overwritten?
+     * @param keepBoth Keep both if file with the same name in the same location already exists? Only relevant when shouldOverWrite is set to false.
+     */
+    moveByPath(destUrl: string, shouldOverWrite: boolean, KeepBoth?: boolean): Promise<IFile>;
     /**
      * Submits the file for content approval with the specified comment.
      *
@@ -169,24 +180,6 @@ export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
      */
     exists(): Promise<boolean>;
     /**
-     * Gets the contents of the file as text. Not supported in batching.
-     *
-     */
-    getText(): Promise<string>;
-    /**
-     * Gets the contents of the file as a blob, does not work in Node.js. Not supported in batching.
-     *
-     */
-    getBlob(): Promise<Blob>;
-    /**
-     * Gets the contents of a file as an ArrayBuffer, works in Node.js. Not supported in batching.
-     */
-    getBuffer(): Promise<ArrayBuffer>;
-    /**
-     * Gets the contents of a file as an ArrayBuffer, works in Node.js. Not supported in batching.
-     */
-    getJSON(): Promise<any>;
-    /**
      * Sets the content of a file, for large files use setContentChunked. Not supported in batching.
      *
      * @param content The file content
@@ -194,7 +187,7 @@ export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
      */
     setContent(content: string | ArrayBuffer | Blob): Promise<IFile>;
     /**
-     * Gets the associated list item for this file, loading the default properties
+     * Gets the associated list item for this folder, loading the default properties
      */
     getItem<T>(...selects: string[]): Promise<IItem & T>;
     /**
@@ -246,12 +239,36 @@ export declare class _File extends _SharePointQueryableInstance<IFileInfo> {
 }
 export interface IFile extends _File, IDeleteableWithETag {
 }
-export declare const File: import("../sharepointqueryable.js").ISPInvokableFactory<IFile>;
+export declare const File: import("../spqueryable.js").ISPInvokableFactory<IFile>;
+/**
+ * Creates an IFile instance given a base object and a server relative path
+ *
+ * @param base Valid SPQueryable from which the observers will be used and the web url extracted
+ * @param serverRelativePath The server relative url to the file (ex: '/sites/dev/documents/file.txt')
+ * @returns IFile instance referencing the file described by the supplied parameters
+ */
+export declare function fileFromServerRelativePath(base: ISPQueryable, serverRelativePath: string): IFile;
+/**
+ * Creates an IFile instance given a base object and an absolute path
+ *
+ * @param base Valid SPQueryable from which the observers will be used
+ * @param serverRelativePath The absolute url to the file (ex: 'https://tenant.sharepoint.com/sites/dev/documents/file.txt')
+ * @returns IFile instance referencing the file described by the supplied parameters
+ */
+export declare function fileFromAbsolutePath(base: ISPQueryable, absoluteFilePath: string): Promise<IFile>;
+/**
+ * Creates an IFile intance given a base object and either an absolute or server relative path to a file
+ *
+ * @param base Valid SPQueryable from which the observers will be used
+ * @param serverRelativePath server relative or absolute url to the file (ex: 'https://tenant.sharepoint.com/sites/dev/documents/file.txt' or '/sites/dev/documents/file.txt')
+ * @returns IFile instance referencing the file described by the supplied parameters
+ */
+export declare function fileFromPath(base: ISPQueryable, path: string): Promise<IFile>;
 /**
  * Describes a collection of Version objects
  *
  */
-export declare class _Versions extends _SharePointQueryableCollection {
+export declare class _Versions extends _SPCollection {
     /**
      * Gets a version by id
      *
@@ -296,17 +313,17 @@ export declare class _Versions extends _SharePointQueryableCollection {
 }
 export interface IVersions extends _Versions {
 }
-export declare const Versions: import("../sharepointqueryable.js").ISPInvokableFactory<IVersions>;
+export declare const Versions: import("../spqueryable.js").ISPInvokableFactory<IVersions>;
 /**
  * Describes a single Version instance
  *
  */
-export declare class _Version extends _SharePointQueryableInstance {
-    delete: (this: import("../sharepointqueryable.js").ISharePointQueryable<any>, eTag?: string) => Promise<void>;
+export declare class _Version extends ReadableFile<IVersionInfo> {
+    delete: (this: ISPQueryable<any>) => Promise<void>;
 }
-export interface IVersion extends _Version, IDeleteableWithETag {
+export interface IVersion extends _Version, IDeleteable {
 }
-export declare const Version: import("../sharepointqueryable.js").ISPInvokableFactory<IVersion>;
+export declare const Version: import("../spqueryable.js").ISPInvokableFactory<IVersion>;
 /**
  * Types for document check in.
  * Minor = 0
@@ -404,6 +421,17 @@ export interface IFileInfo {
     UIVersionLabel: string;
     UniqueId: string;
     WebId: string;
+}
+export interface IVersionInfo {
+    Created: string;
+    ID: number;
+    VersionLabel: string;
+    Length: number;
+    Size: number;
+    CreatedBy: any;
+    Url: string;
+    IsCurrentVersion: boolean;
+    CheckInComment: string;
 }
 export interface IFileDeleteParams {
     /**

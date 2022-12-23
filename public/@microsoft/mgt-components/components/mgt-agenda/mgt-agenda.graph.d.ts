@@ -16,5 +16,5 @@ import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
  * @returns {(Promise<Event[]>)}
  * @memberof Graph
  */
-export declare function getEventsPageIterator(graph: IGraph, startDateTime: Date, endDateTime: Date, groupId?: string, preferredTimezone?: string): Promise<GraphPageIterator<MicrosoftGraph.Event>>;
+export declare function getEventsPageIterator(graph: IGraph, startDateTime: Date, endDateTime: Date, groupId?: string): Promise<GraphPageIterator<MicrosoftGraph.Event>>;
 //# sourceMappingURL=mgt-agenda.graph.d.ts.map

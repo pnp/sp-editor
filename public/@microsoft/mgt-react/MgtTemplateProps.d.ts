@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-export declare type MgtTemplateProps = {
+export type MgtTemplateProps = {
     template?: string;
     dataContext?: any;
 };

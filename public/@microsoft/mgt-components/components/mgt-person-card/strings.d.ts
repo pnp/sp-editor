@@ -8,5 +8,6 @@ export declare const strings: {
     sendEmailLinkSubtitle: string;
     startChatLinkSubtitle: string;
     showMoreSectionButton: string;
+    endOfCard: string;
 };
 //# sourceMappingURL=strings.d.ts.map

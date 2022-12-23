@@ -1,13 +1,11 @@
-/// <reference types="node" />
-import { Readable } from "stream";
 import { FileObject, SliceType } from "../../LargeFileUploadTask";
 import { Range } from "../Range";
 /**
  * @class
  * FileObject class for Readable Stream upload
  */
-export declare class StreamUpload implements FileObject<Readable> {
-    content: Readable;
+export declare class StreamUpload implements FileObject<NodeStream> {
+    content: NodeStream;
     name: string;
     size: number;
     /**
@@ -16,7 +14,7 @@ export declare class StreamUpload implements FileObject<Readable> {
      * This can be used when resuming a previously failed slice upload.
      */
     private previousSlice;
-    constructor(content: Readable, name: string, size: number);
+    constructor(content: NodeStream, name: string, size: number);
     /**
      * @public
      * Slices the file content to the given range

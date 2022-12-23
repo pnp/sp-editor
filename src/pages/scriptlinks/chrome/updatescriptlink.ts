@@ -1,5 +1,6 @@
-import { ILogEntry } from '@pnp/logging'
-import * as pnp from '@pnp/pnpjs'
+import * as SP from '@pnp/sp/presets/all'
+import * as Logging from '@pnp/logging'
+import * as Queryable from '@pnp/queryable'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',
 // async methods works when running 'npm run watch'
@@ -62,21 +63,29 @@ export function updateCustomAction(...args: any) {
   }
 
   /* import pnp */
-  (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
-    /*** setup pnp ***/
-    $pnp.setup({
-      sp: {
-        headers: {
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        },
-      },
-    })
+  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
+
+  Promise.all<libTypes>([
+    (window as any).SystemJS.import((window as any).mod_sp),
+    (window as any).SystemJS.import((window as any).mod_logging),
+    (window as any).SystemJS.import((window as any).mod_queryable)
+  ]).then((modules) => {
+
+    var pnpsp = modules[0]
+    var pnplogging = modules[1]
+    var pnpqueryable = modules[2]
+
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
     /*** clear previous log listeners ***/
-    $pnp.log.clearSubscribers()
+    pnplogging.Logger.clearSubscribers()
     /*** setup log listener ***/
-    const listener = new $pnp.FunctionListener((entry: ILogEntry) => {
+    const listener = pnplogging.FunctionListener((entry) => {
       entry.data.response.clone().json().then((error: any) => {
         window.postMessage(JSON.stringify({
           function: functionName,
@@ -87,7 +96,7 @@ export function updateCustomAction(...args: any) {
         }), '*')
       })
     })
-    $pnp.log.subscribe(listener)
+    pnplogging.Logger.subscribe(listener)
     /* *** */
 
     const postMessage = () => {
@@ -99,8 +108,8 @@ export function updateCustomAction(...args: any) {
         source: 'chrome-sp-editor',
       }), '*')
     }
-    $pnp.sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!$pnp.sp.web.hasPermissions(web.EffectiveBasePermissions, $pnp.SPNS.PermissionKind.AddAndCustomizePages)) {
+    sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
         window.postMessage(JSON.stringify({
           function: functionName,
           success: false,
@@ -113,32 +122,32 @@ export function updateCustomAction(...args: any) {
       // site collection scope
       if (scope === 2) {
         // check that uca exists in site
-        $pnp.sp.site.userCustomActions.getById(id).get().then(uca => {
+        sp.site.userCustomActions.getById(id)().then(uca => {
           // update uca if exists
           if (uca && uca.Id) {
-            $pnp.sp.site.userCustomActions.getById(id).update(payload).then(postMessage)
+            sp.site.userCustomActions.getById(id).update(payload).then(postMessage)
           } else {
             // uca did not exists in site, so scope must have been switched
             // so lets remove it from web
-            $pnp.sp.web.userCustomActions.getById(id).delete().then(res => {
+            sp.web.userCustomActions.getById(id).delete().then(res => {
               // and then add it to site
-              $pnp.sp.site.userCustomActions.add(payload).then(postMessage)
+              sp.site.userCustomActions.add(payload).then(postMessage)
             })
           }
         })
         // web scope
       } else {
         // check that uca exists in web
-        $pnp.sp.web.userCustomActions.getById(id).get().then(uca => {
+        sp.web.userCustomActions.getById(id)().then(uca => {
           // update uca if exists
           if (uca && uca.Id) {
-            $pnp.sp.web.userCustomActions.getById(id).update(payload).then(postMessage)
+            sp.web.userCustomActions.getById(id).update(payload).then(postMessage)
           } else {
             // uca did not exists in web, so scope must have been switched
             // so lets remove it from site
-            $pnp.sp.site.userCustomActions.getById(id).delete().then(res => {
+            sp.site.userCustomActions.getById(id).delete().then(res => {
               // and then add it to web
-              $pnp.sp.web.userCustomActions.add(payload).then(postMessage)
+              sp.web.userCustomActions.add(payload).then(postMessage)
             })
           }
         })

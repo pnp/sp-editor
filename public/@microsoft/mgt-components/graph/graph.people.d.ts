@@ -55,14 +55,14 @@ export declare enum UserType {
  * @param {PersonType} [personType=PersonType.person] - the type of person to search for
  * @returns {(Promise<Person[]>)}
  */
-export declare function findPeople(graph: IGraph, query: string, top?: number, userType?: UserType): Promise<Person[]>;
+export declare function findPeople(graph: IGraph, query: string, top?: number, userType?: UserType, filters?: string): Promise<Person[]>;
 /**
  * async promise to the Graph for People, by default, it will request the most frequent contacts for the signed in user.
  *
  * @returns {(Promise<Person[]>)}
  * @memberof Graph
  */
-export declare function getPeople(graph: IGraph, userType?: UserType): Promise<Person[]>;
+export declare function getPeople(graph: IGraph, userType?: UserType, peopleFilters?: string): Promise<Person[]>;
 /**
  * returns a promise that resolves after specified time
  * @param time in milliseconds

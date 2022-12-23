@@ -4,17 +4,12 @@ export declare type InteractionParams = {};
 /**
  * Abstract class which defines operations for a browser interaction handling class.
  */
-export declare abstract class InteractionHandler {
+export declare class InteractionHandler {
     protected authModule: AuthorizationCodeClient;
     protected browserStorage: BrowserCacheManager;
     protected authCodeRequest: CommonAuthorizationCodeRequest;
-    protected browserRequestLogger: Logger;
-    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, browserRequestLogger: Logger);
-    /**
-     * Function to enable user interaction.
-     * @param requestUrl
-     */
-    abstract initiateAuthRequest(requestUrl: string, params: InteractionParams): Window | Promise<HTMLIFrameElement> | Promise<void>;
+    protected logger: Logger;
+    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger);
     /**
      * Function to handle response parameters from hash.
      * @param locationHash

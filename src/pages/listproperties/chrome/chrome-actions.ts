@@ -14,7 +14,7 @@ export async function getAllListProperties(dispatch: Dispatch<ListPropertiesActi
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getAllListPropertiesCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getAllListPropertiesCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -66,7 +66,7 @@ export async function getAllListProperties(dispatch: Dispatch<ListPropertiesActi
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getAllListPropertiesCallback)
+        chrome.runtime.onMessage.removeListener(getAllListPropertiesCallback)
         break
     }
   })
@@ -90,7 +90,7 @@ export async function addListProperty(dispatch: Dispatch<ListPropertiesActions |
   }
 
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function addListPropertyCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function addListPropertyCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -127,7 +127,7 @@ export async function addListProperty(dispatch: Dispatch<ListPropertiesActions |
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(addListPropertyCallback)
+        chrome.runtime.onMessage.removeListener(addListPropertyCallback)
         break
     }
   })
@@ -142,7 +142,7 @@ export async function getAllLists(dispatch: Dispatch<ListPropertiesActions | Hom
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getAllListsCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getAllListsCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -187,7 +187,7 @@ export async function getAllLists(dispatch: Dispatch<ListPropertiesActions | Hom
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getAllListsCallback)
+        chrome.runtime.onMessage.removeListener(getAllListsCallback)
         break
     }
   })
@@ -205,7 +205,7 @@ export async function removeListProperties(dispatch: Dispatch<ListPropertiesActi
   // show loading spinner
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function deleteListPropertiesCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function deleteListPropertiesCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -241,7 +241,7 @@ export async function removeListProperties(dispatch: Dispatch<ListPropertiesActi
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(deleteListPropertiesCallback)
+        chrome.runtime.onMessage.removeListener(deleteListPropertiesCallback)
         break
     }
   })

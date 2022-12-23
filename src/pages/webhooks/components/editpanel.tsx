@@ -1,4 +1,3 @@
-import { dateAdd } from '@pnp/pnpjs'
 import {
   DatePicker,
   DayOfWeek,
@@ -21,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setConfirmEditDialog, setEditPanel, setSelectedItem } from '../../../store/webhooks/actions'
 import { updateWebHook } from '../chrome/chrome-actions'
+import { dateAdd } from '@pnp/core'
 
 const WebHookEditPanel = () => {
 

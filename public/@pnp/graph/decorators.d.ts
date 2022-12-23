@@ -40,7 +40,7 @@ export interface IDeleteableWithETag {
  */
 export declare function updateable(): <T extends new (...args: any[]) => {}>(target: T) => {
     new (...args: any[]): {
-        update(this: IGraphQueryable, props: any): Promise<void>;
+        update(this: IGraphQueryable, props: any): Promise<T>;
     };
 } & T;
 export interface IUpdateable<T = any> {
@@ -49,14 +49,14 @@ export interface IUpdateable<T = any> {
      *
      * @param props Set of properties to update
      */
-    update(props: T): Promise<void>;
+    update(props: T): Promise<T>;
 }
 /**
  * Adds the update method to the tagged class
  */
 export declare function updateableWithETag(): <T extends new (...args: any[]) => {}>(target: T) => {
     new (...args: any[]): {
-        update(this: IGraphQueryable, props: any, eTag?: string): Promise<void>;
+        update(this: IGraphQueryable, props: any, eTag?: string): Promise<T>;
     };
 } & T;
 export interface IUpdateableWithETag<T = any> {
@@ -65,7 +65,7 @@ export interface IUpdateableWithETag<T = any> {
      *
      * @param props Set of properties to update
      */
-    update(props: T, eTag?: string): Promise<void>;
+    update(props: T, eTag?: string): Promise<T>;
 }
 /**
  * Adds the add method to the tagged class

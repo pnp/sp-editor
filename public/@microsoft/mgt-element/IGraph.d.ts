@@ -59,4 +59,7 @@ export interface IGraph {
      */
     createBatch(): IBatch;
 }
+export type GraphEndpoint = 'https://graph.microsoft.com' | 'https://graph.microsoft.us' | 'https://dod-graph.microsoft.us' | 'https://graph.microsoft.de' | 'https://microsoftgraph.chinacloudapi.cn';
+export declare const MICROSOFT_GRAPH_ENDPOINTS: Set<GraphEndpoint>;
+export declare const MICROSOFT_GRAPH_DEFAULT_ENDPOINT: GraphEndpoint;
 //# sourceMappingURL=IGraph.d.ts.map

@@ -12,7 +12,7 @@ export async function runRestCall(dispatch: Dispatch<SPShootActions | HomeAction
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function shootCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function shootCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -44,7 +44,7 @@ export async function runRestCall(dispatch: Dispatch<SPShootActions | HomeAction
           dispatch(actions.setResults(message.errorMessage))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(shootCallback)
+        chrome.runtime.onMessage.removeListener(shootCallback)
         break
     }
   })
@@ -59,7 +59,7 @@ export async function getContextInfo(dispatch: Dispatch<SPShootActions | HomeAct
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getContextInfoCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getContextInfoCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -91,7 +91,7 @@ export async function getContextInfo(dispatch: Dispatch<SPShootActions | HomeAct
           dispatch(actions.setContext(null))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getContextInfoCallback)
+        chrome.runtime.onMessage.removeListener(getContextInfoCallback)
         break
     }
   })

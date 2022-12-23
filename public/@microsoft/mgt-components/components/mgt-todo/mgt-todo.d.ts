@@ -10,7 +10,7 @@ import { MgtTasksBase } from '../mgt-tasks-base/mgt-tasks-base';
 import '../sub-components/mgt-arrow-options/mgt-arrow-options';
 import '../sub-components/mgt-dot-options/mgt-dot-options';
 import { TodoTask } from './graph.todo';
-export declare type TodoFilter = (task: TodoTask) => boolean;
+export type TodoFilter = (task: TodoTask) => boolean;
 /**
  * component enables the user to view, add, remove, complete, or edit todo tasks. It works with tasks in Microsoft Planner or Microsoft To-Do.
  *

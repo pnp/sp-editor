@@ -61,8 +61,10 @@ export const pnpjsMonacoConfigs = () => {
 export const initCode = () => {
   const code = `
 // CTRL/CMD + D to execute the code
-import { sp } from "@pnp/sp";
+import { spfi, SPBrowser } from "@pnp/sp";
 import "@pnp/sp/webs";
+
+const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }));
 
 // wrapping the code inside self-excecuting async function
 // enables you to use await expression
@@ -79,7 +81,7 @@ import "@pnp/sp/webs";
 export const execme = (prepnp: string[], ecode: string[]) => {
   return `
 var execme = function execme() {
-  Promise.all([SystemJS.import(mod_common),SystemJS.import(mod_config),SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_odata),SystemJS.import(mod_pnpjs),SystemJS.import(mod_addin),SystemJS.import(mod_client),SystemJS.import(mod_sp),SystemJS.import(mod_taxonomy),SystemJS.import(mod_adaljs)]).then(function (modules) {
+  Promise.all([SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_queryable),SystemJS.import(mod_core),SystemJS.import(mod_msaljsclient),SystemJS.import(mod_spadmin),SystemJS.import(mod_sp)]).then(function (modules) {
     ${prepnp.join('\n')}
     // Your code starts here
     // #####################
@@ -101,17 +103,13 @@ export const fixImports = (lines: string[], ecode: string[]) => {
       // fix imports
       const lineRe = line.match('var (.*) = require')
       let mod = -1
-      mod = line.indexOf('@pnp/common') > -1 ? 0 : mod
-      mod = line.indexOf('@pnp/config-store') > -1 ? 1 : mod
-      mod = line.indexOf('@pnp/graph') > -1 ? 2 : mod
-      mod = line.indexOf('@pnp/logging') > -1 ? 3 : mod
-      mod = line.indexOf('@pnp/odata') > -1 ? 4 : mod
-      mod = line.indexOf('@pnp/pnpjs') > -1 ? 5 : mod
-      mod = line.indexOf('@pnp/sp-addinhelpers') > -1 ? 6 : mod
-      mod = line.indexOf('@pnp/sp-clientsvc') > -1 ? 7 : mod
-      mod = line.indexOf('@pnp/sp-taxonomy') > -1 ? 9 : mod
-      mod = line.indexOf('@pnp/adaljsclient') > -1 ? 10 : mod
-      mod = mod === -1 && line.indexOf('@pnp/sp') > -1 ? 8 : mod
+      mod = line.indexOf('@pnp/graph') > -1 ? 0 : mod
+      mod = line.indexOf('@pnp/logging') > -1 ? 1 : mod
+      mod = line.indexOf('@pnp/queryable') > -1 ? 2 : mod
+      mod = line.indexOf('@pnp/core') > -1 ? 3 : mod
+      mod = line.indexOf('@pnp/msaljsclient') > -1 ? 4 : mod
+      mod = line.indexOf('@pnp/sp-admin') > -1 ? 5 : mod
+      mod = mod === -1 && line.indexOf('@pnp/sp') > -1 ? 6 : mod
       prepnp.push(`var ${lineRe![1]} = modules[${mod}];`)
     }
   })
@@ -197,15 +195,11 @@ export const getDefinitionsInUse = (codeWithOutComments: string, definitions: ID
   return currentLibs
 }
 
-export const mod_common = `var mod_common = '${chrome.extension.getURL('bundles/common.es5.umd.bundle.js')}';`
-export const mod_config = `var mod_config = '${chrome.extension.getURL('bundles/config-store.es5.umd.bundle.js')}';`
-export const mod_graph = `var mod_graph = '${chrome.extension.getURL('bundles/graph.es5.umd.bundle.js')}';`
-export const mod_logging = `var mod_logging = '${chrome.extension.getURL('bundles/logging.es5.umd.bundle.js')}';`
-export const mod_odata = `var mod_odata = '${chrome.extension.getURL('bundles/odata.es5.umd.bundle.js')}';`
-export const mod_pnpjs = `var mod_pnpjs = '${chrome.extension.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
-export const mod_addin = `var mod_addin = '${chrome.extension.getURL('bundles/sp-addinhelpers.es5.umd.bundle.js')}';`
-export const mod_client = `var mod_client = '${chrome.extension.getURL('bundles/sp-clientsvc.es5.umd.bundle.js')}';`
-export const mod_taxonomy = `var mod_taxonomy = '${chrome.extension.getURL('bundles/sp-taxonomy.es5.umd.bundle.js')}';`
-export const mod_sp = `var mod_sp = '${chrome.extension.getURL('bundles/sp.es5.umd.bundle.js')}';`
-export const mod_adaljs = `var mod_adaljs = '${chrome.extension.getURL('bundles/adaljsclient.es5.umd.bundle.js')}';`
-export const sj = `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
+export const mod_graph = `var mod_graph = '${chrome.runtime.getURL('bundles/graph.es5.umd.bundle.js')}';`
+export const mod_logging = `var mod_logging = '${chrome.runtime.getURL('bundles/logging.es5.umd.bundle.js')}';`
+export const mod_sp = `var mod_sp = '${chrome.runtime.getURL('bundles/sp.es5.umd.bundle.js')}';`
+export const mod_queryable = `var mod_queryable = '${chrome.runtime.getURL('bundles/queryable.es5.umd.bundle.js')}';`
+export const mod_core = `var mod_core = '${chrome.runtime.getURL('bundles/core.es5.umd.bundle.js')}';`
+export const mod_msaljsclient = `var mod_msaljsclient = '${chrome.runtime.getURL('bundles/msaljsclient.es5.umd.bundle.js')}';`
+export const mod_spadmin = `var mod_spadmin = '${chrome.runtime.getURL('bundles/sp-admin.es5.umd.bundle.js')}';`
+export const sj = `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`

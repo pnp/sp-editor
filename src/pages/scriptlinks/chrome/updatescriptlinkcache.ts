@@ -1,5 +1,6 @@
-import { ILogEntry } from '@pnp/logging'
-import * as pnp from '@pnp/pnpjs'
+import * as SP from '@pnp/sp/presets/all'
+import * as Logging from '@pnp/logging'
+import * as Queryable from '@pnp/queryable'
 import { IScriptLink } from './../../../store/scriptlinks/types'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',
@@ -25,10 +26,29 @@ export function updateCacheCustomAction(...args: any) {
 
   const timeStamp = new Date().getTime().toString();
 
-  (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
+  /* import pnp */
+  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
 
-    $pnp.sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!$pnp.sp.web.hasPermissions(web.EffectiveBasePermissions, $pnp.SPNS.PermissionKind.AddAndCustomizePages)) {
+  Promise.all<libTypes>([
+    (window as any).SystemJS.import((window as any).mod_sp),
+    (window as any).SystemJS.import((window as any).mod_logging),
+    (window as any).SystemJS.import((window as any).mod_queryable)
+  ]).then((modules) => {
+
+    var pnpsp = modules[0]
+    var pnplogging = modules[1]
+    var pnpqueryable = modules[2]
+
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
+
+    sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
         window.postMessage(JSON.stringify({
           function: functionName,
           success: false,
@@ -95,20 +115,12 @@ export function updateCacheCustomAction(...args: any) {
         }
 
         /* import pnp */
-        /*** setup pnp ***/
-        $pnp.setup({
-          sp: {
-            headers: {
-              Accept: 'application/json; odata=verbose',
-              'Cache-Control': 'no-cache',
-              'X-ClientService-ClientTag': 'SPEDITOR',
-            },
-          },
-        })
+
         /*** clear previous log listeners ***/
-        $pnp.log.clearSubscribers()
+        /*** clear previous log listeners ***/
+        pnplogging.Logger.clearSubscribers()
         /*** setup log listener ***/
-        const listener = new $pnp.FunctionListener((entry: ILogEntry) => {
+        const listener = pnplogging.FunctionListener((entry) => {
           entry.data.response.clone().json().then((error: any) => {
             window.postMessage(JSON.stringify({
               function: functionName,
@@ -119,25 +131,25 @@ export function updateCacheCustomAction(...args: any) {
             }), '*')
           })
         })
-        $pnp.log.subscribe(listener)
+        pnplogging.Logger.subscribe(listener)
         /* *** */
 
         // site collection scope
         if (scope === 2) {
           // check that uca exists in site
-          promises.push($pnp.sp.site.userCustomActions.getById(id)().then(uca => {
+          promises.push(sp.site.userCustomActions.getById(id)().then(uca => {
             // update uca if exists
             if (uca && uca.Id) {
-              return $pnp.sp.site.userCustomActions.getById(id).update(payload)
+              return sp.site.userCustomActions.getById(id).update(payload)
             }
           }))
           // web scope
         } else {
           // check that uca exists in web
-          promises.push($pnp.sp.web.userCustomActions.getById(id)().then(uca => {
+          promises.push(sp.web.userCustomActions.getById(id)().then(uca => {
             // update uca if exists
             if (uca && uca.Id) {
-              return $pnp.sp.web.userCustomActions.getById(id).update(payload)
+              return sp.web.userCustomActions.getById(id).update(payload)
             }
           }))
         }

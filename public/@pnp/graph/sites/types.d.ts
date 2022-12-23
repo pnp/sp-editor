@@ -8,10 +8,12 @@ export declare class _Sites extends _GraphQueryableCollection<ISiteType[]> {
      * Gets the team site for the group
      */
     get root(): ISite;
+    getById(id: string): ISite;
+    getByUrl(hostname: string, siteUrl: string): ISite;
 }
 export interface ISites extends _Sites {
 }
-export declare const Sites: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => ISites & import("@pnp/odata/invokable-binder.js").IInvokable<any>;
+export declare const Sites: import("../graphqueryable.js").IGraphInvokableFactory<ISites>;
 /**
  * Site
  */
@@ -20,5 +22,5 @@ export declare class _Site extends _GraphQueryableInstance<ISiteType> {
 }
 export interface ISite extends _Site {
 }
-export declare const Site: (baseUrl: string | import("../graphqueryable.js").IGraphQueryable<any>, path?: string) => ISite & import("@pnp/odata/invokable-binder.js").IInvokable<any>;
+export declare const Site: import("../graphqueryable.js").IGraphInvokableFactory<ISite>;
 //# sourceMappingURL=types.d.ts.map

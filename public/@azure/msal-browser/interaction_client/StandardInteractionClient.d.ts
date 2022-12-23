@@ -1,12 +1,8 @@
-import { ICrypto, Logger, ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, Authority, CommonEndSessionRequest } from "@azure/msal-common";
+import { ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, Authority, ServerAuthorizationCodeResponse, CommonEndSessionRequest, AccountInfo, AzureCloudOptions } from "@azure/msal-common";
 import { BaseInteractionClient } from "./BaseInteractionClient";
-import { BrowserConfiguration } from "../config/Configuration";
 import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { EventHandler } from "../event/EventHandler";
 import { InteractionType } from "../utils/BrowserConstants";
 import { EndSessionRequest } from "../request/EndSessionRequest";
-import { INavigationClient } from "../navigation/INavigationClient";
 import { RedirectRequest } from "../request/RedirectRequest";
 import { PopupRequest } from "../request/PopupRequest";
 import { SsoSilentRequest } from "../request/SsoSilentRequest";
@@ -14,8 +10,6 @@ import { SsoSilentRequest } from "../request/SsoSilentRequest";
  * Defines the class structure and helper functions used by the "standard", non-brokered auth flows (popup, redirect, silent (RT), silent (iframe))
  */
 export declare abstract class StandardInteractionClient extends BaseInteractionClient {
-    protected navigationClient: INavigationClient;
-    constructor(config: BrowserConfiguration, storageImpl: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, correlationId?: string);
     /**
      * Generates an auth code request tied to the url request.
      * @param request
@@ -27,35 +21,35 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
      */
     protected initializeLogoutRequest(logoutRequest?: EndSessionRequest): CommonEndSessionRequest;
     /**
+     * Parses login_hint ID Token Claim out of AccountInfo object to be used as
+     * logout_hint in end session request.
+     * @param account
+     */
+    protected getLogoutHintFromIdTokenClaims(account: AccountInfo): string | null;
+    /**
      * Creates an Authorization Code Client with the given authority, or the default authority.
      * @param serverTelemetryManager
      * @param authorityUrl
      */
-    protected createAuthCodeClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string): Promise<AuthorizationCodeClient>;
+    protected createAuthCodeClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string, requestAzureCloudOptions?: AzureCloudOptions): Promise<AuthorizationCodeClient>;
     /**
      * Creates a Client Configuration object with the given request authority, or the default authority.
      * @param serverTelemetryManager
      * @param requestAuthority
      * @param requestCorrelationId
      */
-    protected getClientConfiguration(serverTelemetryManager: ServerTelemetryManager, requestAuthority?: string): Promise<ClientConfiguration>;
+    protected getClientConfiguration(serverTelemetryManager: ServerTelemetryManager, requestAuthority?: string, requestAzureCloudOptions?: AzureCloudOptions): Promise<ClientConfiguration>;
     /**
      * @param hash
      * @param interactionType
      */
-    protected validateAndExtractStateFromHash(hash: string, interactionType: InteractionType, requestCorrelationId?: string): string;
+    protected validateAndExtractStateFromHash(serverParams: ServerAuthorizationCodeResponse, interactionType: InteractionType, requestCorrelationId?: string): string;
     /**
      * Used to get a discovered version of the default authority.
      * @param requestAuthority
      * @param requestCorrelationId
      */
-    protected getDiscoveredAuthority(requestAuthority?: string): Promise<Authority>;
-    /**
-     * Helper to validate app environment before making a request.
-     * @param request
-     * @param interactionType
-     */
-    protected preflightInteractiveRequest(request: RedirectRequest | PopupRequest, interactionType: InteractionType): Promise<AuthorizationUrlRequest>;
+    protected getDiscoveredAuthority(requestAuthority?: string, requestAzureCloudOptions?: AzureCloudOptions): Promise<Authority>;
     /**
      * Helper to initialize required request parameters for interactive APIs and ssoSilent()
      * @param request

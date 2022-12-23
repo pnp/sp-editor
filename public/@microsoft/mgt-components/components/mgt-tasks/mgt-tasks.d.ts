@@ -70,7 +70,7 @@ export interface TasksStringResource {
      */
     PLAN_NOT_FOUND: string;
 }
-export declare type TaskFilter = (task: PlannerTask | OutlookTask) => boolean;
+export type TaskFilter = (task: PlannerTask | OutlookTask) => boolean;
 /**
  * Web component enables the user to view, add, remove, complete, or edit tasks. It works with tasks in Microsoft Planner or Microsoft To-Do.
  *
@@ -312,6 +312,9 @@ export declare class MgtTasks extends MgtTemplatedComponent {
     private removeTask;
     private assignPeople;
     private onAddTaskClick;
+    private onAddTaskKeyDown;
+    private newTaskButtonKeydown;
+    private newTaskVisible;
     private renderPlanOptions;
     private renderNewTask;
     private togglePeoplePicker;
@@ -325,6 +328,14 @@ export declare class MgtTasks extends MgtTemplatedComponent {
     private renderLoadingTask;
     private renderPlannerIcon;
     private renderBucketIcon;
+    /**
+     * Render a calendar icon.
+     *
+     * @protected
+     * @returns
+     * @memberof MgtTodo
+     */
+    protected renderCalendarIcon(): import("lit-element").TemplateResult;
     private getTaskSource;
     private getPlanTitle;
     private getFolderName;

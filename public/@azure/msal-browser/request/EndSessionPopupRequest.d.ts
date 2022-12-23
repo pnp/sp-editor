@@ -1,5 +1,5 @@
 import { CommonEndSessionRequest } from "@azure/msal-common";
-import { PopupWindowAttributes } from "../utils/PopupUtils";
+import { PopupWindowAttributes } from "./PopupWindowAttributes";
 /**
  * EndSessionPopupRequest
  * - account                - Account object that will be logged out of. All tokens tied to this account will be cleared.
@@ -9,6 +9,7 @@ import { PopupWindowAttributes } from "../utils/PopupUtils";
  * - idTokenHint            - ID Token used by B2C to validate logout if required by the policy
  * - mainWindowRedirectUri  - URI to navigate the main window to after logout is complete
  * - popupWindowAttributes  - Optional popup window attributes. popupSize with height and width, and popupPosition with top and left can be set.
+ * - logoutHint             - A string that specifies the account that is being logged out in order to skip the server account picker on logout
  */
 export declare type EndSessionPopupRequest = Partial<CommonEndSessionRequest> & {
     authority?: string;

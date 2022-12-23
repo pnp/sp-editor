@@ -1,16 +1,19 @@
-import { AuthenticationResult, ICrypto, Logger } from "@azure/msal-common";
+import { AuthenticationResult, ICrypto, Logger, AuthorizationCodeClient, IPerformanceClient } from "@azure/msal-common";
 import { StandardInteractionClient } from "./StandardInteractionClient";
+import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest";
 import { BrowserConfiguration } from "../config/Configuration";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
 import { EventHandler } from "../event/EventHandler";
 import { INavigationClient } from "../navigation/INavigationClient";
 import { ApiId } from "../utils/BrowserConstants";
 import { SsoSilentRequest } from "../request/SsoSilentRequest";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
 export declare class SilentIframeClient extends StandardInteractionClient {
-    private apiId;
-    constructor(config: BrowserConfiguration, storageImpl: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, apiId: ApiId, correlationId?: string);
+    protected apiId: ApiId;
+    protected nativeStorage: BrowserCacheManager;
+    constructor(config: BrowserConfiguration, storageImpl: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, apiId: ApiId, performanceClient: IPerformanceClient, nativeStorageImpl: BrowserCacheManager, nativeMessageHandler?: NativeMessageHandler, correlationId?: string);
     /**
-     * Acquires a token silently by opening a hidden iframe to the /authorize endpoint with prompt=none
+     * Acquires a token silently by opening a hidden iframe to the /authorize endpoint with prompt=none or prompt=no_session
      * @param request
      */
     acquireToken(request: SsoSilentRequest): Promise<AuthenticationResult>;
@@ -24,6 +27,6 @@ export declare class SilentIframeClient extends StandardInteractionClient {
      * @param navigateUrl
      * @param userRequestScopes
      */
-    private silentTokenHelper;
+    protected silentTokenHelper(authClient: AuthorizationCodeClient, silentRequest: AuthorizationUrlRequest): Promise<AuthenticationResult>;
 }
 //# sourceMappingURL=SilentIframeClient.d.ts.map

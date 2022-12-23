@@ -17,7 +17,7 @@ export async function getAllScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getAllScriptLinksCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getAllScriptLinksCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -61,7 +61,7 @@ export async function getAllScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getAllScriptLinksCallback)
+        chrome.runtime.onMessage.removeListener(getAllScriptLinksCallback)
         break
     }
   })
@@ -79,7 +79,7 @@ export async function addScriptLink(dispatch: Dispatch<ScriptLinksActions | Home
   // close panel
   dispatch(actions.setNewPanel(false));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function addScriptLinkCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function addScriptLinkCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -116,7 +116,7 @@ export async function addScriptLink(dispatch: Dispatch<ScriptLinksActions | Home
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(addScriptLinkCallback)
+        chrome.runtime.onMessage.removeListener(addScriptLinkCallback)
         break
     }
   })
@@ -136,7 +136,7 @@ export async function updateScriptLink(dispatch: Dispatch<ScriptLinksActions | H
   // close panel
   dispatch(actions.setEditPanel(false));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function updateScriptLinkCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function updateScriptLinkCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -172,7 +172,7 @@ export async function updateScriptLink(dispatch: Dispatch<ScriptLinksActions | H
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(updateScriptLinkCallback)
+        chrome.runtime.onMessage.removeListener(updateScriptLinkCallback)
         break
     }
   })
@@ -190,7 +190,7 @@ export async function deleteScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
   // show loading spinner
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function deleteScriptLinksCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function deleteScriptLinksCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -226,7 +226,7 @@ export async function deleteScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(deleteScriptLinksCallback)
+        chrome.runtime.onMessage.removeListener(deleteScriptLinksCallback)
         break
     }
   })
@@ -244,7 +244,7 @@ export async function cacheScriptLinks(dispatch: Dispatch<ScriptLinksActions | H
   // show loading spinner
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function cacheScriptLinksCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function cacheScriptLinksCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -280,7 +280,7 @@ export async function cacheScriptLinks(dispatch: Dispatch<ScriptLinksActions | H
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(cacheScriptLinksCallback)
+        chrome.runtime.onMessage.removeListener(cacheScriptLinksCallback)
         break
     }
   })
@@ -295,7 +295,7 @@ export async function installApp(dispatch: Dispatch<ScriptLinksActions | HomeAct
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function installAppCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function installAppCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -329,7 +329,7 @@ export async function installApp(dispatch: Dispatch<ScriptLinksActions | HomeAct
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(installAppCallback)
+        chrome.runtime.onMessage.removeListener(installAppCallback)
         break
     }
   })
@@ -346,7 +346,7 @@ export async function unInstallApp(dispatch: Dispatch<ScriptLinksActions | HomeA
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function unInstallAppCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function unInstallAppCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -380,7 +380,7 @@ export async function unInstallApp(dispatch: Dispatch<ScriptLinksActions | HomeA
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(unInstallAppCallback)
+        chrome.runtime.onMessage.removeListener(unInstallAppCallback)
         break
     }
   })

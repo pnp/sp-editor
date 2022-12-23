@@ -14,7 +14,7 @@ export async function getAllWebHooks(dispatch: Dispatch<WebHooksActions | HomeAc
 
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspectedPage
-  (window as any).port.onMessage.addListener(function getAllWebHooksCallback(message: any) {
+  chrome.runtime.onMessage.addListener(function getAllWebHooksCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -51,7 +51,7 @@ export async function getAllWebHooks(dispatch: Dispatch<WebHooksActions | HomeAc
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(getAllWebHooksCallback)
+        chrome.runtime.onMessage.removeListener(getAllWebHooksCallback)
         break
     }
   })
@@ -68,7 +68,7 @@ export async function addWebHook(dispatch: Dispatch<WebHooksActions | HomeAction
   // close panel
   dispatch(actions.setNewPanel(false));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function addWebHookCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function addWebHookCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -105,7 +105,7 @@ export async function addWebHook(dispatch: Dispatch<WebHooksActions | HomeAction
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(addWebHookCallback)
+        chrome.runtime.onMessage.removeListener(addWebHookCallback)
         break
     }
   })
@@ -122,7 +122,7 @@ export async function removeWebHook(dispatch: Dispatch<WebHooksActions | HomeAct
   // show loading spinner
   dispatch(rootActions.setLoading(true));
   // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function removeWebHookCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function removeWebHookCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -159,7 +159,7 @@ export async function removeWebHook(dispatch: Dispatch<WebHooksActions | HomeAct
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(removeWebHookCallback)
+        chrome.runtime.onMessage.removeListener(removeWebHookCallback)
         break
     }
   })
@@ -177,7 +177,7 @@ export async function updateWebHook(dispatch: Dispatch<WebHooksActions | HomeAct
   dispatch(actions.setConfirmEditDialog(true))
   dispatch(actions.setEditPanel(false));
     // add listener to receive the results from inspected page
-  (window as any).port.onMessage.addListener(async function updateWebHookCallback(message: any) {
+  chrome.runtime.onMessage.addListener(async function updateWebHookCallback(message: any) {
 
     if (
       typeof message !== 'object' ||
@@ -214,7 +214,7 @@ export async function updateWebHook(dispatch: Dispatch<WebHooksActions | HomeAct
           }))
         }
         // remove listener
-        (window as any).port.onMessage.removeListener(updateWebHookCallback)
+        chrome.runtime.onMessage.removeListener(updateWebHookCallback)
         break
     }
   })

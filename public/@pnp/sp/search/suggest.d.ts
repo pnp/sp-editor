@@ -1,13 +1,12 @@
-import { _SharePointQueryableInstance, ISharePointQueryable } from "../sharepointqueryable.js";
-import { IConfigOptions } from "@pnp/common";
-export declare class _Suggest extends _SharePointQueryableInstance {
-    execute(query: ISuggestQuery): Promise<ISuggestResult>;
+import { _SPInstance, SPInit } from "../spqueryable.js";
+export declare class _Suggest extends _SPInstance {
+    run(query: ISuggestQuery): Promise<ISuggestResult>;
     private mapQueryToQueryString;
 }
-export interface ISuggest {
-    (query: ISuggestQuery): Promise<ISuggestResult>;
+export interface ISuggest extends Pick<_Suggest, "run" | "using"> {
+    (init: ISuggestQuery): Promise<ISuggestResult>;
 }
-export declare const Suggest: (baseUrl: string | ISharePointQueryable, options?: IConfigOptions, runtime?: import("@pnp/common").Runtime) => ISuggest;
+export declare const Suggest: (base: SPInit, path?: string) => ISuggest;
 /**
  * Defines a query execute against the search/suggest endpoint (see https://msdn.microsoft.com/en-us/library/office/dn194079.aspx)
  */

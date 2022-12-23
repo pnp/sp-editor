@@ -53,9 +53,9 @@ export interface CacheGroup extends CacheItem {
  * @param {GroupType} [groupTypes=GroupType.any] - the type of group to search for
  * @returns {Promise<Group[]>} An array of Groups
  */
-export declare function findGroups(graph: IGraph, query: string, top?: number, groupTypes?: GroupType): Promise<Group[]>;
+export declare function findGroups(graph: IGraph, query: string, top?: number, groupTypes?: GroupType, groupFilters?: string): Promise<Group[]>;
 /**
- * Searches the Graph for Groups
+ * Searches the Graph for group members
  *
  * @export
  * @param {IGraph} graph
@@ -83,5 +83,17 @@ export declare function getGroup(graph: IGraph, id: string, requestedProps?: str
  * @param {string[]} groupIds, an array of string ids
  * @returns {Promise<Group[]>}
  */
-export declare function getGroupsForGroupIds(graph: IGraph, groupIds: string[]): Promise<Group[]>;
+export declare function getGroupsForGroupIds(graph: IGraph, groupIds: string[], filters?: string): Promise<Group[]>;
+/**
+ * Gets groups from the graph that are in the group ids
+ * @param graph
+ * @param query
+ * @param groupId
+ * @param top
+ * @param transitive
+ * @param groupTypes
+ * @param filters
+ * @returns
+ */
+export declare function findGroupsFromGroupIds(graph: IGraph, query: string, groupIds: string[], top?: number, groupTypes?: GroupType, filters?: string): Promise<Group[]>;
 //# sourceMappingURL=graph.groups.d.ts.map

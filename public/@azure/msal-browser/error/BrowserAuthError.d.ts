@@ -147,7 +147,35 @@ export declare const BrowserAuthErrorMessage: {
         code: string;
         desc: string;
     };
+    authCodeOrNativeAccountRequired: {
+        code: string;
+        desc: string;
+    };
     databaseUnavailable: {
+        code: string;
+        desc: string;
+    };
+    unableToAcquireTokenFromNativePlatform: {
+        code: string;
+        desc: string;
+    };
+    nativeHandshakeTimeout: {
+        code: string;
+        desc: string;
+    };
+    nativeExtensionNotInstalled: {
+        code: string;
+        desc: string;
+    };
+    nativeConnectionNotEstablished: {
+        code: string;
+        desc: string;
+    };
+    nativeBrokerCalledBeforeInitialize: {
+        code: string;
+        desc: string;
+    };
+    nativePromptNotSupported: {
         code: string;
         desc: string;
     };
@@ -224,7 +252,7 @@ export declare class BrowserAuthError extends AuthError {
      */
     static createMonitorIframeTimeoutError(): BrowserAuthError;
     /**
-     * Creates an error thrown when navigateWindow is called inside an iframe.
+     * Creates an error thrown when navigateWindow is called inside an iframe or brokered applications.
      * @param windowParentCheck
      */
     static createRedirectInIframeError(windowParentCheck: boolean): BrowserAuthError;
@@ -310,8 +338,38 @@ export declare class BrowserAuthError extends AuthError {
      */
     static createAuthCodeRequiredError(): BrowserAuthError;
     /**
+     * Create an error when an authorization code or native account ID is required but not provided
+     */
+    static createAuthCodeOrNativeAccountIdRequiredError(): BrowserAuthError;
+    /**
      * Create an error when IndexedDB is unavailable
      */
     static createDatabaseUnavailableError(): BrowserAuthError;
+    /**
+     * Create an error when native token acquisition is not possible
+     */
+    static createUnableToAcquireTokenFromNativePlatformError(): BrowserAuthError;
+    /**
+     * Create an error thrown when Handshake with browser extension times out
+     */
+    static createNativeHandshakeTimeoutError(): BrowserAuthError;
+    /**
+     * Create an error thrown when browser extension is not installed
+     */
+    static createNativeExtensionNotInstalledError(): BrowserAuthError;
+    /**
+     * Create an error when native connection has not been established
+     * @returns
+     */
+    static createNativeConnectionNotEstablishedError(): BrowserAuthError;
+    /**
+     * Create an error thrown when the initialize function hasn't been called
+     */
+    static createNativeBrokerCalledBeforeInitialize(): BrowserAuthError;
+    /**
+     * Create an error thrown when requesting a token directly from the native platform with an unsupported prompt parameter e.g. select_account, login or create
+     * These requests must go through eSTS to ensure eSTS is aware of the new account
+     */
+    static createNativePromptParameterNotSupportedError(): BrowserAuthError;
 }
 //# sourceMappingURL=BrowserAuthError.d.ts.map

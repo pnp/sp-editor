@@ -1,10 +1,12 @@
 import { IDefinitions } from '../store/home/types'
 
 export const getSystemjsPath = (): string => {
-  return `var sj = '${chrome.extension.getURL('bundles/system.js')}';`
+  return `var sj = '${chrome.runtime.getURL('bundles/system.js')}';`
 }
 export const getPnpjsPath = (): string => {
-  return `var speditorpnp = '${chrome.extension.getURL('bundles/pnpjs.es5.umd.bundle.js')}';`
+  return `var mod_sp = '${chrome.runtime.getURL('bundles/sp.es5.umd.bundle.js')}';
+  var mod_logging = '${chrome.runtime.getURL('bundles/logging.es5.umd.bundle.js')}';
+  var mod_queryable = '${chrome.runtime.getURL('bundles/queryable.es5.umd.bundle.js')}';`
 }
 export const spDelay = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms))

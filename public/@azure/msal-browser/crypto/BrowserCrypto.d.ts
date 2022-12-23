@@ -1,12 +1,27 @@
-import { Logger } from "..";
+import { Logger } from "@azure/msal-common";
+import { CryptoOptions } from "../config/Configuration";
 /**
  * This class implements functions used by the browser library to perform cryptography operations such as
  * hashing and encoding. It also has helper functions to validate the availability of specific APIs.
  */
 export declare class BrowserCrypto {
-    private _keygenAlgorithmOptions;
+    private keygenAlgorithmOptions;
+    private subtleCrypto;
     private logger;
-    constructor(logger: Logger);
+    private cryptoOptions?;
+    constructor(logger: Logger, cryptoOptions?: CryptoOptions);
+    /**
+     * Check whether IE crypto or other browser cryptography is available.
+     */
+    private hasIECrypto;
+    /**
+     * Check whether browser crypto is available.
+     */
+    private hasBrowserCrypto;
+    /**
+     * Check whether MSR crypto polyfill is available
+     */
+    private hasMsrCrypto;
     /**
      * Returns a sha-256 hash of the given dataString as an ArrayBuffer.
      * @param dataString
@@ -16,7 +31,7 @@ export declare class BrowserCrypto {
      * Populates buffer with cryptographically random values.
      * @param dataBuffer
      */
-    getRandomValues(dataBuffer: Uint8Array): void;
+    getRandomValues(dataBuffer: Uint8Array): Uint8Array;
     /**
      * Generates a keypair based on current keygen algorithm config.
      * @param extractable
@@ -43,60 +58,5 @@ export declare class BrowserCrypto {
      * @param data
      */
     sign(key: CryptoKey, data: ArrayBuffer): Promise<ArrayBuffer>;
-    /**
-     * Check whether IE crypto or other browser cryptography is available.
-     */
-    private hasCryptoAPI;
-    /**
-     * Checks whether IE crypto (AKA msCrypto) is available.
-     */
-    private hasIECrypto;
-    /**
-     * Check whether browser crypto is available.
-     */
-    private hasBrowserCrypto;
-    /**
-     * Helper function for SHA digest.
-     * @param algorithm
-     * @param data
-     */
-    private getSubtleCryptoDigest;
-    /**
-     * IE Helper function for SHA digest.
-     * @param algorithm
-     * @param data
-     */
-    private getMSCryptoDigest;
-    /**
-     * IE Helper function for generating a keypair
-     * @param extractable
-     * @param usages
-     */
-    private msCryptoGenerateKey;
-    /**
-     * IE Helper function for exportKey
-     * @param key
-     * @param format
-     */
-    private msCryptoExportJwk;
-    /**
-     * IE Helper function for importKey
-     * @param key
-     * @param format
-     * @param extractable
-     * @param usages
-     */
-    private msCryptoImportKey;
-    /**
-     * IE Helper function for sign JWT
-     * @param key
-     * @param data
-     */
-    private msCryptoSign;
-    /**
-     * Returns stringified jwk.
-     * @param jwk
-     */
-    static getJwkString(jwk: JsonWebKey): string;
 }
 //# sourceMappingURL=BrowserCrypto.d.ts.map

@@ -1,12 +1,13 @@
-import { _GraphQueryableInstance, _GraphQueryableCollection } from "../graphqueryable";
-import { IUpdateable, IGetById, IDeleteable } from "../decorators";
-import { Team as ITeamType, TeamsAsyncOperation as ITeamsAsyncOperation, TeamsTab as ITeamsTabType } from "@microsoft/microsoft-graph-types";
+import { _GraphQueryableInstance, _GraphQueryableCollection } from "../graphqueryable.js";
+import { IUpdateable, IGetById, IDeleteable } from "../decorators.js";
+import { Team as ITeamType, TeamsAsyncOperation as ITeamsAsyncOperation, TeamsTab as ITeamsTabType, TeamsAppInstallation as ITeamsAppInstallation, ChatMessage as IChatMessage } from "@microsoft/microsoft-graph-types";
 /**
  * Represents a Microsoft Team
  */
 export declare class _Team extends _GraphQueryableInstance<ITeamType> {
     get primaryChannel(): IChannel;
     get channels(): IChannels;
+    get installedApps(): IInstalledApps;
     /**
      * Archives this Team
      *
@@ -29,7 +30,7 @@ export declare class _Team extends _GraphQueryableInstance<ITeamType> {
 }
 export interface ITeam extends _Team, IUpdateable<ITeamType> {
 }
-export declare const Team: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => ITeam & import("@pnp/odata").IInvokable<any>;
+export declare const Team: import("../graphqueryable.js").IGraphInvokableFactory<ITeam>;
 /**
  * Teams
  */
@@ -38,16 +39,17 @@ export declare class _Teams extends _GraphQueryableCollection<ITeamType[]> {
 }
 export interface ITeams extends _Teams, IGetById<ITeam> {
 }
-export declare const Teams: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => ITeams & import("@pnp/odata").IInvokable<any>;
+export declare const Teams: import("../graphqueryable.js").IGraphInvokableFactory<ITeams>;
 /**
  * Channel
  */
 export declare class _Channel extends _GraphQueryableInstance {
     get tabs(): ITabs;
+    messages(message: IChatMessage): Promise<IChatMessage>;
 }
 export interface IChannel extends _Channel {
 }
-export declare const Channel: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => IChannel & import("@pnp/odata").IInvokable<any>;
+export declare const Channel: import("../graphqueryable.js").IGraphInvokableFactory<IChannel>;
 /**
  * Channels
  */
@@ -62,7 +64,7 @@ export declare class _Channels extends _GraphQueryableCollection {
 }
 export interface IChannels extends _Channels, IGetById<IChannel> {
 }
-export declare const Channels: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => IChannels & import("@pnp/odata").IInvokable<any>;
+export declare const Channels: import("../graphqueryable.js").IGraphInvokableFactory<IChannels>;
 /**
  * Tab
  */
@@ -70,7 +72,7 @@ export declare class _Tab extends _GraphQueryableInstance {
 }
 export interface ITab extends _Tab, IUpdateable, IDeleteable {
 }
-export declare const Tab: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => ITab & import("@pnp/odata").IInvokable<any>;
+export declare const Tab: import("../graphqueryable.js").IGraphInvokableFactory<ITab>;
 /**
  * Tabs
  */
@@ -85,7 +87,7 @@ export declare class _Tabs extends _GraphQueryableCollection {
 }
 export interface ITabs extends _Tabs, IGetById<ITab> {
 }
-export declare const Tabs: (baseUrl: string | import("../graphqueryable").IGraphQueryable<any>, path?: string) => ITabs & import("@pnp/odata").IInvokable<any>;
+export declare const Tabs: import("../graphqueryable.js").IGraphInvokableFactory<ITabs>;
 export interface ITeamUpdateResult {
     data: any;
     team: ITeam;
@@ -109,5 +111,31 @@ export interface ITeamCreateResultAsync {
 export interface ITeamCreateResult {
     data: any;
     team: ITeam;
+}
+/**
+ * InstalledApp
+ */
+export declare class _InstalledApp extends _GraphQueryableInstance<ITeamsAppInstallation> {
+    upgrade(): Promise<void>;
+}
+export interface IInstalledApp extends _InstalledApp, IDeleteable {
+}
+export declare const InstalledApp: import("../graphqueryable.js").IGraphInvokableFactory<IInstalledApp>;
+/**
+ * InstalledApps
+ */
+export declare class _InstalledApps extends _GraphQueryableCollection<ITeamsAppInstallation[]> {
+    /**
+     * Adds an installed app to the collection
+     * @param teamsAppId The id of the app to add.
+     */
+    add(teamsAppId: string): Promise<IAppAddResult>;
+}
+export interface IInstalledApps extends _InstalledApps, IGetById<IInstalledApp> {
+}
+export declare const InstalledApps: import("../graphqueryable.js").IGraphInvokableFactory<IInstalledApps>;
+export interface IAppAddResult {
+    data: any;
+    app: IInstalledApp;
 }
 //# sourceMappingURL=types.d.ts.map

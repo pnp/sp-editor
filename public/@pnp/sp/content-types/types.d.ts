@@ -1,6 +1,5 @@
-import { ITypedHash } from "@pnp/common";
-import { _SharePointQueryableInstance, ISharePointQueryableCollection, _SharePointQueryableCollection, IDeleteable } from "../sharepointqueryable.js";
-export declare class _ContentTypes extends _SharePointQueryableCollection<IContentTypeInfo[]> {
+import { _SPCollection, _SPInstance, ISPCollection, IDeleteable } from "../spqueryable.js";
+export declare class _ContentTypes extends _SPCollection<IContentTypeInfo[]> {
     /**
      * Adds an existing contenttype to a content type collection
      *
@@ -15,20 +14,27 @@ export declare class _ContentTypes extends _SharePointQueryableCollection<IConte
     /**
      * Adds a new content type to the collection
      *
-     * @param id The desired content type id for the new content type (also determines the parent content type)
+     * @param id The desired content type id for the new content type (also determines the parent
+     *   content type)
      * @param name The name of the content type
      * @param description The description of the content type
      * @param group The group in which to add the content type
      * @param additionalSettings Any additional settings to provide when creating the content type
      *
      */
-    add(id: string, name: string, description?: string, group?: string, additionalSettings?: ITypedHash<string | number | boolean>): Promise<IContentTypeAddResult>;
+    add(id: string, name: string, description?: string, group?: string, additionalSettings?: Record<string, string | number | boolean>): Promise<IContentTypeAddResult>;
 }
 export interface IContentTypes extends _ContentTypes {
 }
-export declare const ContentTypes: import("../sharepointqueryable.js").ISPInvokableFactory<IContentTypes>;
-export declare class _ContentType extends _SharePointQueryableInstance<IContentTypeInfo> {
-    delete: (this: import("../sharepointqueryable.js").ISharePointQueryable<any>) => Promise<void>;
+export declare const ContentTypes: import("../spqueryable.js").ISPInvokableFactory<IContentTypes>;
+export declare class _ContentType extends _SPInstance<IContentTypeInfo> {
+    delete: (this: import("../spqueryable.js").ISPQueryable<any>) => Promise<void>;
+    /**
+     * Updates this list instance with the supplied properties
+     *
+     * @param properties A plain object hash of values to update for the web
+     */
+    update(properties: Record<string, any>): Promise<void>;
     /**
      * Gets the column (also known as field) references in the content type.
      */
@@ -36,7 +42,7 @@ export declare class _ContentType extends _SharePointQueryableInstance<IContentT
     /**
      * Gets a value that specifies the collection of fields for the content type.
      */
-    get fields(): ISharePointQueryableCollection;
+    get fields(): ISPCollection;
     /**
      * Gets the parent content type of the content type.
      */
@@ -44,11 +50,11 @@ export declare class _ContentType extends _SharePointQueryableInstance<IContentT
     /**
      * Gets a value that specifies the collection of workflow associations for the content type.
      */
-    get workflowAssociations(): ISharePointQueryableCollection;
+    get workflowAssociations(): ISPCollection;
 }
 export interface IContentType extends _ContentType, IDeleteable {
 }
-export declare const ContentType: import("../sharepointqueryable.js").ISPInvokableFactory<IContentType>;
+export declare const ContentType: import("../spqueryable.js").ISPInvokableFactory<IContentType>;
 /**
  * Represents the output of adding a content type
  */
@@ -56,12 +62,32 @@ export interface IContentTypeAddResult {
     contentType: IContentType;
     data: Partial<IContentTypeInfo>;
 }
+export declare class _FieldLinks extends _SPCollection<IFieldLinkInfo[]> {
+    /**
+    *  Gets a FieldLink by GUID id
+    *
+    * @param id The GUID id of the field link
+    */
+    getById(id: string): IFieldLink;
+}
+export interface IFieldLinks extends _FieldLinks {
+}
+export declare const FieldLinks: import("../spqueryable.js").ISPInvokableFactory<IFieldLinks>;
+export declare class _FieldLink extends _SPInstance<IFieldLinkInfo> {
+}
+export interface IFieldLink extends _FieldLink {
+}
+export declare const FieldLink: import("../spqueryable.js").ISPInvokableFactory<IFieldLink>;
 export interface IContentTypeInfo {
     Description: string;
+    DispFormClientSideComponentId: string;
+    DispFormClientSideComponentProperties: string;
     DisplayFormTemplateName: string;
     DisplayFormUrl: string;
     DocumentTemplate: string;
     DocumentTemplateUrl: string;
+    EditFormClientSideComponentId: string;
+    EditFormClientSideComponentProperties: string;
     EditFormTemplateName: string;
     EditFormUrl: string;
     Group: string;
@@ -74,6 +100,8 @@ export interface IContentTypeInfo {
     MobileEditFormUrl: string;
     MobileNewFormUrl: string;
     Name: string;
+    NewFormClientSideComponentId: string;
+    NewFormClientSideComponentProperties: string;
     NewFormTemplateName: string;
     NewFormUrl: string;
     ReadOnly: boolean;
@@ -82,22 +110,6 @@ export interface IContentTypeInfo {
     Sealed: boolean;
     StringId: string;
 }
-export declare class _FieldLinks extends _SharePointQueryableCollection<IFieldLinkInfo[]> {
-    /**
-    *  Gets a FieldLink by GUID id
-    *
-    * @param id The GUID id of the field link
-    */
-    getById(id: string): IFieldLink;
-}
-export interface IFieldLinks extends _FieldLinks {
-}
-export declare const FieldLinks: import("../sharepointqueryable.js").ISPInvokableFactory<IFieldLinks>;
-export declare class _FieldLink extends _SharePointQueryableInstance<IFieldLinkInfo> {
-}
-export interface IFieldLink extends _FieldLink {
-}
-export declare const FieldLink: import("../sharepointqueryable.js").ISPInvokableFactory<IFieldLink>;
 export interface IFieldLinkInfo {
     FieldInternalName: string | null;
     Hidden: boolean;

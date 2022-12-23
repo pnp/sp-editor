@@ -33,10 +33,14 @@ gulp.task('clean', (done) => {
     'public/@pnp/odata/**/*',
     'public/@pnp/pnpjs/**/*',
     'public/@pnp/sp/**/*',
+    'public/@pnp/msaljsclient/**/*',
+    'public/@pnp/queryable/**/*',
+    'public/@pnp/core/**/*',
+    'public/@pnp/sp-admin/**/*',
     'public/@microsoft/**/*',
     'public/msal/**/*',
     'public/react/**/*',
-    // 'app/@pnp/adaljsclient/**/*',
+    'app/@pnp/adaljsclient/**/*',
     'public/vs/**/*',
     'public/@pnp/sp-addinhelpers/**/*',
     'public/@pnp/sp-clientsvc/**/*',
@@ -53,6 +57,9 @@ gulp.task('clean', (done) => {
     'public/bundles/sp-clientsvc.es5.umd.bundle.js',
     'public/bundles/sp-taxonomy.es5.umd.bundle.js',
     'public/bundles/sp.es5.umd.bundle.js',
+    'public/bundles/core.es5.umd.bundle.js',
+    'public/bundles/queryable.es5.umd.bundle.js',
+    'public/bundles/msaljsclient.es5.umd.bundle.js',
     'public/bundles/graph-sdk.es5.umd.bundle.js',
     'public/bundles/msal.js',
     'public/bundles/AuthCodeMSALBrowserAuthenticationProvider.es5.umd.bundle.js',
@@ -63,7 +70,7 @@ gulp.task('clean', (done) => {
 
 gulp.task('copy:commmon', (done) => {
   console.log("Copy @pnp/common");
-  gulp.src('./node_modules/@pnp/common/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/common/**/*.d.ts', '!./node_modules/@pnp/common/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/common/'))
   gulp.src('./dist/common.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -73,7 +80,7 @@ gulp.task('copy:commmon', (done) => {
 
 gulp.task('copy:config-store', (done) => {
   console.log("Copy @pnp/config-store");
-  gulp.src('./node_modules/@pnp/config-store/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/config-store/**/*.d.ts', '!./node_modules/@pnp/config-store/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/config-store/'))
   gulp.src('./dist/config-store.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -83,7 +90,7 @@ gulp.task('copy:config-store', (done) => {
 
 gulp.task('copy:graph', (done) => {
   console.log("Copy @pnp/graph");
-  gulp.src('./node_modules/@pnp/graph/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/graph/**/*.d.ts', '!./node_modules/@pnp/graph/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/graph/'))
   gulp.src('./dist/graph.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -93,7 +100,7 @@ gulp.task('copy:graph', (done) => {
 
 gulp.task('copy:logging', (done) => {
   console.log("Copy @pnp/logging");
-  gulp.src('./node_modules/@pnp/logging/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/logging/**/*.d.ts', '!./node_modules/@pnp/logging/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/logging/'))
   gulp.src('./dist/logging.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -103,7 +110,7 @@ gulp.task('copy:logging', (done) => {
 
 gulp.task('copy:odata', (done) => {
   console.log("Copy @pnp/odata");
-  gulp.src('./node_modules/@pnp/odata/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/odata/**/*.d.ts', '!./node_modules/@pnp/odata/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/odata/'))
   gulp.src('./dist/odata.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -113,7 +120,7 @@ gulp.task('copy:odata', (done) => {
 
 gulp.task('copy:pnpjs', (done) => {
   console.log("Copy @pnp/pnpjs");
-  gulp.src('./node_modules/@pnp/pnpjs/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/pnpjs/**/*.d.ts', '!./node_modules/@pnp/pnpjs/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/pnpjs/'))
   // gulp.src('./dist/pnpjs.es5.umd.bundle.js')
   //  .pipe(gulp.dest('./public/bundles/'))
@@ -126,7 +133,7 @@ gulp.task('copy:pnpjs', (done) => {
 
 gulp.task('copy:sp', (done) => {
   console.log("Copy @pnp/sp");
-  gulp.src('./node_modules/@pnp/sp/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/sp/**/*.d.ts', '!./node_modules/@pnp/sp/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/sp/'))
   gulp.src('./dist/sp.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -134,9 +141,49 @@ gulp.task('copy:sp', (done) => {
   done();
 });
 
+gulp.task('copy:queryable', (done) => {
+  console.log("Copy @pnp/queryable");
+  gulp.src(['./node_modules/@pnp/queryable/**/*.d.ts', '!./node_modules/@pnp/queryable/node_modules/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@pnp/queryable/'))
+  gulp.src('./dist/queryable.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
+});
+
+gulp.task('copy:core', (done) => {
+  console.log("Copy @pnp/core");
+  gulp.src(['./node_modules/@pnp/core/**/*.d.ts', '!./node_modules/@pnp/core/node_modules/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@pnp/core/'))
+  gulp.src('./dist/core.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
+});
+
+gulp.task('copy:msaljsclient', (done) => {
+  console.log("Copy @pnp/msaljsclient");
+  gulp.src(['./node_modules/@pnp/msaljsclient/**/*.d.ts', '!./node_modules/@pnp/msaljsclient/node_modules/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@pnp/msaljsclient/'))
+  gulp.src('./dist/msaljsclient.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
+});
+
+gulp.task('copy:sp-admin', (done) => {
+  console.log("Copy @pnp/sp-admin");
+  gulp.src(['./node_modules/@pnp/sp-admin/**/*.d.ts', '!./node_modules/@pnp/sp-admin/node_modules/**/*.d.ts'])
+    .pipe(gulp.dest('./public/@pnp/sp-admin/'))
+  gulp.src('./dist/sp-admin.es5.umd.bundle.js')
+    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+    .pipe(gulp.dest('./public/bundles/'))
+  done();
+});
+
 gulp.task('copy:sp-addinhelpers', (done) => {
   console.log("Copy @pnp/sp-addinhelpers");
-  gulp.src('./node_modules/@pnp/sp-addinhelpers/**/*.d.ts')
+  gulp.src(['./node_modules/@pnp/sp-addinhelpers/**/*.d.ts', '!./node_modules/@pnp/sp-addinhelpers/node_modules/**/*.d.ts'])
     .pipe(gulp.dest('./public/@pnp/sp-addinhelpers/'))
   gulp.src('./dist/sp-addinhelpers.es5.umd.bundle.js')
     .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
@@ -262,22 +309,26 @@ gulp.task('copy:monaco-editor', (done) => {
 
 gulp.task('default',
   gulp.series(['clean',
-    'copy:commmon',
-    'copy:config-store',
+  //  'copy:commmon',
+   // 'copy:config-store',
     'copy:graph',
     'copy:logging',
-    'copy:odata',
-    'copy:pnpjs',
+   // 'copy:odata',
+   // 'copy:pnpjs',
     'copy:sp',
+    'copy:sp-admin',
+    'copy:queryable',
+    'copy:core',
+    'copy:msaljsclient',
     // 'copy:adaljsclient',
-    'copy:sp-addinhelpers',
-    'copy:sp-clientsvc',
-    'copy:sp-taxonomy',
+   // 'copy:sp-addinhelpers',
+   // 'copy:sp-clientsvc',
+   // 'copy:sp-taxonomy',
     'copy:microsoft-graph-types',
     'copy:microsoft-graph-client',
     'copy:msal',
     'copy:msal-browser',
-    'copy:AuthCodeMSALBrowserAuthenticationProvider',
+   // 'copy:AuthCodeMSALBrowserAuthenticationProvider',
     'copy:react',
     'copy:mgt-react',
     'copy:monaco-editor',

@@ -65,7 +65,7 @@ export interface MgtPersonCardConfig {
         profile: boolean;
     };
 }
-declare type UserWithManager = User & {
+type UserWithManager = User & {
     manager?: UserWithManager;
 };
 export interface MgtPersonCardState {

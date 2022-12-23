@@ -1,4 +1,4 @@
-import { IComments, ILikeData, ILikedByInformation } from "./types.js";
+import { IComments, ILikeData, ILikedByInformation, RatingValues } from "./types.js";
 declare module "../items/types" {
     interface _Item {
         readonly comments: IComments;
@@ -6,6 +6,7 @@ declare module "../items/types" {
         like(): Promise<void>;
         unlike(): Promise<void>;
         getLikedByInformation(): Promise<ILikedByInformation>;
+        rate(rating: RatingValues): Promise<number>;
     }
     interface IItem {
         readonly comments: IComments;
@@ -25,6 +26,12 @@ declare module "../items/types" {
          * Unlikes this item as the current user
          */
         getLikedByInformation(): Promise<ILikedByInformation>;
+        /**
+         * Rates this item as the current user
+         * @param rating rating number between 1-5
+         * @returns rating number
+         */
+        rate(rating: RatingValues): Promise<number>;
     }
 }
 //# sourceMappingURL=item.d.ts.map

@@ -26,7 +26,7 @@ export declare function checkPermissions(this: ShareableQueryable, recipients: I
  * @param expands Expand more fields.
  *
  */
-export declare function getSharingInformation(this: ShareableQueryable, request?: ISharingInformationRequest, expands?: string[]): Promise<ISharingInformation>;
+export declare function getSharingInformation(this: ShareableQueryable, request?: ISharingInformationRequest, expands?: string[], selects?: string[]): Promise<ISharingInformation>;
 /**
  * Gets the sharing settings of an item.
  *

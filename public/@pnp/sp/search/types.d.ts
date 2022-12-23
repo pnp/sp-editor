@@ -30,7 +30,7 @@ export interface ISearchBuilder {
     hiddenConstraints(constraints: string): this;
     sortList(...sorts: ISort[]): this;
     timeout(milliseconds: number): this;
-    hitHighlightedProperties(...properties: string[]): this;
+    hithighlightedProperties(...properties: string[]): this;
     clientType(clientType: string): this;
     personalizationData(data: string): this;
     resultsURL(url: string): this;
@@ -251,7 +251,7 @@ export interface ISearchResult {
     FileExtension?: string;
     ContentTypeId?: string;
     ParentLink?: string;
-    ViewsLifeTime?: number;
+    ViewsLifeTime?: string;
     ViewsRecent?: number;
     SectionNames?: string;
     SectionIndexes?: string;
@@ -271,6 +271,15 @@ export interface ISearchResult {
     PartitionId?: string;
     UrlZone?: number;
     Culture?: string;
+    GeoLocationSource?: string;
+    SiteId?: string;
+    WebId?: string;
+    ListId?: string;
+    IsExternalContent?: boolean;
+    DocumentSignature?: string;
+    LinkingUrl?: string;
+    ResultTypeId?: string;
+    ResultTypeIdList?: string;
 }
 export interface ISearchResponse {
     ElapsedTime: number;

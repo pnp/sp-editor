@@ -1,5 +1,6 @@
-import { ILogEntry } from '@pnp/logging'
-import * as pnp from '@pnp/pnpjs'
+import * as SP from '@pnp/sp/presets/all'
+import * as Logging from '@pnp/logging'
+import * as Queryable from '@pnp/queryable'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',
 // async methods works when running 'npm run watch'
@@ -61,21 +62,29 @@ export function createCustomAction(...args: any) {
   }
 
   /* import pnp */
-  (window as any).SystemJS.import(((window as any).speditorpnp)).then(($pnp: typeof pnp) => {
-    /*** setup pnp ***/
-    $pnp.setup({
-      sp: {
-        headers: {
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        },
-      },
-    })
+  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
+
+  Promise.all<libTypes>([
+    (window as any).SystemJS.import((window as any).mod_sp),
+    (window as any).SystemJS.import((window as any).mod_logging),
+    (window as any).SystemJS.import((window as any).mod_queryable)
+  ]).then((modules) => {
+
+    var pnpsp = modules[0]
+    var pnplogging = modules[1]
+    var pnpqueryable = modules[2]
+
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
     /*** clear previous log listeners ***/
-    $pnp.log.clearSubscribers()
+    pnplogging.Logger.clearSubscribers()
     /*** setup log listener ***/
-    const listener = new $pnp.FunctionListener((entry: ILogEntry) => {
+    const listener = pnplogging.FunctionListener((entry) => {
       entry.data.response.clone().json().then((error: any) => {
         window.postMessage(JSON.stringify({
           function: functionName,
@@ -86,7 +95,7 @@ export function createCustomAction(...args: any) {
         }), '*')
       })
     })
-    $pnp.log.subscribe(listener)
+    pnplogging.Logger.subscribe(listener)
     /* *** */
 
     const postMessage = () => {
@@ -99,8 +108,8 @@ export function createCustomAction(...args: any) {
       }), '*')
     }
 
-    $pnp.sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!$pnp.sp.web.hasPermissions(web.EffectiveBasePermissions, $pnp.SPNS.PermissionKind.AddAndCustomizePages)) {
+    sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
         window.postMessage(JSON.stringify({
           function: functionName,
           success: false,
@@ -112,9 +121,9 @@ export function createCustomAction(...args: any) {
       }
 
       if (scope === 2) {
-        $pnp.sp.site.userCustomActions.add(payload).then(postMessage)
+        sp.site.userCustomActions.add(payload).then(postMessage)
       } else {
-        $pnp.sp.web.userCustomActions.add(payload).then(postMessage)
+        sp.web.userCustomActions.add(payload).then(postMessage)
       }
 
     })
