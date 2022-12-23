@@ -6,6 +6,8 @@ export function getContext(...args: any) {
   const params = args
   const functionName = params[0].name
 
+  var _spPageContextInfo = (window as any)._spPageContextInfo;
+
   window.postMessage(JSON.stringify({
     function: functionName,
     success: true,
