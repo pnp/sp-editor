@@ -2,6 +2,7 @@
   "name": "sp-editor",
   "version": "6.5.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@azure/msal-browser": "^2.32.1",
     "@azure/msal-react": "^1.5.1",

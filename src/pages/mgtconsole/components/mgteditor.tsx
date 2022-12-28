@@ -23,10 +23,12 @@ import { IDefinitions, MessageBarColors } from '../../../store/home/types'
 import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
 import { fetchDefinitions } from '../utils/util'
 import { componentSnippets } from './componentSnippets'
-import { ErrorBoundary } from './ErrorBoundary'
 import { getDefinitionsInUse, MGTPlaygroundMonacoConfigs, parseClassComponent, parseModules } from './utils'
+import { AuthenticationResult } from '@azure/msal-browser'
+import { useMsal } from '@azure/msal-react'
 
 const MGTEditor = () => {
+  const { instance, accounts } = useMsal();
   const dispatch = useDispatch()
   const [mgtEditorInitialized, setMGTEditorInitialized] = useState(false)
 
@@ -90,7 +92,10 @@ const MGTEditor = () => {
         )
         preview_code = parseClassComponent(preview_code)
 
-       // console.log(preview_code)
+       let frame: HTMLIFrameElement = document.getElementById("testSandboxFrame") as HTMLIFrameElement;
+       frame.contentWindow?.postMessage(JSON.stringify({
+        code: preview_code,
+      }), "*");
         dispatch(setTranspiled(preview_code))
       } else {
         dispatch(
@@ -105,6 +110,43 @@ const MGTEditor = () => {
       console.log(e)
     }
   }, [dispatch])
+
+  const onMessageReceivedFromIframe = React.useCallback(
+    async (event: any) => {
+      try {
+        let data = JSON.parse(event.data);
+        if (data.scopes) {
+          let response: AuthenticationResult;
+          try {
+            response = await instance.acquireTokenSilent({
+              ...data,
+              account: accounts[0],
+            })
+          }
+          catch {
+            response = await instance.acquireTokenPopup({
+              ...data,
+              account: accounts[0],
+              prompt: 'select_account'
+            })
+          }
+          console.log(response.accessToken)
+          let frame: HTMLIFrameElement = document.getElementById("testSandboxFrame") as HTMLIFrameElement;
+          frame.contentWindow?.postMessage(JSON.stringify({
+            token: response.accessToken,
+          }), "*");
+        }
+      }
+      catch (e) { }
+    },
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener("message", onMessageReceivedFromIframe);
+    return () =>
+      window.removeEventListener("message", onMessageReceivedFromIframe);
+  }, [onMessageReceivedFromIframe]);
 
   const initMGTEditor = useCallback(() => {
     if (mgtEditorDiv.current) {
@@ -261,7 +303,6 @@ const MGTEditor = () => {
     PREVIEW_MGT_ELEMENT,
     PREVIEW_MSAL,
   }
-
   return (
     <LiveProvider code={transpiled} scope={scope}>
       <Stack grow horizontal style={{ height: '100%' }}>
@@ -276,17 +317,11 @@ const MGTEditor = () => {
             style={{ width: '100%', height: 'calc(100vh - 90px)' }}
           />
         </Stack>
-        <Stack style={{ marginLeft: '10px' }}>
-          <ErrorBoundary>
-            <LivePreview className='viewer' />
-          </ErrorBoundary>
-          <LiveError
-            className='error'
-            hidden={transpiled && transpiled.length > 0 ? false : true}
-          />
+        <Stack style={{ width: '40%', marginLeft: '10px', marginRight: '10px'  }}>
+            <iframe style={{ width: '100%', height: '100vh', borderWidth: '0px'}} id='testSandboxFrame' src="chrome-extension://nfabmlfkakpniaccknblmcihigllfnne/build/index.html" />
         </Stack>
       </Stack>
-    </LiveProvider>
+    </LiveProvider> 
   )
 }
 

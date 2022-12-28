@@ -15,23 +15,15 @@ export const componentSnippets = [
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
 import React from 'react'
 import { Login } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
-
   return (
     <Login className={'mgt-dark'} />
   )
-}`.trim(),
+}
+    `.trim(),
   },
   {
     option: {
@@ -40,17 +32,10 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
 import React from 'react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
 
 () => {
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  })
 
   const SignedOutButton = (props: MgtTemplateProps) => {
     return (
@@ -64,8 +49,7 @@ import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
           borderRadius: '5px',
           outline: 'none',
           fontSize: '100%',
-        }}
-      >
+        }}>
         Login
       </button>
     )
@@ -127,68 +111,15 @@ import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
   },
   {
     option: {
-      key: 'login-msal',
-      text: 'Login component with msal configuration',
-      itemType: SelectableOptionMenuItemType.Normal,
-    },
-    snippet: `
-/* CTRL/CMD + D to render changes */
-import React from 'react'
-import { LoginType, MsalProvider, MsalUserAgentApplicationConfig } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
-import { Login } from '@microsoft/mgt-react'
-import { UserAgentApplication } from 'msal'
-
-() => {
-
-  const msalConf: MsalUserAgentApplicationConfig = {
-    userAgentApplication: new UserAgentApplication({
-      auth: {
-        clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-      },
-      cache: {
-        cacheLocation: 'localStorage',
-      },
-    }),
-    loginType: LoginType.Popup,
-    scopes: [
-      'calendars.read',
-      'user.read',
-      'openid',
-      'profile',
-      'people.read',
-      'user.readbasic.all',
-    ],
-  }
-
-  Providers.globalProvider = new MsalProvider(msalConf)
-
-  return (
-    <Login className={'mgt-dark'} />
-  )
-}
-`.trim(),
-  },
-  {
-    option: {
       key: 'login-events',
       text: 'Login component events',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
 import React, { useState } from 'react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 import { Login } from '@microsoft/mgt-react'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  })
-
   const [events, setEvents] = useState([])
 
   const logEvent = (s: Event) => {
@@ -235,21 +166,10 @@ import { Login } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
 import React from 'react'
 import { Get, Login } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-    scopes: [
-      'user.read',
-    ],
-  });
 
   const Template = (props) => {
     const displayName = props.dataContext.displayName
@@ -278,7 +198,8 @@ import { Providers } from '@microsoft/mgt-element'
       </Get>
     </>
   )
-}`.trim(),
+}
+`.trim(),
   },
   {
     option: {
@@ -294,18 +215,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, Person } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -333,18 +247,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, People } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -371,18 +278,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, PersonCard } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -409,18 +309,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
-import { LoginType, MsalProvider } from '@microsoft/mgt';
-import { Providers } from '@microsoft/mgt-element';
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -437,18 +330,11 @@ import { Providers } from '@microsoft/mgt-element';
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React, { useState } from "react"
 import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
-import { LoginType, MsalProvider } from '@microsoft/mgt';
-import { Providers } from '@microsoft/mgt-element';
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   const [people, setPeople] = useState([]);
 
@@ -497,18 +383,11 @@ import { Providers } from '@microsoft/mgt-element';
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, TeamsChannelPicker } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -534,18 +413,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, Agenda } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -570,18 +442,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, Tasks } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -606,18 +471,11 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React from 'react'
 import { Login, Todo } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   return (
     <>
@@ -642,20 +500,13 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
+
 import React, { useState } from 'react'
 import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
-import { LoginType, MsalProvider } from '@microsoft/mgt'
-import { Providers } from '@microsoft/mgt-element'
 
 () => {
 
   const [file, setFile] = useState(null);
-
-  Providers.globalProvider = new MsalProvider({
-    clientId: '20d34c96-396e-4bf0-a008-472ef10a5099',
-    loginType: LoginType.Popup,
-  });
 
   const selectItem = (selectedFile: any) => {
     setFile(selectedFile.detail)
@@ -678,43 +529,38 @@ import { Providers } from '@microsoft/mgt-element'
       itemType: SelectableOptionMenuItemType.Header,
     },
   },
-  {
+ /* {
     option: {
       key: 'class-component-timer',
       text: 'Class Component timer',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
-/* CTRL/CMD + D to render changes */
-import React from 'react'
-
-interface CounterProps {}
-
-interface CounterState {
-  count: number
-}
-
-class Counter extends React.Component<CounterProps, CounterState> {
-  private interval: number
-
-  constructor(props: CounterProps) {
-    super(props)
-    this.state = { count: 0 }
-  }
-
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      this.setState((state) => ({ count: state.count + 1 }))
-    }, 1000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
-  }
-
-  render() {
-    return <h3>{this.state.count}</h3>
-  }
-}`.trim(),
-  },
+    class Counter extends React.Component {
+      constructor() {
+        super()
+        this.state = { count: 0 }
+      }
+    
+      componentDidMount() {
+        this.interval = setInterval(() => {
+          this.setState(state => ({ count: state.count + 1 }))
+        }, 1000)
+      }
+    
+      componentWillUnmount() {
+        clearInterval(this.interval)
+      }
+    
+      render() {
+        return (
+          <center>
+            <h3>
+              {this.state.count}
+            </h3>
+          </center>
+        )
+      }
+    }`.trim(),
+  },*/
 ]
