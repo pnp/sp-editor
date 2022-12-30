@@ -1,7 +1,8 @@
 {
   "name": "sp-editor",
-  "version": "6.5.0",
+  "version": "6.5.1",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@azure/msal-browser": "^2.32.1",
     "@azure/msal-react": "^1.5.1",
@@ -14,7 +15,6 @@
     "@microsoft/microsoft-graph-client": "^3.0.4",
     "@minoru/react-dnd-treeview": "^3.4.0",
     "@uifabric/theme-samples": "^7.5.29",
-    "cra-build-watch": "^3.4.0",
     "gsap": "^3.11.3",
     "gulp-remove-line": "^1.0.4",
     "ionicons": "^6.0.4",
@@ -32,9 +32,9 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
-    "watch": "gulp comment-redirect && cra-build-watch",
-    "updatedeps": "gulp comment-redirect && node_modules/.bin/webpack && gulp"
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cd iframe-sandbox-app && BUILD_PATH='../build/build' react-scripts build",
+    "watch": "concurrently \"cra-build-watch\" \"cd iframe-sandbox-app && cra-build-watch -b ../build/build\"",
+    "updatedeps": "node_modules/.bin/webpack && gulp"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -69,6 +69,8 @@
     "@types/react-redux": "^7.1.22",
     "@types/react-router-dom": "^5.3.2",
     "@types/textarea-caret": "^3.0.1",
+    "concurrently": "^7.6.0",
+    "cra-build-watch": "tavikukko/cra-build-watch#handleBuildPath-with-resolve",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",

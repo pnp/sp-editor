@@ -2262,7 +2262,7 @@ var UserAgentApplication = /** @class */ (function () {
                         }
                         this.telemetryManager.stopAndFlushApiEvent(requestCorrelationId, apiEvent, true);
                         this.logger.verbose("Navigating window to urlNavigate");
-                        //this.navigateWindow(urlNavigate);
+                        this.navigateWindow(urlNavigate);
                         return [3 /*break*/, 6];
                     case 5:
                         error_3 = _a.sent();
