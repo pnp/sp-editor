@@ -24,7 +24,7 @@ import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
 import { fetchDefinitions } from '../utils/util'
 import { componentSnippets } from './componentSnippets'
 import { getDefinitionsInUse, MGTPlaygroundMonacoConfigs, parseClassComponent, parseModules } from './utils'
-import { AuthenticationResult } from '@azure/msal-browser'
+import { AuthenticationResult, BrowserUtils } from '@azure/msal-browser'
 import { useMsal } from '@azure/msal-react'
 
 const MGTEditor = () => {
@@ -135,6 +135,12 @@ const MGTEditor = () => {
           frame.contentWindow?.postMessage(JSON.stringify({
             token: response.accessToken,
           }), "*");
+        }
+        if (data.logout) {
+          instance.logoutRedirect({
+            account: instance.getActiveAccount(),
+            onRedirectNavigate: () => !BrowserUtils.isInIframe()
+          })
         }
       }
       catch (e) { }
@@ -318,7 +324,7 @@ const MGTEditor = () => {
           />
         </Stack>
         <Stack style={{ width: '40%', marginLeft: '10px', marginRight: '10px'  }}>
-            <iframe style={{ width: '100%', height: '100vh', borderWidth: '0px'}} id='testSandboxFrame' src="chrome-extension://nfabmlfkakpniaccknblmcihigllfnne/build/index.html" />
+            <iframe style={{ width: '100%', height: '100vh', borderWidth: '0px'}} id='testSandboxFrame' src="build/index.html#/mgtiframe" />
         </Stack>
       </Stack>
     </LiveProvider> 

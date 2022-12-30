@@ -15,6 +15,8 @@ export const componentSnippets = [
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+
 import React from 'react'
 import { Login } from '@microsoft/mgt-react'
 
