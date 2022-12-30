@@ -11,10 +11,13 @@ If you want to chip in by porting features or even creating new ones, here is a 
 git clone https://github.com/pnp/sp-editor.git # clone the project
 cd sp-editor # go to the folder
 npm i # install dependencies
+cd iframe-sandbox-app # go to the iframe app folder
+npm i # install dependencies
+cd .. # got back to root
 npm run watch # build and start watch mode
 code . # open vscode
 ```
-Open Microsoft Edge and select Extensions from the menu
+When Watch is running, open Microsoft Edge and select Extensions from the menu
 
 ![](repo-images/edgemenu.png)
 
