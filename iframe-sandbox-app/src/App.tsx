@@ -43,7 +43,7 @@ function MGTIframe() {
     // window.removeEventListener("message", onMessageReceivedFromIframe);
   }, [onMessageReceivedFromIframe]);
 
-  CacheService.config.isEnabled = false;
+  CacheService.config.isEnabled = false
 
   var getAccessToken = async (scopes: any[]): Promise<string> => {
     return new Promise(function (resolve) {

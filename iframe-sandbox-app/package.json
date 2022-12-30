@@ -46,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "cra-build-watch": "^3.4.0"
+    "cra-build-watch": "tavikukko/cra-build-watch#handleBuildPath-with-resolve"
   }
 }

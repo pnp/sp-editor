@@ -34,6 +34,8 @@ import { Login } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+
 import React from 'react'
 import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
 
@@ -118,6 +120,8 @@ import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+
 import React, { useState } from 'react'
 import { Login } from '@microsoft/mgt-react'
 
@@ -148,7 +152,9 @@ import { Login } from '@microsoft/mgt-react'
         logoutInitiated={logEvent}
         logoutCompleted={logEvent}
       />
-      <EventWriter />
+      <div style={{ backgroundColor: 'yellow' }}>
+        <EventWriter />
+      </div>
     </>
   )
 }
@@ -168,6 +174,8 @@ import { Login } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+
 import React from 'react'
 import { Get, Login } from '@microsoft/mgt-react'
 
@@ -217,6 +225,7 @@ import { Get, Login } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, Person } from '@microsoft/mgt-react'
@@ -249,6 +258,7 @@ import { Login, Person } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, People } from '@microsoft/mgt-react'
@@ -280,6 +290,7 @@ import { Login, People } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, PersonCard } from '@microsoft/mgt-react'
@@ -311,6 +322,7 @@ import { Login, PersonCard } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
@@ -332,6 +344,7 @@ import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from "react"
 import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
@@ -385,6 +398,7 @@ import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, TeamsChannelPicker } from '@microsoft/mgt-react'
@@ -415,6 +429,7 @@ import { Login, TeamsChannelPicker } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, Agenda } from '@microsoft/mgt-react'
@@ -444,6 +459,7 @@ import { Login, Agenda } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, Tasks } from '@microsoft/mgt-react'
@@ -473,6 +489,7 @@ import { Login, Tasks } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
 import { Login, Todo } from '@microsoft/mgt-react'
@@ -502,6 +519,7 @@ import { Login, Todo } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from 'react'
 import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
@@ -538,6 +556,7 @@ import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
+
     class Counter extends React.Component {
       constructor() {
         super()

@@ -235,8 +235,9 @@ const GraphSDKEditor = () => {
 
                 script += 'exescript(execme);'
 
+                // show loading for a sec to make user know the code is being executed
                 dispatch(setLoading(true))
-
+                setTimeout(() => { dispatch(setLoading(false)) }, 1200)
                 try {
                   const response = await instance.acquireTokenSilent({
                     ...loginRequest,
@@ -251,7 +252,6 @@ const GraphSDKEditor = () => {
                   });
                   chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
                 }
-                dispatch(setLoading(false))
               } catch (e) {
                 console.log(e)
               }
@@ -364,9 +364,7 @@ const GraphSDKEditor = () => {
   }, [graphOutputinitialized, result])
 
   return (
-    <Stack grow horizontal style={{ height: '100%' }}>
-      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: '100%' }} />
-    </Stack>
+    <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: '100%' }} />
   )
 }
 

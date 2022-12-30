@@ -14,11 +14,10 @@ import * as PREVIEW_MSAL from 'msal'
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import * as PREVIEW_REACT from 'react'
-import { LiveError, LivePreview, LiveProvider } from 'react-live'
 import { useDispatch, useSelector } from 'react-redux'
 import ts, { transpileModule } from 'typescript'
 import { IRootState } from '../../../store'
-import { setAppMessage } from '../../../store/home/actions'
+import { setAppMessage, setLoading } from '../../../store/home/actions'
 import { IDefinitions, MessageBarColors } from '../../../store/home/types'
 import { setCode, setTranspiled } from '../../../store/mgtconsole/actions'
 import { fetchDefinitions } from '../utils/util'
@@ -31,6 +30,7 @@ const MGTEditor = () => {
   const { instance, accounts } = useMsal();
   const dispatch = useDispatch()
   const [mgtEditorInitialized, setMGTEditorInitialized] = useState(false)
+  const [selectedItem, setSelectedItem] = useState<IDropdownOption>();
 
   const { definitions, transpiled } = useSelector(
     (state: IRootState) => state.mgtconsole,
@@ -59,6 +59,7 @@ const MGTEditor = () => {
   }, [])
 
   const transpileIt = useCallback(() => {
+
     try {
       const model = mgtEditorRef.current!.getModel()!
 
@@ -92,10 +93,14 @@ const MGTEditor = () => {
         )
         preview_code = parseClassComponent(preview_code)
 
+        dispatch(setLoading(true))
+        setTimeout(() => { dispatch(setLoading(false)) }, 400)
+        
        let frame: HTMLIFrameElement = document.getElementById("testSandboxFrame") as HTMLIFrameElement;
        frame.contentWindow?.postMessage(JSON.stringify({
         code: preview_code,
       }), "*");
+      
         dispatch(setTranspiled(preview_code))
       } else {
         dispatch(
@@ -292,6 +297,7 @@ const MGTEditor = () => {
     event: React.FormEvent<HTMLDivElement>,
     option?: IDropdownOption | undefined,
   ) => {
+    setSelectedItem(option);
     if (option) {
       const componentSnippet = componentSnippets.find((components) => components.option.key === option.key)
 
@@ -302,21 +308,19 @@ const MGTEditor = () => {
     }
   }
 
-  const scope = {
-    PREVIEW_REACT,
-    PREVIEW_MGT_REACT,
-    PREVIEW_MGT,
-    PREVIEW_MGT_ELEMENT,
-    PREVIEW_MSAL,
+  const loaded = () => {
+    transpileIt()
   }
+
   return (
-    <LiveProvider code={transpiled} scope={scope}>
       <Stack grow horizontal style={{ height: '100%' }}>
         <Stack style={{ width: '60%' }}>
           <Dropdown
+            selectedKey={selectedItem ? selectedItem.key : undefined}
             placeholder='Select sample:'
             options={componentSnippets.map(componentSnippet => componentSnippet.option)}
             onChange={changeModel}
+            defaultSelectedKey={componentSnippets[1].option.key}
           />
           <div
             ref={mgtEditorDiv}
@@ -324,10 +328,9 @@ const MGTEditor = () => {
           />
         </Stack>
         <Stack style={{ width: '40%', marginLeft: '10px', marginRight: '10px'  }}>
-            <iframe style={{ width: '100%', height: '100vh', borderWidth: '0px'}} id='testSandboxFrame' src="build/index.html#/mgtiframe" />
+            <iframe onLoad={loaded} style={{ width: '100%', height: '100vh', borderWidth: '0px'}} id='testSandboxFrame' src="build/index.html#/mgtiframe" />
         </Stack>
       </Stack>
-    </LiveProvider> 
   )
 }
 
