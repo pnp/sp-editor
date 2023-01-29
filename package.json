@@ -1,6 +1,6 @@
 {
   "name": "sp-editor",
-  "version": "6.5.1",
+  "version": "6.6.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -32,7 +32,7 @@
     "typescript": "^4.5.4"
   },
   "scripts": {
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cd iframe-sandbox-app && BUILD_PATH='../build/build' react-scripts build",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cd iframe-sandbox-app && BUILD_PATH='../build/build' INLINE_RUNTIME_CHUNK=false react-scripts build && cd .. && cp build/build/index.html build/build/index2.html",
     "watch": "concurrently \"cra-build-watch\" \"cd iframe-sandbox-app && cra-build-watch -b ../build/build\"",
     "updatedeps": "node_modules/.bin/webpack && gulp"
   },

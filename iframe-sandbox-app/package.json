@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@fluentui/react": "^8.104.1",
     "@microsoft/mgt": "^2.9.0",
     "@microsoft/mgt-element": "^2.9.0",
     "@microsoft/mgt-react": "^2.9.0",
