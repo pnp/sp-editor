@@ -9,6 +9,12 @@ export declare class _Sites extends _GraphQueryableCollection<ISiteType[]> {
      */
     get root(): ISite;
     getById(id: string): ISite;
+    /**
+     * Get a Site by URL
+     * @param hostname: string, the host of the site e.g. "contoso.sharepoint.com"
+     * @param siteUrl: string, the server relative url of the site e.g. "/sites/teamsite1"
+     * @returns ISite
+    */
     getByUrl(hostname: string, siteUrl: string): ISite;
 }
 export interface ISites extends _Sites {

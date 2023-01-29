@@ -224,7 +224,6 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private _type;
     private _groupType;
     private _userType;
-    private _currentSelectedUser;
     private _userFilters;
     private _groupFilters;
     private _peopleFilters;
@@ -236,7 +235,17 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private defaultSelectedGroups;
     private _highlightedUsers;
     private _currentHighlightedUserPos;
+    /**
+     * Checks if the input is focused.
+     */
     private _isFocused;
+    /**
+     * Switch to determine if a typed email can be set.
+     */
+    private _setAnyEmail;
+    /**
+     * List of people found from the graph calls.
+     */
     private _foundPeople;
     constructor();
     /**
@@ -409,7 +418,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private lostFocus;
     private renderHighlightText;
     /**
-     * Adds debounce method for set delay on user input
+     * Handles input from the key up events on the keyboard.
      */
     private onUserKeyUp;
     private handleAnyEmail;

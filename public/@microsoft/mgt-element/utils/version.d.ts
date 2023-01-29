@@ -4,5 +4,5 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-export declare const PACKAGE_VERSION = "2.8.0";
+export declare const PACKAGE_VERSION = "2.9.0";
 //# sourceMappingURL=version.d.ts.map

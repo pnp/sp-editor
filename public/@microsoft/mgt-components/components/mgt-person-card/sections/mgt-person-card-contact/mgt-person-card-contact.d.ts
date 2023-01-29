@@ -41,6 +41,7 @@ export declare class MgtPersonCardContact extends BasePersonCardSection {
         departmentTitle: string;
         titleTitle: string;
         officeLocationTitle: string;
+        copyToClipboardButton: string;
     };
     /**
      * Returns true if the component has data it can render

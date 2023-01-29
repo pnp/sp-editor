@@ -60,88 +60,92 @@ export declare enum SvgIcon {
      */
     Copy = 11,
     /**
+     * A phone handset
+     */
+    Phone = 12,
+    /**
      * A cellphone
      */
-    CellPhone = 12,
+    CellPhone = 13,
     /**
      * Chat message
      */
-    Chat = 13,
+    Chat = 14,
     /**
      * Company department
      */
-    Department = 14,
+    Department = 15,
     /**
      * Email message
      */
-    Email = 15,
+    Email = 16,
     /**
      * Location indicator
      */
-    OfficeLocation = 16,
+    OfficeLocation = 17,
     /**
      * A person
      */
-    Person = 17,
+    Person = 18,
     /**
      * Messages
      */
-    Messages = 18,
+    Messages = 19,
     /**
      * Organization tree
      */
-    Organization = 19,
+    Organization = 20,
     /**
      * Right facing chevron
      */
-    ExpandRight = 20,
+    ExpandRight = 21,
     /**
      * Person profile
      */
-    Profile = 21,
+    Profile = 22,
     /**
      * Balloon
      */
-    Birthday = 22,
+    Birthday = 23,
     /**
      * File icon
      */
-    File = 23,
+    File = 24,
     /**
      * Files icon
      */
-    Files = 24,
+    Files = 25,
     /**
      * Back arrow
      */
-    Back = 25,
+    Back = 26,
     /**
      * Upload icon
      */
-    Upload = 26,
+    Upload = 27,
     /**
      * File Cloud icon
      */
-    FileCloud = 27,
+    FileCloud = 28,
     /**
      * Drag File Mouse Icon
      */
-    DragFile = 28,
+    DragFile = 29,
     /**
      *
      * Cancel icon
      */
-    Cancel = 29,
+    Cancel = 30,
     /**
      *
      * Success icon
      */
-    Success = 30,
+    Success = 31,
     /**
      *
      * Fail icon
      */
-    Fail = 31
+    Fail = 32
 }
 /**
  * returns an svg

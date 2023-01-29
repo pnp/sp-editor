@@ -6,14 +6,7 @@ import {
   Stack,
 } from '@fluentui/react'
 
-/* Preview component imports */
-import * as PREVIEW_MGT from '@microsoft/mgt'
-import * as PREVIEW_MGT_ELEMENT from '@microsoft/mgt-element'
-import * as PREVIEW_MGT_REACT from '@microsoft/mgt-react'
-import * as PREVIEW_MSAL from 'msal'
-
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import * as PREVIEW_REACT from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ts, { transpileModule } from 'typescript'
 import { IRootState } from '../../../store'

@@ -7,6 +7,7 @@ export function getContext(...args: any) {
   const functionName = params[0].name
 
   var _spPageContextInfo = (window as any)._spPageContextInfo;
+  delete _spPageContextInfo['dataSyncClient'];
 
   window.postMessage(JSON.stringify({
     function: functionName,

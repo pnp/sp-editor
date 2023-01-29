@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import PnPjsConsole from './pages/pnpjsconsole'
 
@@ -36,7 +36,6 @@ import {
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import { useDispatch, useSelector } from 'react-redux'
 import MessageBar from './components/messageBar'
-import FileExplorer from './pages/fileexplorer'
 import GraphSDKConsole from './pages/graphsdkconsole'
 import ListProperties from './pages/listproperties'
 import MGTConsole from './pages/mgtconsole'

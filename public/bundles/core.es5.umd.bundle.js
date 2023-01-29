@@ -763,8 +763,10 @@ class timeline_Timeline {
     start(init) {
         // initialize our timeline
         this.emit.init();
+        // get a ref to the promise returned by execute
+        const p = this.execute(init);
         // attach our dispose logic
-        return this.execute(init).finally(() => {
+        p.finally(() => {
             try {
                 // provide an opportunity for cleanup of the timeline
                 this.emit.dispose();
@@ -777,6 +779,8 @@ class timeline_Timeline {
                 this.error(e2);
             }
         });
+        // give the promise back to the caller
+        return p;
     }
     /**
      * By default a timeline references the same observer collection as a parent timeline,
