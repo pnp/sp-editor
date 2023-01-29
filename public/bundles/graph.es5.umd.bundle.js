@@ -750,8 +750,10 @@ class timeline_Timeline {
     start(init) {
         // initialize our timeline
         this.emit.init();
+        // get a ref to the promise returned by execute
+        const p = this.execute(init);
         // attach our dispose logic
-        return this.execute(init).finally(() => {
+        p.finally(() => {
             try {
                 // provide an opportunity for cleanup of the timeline
                 this.emit.dispose();
@@ -764,6 +766,8 @@ class timeline_Timeline {
                 this.error(e2);
             }
         });
+        // give the promise back to the caller
+        return p;
     }
     /**
      * By default a timeline references the same observer collection as a parent timeline,
@@ -1194,7 +1198,7 @@ function __generator(thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -2452,7 +2456,7 @@ const graphPut = (o, init) => {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.10.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.11.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

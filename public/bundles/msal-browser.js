@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v2.32.1 2022-12-07 */
+/*! @azure/msal-browser v2.32.2 2023-01-10 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -119,7 +119,7 @@
         return ar;
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -206,7 +206,7 @@
         return r;
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -282,6 +282,7 @@
         HeaderNames["WWWAuthenticate"] = "WWW-Authenticate";
         HeaderNames["AuthenticationInfo"] = "Authentication-Info";
         HeaderNames["X_MS_REQUEST_ID"] = "x-ms-request-id";
+        HeaderNames["X_MS_HTTP_VERSION"] = "x-ms-httpver";
     })(HeaderNames || (HeaderNames = {}));
     /**
      * Persistent cache keys MSAL which stay while user is logged in.
@@ -589,7 +590,7 @@
         JsonTypes["Jwk"] = "JWK";
     })(JsonTypes || (JsonTypes = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -645,7 +646,7 @@
         return AuthError;
     }(Error));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -720,7 +721,7 @@
         }
     };
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1215,7 +1216,7 @@
         return ClientAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1340,7 +1341,7 @@
         return StringUtils;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1367,13 +1368,23 @@
             var defaultLoggerCallback = function () {
                 return;
             };
-            this.localCallback = loggerOptions.loggerCallback || defaultLoggerCallback;
-            this.piiLoggingEnabled = loggerOptions.piiLoggingEnabled || false;
-            this.level = typeof (loggerOptions.logLevel) === "number" ? loggerOptions.logLevel : exports.LogLevel.Info;
-            this.correlationId = loggerOptions.correlationId || Constants.EMPTY_STRING;
+            var setLoggerOptions = loggerOptions || Logger.createDefaultLoggerOptions();
+            this.localCallback = setLoggerOptions.loggerCallback || defaultLoggerCallback;
+            this.piiLoggingEnabled = setLoggerOptions.piiLoggingEnabled || false;
+            this.level = typeof (setLoggerOptions.logLevel) === "number" ? setLoggerOptions.logLevel : exports.LogLevel.Info;
+            this.correlationId = setLoggerOptions.correlationId || Constants.EMPTY_STRING;
             this.packageName = packageName || Constants.EMPTY_STRING;
             this.packageVersion = packageVersion || Constants.EMPTY_STRING;
         }
+        Logger.createDefaultLoggerOptions = function () {
+            return {
+                loggerCallback: function () {
+                    // allow users to not set loggerCallback
+                },
+                piiLoggingEnabled: false,
+                logLevel: exports.LogLevel.Info
+            };
+        };
         /**
          * Create new Logger with existing configurations.
          */
@@ -1520,12 +1531,12 @@
         return Logger;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /* eslint-disable header/header */
     var name$1 = "@azure/msal-common";
-    var version$1 = "9.0.1";
+    var version$1 = "9.0.2";
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1546,7 +1557,7 @@
         AzureCloudInstance["AzureUsGovernment"] = "https://login.microsoftonline.us";
     })(exports.AzureCloudInstance || (exports.AzureCloudInstance = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1623,19 +1634,16 @@
          * @param key
          */
         CredentialEntity.getCredentialType = function (key) {
-            // First keyword search will match all "AccessToken" and "AccessToken_With_AuthScheme" credentials
-            if (key.indexOf(CredentialType.ACCESS_TOKEN.toLowerCase()) !== -1) {
-                // Perform second search to differentiate between "AccessToken" and "AccessToken_With_AuthScheme" credential types
-                if (key.indexOf(CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME.toLowerCase()) !== -1) {
-                    return CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME;
+            var separator = Separators.CACHE_KEY_SEPARATOR;
+            // Match host names like "login.microsoftonline.com", "https://accounts.google.com:4000", etc.
+            var domainRe = "(https?:\\/\\/)?([\\w-]+\\.)*([\\w-]{1,63})(\\.(\\w{2,3}))(\\:[0-9]{4,5})?";
+            for (var _i = 0, _a = Object.keys(CredentialType); _i < _a.length; _i++) {
+                var credKey = _a[_i];
+                var credVal = CredentialType[credKey].toLowerCase();
+                // Verify credential type is preceded by a valid host name (environment)
+                if (key.toLowerCase().search("(?<=" + separator + domainRe + ")" + separator + credVal + separator) !== -1) {
+                    return CredentialType[credKey];
                 }
-                return CredentialType.ACCESS_TOKEN;
-            }
-            else if (key.indexOf(CredentialType.ID_TOKEN.toLowerCase()) !== -1) {
-                return CredentialType.ID_TOKEN;
-            }
-            else if (key.indexOf(CredentialType.REFRESH_TOKEN.toLowerCase()) !== -1) {
-                return CredentialType.REFRESH_TOKEN;
             }
             return Constants.NOT_DEFINED;
         };
@@ -1705,7 +1713,7 @@
         return CredentialEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1960,7 +1968,7 @@
         return ClientConfigurationError;
     }(ClientAuthError));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2144,7 +2152,7 @@
         return ScopeSet;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2182,7 +2190,7 @@
         };
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2197,7 +2205,7 @@
         AuthorityType[AuthorityType["Dsts"] = 2] = "Dsts";
     })(AuthorityType || (AuthorityType = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2436,7 +2444,7 @@
         return AccountEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2488,7 +2496,7 @@
         return AuthToken;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3367,7 +3375,7 @@
         return DefaultStorageClass;
     }(CacheManager));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3461,7 +3469,7 @@
         return __assign({ clientCapabilities: [], azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS, skipAuthorityMetadataCache: false }, authOptions);
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3481,7 +3489,7 @@
         return ServerError;
     }(AuthError));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3577,7 +3585,7 @@
         return ThrottlingUtils;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3626,7 +3634,7 @@
         return NetworkManager;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3637,7 +3645,7 @@
         CcsCredentialType["UPN"] = "UPN";
     })(CcsCredentialType || (CcsCredentialType = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3728,7 +3736,7 @@
         return BaseClient;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3814,7 +3822,7 @@
         return RequestValidator;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4192,7 +4200,7 @@
         return RequestParameterBuilder;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4256,7 +4264,7 @@
         return IdTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4306,7 +4314,7 @@
         return TimeUtils;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4420,7 +4428,7 @@
         return AccessTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4487,7 +4495,7 @@
         return RefreshTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4562,7 +4570,7 @@
         return InteractionRequiredAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4578,7 +4586,7 @@
         return CacheRecord;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4649,7 +4657,7 @@
         return ProtocolUtils;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4883,7 +4891,7 @@
         return UrlString;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4984,7 +4992,7 @@
         return PopTokenGenerator;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5054,7 +5062,7 @@
         return AppMetadataEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5090,7 +5098,7 @@
         return TokenCacheContext;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5361,7 +5369,7 @@
                                     cloudGraphHostName: ((_b = cacheRecord.account) === null || _b === void 0 ? void 0 : _b.cloudGraphHostName) || Constants.EMPTY_STRING,
                                     msGraphHost: ((_c = cacheRecord.account) === null || _c === void 0 ? void 0 : _c.msGraphHost) || Constants.EMPTY_STRING,
                                     code: code,
-                                    fromNativeBroker: false
+                                    fromNativeBroker: false,
                                 }];
                     }
                 });
@@ -5370,7 +5378,7 @@
         return ResponseHandler;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5381,8 +5389,8 @@
      */
     var AuthorizationCodeClient = /** @class */ (function (_super) {
         __extends(AuthorizationCodeClient, _super);
-        function AuthorizationCodeClient(configuration) {
-            var _this = _super.call(this, configuration) || this;
+        function AuthorizationCodeClient(configuration, performanceClient) {
+            var _this = _super.call(this, configuration, performanceClient) || this;
             // Flag to indicate if client is for hybrid spa auth code redemption
             _this.includeRedirectUri = true;
             return _this;
@@ -5416,26 +5424,47 @@
          * @param request
          */
         AuthorizationCodeClient.prototype.acquireToken = function (request, authCodePayload) {
-            var _a;
+            var _a, _b, _c;
             return __awaiter(this, void 0, void 0, function () {
-                var reqTimestamp, response, requestId, responseHandler;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
+                var atsMeasurement, reqTimestamp, response, requestId, httpVerAuthority, responseHandler;
+                var _this = this;
+                return __generator(this, function (_d) {
+                    switch (_d.label) {
                         case 0:
-                            this.logger.info("in acquireToken call");
+                            atsMeasurement = (_a = this.performanceClient) === null || _a === void 0 ? void 0 : _a.startMeasurement("AuthCodeClientAcquireToken", request.correlationId);
+                            this.logger.info("in acquireToken call in auth-code client");
                             if (!request || StringUtils.isEmpty(request.code)) {
                                 throw ClientAuthError.createTokenRequestCannotBeMadeError();
                             }
                             reqTimestamp = TimeUtils.nowSeconds();
                             return [4 /*yield*/, this.executeTokenRequest(this.authority, request)];
                         case 1:
-                            response = _b.sent();
-                            requestId = (_a = response.headers) === null || _a === void 0 ? void 0 : _a[HeaderNames.X_MS_REQUEST_ID];
+                            response = _d.sent();
+                            requestId = (_b = response.headers) === null || _b === void 0 ? void 0 : _b[HeaderNames.X_MS_REQUEST_ID];
+                            httpVerAuthority = (_c = response.headers) === null || _c === void 0 ? void 0 : _c[HeaderNames.X_MS_HTTP_VERSION];
+                            if (httpVerAuthority) {
+                                atsMeasurement === null || atsMeasurement === void 0 ? void 0 : atsMeasurement.addStaticFields({
+                                    httpVerAuthority: httpVerAuthority
+                                });
+                            }
                             responseHandler = new ResponseHandler(this.config.authOptions.clientId, this.cacheManager, this.cryptoUtils, this.logger, this.config.serializableCache, this.config.persistencePlugin);
                             // Validate response. This function throws a server error if an error is returned by the server.
                             responseHandler.validateTokenResponse(response.body);
-                            return [4 /*yield*/, responseHandler.handleServerTokenResponse(response.body, this.authority, reqTimestamp, request, authCodePayload, undefined, undefined, undefined, requestId)];
-                        case 2: return [2 /*return*/, _b.sent()];
+                            return [2 /*return*/, responseHandler.handleServerTokenResponse(response.body, this.authority, reqTimestamp, request, authCodePayload, undefined, undefined, undefined, requestId).then(function (result) {
+                                    atsMeasurement === null || atsMeasurement === void 0 ? void 0 : atsMeasurement.endMeasurement({
+                                        success: true
+                                    });
+                                    return result;
+                                })
+                                    .catch(function (error) {
+                                    _this.logger.verbose("Error in fetching token in ACC", request.correlationId);
+                                    atsMeasurement === null || atsMeasurement === void 0 ? void 0 : atsMeasurement.endMeasurement({
+                                        errorCode: error.errorCode,
+                                        subErrorCode: error.subError,
+                                        success: false
+                                    });
+                                    throw error;
+                                })];
                     }
                 });
             });
@@ -5823,7 +5852,7 @@
         return AuthorizationCodeClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5934,6 +5963,11 @@
          * Time taken for acquiring cached refresh token
          */
         PerformanceEvents["RefreshTokenClientAcquireTokenWithCachedRefreshToken"] = "refreshTokenClientAcquireTokenWithCachedRefreshToken";
+        PerformanceEvents["GetEndpointMetadataFromNetwork"] = "getEndpointMetadataFromNetwork";
+        PerformanceEvents["GetCloudDiscoveryMetadataFromNetworkMeasurement"] = "getCloudDiscoveryMetadataFromNetworkMeasurement";
+        PerformanceEvents["HandleRedirectPromiseMeasurement"] = "handleRedirectPromiseMeasurement";
+        PerformanceEvents["UpdateCloudDiscoveryMetadataMeasurement"] = "updateCloudDiscoveryMetadataMeasurement";
+        PerformanceEvents["UsernamePasswordClientAcquireToken"] = "usernamePasswordClientAcquireToken";
     })(exports.PerformanceEvents || (exports.PerformanceEvents = {}));
     /**
      * State of the performance event.
@@ -5948,7 +5982,7 @@
         PerformanceEventStatus[PerformanceEventStatus["Completed"] = 2] = "Completed";
     })(PerformanceEventStatus || (PerformanceEventStatus = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5963,23 +5997,29 @@
             return _super.call(this, configuration, performanceClient) || this;
         }
         RefreshTokenClient.prototype.acquireToken = function (request) {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             return __awaiter(this, void 0, void 0, function () {
-                var atsMeasurement, reqTimestamp, response, requestId, responseHandler;
+                var atsMeasurement, reqTimestamp, response, httpVerToken, requestId, responseHandler;
                 var _this = this;
-                return __generator(this, function (_d) {
-                    switch (_d.label) {
+                return __generator(this, function (_e) {
+                    switch (_e.label) {
                         case 0:
                             atsMeasurement = (_a = this.performanceClient) === null || _a === void 0 ? void 0 : _a.startMeasurement(exports.PerformanceEvents.RefreshTokenClientAcquireToken, request.correlationId);
                             this.logger.verbose("RefreshTokenClientAcquireToken called", request.correlationId);
                             reqTimestamp = TimeUtils.nowSeconds();
                             return [4 /*yield*/, this.executeTokenRequest(request, this.authority)];
                         case 1:
-                            response = _d.sent();
+                            response = _e.sent();
+                            httpVerToken = (_b = response.headers) === null || _b === void 0 ? void 0 : _b[HeaderNames.X_MS_HTTP_VERSION];
                             atsMeasurement === null || atsMeasurement === void 0 ? void 0 : atsMeasurement.addStaticFields({
-                                refreshTokenSize: ((_b = response.body.refresh_token) === null || _b === void 0 ? void 0 : _b.length) || 0
+                                refreshTokenSize: ((_c = response.body.refresh_token) === null || _c === void 0 ? void 0 : _c.length) || 0,
                             });
-                            requestId = (_c = response.headers) === null || _c === void 0 ? void 0 : _c[HeaderNames.X_MS_REQUEST_ID];
+                            if (httpVerToken) {
+                                atsMeasurement === null || atsMeasurement === void 0 ? void 0 : atsMeasurement.addStaticFields({
+                                    httpVerToken: httpVerToken,
+                                });
+                            }
+                            requestId = (_d = response.headers) === null || _d === void 0 ? void 0 : _d[HeaderNames.X_MS_REQUEST_ID];
                             responseHandler = new ResponseHandler(this.config.authOptions.clientId, this.cacheManager, this.cryptoUtils, this.logger, this.config.serializableCache, this.config.persistencePlugin);
                             responseHandler.validateTokenResponse(response.body);
                             return [2 /*return*/, responseHandler.handleServerTokenResponse(response.body, this.authority, reqTimestamp, request, undefined, undefined, true, request.forceCache, requestId).then(function (result) {
@@ -6213,7 +6253,7 @@
         return RefreshTokenClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6337,7 +6377,7 @@
         return SilentFlowClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6349,7 +6389,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6358,7 +6398,7 @@
     var EndpointMetadata = rawMetdataJSON.endpointMetadata;
     var InstanceDiscoveryMetadata = rawMetdataJSON.instanceDiscoveryMetadata;
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6372,7 +6412,7 @@
         ProtocolMode["OIDC"] = "OIDC";
     })(exports.ProtocolMode || (exports.ProtocolMode = {}));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6449,7 +6489,7 @@
         return AuthorityMetadataEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6459,7 +6499,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6469,7 +6509,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6591,7 +6631,7 @@
         return RegionDiscovery;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7313,7 +7353,7 @@
         return Authority;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7374,7 +7414,7 @@
         return AuthorityFactory;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7405,7 +7445,7 @@
         return ServerTelemetryEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7433,7 +7473,7 @@
         return ThrottlingEntity;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7450,7 +7490,7 @@
         }
     };
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7495,7 +7535,7 @@
         return JoseHeaderError;
     }(AuthError));
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7535,7 +7575,7 @@
         return JoseHeader;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7594,7 +7634,7 @@
         return AuthenticationHeaderParser;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7756,7 +7796,7 @@
         return ServerTelemetryManager;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7802,7 +7842,7 @@
                 this.logger.info("PerformanceClient: No correlation id provided for " + measureName + ", generating", eventCorrelationId);
             }
             this.logger.trace("PerformanceClient: Performance measurement started for " + measureName, eventCorrelationId);
-            var performanceMeasurement = this.startPerformanceMeasuremeant(measureName, eventCorrelationId);
+            var performanceMeasurement = this.startPerformanceMeasurement(measureName, eventCorrelationId);
             performanceMeasurement.startMeasurement();
             var inProgressEvent = {
                 eventId: this.generateId(),
@@ -8051,7 +8091,7 @@
         return PerformanceClient;
     }());
 
-    /*! @azure/msal-common v9.0.1 2022-12-07 */
+    /*! @azure/msal-common v9.0.2 2023-01-10 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8077,7 +8117,7 @@
         StubPerformanceClient.prototype.generateId = function () {
             return "callback-id";
         };
-        StubPerformanceClient.prototype.startPerformanceMeasuremeant = function () {
+        StubPerformanceClient.prototype.startPerformanceMeasurement = function () {
             return new StubPerformanceMeasurement();
         };
         return StubPerformanceClient;
@@ -9323,17 +9363,17 @@
             var activeAccountValueFilters = this.getItem(activeAccountKeyFilters);
             if (!activeAccountValueFilters) {
                 // if new active account cache type isn't found, it's an old version, so look for that instead
-                this.logger.trace("No active account filters cache schema found, looking for legacy schema");
+                this.logger.trace("BrowserCacheManager.getActiveAccount: No active account filters cache schema found, looking for legacy schema");
                 var activeAccountKeyLocal = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT);
                 var activeAccountValueLocal = this.getItem(activeAccountKeyLocal);
                 if (!activeAccountValueLocal) {
-                    this.logger.trace("No active account found");
+                    this.logger.trace("BrowserCacheManager.getActiveAccount: No active account found");
                     return null;
                 }
                 var activeAccount = this.getAccountInfoByFilter({ localAccountId: activeAccountValueLocal })[0] || null;
                 if (activeAccount) {
-                    this.logger.trace("Legacy active account cache schema found");
-                    this.logger.trace("Adding active account filters cache schema");
+                    this.logger.trace("BrowserCacheManager.getActiveAccount: Legacy active account cache schema found");
+                    this.logger.trace("BrowserCacheManager.getActiveAccount: Adding active account filters cache schema");
                     this.setActiveAccount(activeAccount);
                     return activeAccount;
                 }
@@ -9341,13 +9381,13 @@
             }
             var activeAccountValueObj = this.validateAndParseJson(activeAccountValueFilters);
             if (activeAccountValueObj) {
-                this.logger.trace("Active account filters schema found");
+                this.logger.trace("BrowserCacheManager.getActiveAccount: Active account filters schema found");
                 return this.getAccountInfoByFilter({
                     homeAccountId: activeAccountValueObj.homeAccountId,
                     localAccountId: activeAccountValueObj.localAccountId
                 })[0] || null;
             }
-            this.logger.trace("No active account found");
+            this.logger.trace("BrowserCacheManager.getActiveAccount: No active account found");
             return null;
         };
         /**
@@ -9378,6 +9418,7 @@
          */
         BrowserCacheManager.prototype.getAccountInfoByFilter = function (accountFilter) {
             var allAccounts = this.getAllAccounts();
+            this.logger.trace("BrowserCacheManager.getAccountInfoByFilter: total " + allAccounts.length + " accounts found");
             return allAccounts.filter(function (accountObj) {
                 if (accountFilter.username && accountFilter.username.toLowerCase() !== accountObj.username.toLowerCase()) {
                     return false;
@@ -9940,7 +9981,7 @@
 
     /* eslint-disable header/header */
     var name = "@azure/msal-browser";
-    var version = "2.32.1";
+    var version = "2.32.2";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10644,7 +10685,7 @@
          */
         StandardInteractionClient.prototype.getClientConfiguration = function (serverTelemetryManager, requestAuthority, requestAzureCloudOptions) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var discoveredAuthority;
+                var discoveredAuthority, logger;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -10652,6 +10693,7 @@
                             return [4 /*yield*/, this.getDiscoveredAuthority(requestAuthority, requestAzureCloudOptions)];
                         case 1:
                             discoveredAuthority = _a.sent();
+                            logger = this.config.system.loggerOptions;
                             return [2 /*return*/, {
                                     authOptions: {
                                         clientId: this.config.auth.clientId,
@@ -10663,9 +10705,9 @@
                                         preventCorsPreflight: true
                                     },
                                     loggerOptions: {
-                                        loggerCallback: this.config.system.loggerOptions.loggerCallback,
-                                        piiLoggingEnabled: this.config.system.loggerOptions.piiLoggingEnabled,
-                                        logLevel: this.config.system.loggerOptions.logLevel,
+                                        loggerCallback: logger.loggerCallback,
+                                        piiLoggingEnabled: logger.piiLoggingEnabled,
+                                        logLevel: logger.logLevel,
                                         correlationId: this.correlationId
                                     },
                                     cryptoInterface: this.browserCrypto,
@@ -10709,13 +10751,14 @@
          * @param requestCorrelationId
          */
         StandardInteractionClient.prototype.getDiscoveredAuthority = function (requestAuthority, requestAzureCloudOptions) {
+            var _a;
             return __awaiter$1(this, void 0, void 0, function () {
                 var getAuthorityMeasurement, authorityOptions, userAuthority, builtAuthority;
-                return __generator$1(this, function (_a) {
-                    switch (_a.label) {
+                return __generator$1(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             this.logger.verbose("getDiscoveredAuthority called", this.correlationId);
-                            getAuthorityMeasurement = this.performanceClient.startMeasurement(exports.PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.correlationId);
+                            getAuthorityMeasurement = (_a = this.performanceClient) === null || _a === void 0 ? void 0 : _a.startMeasurement(exports.PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.correlationId);
                             authorityOptions = {
                                 protocolMode: this.config.auth.protocolMode,
                                 knownAuthorities: this.config.auth.knownAuthorities,
@@ -10729,7 +10772,7 @@
                             return [4 /*yield*/, AuthorityFactory.createDiscoveredInstance(builtAuthority, this.config.system.networkClient, this.browserStorage, authorityOptions, this.logger)
                                     .then(function (result) {
                                     getAuthorityMeasurement.endMeasurement({
-                                        success: true
+                                        success: true,
                                     });
                                     return result;
                                 })
@@ -10741,7 +10784,7 @@
                                     });
                                     throw error;
                                 })];
-                        case 1: return [2 /*return*/, _a.sent()];
+                        case 1: return [2 /*return*/, _b.sent()];
                     }
                 });
             });
@@ -12913,7 +12956,9 @@
         // Default logger options for browser
         var DEFAULT_LOGGER_OPTIONS = {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
-            loggerCallback: function () { },
+            loggerCallback: function () {
+                // allow users to not set logger call back 
+            },
             logLevel: exports.LogLevel.Info,
             piiLoggingEnabled: false
         };
@@ -12924,6 +12969,7 @@
                 useMsrCrypto: false,
                 entropy: undefined
             } });
+        var providedSystemOptions = __assign$1(__assign$1({}, userInputSystem), { loggerOptions: (userInputSystem === null || userInputSystem === void 0 ? void 0 : userInputSystem.loggerOptions) || DEFAULT_LOGGER_OPTIONS });
         var DEFAULT_TELEMETRY_OPTIONS = {
             application: {
                 appName: Constants.EMPTY_STRING,
@@ -12933,7 +12979,7 @@
         var overlayedConfig = {
             auth: __assign$1(__assign$1({}, DEFAULT_AUTH_OPTIONS), userInputAuth),
             cache: __assign$1(__assign$1({}, DEFAULT_CACHE_OPTIONS), userInputCache),
-            system: __assign$1(__assign$1({}, DEFAULT_BROWSER_SYSTEM_OPTIONS), userInputSystem),
+            system: __assign$1(__assign$1({}, DEFAULT_BROWSER_SYSTEM_OPTIONS), providedSystemOptions),
             telemetry: __assign$1(__assign$1({}, DEFAULT_TELEMETRY_OPTIONS), userInputTelemetry)
         };
         return overlayedConfig;
@@ -13423,27 +13469,6 @@
         };
         return EventHandler;
     }());
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-
-    var internals = /*#__PURE__*/Object.freeze({
-        __proto__: null,
-        BrowserCacheManager: BrowserCacheManager,
-        StandardInteractionClient: StandardInteractionClient,
-        RedirectClient: RedirectClient,
-        PopupClient: PopupClient,
-        SilentIframeClient: SilentIframeClient,
-        SilentCacheClient: SilentCacheClient,
-        SilentRefreshClient: SilentRefreshClient,
-        RedirectHandler: RedirectHandler,
-        EventHandler: EventHandler,
-        NativeMessageHandler: NativeMessageHandler,
-        BrowserConstants: BrowserConstants,
-        get TemporaryCacheKeys () { return TemporaryCacheKeys; }
-    });
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -14983,6 +15008,29 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+
+    var internals = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        BrowserCacheManager: BrowserCacheManager,
+        StandardInteractionClient: StandardInteractionClient,
+        RedirectClient: RedirectClient,
+        PopupClient: PopupClient,
+        SilentIframeClient: SilentIframeClient,
+        SilentCacheClient: SilentCacheClient,
+        SilentRefreshClient: SilentRefreshClient,
+        RedirectHandler: RedirectHandler,
+        EventHandler: EventHandler,
+        NativeMessageHandler: NativeMessageHandler,
+        BrowserConstants: BrowserConstants,
+        get TemporaryCacheKeys () { return TemporaryCacheKeys; },
+        CryptoOps: CryptoOps,
+        NativeAuthError: NativeAuthError
+    });
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     /**
      * Token cache manager
      */
@@ -15358,7 +15406,7 @@
             _this.guidGenerator = new GuidGenerator(_this.browserCrypto);
             return _this;
         }
-        BrowserPerformanceClient.prototype.startPerformanceMeasuremeant = function (measureName, correlationId) {
+        BrowserPerformanceClient.prototype.startPerformanceMeasurement = function (measureName, correlationId) {
             return new BrowserPerformanceMeasurement(measureName, correlationId);
         };
         BrowserPerformanceClient.prototype.generateId = function () {
@@ -16463,7 +16511,8 @@
                                 success: true,
                                 fromCache: result.fromCache,
                                 isNativeBroker: result.fromNativeBroker,
-                                requestId: result.requestId
+                                cacheLookupPolicy: request.cacheLookupPolicy,
+                                requestId: result.requestId,
                             });
                             atsMeasurement.flushMeasurement();
                             return result;
@@ -16501,13 +16550,13 @@
          */
         PublicClientApplication.prototype.acquireTokenSilentAsync = function (request, account) {
             return __awaiter$1(this, void 0, void 0, function () {
-                var astsAsyncMeasurement, result, silentRequest, silentCacheClient, silentRequest_1, requestWithCLP_1;
+                var atsAsyncMeasurement, result, silentRequest, silentCacheClient, silentRequest_1, requestWithCLP_1;
                 var _this = this;
                 return __generator$1(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_START, exports.InteractionType.Silent, request);
-                            astsAsyncMeasurement = this.performanceClient.startMeasurement(exports.PerformanceEvents.AcquireTokenSilentAsync, request.correlationId);
+                            atsAsyncMeasurement = this.performanceClient.startMeasurement(exports.PerformanceEvents.AcquireTokenSilentAsync, request.correlationId);
                             if (!(NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeExtensionProvider, request.authenticationScheme) && account.nativeAccountId)) return [3 /*break*/, 1];
                             this.logger.verbose("acquireTokenSilent - attempting to acquire token from native platform");
                             silentRequest = __assign$1(__assign$1({}, request), { account: account });
@@ -16560,7 +16609,7 @@
                             _a.label = 3;
                         case 3: return [2 /*return*/, result.then(function (response) {
                                 _this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, response);
-                                astsAsyncMeasurement.endMeasurement({
+                                atsAsyncMeasurement.endMeasurement({
                                     success: true,
                                     fromCache: response.fromCache,
                                     isNativeBroker: response.fromNativeBroker,
@@ -16569,7 +16618,7 @@
                                 return response;
                             }).catch(function (tokenRenewalError) {
                                 _this.eventHandler.emitEvent(exports.EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null, tokenRenewalError);
-                                astsAsyncMeasurement.endMeasurement({
+                                atsAsyncMeasurement.endMeasurement({
                                     errorCode: tokenRenewalError.errorCode,
                                     subErrorCode: tokenRenewalError.subError,
                                     success: false

@@ -895,8 +895,10 @@ class timeline_Timeline {
     start(init) {
         // initialize our timeline
         this.emit.init();
+        // get a ref to the promise returned by execute
+        const p = this.execute(init);
         // attach our dispose logic
-        return this.execute(init).finally(() => {
+        p.finally(() => {
             try {
                 // provide an opportunity for cleanup of the timeline
                 this.emit.dispose();
@@ -909,6 +911,8 @@ class timeline_Timeline {
                 this.error(e2);
             }
         });
+        // give the promise back to the caller
+        return p;
     }
     /**
      * By default a timeline references the same observer collection as a parent timeline,
@@ -1339,7 +1343,7 @@ function __generator(thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -2645,7 +2649,7 @@ function tslib_es6_generator(thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -3055,7 +3059,7 @@ function encodePath(value) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.10.0:";
+            let clientTag = "PnPCoreJS:3.11.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -4016,7 +4020,7 @@ class types_Item extends _SPInstance {
     async setImageField(fieldName, imageName, imageContent) {
         const contextInfo = await this.getParentInfos();
         const webUrl = extractWebUrl(this.toUrl());
-        const q = SPQueryable(webUrl, "/_api/web/UploadImage");
+        const q = SPQueryable([this, webUrl], "/_api/web/UploadImage");
         q.concat("(listTitle=@a1,imageName=@a2,listId=@a3,itemId=@a4)");
         q.query.set("@a1", `'${contextInfo.ParentList.Title}'`);
         q.query.set("@a2", `'${imageName}'`);
@@ -6980,7 +6984,7 @@ class types_Folder extends _SPInstance {
         }
         const urlInfo = await this.getParentInfos();
         const uri = new URL(urlInfo.ParentWeb.Url);
-        await spPost(Folder([this, uri.origin], "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
+        await spPost(Folder([this, urlInfo.ParentWeb.Url], "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
             destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
             options,
             srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
@@ -7003,7 +7007,7 @@ class types_Folder extends _SPInstance {
         }
         const urlInfo = await this.getParentInfos();
         const uri = new URL(urlInfo.ParentWeb.Url);
-        await spPost(Folder([this, uri.origin], "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
+        await spPost(Folder([this, urlInfo.ParentWeb.Url], "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
             destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
             options,
             srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),

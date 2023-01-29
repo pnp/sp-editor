@@ -14,4 +14,6 @@ export { EventHandler } from "./event/EventHandler";
 export { NativeMessageHandler } from "./broker/nativeBroker/NativeMessageHandler";
 export { BrowserStateObject } from "./utils/BrowserProtocolUtils";
 export { BrowserConstants, TemporaryCacheKeys } from "./utils/BrowserConstants";
+export { CryptoOps } from "./crypto/CryptoOps";
+export { NativeAuthError } from "./error/NativeAuthError";
 //# sourceMappingURL=internals.d.ts.map

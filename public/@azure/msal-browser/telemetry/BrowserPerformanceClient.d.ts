@@ -4,7 +4,7 @@ export declare class BrowserPerformanceClient extends PerformanceClient implemen
     private browserCrypto;
     private guidGenerator;
     constructor(clientId: string, authority: string, logger: Logger, libraryName: string, libraryVersion: string, applicationTelemetry: ApplicationTelemetry, cryptoOptions: CryptoOptions);
-    startPerformanceMeasuremeant(measureName: string, correlationId: string): IPerformanceMeasurement;
+    startPerformanceMeasurement(measureName: string, correlationId: string): IPerformanceMeasurement;
     generateId(): string;
     private getPageVisibility;
     /**

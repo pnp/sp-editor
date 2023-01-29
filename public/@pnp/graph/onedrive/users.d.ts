@@ -16,6 +16,16 @@ declare module "./types" {
     interface IDrive {
         special(specialFolder: SpecialFolder): IDriveItem;
     }
+    interface _DriveItem {
+        restore(restoreOptions: IItemOptions): Promise<IDriveItem>;
+        follow(): Promise<IDriveItem>;
+        unfollow(): void;
+    }
+    interface IDriveItem {
+        restore(restoreOptions: IItemOptions): Promise<IDriveItem>;
+        follow(): Promise<IDriveItem>;
+        unfollow(): void;
+    }
 }
 export declare enum SpecialFolder {
     "Documents" = "documents",

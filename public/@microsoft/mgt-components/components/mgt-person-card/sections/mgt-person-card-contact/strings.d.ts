@@ -13,5 +13,6 @@ export declare const strings: {
     departmentTitle: string;
     titleTitle: string;
     officeLocationTitle: string;
+    copyToClipboardButton: string;
 };
 //# sourceMappingURL=strings.d.ts.map
