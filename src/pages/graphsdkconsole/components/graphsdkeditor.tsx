@@ -1,7 +1,6 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { Panel, Stack } from '@fluentui/react'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   CompilerOptions,
@@ -24,7 +23,6 @@ import * as rootActions from '../../../store/home/actions'
 import { loginRequest } from '../../..'
 import { setScopes, setUser } from '../../../store/graphsdkconsole/actions'
 import { GraphClient } from '../../../services/graph-client/graph-client'
-import { Organization, Photo } from "@microsoft/microsoft-graph-types";
 
 const GraphSDKEditor = () => {
   const dispatch = useDispatch()

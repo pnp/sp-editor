@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { useId } from '@fluentui/react-hooks';
-import { classNamesFunction, IButton, IconButton, ITagItemProps, ITagItemStyleProps, ITagItemStyles, styled } from '@fluentui/react';
+import { classNamesFunction, IButton, ITagItemProps, ITagItemStyleProps, ITagItemStyles, styled } from '@fluentui/react';
 import { getStyles } from '@fluentui/react/lib/components/pickers/TagPicker/TagItem.styles';
 
 const getClassNames = classNamesFunction<ITagItemStyleProps, ITagItemStyles>();

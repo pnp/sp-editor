@@ -1,7 +1,7 @@
 import { AuthenticationResult } from '@azure/msal-browser'
 import { action } from 'typesafe-actions'
 import { IDefinitions } from '../home/types'
-import { Constants, IScope, SPEditorUser } from './types'
+import { Constants, SPEditorUser } from './types'
 
 export function setCode(code: string) {
   return action(Constants.GC_SET_CODE, {

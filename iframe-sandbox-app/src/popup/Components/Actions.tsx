@@ -1,7 +1,5 @@
-import { Checkbox, ChoiceGroup, CommandBarButton, DefaultButton, Dialog, DialogFooter, DialogType, IChoiceGroupOption, IScrollablePaneStyles, ISeparatorStyles, MessageBar, MessageBarType, PrimaryButton, ScrollablePane, ScrollbarVisibility, Separator } from '@fluentui/react';
-import { useEffect, useState } from 'react';
+import { IScrollablePaneStyles, ISeparatorStyles, ScrollablePane, ScrollbarVisibility, Separator } from '@fluentui/react';
 import ChangePageLayout from './ChangePageLayout';
-import QuickLinkButton, { buttonStyles } from './QuickLinkButton';
 
 export interface IQuickLinkListProps {
   ctx: any,

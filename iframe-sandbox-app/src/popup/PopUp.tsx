@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DetailsList, DetailsListLayoutMode, DetailsRow, IColumn, IconButton, ITextFieldStyles, Label, List, Pivot, PivotItem, SelectionMode, Text, TextField, TooltipHost } from '@fluentui/react'
+import { Label, Pivot, PivotItem } from '@fluentui/react'
 
 import './popup.css';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';

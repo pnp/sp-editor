@@ -2,7 +2,6 @@ import * as SP from '@pnp/sp/presets/all'
 import * as Logging from '@pnp/logging'
 import * as Queryable from '@pnp/queryable'
 import { ISPShootPayload } from '../../../store/spshoot/types'
-import { spPost, Web } from '@pnp/sp/presets/all'
 import { HttpRequestError } from '@pnp/queryable'
 
 // we cannot use async methods, they do not work correctly when running 'npm run build',

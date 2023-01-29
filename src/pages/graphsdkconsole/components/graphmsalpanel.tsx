@@ -8,9 +8,7 @@ import {
   Panel,
   PanelType,
   PrimaryButton,
-  TagItem,
   TagPicker,
-  TextField,
 } from '@fluentui/react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

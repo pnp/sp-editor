@@ -1,4 +1,4 @@
-import { Checkbox, IconButton, IScrollablePaneStyles, ITextFieldStyles, Label, List, ScrollablePane, ScrollbarVisibility, Stack, TextField, Toggle, TooltipHost } from '@fluentui/react';
+import { Checkbox, IconButton, IScrollablePaneStyles, ITextFieldStyles, Label, List, ScrollablePane, TextField, TooltipHost } from '@fluentui/react';
 import { useState } from 'react';
 
 export interface ContextInfoPropertiesProps {
