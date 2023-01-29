@@ -6,12 +6,8 @@ export function getContext(...args: any) {
   const params = args
   const functionName = params[0].name
 
-  var removePropertyFromObject = function (propertyName, objectToBeProcessed) {
-    let { [propertyName]: _, ...objectWithoutProperty } = objectToBeProcessed;
-    return objectWithoutProperty;
-  }
-
-  var _spPageContextInfo = removePropertyFromObject("dataSyncClient", (window as any)._spPageContextInfo)
+  var _spPageContextInfo = (window as any)._spPageContextInfo;
+  delete _spPageContextInfo['dataSyncClient'];
 
   window.postMessage(JSON.stringify({
     function: functionName,
