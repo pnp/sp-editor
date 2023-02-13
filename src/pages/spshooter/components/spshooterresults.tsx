@@ -170,7 +170,7 @@ const SPShooterResults = () => {
     if (initialized) {
       const model = editor.current?.getModel()
 
-      if (results && results.error) {
+      if (results && results.errorMessage) {
         if (model) {
           monaco.editor.setModelLanguage(model, 'text')
           editor.current?.setValue('')

@@ -21,9 +21,11 @@ const SPShooterCommands = () => {
   }
 
   const makeRequest = () => {
-    setWarning(true)
-    const fullPath: string = `${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/${path}`
-    runRestCall(dispatch, { path: fullPath, method, headers, body })
+    if (context) {
+      setWarning(true)
+      const fullPath: string = `${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/${path}`
+      runRestCall(dispatch, { path: fullPath, method, headers, body })
+    }
   }
 
   const onRenderSuffix = () => {
