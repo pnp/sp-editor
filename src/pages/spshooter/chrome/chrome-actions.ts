@@ -42,9 +42,9 @@ export async function getContextInfo(dispatch: Dispatch<SPShootActions | HomeAct
       target: { tabId: tabs[0].id },
       world: 'MAIN',
       func: () => {
-        return (window as any)._spPageContextInfo || (window as any).moduleLoaderPromise ? (window as any).moduleLoaderPromise.then((e: any) => {
+        return (window as any)._spPageContextInfo || ((window as any).moduleLoaderPromise ? (window as any).moduleLoaderPromise.then((e: any) => {
           return (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
-        }) : null;
+        }) : null);
       }
     }).then(injectionResults => {
       if (injectionResults[0].result) {
