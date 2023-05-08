@@ -1,4 +1,4 @@
-import { AuthorizationCodeClient, CommonAuthorizationCodeRequest, ICrypto, AuthenticationResult, Authority, INetworkModule, Logger } from "@azure/msal-common";
+import { AuthorizationCodeClient, CommonAuthorizationCodeRequest, ICrypto, AuthenticationResult, Authority, INetworkModule, Logger, IPerformanceClient } from "@azure/msal-common";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
 import { InteractionHandler, InteractionParams } from "./InteractionHandler";
 import { INavigationClient } from "../navigation/INavigationClient";
@@ -10,7 +10,7 @@ export declare type RedirectParams = InteractionParams & {
 };
 export declare class RedirectHandler extends InteractionHandler {
     private browserCrypto;
-    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger, browserCrypto: ICrypto);
+    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger, browserCrypto: ICrypto, performanceClient: IPerformanceClient);
     /**
      * Redirects window to given URL.
      * @param urlNavigate

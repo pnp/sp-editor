@@ -35,6 +35,7 @@ export declare class GraphError extends Error {
      * A member holding processed date and time of the request
      */
     date: Date;
+    headers?: Headers;
     /**
      * @public
      * A member holding original error response by the graph service

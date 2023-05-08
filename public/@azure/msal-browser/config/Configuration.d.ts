@@ -63,9 +63,13 @@ export declare type BrowserAuthOptions = {
  */
 export declare type CacheOptions = {
     /**
-     * Used to specify the cacheLocation user wants to set. Valid values are "localStorage" and "sessionStorage"
+     * Used to specify the cacheLocation user wants to set. Valid values are "localStorage", "sessionStorage" and "memoryStorage".
      */
     cacheLocation?: BrowserCacheLocation | string;
+    /**
+     * Used to specify the temporaryCacheLocation user wants to set. Valid values are "localStorage", "sessionStorage" and "memoryStorage".
+     */
+    temporaryCacheLocation?: BrowserCacheLocation | string;
     /**
      * If set, MSAL stores the auth request state required for validation of the auth flows in the browser cookies. By default this flag is set to false.
      */
@@ -74,6 +78,10 @@ export declare type CacheOptions = {
      * If set, MSAL sets the "Secure" flag on cookies so they can only be sent over HTTPS. By default this flag is set to false.
      */
     secureCookies?: boolean;
+    /**
+     * If set, MSAL will attempt to migrate cache entries from older versions on initialization. By default this flag is set to true if cacheLocation is localStorage, otherwise false.
+     */
+    cacheMigrationEnabled?: boolean;
 };
 export declare type BrowserSystemOptions = SystemOptions & {
     /**

@@ -1,7 +1,7 @@
 import { _SPInstance, SPInit } from "../spqueryable.js";
 import { IWeb } from "../webs/types.js";
 import { IChangeQuery } from "../types.js";
-export declare class _Site extends _SPInstance {
+export declare class _Site extends _SPInstance<ISiteInfo> {
     constructor(base: SPInit, path?: string);
     /**
      * Gets the root web of the site collection
@@ -79,6 +79,13 @@ export declare class _Site extends _SPInstance {
      */
     createModernTeamSite(displayName: string, alias: string, isPublic?: boolean, lcid?: number, description?: string, classification?: string, owners?: string[], hubSiteId?: string, siteDesignId?: string): Promise<ISiteCreationResponse>;
     createModernTeamSiteFromProps(props: ICreateTeamSiteProps): Promise<ISiteCreationResponse>;
+    update(props: ISiteInfo): Promise<any>;
+    /**
+     * Set's the site's `Site Logo` property, vs the Site Icon property available on the web's properties
+     *
+     * @param logoProperties An instance of ISiteLogoProperties which sets the new site logo.
+     */
+    setSiteLogo(logoProperties: ISiteLogoProperties): Promise<void>;
 }
 export interface ISite extends _Site {
 }
@@ -94,11 +101,15 @@ export interface IOpenWebByIdResult {
  * This is the interface to expose data for Document Library
  */
 export interface IDocumentLibraryInformation {
-    AbsoluteUrl?: string;
-    Modified?: Date;
-    ModifiedFriendlyDisplay?: string;
-    ServerRelativeUrl?: string;
-    Title?: string;
+    AbsoluteUrl: string;
+    DriveId: string;
+    FromCrossFarm: boolean;
+    Id: string;
+    IsDefaultDocumentLibrary: boolean;
+    Modified: string;
+    ModifiedFriendlyDisplay: string;
+    ServerRelativeUrl: string;
+    Title: string;
 }
 export interface ICreateCommSiteProps {
     Classification?: string;
@@ -128,5 +139,83 @@ export interface ISiteCreationResponse {
     "SiteId": string;
     "SiteStatus": 0 | 1 | 2 | 3;
     "SiteUrl": string;
+}
+export interface ISiteInfo {
+    AllowCreateDeclarativeWorkflow: boolean;
+    AllowDesigner: boolean;
+    AllowMasterPageEditing: boolean;
+    AllowRevertFromTemplate: boolean;
+    AllowSaveDeclarativeWorkflowAsTemplate: boolean;
+    AllowSavePublishDeclarativeWorkflow: boolean;
+    AllowSelfServiceUpgrade: boolean;
+    AllowSelfServiceUpgradeEvaluation: boolean;
+    AuditLogTrimmingRetention: number;
+    ChannelGroupId: string;
+    Classification: string;
+    CompatibilityLevel: number;
+    CurrentChangeToken: {
+        StringValue: string;
+    };
+    DisableAppViews: boolean;
+    DisableCompanyWideSharingLinks: boolean;
+    DisableFlows: boolean;
+    ExternalSharingTipsEnabled: boolean;
+    GeoLocation: string;
+    GroupId: string;
+    HubSiteId: string;
+    Id: string;
+    IsHubSite: boolean;
+    LockIssue: string | null;
+    MaxItemsPerThrottledOperation: number;
+    MediaTranscriptionDisabled: boolean;
+    NeedsB2BUpgrade: boolean;
+    PrimaryUri: string;
+    ReadOnly: boolean;
+    RequiredDesignerVersion: string;
+    ResourcePath: {
+        DecodedUrl: string;
+    };
+    SandboxedCodeActivationCapability: number;
+    SensitivityLabel: string;
+    SensitivityLabelId: string | null;
+    ServerRelativeUrl: string;
+    ShareByEmailEnabled: boolean;
+    ShareByLinkEnabled: boolean;
+    ShowUrlStructure: boolean;
+    TrimAuditLog: boolean;
+    UIVersionConfigurationEnabled: boolean;
+    UpgradeReminderDate: string;
+    UpgradeScheduled: boolean;
+    UpgradeScheduledDate: string;
+    Upgrading: boolean;
+    Url: string;
+    WriteLocked: boolean;
+}
+export declare const enum SiteLogoType {
+    /**
+     * Site header logo
+     */
+    WebLogo = 0,
+    /**
+     * Hub site logo
+     */
+    HubLogo = 1,
+    /**
+     * Header background image
+     */
+    HeaderBackground = 2,
+    /**
+     * Global navigation logo
+     */
+    GlobalNavLogo = 3
+}
+export declare const enum SiteLogoAspect {
+    Square = 0,
+    Rectangular = 1
+}
+export interface ISiteLogoProperties {
+    relativeLogoUrl: string;
+    type: SiteLogoType;
+    aspect: SiteLogoAspect;
 }
 //# sourceMappingURL=types.d.ts.map

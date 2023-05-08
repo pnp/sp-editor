@@ -151,6 +151,10 @@ export declare const BrowserAuthErrorMessage: {
         code: string;
         desc: string;
     };
+    spaCodeAndNativeAccountPresent: {
+        code: string;
+        desc: string;
+    };
     databaseUnavailable: {
         code: string;
         desc: string;
@@ -341,6 +345,10 @@ export declare class BrowserAuthError extends AuthError {
      * Create an error when an authorization code or native account ID is required but not provided
      */
     static createAuthCodeOrNativeAccountIdRequiredError(): BrowserAuthError;
+    /**
+     * Create an error when both authorization code and native account ID are provided
+     */
+    static createSpaCodeAndNativeAccountIdPresentError(): BrowserAuthError;
     /**
      * Create an error when IndexedDB is unavailable
      */

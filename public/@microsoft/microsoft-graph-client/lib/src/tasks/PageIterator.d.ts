@@ -39,7 +39,7 @@ export interface GraphRequestOptions {
  * Signature representing callback for page iterator
  * @property {Function} callback - The callback function which should return boolean to continue the continue/stop the iteration.
  */
-export declare type PageIteratorCallback = (data: any) => boolean;
+export type PageIteratorCallback = (data: any) => boolean;
 /**
  * @class
  * Class for PageIterator

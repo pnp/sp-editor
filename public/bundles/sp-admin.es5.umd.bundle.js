@@ -525,7 +525,6 @@ function asyncBroadcast() {
         const r = args;
         const obs = [...observers];
         const promises = [];
-        // process each handler which updates our "state" in order
         for (let i = 0; i < obs.length; i++) {
             promises.push(Reflect.apply(obs[i], this, r));
         }
@@ -785,7 +784,7 @@ class timeline_Timeline {
                 });
                 this.error(e2);
             }
-        });
+        }).catch(() => void (0));
         // give the promise back to the caller
         return p;
     }
@@ -2537,24 +2536,6 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escape-query-str.js
-
-// deprecated, will be removed in future versions, no longer used internally
-function escapeQueryStrValue(value) {
-    if (stringIsNullOrEmpty(value)) {
-        return "";
-    }
-    // replace all instance of ' with ''
-    if (/!(@.*?)::(.*?)/ig.test(value)) {
-        return value.replace(/!(@.*?)::(.*)$/ig, (match, labelName, v) => {
-            return `!${labelName}::${v.replace(/'/ig, "''")}`;
-        });
-    }
-    else {
-        return value.replace(/'/ig, "''");
-    }
-}
-
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extract-web-url.js
 
 function extractWebUrl(candidateUrl) {
@@ -2684,7 +2665,7 @@ function encodePath(value) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.11.0:";
+            let clientTag = "PnPCoreJS:3.14.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -2732,6 +2713,9 @@ function DefaultHeaders() {
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
+
+
+
 function clearExpired(digest) {
     const now = new Date();
     return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
@@ -2741,31 +2725,26 @@ const digests = new Map();
 function RequestDigest(hook) {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            // eslint-disable-next-line @typescript-eslint/dot-notation
-            if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization")))) {
-                return [url, init, result];
-            }
             // add the request to the auth moment of the timeline
             this.on.auth(async (url, init) => {
+                // eslint-disable-next-line max-len
+                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
+                    return [url, init];
+                }
                 const urlAsString = url.toString();
                 const webUrl = extractWebUrl(urlAsString);
                 // do we have one in the cache that is still valid
                 // from #2186 we need to always ensure the digest we get isn't expired
                 let digest = clearExpired(digests.get(webUrl));
-                if (!objectDefinedNotNull(digest) && typeof hook === "function") {
+                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
                     digest = clearExpired(hook(urlAsString, init));
                 }
                 if (!objectDefinedNotNull(digest)) {
-                    // let's get one from the server
-                    digest = await fetch(combine(webUrl, "/_api/contextinfo"), {
-                        cache: "no-cache",
-                        credentials: "same-origin",
+                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse()), {
                         headers: {
-                            "accept": "application/json",
-                            "content-type": "application/json;odata=verbose;charset=utf-8",
+                            "X-PnPjs-NoDigest": "1",
                         },
-                        method: "POST",
-                    }).then(r => r.json()).then(p => ({
+                    }).then(p => ({
                         expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
                         value: p.FormDigestValue,
                     }));
@@ -2816,17 +2795,33 @@ function SPBrowser(props) {
 
 
 
+function SPFxToken(context) {
+    return (instance) => {
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
+        });
+        return instance;
+    };
+}
 function SPFx(context) {
     return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest((url) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
+        // remove SPFx Token in default due to issues #2570, #2571
+        // SPFxToken(context),
+        RequestDigest((url) => {
             var _a, _b, _c;
             const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
             if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
+                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
                 // account for page lifetime in timeout #2304 & others
-                const expiration = (((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) || 1600) - (performance.now() / 1000) - 15;
+                // account for tab sleep #2550
                 return {
                     value: context.pageContext.legacyPageContext.formDigestValue,
-                    expiration: dateAdd(new Date(), "second", expiration),
+                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
                 };
             }
         }));
@@ -2842,7 +2837,6 @@ function SPFx(context) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
-
 
 
 
@@ -3868,27 +3862,9 @@ let office_tenant_Office365Tenant = class _Office365Tenant extends _SPInstance {
         }));
     }
     /**
-     * Create a new Office 365 Group and connect it to an existing site. After this succeeds for a given site, calling it again with the same site will throw an Exception
-     *
-     *@param siteUrl The full URL of the site to connect to
-     *@param displayName The desired display name of the new group
-     *@param alias The desired email alias for the new group
-     *@param isPublic Whether the new group should be public or private
-     *@param optionalParams An optional set of creation parameters for the group
-     */
-    createGroupForSite(siteUrl, displayName, alias, isPublic, optionalParams) {
-        return spPost(Office365Tenant(this, "CreateGroupForSite"), body({
-            siteUrl,
-            displayName,
-            alias,
-            isPublic,
-            optionalParams,
-        }));
-    }
-    /**
      * Supports calling POST methods not added explicitly to this class
      *
-     * @param method method name, used in url path (ex: "CreateGroupForSite")
+     * @param method method name, used in url path (ex: "AddTenantCdnOrigin")
      * @param args optional, any arguments to include in the body
      * @returns The result of the method invocation T
      */

@@ -36,6 +36,8 @@ export declare abstract class ClientApplication {
     private hybridAuthCodeResponses;
     protected performanceClient: IPerformanceClient;
     protected initialized: boolean;
+    private ssoSilentMeasurement?;
+    private acquireTokenByCodeAsyncMeasurement?;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -88,6 +90,7 @@ export declare abstract class ClientApplication {
      * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
      */
     acquireTokenPopup(request: PopupRequest): Promise<AuthenticationResult>;
+    private trackPageVisibilityWithMeasurement;
     /**
      * This function uses a hidden iframe to fetch an authorization code from the eSTS. There are cases where this may not work:
      * - Any browser using a form of Intelligent Tracking Prevention
@@ -171,10 +174,10 @@ export declare abstract class ClientApplication {
      * (the account object is created at the time of successful login)
      * or null when no matching account is found.
      * This API is provided for convenience but getAccountById should be used for best reliability
-     * @param userName
+     * @param username
      * @returns The account object stored in MSAL
      */
-    getAccountByUsername(userName: string): AccountInfo | null;
+    getAccountByUsername(username: string): AccountInfo | null;
     /**
      * Returns the signed in account matching homeAccountId.
      * (the account object is created at the time of successful login)

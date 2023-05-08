@@ -1,4 +1,4 @@
-/*! msal v1.4.17 2022-08-01 */
+/*! msal v1.4.18 2023-05-01 */
 'use strict';
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -5029,7 +5029,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.version = exports.name = void 0;
 /* eslint-disable header/header */
 exports.name = "msal";
-exports.version = "1.4.17";
+exports.version = "1.4.18";
 
 
 /***/ }),
@@ -5747,7 +5747,7 @@ exports.AuthCacheUtils = AuthCacheUtils;
  * Licensed under the MIT License.
  */
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FramePrefix = exports.PromptState = exports.NetworkRequestType = exports.BlacklistedEQParams = exports.SSOTypes = exports.WELL_KNOWN_SUFFIX = exports.AAD_INSTANCE_DISCOVERY_ENDPOINT = exports.DEFAULT_AUTHORITY = exports.ErrorCacheKeys = exports.PersistentCacheKeys = exports.TemporaryCacheKeys = exports.ResponseTypes = exports.ServerHashParamKeys = exports.SESSION_STORAGE = exports.Constants = void 0;
+exports.FramePrefix = exports.PromptState = exports.NetworkRequestType = exports.DisallowedEQParams = exports.SSOTypes = exports.WELL_KNOWN_SUFFIX = exports.AAD_INSTANCE_DISCOVERY_ENDPOINT = exports.DEFAULT_AUTHORITY = exports.ErrorCacheKeys = exports.PersistentCacheKeys = exports.TemporaryCacheKeys = exports.ResponseTypes = exports.ServerHashParamKeys = exports.SESSION_STORAGE = exports.Constants = void 0;
 /**
  * @hidden
  * Constants
@@ -5996,7 +5996,7 @@ var SSOTypes;
 /**
  * @hidden
  */
-exports.BlacklistedEQParams = [
+exports.DisallowedEQParams = [
     SSOTypes.SID,
     SSOTypes.LOGIN_HINT
 ];
@@ -6284,7 +6284,7 @@ var RequestUtils = /** @class */ (function () {
             // this.logger.warning("Removed duplicate claims from extraQueryParameters. Please use either the claimsRequest field OR pass as extraQueryParameter - not both.");
             delete eQParams[Constants_1.Constants.claims];
         }
-        Constants_1.BlacklistedEQParams.forEach(function (param) {
+        Constants_1.DisallowedEQParams.forEach(function (param) {
             if (eQParams[param]) {
                 // this.logger.warning("Removed duplicate " + param + " from extraQueryParameters. Please use the " + param + " field in request object.");
                 delete eQParams[param];

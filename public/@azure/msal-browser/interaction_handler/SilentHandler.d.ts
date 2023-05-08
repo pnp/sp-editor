@@ -1,11 +1,11 @@
-import { CommonAuthorizationCodeRequest, AuthorizationCodeClient, Logger } from "@azure/msal-common";
+import { CommonAuthorizationCodeRequest, AuthorizationCodeClient, Logger, IPerformanceClient } from "@azure/msal-common";
 import { InteractionHandler } from "./InteractionHandler";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
 import { BrowserSystemOptions } from "../config/Configuration";
 export declare class SilentHandler extends InteractionHandler {
     private navigateFrameWait;
     private pollIntervalMilliseconds;
-    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger, systemOptions: Required<Pick<BrowserSystemOptions, "navigateFrameWait" | "pollIntervalMilliseconds">>);
+    constructor(authCodeModule: AuthorizationCodeClient, storageImpl: BrowserCacheManager, authCodeRequest: CommonAuthorizationCodeRequest, logger: Logger, systemOptions: Required<Pick<BrowserSystemOptions, "navigateFrameWait" | "pollIntervalMilliseconds">>, performanceClient: IPerformanceClient);
     /**
      * Creates a hidden iframe to given URL using user-requested scopes as an id.
      * @param urlNavigate

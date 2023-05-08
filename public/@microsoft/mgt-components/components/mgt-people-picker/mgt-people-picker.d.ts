@@ -44,6 +44,11 @@ export { PersonType, UserType } from '../../graph/graph.people';
  * @cssprop --placeholder-color--focus - {Color} Color of placeholder text during focus state
  * @cssprop --placeholder-color - {Color} Color of placeholder text
  *
+ * @cssprop --people-picker-flyout-line1-text-font-size - {String} the font size of the line 1 text on the flyout results. Default is 14px.
+ * @cssprop --people-picker-flyout-line1-text-font-weight - {String} the font weight of the line 1 text on the flyout results. Default is normal.
+ * @cssprop --people-picker-flyout-line2-text-font-size - {String} the font size of the line 2 text on the flyout results. Default is 12px.
+ * @cssprop --people-picker-flyout-line2-text-font-weight - {String} the font weight of the line 2 text on the flyout results. Default is normal.
+ *
  */
 export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
@@ -51,6 +56,13 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * user the `css` tag function.
      */
     static get styles(): import("lit-element").CSSResult[];
+    /**
+     * The strings to be used for localizing the component.
+     *
+     * @readonly
+     * @protected
+     * @memberof MgtPeoplePicker
+     */
     protected get strings(): {
         inputPlaceholderText: string;
         noResultsFound: string;
@@ -101,23 +113,33 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     get groupType(): GroupType;
     set groupType(value: GroupType);
+    /**
+     * The type of user to search for. Default is any.
+     *
+     * @readonly
+     * @type {UserType}
+     * @memberof MgtPeoplePicker
+     */
     get userType(): UserType;
     set userType(value: UserType);
     /**
      * whether the return should contain a flat list of all nested members
      * @type {boolean}
      */
-    transitiveSearch: boolean;
+    get transitiveSearch(): boolean;
+    set transitiveSearch(value: boolean);
     /**
      * containing object of IDynamicPerson.
      * @type {IDynamicPerson[]}
      */
-    people: IDynamicPerson[];
+    get people(): IDynamicPerson[];
+    set people(value: IDynamicPerson[]);
     /**
      * determining how many people to show in list.
      * @type {number}
      */
-    showMax: number;
+    get showMax(): number;
+    set showMax(value: number);
     /**
      * Sets whether the person image should be fetched
      * from the Microsoft Graph
@@ -127,24 +149,27 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     disableImages: boolean;
     /**
-     *  array of user picked people.
+     * array of user picked people.
      * @type {IDynamicPerson[]}
      */
-    selectedPeople: IDynamicPerson[];
+    get selectedPeople(): IDynamicPerson[];
+    set selectedPeople(value: IDynamicPerson[]);
     /**
-     * array of people to be selected upon intialization
+     * array of people to be selected upon initialization
      *
      * @type {string[]}
      * @memberof MgtPeoplePicker
      */
-    defaultSelectedUserIds: string[];
+    get defaultSelectedUserIds(): string[];
+    set defaultSelectedUserIds(value: string[]);
     /**
-     * array of groups to be selected upon intialization
+     * array of groups to be selected upon initialization
      *
      * @type {string[]}
      * @memberof MgtPeoplePicker
      */
-    defaultSelectedGroupIds: string[];
+    get defaultSelectedGroupIds(): string[];
+    set defaultSelectedGroupIds(value: string[]);
     /**
      * Placeholder text.
      *
@@ -173,7 +198,6 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPeoplePicker
      */
     selectionMode: string;
-    private _userIds;
     /**
      * Array of the only users to be searched.
      *
@@ -219,6 +243,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     protected userInput: string;
     private _showLoading;
+    private _userIds;
     private _groupId;
     private _groupIds;
     private _type;
@@ -227,6 +252,12 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     private _userFilters;
     private _groupFilters;
     private _peopleFilters;
+    private _defaultSelectedGroupIds;
+    private _defaultSelectedUserIds;
+    private _selectedPeople;
+    private _showMax;
+    private _people;
+    private _transitiveSearch;
     private defaultPeople;
     private _arrowSelectionCount;
     private _groupPeople;
@@ -421,6 +452,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * Handles input from the key up events on the keyboard.
      */
     private onUserKeyUp;
+    private onUserInput;
     private handleAnyEmail;
     private handleSuggestionClick;
     /**

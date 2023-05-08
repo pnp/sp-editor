@@ -11,7 +11,7 @@ export declare class _AppCatalog extends _SPCollection {
      * Synchronize a solution to the Microsoft Teams App Catalog
      * @param id - Specify the guid of the app
      * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
-     *                            PnPjs will try to fetch the item id by default, you can still use this parameter to pass your own item id in the first parameter
+     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
      */
     syncSolutionToTeams(id: string | number, useSharePointItemId?: boolean): Promise<void>;
     /**

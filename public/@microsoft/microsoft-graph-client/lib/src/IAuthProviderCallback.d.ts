@@ -9,4 +9,4 @@
  * Signature that defines callback for an authentication provider
  * @callback - The anonymous callback function which takes two params
  */
-export declare type AuthProviderCallback = (error: any, accessToken: string | null) => void;
+export type AuthProviderCallback = (error: any, accessToken: string | null) => void;

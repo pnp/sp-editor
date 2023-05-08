@@ -1,18 +1,20 @@
-import { Logger, AuthenticationScheme } from "@azure/msal-common";
+import { Logger, AuthenticationScheme, IPerformanceClient } from "@azure/msal-common";
 import { NativeExtensionRequestBody } from "./NativeRequest";
 import { BrowserConfiguration } from "../../config/Configuration";
 export declare class NativeMessageHandler {
     private extensionId;
     private extensionVersion;
     private logger;
-    private handshakeTimeoutMs;
+    private readonly handshakeTimeoutMs;
     private responseId;
     private timeoutId;
     private resolvers;
     private handshakeResolvers;
     private messageChannel;
-    private windowListener;
-    constructor(logger: Logger, handshakeTimeoutMs: number, extensionId?: string);
+    private readonly windowListener;
+    private readonly performanceClient;
+    private readonly handshakeEvent;
+    constructor(logger: Logger, handshakeTimeoutMs: number, performanceClient: IPerformanceClient, extensionId?: string);
     /**
      * Sends a given message to the extension and resolves with the extension response
      * @param body
@@ -20,10 +22,11 @@ export declare class NativeMessageHandler {
     sendMessage(body: NativeExtensionRequestBody): Promise<object>;
     /**
      * Returns an instance of the MessageHandler that has successfully established a connection with an extension
-     * @param logger
-     * @param handshakeTimeoutMs
+     * @param {Logger} logger
+     * @param {number} handshakeTimeoutMs
+     * @param {IPerformanceClient} performanceClient
      */
-    static createProvider(logger: Logger, handshakeTimeoutMs: number): Promise<NativeMessageHandler>;
+    static createProvider(logger: Logger, handshakeTimeoutMs: number, performanceClient: IPerformanceClient): Promise<NativeMessageHandler>;
     /**
      * Send handshake request helper.
      */

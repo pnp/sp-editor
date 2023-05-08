@@ -10,4 +10,4 @@ import { AuthProviderCallback } from "./IAuthProviderCallback";
  * Signature that holds authProvider
  * @callback - The anonymous callback function which takes a single param
  */
-export declare type AuthProvider = (done: AuthProviderCallback) => void;
+export type AuthProvider = (done: AuthProviderCallback) => void;
