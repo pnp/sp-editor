@@ -518,7 +518,6 @@ function asyncBroadcast() {
         const r = args;
         const obs = [...observers];
         const promises = [];
-        // process each handler which updates our "state" in order
         for (let i = 0; i < obs.length; i++) {
             promises.push(Reflect.apply(obs[i], this, r));
         }
@@ -778,7 +777,7 @@ class timeline_Timeline {
                 });
                 this.error(e2);
             }
-        });
+        }).catch(() => void (0));
         // give the promise back to the caller
         return p;
     }

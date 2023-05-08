@@ -13,7 +13,7 @@ export declare type CancelableObserver = (this: Queryable) => Promise<void>;
  * @param func Func to wrap
  * @returns The same func signature, wrapped with our cancel scoping logic
  */
-export declare const asCancelableScope: <T extends any[], U>(func: (...args: T) => U) => (...args: T) => U;
+export declare const asCancelableScope: <F extends (...args: any[]) => any>(func: F) => (...args: Parameters<F>) => ReturnType<F>;
 /**
  * Decorator used to mark multi-step methods to ensure all subrequests are properly cancelled
  */

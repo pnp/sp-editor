@@ -388,17 +388,6 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
 class GraphClientError extends Error {
     /**
      * @public
-     * @constructor
-     * Creates an instance of GraphClientError
-     * @param {string} message? - Error message
-     * @returns An instance of GraphClientError
-     */
-    constructor(message) {
-        super(message);
-        Object.setPrototypeOf(this, GraphClientError.prototype);
-    }
-    /**
-     * @public
      * @static
      * @async
      * To set the GraphClientError object
@@ -415,6 +404,17 @@ class GraphClientError extends Error {
             graphClientError.customError = error;
         }
         return graphClientError;
+    }
+    /**
+     * @public
+     * @constructor
+     * Creates an instance of GraphClientError
+     * @param {string} message? - Error message
+     * @returns An instance of GraphClientError
+     */
+    constructor(message) {
+        super(message);
+        Object.setPrototypeOf(this, GraphClientError.prototype);
     }
 }
 
@@ -1626,7 +1626,7 @@ var GraphRequestUtil = __webpack_require__(6);
 /**
  * @module Version
  */
-const PACKAGE_VERSION = "3.0.4";
+const PACKAGE_VERSION = "3.0.5";
 
 // EXTERNAL MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
 var MiddlewareControl = __webpack_require__(3);
@@ -3708,27 +3708,6 @@ function isnan (val) {
  */
 class BatchRequestContent {
     /**
-     * @public
-     * @constructor
-     * Constructs a BatchRequestContent instance
-     * @param {BatchRequestStep[]} [requests] - Array of requests value
-     * @returns An instance of a BatchRequestContent
-     */
-    constructor(requests) {
-        this.requests = new Map();
-        if (typeof requests !== "undefined") {
-            const limit = BatchRequestContent.requestLimit;
-            if (requests.length > limit) {
-                const error = new Error(`Maximum requests limit exceeded, Max allowed number of requests are ${limit}`);
-                error.name = "Limit Exceeded Error";
-                throw error;
-            }
-            for (const req of requests) {
-                this.addRequest(req);
-            }
-        }
-    }
-    /**
      * @private
      * @static
      * Validates the dependency chain of the requests
@@ -3912,6 +3891,27 @@ class BatchRequestContent {
             }
             return body;
         });
+    }
+    /**
+     * @public
+     * @constructor
+     * Constructs a BatchRequestContent instance
+     * @param {BatchRequestStep[]} [requests] - Array of requests value
+     * @returns An instance of a BatchRequestContent
+     */
+    constructor(requests) {
+        this.requests = new Map();
+        if (typeof requests !== "undefined") {
+            const limit = BatchRequestContent.requestLimit;
+            if (requests.length > limit) {
+                const error = new Error(`Maximum requests limit exceeded, Max allowed number of requests are ${limit}`);
+                error.name = "Limit Exceeded Error";
+                throw error;
+            }
+            for (const req of requests) {
+                this.addRequest(req);
+            }
+        }
     }
     /**
      * @public
@@ -5675,16 +5675,6 @@ class Range {
 class UploadResult {
     /**
      * @public
-     * @param {responseBody} responsebody - The response body from the completed upload response
-     * @param {location} location - The location value from the headers from the completed upload response
-     */
-    constructor(responseBody, location) {
-        // Response body or the location parameter can be undefined.
-        this._location = location;
-        this._responseBody = responseBody;
-    }
-    /**
-     * @public
      * Get of the location value.
      * Location value is looked up in the response header
      */
@@ -5711,6 +5701,16 @@ class UploadResult {
      * Set the response body from the completed upload response
      */
     set responseBody(responseBody) {
+        this._responseBody = responseBody;
+    }
+    /**
+     * @public
+     * @param {responseBody} responsebody - The response body from the completed upload response
+     * @param {location} location - The location value from the headers from the completed upload response
+     */
+    constructor(responseBody, location) {
+        // Response body or the location parameter can be undefined.
+        this._location = location;
         this._responseBody = responseBody;
     }
     /**
@@ -5746,6 +5746,31 @@ class UploadResult {
 class LargeFileUploadTask_LargeFileUploadTask {
     /**
      * @public
+     * @static
+     * @async
+     * Makes request to the server to create an upload session
+     * @param {Client} client - The GraphClient instance
+     * @param {string} requestUrl - The URL to create the upload session
+     * @param {any} payload - The payload that needs to be sent
+     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
+     * @returns The promise that resolves to LargeFileUploadSession
+     */
+    static createUploadSession(client, requestUrl, payload, headers = {}) {
+        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
+            const session = yield client
+                .api(requestUrl)
+                .headers(headers)
+                .post(payload);
+            const largeFileUploadSession = {
+                url: session.uploadUrl,
+                expiry: new Date(session.expirationDateTime),
+                isCancelled: false,
+            };
+            return largeFileUploadSession;
+        });
+    }
+    /**
+     * @public
      * @constructor
      * Constructs a LargeFileUploadTask
      * @param {Client} client - The GraphClient instance
@@ -5774,31 +5799,6 @@ class LargeFileUploadTask_LargeFileUploadTask {
         this.options = options;
         this.uploadSession = uploadSession;
         this.nextRange = new Range(0, this.options.rangeSize - 1);
-    }
-    /**
-     * @public
-     * @static
-     * @async
-     * Makes request to the server to create an upload session
-     * @param {Client} client - The GraphClient instance
-     * @param {string} requestUrl - The URL to create the upload session
-     * @param {any} payload - The payload that needs to be sent
-     * @param {KeyValuePairObjectStringNumber} headers - The headers that needs to be sent
-     * @returns The promise that resolves to LargeFileUploadSession
-     */
-    static createUploadSession(client, requestUrl, payload, headers = {}) {
-        return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
-            const session = yield client
-                .api(requestUrl)
-                .headers(headers)
-                .post(payload);
-            const largeFileUploadSession = {
-                url: session.uploadUrl,
-                expiry: new Date(session.expirationDateTime),
-                isCancelled: false,
-            };
-            return largeFileUploadSession;
-        });
     }
     /**
      * @private
@@ -6109,19 +6109,6 @@ const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
  */
 class OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask extends LargeFileUploadTask_LargeFileUploadTask {
     /**
-     * @public
-     * @constructor
-     * Constructs a OneDriveLargeFileUploadTask
-     * @param {Client} client - The GraphClient instance
-     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
-     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
-     * @param {LargeFileUploadTaskOptions} options - The upload task options
-     * @returns An instance of OneDriveLargeFileUploadTask
-     */
-    constructor(client, file, uploadSession, options) {
-        super(client, file, uploadSession, options);
-    }
-    /**
      * @private
      * @static
      * Constructs the create session url for Onedrive
@@ -6251,6 +6238,19 @@ class OneDriveLargeFileUploadTask_OneDriveLargeFileUploadTask extends LargeFileU
             };
             return _super.createUploadSession.call(this, client, requestUrl, payload);
         });
+    }
+    /**
+     * @public
+     * @constructor
+     * Constructs a OneDriveLargeFileUploadTask
+     * @param {Client} client - The GraphClient instance
+     * @param {FileObject} file - The FileObject holding details of a file that needs to be uploaded
+     * @param {LargeFileUploadSession} uploadSession - The upload session to which the upload has to be done
+     * @param {LargeFileUploadTaskOptions} options - The upload task options
+     * @returns An instance of OneDriveLargeFileUploadTask
+     */
+    constructor(client, file, uploadSession, options) {
+        super(client, file, uploadSession, options);
     }
     /**
      * @public
@@ -6536,13 +6536,14 @@ class GraphErrorHandler_GraphErrorHandler {
      * @param {number} [statusCode] - The status code of the response
      * @returns The GraphError instance
      */
-    static constructError(error, statusCode) {
+    static constructError(error, statusCode, rawResponse) {
         const gError = new GraphError(statusCode, "", error);
         if (error.name !== undefined) {
             gError.code = error.name;
         }
         gError.body = error.toString();
         gError.date = new Date();
+        gError.headers = rawResponse === null || rawResponse === void 0 ? void 0 : rawResponse.headers;
         return gError;
     }
     /**
@@ -6566,7 +6567,7 @@ class GraphErrorHandler_GraphErrorHandler {
      *      }
      *  }
      */
-    static constructErrorFromResponse(graphError, statusCode) {
+    static constructErrorFromResponse(graphError, statusCode, rawResponse) {
         const error = graphError.error;
         const gError = new GraphError(statusCode, error.message);
         gError.code = error.code;
@@ -6575,6 +6576,7 @@ class GraphErrorHandler_GraphErrorHandler {
             gError.date = new Date(error.innerError.date);
         }
         gError.body = JSON.stringify(error);
+        gError.headers = rawResponse === null || rawResponse === void 0 ? void 0 : rawResponse.headers;
         return gError;
     }
     /**
@@ -6588,14 +6590,14 @@ class GraphErrorHandler_GraphErrorHandler {
      * @param {GraphRequestCallback} [callback] - The graph request callback function
      * @returns A promise that resolves to GraphError instance
      */
-    static getError(error = null, statusCode = -1, callback) {
+    static getError(error = null, statusCode = -1, callback, rawResponse) {
         return Object(tslib_es6["a" /* __awaiter */])(this, void 0, void 0, function* () {
             let gError;
             if (error && error.error) {
-                gError = GraphErrorHandler_GraphErrorHandler.constructErrorFromResponse(error, statusCode);
+                gError = GraphErrorHandler_GraphErrorHandler.constructErrorFromResponse(error, statusCode, rawResponse);
             }
             else if (error instanceof Error) {
-                gError = GraphErrorHandler_GraphErrorHandler.constructError(error, statusCode);
+                gError = GraphErrorHandler_GraphErrorHandler.constructError(error, statusCode, rawResponse);
             }
             else {
                 gError = new GraphError(statusCode);
@@ -6916,7 +6918,7 @@ class GraphRequest_GraphRequest {
                 if (rawResponse) {
                     statusCode = rawResponse.status;
                 }
-                const gError = yield GraphErrorHandler_GraphErrorHandler.getError(error, statusCode, callback);
+                const gError = yield GraphErrorHandler_GraphErrorHandler.getError(error, statusCode, callback, rawResponse);
                 throw gError;
             }
         });
@@ -7362,6 +7364,32 @@ const validatePolyFilling = () => {
 
 class Client_Client {
     /**
+     * @public
+     * @static
+     * To create a client instance with options and initializes the default middleware chain
+     * @param {Options} options - The options for client instance
+     * @returns The Client instance
+     */
+    static init(options) {
+        const clientOptions = {};
+        for (const i in options) {
+            if (Object.prototype.hasOwnProperty.call(options, i)) {
+                clientOptions[i] = i === "authProvider" ? new CustomAuthenticationProvider_CustomAuthenticationProvider(options[i]) : options[i];
+            }
+        }
+        return Client_Client.initWithMiddleware(clientOptions);
+    }
+    /**
+     * @public
+     * @static
+     * To create a client instance with the Client Options
+     * @param {ClientOptions} clientOptions - The options object for initializing the client
+     * @returns The Client instance
+     */
+    static initWithMiddleware(clientOptions) {
+        return new Client_Client(clientOptions);
+    }
+    /**
      * @private
      * @constructor
      * Creates an instance of Client
@@ -7403,32 +7431,6 @@ class Client_Client {
             throw error;
         }
         this.httpClient = httpClient;
-    }
-    /**
-     * @public
-     * @static
-     * To create a client instance with options and initializes the default middleware chain
-     * @param {Options} options - The options for client instance
-     * @returns The Client instance
-     */
-    static init(options) {
-        const clientOptions = {};
-        for (const i in options) {
-            if (Object.prototype.hasOwnProperty.call(options, i)) {
-                clientOptions[i] = i === "authProvider" ? new CustomAuthenticationProvider_CustomAuthenticationProvider(options[i]) : options[i];
-            }
-        }
-        return Client_Client.initWithMiddleware(clientOptions);
-    }
-    /**
-     * @public
-     * @static
-     * To create a client instance with the Client Options
-     * @param {ClientOptions} clientOptions - The options object for initializing the client
-     * @returns The Client instance
-     */
-    static initWithMiddleware(clientOptions) {
-        return new Client_Client(clientOptions);
     }
     /**
      * @public

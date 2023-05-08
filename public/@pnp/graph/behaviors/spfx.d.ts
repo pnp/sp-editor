@@ -7,6 +7,7 @@ interface ISPFXContext {
         }>;
     };
 }
+export declare function SPFxToken(context: ISPFXContext): TimelinePipe<Queryable>;
 export declare function SPFx(context: ISPFXContext): TimelinePipe<Queryable>;
 export {};
 //# sourceMappingURL=spfx.d.ts.map

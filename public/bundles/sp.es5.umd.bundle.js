@@ -170,6 +170,7 @@ __webpack_require__.d(__webpack_exports__, "NavigationService", function() { ret
 __webpack_require__.d(__webpack_exports__, "odataUrlFrom", function() { return /* reexport */ odataUrlFrom; });
 __webpack_require__.d(__webpack_exports__, "Profiles", function() { return /* reexport */ Profiles; });
 __webpack_require__.d(__webpack_exports__, "UrlZone", function() { return /* reexport */ UrlZone; });
+__webpack_require__.d(__webpack_exports__, "SitePageService", function() { return /* reexport */ SitePageService; });
 __webpack_require__.d(__webpack_exports__, "RegionalSettings", function() { return /* reexport */ RegionalSettings; });
 __webpack_require__.d(__webpack_exports__, "TimeZone", function() { return /* reexport */ TimeZone; });
 __webpack_require__.d(__webpack_exports__, "TimeZones", function() { return /* reexport */ TimeZones; });
@@ -200,6 +201,8 @@ __webpack_require__.d(__webpack_exports__, "SiteScripts", function() { return /*
 __webpack_require__.d(__webpack_exports__, "SiteUser", function() { return /* reexport */ SiteUser; });
 __webpack_require__.d(__webpack_exports__, "SiteUsers", function() { return /* reexport */ SiteUsers; });
 __webpack_require__.d(__webpack_exports__, "Site", function() { return /* reexport */ Site; });
+__webpack_require__.d(__webpack_exports__, "SiteLogoAspect", function() { return /* reexport */ SiteLogoAspect; });
+__webpack_require__.d(__webpack_exports__, "SiteLogoType", function() { return /* reexport */ SiteLogoType; });
 __webpack_require__.d(__webpack_exports__, "MySocial", function() { return /* reexport */ MySocial; });
 __webpack_require__.d(__webpack_exports__, "Social", function() { return /* reexport */ Social; });
 __webpack_require__.d(__webpack_exports__, "SocialActorType", function() { return /* reexport */ SocialActorType; });
@@ -255,7 +258,6 @@ __webpack_require__.d(__webpack_exports__, "emptyGuid", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "PrincipalType", function() { return /* reexport */ PrincipalType; });
 __webpack_require__.d(__webpack_exports__, "PrincipalSource", function() { return /* reexport */ PrincipalSource; });
 __webpack_require__.d(__webpack_exports__, "PageType", function() { return /* reexport */ PageType; });
-__webpack_require__.d(__webpack_exports__, "escapeQueryStrValue", function() { return /* reexport */ escapeQueryStrValue; });
 __webpack_require__.d(__webpack_exports__, "extractWebUrl", function() { return /* reexport */ extractWebUrl; });
 __webpack_require__.d(__webpack_exports__, "containsInvalidFileFolderChars", function() { return /* reexport */ containsInvalidFileFolderChars; });
 __webpack_require__.d(__webpack_exports__, "stripInvalidFileFolderChars", function() { return /* reexport */ stripInvalidFileFolderChars; });
@@ -266,6 +268,7 @@ __webpack_require__.d(__webpack_exports__, "DefaultHeaders", function() { return
 __webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
 __webpack_require__.d(__webpack_exports__, "RequestDigest", function() { return /* reexport */ RequestDigest; });
 __webpack_require__.d(__webpack_exports__, "SPBrowser", function() { return /* reexport */ SPBrowser; });
+__webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
 __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
 
 // CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
@@ -650,7 +653,6 @@ function asyncBroadcast() {
         const r = args;
         const obs = [...observers];
         const promises = [];
-        // process each handler which updates our "state" in order
         for (let i = 0; i < obs.length; i++) {
             promises.push(Reflect.apply(obs[i], this, r));
         }
@@ -910,7 +912,7 @@ class timeline_Timeline {
                 });
                 this.error(e2);
             }
-        });
+        }).catch(() => void (0));
         // give the promise back to the caller
         return p;
     }
@@ -2967,24 +2969,6 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/escape-query-str.js
-
-// deprecated, will be removed in future versions, no longer used internally
-function escapeQueryStrValue(value) {
-    if (stringIsNullOrEmpty(value)) {
-        return "";
-    }
-    // replace all instance of ' with ''
-    if (/!(@.*?)::(.*?)/ig.test(value)) {
-        return value.replace(/!(@.*?)::(.*)$/ig, (match, labelName, v) => {
-            return `!${labelName}::${v.replace(/'/ig, "''")}`;
-        });
-    }
-    else {
-        return value.replace(/'/ig, "''");
-    }
-}
-
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
 // eslint-disable-next-line no-control-regex
 const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
@@ -3059,7 +3043,7 @@ function encodePath(value) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.11.0:";
+            let clientTag = "PnPCoreJS:3.14.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -3107,6 +3091,9 @@ function DefaultHeaders() {
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
+
+
+
 function clearExpired(digest) {
     const now = new Date();
     return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
@@ -3116,31 +3103,26 @@ const digests = new Map();
 function RequestDigest(hook) {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            // eslint-disable-next-line @typescript-eslint/dot-notation
-            if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization")))) {
-                return [url, init, result];
-            }
             // add the request to the auth moment of the timeline
             this.on.auth(async (url, init) => {
+                // eslint-disable-next-line max-len
+                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
+                    return [url, init];
+                }
                 const urlAsString = url.toString();
                 const webUrl = extractWebUrl(urlAsString);
                 // do we have one in the cache that is still valid
                 // from #2186 we need to always ensure the digest we get isn't expired
                 let digest = clearExpired(digests.get(webUrl));
-                if (!objectDefinedNotNull(digest) && typeof hook === "function") {
+                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
                     digest = clearExpired(hook(urlAsString, init));
                 }
                 if (!objectDefinedNotNull(digest)) {
-                    // let's get one from the server
-                    digest = await fetch(combine(webUrl, "/_api/contextinfo"), {
-                        cache: "no-cache",
-                        credentials: "same-origin",
+                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse()), {
                         headers: {
-                            "accept": "application/json",
-                            "content-type": "application/json;odata=verbose;charset=utf-8",
+                            "X-PnPjs-NoDigest": "1",
                         },
-                        method: "POST",
-                    }).then(r => r.json()).then(p => ({
+                    }).then(p => ({
                         expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
                         value: p.FormDigestValue,
                     }));
@@ -3191,17 +3173,33 @@ function SPBrowser(props) {
 
 
 
+function SPFxToken(context) {
+    return (instance) => {
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
+        });
+        return instance;
+    };
+}
 function SPFx(context) {
     return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest((url) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
+        // remove SPFx Token in default due to issues #2570, #2571
+        // SPFxToken(context),
+        RequestDigest((url) => {
             var _a, _b, _c;
             const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
             if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
+                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
                 // account for page lifetime in timeout #2304 & others
-                const expiration = (((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) || 1600) - (performance.now() / 1000) - 15;
+                // account for tab sleep #2550
                 return {
                     value: context.pageContext.legacyPageContext.formDigestValue,
-                    expiration: dateAdd(new Date(), "second", expiration),
+                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
                 };
             }
         }));
@@ -3217,7 +3215,6 @@ function SPFx(context) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
-
 
 
 
@@ -3348,7 +3345,7 @@ let types_Web = class _Web extends _SPInstance {
     async getParentWeb() {
         const { Url, ParentWeb } = await this.select("Url", "ParentWeb/ServerRelativeUrl").expand("ParentWeb")();
         if (ParentWeb === null || ParentWeb === void 0 ? void 0 : ParentWeb.ServerRelativeUrl) {
-            return Web([this, Url.substring(0, Url.indexOf(ParentWeb.ServerRelativeUrl) + ParentWeb.ServerRelativeUrl.length)]);
+            return Web([this, combine((new URL(Url)).origin, ParentWeb.ServerRelativeUrl)]);
         }
         return null;
     }
@@ -4762,6 +4759,16 @@ var TemplateFileType;
 
 
 
+function getAppCatalogPath(base, path) {
+    const paths = ["_api/web/tenantappcatalog/", "_api/web/sitecollectionappcatalog/"];
+    for (let i = 0; i < paths.length; i++) {
+        const index = base.indexOf(paths[i]);
+        if (index > -1) {
+            return combine(base.substring(index, index + paths[i].length), path);
+        }
+    }
+    return combine(base, path);
+}
 let types_AppCatalog = class _AppCatalog extends _SPCollection {
     constructor(base, path) {
         super(base, null);
@@ -4778,12 +4785,12 @@ let types_AppCatalog = class _AppCatalog extends _SPCollection {
      * Synchronize a solution to the Microsoft Teams App Catalog
      * @param id - Specify the guid of the app
      * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
-     *                            PnPjs will try to fetch the item id by default, you can still use this parameter to pass your own item id in the first parameter
+     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
      */
     async syncSolutionToTeams(id, useSharePointItemId = false) {
         // This REST call requires that you refer the list item id of the solution in the app catalog site.
         let appId = null;
-        const webUrl = extractWebUrl(this.toUrl()) + "_api/web";
+        const webUrl = combine(extractWebUrl(this.toUrl()), "_api/web");
         if (useSharePointItemId) {
             appId = id;
         }
@@ -4797,7 +4804,7 @@ let types_AppCatalog = class _AppCatalog extends _SPCollection {
                 throw Error(`Did not find the app with id ${id} in the appcatalog.`);
             }
         }
-        return spPost(AppCatalog([this, webUrl], `/tenantappcatalog/SyncSolutionToTeams(id=${appId})`));
+        return spPost(AppCatalog(this, getAppCatalogPath(this.toUrl(), `SyncSolutionToTeams(id=${appId})`)));
     }
     /**
      * Uploads an app package. Not supported for batching
@@ -4809,7 +4816,7 @@ let types_AppCatalog = class _AppCatalog extends _SPCollection {
      */
     async add(filename, content, shouldOverWrite = true) {
         // you don't add to the availableapps collection
-        const adder = AppCatalog([this, extractWebUrl(this.toUrl())], `_api/web/tenantappcatalog/add(overwrite=${shouldOverWrite},url='${filename}')`);
+        const adder = AppCatalog(this, getAppCatalogPath(this.toUrl(), `add(overwrite=${shouldOverWrite},url='${filename}')`));
         const r = await spPost(adder, {
             body: content, headers: {
                 "binaryStringRequestBody": "true",
@@ -4881,13 +4888,21 @@ const App = spInvokableFactory(types_App);
 
 // we use this function to wrap the AppCatalog as we want to ignore any path values addProp
 // will pass and use the defaultPath defined for AppCatalog
-addProp(types_Web, "appcatalog", (s) => AppCatalog(s));
+addProp(types_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/index.js
 
 
 
 
+
+Reflect.defineProperty(fi_SPFI.prototype, "tenantAppcatalog", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(AppCatalog, "_api/web/tenantappcatalog/AvailableApps");
+    },
+});
 fi_SPFI.prototype.getTenantAppCatalogWeb = async function () {
     const data = await Web(this._root, "_api/SP_TenantSettings_Current")();
     return Web([this._root, data.CorporateCatalogUrl]);
@@ -5186,12 +5201,47 @@ let types_Site = class _Site extends _SPInstance {
         }
         return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/GroupSiteManager/CreateGroupEx").using(TextParse()), request_builders_body(postBody));
     }
+    update(props) {
+        return spPatch(this, request_builders_body(props));
+    }
+    /**
+     * Set's the site's `Site Logo` property, vs the Site Icon property available on the web's properties
+     *
+     * @param logoProperties An instance of ISiteLogoProperties which sets the new site logo.
+     */
+    setSiteLogo(logoProperties) {
+        return spPost(SPQueryable([this, extractWebUrl(this.toUrl())], "_api/siteiconmanager/setsitelogo"), request_builders_body(logoProperties));
+    }
 };
 types_Site = tslib_es6_decorate([
     defaultPath("_api/site")
 ], types_Site);
 
 const Site = spInvokableFactory(types_Site);
+var SiteLogoType;
+(function (SiteLogoType) {
+    /**
+     * Site header logo
+     */
+    SiteLogoType[SiteLogoType["WebLogo"] = 0] = "WebLogo";
+    /**
+     * Hub site logo
+     */
+    SiteLogoType[SiteLogoType["HubLogo"] = 1] = "HubLogo";
+    /**
+     * Header background image
+     */
+    SiteLogoType[SiteLogoType["HeaderBackground"] = 2] = "HeaderBackground";
+    /**
+     * Global navigation logo
+     */
+    SiteLogoType[SiteLogoType["GlobalNavLogo"] = 3] = "GlobalNavLogo";
+})(SiteLogoType || (SiteLogoType = {}));
+var SiteLogoAspect;
+(function (SiteLogoAspect) {
+    SiteLogoAspect[SiteLogoAspect["Square"] = 0] = "Square";
+    SiteLogoAspect[SiteLogoAspect["Rectangular"] = 1] = "Rectangular";
+})(SiteLogoAspect || (SiteLogoAspect = {}));
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/funcs.js
 
@@ -6459,7 +6509,8 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         var _a, _b, _c;
         // this is to handle the special case in issue #1690
         // must ensure that searchablePlainTexts values have < replaced with &lt; in links web part
-        if (control.data.controlType === 3 && control.data.webPartId === "c70391ea-0b10-4ee9-b2b4-006d3fcad0cd") {
+        // For #2561 need to process for code snippet webpart and any control && (<any>control).data.webPartId === "c70391ea-0b10-4ee9-b2b4-006d3fcad0cd"
+        if (control.data.controlType === 3) {
             const texts = ((_c = (_b = (_a = control.data) === null || _a === void 0 ? void 0 : _a.webPartData) === null || _b === void 0 ? void 0 : _b.serverProcessedContent) === null || _c === void 0 ? void 0 : _c.searchablePlainTexts) || null;
             if (objectDefinedNotNull(texts)) {
                 const keys = Object.getOwnPropertyNames(texts);
@@ -8818,6 +8869,33 @@ Reflect.defineProperty(fi_SPFI.prototype, "profiles", {
     enumerable: true,
     get: function () {
         return this.create(Profiles);
+    },
+});
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/types.js
+
+class types_SitePageService extends _SPInstance {
+    constructor(baseUrl, path = "_api/SP.Publishing.SitePageService") {
+        super(baseUrl, path);
+    }
+    /**
+    * Gets current user unified group memberships
+    */
+    getCurrentUserMemberships() {
+        const q = SitePageService(this, null);
+        q.concat(".GetCurrentUserMemberships");
+        return q();
+    }
+}
+const SitePageService = spInvokableFactory(types_SitePageService);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/index.js
+
+
+
+Reflect.defineProperty(fi_SPFI.prototype, "publishingSitePageService", {
+    get: function () {
+        return this.create(SitePageService);
     },
 });
 
@@ -11970,6 +12048,8 @@ Reflect.defineProperty(fi_SPFI.prototype, "web", {
 });
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/presets/all.js
+
+
 
 
 

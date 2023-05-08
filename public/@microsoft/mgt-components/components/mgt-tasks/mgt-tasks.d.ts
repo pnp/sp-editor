@@ -6,6 +6,7 @@
  */
 import { PlannerTask } from '@microsoft/microsoft-graph-types';
 import { OutlookTask } from '@microsoft/microsoft-graph-types-beta';
+import { TemplateResult } from 'lit-element';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../mgt-person/mgt-person';
 import '../sub-components/mgt-arrow-options/mgt-arrow-options';
@@ -243,6 +244,7 @@ export declare class MgtTasks extends MgtTemplatedComponent {
     private _newTaskDueDate;
     private _newTaskGroupId;
     private _newTaskFolderId;
+    private _newTaskContainerId;
     private _groups;
     private _folders;
     private _tasks;
@@ -293,7 +295,7 @@ export declare class MgtTasks extends MgtTemplatedComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): import("lit-element").TemplateResult;
+    protected render(): TemplateResult;
     /**
      * loads tasks from dataSource
      *
@@ -314,6 +316,9 @@ export declare class MgtTasks extends MgtTemplatedComponent {
     private onAddTaskClick;
     private onAddTaskKeyDown;
     private newTaskButtonKeydown;
+    private addNewTaskButtonClick;
+    private handleNewTaskDateChange;
+    private handleSelectedPlan;
     private newTaskVisible;
     private renderPlanOptions;
     private renderNewTask;
@@ -335,7 +340,7 @@ export declare class MgtTasks extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTodo
      */
-    protected renderCalendarIcon(): import("lit-element").TemplateResult;
+    protected renderCalendarIcon(): TemplateResult;
     private getTaskSource;
     private getPlanTitle;
     private getFolderName;

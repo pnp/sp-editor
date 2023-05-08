@@ -12,7 +12,7 @@ import { MiddlewareOptions } from "./IMiddlewareOptions";
  * @type
  * A type declaration for shouldRetry callback
  */
-export declare type ShouldRedirect = (response: Response) => boolean;
+export type ShouldRedirect = (response: Response) => boolean;
 /**
  * @class
  * @implements MiddlewareOptions

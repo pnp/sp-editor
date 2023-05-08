@@ -41,7 +41,7 @@ export interface LargeFileUploadSession {
  * @type
  * Representing the return type of the sliceFile function that is type of the slice of a given range.
  */
-export declare type SliceType = ArrayBuffer | Blob | Uint8Array;
+export type SliceType = ArrayBuffer | Blob | Uint8Array;
 /**
  * @interface
  * Signature to define the properties and content of the file in upload task

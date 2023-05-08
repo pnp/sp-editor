@@ -56,5 +56,5 @@ export declare class GraphErrorHandler {
      * @param {GraphRequestCallback} [callback] - The graph request callback function
      * @returns A promise that resolves to GraphError instance
      */
-    static getError(error?: any, statusCode?: number, callback?: GraphRequestCallback): Promise<GraphError>;
+    static getError(error?: any, statusCode?: number, callback?: GraphRequestCallback, rawResponse?: Response): Promise<GraphError>;
 }

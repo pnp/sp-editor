@@ -121,6 +121,7 @@ __webpack_require__.d(__webpack_exports__, "GraphBrowser", function() { return /
 __webpack_require__.d(__webpack_exports__, "AsPaged", function() { return /* reexport */ AsPaged; });
 __webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ Paged; });
 __webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
+__webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
 __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
 
 // CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
@@ -505,7 +506,6 @@ function asyncBroadcast() {
         const r = args;
         const obs = [...observers];
         const promises = [];
-        // process each handler which updates our "state" in order
         for (let i = 0; i < obs.length; i++) {
             promises.push(Reflect.apply(obs[i], this, r));
         }
@@ -765,7 +765,7 @@ class timeline_Timeline {
                 });
                 this.error(e2);
             }
-        });
+        }).catch(() => void (0));
         // give the promise back to the caller
         return p;
     }
@@ -2456,7 +2456,7 @@ const graphPut = (o, init) => {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.11.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.14.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -2534,9 +2534,8 @@ function GraphBrowser(props) {
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/spfx.js
 
 
-function SPFx(context) {
+function SPFxToken(context) {
     return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse());
         instance.on.auth.replace(async function (url, init) {
             const provider = await context.aadTokenProviderFactory.getTokenProvider();
             const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
@@ -2544,6 +2543,12 @@ function SPFx(context) {
             init.headers["Authorization"] = `Bearer ${token}`;
             return [url, init];
         });
+        return instance;
+    };
+}
+function SPFx(context) {
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), SPFxToken(context));
         return instance;
     };
 }

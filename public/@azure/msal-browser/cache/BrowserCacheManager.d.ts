@@ -1,4 +1,4 @@
-import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType } from "@azure/msal-common";
+import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType, TokenKeys, CredentialType } from "@azure/msal-common";
 import { CacheOptions } from "../config/Configuration";
 import { BrowserCacheLocation, InteractionType } from "../utils/BrowserConstants";
 import { MemoryStorage } from "./MemoryStorage";
@@ -23,10 +23,11 @@ export declare class BrowserCacheManager extends CacheManager {
      */
     protected setupBrowserStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
     /**
-     *
+     * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured temporaryCacheLocation.
+     * @param temporaryCacheLocation
      * @param cacheLocation
      */
-    protected setupTemporaryCacheStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
+    protected setupTemporaryCacheStorage(temporaryCacheLocation: BrowserCacheLocation | string, cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
     /**
      * Migrate all old cache entries to new schema. No rollback supported.
      * @param storeAuthStateInCookie
@@ -39,6 +40,12 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param storeAuthStateInCookie
      */
     protected migrateCacheEntry(newKey: string, value: string | null): void;
+    /**
+     * Searches all cache entries for MSAL accounts and creates the account key map
+     * This is used to migrate users from older versions of MSAL which did not create the map.
+     * @returns
+     */
+    private createKeyMaps;
     /**
      * Parses passed value as JSON object, JSON.parse() will throw an error.
      * @param input
@@ -66,6 +73,58 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param value
      */
     setAccount(account: AccountEntity): void;
+    /**
+     * Returns the array of account keys currently cached
+     * @returns
+     */
+    getAccountKeys(): Array<string>;
+    /**
+     * Add a new account to the key map
+     * @param key
+     */
+    addAccountKeyToMap(key: string): void;
+    /**
+     * Remove an account from the key map
+     * @param key
+     */
+    removeAccountKeyFromMap(key: string): void;
+    /**
+     * Extends inherited removeAccount function to include removal of the account key from the map
+     * @param key
+     */
+    removeAccount(key: string): Promise<void>;
+    /**
+     * Removes given idToken from the cache and from the key map
+     * @param key
+     */
+    removeIdToken(key: string): void;
+    /**
+     * Removes given accessToken from the cache and from the key map
+     * @param key
+     */
+    removeAccessToken(key: string): Promise<void>;
+    /**
+     * Removes given refreshToken from the cache and from the key map
+     * @param key
+     */
+    removeRefreshToken(key: string): void;
+    /**
+     * Gets the keys for the cached tokens associated with this clientId
+     * @returns
+     */
+    getTokenKeys(): TokenKeys;
+    /**
+     * Adds the given key to the token key map
+     * @param key
+     * @param type
+     */
+    addTokenKey(key: string, type: CredentialType): void;
+    /**
+     * Removes the given key from the token key map
+     * @param key
+     * @param type
+     */
+    removeTokenKey(key: string, type: CredentialType): void;
     /**
      * generates idToken entity from a string
      * @param idTokenKey
@@ -190,7 +249,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * Will also clear the cookie item if storeAuthStateInCookie is set to true.
      * @param key
      */
-    removeItem(key: string): boolean;
+    removeItem(key: string): void;
     /**
      * Checks whether key is in cache.
      * @param key

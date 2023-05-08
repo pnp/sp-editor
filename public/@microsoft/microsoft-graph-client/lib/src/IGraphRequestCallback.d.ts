@@ -10,4 +10,4 @@ import { GraphError } from "./GraphError";
  * Signature to define the GraphRequest callback
  * @callback - The anonymous callback function
  */
-export declare type GraphRequestCallback = (error: GraphError, response: any, rawResponse?: any) => void;
+export type GraphRequestCallback = (error: GraphError, response: any, rawResponse?: any) => void;

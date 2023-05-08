@@ -1,4 +1,4 @@
-import { AuthenticationResult, Logger, ICrypto, IPerformanceClient } from "@azure/msal-common";
+import { AuthenticationResult, Logger, ICrypto, AuthToken, AccountEntity, ScopeSet, IPerformanceClient } from "@azure/msal-common";
 import { BaseInteractionClient } from "./BaseInteractionClient";
 import { BrowserConfiguration } from "../config/Configuration";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager";
@@ -9,7 +9,7 @@ import { SsoSilentRequest } from "../request/SsoSilentRequest";
 import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
 import { ApiId } from "../utils/BrowserConstants";
 import { NativeTokenRequest } from "../broker/nativeBroker/NativeRequest";
-import { NativeResponse } from "../broker/nativeBroker/NativeResponse";
+import { MATS, NativeResponse } from "../broker/nativeBroker/NativeResponse";
 import { RedirectRequest } from "../request/RedirectRequest";
 import { INavigationClient } from "../navigation/INavigationClient";
 import { SilentCacheClient } from "./SilentCacheClient";
@@ -61,6 +61,69 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
      */
     protected handleNativeResponse(response: NativeResponse, request: NativeTokenRequest, reqTimestamp: number): Promise<AuthenticationResult>;
     /**
+     * Create an idToken Object (not entity)
+     * @param response
+     * @returns
+     */
+    protected createIdTokenObj(response: NativeResponse): AuthToken;
+    /**
+     * creates an homeAccountIdentifier for the account
+     * @param response
+     * @param idTokenObj
+     * @returns
+     */
+    protected createHomeAccountIdentifier(response: NativeResponse, idTokenObj: AuthToken): string;
+    /**
+     * Creates account entity
+     * @param response
+     * @param homeAccountIdentifier
+     * @param idTokenObj
+     * @param authority
+     * @returns
+     */
+    protected createAccountEntity(response: NativeResponse, homeAccountIdentifier: string, idTokenObj: AuthToken, authority: string): AccountEntity;
+    /**
+     * Helper to generate scopes
+     * @param response
+     * @param request
+     * @returns
+     */
+    generateScopes(response: NativeResponse, request: NativeTokenRequest): ScopeSet;
+    /**
+     * If PoP token is requesred, records the PoP token if returned from the WAM, else generates one in the browser
+     * @param request
+     * @param response
+     */
+    generatePopAccessToken(response: NativeResponse, request: NativeTokenRequest): Promise<string>;
+    /**
+     * Generates authentication result
+     * @param response
+     * @param request
+     * @param idTokenObj
+     * @param accountEntity
+     * @param authority
+     * @param reqTimestamp
+     * @returns
+     */
+    protected generateAuthenticationResult(response: NativeResponse, request: NativeTokenRequest, idTokenObj: AuthToken, accountEntity: AccountEntity, authority: string, reqTimestamp: number): Promise<AuthenticationResult>;
+    /**
+     * cache the account entity in browser storage
+     * @param accountEntity
+     */
+    cacheAccount(accountEntity: AccountEntity): void;
+    /**
+     * Stores the access_token and id_token in inmemory storage
+     * @param response
+     * @param request
+     * @param homeAccountIdentifier
+     * @param idTokenObj
+     * @param responseAccessToken
+     * @param tenantId
+     * @param reqTimestamp
+     */
+    cacheNativeTokens(response: NativeResponse, request: NativeTokenRequest, homeAccountIdentifier: string, idTokenObj: AuthToken, responseAccessToken: string, tenantId: string, reqTimestamp: number): void;
+    protected addTelemetryFromNativeResponse(response: NativeResponse): MATS | null;
+    /**
      * Validates native platform response before processing
      * @param response
      */
@@ -76,7 +139,7 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
      * @param response
      * @returns
      */
-    private isResponseFromCache;
+    protected isResponseFromCache(mats: MATS): boolean;
     /**
      * Translates developer provided request object into NativeRequest object
      * @param request

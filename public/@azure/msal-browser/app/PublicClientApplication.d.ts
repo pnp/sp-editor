@@ -11,6 +11,7 @@ import { SilentRequest } from "../request/SilentRequest";
  */
 export declare class PublicClientApplication extends ClientApplication implements IPublicClientApplication {
     private activeSilentTokenRequests;
+    private astsAsyncMeasurement?;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -58,6 +59,7 @@ export declare class PublicClientApplication extends ClientApplication implement
      * @returns {Promise.<AuthenticationResult>} - a promise that is fulfilled when this function has completed, or rejected if an error was raised. Returns the {@link AuthResponse} object
      */
     acquireTokenSilent(request: SilentRequest): Promise<AuthenticationResult>;
+    private trackPageVisibility;
     /**
      * Silently acquire an access token for a given set of scopes. Will use cached token if available, otherwise will attempt to acquire a new token from the network via refresh token.
      * @param {@link (SilentRequest:type)}

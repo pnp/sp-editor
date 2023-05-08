@@ -112,7 +112,7 @@ export declare enum SSOTypes {
 /**
  * @hidden
  */
-export declare const BlacklistedEQParams: SSOTypes[];
+export declare const DisallowedEQParams: SSOTypes[];
 export declare type InteractionType = "redirectInteraction" | "popupInteraction" | "silentInteraction";
 export declare const NetworkRequestType: {
     GET: string;
