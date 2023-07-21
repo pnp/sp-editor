@@ -751,7 +751,9 @@ class timeline_Timeline {
                     }
                     finally {
                         // here we need to remove any "once" observers
-                        Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        if (observers && observers.length > 0) {
+                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        }
                     }
                 },
             });
@@ -1568,7 +1570,7 @@ function body(o, previous) {
  * @returns RequestInit combining previous and specified headers
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-function headers(o, previous) {
+function request_builders_headers(o, previous) {
     return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
 }
 
@@ -2665,7 +2667,7 @@ function encodePath(value) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.14.0:";
+            let clientTag = "PnPCoreJS:3.16.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -2710,150 +2712,7 @@ function DefaultHeaders() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
-
-
-
-
-
-function clearExpired(digest) {
-    const now = new Date();
-    return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
-}
-// allows for the caching of digests across all calls which each have their own IDigestInfo wrapper.
-const digests = new Map();
-function RequestDigest(hook) {
-    return (instance) => {
-        instance.on.pre(async function (url, init, result) {
-            // add the request to the auth moment of the timeline
-            this.on.auth(async (url, init) => {
-                // eslint-disable-next-line max-len
-                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
-                    return [url, init];
-                }
-                const urlAsString = url.toString();
-                const webUrl = extractWebUrl(urlAsString);
-                // do we have one in the cache that is still valid
-                // from #2186 we need to always ensure the digest we get isn't expired
-                let digest = clearExpired(digests.get(webUrl));
-                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
-                    digest = clearExpired(hook(urlAsString, init));
-                }
-                if (!objectDefinedNotNull(digest)) {
-                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse()), {
-                        headers: {
-                            "X-PnPjs-NoDigest": "1",
-                        },
-                    }).then(p => ({
-                        expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
-                        value: p.FormDigestValue,
-                    }));
-                }
-                if (objectDefinedNotNull(digest)) {
-                    // if we got a digest, set it in the headers
-                    init.headers = {
-                        "X-RequestDigest": digest.value,
-                        ...init.headers,
-                    };
-                    // and cache it for future requests
-                    digests.set(webUrl, digest);
-                }
-                return [url, init];
-            });
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
-
-
-
-
-function SPBrowser(props) {
-    if ((props === null || props === void 0 ? void 0 : props.baseUrl) && !isUrlAbsolute(props.baseUrl)) {
-        throw Error("SPBrowser props.baseUrl must be absolute when supplied.");
-    }
-    return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest());
-        if (isUrlAbsolute(props === null || props === void 0 ? void 0 : props.baseUrl)) {
-            // we want to fix up the url first
-            instance.on.pre.prepend(async (url, init, result) => {
-                if (!isUrlAbsolute(url)) {
-                    url = combine(props.baseUrl, url);
-                }
-                return [url, init, result];
-            });
-        }
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
-
-
-
-
-function SPFxToken(context) {
-    return (instance) => {
-        instance.on.auth.replace(async function (url, init) {
-            const provider = await context.aadTokenProviderFactory.getTokenProvider();
-            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
-            // eslint-disable-next-line @typescript-eslint/dot-notation
-            init.headers["Authorization"] = `Bearer ${token}`;
-            return [url, init];
-        });
-        return instance;
-    };
-}
-function SPFx(context) {
-    return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
-        // remove SPFx Token in default due to issues #2570, #2571
-        // SPFxToken(context),
-        RequestDigest((url) => {
-            var _a, _b, _c;
-            const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
-            if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
-                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
-                // account for page lifetime in timeout #2304 & others
-                // account for tab sleep #2550
-                return {
-                    value: context.pageContext.legacyPageContext.formDigestValue,
-                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
-                };
-            }
-        }));
-        // we want to fix up the url first
-        instance.on.pre.prepend(async (url, init, result) => {
-            if (!isUrlAbsolute(url)) {
-                url = combine(context.pageContext.web.absoluteUrl, url);
-            }
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.js
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -2939,7 +2798,7 @@ function tslib_es6_generator(thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -3099,6 +2958,974 @@ function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
 }
 
 function tslib_es6_classPrivateFieldIn(state, receiver) {
+    if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+    return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
+
+
+
+
+
+
+
+
+
+let types_Webs = class _Webs extends _SPCollection {
+    /**
+     * Adds a new web to the collection
+     *
+     * @param title The new web's title
+     * @param url The new web's relative url
+     * @param description The new web's description
+     * @param template The new web's template internal name (default = STS)
+     * @param language The locale id that specifies the new web's language (default = 1033 [English, US])
+     * @param inheritPermissions When true, permissions will be inherited from the new web's parent (default = true)
+     */
+    async add(Title, Url, Description = "", WebTemplate = "STS", Language = 1033, UseSamePermissionsAsParentSite = true) {
+        const postBody = body({
+            "parameters": {
+                Description,
+                Language,
+                Title,
+                Url,
+                UseSamePermissionsAsParentSite,
+                WebTemplate,
+            },
+        });
+        const data = await spPost(Webs(this, "add"), postBody);
+        return {
+            data,
+            web: Web([this, odataUrlFrom(data).replace(/_api\/web\/?/i, "")]),
+        };
+    }
+};
+types_Webs = tslib_es6_decorate([
+    defaultPath("webs")
+], types_Webs);
+
+const Webs = spInvokableFactory(types_Webs);
+/**
+ * Ensures the url passed to the constructor is correctly rebased to a web url
+ *
+ * @param candidate The candidate web url
+ * @param path The caller supplied path, which may contain _api, meaning we don't append _api/web
+ */
+function rebaseWebUrl(candidate, path) {
+    let replace = "_api/web";
+    // this allows us to both:
+    // - test if `candidate` already has an api path
+    // - ensure that we append the correct one as sometimes a web is not defined
+    //   by _api/web, in the case of _api/site/rootweb for example
+    const matches = /(_api[/|\\](site|web))/i.exec(candidate);
+    if ((matches === null || matches === void 0 ? void 0 : matches.length) > 0) {
+        // we want just the base url part (before the _api)
+        candidate = extractWebUrl(candidate);
+        // we want to ensure we put back the correct string
+        replace = matches[1];
+    }
+    // we only need to append the _api part IF `path` doesn't already include it.
+    if ((path === null || path === void 0 ? void 0 : path.indexOf("_api")) < 0) {
+        candidate = combine(candidate, replace);
+    }
+    return candidate;
+}
+/**
+ * Describes a web
+ *
+ */
+let types_Web = class _Web extends _SPInstance {
+    constructor(base, path) {
+        if (typeof base === "string") {
+            base = rebaseWebUrl(base, path);
+        }
+        else if (isArray(base)) {
+            base = [base[0], rebaseWebUrl(base[1], path)];
+        }
+        else {
+            base = [base, rebaseWebUrl(base.toUrl(), path)];
+        }
+        super(base, path);
+        this.delete = deleteable();
+    }
+    /**
+     * Gets this web's subwebs
+     *
+     */
+    get webs() {
+        return Webs(this);
+    }
+    /**
+     * Allows access to the web's all properties collection
+     */
+    get allProperties() {
+        return SPInstance(this, "allproperties");
+    }
+    /**
+     * Gets a collection of WebInfos for this web's subwebs
+     *
+     */
+    get webinfos() {
+        return SPCollection(this, "webinfos");
+    }
+    /**
+     * Gets this web's parent web and data
+     *
+     */
+    async getParentWeb() {
+        const { Url, ParentWeb } = await this.select("Url", "ParentWeb/ServerRelativeUrl").expand("ParentWeb")();
+        if (ParentWeb === null || ParentWeb === void 0 ? void 0 : ParentWeb.ServerRelativeUrl) {
+            return Web([this, combine((new URL(Url)).origin, ParentWeb.ServerRelativeUrl)]);
+        }
+        return null;
+    }
+    /**
+     * Updates this web instance with the supplied properties
+     *
+     * @param properties A plain object hash of values to update for the web
+     */
+    async update(properties) {
+        return spPostMerge(this, body(properties));
+    }
+    /**
+     * Applies the theme specified by the contents of each of the files specified in the arguments to the site
+     *
+     * @param colorPaletteUrl The server-relative URL of the color palette file
+     * @param fontSchemeUrl The server-relative URL of the font scheme
+     * @param backgroundImageUrl The server-relative URL of the background image
+     * @param shareGenerated When true, the generated theme files are stored in the root site. When false, they are stored in this web
+     */
+    applyTheme(colorPaletteUrl, fontSchemeUrl, backgroundImageUrl, shareGenerated) {
+        const postBody = body({
+            backgroundImageUrl,
+            colorPaletteUrl,
+            fontSchemeUrl,
+            shareGenerated,
+        });
+        return spPost(Web(this, "applytheme"), postBody);
+    }
+    /**
+     * Applies the specified site definition or site template to the Web site that has no template applied to it
+     *
+     * @param template Name of the site definition or the name of the site template
+     */
+    applyWebTemplate(template) {
+        return spPost(Web(this, `applywebtemplate(webTemplate='${encodePath(template)}')`));
+    }
+    /**
+     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
+     *
+     * @param query The change query
+     */
+    getChanges(query) {
+        return spPost(Web(this, "getchanges"), body({ query }));
+    }
+    /**
+     * Returns the name of the image file for the icon that is used to represent the specified file
+     *
+     * @param filename The file name. If this parameter is empty, the server returns an empty string
+     * @param size The size of the icon: 16x16 pixels = 0, 32x32 pixels = 1 (default = 0)
+     * @param progId The ProgID of the application that was used to create the file, in the form OLEServerName.ObjectName
+     */
+    mapToIcon(filename, size = 0, progId = "") {
+        return Web(this, `maptoicon(filename='${encodePath(filename)}',progid='${encodePath(progId)}',size=${size})`)();
+    }
+    /**
+     * Returns the tenant property corresponding to the specified key in the app catalog site
+     *
+     * @param key Id of storage entity to be set
+     */
+    getStorageEntity(key) {
+        return Web(this, `getStorageEntity('${encodePath(key)}')`)();
+    }
+    /**
+     * This will set the storage entity identified by the given key (MUST be called in the context of the app catalog)
+     *
+     * @param key Id of storage entity to be set
+     * @param value Value of storage entity to be set
+     * @param description Description of storage entity to be set
+     * @param comments Comments of storage entity to be set
+     */
+    setStorageEntity(key, value, description = "", comments = "") {
+        return spPost(Web(this, "setStorageEntity"), body({
+            comments,
+            description,
+            key,
+            value,
+        }));
+    }
+    /**
+     * This will remove the storage entity identified by the given key
+     *
+     * @param key Id of storage entity to be removed
+     */
+    removeStorageEntity(key) {
+        return spPost(Web(this, `removeStorageEntity('${encodePath(key)}')`));
+    }
+    /**
+    * Returns a collection of objects that contain metadata about subsites of the current site in which the current user is a member.
+    *
+    * @param nWebTemplateFilter Specifies the site definition (default = -1)
+    * @param nConfigurationFilter A 16-bit integer that specifies the identifier of a configuration (default = -1)
+    */
+    getSubwebsFilteredForCurrentUser(nWebTemplateFilter = -1, nConfigurationFilter = -1) {
+        return SPCollection(this, `getSubwebsFilteredForCurrentUser(nWebTemplateFilter=${nWebTemplateFilter},nConfigurationFilter=${nConfigurationFilter})`);
+    }
+    /**
+     * Returns a collection of site templates available for the site
+     *
+     * @param language The locale id of the site templates to retrieve (default = 1033 [English, US])
+     * @param includeCrossLanguage When true, includes language-neutral site templates; otherwise false (default = true)
+     */
+    availableWebTemplates(language = 1033, includeCrossLanugage = true) {
+        return SPCollection(this, `getavailablewebtemplates(lcid=${language},doincludecrosslanguage=${includeCrossLanugage})`);
+    }
+};
+types_Web = tslib_es6_decorate([
+    defaultPath("_api/web")
+], types_Web);
+
+const Web = spInvokableFactory(types_Web);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
+
+
+
+
+
+
+fi_SPFI.prototype.batched = function (props) {
+    const batched = spfi(this);
+    const [behavior, execute] = createBatch(batched._root, props);
+    batched.using(behavior);
+    return [batched, execute];
+};
+types_Web.prototype.batched = function (props) {
+    const batched = Web(this);
+    const [behavior, execute] = createBatch(batched, props);
+    batched.using(behavior);
+    return [batched, execute];
+};
+/**
+ * Tracks on a batched instance that registration is complete (the child request has gotten to the send moment and the request is included in the batch)
+ */
+const RegistrationCompleteSym = Symbol.for("batch_registration");
+/**
+ * Tracks on a batched instance that the child request timeline lifecycle is complete (called in child.dispose)
+ */
+const RequestCompleteSym = Symbol.for("batch_request");
+/**
+ * Special batch parsing behavior used to convert the batch response text into a set of Response objects for each request
+ * @returns A parser behavior
+ */
+function BatchParse() {
+    return parseBinderWithErrorCheck(async (response) => {
+        const text = await response.text();
+        return parseResponse(text);
+    });
+}
+/**
+ * Internal class used to execute the batch request through the timeline lifecycle
+ */
+class batching_BatchQueryable extends spqueryable_SPQueryable {
+    constructor(base, requestBaseUrl = base.toUrl().replace(/_api[\\|/].*$/i, "")) {
+        super(requestBaseUrl, "_api/$batch");
+        this.requestBaseUrl = requestBaseUrl;
+        // this will copy over the current observables from the base associated with this batch
+        // this will replace any other parsing present
+        this.using(CopyFrom(base, "replace"), BatchParse());
+        this.on.dispose(() => {
+            // there is a code path where you may invoke a batch, say on items.add, whose return
+            // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
+            // is immediately usable to make additional queries. Without this step when that IItem instance is
+            // created using "this.getById" within IITems.add all of the current observers of "this" are
+            // linked to the IItem instance created (expected), BUT they will be the set of observers setup
+            // to handle the batch, meaning invoking `item` will result in a half batched call that
+            // doesn't really work. To deliver the expected functionality we "reset" the
+            // observers using the original instance, mimicing the behavior had
+            // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
+            // that we maintain the references to the InternalResolve and InternalReject events through
+            // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
+            // which ignores symbol properties.
+            base.using(CopyFrom(this, "replace", (k) => /(auth|send|pre|init)/i.test(k)));
+        });
+    }
+}
+/**
+ * Creates a batched version of the supplied base, meaning that all chained fluent operations from the new base are part of the batch
+ *
+ * @param base The base from which to initialize the batch
+ * @param props Any properties used to initialize the batch functionality
+ * @returns A tuple of [behavior used to assign objects to the batch, the execute function used to resolve the batch requests]
+ */
+function createBatch(base, props) {
+    const registrationPromises = [];
+    const completePromises = [];
+    const requests = [];
+    const batchId = getGUID();
+    const batchQuery = new batching_BatchQueryable(base);
+    const { headersCopyPattern } = {
+        headersCopyPattern: /Accept|Content-Type|IF-Match/i,
+        ...props,
+    };
+    const execute = async () => {
+        await Promise.all(registrationPromises);
+        if (requests.length < 1) {
+            // even if we have no requests we need to await the complete promises to ensure
+            // that execute only resolves AFTER every child request disposes #2457
+            // this likely means caching is being used, we returned values for all child requests from the cache
+            return Promise.all(completePromises).then(() => void (0));
+        }
+        const batchBody = [];
+        let currentChangeSetId = "";
+        for (let i = 0; i < requests.length; i++) {
+            const [, url, init] = requests[i];
+            if (init.method === "GET") {
+                if (currentChangeSetId.length > 0) {
+                    // end an existing change set
+                    batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+                    currentChangeSetId = "";
+                }
+                batchBody.push(`--batch_${batchId}\n`);
+            }
+            else {
+                if (currentChangeSetId.length < 1) {
+                    // start new change set
+                    currentChangeSetId = getGUID();
+                    batchBody.push(`--batch_${batchId}\n`);
+                    batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
+                }
+                batchBody.push(`--changeset_${currentChangeSetId}\n`);
+            }
+            // common batch part prefix
+            batchBody.push("Content-Type: application/http\n");
+            batchBody.push("Content-Transfer-Encoding: binary\n\n");
+            // these are the per-request headers
+            const headers = new Headers(init.headers);
+            // this is the url of the individual request within the batch
+            const reqUrl = isUrlAbsolute(url) ? url : combine(batchQuery.requestBaseUrl, url);
+            if (init.method !== "GET") {
+                let method = init.method;
+                if (headers.has("X-HTTP-Method")) {
+                    method = headers.get("X-HTTP-Method");
+                    headers.delete("X-HTTP-Method");
+                }
+                batchBody.push(`${method} ${reqUrl} HTTP/1.1\n`);
+            }
+            else {
+                batchBody.push(`${init.method} ${reqUrl} HTTP/1.1\n`);
+            }
+            // lastly we apply any default headers we need that may not exist
+            if (!headers.has("Accept")) {
+                headers.append("Accept", "application/json");
+            }
+            if (!headers.has("Content-Type")) {
+                headers.append("Content-Type", "application/json;charset=utf-8");
+            }
+            // write headers into batch body
+            headers.forEach((value, name) => {
+                if (headersCopyPattern.test(name)) {
+                    batchBody.push(`${name}: ${value}\n`);
+                }
+            });
+            batchBody.push("\n");
+            if (init.body) {
+                batchBody.push(`${init.body}\n\n`);
+            }
+        }
+        if (currentChangeSetId.length > 0) {
+            // Close the changeset
+            batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+            currentChangeSetId = "";
+        }
+        batchBody.push(`--batch_${batchId}--\n`);
+        // we need to set our own headers here
+        batchQuery.using(InjectHeaders({
+            "Content-Type": `multipart/mixed; boundary=batch_${batchId}`,
+        }));
+        const responses = await spPost(batchQuery, { body: batchBody.join("") });
+        if (responses.length !== requests.length) {
+            throw Error("Could not properly parse responses to match requests in batch.");
+        }
+        return new Promise((res, rej) => {
+            try {
+                for (let index = 0; index < responses.length; index++) {
+                    const [, , , resolve, reject] = requests[index];
+                    try {
+                        resolve(responses[index]);
+                    }
+                    catch (e) {
+                        reject(e);
+                    }
+                }
+                // this small delay allows the promises to resolve correctly in order by dropping this resolve behind
+                // the other work in the event loop. Feels hacky, but it works so 🤷
+                setTimeout(res, 0);
+            }
+            catch (e) {
+                setTimeout(() => rej(e), 0);
+            }
+        }).then(() => Promise.all(completePromises)).then(() => void (0));
+    };
+    const register = (instance) => {
+        instance.on.init(function () {
+            if (isFunc(this[RegistrationCompleteSym])) {
+                throw Error("This instance is already part of a batch. Please review the docs at https://pnp.github.io/pnpjs/concepts/batching#reuse.");
+            }
+            // we need to ensure we wait to start execute until all our batch children hit the .send method to be fully registered
+            registrationPromises.push(new Promise((resolve) => {
+                this[RegistrationCompleteSym] = resolve;
+            }));
+            return this;
+        });
+        instance.on.pre(async function (url, init, result) {
+            // Do not add to timeline if using BatchNever behavior
+            if (hOP(init.headers, "X-PnP-BatchNever")) {
+                // clean up the init operations from the timeline
+                // not strictly necessary as none of the logic that uses this should be in the request, but good to keep things tidy
+                if (typeof (this[RequestCompleteSym]) === "function") {
+                    this[RequestCompleteSym]();
+                    delete this[RequestCompleteSym];
+                }
+                this.using(CopyFrom(batchQuery, "replace", (k) => /(init|pre)/i.test(k)));
+                return [url, init, result];
+            }
+            // the entire request will be auth'd - we don't need to run this for each batch request
+            this.on.auth.clear();
+            // we replace the send function with our batching logic
+            this.on.send.replace(async function (url, init) {
+                // this is the promise that Queryable will see returned from .emit.send
+                const promise = new Promise((resolve, reject) => {
+                    // add the request information into the batch
+                    requests.push([this, url.toString(), init, resolve, reject]);
+                });
+                this.log(`[batch:${batchId}] (${(new Date()).getTime()}) Adding request ${init.method} ${url.toString()} to batch.`, 0);
+                // we need to ensure we wait to resolve execute until all our batch children have fully completed their request timelines
+                completePromises.push(new Promise((resolve) => {
+                    this[RequestCompleteSym] = resolve;
+                }));
+                // indicate that registration of this request is complete
+                this[RegistrationCompleteSym]();
+                return promise;
+            });
+            this.on.dispose(function () {
+                if (isFunc(this[RegistrationCompleteSym])) {
+                    // if this request is in a batch and caching is in play we need to resolve the registration promises to unblock processing of the batch
+                    // because the request will never reach the "send" moment as the result is returned from "pre"
+                    this[RegistrationCompleteSym]();
+                    // remove the symbol props we added for good hygene
+                    delete this[RegistrationCompleteSym];
+                }
+                if (isFunc(this[RequestCompleteSym])) {
+                    // let things know we are done with this request
+                    this[RequestCompleteSym]();
+                    delete this[RequestCompleteSym];
+                    // there is a code path where you may invoke a batch, say on items.add, whose return
+                    // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
+                    // is immediately usable to make additional queries. Without this step when that IItem instance is
+                    // created using "this.getById" within IITems.add all of the current observers of "this" are
+                    // linked to the IItem instance created (expected), BUT they will be the set of observers setup
+                    // to handle the batch, meaning invoking `item` will result in a half batched call that
+                    // doesn't really work. To deliver the expected functionality we "reset" the
+                    // observers using the original instance, mimicing the behavior had
+                    // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
+                    // that we maintain the references to the InternalResolve and InternalReject events through
+                    // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
+                    // which ignores symbol properties.
+                    this.using(CopyFrom(batchQuery, "replace", (k) => /(auth|pre|send|init|dispose)/i.test(k)));
+                }
+            });
+            return [url, init, result];
+        });
+        return instance;
+    };
+    return [register, execute];
+}
+/**
+ * Behavior that blocks batching for the request regardless of "method"
+ *
+ * This is used for requests to bypass batching methods. Example - Request Digest where we need to get a request-digest inside of a batch.
+ * @returns TimelinePipe
+ */
+function BatchNever() {
+    return (instance) => {
+        instance.on.pre.prepend(async function (url, init, result) {
+            init.headers = { ...init.headers, "X-PnP-BatchNever": "1" };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+/**
+ * Parses the text body returned by the server from a batch request
+ *
+ * @param body String body from the server response
+ * @returns Parsed response objects
+ */
+function parseResponse(body) {
+    const responses = [];
+    const header = "--batchresponse_";
+    // Ex. "HTTP/1.1 500 Internal Server Error"
+    const statusRegExp = new RegExp("^HTTP/[0-9.]+ +([0-9]+) +(.*)", "i");
+    const lines = body.split("\n");
+    let state = "batch";
+    let status;
+    let statusText;
+    let headers = {};
+    const bodyReader = [];
+    for (let i = 0; i < lines.length; ++i) {
+        let line = lines[i];
+        switch (state) {
+            case "batch":
+                if (line.substring(0, header.length) === header) {
+                    state = "batchHeaders";
+                }
+                else {
+                    if (line.trim() !== "") {
+                        throw Error(`Invalid response, line ${i}`);
+                    }
+                }
+                break;
+            case "batchHeaders":
+                if (line.trim() === "") {
+                    state = "status";
+                }
+                break;
+            case "status": {
+                const parts = statusRegExp.exec(line);
+                if (parts.length !== 3) {
+                    throw Error(`Invalid status, line ${i}`);
+                }
+                status = parseInt(parts[1], 10);
+                statusText = parts[2];
+                state = "statusHeaders";
+                break;
+            }
+            case "statusHeaders":
+                if (line.trim() === "") {
+                    state = "body";
+                }
+                else {
+                    const headerParts = line.split(":");
+                    if ((headerParts === null || headerParts === void 0 ? void 0 : headerParts.length) === 2) {
+                        headers[headerParts[0].trim()] = headerParts[1].trim();
+                    }
+                }
+                break;
+            case "body":
+                // reset the body reader
+                bodyReader.length = 0;
+                // this allows us to capture batch bodies that are returned as multi-line (renderListDataAsStream, #2454)
+                while (line.substring(0, header.length) !== header) {
+                    bodyReader.push(line);
+                    line = lines[++i];
+                }
+                // because we have read the closing --batchresponse_ line, we need to move the line pointer back one
+                // so that the logic works as expected either to get the next result or end processing
+                i--;
+                responses.push(new Response(status === 204 ? null : bodyReader.join(""), { status, statusText, headers }));
+                state = "batch";
+                headers = {};
+                break;
+        }
+    }
+    if (state !== "status") {
+        throw Error("Unexpected end of input");
+    }
+    return responses;
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
+
+
+
+
+
+
+function clearExpired(digest) {
+    const now = new Date();
+    return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
+}
+// allows for the caching of digests across all calls which each have their own IDigestInfo wrapper.
+const digests = new Map();
+function RequestDigest(hook) {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            // add the request to the auth moment of the timeline
+            this.on.auth(async (url, init) => {
+                // eslint-disable-next-line max-len
+                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
+                    return [url, init];
+                }
+                const urlAsString = url.toString();
+                const webUrl = extractWebUrl(urlAsString);
+                // do we have one in the cache that is still valid
+                // from #2186 we need to always ensure the digest we get isn't expired
+                let digest = clearExpired(digests.get(webUrl));
+                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
+                    digest = clearExpired(hook(urlAsString, init));
+                }
+                if (!objectDefinedNotNull(digest)) {
+                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse(), BatchNever()), {
+                        headers: {
+                            "X-PnPjs-NoDigest": "1",
+                        },
+                    }).then(p => ({
+                        expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
+                        value: p.FormDigestValue,
+                    }));
+                }
+                if (objectDefinedNotNull(digest)) {
+                    // if we got a digest, set it in the headers
+                    init.headers = {
+                        "X-RequestDigest": digest.value,
+                        ...init.headers,
+                    };
+                    // and cache it for future requests
+                    digests.set(webUrl, digest);
+                }
+                return [url, init];
+            });
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
+
+
+
+
+function SPBrowser(props) {
+    if ((props === null || props === void 0 ? void 0 : props.baseUrl) && !isUrlAbsolute(props.baseUrl)) {
+        throw Error("SPBrowser props.baseUrl must be absolute when supplied.");
+    }
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest());
+        if (isUrlAbsolute(props === null || props === void 0 ? void 0 : props.baseUrl)) {
+            // we want to fix up the url first
+            instance.on.pre.prepend(async (url, init, result) => {
+                if (!isUrlAbsolute(url)) {
+                    url = combine(props.baseUrl, url);
+                }
+                return [url, init, result];
+            });
+        }
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
+
+
+
+
+function SPFxToken(context) {
+    return (instance) => {
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
+        });
+        return instance;
+    };
+}
+function SPFx(context) {
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
+        // remove SPFx Token in default due to issues #2570, #2571
+        // SPFxToken(context),
+        RequestDigest((url) => {
+            var _a, _b, _c;
+            const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
+            if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
+                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
+                // account for page lifetime in timeout #2304 & others
+                // account for tab sleep #2550
+                return {
+                    value: context.pageContext.legacyPageContext.formDigestValue,
+                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
+                };
+            }
+        }));
+        // we want to fix up the url first
+        instance.on.pre.prepend(async (url, init, result) => {
+            if (!isUrlAbsolute(url)) {
+                url = combine(context.pageContext.web.absoluteUrl, url);
+            }
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/node_modules/tslib/tslib.es6.js
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var tslib_tslib_es6_extendStatics = function(d, b) {
+    tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return tslib_tslib_es6_extendStatics(d, b);
+};
+
+function tslib_tslib_es6_extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    tslib_tslib_es6_extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_tslib_es6_assign = function() {
+    tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_tslib_es6_rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function tslib_tslib_es6_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_tslib_es6_param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function tslib_tslib_es6_generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function tslib_tslib_es6_exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_tslib_es6_values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_tslib_es6_read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function tslib_tslib_es6_spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_tslib_es6_await(v) {
+    return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
+}
+
+function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_tslib_es6_asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function tslib_tslib_es6_asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function tslib_tslib_es6_importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_tslib_es6_createBinding(result, mod, k);
+    tslib_tslib_es6_setModuleDefault(result, mod);
+    return result;
+}
+
+function tslib_tslib_es6_importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_tslib_es6_classPrivateFieldIn(state, receiver) {
     if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
     return typeof state === "function" ? receiver === state : state.has(receiver);
 }
@@ -3878,7 +4705,7 @@ let office_tenant_Office365Tenant = class _Office365Tenant extends _SPInstance {
         }
     }
 };
-office_tenant_Office365Tenant = tslib_es6_decorate([
+office_tenant_Office365Tenant = tslib_tslib_es6_decorate([
     defaultPath("_api/Microsoft.Online.SharePoint.TenantManagement.Office365Tenant")
 ], office_tenant_Office365Tenant);
 const Office365Tenant = spInvokableFactory(office_tenant_Office365Tenant);
@@ -3923,7 +4750,7 @@ let site_properties_TenantSiteProperties = class _TenantSiteProperties extends _
         }
     }
 };
-site_properties_TenantSiteProperties = tslib_es6_decorate([
+site_properties_TenantSiteProperties = tslib_tslib_es6_decorate([
     defaultPath("_api/Microsoft.Online.SharePoint.TenantAdministration.SiteProperties")
 ], site_properties_TenantSiteProperties);
 const TenantSiteProperties = spInvokableFactory(site_properties_TenantSiteProperties);
@@ -4452,7 +5279,7 @@ let tenant_Tenant = class _Tenant extends _SPInstance {
         }
     }
 };
-tenant_Tenant = tslib_es6_decorate([
+tenant_Tenant = tslib_tslib_es6_decorate([
     defaultPath("_api/SPO.Tenant")
 ], tenant_Tenant);
 const Tenant = spInvokableFactory(tenant_Tenant);

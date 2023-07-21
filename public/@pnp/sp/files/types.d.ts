@@ -236,6 +236,7 @@ export declare class _File extends ReadableFile<IFileInfo> {
      * @returns The newly uploaded file.
      */
     protected finishUpload(uploadId: string, fileOffset: number, fragment: ArrayBuffer | Blob): Promise<IFileAddResult>;
+    protected moveCopyImpl(destUrl: string, options: Partial<IMoveCopyOptions>, overwrite: boolean, methodName: string): Promise<IFile>;
 }
 export interface IFile extends _File, IDeleteableWithETag {
 }

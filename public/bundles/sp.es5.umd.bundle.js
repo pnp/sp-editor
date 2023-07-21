@@ -879,7 +879,9 @@ class timeline_Timeline {
                     }
                     finally {
                         // here we need to remove any "once" observers
-                        Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        if (observers && observers.length > 0) {
+                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        }
                     }
                 },
             });
@@ -2887,132 +2889,6 @@ function odataUrlFrom(candidate) {
     return combine(...parts);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
-// reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
-const emptyGuid = "00000000-0000-0000-0000-000000000000";
-/**
- * Specifies the type of a principal.
- */
-var PrincipalType;
-(function (PrincipalType) {
-    /**
-     * Enumeration whose value specifies no principal type.
-     */
-    PrincipalType[PrincipalType["None"] = 0] = "None";
-    /**
-     * Enumeration whose value specifies a user as the principal type.
-     */
-    PrincipalType[PrincipalType["User"] = 1] = "User";
-    /**
-     * Enumeration whose value specifies a distribution list as the principal type.
-     */
-    PrincipalType[PrincipalType["DistributionList"] = 2] = "DistributionList";
-    /**
-     * Enumeration whose value specifies a security group as the principal type.
-     */
-    PrincipalType[PrincipalType["SecurityGroup"] = 4] = "SecurityGroup";
-    /**
-     * Enumeration whose value specifies a group as the principal type.
-     */
-    PrincipalType[PrincipalType["SharePointGroup"] = 8] = "SharePointGroup";
-    /**
-     * Enumeration whose value specifies all principal types.
-     */
-    // eslint-disable-next-line no-bitwise
-    PrincipalType[PrincipalType["All"] = 15] = "All";
-})(PrincipalType || (PrincipalType = {}));
-/**
- * Specifies the source of a principal.
- */
-var PrincipalSource;
-(function (PrincipalSource) {
-    /**
-     * Enumeration whose value specifies no principal source.
-     */
-    PrincipalSource[PrincipalSource["None"] = 0] = "None";
-    /**
-     * Enumeration whose value specifies user information list as the principal source.
-     */
-    PrincipalSource[PrincipalSource["UserInfoList"] = 1] = "UserInfoList";
-    /**
-     * Enumeration whose value specifies Active Directory as the principal source.
-     */
-    PrincipalSource[PrincipalSource["Windows"] = 2] = "Windows";
-    /**
-     * Enumeration whose value specifies the current membership provider as the principal source.
-     */
-    PrincipalSource[PrincipalSource["MembershipProvider"] = 4] = "MembershipProvider";
-    /**
-     * Enumeration whose value specifies the current role provider as the principal source.
-     */
-    PrincipalSource[PrincipalSource["RoleProvider"] = 8] = "RoleProvider";
-    /**
-     * Enumeration whose value specifies all principal sources.
-     */
-    // eslint-disable-next-line no-bitwise
-    PrincipalSource[PrincipalSource["All"] = 15] = "All";
-})(PrincipalSource || (PrincipalSource = {}));
-var PageType;
-(function (PageType) {
-    PageType[PageType["Invalid"] = -1] = "Invalid";
-    PageType[PageType["DefaultView"] = 0] = "DefaultView";
-    PageType[PageType["NormalView"] = 1] = "NormalView";
-    PageType[PageType["DialogView"] = 2] = "DialogView";
-    PageType[PageType["View"] = 3] = "View";
-    PageType[PageType["DisplayForm"] = 4] = "DisplayForm";
-    PageType[PageType["DisplayFormDialog"] = 5] = "DisplayFormDialog";
-    PageType[PageType["EditForm"] = 6] = "EditForm";
-    PageType[PageType["EditFormDialog"] = 7] = "EditFormDialog";
-    PageType[PageType["NewForm"] = 8] = "NewForm";
-    PageType[PageType["NewFormDialog"] = 9] = "NewFormDialog";
-    PageType[PageType["SolutionForm"] = 10] = "SolutionForm";
-    PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
-})(PageType || (PageType = {}));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
-// eslint-disable-next-line no-control-regex
-const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
-// eslint-disable-next-line no-control-regex
-const InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
-/**
- * Checks if file or folder name contains invalid characters
- *
- * @param input File or folder name to check
- * @param onPremise Set to true for SharePoint On-Premise
- * @returns True if contains invalid chars, false otherwise
- */
-function containsInvalidFileFolderChars(input, onPremise = false) {
-    if (onPremise) {
-        return InvalidFileFolderNameCharsOnPremiseRegex.test(input);
-    }
-    else {
-        return InvalidFileFolderNameCharsOnlineRegex.test(input);
-    }
-}
-/**
- * Removes invalid characters from file or folder name
- *
- * @param input File or folder name
- * @param replacer Value that will replace invalid characters
- * @param onPremise Set to true for SharePoint On-Premise
- * @returns File or folder name with replaced invalid characters
- */
-function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
-    if (onPremise) {
-        return input.replace(InvalidFileFolderNameCharsOnPremiseRegex, replacer);
-    }
-    else {
-        return input.replace(InvalidFileFolderNameCharsOnlineRegex, replacer);
-    }
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/to-resource-path.js
-function toResourcePath(url) {
-    return {
-        DecodedUrl: url,
-    };
-}
-
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/encode-path-str.js
 
 /**
@@ -3038,198 +2914,6 @@ function encodePath(value) {
         return encodeURIComponent(value.replace(/'/ig, "''"));
     }
 }
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
-function Telemetry() {
-    return (instance) => {
-        instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.14.0:";
-            // make our best guess based on url to the method called
-            const { pathname } = new URL(url);
-            // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
-            // and we want to modify any (*) calls at the end such as items(3) and items(344) so we just track "items()"
-            clientTag += pathname
-                .substring(pathname.indexOf("_api/") + 5)
-                .split("/")
-                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0]).join(".");
-            if (clientTag.length > 32) {
-                clientTag = clientTag.substring(0, 32);
-            }
-            this.log(`Request Tag: ${clientTag}`, 0);
-            init.headers = { ...init.headers, ["X-ClientService-ClientTag"]: clientTag };
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
-
-
-function DefaultInit() {
-    return (instance) => {
-        instance.on.pre(async (url, init, result) => {
-            init.cache = "no-cache";
-            init.credentials = "same-origin";
-            return [url, init, result];
-        });
-        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
-        return instance;
-    };
-}
-function DefaultHeaders() {
-    return (instance) => {
-        instance
-            .using(InjectHeaders({
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=utf-8",
-        }));
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
-
-
-
-
-
-function clearExpired(digest) {
-    const now = new Date();
-    return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
-}
-// allows for the caching of digests across all calls which each have their own IDigestInfo wrapper.
-const digests = new Map();
-function RequestDigest(hook) {
-    return (instance) => {
-        instance.on.pre(async function (url, init, result) {
-            // add the request to the auth moment of the timeline
-            this.on.auth(async (url, init) => {
-                // eslint-disable-next-line max-len
-                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
-                    return [url, init];
-                }
-                const urlAsString = url.toString();
-                const webUrl = extractWebUrl(urlAsString);
-                // do we have one in the cache that is still valid
-                // from #2186 we need to always ensure the digest we get isn't expired
-                let digest = clearExpired(digests.get(webUrl));
-                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
-                    digest = clearExpired(hook(urlAsString, init));
-                }
-                if (!objectDefinedNotNull(digest)) {
-                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse()), {
-                        headers: {
-                            "X-PnPjs-NoDigest": "1",
-                        },
-                    }).then(p => ({
-                        expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
-                        value: p.FormDigestValue,
-                    }));
-                }
-                if (objectDefinedNotNull(digest)) {
-                    // if we got a digest, set it in the headers
-                    init.headers = {
-                        "X-RequestDigest": digest.value,
-                        ...init.headers,
-                    };
-                    // and cache it for future requests
-                    digests.set(webUrl, digest);
-                }
-                return [url, init];
-            });
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
-
-
-
-
-function SPBrowser(props) {
-    if ((props === null || props === void 0 ? void 0 : props.baseUrl) && !isUrlAbsolute(props.baseUrl)) {
-        throw Error("SPBrowser props.baseUrl must be absolute when supplied.");
-    }
-    return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest());
-        if (isUrlAbsolute(props === null || props === void 0 ? void 0 : props.baseUrl)) {
-            // we want to fix up the url first
-            instance.on.pre.prepend(async (url, init, result) => {
-                if (!isUrlAbsolute(url)) {
-                    url = combine(props.baseUrl, url);
-                }
-                return [url, init, result];
-            });
-        }
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
-
-
-
-
-function SPFxToken(context) {
-    return (instance) => {
-        instance.on.auth.replace(async function (url, init) {
-            const provider = await context.aadTokenProviderFactory.getTokenProvider();
-            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
-            // eslint-disable-next-line @typescript-eslint/dot-notation
-            init.headers["Authorization"] = `Bearer ${token}`;
-            return [url, init];
-        });
-        return instance;
-    };
-}
-function SPFx(context) {
-    return (instance) => {
-        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
-        // remove SPFx Token in default due to issues #2570, #2571
-        // SPFxToken(context),
-        RequestDigest((url) => {
-            var _a, _b, _c;
-            const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
-            if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
-                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
-                // account for page lifetime in timeout #2304 & others
-                // account for tab sleep #2550
-                return {
-                    value: context.pageContext.legacyPageContext.formDigestValue,
-                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
-                };
-            }
-        }));
-        // we want to fix up the url first
-        instance.on.pre.prepend(async (url, init, result) => {
-            if (!isUrlAbsolute(url)) {
-                url = combine(context.pageContext.web.absoluteUrl, url);
-            }
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
 
@@ -3456,6 +3140,13 @@ types_Web = tslib_es6_decorate([
 ], types_Web);
 
 const Web = spInvokableFactory(types_Web);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/to-resource-path.js
+function toResourcePath(url) {
+    return {
+        DecodedUrl: url,
+    };
+}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/types.js
 
@@ -3811,6 +3502,666 @@ var ControlMode;
     ControlMode[ControlMode["Edit"] = 2] = "Edit";
     ControlMode[ControlMode["New"] = 3] = "New";
 })(ControlMode || (ControlMode = {}));
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
+// reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
+const emptyGuid = "00000000-0000-0000-0000-000000000000";
+/**
+ * Specifies the type of a principal.
+ */
+var PrincipalType;
+(function (PrincipalType) {
+    /**
+     * Enumeration whose value specifies no principal type.
+     */
+    PrincipalType[PrincipalType["None"] = 0] = "None";
+    /**
+     * Enumeration whose value specifies a user as the principal type.
+     */
+    PrincipalType[PrincipalType["User"] = 1] = "User";
+    /**
+     * Enumeration whose value specifies a distribution list as the principal type.
+     */
+    PrincipalType[PrincipalType["DistributionList"] = 2] = "DistributionList";
+    /**
+     * Enumeration whose value specifies a security group as the principal type.
+     */
+    PrincipalType[PrincipalType["SecurityGroup"] = 4] = "SecurityGroup";
+    /**
+     * Enumeration whose value specifies a group as the principal type.
+     */
+    PrincipalType[PrincipalType["SharePointGroup"] = 8] = "SharePointGroup";
+    /**
+     * Enumeration whose value specifies all principal types.
+     */
+    // eslint-disable-next-line no-bitwise
+    PrincipalType[PrincipalType["All"] = 15] = "All";
+})(PrincipalType || (PrincipalType = {}));
+/**
+ * Specifies the source of a principal.
+ */
+var PrincipalSource;
+(function (PrincipalSource) {
+    /**
+     * Enumeration whose value specifies no principal source.
+     */
+    PrincipalSource[PrincipalSource["None"] = 0] = "None";
+    /**
+     * Enumeration whose value specifies user information list as the principal source.
+     */
+    PrincipalSource[PrincipalSource["UserInfoList"] = 1] = "UserInfoList";
+    /**
+     * Enumeration whose value specifies Active Directory as the principal source.
+     */
+    PrincipalSource[PrincipalSource["Windows"] = 2] = "Windows";
+    /**
+     * Enumeration whose value specifies the current membership provider as the principal source.
+     */
+    PrincipalSource[PrincipalSource["MembershipProvider"] = 4] = "MembershipProvider";
+    /**
+     * Enumeration whose value specifies the current role provider as the principal source.
+     */
+    PrincipalSource[PrincipalSource["RoleProvider"] = 8] = "RoleProvider";
+    /**
+     * Enumeration whose value specifies all principal sources.
+     */
+    // eslint-disable-next-line no-bitwise
+    PrincipalSource[PrincipalSource["All"] = 15] = "All";
+})(PrincipalSource || (PrincipalSource = {}));
+var PageType;
+(function (PageType) {
+    PageType[PageType["Invalid"] = -1] = "Invalid";
+    PageType[PageType["DefaultView"] = 0] = "DefaultView";
+    PageType[PageType["NormalView"] = 1] = "NormalView";
+    PageType[PageType["DialogView"] = 2] = "DialogView";
+    PageType[PageType["View"] = 3] = "View";
+    PageType[PageType["DisplayForm"] = 4] = "DisplayForm";
+    PageType[PageType["DisplayFormDialog"] = 5] = "DisplayFormDialog";
+    PageType[PageType["EditForm"] = 6] = "EditForm";
+    PageType[PageType["EditFormDialog"] = 7] = "EditFormDialog";
+    PageType[PageType["NewForm"] = 8] = "NewForm";
+    PageType[PageType["NewFormDialog"] = 9] = "NewFormDialog";
+    PageType[PageType["SolutionForm"] = 10] = "SolutionForm";
+    PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
+})(PageType || (PageType = {}));
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+/**
+ * Checks if file or folder name contains invalid characters
+ *
+ * @param input File or folder name to check
+ * @param onPremise Set to true for SharePoint On-Premise
+ * @returns True if contains invalid chars, false otherwise
+ */
+function containsInvalidFileFolderChars(input, onPremise = false) {
+    if (onPremise) {
+        return InvalidFileFolderNameCharsOnPremiseRegex.test(input);
+    }
+    else {
+        return InvalidFileFolderNameCharsOnlineRegex.test(input);
+    }
+}
+/**
+ * Removes invalid characters from file or folder name
+ *
+ * @param input File or folder name
+ * @param replacer Value that will replace invalid characters
+ * @param onPremise Set to true for SharePoint On-Premise
+ * @returns File or folder name with replaced invalid characters
+ */
+function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
+    if (onPremise) {
+        return input.replace(InvalidFileFolderNameCharsOnPremiseRegex, replacer);
+    }
+    else {
+        return input.replace(InvalidFileFolderNameCharsOnlineRegex, replacer);
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
+function Telemetry() {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            let clientTag = "PnPCoreJS:3.16.0:";
+            // make our best guess based on url to the method called
+            const { pathname } = new URL(url);
+            // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
+            // and we want to modify any (*) calls at the end such as items(3) and items(344) so we just track "items()"
+            clientTag += pathname
+                .substring(pathname.indexOf("_api/") + 5)
+                .split("/")
+                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0]).join(".");
+            if (clientTag.length > 32) {
+                clientTag = clientTag.substring(0, 32);
+            }
+            this.log(`Request Tag: ${clientTag}`, 0);
+            init.headers = { ...init.headers, ["X-ClientService-ClientTag"]: clientTag };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
+
+
+function DefaultInit() {
+    return (instance) => {
+        instance.on.pre(async (url, init, result) => {
+            init.cache = "no-cache";
+            init.credentials = "same-origin";
+            return [url, init, result];
+        });
+        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
+        return instance;
+    };
+}
+function DefaultHeaders() {
+    return (instance) => {
+        instance
+            .using(InjectHeaders({
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=utf-8",
+        }));
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
+
+
+
+
+
+
+fi_SPFI.prototype.batched = function (props) {
+    const batched = spfi(this);
+    const [behavior, execute] = createBatch(batched._root, props);
+    batched.using(behavior);
+    return [batched, execute];
+};
+types_Web.prototype.batched = function (props) {
+    const batched = Web(this);
+    const [behavior, execute] = createBatch(batched, props);
+    batched.using(behavior);
+    return [batched, execute];
+};
+/**
+ * Tracks on a batched instance that registration is complete (the child request has gotten to the send moment and the request is included in the batch)
+ */
+const RegistrationCompleteSym = Symbol.for("batch_registration");
+/**
+ * Tracks on a batched instance that the child request timeline lifecycle is complete (called in child.dispose)
+ */
+const RequestCompleteSym = Symbol.for("batch_request");
+/**
+ * Special batch parsing behavior used to convert the batch response text into a set of Response objects for each request
+ * @returns A parser behavior
+ */
+function BatchParse() {
+    return parseBinderWithErrorCheck(async (response) => {
+        const text = await response.text();
+        return parseResponse(text);
+    });
+}
+/**
+ * Internal class used to execute the batch request through the timeline lifecycle
+ */
+class batching_BatchQueryable extends spqueryable_SPQueryable {
+    constructor(base, requestBaseUrl = base.toUrl().replace(/_api[\\|/].*$/i, "")) {
+        super(requestBaseUrl, "_api/$batch");
+        this.requestBaseUrl = requestBaseUrl;
+        // this will copy over the current observables from the base associated with this batch
+        // this will replace any other parsing present
+        this.using(CopyFrom(base, "replace"), BatchParse());
+        this.on.dispose(() => {
+            // there is a code path where you may invoke a batch, say on items.add, whose return
+            // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
+            // is immediately usable to make additional queries. Without this step when that IItem instance is
+            // created using "this.getById" within IITems.add all of the current observers of "this" are
+            // linked to the IItem instance created (expected), BUT they will be the set of observers setup
+            // to handle the batch, meaning invoking `item` will result in a half batched call that
+            // doesn't really work. To deliver the expected functionality we "reset" the
+            // observers using the original instance, mimicing the behavior had
+            // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
+            // that we maintain the references to the InternalResolve and InternalReject events through
+            // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
+            // which ignores symbol properties.
+            base.using(CopyFrom(this, "replace", (k) => /(auth|send|pre|init)/i.test(k)));
+        });
+    }
+}
+/**
+ * Creates a batched version of the supplied base, meaning that all chained fluent operations from the new base are part of the batch
+ *
+ * @param base The base from which to initialize the batch
+ * @param props Any properties used to initialize the batch functionality
+ * @returns A tuple of [behavior used to assign objects to the batch, the execute function used to resolve the batch requests]
+ */
+function createBatch(base, props) {
+    const registrationPromises = [];
+    const completePromises = [];
+    const requests = [];
+    const batchId = getGUID();
+    const batchQuery = new batching_BatchQueryable(base);
+    const { headersCopyPattern } = {
+        headersCopyPattern: /Accept|Content-Type|IF-Match/i,
+        ...props,
+    };
+    const execute = async () => {
+        await Promise.all(registrationPromises);
+        if (requests.length < 1) {
+            // even if we have no requests we need to await the complete promises to ensure
+            // that execute only resolves AFTER every child request disposes #2457
+            // this likely means caching is being used, we returned values for all child requests from the cache
+            return Promise.all(completePromises).then(() => void (0));
+        }
+        const batchBody = [];
+        let currentChangeSetId = "";
+        for (let i = 0; i < requests.length; i++) {
+            const [, url, init] = requests[i];
+            if (init.method === "GET") {
+                if (currentChangeSetId.length > 0) {
+                    // end an existing change set
+                    batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+                    currentChangeSetId = "";
+                }
+                batchBody.push(`--batch_${batchId}\n`);
+            }
+            else {
+                if (currentChangeSetId.length < 1) {
+                    // start new change set
+                    currentChangeSetId = getGUID();
+                    batchBody.push(`--batch_${batchId}\n`);
+                    batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
+                }
+                batchBody.push(`--changeset_${currentChangeSetId}\n`);
+            }
+            // common batch part prefix
+            batchBody.push("Content-Type: application/http\n");
+            batchBody.push("Content-Transfer-Encoding: binary\n\n");
+            // these are the per-request headers
+            const headers = new Headers(init.headers);
+            // this is the url of the individual request within the batch
+            const reqUrl = isUrlAbsolute(url) ? url : combine(batchQuery.requestBaseUrl, url);
+            if (init.method !== "GET") {
+                let method = init.method;
+                if (headers.has("X-HTTP-Method")) {
+                    method = headers.get("X-HTTP-Method");
+                    headers.delete("X-HTTP-Method");
+                }
+                batchBody.push(`${method} ${reqUrl} HTTP/1.1\n`);
+            }
+            else {
+                batchBody.push(`${init.method} ${reqUrl} HTTP/1.1\n`);
+            }
+            // lastly we apply any default headers we need that may not exist
+            if (!headers.has("Accept")) {
+                headers.append("Accept", "application/json");
+            }
+            if (!headers.has("Content-Type")) {
+                headers.append("Content-Type", "application/json;charset=utf-8");
+            }
+            // write headers into batch body
+            headers.forEach((value, name) => {
+                if (headersCopyPattern.test(name)) {
+                    batchBody.push(`${name}: ${value}\n`);
+                }
+            });
+            batchBody.push("\n");
+            if (init.body) {
+                batchBody.push(`${init.body}\n\n`);
+            }
+        }
+        if (currentChangeSetId.length > 0) {
+            // Close the changeset
+            batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+            currentChangeSetId = "";
+        }
+        batchBody.push(`--batch_${batchId}--\n`);
+        // we need to set our own headers here
+        batchQuery.using(InjectHeaders({
+            "Content-Type": `multipart/mixed; boundary=batch_${batchId}`,
+        }));
+        const responses = await spPost(batchQuery, { body: batchBody.join("") });
+        if (responses.length !== requests.length) {
+            throw Error("Could not properly parse responses to match requests in batch.");
+        }
+        return new Promise((res, rej) => {
+            try {
+                for (let index = 0; index < responses.length; index++) {
+                    const [, , , resolve, reject] = requests[index];
+                    try {
+                        resolve(responses[index]);
+                    }
+                    catch (e) {
+                        reject(e);
+                    }
+                }
+                // this small delay allows the promises to resolve correctly in order by dropping this resolve behind
+                // the other work in the event loop. Feels hacky, but it works so 🤷
+                setTimeout(res, 0);
+            }
+            catch (e) {
+                setTimeout(() => rej(e), 0);
+            }
+        }).then(() => Promise.all(completePromises)).then(() => void (0));
+    };
+    const register = (instance) => {
+        instance.on.init(function () {
+            if (isFunc(this[RegistrationCompleteSym])) {
+                throw Error("This instance is already part of a batch. Please review the docs at https://pnp.github.io/pnpjs/concepts/batching#reuse.");
+            }
+            // we need to ensure we wait to start execute until all our batch children hit the .send method to be fully registered
+            registrationPromises.push(new Promise((resolve) => {
+                this[RegistrationCompleteSym] = resolve;
+            }));
+            return this;
+        });
+        instance.on.pre(async function (url, init, result) {
+            // Do not add to timeline if using BatchNever behavior
+            if (hOP(init.headers, "X-PnP-BatchNever")) {
+                // clean up the init operations from the timeline
+                // not strictly necessary as none of the logic that uses this should be in the request, but good to keep things tidy
+                if (typeof (this[RequestCompleteSym]) === "function") {
+                    this[RequestCompleteSym]();
+                    delete this[RequestCompleteSym];
+                }
+                this.using(CopyFrom(batchQuery, "replace", (k) => /(init|pre)/i.test(k)));
+                return [url, init, result];
+            }
+            // the entire request will be auth'd - we don't need to run this for each batch request
+            this.on.auth.clear();
+            // we replace the send function with our batching logic
+            this.on.send.replace(async function (url, init) {
+                // this is the promise that Queryable will see returned from .emit.send
+                const promise = new Promise((resolve, reject) => {
+                    // add the request information into the batch
+                    requests.push([this, url.toString(), init, resolve, reject]);
+                });
+                this.log(`[batch:${batchId}] (${(new Date()).getTime()}) Adding request ${init.method} ${url.toString()} to batch.`, 0);
+                // we need to ensure we wait to resolve execute until all our batch children have fully completed their request timelines
+                completePromises.push(new Promise((resolve) => {
+                    this[RequestCompleteSym] = resolve;
+                }));
+                // indicate that registration of this request is complete
+                this[RegistrationCompleteSym]();
+                return promise;
+            });
+            this.on.dispose(function () {
+                if (isFunc(this[RegistrationCompleteSym])) {
+                    // if this request is in a batch and caching is in play we need to resolve the registration promises to unblock processing of the batch
+                    // because the request will never reach the "send" moment as the result is returned from "pre"
+                    this[RegistrationCompleteSym]();
+                    // remove the symbol props we added for good hygene
+                    delete this[RegistrationCompleteSym];
+                }
+                if (isFunc(this[RequestCompleteSym])) {
+                    // let things know we are done with this request
+                    this[RequestCompleteSym]();
+                    delete this[RequestCompleteSym];
+                    // there is a code path where you may invoke a batch, say on items.add, whose return
+                    // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
+                    // is immediately usable to make additional queries. Without this step when that IItem instance is
+                    // created using "this.getById" within IITems.add all of the current observers of "this" are
+                    // linked to the IItem instance created (expected), BUT they will be the set of observers setup
+                    // to handle the batch, meaning invoking `item` will result in a half batched call that
+                    // doesn't really work. To deliver the expected functionality we "reset" the
+                    // observers using the original instance, mimicing the behavior had
+                    // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
+                    // that we maintain the references to the InternalResolve and InternalReject events through
+                    // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
+                    // which ignores symbol properties.
+                    this.using(CopyFrom(batchQuery, "replace", (k) => /(auth|pre|send|init|dispose)/i.test(k)));
+                }
+            });
+            return [url, init, result];
+        });
+        return instance;
+    };
+    return [register, execute];
+}
+/**
+ * Behavior that blocks batching for the request regardless of "method"
+ *
+ * This is used for requests to bypass batching methods. Example - Request Digest where we need to get a request-digest inside of a batch.
+ * @returns TimelinePipe
+ */
+function BatchNever() {
+    return (instance) => {
+        instance.on.pre.prepend(async function (url, init, result) {
+            init.headers = { ...init.headers, "X-PnP-BatchNever": "1" };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+/**
+ * Parses the text body returned by the server from a batch request
+ *
+ * @param body String body from the server response
+ * @returns Parsed response objects
+ */
+function parseResponse(body) {
+    const responses = [];
+    const header = "--batchresponse_";
+    // Ex. "HTTP/1.1 500 Internal Server Error"
+    const statusRegExp = new RegExp("^HTTP/[0-9.]+ +([0-9]+) +(.*)", "i");
+    const lines = body.split("\n");
+    let state = "batch";
+    let status;
+    let statusText;
+    let headers = {};
+    const bodyReader = [];
+    for (let i = 0; i < lines.length; ++i) {
+        let line = lines[i];
+        switch (state) {
+            case "batch":
+                if (line.substring(0, header.length) === header) {
+                    state = "batchHeaders";
+                }
+                else {
+                    if (line.trim() !== "") {
+                        throw Error(`Invalid response, line ${i}`);
+                    }
+                }
+                break;
+            case "batchHeaders":
+                if (line.trim() === "") {
+                    state = "status";
+                }
+                break;
+            case "status": {
+                const parts = statusRegExp.exec(line);
+                if (parts.length !== 3) {
+                    throw Error(`Invalid status, line ${i}`);
+                }
+                status = parseInt(parts[1], 10);
+                statusText = parts[2];
+                state = "statusHeaders";
+                break;
+            }
+            case "statusHeaders":
+                if (line.trim() === "") {
+                    state = "body";
+                }
+                else {
+                    const headerParts = line.split(":");
+                    if ((headerParts === null || headerParts === void 0 ? void 0 : headerParts.length) === 2) {
+                        headers[headerParts[0].trim()] = headerParts[1].trim();
+                    }
+                }
+                break;
+            case "body":
+                // reset the body reader
+                bodyReader.length = 0;
+                // this allows us to capture batch bodies that are returned as multi-line (renderListDataAsStream, #2454)
+                while (line.substring(0, header.length) !== header) {
+                    bodyReader.push(line);
+                    line = lines[++i];
+                }
+                // because we have read the closing --batchresponse_ line, we need to move the line pointer back one
+                // so that the logic works as expected either to get the next result or end processing
+                i--;
+                responses.push(new Response(status === 204 ? null : bodyReader.join(""), { status, statusText, headers }));
+                state = "batch";
+                headers = {};
+                break;
+        }
+    }
+    if (state !== "status") {
+        throw Error("Unexpected end of input");
+    }
+    return responses;
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
+
+
+
+
+
+
+function clearExpired(digest) {
+    const now = new Date();
+    return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
+}
+// allows for the caching of digests across all calls which each have their own IDigestInfo wrapper.
+const digests = new Map();
+function RequestDigest(hook) {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            // add the request to the auth moment of the timeline
+            this.on.auth(async (url, init) => {
+                // eslint-disable-next-line max-len
+                if (/get/i.test(init.method) || (init.headers && (hOP(init.headers, "X-RequestDigest") || hOP(init.headers, "Authorization") || hOP(init.headers, "X-PnPjs-NoDigest")))) {
+                    return [url, init];
+                }
+                const urlAsString = url.toString();
+                const webUrl = extractWebUrl(urlAsString);
+                // do we have one in the cache that is still valid
+                // from #2186 we need to always ensure the digest we get isn't expired
+                let digest = clearExpired(digests.get(webUrl));
+                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
+                    digest = clearExpired(hook(urlAsString, init));
+                }
+                if (!objectDefinedNotNull(digest)) {
+                    digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse(), BatchNever()), {
+                        headers: {
+                            "X-PnPjs-NoDigest": "1",
+                        },
+                    }).then(p => ({
+                        expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
+                        value: p.FormDigestValue,
+                    }));
+                }
+                if (objectDefinedNotNull(digest)) {
+                    // if we got a digest, set it in the headers
+                    init.headers = {
+                        "X-RequestDigest": digest.value,
+                        ...init.headers,
+                    };
+                    // and cache it for future requests
+                    digests.set(webUrl, digest);
+                }
+                return [url, init];
+            });
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
+
+
+
+
+function SPBrowser(props) {
+    if ((props === null || props === void 0 ? void 0 : props.baseUrl) && !isUrlAbsolute(props.baseUrl)) {
+        throw Error("SPBrowser props.baseUrl must be absolute when supplied.");
+    }
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), RequestDigest());
+        if (isUrlAbsolute(props === null || props === void 0 ? void 0 : props.baseUrl)) {
+            // we want to fix up the url first
+            instance.on.pre.prepend(async (url, init, result) => {
+                if (!isUrlAbsolute(url)) {
+                    url = combine(props.baseUrl, url);
+                }
+                return [url, init, result];
+            });
+        }
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
+
+
+
+
+function SPFxToken(context) {
+    return (instance) => {
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
+        });
+        return instance;
+    };
+}
+function SPFx(context) {
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
+        // remove SPFx Token in default due to issues #2570, #2571
+        // SPFxToken(context),
+        RequestDigest((url) => {
+            var _a, _b, _c;
+            const sameWeb = (new RegExp(`^${combine(context.pageContext.web.absoluteUrl, "/_api")}`, "i")).test(url);
+            if (sameWeb && ((_b = (_a = context === null || context === void 0 ? void 0 : context.pageContext) === null || _a === void 0 ? void 0 : _a.legacyPageContext) === null || _b === void 0 ? void 0 : _b.formDigestValue)) {
+                const creationDateFromDigest = new Date(context.pageContext.legacyPageContext.formDigestValue.split(",")[1]);
+                // account for page lifetime in timeout #2304 & others
+                // account for tab sleep #2550
+                return {
+                    value: context.pageContext.legacyPageContext.formDigestValue,
+                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
+                };
+            }
+        }));
+        // we want to fix up the url first
+        instance.on.pre.prepend(async (url, init, result) => {
+            if (!isUrlAbsolute(url)) {
+                url = combine(context.pageContext.web.absoluteUrl, url);
+            }
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/items/types.js
 
@@ -4185,6 +4536,7 @@ spqueryable_SPQueryable.prototype.getContextInfo = async function (path = this.p
 
 
 
+
 /**
  * Describes a collection of File objects
  *
@@ -4373,14 +4725,7 @@ class types_File extends readable_file_ReadableFile {
                 options = { ...options, ...rest[1] };
             }
         }
-        const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = await this.select("ServerRelativeUrl")();
-        const webBaseUrl = new URL(extractWebUrl(absoluteUrl));
-        await spPost(File([this, webBaseUrl.toString()], `/_api/SP.MoveCopyUtil.CopyFileByPath(overwrite=@a1)?@a1=${rest[0]}`), request_builders_body({
-            destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${destUrl}`),
-            options,
-            srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${srcUrl}`),
-        }));
-        return fileFromPath(this, destUrl);
+        return this.moveCopyImpl(destUrl, options, rest[0], "CopyFileByPath");
     }
     /**
      * Denies approval for a file that was submitted for content approval.
@@ -4408,14 +4753,7 @@ class types_File extends readable_file_ReadableFile {
                 options = { ...options, ...rest[1] };
             }
         }
-        const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = await this.select("ServerRelativeUrl")();
-        const webBaseUrl = new URL(extractWebUrl(absoluteUrl));
-        await spPost(File([this, webBaseUrl.toString()], `/_api/SP.MoveCopyUtil.MoveFileByPath(overwrite=@a1)?@a1=${rest[0]}`), request_builders_body({
-            destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${destUrl}`),
-            options,
-            srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${srcUrl}`),
-        }));
-        return fileFromPath(this, destUrl);
+        return this.moveCopyImpl(destUrl, options, rest[0], "MoveFileByPath");
     }
     /**
      * Submits the file for content approval with the specified comment.
@@ -4588,6 +4926,23 @@ class types_File extends readable_file_ReadableFile {
             file: fileFromServerRelativePath(this, response.ServerRelativeUrl),
         };
     }
+    moveCopyImpl(destUrl, options, overwrite, methodName) {
+        // create a timeline we will manipulate for this request
+        const poster = File(this);
+        // add our pre-request actions, this fixes issues with batching hanging #2668
+        poster.on.pre(noInherit(async (url, init, result) => {
+            const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = await File(this).using(BatchNever()).select("ServerRelativeUrl")();
+            const webBaseUrl = new URL(extractWebUrl(absoluteUrl));
+            url = combine(webBaseUrl.toString(), `/_api/SP.MoveCopyUtil.${methodName}(overwrite=@a1)?@a1=${overwrite}`);
+            init = request_builders_body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${destUrl}`),
+                options,
+                srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${srcUrl}`),
+            }, init);
+            return [url, init, result];
+        }));
+        return spPost(poster).then(() => fileFromPath(this, destUrl));
+    }
 }
 tslib_es6_decorate([
     cancelableScope
@@ -4617,7 +4972,7 @@ function fileFromServerRelativePath(base, serverRelativePath) {
  * @returns IFile instance referencing the file described by the supplied parameters
  */
 async function fileFromAbsolutePath(base, absoluteFilePath) {
-    const { WebFullUrl } = await base.getContextInfo(absoluteFilePath);
+    const { WebFullUrl } = await File(this).using(BatchNever()).getContextInfo(absoluteFilePath);
     const { pathname } = new URL(absoluteFilePath);
     return fileFromServerRelativePath(File([base, combine(WebFullUrl, "_api/web")]), decodeURIComponent(pathname));
 }
@@ -4915,6 +5270,7 @@ fi_SPFI.prototype.getTenantAppCatalogWeb = async function () {
 
 
 
+
 let types_Attachments = class _Attachments extends _SPCollection {
     /**
     * Gets a Attachment File by filename
@@ -4933,7 +5289,7 @@ let types_Attachments = class _Attachments extends _SPCollection {
      * @param content The Base64 file content.
      */
     async add(name, content) {
-        const response = await spPost(Attachments(this, `add(FileName='${name}')`), { body: content });
+        const response = await spPost(Attachments(this, `add(FileName='${encodePath(name)}')`), { body: content });
         return {
             data: response,
             file: this.getByName(name),
@@ -5407,325 +5763,6 @@ types_Item.prototype.rate = async function (value) {
     const rateUrl = combine(baseUrl, reputationUrl) + `?@a1='{${itemInfo.ParentList.Id}}'&@a2='${itemInfo.Item.Id}'&@a3=${value}`;
     return spPost(SPQueryable([this, rateUrl]));
 };
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
-
-
-
-
-
-
-fi_SPFI.prototype.batched = function (props) {
-    const batched = spfi(this);
-    const [behavior, execute] = createBatch(batched._root, props);
-    batched.using(behavior);
-    return [batched, execute];
-};
-types_Web.prototype.batched = function (props) {
-    const batched = Web(this);
-    const [behavior, execute] = createBatch(batched, props);
-    batched.using(behavior);
-    return [batched, execute];
-};
-/**
- * Tracks on a batched instance that registration is complete (the child request has gotten to the send moment and the request is included in the batch)
- */
-const RegistrationCompleteSym = Symbol.for("batch_registration");
-/**
- * Tracks on a batched instance that the child request timeline lifecycle is complete (called in child.dispose)
- */
-const RequestCompleteSym = Symbol.for("batch_request");
-/**
- * Special batch parsing behavior used to convert the batch response text into a set of Response objects for each request
- * @returns A parser behavior
- */
-function BatchParse() {
-    return parseBinderWithErrorCheck(async (response) => {
-        const text = await response.text();
-        return parseResponse(text);
-    });
-}
-/**
- * Internal class used to execute the batch request through the timeline lifecycle
- */
-class batching_BatchQueryable extends spqueryable_SPQueryable {
-    constructor(base, requestBaseUrl = base.toUrl().replace(/_api[\\|/].*$/i, "")) {
-        super(requestBaseUrl, "_api/$batch");
-        this.requestBaseUrl = requestBaseUrl;
-        // this will copy over the current observables from the base associated with this batch
-        // this will replace any other parsing present
-        this.using(CopyFrom(base, "replace"), BatchParse());
-        this.on.dispose(() => {
-            // there is a code path where you may invoke a batch, say on items.add, whose return
-            // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
-            // is immediately usable to make additional queries. Without this step when that IItem instance is
-            // created using "this.getById" within IITems.add all of the current observers of "this" are
-            // linked to the IItem instance created (expected), BUT they will be the set of observers setup
-            // to handle the batch, meaning invoking `item` will result in a half batched call that
-            // doesn't really work. To deliver the expected functionality we "reset" the
-            // observers using the original instance, mimicing the behavior had
-            // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
-            // that we maintain the references to the InternalResolve and InternalReject events through
-            // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
-            // which ignores symbol properties.
-            base.using(CopyFrom(this, "replace", (k) => /(auth|send|init)/i.test(k)));
-        });
-    }
-}
-/**
- * Creates a batched version of the supplied base, meaning that all chained fluent operations from the new base are part of the batch
- *
- * @param base The base from which to initialize the batch
- * @param props Any properties used to initialize the batch functionality
- * @returns A tuple of [behavior used to assign objects to the batch, the execute function used to resolve the batch requests]
- */
-function createBatch(base, props) {
-    const registrationPromises = [];
-    const completePromises = [];
-    const requests = [];
-    const batchId = getGUID();
-    const batchQuery = new batching_BatchQueryable(base);
-    const { headersCopyPattern } = {
-        headersCopyPattern: /Accept|Content-Type|IF-Match/i,
-        ...props,
-    };
-    const execute = async () => {
-        await Promise.all(registrationPromises);
-        if (requests.length < 1) {
-            // even if we have no requests we need to await the complete promises to ensure
-            // that execute only resolves AFTER every child request disposes #2457
-            // this likely means caching is being used, we returned values for all child requests from the cache
-            return Promise.all(completePromises).then(() => void (0));
-        }
-        const batchBody = [];
-        let currentChangeSetId = "";
-        for (let i = 0; i < requests.length; i++) {
-            const [, url, init] = requests[i];
-            if (init.method === "GET") {
-                if (currentChangeSetId.length > 0) {
-                    // end an existing change set
-                    batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
-                    currentChangeSetId = "";
-                }
-                batchBody.push(`--batch_${batchId}\n`);
-            }
-            else {
-                if (currentChangeSetId.length < 1) {
-                    // start new change set
-                    currentChangeSetId = getGUID();
-                    batchBody.push(`--batch_${batchId}\n`);
-                    batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
-                }
-                batchBody.push(`--changeset_${currentChangeSetId}\n`);
-            }
-            // common batch part prefix
-            batchBody.push("Content-Type: application/http\n");
-            batchBody.push("Content-Transfer-Encoding: binary\n\n");
-            // these are the per-request headers
-            const headers = new Headers(init.headers);
-            // this is the url of the individual request within the batch
-            const reqUrl = isUrlAbsolute(url) ? url : combine(batchQuery.requestBaseUrl, url);
-            if (init.method !== "GET") {
-                let method = init.method;
-                if (headers.has("X-HTTP-Method")) {
-                    method = headers.get("X-HTTP-Method");
-                    headers.delete("X-HTTP-Method");
-                }
-                batchBody.push(`${method} ${reqUrl} HTTP/1.1\n`);
-            }
-            else {
-                batchBody.push(`${init.method} ${reqUrl} HTTP/1.1\n`);
-            }
-            // lastly we apply any default headers we need that may not exist
-            if (!headers.has("Accept")) {
-                headers.append("Accept", "application/json");
-            }
-            if (!headers.has("Content-Type")) {
-                headers.append("Content-Type", "application/json;charset=utf-8");
-            }
-            // write headers into batch body
-            headers.forEach((value, name) => {
-                if (headersCopyPattern.test(name)) {
-                    batchBody.push(`${name}: ${value}\n`);
-                }
-            });
-            batchBody.push("\n");
-            if (init.body) {
-                batchBody.push(`${init.body}\n\n`);
-            }
-        }
-        if (currentChangeSetId.length > 0) {
-            // Close the changeset
-            batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
-            currentChangeSetId = "";
-        }
-        batchBody.push(`--batch_${batchId}--\n`);
-        // we need to set our own headers here
-        batchQuery.using(InjectHeaders({
-            "Content-Type": `multipart/mixed; boundary=batch_${batchId}`,
-        }));
-        const responses = await spPost(batchQuery, { body: batchBody.join("") });
-        if (responses.length !== requests.length) {
-            throw Error("Could not properly parse responses to match requests in batch.");
-        }
-        return new Promise((res, rej) => {
-            try {
-                for (let index = 0; index < responses.length; index++) {
-                    const [, , , resolve, reject] = requests[index];
-                    try {
-                        resolve(responses[index]);
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }
-                // this small delay allows the promises to resolve correctly in order by dropping this resolve behind
-                // the other work in the event loop. Feels hacky, but it works so 🤷
-                setTimeout(res, 0);
-            }
-            catch (e) {
-                setTimeout(() => rej(e), 0);
-            }
-        }).then(() => Promise.all(completePromises)).then(() => void (0));
-    };
-    const register = (instance) => {
-        instance.on.init(function () {
-            if (isFunc(this[RegistrationCompleteSym])) {
-                throw Error("This instance is already part of a batch. Please review the docs at https://pnp.github.io/pnpjs/concepts/batching#reuse.");
-            }
-            // we need to ensure we wait to start execute until all our batch children hit the .send method to be fully registered
-            registrationPromises.push(new Promise((resolve) => {
-                this[RegistrationCompleteSym] = resolve;
-            }));
-            return this;
-        });
-        // the entire request will be auth'd - we don't need to run this for each batch request
-        instance.on.auth.clear();
-        // we replace the send function with our batching logic
-        instance.on.send.replace(async function (url, init) {
-            // this is the promise that Queryable will see returned from .emit.send
-            const promise = new Promise((resolve, reject) => {
-                // add the request information into the batch
-                requests.push([this, url.toString(), init, resolve, reject]);
-            });
-            this.log(`[batch:${batchId}] (${(new Date()).getTime()}) Adding request ${init.method} ${url.toString()} to batch.`, 0);
-            // we need to ensure we wait to resolve execute until all our batch children have fully completed their request timelines
-            completePromises.push(new Promise((resolve) => {
-                this[RequestCompleteSym] = resolve;
-            }));
-            // indicate that registration of this request is complete
-            this[RegistrationCompleteSym]();
-            return promise;
-        });
-        instance.on.dispose(function () {
-            if (isFunc(this[RegistrationCompleteSym])) {
-                // if this request is in a batch and caching is in play we need to resolve the registration promises to unblock processing of the batch
-                // because the request will never reach the "send" moment as the result is returned from "pre"
-                this[RegistrationCompleteSym]();
-                // remove the symbol props we added for good hygene
-                delete this[RegistrationCompleteSym];
-            }
-            if (isFunc(this[RequestCompleteSym])) {
-                // let things know we are done with this request
-                this[RequestCompleteSym]();
-                delete this[RequestCompleteSym];
-                // there is a code path where you may invoke a batch, say on items.add, whose return
-                // is an object like { data: any, item: IItem }. The expectation from v1 on is `item` in that object
-                // is immediately usable to make additional queries. Without this step when that IItem instance is
-                // created using "this.getById" within IITems.add all of the current observers of "this" are
-                // linked to the IItem instance created (expected), BUT they will be the set of observers setup
-                // to handle the batch, meaning invoking `item` will result in a half batched call that
-                // doesn't really work. To deliver the expected functionality we "reset" the
-                // observers using the original instance, mimicing the behavior had
-                // the IItem been created from that base without a batch involved. We use CopyFrom to ensure
-                // that we maintain the references to the InternalResolve and InternalReject events through
-                // the end of this timeline lifecycle. This works because CopyFrom by design uses Object.keys
-                // which ignores symbol properties.
-                this.using(CopyFrom(batchQuery, "replace", (k) => /(auth|send|init|dispose)/i.test(k)));
-            }
-        });
-        return instance;
-    };
-    return [register, execute];
-}
-/**
- * Parses the text body returned by the server from a batch request
- *
- * @param body String body from the server response
- * @returns Parsed response objects
- */
-function parseResponse(body) {
-    const responses = [];
-    const header = "--batchresponse_";
-    // Ex. "HTTP/1.1 500 Internal Server Error"
-    const statusRegExp = new RegExp("^HTTP/[0-9.]+ +([0-9]+) +(.*)", "i");
-    const lines = body.split("\n");
-    let state = "batch";
-    let status;
-    let statusText;
-    let headers = {};
-    const bodyReader = [];
-    for (let i = 0; i < lines.length; ++i) {
-        let line = lines[i];
-        switch (state) {
-            case "batch":
-                if (line.substring(0, header.length) === header) {
-                    state = "batchHeaders";
-                }
-                else {
-                    if (line.trim() !== "") {
-                        throw Error(`Invalid response, line ${i}`);
-                    }
-                }
-                break;
-            case "batchHeaders":
-                if (line.trim() === "") {
-                    state = "status";
-                }
-                break;
-            case "status": {
-                const parts = statusRegExp.exec(line);
-                if (parts.length !== 3) {
-                    throw Error(`Invalid status, line ${i}`);
-                }
-                status = parseInt(parts[1], 10);
-                statusText = parts[2];
-                state = "statusHeaders";
-                break;
-            }
-            case "statusHeaders":
-                if (line.trim() === "") {
-                    state = "body";
-                }
-                else {
-                    const headerParts = line.split(":");
-                    if ((headerParts === null || headerParts === void 0 ? void 0 : headerParts.length) === 2) {
-                        headers[headerParts[0].trim()] = headerParts[1].trim();
-                    }
-                }
-                break;
-            case "body":
-                // reset the body reader
-                bodyReader.length = 0;
-                // this allows us to capture batch bodies that are returned as multi-line (renderListDataAsStream, #2454)
-                while (line.substring(0, header.length) !== header) {
-                    bodyReader.push(line);
-                    line = lines[++i];
-                }
-                // because we have read the closing --batchresponse_ line, we need to move the line pointer back one
-                // so that the logic works as expected either to get the next result or end processing
-                i--;
-                responses.push(new Response(status === 204 ? null : bodyReader.join(""), { status, statusText, headers }));
-                state = "batch";
-                headers = {};
-                break;
-        }
-    }
-    if (state !== "status") {
-        throw Error("Unexpected end of input");
-    }
-    return responses;
-}
 
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/types.js
 
@@ -6923,6 +6960,7 @@ types_Web.prototype.addFullPageApp = async function (pageName, title = pageName.
 
 
 
+
 let types_Folders = class _Folders extends _SPCollection {
     /**
      * Gets a folder by it's name
@@ -7033,14 +7071,7 @@ class types_Folder extends _SPInstance {
                 options = { ...options, ...rest[0] };
             }
         }
-        const urlInfo = await this.getParentInfos();
-        const uri = new URL(urlInfo.ParentWeb.Url);
-        await spPost(Folder([this, urlInfo.ParentWeb.Url], "/_api/SP.MoveCopyUtil.MoveFolderByPath()"), request_builders_body({
-            destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
-            options,
-            srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
-        }));
-        return folderFromPath(this, destUrl);
+        return this.moveCopyImpl(destUrl, options, "MoveFolderByPath");
     }
     async copyByPath(destUrl, ...rest) {
         let options = {
@@ -7056,14 +7087,7 @@ class types_Folder extends _SPInstance {
                 options = { ...options, ...rest[0] };
             }
         }
-        const urlInfo = await this.getParentInfos();
-        const uri = new URL(urlInfo.ParentWeb.Url);
-        await spPost(Folder([this, urlInfo.ParentWeb.Url], "/_api/SP.MoveCopyUtil.CopyFolderByPath()"), request_builders_body({
-            destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
-            options,
-            srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
-        }));
-        return folderFromPath(this, destUrl);
+        return this.moveCopyImpl(destUrl, options, "CopyFolderByPath");
     }
     /**
      * Deletes the folder object with options.
@@ -7105,6 +7129,31 @@ class types_Folder extends _SPInstance {
             },
         };
     }
+    /**
+     * Implementation of folder move/copy
+     *
+     * @param destUrl The server relative path to which the folder will be copied/moved
+     * @param options Any options
+     * @param methodName The method to call
+     * @returns An IFolder representing the moved or copied folder
+     */
+    moveCopyImpl(destUrl, options, methodName) {
+        // create a timeline we will manipulate for this request
+        const poster = Folder(this);
+        // add our pre-request actions, this fixes issues with batching hanging #2668
+        poster.on.pre(noInherit(async (url, init, result) => {
+            const urlInfo = await Folder(this).using(BatchNever()).getParentInfos();
+            const uri = new URL(urlInfo.ParentWeb.Url);
+            url = combine(urlInfo.ParentWeb.Url, `/_api/SP.MoveCopyUtil.${methodName}()`);
+            init = request_builders_body({
+                destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
+                options,
+                srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
+            }, init);
+            return [url, init, result];
+        }));
+        return spPost(poster).then(() => folderFromPath(this, destUrl));
+    }
 }
 tslib_es6_decorate([
     cancelableScope
@@ -7131,7 +7180,7 @@ function folderFromServerRelativePath(base, serverRelativePath) {
  * @returns IFolder instance referencing the folder described by the supplied parameters
  */
 async function folderFromAbsolutePath(base, absoluteFolderPath) {
-    const { WebFullUrl } = await base.getContextInfo(absoluteFolderPath);
+    const { WebFullUrl } = await Folder(this).using(BatchNever()).getContextInfo(absoluteFolderPath);
     const { pathname } = new URL(absoluteFolderPath);
     return folderFromServerRelativePath(Folder([base, combine(WebFullUrl, "_api/web")]), decodeURIComponent(pathname));
 }
@@ -7724,7 +7773,15 @@ addProp(types_Web, "features", Features);
 
 
 
+// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/metadata.js
+function metadata(type) {
+    return {
+        "__metadata": { "type": type },
+    };
+}
+
 // CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/types.js
+
 
 
 
@@ -7777,19 +7834,17 @@ let types_Fields = class _Fields extends _SPCollection {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
     async add(title, fieldTypeKind, properties) {
-        const createData = await spPost(Fields(this, null), request_builders_body({
+        const data = await spPost(Fields(this, null), request_builders_body(Object.assign(metadata(mapFieldTypeEnumToString(fieldTypeKind)), {
             Title: title,
             FieldTypeKind: fieldTypeKind,
-            Required: (properties === null || properties === void 0 ? void 0 : properties.Required) || false,
-        }));
-        const field = this.getById(createData.Id);
-        if (typeof properties !== "undefined") {
-            await field.update(properties);
-        }
-        const data = await field();
+            ...properties,
+        }), request_builders_headers({
+            "Accept": "application/json;odata=verbose",
+            "Content-Type": "application/json;odata=verbose",
+        })));
         return {
             data,
-            field,
+            field: this.getById(data.Id),
         };
     }
     /**
@@ -7925,11 +7980,13 @@ let types_Fields = class _Fields extends _SPCollection {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
     addChoice(title, properties) {
-        return this.add(title, 6, {
-            EditFormat: ChoiceFieldFormatType.Dropdown,
-            FillInChoice: false,
+        const props = {
             ...properties,
-        });
+            Choices: {
+                results: properties.Choices,
+            },
+        };
+        return this.add(title, 6, props);
     }
     /**
      * Adds a new SP.FieldMultiChoice to the collection
@@ -7938,10 +7995,13 @@ let types_Fields = class _Fields extends _SPCollection {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
     addMultiChoice(title, properties) {
-        return this.add(title, 15, {
-            FillInChoice: false,
+        const props = {
             ...properties,
-        });
+            Choices: {
+                results: properties.Choices,
+            },
+        };
+        return this.add(title, 15, props);
     }
     /**
    * Adds a new SP.FieldBoolean to the collection
@@ -8069,7 +8129,35 @@ var FieldTypes;
     FieldTypes[FieldTypes["WorkflowStatus"] = 28] = "WorkflowStatus";
     FieldTypes[FieldTypes["AllDayEvent"] = 29] = "AllDayEvent";
     FieldTypes[FieldTypes["WorkflowEventType"] = 30] = "WorkflowEventType";
+    FieldTypes[FieldTypes["Location"] = 33] = "Location";
+    FieldTypes[FieldTypes["Image"] = 34] = "Image";
 })(FieldTypes || (FieldTypes = {}));
+const FieldTypeClassMapping = {
+    [17 /* Calculated */]: "SP.FieldCalculated",
+    [6 /* Choice */]: "SP.FieldChoice",
+    [12 /* Computed */]: "SP.FieldComputed",
+    [10 /* Currency */]: "SP.FieldCurrency",
+    [4 /* DateTime */]: "SP.FieldDateTime",
+    [16 /* GridChoice */]: "SP.FieldRatingScale",
+    [14 /* Guid */]: "SP.FieldGuid",
+    [34 /* Image */]: "FieldMultiLineText",
+    [1 /* Integer */]: "SP.FieldNumber",
+    [33 /* Location */]: "SP.FieldLocation",
+    [7 /* Lookup */]: "SP.FieldLookup",
+    [23 /* ModStat */]: "SP.FieldChoice",
+    [15 /* MultiChoice */]: "SP.FieldMultiChoice",
+    [3 /* Note */]: "SP.FieldMultiLineText",
+    [9 /* Number */]: "SP.FieldNumber",
+    [2 /* Text */]: "SP.FieldText",
+    [11 /* URL */]: "SP.FieldUrl",
+    [20 /* User */]: "SP.FieldUser",
+    [28 /* WorkflowStatus */]: "SP.FieldChoice",
+    [30 /* WorkflowEventType */]: "SP.FieldNumber",
+};
+function mapFieldTypeEnumToString(enumValue) {
+    var _a;
+    return (_a = FieldTypeClassMapping[enumValue]) !== null && _a !== void 0 ? _a : "SP.Field";
+}
 var DateTimeFieldFormatType;
 (function (DateTimeFieldFormatType) {
     DateTimeFieldFormatType[DateTimeFieldFormatType["DateOnly"] = 0] = "DateOnly";
