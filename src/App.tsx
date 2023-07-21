@@ -44,6 +44,7 @@ import Webhooks from './pages/webhooks'
 import WebProperties from './pages/webproperties'
 import { IRootState } from './store'
 import { setDarkMode, setTheme } from './store/home/actions'
+import FileExplorer from './pages/fileexplorer'
 
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -88,7 +89,7 @@ const App = () => {
                 <Route path='/spshooter' component={SPShooter} />
                 <Route path='/graphsdkconsole' component={GraphSDKConsole} />
                 <Route path='/mgtconsole' component={MGTConsole} />
-                {/* <Route path='/fileexplorer' component={FileExplorer} /> */}
+                <Route path='/fileexplorer' component={FileExplorer} />
               </Switch>
               <MessageBar />
             </IonPage>

@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import * as actions from '../../../store/fileexplorer/actions'
-import { FileExplorerActions, IFile } from '../../../store/fileexplorer/types'
+import { FileExplorerActions } from '../../../store/fileexplorer/types'
 import * as rootActions from '../../../store/home/actions'
 import { HomeActions, MessageBarColors } from '../../../store/home/types'
 import { exescript } from '../../../utilities/chromecommon'

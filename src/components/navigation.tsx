@@ -73,7 +73,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       name: 'File Explorer',
       url: '/FileExplorer',
       key: 'key9',
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'Search',

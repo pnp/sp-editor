@@ -1,8 +1,14 @@
 import { action } from 'typesafe-actions'
-import { Constants, IFile } from './types'
+import { Constants, IFolder } from './types'
 
-export function setAllFiles(items: IFile[]) {
+export function setAllFiles(items: IFolder) {
   return action(Constants.FE_GET_ITEMS, {
+    items,
+  })
+}
+
+export function setChildren(items: IFolder) {
+  return action(Constants.FE_GET_CHILDREN, {
     items,
   })
 }

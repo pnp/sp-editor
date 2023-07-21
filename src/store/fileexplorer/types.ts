@@ -4,17 +4,21 @@ import * as actions from './actions'
 export type FileExplorerActions = ActionType<typeof actions>
 
 export interface IFile {
-  id: number
-  parent: number
-  droppable: boolean
-  text: string
-}
+  name: string;
+};
 
-export interface IFileExplorerState {
-  files: IFile[],
-  loading: boolean,
+export interface IFolder {
+  name: string;
+  children: (IFolder | IFile)[];
+  isBranch?: boolean;
+  id?: string;
+  ServerRelativeUrl?: string;
+};
+
+export interface IFileExplorerState extends IFolder{
 }
 
 export enum Constants {
   FE_GET_ITEMS = 'FE_GET_ITEMS',
+  FE_GET_CHILDREN = 'FE_GET_CHILDREN',
 }
