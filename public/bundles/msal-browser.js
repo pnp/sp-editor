@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v2.37.0 2023-05-01 */
+/*! @azure/msal-browser v2.38.0 2023-07-05 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -119,7 +119,7 @@
         return ar;
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -206,7 +206,7 @@
         return r;
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -570,6 +570,7 @@
         CacheOutcome["NO_CACHED_ACCESS_TOKEN"] = "2";
         CacheOutcome["CACHED_ACCESS_TOKEN_EXPIRED"] = "3";
         CacheOutcome["REFRESH_CACHED_ACCESS_TOKEN"] = "4";
+        CacheOutcome["CLAIMS_REQUESTED_CACHE_SKIPPED"] = "5";
     })(CacheOutcome || (CacheOutcome = {}));
     var JsonTypes;
     (function (JsonTypes) {
@@ -578,7 +579,7 @@
         JsonTypes["Pop"] = "pop";
     })(JsonTypes || (JsonTypes = {}));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -634,7 +635,7 @@
         return AuthError;
     }(Error));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -709,7 +710,7 @@
         }
     };
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1224,7 +1225,7 @@
         return ClientAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1349,7 +1350,7 @@
         return StringUtils;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1539,12 +1540,12 @@
         return Logger;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /* eslint-disable header/header */
     var name$1 = "@azure/msal-common";
-    var version$1 = "13.0.0";
+    var version$1 = "13.2.0";
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1565,7 +1566,7 @@
         AzureCloudInstance["AzureUsGovernment"] = "https://login.microsoftonline.us";
     })(exports.AzureCloudInstance || (exports.AzureCloudInstance = {}));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1666,6 +1667,10 @@
         invalidAuthenticationHeader: {
             code: "invalid_authentication_header",
             desc: "Invalid authentication header provided"
+        },
+        authorityMismatch: {
+            code: "authority_mismatch",
+            desc: "Authority mismatch error. Authority provided in login request or PublicClientApplication config does not match the environment of the provided account. Please use a matching account or make an interactive request to login to this authority."
         }
     };
     /**
@@ -1817,10 +1822,16 @@
         ClientConfigurationError.createInvalidAuthenticationHeaderError = function (invalidHeaderName, details) {
             return new ClientConfigurationError(ClientConfigurationErrorMessage.invalidAuthenticationHeader.code, ClientConfigurationErrorMessage.invalidAuthenticationHeader.desc + ". Invalid header: " + invalidHeaderName + ". Details: " + details);
         };
+        /**
+         * Create an error when the authority provided in request does not match authority provided in account or MSAL.js configuration.
+         */
+        ClientConfigurationError.createAuthorityMismatchError = function () {
+            return new ClientConfigurationError(ClientConfigurationErrorMessage.authorityMismatch.code, ClientConfigurationErrorMessage.authorityMismatch.desc);
+        };
         return ClientConfigurationError;
     }(ClientAuthError));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2019,7 +2030,7 @@
         return ScopeSet;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2057,7 +2068,7 @@
         };
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2073,7 +2084,7 @@
         AuthorityType[AuthorityType["Ciam"] = 3] = "Ciam";
     })(AuthorityType || (AuthorityType = {}));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2312,7 +2323,7 @@
         return AccountEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2364,7 +2375,7 @@
         return AuthToken;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3412,7 +3423,7 @@
         return DefaultStorageClass;
     }(CacheManager));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3431,6 +3442,9 @@
         piiLoggingEnabled: false,
         logLevel: exports.LogLevel.Info,
         correlationId: Constants.EMPTY_STRING
+    };
+    var DEFAULT_CACHE_OPTIONS = {
+        claimsBasedCachingEnabled: true
     };
     var DEFAULT_NETWORK_IMPLEMENTATION = {
         sendGetRequestAsync: function () {
@@ -3480,12 +3494,13 @@
      * @returns Configuration
      */
     function buildClientConfiguration(_a) {
-        var userAuthOptions = _a.authOptions, userSystemOptions = _a.systemOptions, userLoggerOption = _a.loggerOptions, storageImplementation = _a.storageInterface, networkImplementation = _a.networkInterface, cryptoImplementation = _a.cryptoInterface, clientCredentials = _a.clientCredentials, libraryInfo = _a.libraryInfo, telemetry = _a.telemetry, serverTelemetryManager = _a.serverTelemetryManager, persistencePlugin = _a.persistencePlugin, serializableCache = _a.serializableCache;
+        var userAuthOptions = _a.authOptions, userSystemOptions = _a.systemOptions, userLoggerOption = _a.loggerOptions, userCacheOptions = _a.cacheOptions, storageImplementation = _a.storageInterface, networkImplementation = _a.networkInterface, cryptoImplementation = _a.cryptoInterface, clientCredentials = _a.clientCredentials, libraryInfo = _a.libraryInfo, telemetry = _a.telemetry, serverTelemetryManager = _a.serverTelemetryManager, persistencePlugin = _a.persistencePlugin, serializableCache = _a.serializableCache;
         var loggerOptions = __assign(__assign({}, DEFAULT_LOGGER_IMPLEMENTATION), userLoggerOption);
         return {
             authOptions: buildAuthOptions(userAuthOptions),
             systemOptions: __assign(__assign({}, DEFAULT_SYSTEM_OPTIONS), userSystemOptions),
             loggerOptions: loggerOptions,
+            cacheOptions: __assign(__assign({}, DEFAULT_CACHE_OPTIONS), userCacheOptions),
             storageInterface: storageImplementation || new DefaultStorageClass(userAuthOptions.clientId, DEFAULT_CRYPTO_IMPLEMENTATION, new Logger(loggerOptions)),
             networkInterface: networkImplementation || DEFAULT_NETWORK_IMPLEMENTATION,
             cryptoInterface: cryptoImplementation || DEFAULT_CRYPTO_IMPLEMENTATION,
@@ -3505,7 +3520,7 @@
         return __assign({ clientCapabilities: [], azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS, skipAuthorityMetadataCache: false }, authOptions);
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3525,7 +3540,7 @@
         return ServerError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3621,7 +3636,7 @@
         return ThrottlingUtils;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3670,7 +3685,7 @@
         return NetworkManager;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3681,7 +3696,7 @@
         CcsCredentialType["UPN"] = "UPN";
     })(CcsCredentialType || (CcsCredentialType = {}));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3772,7 +3787,7 @@
         return RequestValidator;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4150,7 +4165,7 @@
         return RequestParameterBuilder;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4252,7 +4267,7 @@
         return BaseClient;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4390,7 +4405,7 @@
         return CredentialEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4454,7 +4469,7 @@
         return IdTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4504,7 +4519,7 @@
         return TimeUtils;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4618,7 +4633,7 @@
         return AccessTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4685,7 +4700,7 @@
         return RefreshTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4764,7 +4779,7 @@
         return InteractionRequiredAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4780,7 +4795,7 @@
         return CacheRecord;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4851,7 +4866,7 @@
         return ProtocolUtils;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5085,7 +5100,7 @@
         return UrlString;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5314,7 +5329,7 @@
         "status",
     ]);
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5423,7 +5438,7 @@
         return PopTokenGenerator;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5493,7 +5508,7 @@
         return AppMetadataEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5529,7 +5544,7 @@
         return TokenCacheContext;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5816,7 +5831,7 @@
         return ResponseHandler;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6246,7 +6261,7 @@
                             return [4 /*yield*/, popTokenGenerator.generateCnf(request)];
                         case 1:
                             reqCnfData = _b.sent();
-                            parameterBuilder.addPopToken(reqCnfData.reqCnfHash);
+                            parameterBuilder.addPopToken(reqCnfData.reqCnfString);
                             _b.label = 2;
                         case 2: return [2 /*return*/, parameterBuilder.createQueryString()];
                     }
@@ -6294,7 +6309,7 @@
         return AuthorizationCodeClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6568,7 +6583,7 @@
         return RefreshTokenClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6612,11 +6627,11 @@
          * @param request
          */
         SilentFlowClient.prototype.acquireCachedToken = function (request) {
-            var _a, _b, _c, _d;
+            var _a, _b, _c, _d, _e;
             return __awaiter(this, void 0, void 0, function () {
                 var environment, cacheRecord;
-                return __generator(this, function (_e) {
-                    switch (_e.label) {
+                return __generator(this, function (_f) {
+                    switch (_f.label) {
                         case 0:
                             // Cannot renew token if no request object is given.
                             if (!request) {
@@ -6628,6 +6643,12 @@
                                 this.logger.info("SilentFlowClient:acquireCachedToken - Skipping cache because forceRefresh is true.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
+                            else if (!this.config.cacheOptions.claimsBasedCachingEnabled && !StringUtils.isEmptyObj(request.claims)) {
+                                // Must refresh due to presence of claims in request preventing cache lookup
+                                (_b = this.serverTelemetryManager) === null || _b === void 0 ? void 0 : _b.setCacheOutcome(CacheOutcome.CLAIMS_REQUESTED_CACHE_SKIPPED);
+                                this.logger.info("SilentFlowClient:acquireCachedToken - Skipping cache because claims-based caching is disabled and claims were requested.");
+                                throw ClientAuthError.createRefreshRequiredError();
+                            }
                             // We currently do not support silent flow for account === null use cases; This will be revisited for confidential flow usecases
                             if (!request.account) {
                                 throw ClientAuthError.createNoAccountInSilentRequestError();
@@ -6636,20 +6657,20 @@
                             cacheRecord = this.cacheManager.readCacheRecord(request.account, request, environment);
                             if (!cacheRecord.accessToken) {
                                 // Must refresh due to non-existent access_token.
-                                (_b = this.serverTelemetryManager) === null || _b === void 0 ? void 0 : _b.setCacheOutcome(CacheOutcome.NO_CACHED_ACCESS_TOKEN);
+                                (_c = this.serverTelemetryManager) === null || _c === void 0 ? void 0 : _c.setCacheOutcome(CacheOutcome.NO_CACHED_ACCESS_TOKEN);
                                 this.logger.info("SilentFlowClient:acquireCachedToken - No access token found in cache for the given properties.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
                             else if (TimeUtils.wasClockTurnedBack(cacheRecord.accessToken.cachedAt) ||
                                 TimeUtils.isTokenExpired(cacheRecord.accessToken.expiresOn, this.config.systemOptions.tokenRenewalOffsetSeconds)) {
                                 // Must refresh due to expired access_token.
-                                (_c = this.serverTelemetryManager) === null || _c === void 0 ? void 0 : _c.setCacheOutcome(CacheOutcome.CACHED_ACCESS_TOKEN_EXPIRED);
+                                (_d = this.serverTelemetryManager) === null || _d === void 0 ? void 0 : _d.setCacheOutcome(CacheOutcome.CACHED_ACCESS_TOKEN_EXPIRED);
                                 this.logger.info("SilentFlowClient:acquireCachedToken - Cached access token is expired or will expire within " + this.config.systemOptions.tokenRenewalOffsetSeconds + " seconds.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
                             else if (cacheRecord.accessToken.refreshOn && TimeUtils.isTokenExpired(cacheRecord.accessToken.refreshOn, 0)) {
                                 // Must refresh due to the refresh_in value.
-                                (_d = this.serverTelemetryManager) === null || _d === void 0 ? void 0 : _d.setCacheOutcome(CacheOutcome.REFRESH_CACHED_ACCESS_TOKEN);
+                                (_e = this.serverTelemetryManager) === null || _e === void 0 ? void 0 : _e.setCacheOutcome(CacheOutcome.REFRESH_CACHED_ACCESS_TOKEN);
                                 this.logger.info("SilentFlowClient:acquireCachedToken - Cached access token's refreshOn property has been exceeded'.");
                                 throw ClientAuthError.createRefreshRequiredError();
                             }
@@ -6657,7 +6678,7 @@
                                 this.config.serverTelemetryManager.incrementCacheHits();
                             }
                             return [4 /*yield*/, this.generateResultFromCacheRecord(cacheRecord, request)];
-                        case 1: return [2 /*return*/, _e.sent()];
+                        case 1: return [2 /*return*/, _f.sent()];
                     }
                 });
             });
@@ -6692,7 +6713,7 @@
         return SilentFlowClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6704,7 +6725,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6713,7 +6734,7 @@
     var EndpointMetadata = rawMetdataJSON.endpointMetadata;
     var InstanceDiscoveryMetadata = rawMetdataJSON.instanceDiscoveryMetadata;
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6727,7 +6748,7 @@
         ProtocolMode["OIDC"] = "OIDC";
     })(exports.ProtocolMode || (exports.ProtocolMode = {}));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6804,7 +6825,7 @@
         return AuthorityMetadataEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6814,7 +6835,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6824,7 +6845,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6956,7 +6977,7 @@
         return RegionDiscovery;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6979,23 +7000,31 @@
             this.correlationId = correlationId;
             this.regionDiscovery = new RegionDiscovery(networkInterface, this.performanceClient, this.correlationId);
         }
+        /**
+         * Get {@link AuthorityType}
+         * @param authorityUri {@link IUri}
+         * @private
+         */
+        Authority.prototype.getAuthorityType = function (authorityUri) {
+            // CIAM auth url pattern is being standardized as: <tenant>.ciamlogin.com
+            if (authorityUri.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
+                return AuthorityType.Ciam;
+            }
+            var pathSegments = authorityUri.PathSegments;
+            if (pathSegments.length) {
+                switch (pathSegments[0].toLowerCase()) {
+                    case Constants.ADFS:
+                        return AuthorityType.Adfs;
+                    case Constants.DSTS:
+                        return AuthorityType.Dsts;
+                }
+            }
+            return AuthorityType.Default;
+        };
         Object.defineProperty(Authority.prototype, "authorityType", {
             // See above for AuthorityType
             get: function () {
-                // CIAM auth url pattern is being standardized as: <tenant>.ciamlogin.com
-                if (this.canonicalAuthorityUrlComponents.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
-                    return AuthorityType.Ciam;
-                }
-                var pathSegments = this.canonicalAuthorityUrlComponents.PathSegments;
-                if (pathSegments.length) {
-                    switch (pathSegments[0].toLowerCase()) {
-                        case Constants.ADFS:
-                            return AuthorityType.Adfs;
-                        case Constants.DSTS:
-                            return AuthorityType.Dsts;
-                    }
-                }
-                return AuthorityType.Default;
+                return this.getAuthorityType(this.canonicalAuthorityUrlComponents);
             },
             enumerable: false,
             configurable: true
@@ -7077,8 +7106,7 @@
              */
             get: function () {
                 if (this.discoveryComplete()) {
-                    var endpoint = this.replacePath(this.metadata.authorization_endpoint);
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.authorization_endpoint);
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7093,8 +7121,7 @@
              */
             get: function () {
                 if (this.discoveryComplete()) {
-                    var endpoint = this.replacePath(this.metadata.token_endpoint);
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.token_endpoint);
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7106,8 +7133,7 @@
         Object.defineProperty(Authority.prototype, "deviceCodeEndpoint", {
             get: function () {
                 if (this.discoveryComplete()) {
-                    var endpoint = this.replacePath(this.metadata.token_endpoint.replace("/token", "/devicecode"));
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.token_endpoint.replace("/token", "/devicecode"));
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7126,8 +7152,7 @@
                     if (!this.metadata.end_session_endpoint) {
                         throw ClientAuthError.createLogoutNotSupportedError();
                     }
-                    var endpoint = this.replacePath(this.metadata.end_session_endpoint);
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.end_session_endpoint);
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7142,8 +7167,7 @@
              */
             get: function () {
                 if (this.discoveryComplete()) {
-                    var endpoint = this.replacePath(this.metadata.issuer);
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.issuer);
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7158,8 +7182,7 @@
              */
             get: function () {
                 if (this.discoveryComplete()) {
-                    var endpoint = this.replacePath(this.metadata.jwks_uri);
-                    return this.replaceTenant(endpoint);
+                    return this.replacePath(this.metadata.jwks_uri);
                 }
                 else {
                     throw ClientAuthError.createEndpointDiscoveryIncompleteError("Discovery incomplete.");
@@ -7168,6 +7191,17 @@
             enumerable: false,
             configurable: true
         });
+        /**
+         * Returns a flag indicating that tenant name can be replaced in authority {@link IUri}
+         * @param authorityUri {@link IUri}
+         * @private
+         */
+        Authority.prototype.canReplaceTenant = function (authorityUri) {
+            return authorityUri.PathSegments.length === 1
+                && !Authority.reservedTenantDomains.has(authorityUri.PathSegments[0])
+                && this.getAuthorityType(authorityUri) === AuthorityType.Default
+                && this.protocolMode === exports.ProtocolMode.AAD;
+        };
         /**
          * Replaces tenant in url path with current tenant. Defaults to common.
          * @param urlString
@@ -7180,17 +7214,31 @@
          * @param urlString
          */
         Authority.prototype.replacePath = function (urlString) {
+            var _this = this;
             var endpoint = urlString;
             var cachedAuthorityUrl = new UrlString(this.metadata.canonical_authority);
-            var cachedAuthorityParts = cachedAuthorityUrl.getUrlComponents().PathSegments;
+            var cachedAuthorityUrlComponents = cachedAuthorityUrl.getUrlComponents();
+            var cachedAuthorityParts = cachedAuthorityUrlComponents.PathSegments;
             var currentAuthorityParts = this.canonicalAuthorityUrlComponents.PathSegments;
             currentAuthorityParts.forEach(function (currentPart, index) {
                 var cachedPart = cachedAuthorityParts[index];
+                if (index === 0 && _this.canReplaceTenant(cachedAuthorityUrlComponents)) {
+                    var tenantId = (new UrlString(_this.metadata.authorization_endpoint)).getUrlComponents().PathSegments[0];
+                    /**
+                     * Check if AAD canonical authority contains tenant domain name, for example "testdomain.onmicrosoft.com",
+                     * by comparing its first path segment to the corresponding authorization endpoint path segment, which is
+                     * always resolved with tenant id by OIDC.
+                     */
+                    if (cachedPart !== tenantId) {
+                        _this.logger.verbose("Replacing tenant domain name " + cachedPart + " with id " + tenantId);
+                        cachedPart = tenantId;
+                    }
+                }
                 if (currentPart !== cachedPart) {
                     endpoint = endpoint.replace("/" + cachedPart + "/", "/" + currentPart + "/");
                 }
             });
-            return endpoint;
+            return this.replaceTenant(endpoint);
         };
         Object.defineProperty(Authority.prototype, "defaultOpenIdConfigurationEndpoint", {
             /**
@@ -7370,42 +7418,35 @@
         };
         /**
          * Update the retrieved metadata with regional information.
+         * User selected Azure region will be used if configured.
          */
         Authority.prototype.updateMetadataWithRegionalInformation = function (metadata) {
-            var _a, _b, _c, _d, _e, _f, _g;
+            var _a, _b, _c, _d;
             return __awaiter(this, void 0, void 0, function () {
-                var autodetectedRegionName, azureRegion;
-                return __generator(this, function (_h) {
-                    switch (_h.label) {
+                var userConfiguredAzureRegion, autodetectedRegionName;
+                return __generator(this, function (_e) {
+                    switch (_e.label) {
                         case 0:
                             (_a = this.performanceClient) === null || _a === void 0 ? void 0 : _a.addQueueMeasurement(exports.PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.correlationId);
-                            (_b = this.performanceClient) === null || _b === void 0 ? void 0 : _b.setPreQueueTime(exports.PerformanceEvents.RegionDiscoveryDetectRegion, this.correlationId);
-                            return [4 /*yield*/, this.regionDiscovery.detectRegion((_c = this.authorityOptions.azureRegionConfiguration) === null || _c === void 0 ? void 0 : _c.environmentRegion, this.regionDiscoveryMetadata)];
+                            userConfiguredAzureRegion = (_b = this.authorityOptions.azureRegionConfiguration) === null || _b === void 0 ? void 0 : _b.azureRegion;
+                            if (!userConfiguredAzureRegion) return [3 /*break*/, 2];
+                            if (userConfiguredAzureRegion !== Constants.AZURE_REGION_AUTO_DISCOVER_FLAG) {
+                                this.regionDiscoveryMetadata.region_outcome = RegionDiscoveryOutcomes.CONFIGURED_NO_AUTO_DETECTION;
+                                this.regionDiscoveryMetadata.region_used = userConfiguredAzureRegion;
+                                return [2 /*return*/, Authority.replaceWithRegionalInformation(metadata, userConfiguredAzureRegion)];
+                            }
+                            (_c = this.performanceClient) === null || _c === void 0 ? void 0 : _c.setPreQueueTime(exports.PerformanceEvents.RegionDiscoveryDetectRegion, this.correlationId);
+                            return [4 /*yield*/, this.regionDiscovery.detectRegion((_d = this.authorityOptions.azureRegionConfiguration) === null || _d === void 0 ? void 0 : _d.environmentRegion, this.regionDiscoveryMetadata)];
                         case 1:
-                            autodetectedRegionName = _h.sent();
-                            azureRegion = ((_d = this.authorityOptions.azureRegionConfiguration) === null || _d === void 0 ? void 0 : _d.azureRegion) === Constants.AZURE_REGION_AUTO_DISCOVER_FLAG
-                                ? autodetectedRegionName
-                                : (_e = this.authorityOptions.azureRegionConfiguration) === null || _e === void 0 ? void 0 : _e.azureRegion;
-                            if (((_f = this.authorityOptions.azureRegionConfiguration) === null || _f === void 0 ? void 0 : _f.azureRegion) === Constants.AZURE_REGION_AUTO_DISCOVER_FLAG) {
-                                this.regionDiscoveryMetadata.region_outcome = autodetectedRegionName ?
-                                    RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_SUCCESSFUL :
-                                    RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_FAILED;
+                            autodetectedRegionName = _e.sent();
+                            if (autodetectedRegionName) {
+                                this.regionDiscoveryMetadata.region_outcome = RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_SUCCESSFUL;
+                                this.regionDiscoveryMetadata.region_used = autodetectedRegionName;
+                                return [2 /*return*/, Authority.replaceWithRegionalInformation(metadata, autodetectedRegionName)];
                             }
-                            else {
-                                if (autodetectedRegionName) {
-                                    this.regionDiscoveryMetadata.region_outcome = (((_g = this.authorityOptions.azureRegionConfiguration) === null || _g === void 0 ? void 0 : _g.azureRegion) === autodetectedRegionName) ?
-                                        RegionDiscoveryOutcomes.CONFIGURED_MATCHES_DETECTED :
-                                        RegionDiscoveryOutcomes.CONFIGURED_NOT_DETECTED;
-                                }
-                                else {
-                                    this.regionDiscoveryMetadata.region_outcome = RegionDiscoveryOutcomes.CONFIGURED_NO_AUTO_DETECTION;
-                                }
-                            }
-                            if (azureRegion) {
-                                this.regionDiscoveryMetadata.region_used = azureRegion;
-                                return [2 /*return*/, Authority.replaceWithRegionalInformation(metadata, azureRegion)];
-                            }
-                            return [2 /*return*/, metadata];
+                            this.regionDiscoveryMetadata.region_outcome = RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_FAILED;
+                            _e.label = 2;
+                        case 2: return [2 /*return*/, metadata];
                     }
                 });
             });
@@ -7718,10 +7759,18 @@
             }
             return ciamAuthority;
         };
+        // Reserved tenant domain names that will not be replaced with tenant id
+        Authority.reservedTenantDomains = (new Set([
+            "{tenant}",
+            "{tenantid}",
+            AADAuthorityConstants.COMMON,
+            AADAuthorityConstants.CONSUMERS,
+            AADAuthorityConstants.ORGANIZATIONS
+        ]));
         return Authority;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7785,7 +7834,7 @@
         return AuthorityFactory;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7816,7 +7865,7 @@
         return ServerTelemetryEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7844,7 +7893,7 @@
         return ThrottlingEntity;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7861,7 +7910,7 @@
         }
     };
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7906,7 +7955,7 @@
         return JoseHeaderError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7946,7 +7995,7 @@
         return JoseHeader;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8005,7 +8054,7 @@
         return AuthenticationHeaderParser;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8167,7 +8216,7 @@
         return ServerTelemetryManager;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8570,7 +8619,7 @@
         return PerformanceClient;
     }());
 
-    /*! @azure/msal-common v13.0.0 2023-05-01 */
+    /*! @azure/msal-common v13.2.0 2023-07-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10788,14 +10837,15 @@
             temporaryCacheLocation: exports.BrowserCacheLocation.MemoryStorage,
             storeAuthStateInCookie: false,
             secureCookies: false,
-            cacheMigrationEnabled: false
+            cacheMigrationEnabled: false,
+            claimsBasedCachingEnabled: true
         };
         return new BrowserCacheManager(clientId, cacheOptions, DEFAULT_CRYPTO_IMPLEMENTATION, logger);
     };
 
     /* eslint-disable header/header */
     var name = "@azure/msal-browser";
-    var version = "2.37.0";
+    var version = "2.38.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11260,7 +11310,7 @@
          * Initializer function for all request APIs
          * @param request
          */
-        BaseInteractionClient.prototype.initializeBaseRequest = function (request) {
+        BaseInteractionClient.prototype.initializeBaseRequest = function (request, account) {
             return __awaiter$1(this, void 0, void 0, function () {
                 var authority, scopes, validatedRequest, _a;
                 return __generator$1(this, function (_b) {
@@ -11269,6 +11319,12 @@
                             this.performanceClient.addQueueMeasurement(exports.PerformanceEvents.InitializeBaseRequest, request.correlationId);
                             this.logger.verbose("Initializing BaseAuthRequest");
                             authority = request.authority || this.config.auth.authority;
+                            if (!account) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.validateRequestAuthority(authority, account)];
+                        case 1:
+                            _b.sent();
+                            _b.label = 2;
+                        case 2:
                             scopes = __spread(((request && request.scopes) || []));
                             validatedRequest = __assign$1(__assign$1({}, request), { correlationId: this.correlationId, authority: authority,
                                 scopes: scopes });
@@ -11288,13 +11344,13 @@
                                 }
                                 this.logger.verbose("Authentication Scheme set to \"" + validatedRequest.authenticationScheme + "\" as configured in Auth request");
                             }
-                            if (!(request.claims && !StringUtils.isEmpty(request.claims))) return [3 /*break*/, 2];
+                            if (!(this.config.cache.claimsBasedCachingEnabled && request.claims && !StringUtils.isEmptyObj(request.claims))) return [3 /*break*/, 4];
                             _a = validatedRequest;
                             return [4 /*yield*/, this.browserCrypto.hashString(request.claims)];
-                        case 1:
+                        case 3:
                             _a.requestedClaimsHash = _b.sent();
-                            _b.label = 2;
-                        case 2: return [2 /*return*/, validatedRequest];
+                            _b.label = 4;
+                        case 4: return [2 /*return*/, validatedRequest];
                     }
                 });
             });
@@ -11310,6 +11366,26 @@
             this.logger.verbose("getRedirectUri called");
             var redirectUri = requestRedirectUri || this.config.auth.redirectUri || BrowserUtils.getCurrentUri();
             return UrlString.getAbsoluteUrl(redirectUri, BrowserUtils.getCurrentUri());
+        };
+        /*
+         * If authority provided in the request does not match environment/authority specified
+         * in the account or MSAL config, we throw an error.
+         */
+        BaseInteractionClient.prototype.validateRequestAuthority = function (authority, account) {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var discoveredAuthority;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.getDiscoveredAuthority(authority)];
+                        case 1:
+                            discoveredAuthority = _a.sent();
+                            if (!discoveredAuthority.isAlias(account.environment)) {
+                                throw ClientConfigurationError.createAuthorityMismatchError();
+                            }
+                            return [2 /*return*/];
+                    }
+                });
+            });
         };
         /**
          *
@@ -11531,6 +11607,9 @@
                                         piiLoggingEnabled: logger.piiLoggingEnabled,
                                         logLevel: logger.logLevel,
                                         correlationId: this.correlationId
+                                    },
+                                    cacheOptions: {
+                                        claimsBasedCachingEnabled: this.config.cache.claimsBasedCachingEnabled
                                     },
                                     cryptoInterface: this.browserCrypto,
                                     networkInterface: this.networkClient,
@@ -11975,6 +12054,7 @@
         EventType["LOGOUT_SUCCESS"] = "msal:logoutSuccess";
         EventType["LOGOUT_FAILURE"] = "msal:logoutFailure";
         EventType["LOGOUT_END"] = "msal:logoutEnd";
+        EventType["RESTORE_FROM_BFCACHE"] = "msal:restoreFromBFCache";
     })(exports.EventType || (exports.EventType = {}));
 
     /*
@@ -12155,7 +12235,7 @@
                             this.performanceClient.addQueueMeasurement(exports.PerformanceEvents.InitializeSilentRequest, this.correlationId);
                             this.performanceClient.setPreQueueTime(exports.PerformanceEvents.InitializeBaseRequest, this.correlationId);
                             _a = [__assign$1({}, request)];
-                            return [4 /*yield*/, this.initializeBaseRequest(request)];
+                            return [4 /*yield*/, this.initializeBaseRequest(request, account)];
                         case 1: return [2 /*return*/, __assign$1.apply(void 0, [__assign$1.apply(void 0, _a.concat([_b.sent()])), { account: account, forceRefresh: request.forceRefresh || false }])];
                     }
                 });
@@ -12429,7 +12509,7 @@
                             result = _a.sent();
                             // cache accounts and tokens in the appropriate storage
                             this.cacheAccount(accountEntity);
-                            this.cacheNativeTokens(response, request, homeAccountIdentifier, idTokenObj, result.accessToken, result.tenantId, reqTimestamp);
+                            this.cacheNativeTokens(response, request, homeAccountIdentifier, accountEntity, idTokenObj, result.accessToken, result.tenantId, reqTimestamp);
                             return [2 /*return*/, result];
                     }
                 });
@@ -12585,10 +12665,8 @@
          * @param tenantId
          * @param reqTimestamp
          */
-        NativeInteractionClient.prototype.cacheNativeTokens = function (response, request, homeAccountIdentifier, idTokenObj, responseAccessToken, tenantId, reqTimestamp) {
-            // cache idToken in inmemory storage
-            var idTokenEntity = IdTokenEntity.createIdTokenEntity(homeAccountIdentifier, request.authority, response.id_token || Constants.EMPTY_STRING, request.clientId, idTokenObj.claims.tid || Constants.EMPTY_STRING);
-            this.nativeStorageManager.setIdTokenCredential(idTokenEntity);
+        NativeInteractionClient.prototype.cacheNativeTokens = function (response, request, homeAccountIdentifier, accountEntity, idTokenObj, responseAccessToken, tenantId, reqTimestamp) {
+            var cachedIdToken = IdTokenEntity.createIdTokenEntity(homeAccountIdentifier, request.authority, response.id_token || Constants.EMPTY_STRING, request.clientId, idTokenObj.claims.tid || Constants.EMPTY_STRING);
             // cache accessToken in inmemory storage
             var expiresIn = (request.tokenType === exports.AuthenticationScheme.POP)
                 ? Constants.SHR_NONCE_VALIDITY
@@ -12597,8 +12675,11 @@
                     : response.expires_in) || 0;
             var tokenExpirationSeconds = reqTimestamp + expiresIn;
             var responseScopes = this.generateScopes(response, request);
-            var accessTokenEntity = AccessTokenEntity.createAccessTokenEntity(homeAccountIdentifier, request.authority, responseAccessToken, request.clientId, tenantId, responseScopes.printScopes(), tokenExpirationSeconds, 0, this.browserCrypto);
-            this.nativeStorageManager.setAccessTokenCredential(accessTokenEntity);
+            var cachedAccessToken = AccessTokenEntity.createAccessTokenEntity(homeAccountIdentifier, request.authority, responseAccessToken, request.clientId, idTokenObj
+                ? idTokenObj.claims.tid || Constants.EMPTY_STRING
+                : tenantId, responseScopes.printScopes(), tokenExpirationSeconds, 0, this.browserCrypto);
+            var nativeCacheRecord = new CacheRecord(accountEntity, cachedIdToken, cachedAccessToken);
+            this.nativeStorageManager.saveCacheRecord(nativeCacheRecord);
         };
         NativeInteractionClient.prototype.addTelemetryFromNativeResponse = function (response) {
             var mats = this.getMATSFromResponse(response);
@@ -12682,6 +12763,12 @@
                         case 0:
                             this.logger.trace("NativeInteractionClient - initializeNativeRequest called");
                             authority = request.authority || this.config.auth.authority;
+                            if (!request.account) return [3 /*break*/, 2];
+                            return [4 /*yield*/, this.validateRequestAuthority(authority, request.account)];
+                        case 1:
+                            _a.sent();
+                            _a.label = 2;
+                        case 2:
                             canonicalAuthority = new UrlString(authority);
                             canonicalAuthority.validateAsUri();
                             scopes = request.scopes, remainingProperties = __rest(request, ["scopes"]);
@@ -12714,7 +12801,7 @@
                             };
                             validatedRequest = __assign$1(__assign$1({}, remainingProperties), { accountId: this.accountId, clientId: this.config.auth.clientId, authority: canonicalAuthority.urlString, scope: scopeSet.printScopes(), redirectUri: this.getRedirectUri(request.redirectUri), prompt: getPrompt(), correlationId: this.correlationId, tokenType: request.authenticationScheme, windowTitleSubstring: document.title, extraParameters: __assign$1(__assign$1(__assign$1({}, request.extraQueryParameters), request.tokenQueryParameters), { telemetry: NativeConstants.MATS_TELEMETRY }), extendedExpiryToken: false // Make this configurable?
                              });
-                            if (!(request.authenticationScheme === exports.AuthenticationScheme.POP)) return [3 /*break*/, 2];
+                            if (!(request.authenticationScheme === exports.AuthenticationScheme.POP)) return [3 /*break*/, 4];
                             shrParameters = {
                                 resourceRequestUri: request.resourceRequestUri,
                                 resourceRequestMethod: request.resourceRequestMethod,
@@ -12723,13 +12810,13 @@
                             };
                             popTokenGenerator = new PopTokenGenerator(this.browserCrypto);
                             return [4 /*yield*/, popTokenGenerator.generateCnf(shrParameters)];
-                        case 1:
+                        case 3:
                             reqCnfData = _a.sent();
-                            // to reduce the URL length, it is recommended to send the hash of the req_cnf instead of the whole string
-                            validatedRequest.reqCnf = reqCnfData.reqCnfHash;
+                            // to reduce the URL length, it is recommended to send the short form of the req_cnf 
+                            validatedRequest.reqCnf = reqCnfData.reqCnfString;
                             validatedRequest.keyId = reqCnfData.kid;
-                            _a.label = 2;
-                        case 2: return [2 /*return*/, validatedRequest];
+                            _a.label = 4;
+                        case 4: return [2 /*return*/, validatedRequest];
                     }
                 });
             });
@@ -13031,6 +13118,7 @@
                                 if (event.persisted) {
                                     _this.logger.verbose("Page was restored from back/forward cache. Clearing temporary cache.");
                                     _this.browserStorage.cleanRequestByState(validRequest.state);
+                                    _this.eventHandler.emitEvent(exports.EventType.RESTORE_FROM_BFCACHE, exports.InteractionType.Redirect);
                                 }
                             };
                             _a.label = 2;
@@ -13222,7 +13310,7 @@
                                 if (!this.nativeMessageHandler) {
                                     throw BrowserAuthError.createNativeConnectionNotEstablishedError();
                                 }
-                                nativeInteractionClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, exports.ApiId.acquireTokenPopup, this.performanceClient, this.nativeMessageHandler, serverParams.accountId, this.browserStorage, cachedRequest.correlationId);
+                                nativeInteractionClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, exports.ApiId.acquireTokenPopup, this.performanceClient, this.nativeMessageHandler, serverParams.accountId, this.nativeStorage, cachedRequest.correlationId);
                                 userRequestState = ProtocolUtils.parseRequestState(this.browserCrypto, state).userRequestState;
                                 return [2 /*return*/, nativeInteractionClient.acquireToken(__assign$1(__assign$1({}, cachedRequest), { state: userRequestState, prompt: undefined // Server should handle the prompt, ideally native broker can do this part silently
                                      })).finally(function () {
@@ -13923,7 +14011,8 @@
             storeAuthStateInCookie: false,
             secureCookies: false,
             // Default cache migration to true if cache location is localStorage since entries are preserved across tabs/windows. Migration has little to no benefit in sessionStorage and memoryStorage
-            cacheMigrationEnabled: userInputCache && userInputCache.cacheLocation === exports.BrowserCacheLocation.LocalStorage ? true : false
+            cacheMigrationEnabled: userInputCache && userInputCache.cacheLocation === exports.BrowserCacheLocation.LocalStorage ? true : false,
+            claimsBasedCachingEnabled: true
         };
         // Default logger options for browser
         var DEFAULT_LOGGER_OPTIONS = {
@@ -14276,7 +14365,7 @@
                             this.performanceClient.addQueueMeasurement(exports.PerformanceEvents.SilentRefreshClientAcquireToken, request.correlationId);
                             this.performanceClient.setPreQueueTime(exports.PerformanceEvents.InitializeBaseRequest, request.correlationId);
                             _a = [__assign$1({}, request)];
-                            return [4 /*yield*/, this.initializeBaseRequest(request)];
+                            return [4 /*yield*/, this.initializeBaseRequest(request, request.account)];
                         case 1:
                             silentRequest = __assign$1.apply(void 0, _a.concat([_b.sent()]));
                             acquireTokenMeasurement = this.performanceClient.startMeasurement(exports.PerformanceEvents.SilentRefreshClientAcquireToken, silentRequest.correlationId);
@@ -16608,7 +16697,8 @@
                 temporaryCacheLocation: exports.BrowserCacheLocation.MemoryStorage,
                 storeAuthStateInCookie: false,
                 secureCookies: false,
-                cacheMigrationEnabled: false
+                cacheMigrationEnabled: false,
+                claimsBasedCachingEnabled: true
             };
             this.nativeInternalStorage = new BrowserCacheManager(this.config.auth.clientId, nativeCacheOptions, this.browserCrypto, this.logger);
             // Initialize the token cache
@@ -17976,6 +18066,7 @@
                 case exports.EventType.LOGIN_FAILURE:
                 case exports.EventType.ACQUIRE_TOKEN_SUCCESS:
                 case exports.EventType.ACQUIRE_TOKEN_FAILURE:
+                case exports.EventType.RESTORE_FROM_BFCACHE:
                     if (message.interactionType === exports.InteractionType.Redirect || message.interactionType === exports.InteractionType.Popup) {
                         if (currentStatus && currentStatus !== exports.InteractionStatus.Login && currentStatus !== exports.InteractionStatus.AcquireToken) {
                             // Prevent this event from clearing any status other than login or acquireToken

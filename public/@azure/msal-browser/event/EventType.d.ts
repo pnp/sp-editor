@@ -22,6 +22,7 @@ export declare enum EventType {
     LOGOUT_START = "msal:logoutStart",
     LOGOUT_SUCCESS = "msal:logoutSuccess",
     LOGOUT_FAILURE = "msal:logoutFailure",
-    LOGOUT_END = "msal:logoutEnd"
+    LOGOUT_END = "msal:logoutEnd",
+    RESTORE_FROM_BFCACHE = "msal:restoreFromBFCache"
 }
 //# sourceMappingURL=EventType.d.ts.map
