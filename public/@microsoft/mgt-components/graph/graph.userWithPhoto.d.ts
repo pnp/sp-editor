@@ -13,5 +13,5 @@ import { IDynamicPerson } from './types';
  * @returns {(Promise<IDynamicPerson>)}
  * @memberof Graph
  */
-export declare function getUserWithPhoto(graph: IGraph, userId?: string, requestedProps?: string[]): Promise<IDynamicPerson>;
+export declare const getUserWithPhoto: (graph: IGraph, userId?: string, requestedProps?: string[]) => Promise<IDynamicPerson>;
 //# sourceMappingURL=graph.userWithPhoto.d.ts.map

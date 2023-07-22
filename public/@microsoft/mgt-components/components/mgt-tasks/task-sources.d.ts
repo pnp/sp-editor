@@ -6,8 +6,9 @@
  */
 import { IGraph } from '@microsoft/mgt-element';
 import { PlannerAssignments } from '@microsoft/microsoft-graph-types';
+import { OutlookTask, PlannerTask } from '@microsoft/microsoft-graph-types-beta';
 /**
- * Itask
+ * ITask
  *
  * @export
  * @interface ITask
@@ -72,10 +73,10 @@ export interface ITask {
     /**
      * raw
      *
-     * @type {*}
+     * @type {PlannerTask | OutlookTask}
      * @memberof ITask
      */
-    _raw?: any;
+    _raw?: PlannerTask | OutlookTask;
 }
 /**
  * container for tasks
@@ -205,21 +206,19 @@ export interface ITaskSource {
     /**
      * Promise that completes a single task
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    setTaskComplete(id: string, eTag: string): Promise<any>;
+    setTaskComplete(task: ITask): Promise<void>;
     /**
      * Promise that sets a task to incomplete
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    setTaskIncomplete(id: string, eTag: string): Promise<any>;
+    setTaskIncomplete(task: ITask): Promise<any>;
     /**
      * Promise to add a new task
      *
@@ -231,22 +230,20 @@ export interface ITaskSource {
     /**
      * assign id's to task
      *
-     * @param {string} id
-     * @param {*} people
-     * @param {string} eTag
+     * @param {ITask} task
+     * @param {PlannerAssignments} people
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    assignPeopleToTask(id: string, people: any, eTag: string): Promise<any>;
+    assignPeopleToTask(task: ITask, people: PlannerAssignments): Promise<void>;
     /**
      * Promise to delete a task by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    removeTask(id: string, eTag: string): Promise<any>;
+    removeTask(task: ITask): Promise<any>;
     /**
      * assigns task to the current signed in user
      *
@@ -323,21 +320,19 @@ export declare class PlannerTaskSource extends TaskSourceBase implements ITaskSo
     /**
      * set task in planner to complete state by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    setTaskComplete(id: string, eTag: string): Promise<any>;
+    setTaskComplete(task: ITask): Promise<void>;
     /**
      * set task in planner to incomplete state by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    setTaskIncomplete(id: string, eTag: string): Promise<any>;
+    setTaskIncomplete(task: ITask): Promise<void>;
     /**
      * add new task to bucket
      *
@@ -349,22 +344,20 @@ export declare class PlannerTaskSource extends TaskSourceBase implements ITaskSo
     /**
      * Assigns people to task
      *
-     * @param {string} id
-     * @param {string} eTag
-     * @param {*} people
+     * @param {ITask} task
+     * @param {PlannerAssignments} people
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    assignPeopleToTask(id: string, eTag: string, people: any): Promise<any>;
+    assignPeopleToTask(task: ITask, people: PlannerAssignments): Promise<void>;
     /**
      * remove task from bucket
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    removeTask(id: string, eTag: string): Promise<any>;
+    removeTask(task: ITask): Promise<void>;
     /**
      * assigns task to the signed in user
      *
@@ -417,33 +410,30 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      */
     getTasksForTaskFolder(id: string, parId: string): Promise<ITask[]>;
     /**
-     * set task in planner to complete state by id
+     * set task in todo to complete state by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    setTaskComplete(id: string, eTag: string): Promise<any>;
+    setTaskComplete(task: ITask): Promise<any>;
     /**
-     * Assigns people to task
+     * Assigns people to task in a planner
      *
-     * @param {string} id
-     * @param {string} eTag
-     * @param {*} people
+     * @param {ITask} task
+     * @param {PlannerAssignments} people
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    assignPeopleToTask(id: string, eTag: string, people: any): Promise<any>;
+    assignPeopleToTask(task: ITask, people: PlannerAssignments): Promise<any>;
     /**
      * set task in planner to incomplete state by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    setTaskIncomplete(id: string, eTag: string): Promise<any>;
+    setTaskIncomplete(task: ITask): Promise<any>;
     /**
      * add new task to planner
      *
@@ -451,16 +441,15 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    addTask(newTask: ITask): Promise<any>;
+    addTask(newTask: ITask): Promise<OutlookTask>;
     /**
-     * remove task from planner by id
+     * remove task from todo by id
      *
-     * @param {string} id
-     * @param {string} eTag
+     * @param {ITask} task
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    removeTask(id: string, eTag: string): Promise<any>;
+    removeTask(task: ITask): Promise<void>;
     /**
      * if task is assigned in to user logged in
      *

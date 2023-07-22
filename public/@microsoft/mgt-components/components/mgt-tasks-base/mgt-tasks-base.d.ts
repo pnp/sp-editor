@@ -4,8 +4,9 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { TodoTask } from '@microsoft/microsoft-graph-types';
 /**
  * The foundation for creating task based components.
  *
@@ -16,6 +17,7 @@ import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
     /**
      * determines if tasks are un-editable
+     *
      * @type {boolean}
      */
     readOnly: boolean;
@@ -35,6 +37,7 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
     hideOptions: boolean;
     /**
      * if set, the component will only show tasks from the target list
+     *
      * @type {string}
      */
     targetId: string;
@@ -45,22 +48,8 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @memberof MgtTodo
      */
     initialId: string;
-    /**
-     * The name of a potential new task
-     *
-     * @readonly
-     * @protected
-     * @type {string}
-     * @memberof MgtTasksBase
-     */
-    protected get newTaskName(): string;
-    private _isNewTaskBeingAdded;
-    private _isNewTaskVisible;
-    private _newTaskName;
     private _previousMediaQuery;
-    protected get strings(): {
-        [x: string]: string;
-    };
+    protected get strings(): Record<string, string>;
     constructor();
     /**
      * Synchronizes property values when attributes change.
@@ -88,15 +77,7 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): TemplateResult;
-    /**
-     * Render the header part of the component.
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTodo
-     */
-    protected renderHeader(): TemplateResult;
+    protected render(): TemplateResult<1>;
     /**
      * Render a task in a loading state.
      *
@@ -104,33 +85,21 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTodo
      */
-    protected renderLoadingTask(): TemplateResult;
+    protected renderLoadingTask(): TemplateResult<1>;
     /**
-     * Render the panel for creating a new task
+     * Render the panel for creating a new task.
      *
      * @protected
-     * @returns {TemplateResult}
      * @memberof MgtTasksBase
      */
-    protected renderNewTaskPanel(): TemplateResult;
+    protected abstract renderNewTask(): TemplateResult;
     /**
-     * Render the top header part of the component.
+     * Render the generic picker.
      *
      * @protected
-     * @abstract
-     * @returns {TemplateResult}
      * @memberof MgtTasksBase
      */
-    protected abstract renderHeaderContent(): TemplateResult;
-    /**
-     * Render the details part of the new task panel
-     *
-     * @protected
-     * @abstract
-     * @returns {TemplateResult}
-     * @memberof MgtTasksBase
-     */
-    protected abstract renderNewTaskDetails(): TemplateResult;
+    protected abstract renderPicker(): TemplateResult;
     /**
      * Render the list of todo tasks
      *
@@ -141,30 +110,6 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @memberof MgtTasksBase
      */
     protected abstract renderTasks(): TemplateResult;
-    /**
-     * Render a bucket icon.
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTodo
-     */
-    protected renderBucketIcon(): TemplateResult;
-    /**
-     * Render a calendar icon.
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTodo
-     */
-    protected renderCalendarIcon(): TemplateResult;
-    /**
-     * Create a new todo task and add it to the list
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTasksBase
-     */
-    protected addTask(): Promise<void>;
     /**
      * Make a service call to create the new task object.
      *
@@ -179,7 +124,7 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @protected
      * @memberof MgtTasksBase
      */
-    protected clearNewTaskData(): void;
+    protected abstract clearNewTaskData(): void;
     /**
      * Clear the component state.
      *
@@ -195,7 +140,7 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @param {TodoTask} task
      * @memberof MgtTasksBase
      */
-    protected handleTaskClick(e: Event, task: any): void;
+    protected handleTaskClick: (task: TodoTask) => void;
     /**
      * Convert a date to a properly formatted string
      *
@@ -205,8 +150,6 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * @memberof MgtTasksBase
      */
     protected dateToInputValue(date: Date): string;
-    private showNewTaskPanel;
-    private hideNewTaskPanel;
-    private onResize;
+    private readonly onResize;
 }
 //# sourceMappingURL=mgt-tasks-base.d.ts.map

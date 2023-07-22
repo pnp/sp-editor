@@ -9,5 +9,8 @@ export declare const strings: {
     cancelNewTaskSubtitle: string;
     newTaskPlaceholder: string;
     addTaskButtonSubtitle: string;
+    due: string;
+    addTaskDate: string;
+    assign: string;
 };
 //# sourceMappingURL=strings.d.ts.map

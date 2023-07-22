@@ -6,5 +6,7 @@
  */
 export declare const strings: {
     showMoreSubtitle: string;
+    filesSectionTitle: string;
+    sharedTextSubtitle: string;
 };
 //# sourceMappingURL=strings.d.ts.map

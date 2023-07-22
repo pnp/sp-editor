@@ -7,7 +7,5 @@
 /**
  * Template context object
  */
-export interface TemplateContext {
-    [prop: string]: any;
-}
+export type TemplateContext = Record<string, any>;
 //# sourceMappingURL=TemplateContext.d.ts.map

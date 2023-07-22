@@ -11,7 +11,7 @@
  * are expected to be object literals with potentially nested structures and
  * where leaf values are primitives.
  */
-export declare function equals(o1: any, o2: any): boolean;
+export declare const equals: (o1: any, o2: any) => boolean;
 /**
  * Compares two arrays if the elements are equals
  * Should be used for arrays of primitive types
@@ -22,5 +22,5 @@ export declare function equals(o1: any, o2: any): boolean;
  * @param {T[]} arr2
  * @returns true if both arrays contain the same items or if both arrays are null or empty
  */
-export declare function arraysAreEqual<T>(arr1: T[], arr2: T[]): boolean;
+export declare const arraysAreEqual: <T>(arr1: T[], arr2: T[]) => boolean;
 //# sourceMappingURL=equals.d.ts.map

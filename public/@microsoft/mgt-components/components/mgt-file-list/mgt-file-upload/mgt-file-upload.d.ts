@@ -4,11 +4,10 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { TemplateResult } from 'lit-element';
 import { IGraph, MgtBaseComponent } from '@microsoft/mgt-element';
-import { ViewType } from '../../../graph/types';
+import { TemplateResult } from 'lit';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
-export { FluentProgress, FluentButton, FluentCheckbox, FluentCard } from '@fluentui/web-components';
+import { ViewType } from '../../../graph/types';
 /**
  * Upload conflict behavior status
  */
@@ -28,15 +27,15 @@ export interface MgtFileUploadItem {
      */
     uploadUrl?: string;
     /**
-     *  Upload file progress value
+     * Upload file progress value
      */
     percent?: number;
     /**
-     *  Validate if File has any conflict Behavior
+     * Validate if File has any conflict Behavior
      */
     conflictBehavior?: MgtFileUploadConflictBehavior;
     /**
-     *  Output "Success" or "Fail" icon base on upload response
+     * Output "Success" or "Fail" icon base on upload response
      */
     iconStatus?: TemplateResult;
     /**
@@ -44,7 +43,7 @@ export interface MgtFileUploadItem {
      */
     file?: File;
     /**
-     *  Full file Path to be upload.
+     * Full file Path to be upload.
      */
     fullPath?: string;
     /**
@@ -68,11 +67,11 @@ export interface MgtFileUploadItem {
      */
     mimeStreamString?: ArrayBuffer;
     /**
-     *  Max chunck size to upload file by slice
+     * Max chunck size to upload file by slice
      */
     maxSize?: number;
     /**
-     *  Minimal chunck size to upload file by slice
+     * Minimal chunck size to upload file by slice
      */
     minSize?: number;
 }
@@ -85,53 +84,62 @@ export interface MgtFileUploadItem {
 export interface MgtFileUploadConfig {
     /**
      * MS Graph APIs connector
+     *
      * @type {IGraph}
      */
     graph: IGraph;
     /**
-     *  allows developer to provide site id for a file
-     *  @type {string}
+     * allows developer to provide site id for a file
+     *
+     * @type {string}
      */
     siteId?: string;
     /**
      * DriveId to upload Files
-     *  @type {string}
+     *
+     * @type {string}
      */
     driveId?: string;
     /**
      * GroupId to upload Files
-     *  @type {string}
+     *
+     * @type {string}
      */
     groupId?: string;
     /**
      * allows developer to provide item id for a file
-     *  @type {string}
+     *
+     * @type {string}
      */
     itemId?: string;
     /**
-     *  allows developer to provide item path for a file
-     *  @type {string}
+     * allows developer to provide item path for a file
+     *
+     * @type {string}
      */
     itemPath?: string;
     /**
      * allows developer to provide user id for a file
-     *  @type {string}
+     *
+     * @type {string}
      */
     userId?: string;
     /**
      * A number value indication for file size upload (KB)
-     *  @type {Number}
+     *
+     * @type {Number}
      */
     maxFileSize?: number;
     /**
-     *  A number value to indicate the number of files to upload.
-     *  @type {Number}
+     * A number value to indicate the number of files to upload.
+     *
+     * @type {Number}
      */
-    maxUploadFile?: Number;
+    maxUploadFile?: number;
     /**
      * A Array of file extensions to be excluded from file upload.
      *
-     *  @type {string[]}
+     * @type {string[]}
      */
     excludedFileExtensions?: string[];
 }
@@ -142,30 +150,33 @@ export interface MgtFileUploadConfig {
  * @class MgtFileUpload
  * @extends {MgtBaseComponent}
  *
- * @cssprop --file-upload-border- {String} File upload border top style
- * @cssprop --file-upload-background-color - {Color} File upload background color with opacity style
- * @cssprop --file-upload-button-float - {string} Upload button float position
- * @cssprop --file-upload-button-background-color - {Color} Background color of upload button
- * @cssprop --file-upload-dialog-background-color - {Color} Background color of dialog
- * @cssprop --file-upload-dialog-content-background-color - {Color} Background color of dialog content
- * @cssprop --file-upload-dialog-content-color - {Color} Color of dialog content
- * @cssprop --file-upload-button-color - {Color} Text color of upload button
- * @cssprop --file-upload-dialog-primarybutton-background-color - {Color} Background color of primary button
- * @cssprop --file-upload-dialog-primarybutton-color - {Color} Color text of primary button
- * @cssprop --file-item-margin - {String} File item margin
- * @cssprop --file-item-background-color--hover - {Color} File item background hover color
- * @cssprop --file-item-border-top - {String} File item border top style
- * @cssprop --file-item-border-left - {String} File item border left style
- * @cssprop --file-item-border-right - {String} File item border right style
- * @cssprop --file-item-border-bottom - {String} File item border bottom style
- * @cssprop --file-item-background-color--active - {Color} File item background active color
+ * @cssprop --file-upload-background-color-drag - {Color} background color of the file list when you upload by drag and drop.
+ * @cssprop --file-upload-button-background-color - {Color} background color of the file upload button.
+ * @cssprop --file-upload-button-background-color-hover - {Color} background color of the file upload button on hover.
+ * @cssprop --file-upload-button-text-color - {Color} text color of the file upload button.
+ * @cssprop --file-upload-dialog-background-color - {Color} background color of the file upload dialog box (appears when uploaded files exist).
+ * @cssprop --file-upload-dialog-text-color - {Color} text color of the file upload dialog box content.
+ * @cssprop --file-upload-dialog-replace-button-background-color - {Color} background color of the replace button in the dialog box.
+ * @cssprop --file-upload-dialog-replace-button-background-color-hover - {Color} background color of the replace button in the dialog box when you hover on it.
+ * @cssprop --file-upload-dialog-replace-button-text-color - {Color} text color of the replace button in the dialog box.
+ * @cssprop --file-upload-dialog-keep-both-button-background-color - {Color} background color of the keep-both button in the dialog box.
+ * @cssprop --file-upload-dialog-keep-both-button-background-color-hover - {Color} background color of the keep-both button in the dialog box when you hover on it.
+ * @cssprop --file-upload-dialog-keep-both-button-text-color - {Color} text color of the keep-both button in the dialog box.
+ * @cssprop --file-upload-border-drag - {String} the border of the file list when you upload files via drag and drop. Default value is 1px dashed #0078d4.
+ * @cssprop --file-upload-button-border - {String} the border of the file upload button. Default value is none.
+ * @cssprop --file-upload-dialog-replace-button-border - {String} the border of the file upload replace button in the dialog box. Default value is
+ * @cssprop --file-upload-dialog-keep-both-button-border - {String} the border of the file upload keep both button in the dialog box. Default value is none.
+ * @cssprop --file-upload-dialog-border - {String} the border of the file upload dialog box. Default value is "1px solid var(--neutral-fill-rest)".
+ * @cssprop --file-upload-dialog-width - {String} the width of the file upload dialog box. Default value is auto.
+ * @cssprop --file-upload-dialog-height - {String} the height of the file upload dialog box. Default value is auto.
+ * @cssprop --file-upload-dialog-padding - {String} the padding of the file upload dialog box. Default value is 24px;
  */
 export declare class MgtFileUpload extends MgtBaseComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
     protected get strings(): {
         failUploadFile: string;
         cancelUploadFile: string;
@@ -186,6 +197,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
         buttonReselect: string;
         fileReplaceTitle: string;
         fileReplace: string;
+        uploadButtonLabel: string;
     };
     /**
      * Allows developer to provide an array of MgtFileUploadItem to upload
@@ -210,56 +222,57 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      */
     static get requiredScopes(): string[];
     private _dragCounter;
-    private _dropEffect;
-    private _maxChunckSize;
+    private get _dropEffect();
+    private readonly _maxChunkSize;
     private _dialogTitle;
     private _dialogContent;
     private _dialogPrimaryButton;
     private _dialogSecondaryButton;
     private _dialogCheckBox;
     private _applyAll;
-    private _applyAllConflitBehavior;
-    private _maximumFiles;
+    private _applyAllConflictBehavior;
     private _maximumFileSize;
     private _excludedFileType;
     constructor();
     /**
+     * Render the file upload component
      *
      * @returns
      */
     render(): TemplateResult;
     /**
      * Render Folder structure of files to upload
+     *
      * @param fileItems
      * @returns
      */
-    protected renderFolderTemplate(fileItems: MgtFileUploadItem[]): TemplateResult;
+    protected renderFolderTemplate(fileItems: MgtFileUploadItem[]): TemplateResult<1>;
     /**
      * Render file upload area
      *
      * @param fileItem
      * @returns
      */
-    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): TemplateResult;
+    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): import("lit").HTMLTemplateResult;
     /**
      * Render file upload progress
      *
      * @param fileItem
      * @returns
      */
-    protected renderFileUploadTemplate(fileItem: MgtFileUploadItem): TemplateResult;
+    protected renderFileUploadTemplate(fileItem: MgtFileUploadItem): TemplateResult<1>;
     /**
      * Handle the "Upload Files" button click event to open dialog and select files.
      *
      * @param event
      * @returns
      */
-    protected onFileUploadChange(event: any): Promise<void>;
+    protected onFileUploadChange: (event: UIEvent) => void;
     /**
      * Handle the click event on upload file button that open select files dialog to upload.
      *
      */
-    protected onFileUploadClick(): void;
+    protected onFileUploadClick: () => void;
     /**
      * Function delete existing file upload sessions
      *
@@ -271,31 +284,32 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      *
      * @param event
      */
-    protected handleonDragOver: (event: any) => Promise<void>;
+    protected handleonDragOver: (event: DragEvent) => void;
     /**
      * Stop listeners from onDragEnter event, enable drag and drop view.
      *
      * @param event
      */
-    protected handleonDragEnter: (event: any) => Promise<void>;
+    protected handleonDragEnter: (event: DragEvent) => void;
     /**
      * Stop listeners from ondragenter event, disable drag and drop view.
      *
      * @param event
      */
-    protected handleonDragLeave: (event: any) => void;
+    protected handleonDragLeave: (event: DragEvent) => void;
     /**
      * Stop listeners from onDrop event and process files.
      *
      * @param event
      */
-    protected handleonDrop: (event: any) => Promise<void>;
+    protected handleonDrop: (event: DragEvent) => void;
+    private readUploadedFiles;
     /**
      * Get Files and initalize MgtFileUploadItem object life cycle to be uploaded
      *
      * @param inputFiles
      */
-    protected getSelectedFiles(files: File[]): Promise<any>;
+    protected getSelectedFiles(files: File[]): Promise<void>;
     /**
      * Call modal dialog to replace or keep file.
      *
@@ -318,7 +332,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      */
     protected sendFileItemGraph(fileItem: MgtFileUploadItem): Promise<void>;
     /**
-     * Manage slices of File to upload file by chuncks using Graph and Session Url
+     * Manage slices of File to upload file by chunks using Graph and Session Url
      *
      * @param Graph
      * @param fileItem
@@ -350,13 +364,14 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      * @param uploadFilesItems
      * @returns
      */
-    protected getFilesFromUploadArea(filesItems: any): Promise<File[]>;
+    protected getFilesFromUploadArea(filesItems: DataTransferItemList | FileList): Promise<File[]>;
     /**
      * Retrieve files from folder and subfolders to array.
      *
      * @param folders
      * @returns
      */
-    protected getFolderFiles(folders: any): Promise<File[]>;
+    protected getFolderFiles(folders: FileSystemDirectoryEntry[]): Promise<File[]>;
+    private writeFilePath;
 }
 //# sourceMappingURL=mgt-file-upload.d.ts.map

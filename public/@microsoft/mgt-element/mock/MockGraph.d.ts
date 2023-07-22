@@ -15,7 +15,15 @@ import { MockProvider } from './MockProvider';
  * @extends {Graph}
  */
 export declare class MockGraph extends Graph {
-    constructor(mockProvider: MockProvider);
+    /**
+     * Creates a new MockGraph instance. Use this static method instead of the constructor.
+     *
+     * @static
+     * @param {MockProvider} provider
+     * @return {*}  {Promise<MockGraph>}
+     * @memberof MockGraph
+     */
+    static create(provider: MockProvider): Promise<MockGraph>;
     /**
      * Returns an instance of the Graph in the context of the provided component.
      *

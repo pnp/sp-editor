@@ -17,7 +17,17 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
+    /**
+     * Strings for localization
+     *
+     * @readonly
+     * @protected
+     * @memberof MgtDotOptions
+     */
+    protected get strings(): {
+        dotOptionsTitle: string;
+    };
     /**
      * Determines if header menu is rendered or hidden.
      *
@@ -30,11 +40,8 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      *
      * @memberof MgtDotOptions
      */
-    options: {
-        [option: string]: (e: Event) => void | any;
-    };
-    private _clickHandler;
-    constructor();
+    options: Record<string, (e: Event) => void | any>;
+    private readonly _clickHandler;
     connectedCallback(): void;
     disconnectedCallback(): void;
     /**
@@ -42,18 +49,20 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    render(): import("lit-element").TemplateResult;
+    render(): import("lit").TemplateResult<1>;
+    private readonly handleItemClick;
+    private readonly handleItemKeydown;
     /**
      * Used by the render method to attach click handler to each dot item
      *
      * @param {string} name
-     * @param {((e: Event) => void | any)} click
+     * @param {MenuOptionEventFunction} clickFn
      * @returns
      * @memberof MgtDotOptions
      */
-    getMenuOption(name: string, click: (e: Event) => void | any): import("lit-element").TemplateResult;
-    private onDotClick;
-    private onDotKeydown;
+    getMenuOption(name: string, clickFn: (e: Event) => void | any): import("lit").TemplateResult<1>;
+    private readonly onDotClick;
+    private readonly onDotKeydown;
     private handleKeydownMenuOption;
 }
 //# sourceMappingURL=mgt-dot-options.d.ts.map

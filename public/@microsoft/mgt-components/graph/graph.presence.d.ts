@@ -15,12 +15,12 @@ import { IDynamicPerson } from './types';
  * @param {string} userId - id for the user or null for current signed in user
  * @memberof BetaGraph
  */
-export declare function getUserPresence(graph: IGraph, userId?: string): Promise<Presence>;
+export declare const getUserPresence: (graph: IGraph, userId?: string) => Promise<Presence>;
 /**
  * async promise, allows developer to get person presense by providing array of IDynamicPerson
  *
  * @returns {}
  * @memberof BetaGraph
  */
-export declare function getUsersPresenceByPeople(graph: IGraph, people?: IDynamicPerson[]): Promise<{}>;
+export declare const getUsersPresenceByPeople: (graph: IGraph, people?: IDynamicPerson[]) => Promise<Record<string, Presence>>;
 //# sourceMappingURL=graph.presence.d.ts.map

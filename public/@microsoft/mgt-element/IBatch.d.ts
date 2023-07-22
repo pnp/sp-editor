@@ -10,7 +10,7 @@
  * @export
  * @class BatchResponse
  */
-export declare class BatchResponse {
+export declare class BatchResponse<T = any> {
     /**
      * The index of the requests as it was added to the queue
      * Use this value if you need to sort the responses
@@ -33,13 +33,47 @@ export declare class BatchResponse {
      * @type {*}
      * @memberof BatchResponse
      */
-    content: any;
+    content: T;
     /**
      * The header of the response
+     *
      * @type {*}
      * @memberof BatchResponse
      */
-    headers: string[];
+    headers: Record<string, string>;
+}
+/**
+ * Represents a response from a request executed in a batch
+ *
+ * @interface ResponseWithBodyAndStatus
+ */
+interface ResponseWithBodyAndStatus {
+    /**
+     * The body of the response
+     *
+     * @type {string}
+     * @memberof BatchResponse
+     */
+    body: any;
+    /**
+     * The status code of the response
+     *
+     * @type {number}
+     * @memberof BatchResponse
+     */
+    status: number;
+}
+/**
+ * Wrapper for the response body of a batch request
+ */
+export interface BatchResponseBody {
+    /**
+     * Collection of responses from the batch request
+     *
+     * @type {BatchResponse[]}
+     * @memberof BatchResponseBody
+     */
+    responses: (Omit<BatchResponse, 'content'> & ResponseWithBodyAndStatus)[];
 }
 /**
  * Represents a collection of Graph requests to be sent simultaneously.
@@ -47,7 +81,7 @@ export declare class BatchResponse {
  * @export
  * @interface IBatch
  */
-export interface IBatch {
+export interface IBatch<T = any> {
     /**
      * Get whether there are requests that have not been executed
      *
@@ -71,17 +105,18 @@ export interface IBatch {
      * Execute the next set of requests.
      * This will execute up to 20 requests at a time
      *
-     * @returns {Promise<Map<string, BatchResponse>>}
+     * @returns {Promise<Map<string, BatchResponse<T>>>}
      * @memberof IBatch
      */
-    executeNext(): Promise<Map<string, BatchResponse>>;
+    executeNext(): Promise<Map<string, BatchResponse<T>>>;
     /**
      * Execute all requests, up to 20 at a time until
      * all requests have been executed
      *
-     * @returns {Promise<Map<string, BatchResponse>>}
+     * @returns {Promise<Map<string, BatchResponse<T>>>}
      * @memberof IBatch
      */
-    executeAll(): Promise<Map<string, BatchResponse>>;
+    executeAll(): Promise<Map<string, BatchResponse<T>>>;
 }
+export {};
 //# sourceMappingURL=IBatch.d.ts.map

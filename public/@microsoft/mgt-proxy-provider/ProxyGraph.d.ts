@@ -13,6 +13,6 @@ import { Graph } from '@microsoft/mgt-element';
  * @extends {Graph}
  */
 export declare class ProxyGraph extends Graph {
-    constructor(baseUrl: string, getCustomHeaders: () => Promise<object>);
+    constructor(baseUrl: string, getCustomHeaders?: () => Promise<object>);
 }
 //# sourceMappingURL=ProxyGraph.d.ts.map

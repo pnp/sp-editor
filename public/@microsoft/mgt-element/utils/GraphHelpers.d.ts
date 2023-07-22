@@ -14,18 +14,19 @@ import { GraphEndpoint } from '../IGraph';
  * @param {...string[]} scopes
  * @returns
  */
-export declare function prepScopes(...scopes: string[]): AuthenticationHandlerOptions[];
+export declare const prepScopes: (...scopes: string[]) => AuthenticationHandlerOptions[];
 /**
  * Helper method to chain Middleware when instantiating new Client
  *
  * @param {...Middleware[]} middleware
  * @returns {Middleware}
  */
-export declare function chainMiddleware(...middleware: Middleware[]): Middleware;
+export declare const chainMiddleware: (...middleware: Middleware[]) => Middleware;
 /**
  * Helper method to validate a base URL string
+ *
  * @param url a URL string
  * @returns GraphEndpoint
  */
-export declare function validateBaseURL(url: string): GraphEndpoint;
+export declare const validateBaseURL: (url: string) => GraphEndpoint;
 //# sourceMappingURL=GraphHelpers.d.ts.map

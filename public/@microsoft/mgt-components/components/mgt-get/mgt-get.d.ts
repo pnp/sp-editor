@@ -4,7 +4,22 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { TemplateResult } from 'lit';
+import { MgtTemplatedComponent, CollectionResponse } from '@microsoft/mgt-element';
+import { Entity } from '@microsoft/microsoft-graph-types';
+/**
+ * Simple holder type for an image
+ */
+type ImageValue = {
+    image: string;
+};
+/**
+ * A type guard to check if a value is a collection response
+ *
+ * @param value {*} the value to check
+ * @returns {boolean} true if the value is a collection response
+ */
+export declare const isCollectionResponse: (value: unknown) => value is CollectionResponse<unknown>;
 /**
  * Enumeration to define what types of query are available
  *
@@ -22,9 +37,16 @@ export declare enum ResponseType {
     image = "image"
 }
 /**
+ * Holder type emitted with the dataChange event
+ */
+export type DataChangedDetail = {
+    response?: CollectionResponse<Entity>;
+    error?: object;
+};
+/**
  * Custom element for making Microsoft Graph get queries
  *
- * @fires dataChange - Fired when data changes
+ * @fires {CustomEvent<DataChangedDetail>} dataChange - Fired when data changes
  *
  * @export
  * @class mgt-get
@@ -99,14 +121,15 @@ export declare class MgtGet extends MgtTemplatedComponent {
      * @type any
      * @memberof MgtGet
      */
-    response: any;
+    response: CollectionResponse<Entity> | Entity | ImageValue;
     /**
      *
      * Gets or sets the error (if any) of the request
+     *
      * @type any
      * @memberof MgtGet
      */
-    error: any;
+    error: object;
     private isPolling;
     private isRefreshing;
     /**
@@ -139,7 +162,7 @@ export declare class MgtGet extends MgtTemplatedComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): any;
+    protected render(): TemplateResult;
     /**
      * load state into the component.
      *
@@ -151,4 +174,5 @@ export declare class MgtGet extends MgtTemplatedComponent {
     private shouldRetrieveCache;
     private shouldUpdateCache;
 }
+export {};
 //# sourceMappingURL=mgt-get.d.ts.map

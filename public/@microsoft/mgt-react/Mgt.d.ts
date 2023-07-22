@@ -6,11 +6,12 @@
  */
 import React, { ReactNode } from 'react';
 import { Wc, WcProps, WcTypeProps } from 'wc-react';
+import { TemplateRenderedData } from '@microsoft/mgt-element';
 export declare class Mgt extends Wc {
     private _templates;
     constructor(props: WcTypeProps);
-    protected getTag(): any;
-    render(): React.DetailedReactHTMLElement<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+    protected getTag(): string;
+    render(): React.DOMElement<React.DOMAttributes<HTMLElement>, HTMLElement>;
     /**
      * Sets the web component reference and syncs the props
      *
@@ -35,7 +36,7 @@ export declare class Mgt extends Wc {
      * @returns
      * @memberof Mgt
      */
-    protected handleTemplateRendered(e: any): void;
+    protected handleTemplateRendered: (e: CustomEvent<TemplateRenderedData>) => void;
     /**
      * Prepares templates for rendering
      *

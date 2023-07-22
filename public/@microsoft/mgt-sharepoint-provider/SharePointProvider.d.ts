@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IProvider } from '@microsoft/mgt-element';
+import { IProvider, GraphEndpoint } from '@microsoft/mgt-element';
 /**
  * AadTokenProvider
  *
@@ -17,7 +17,7 @@ declare interface AadTokenProvider {
      * @param {string} x
      * @memberof AadTokenProvider
      */
-    getToken(x: string): any;
+    getToken(x: string): Promise<string>;
 }
 /**
  * contains the contextual services available to a web part
@@ -26,7 +26,9 @@ declare interface AadTokenProvider {
  * @interface WebPartContext
  */
 declare interface WebPartContext {
-    aadTokenProviderFactory: any;
+    aadTokenProviderFactory: {
+        getTokenProvider(): Promise<AadTokenProvider>;
+    };
 }
 /**
  * SharePoint Provider handler
@@ -74,7 +76,7 @@ export declare class SharePointProvider extends IProvider {
     authority: string;
     private _idToken;
     private _provider;
-    constructor(context: WebPartContext);
+    constructor(context: WebPartContext, baseUrl?: GraphEndpoint);
     /**
      * uses provider to receive access token via SharePoint Provider
      *

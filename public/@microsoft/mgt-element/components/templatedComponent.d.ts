@@ -4,9 +4,17 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { PropertyValues } from 'lit-element';
+import { PropertyValueMap, PropertyValues, TemplateResult } from 'lit';
 import { MgtBaseComponent } from './baseComponent';
 import { TemplateContext } from '../utils/TemplateContext';
+export interface TemplateRenderedData {
+    templateType: string;
+    context: Record<string, unknown>;
+    element: HTMLElement;
+}
+type OrderedHtmlTemplate = HTMLTemplateElement & {
+    templateOrder: number;
+};
 /**
  * An abstract class that defines a templatable web component
  *
@@ -15,7 +23,7 @@ import { TemplateContext } from '../utils/TemplateContext';
  * @class MgtTemplatedComponent
  * @extends {MgtBaseComponent}
  *
- * @fires templateRendered - fires when a template is rendered
+ * @fires {CustomEvent<MgtElement.TemplateRenderedData>} templateRendered - fires when a template is rendered
  */
 export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
     /**
@@ -27,12 +35,20 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
      */
     templateContext: TemplateContext;
     /**
+     *
+     * Gets or sets the error (if any) of the request
+     *
+     * @type object
+     * @memberof MgtSearchResults
+     */
+    protected error: object;
+    /**
      * Holds all templates defined by developer
      *
      * @protected
      * @memberof MgtTemplatedComponent
      */
-    protected templates: {};
+    protected templates: Record<string, OrderedHtmlTemplate>;
     private _renderedSlots;
     private _renderedTemplates;
     private _slotNamesAddedDuringRender;
@@ -45,7 +61,7 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
      *
      * * @param _changedProperties Map of changed properties with old values
      */
-    protected update(changedProperties: any): void;
+    protected update(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
     /**
      * Invoked whenever the element is updated. Implement to perform
      * post-updating tasks via DOM APIs, for example, focusing an element.
@@ -63,7 +79,7 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
      * @param context the data context that should be expanded in template
      * @param slotName the slot name that will be used to host the new rendered template. set to a unique value if multiple templates of this type will be rendered. default is templateType
      */
-    protected renderTemplate(templateType: string, context: object, slotName?: string): import("lit-element").TemplateResult;
+    protected renderTemplate(templateType: string, context: object, slotName?: string): TemplateResult;
     /**
      * Check if a specific template has been provided.
      *
@@ -74,6 +90,13 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
      */
     protected hasTemplate(templateName: string): boolean;
     private getTemplates;
+    /**
+     * Renders an error
+     *
+     * @returns
+     */
+    protected renderError(): TemplateResult;
     private removeUnusedSlottedElements;
 }
+export {};
 //# sourceMappingURL=templatedComponent.d.ts.map

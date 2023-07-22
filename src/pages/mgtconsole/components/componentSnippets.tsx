@@ -18,11 +18,14 @@ export const componentSnippets = [
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login } from '@microsoft/mgt-react'
+import { Login, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
   return (
-    <Login className={'mgt-dark'} />
+    <>
+      <ThemeToggle />
+      <Login />
+    </>
   )
 }
     `.trim(),
@@ -37,7 +40,7 @@ import { Login } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
+import { Login, MgtTemplateProps, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
@@ -103,12 +106,15 @@ import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
   }
 
   return (
-    <Login className={'mgt-dark'}>
-      <SignedOutButton template='signed-out-button-content' />
-      <SignedInButton template='signed-in-button-content' />
-      <FlyOutDetails template='flyout-person-details' />
-      <FlyOutCommands template='flyout-commands' />
-    </Login>
+    <>
+      <ThemeToggle />
+      <Login>
+        <SignedOutButton template='signed-out-button-content' />
+        <SignedInButton template='signed-in-button-content' />
+        <FlyOutDetails template='flyout-person-details' />
+        <FlyOutCommands template='flyout-commands' />
+      </Login>
+    </>
   )
 }
 `.trim(),
@@ -123,7 +129,7 @@ import { Login, MgtTemplateProps } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from 'react'
-import { Login } from '@microsoft/mgt-react'
+import { Login, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
   const [events, setEvents] = useState([])
@@ -144,8 +150,8 @@ import { Login } from '@microsoft/mgt-react'
 
   return (
     <>
+      <ThemeToggle />
       <Login
-        className={'mgt-dark'}
         loginInitiated={logEvent}
         loginCompleted={logEvent}
         loginFailed={logEvent}
@@ -177,7 +183,7 @@ import { Login } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Get, Login } from '@microsoft/mgt-react'
+import { Get, Login, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
@@ -202,8 +208,9 @@ import { Get, Login } from '@microsoft/mgt-react'
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <Get className={'mgt-dark'} resource={"/me"}>
+      <ThemeToggle />
+      <Login />
+      <Get resource={"/me"}>
         <Template />
       </Get>
     </>
@@ -228,14 +235,15 @@ import { Get, Login } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, Person } from '@microsoft/mgt-react'
+import { Login, Person, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <Person className={'mgt-dark'}
+      <ThemeToggle />
+      <Login />
+      <Person
         personQuery={'me'}
         avatarSize={'large'}
         showPresence
@@ -261,14 +269,15 @@ import { Login, Person } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, People } from '@microsoft/mgt-react'
+import { Login, People, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <People className={'mgt-dark'}
+      <ThemeToggle />
+      <Login />
+      <People
         showPresence
         showMax={3}
       />
@@ -293,14 +302,15 @@ import { Login, People } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, PersonCard } from '@microsoft/mgt-react'
+import { Login, PersonCard, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <PersonCard className={'mgt-dark'}
+      <ThemeToggle />
+      <Login />
+      <PersonCard
         personQuery={'me'}
         showPresence
       />
@@ -325,14 +335,15 @@ import { Login, PersonCard } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
+import { PeoplePicker, People, Login, ThemeToggle } from '@microsoft/mgt-react';
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <PeoplePicker className={'mgt-dark'} />
+      <ThemeToggle />
+      <Login />
+      <PeoplePicker />
     </>
   )
 }`.trim(),
@@ -347,7 +358,7 @@ import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from "react"
-import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
+import { PeoplePicker, People, Login, ThemeToggle } from '@microsoft/mgt-react';
 
 () => {
 
@@ -365,18 +376,16 @@ import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
 
   return (
     <>
-      <Login
-        className={'mgt-dark'}
-      />
+      <ThemeToggle />
+      <Login />
       <PeoplePicker
-        className={'mgt-dark'}
         selectionChanged={handleSelectionChanged}
       />
       {
         people.length > 0 &&
         <div>
           <SelectedPeople />
-          <People className={'mgt-dark'} people={people} />
+          <People people={people} />
         </div>
       }
     </>
@@ -401,15 +410,15 @@ import { PeoplePicker, People, Login } from '@microsoft/mgt-react';
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, TeamsChannelPicker } from '@microsoft/mgt-react'
+import { Login, TeamsChannelPicker, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <TeamsChannelPicker className={'mgt-dark'}
-      />
+      <ThemeToggle />
+      <Login />
+      <TeamsChannelPicker />
     </>
   )
 }`.trim(),
@@ -432,14 +441,15 @@ import { Login, TeamsChannelPicker } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, Agenda } from '@microsoft/mgt-react'
+import { Login, Agenda, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <Agenda className={'mgt-dark'} />
+      <ThemeToggle />
+      <Login />
+      <Agenda />
     </>
   )
 }`.trim(),
@@ -462,14 +472,15 @@ import { Login, Agenda } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, Tasks } from '@microsoft/mgt-react'
+import { Login, Tasks, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <Tasks className={'mgt-dark'} />
+      <ThemeToggle />
+      <Login />
+      <Tasks />
     </>
   )
 }`.trim(),
@@ -492,14 +503,15 @@ import { Login, Tasks } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, Todo } from '@microsoft/mgt-react'
+import { Login, Todo, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
   return (
     <>
-      <Login className={'mgt-dark'} />
-      <Todo className={'mgt-dark'} />
+      <ThemeToggle />
+      <Login />
+      <Todo />
     </>
   )
 }`.trim(),
@@ -522,7 +534,7 @@ import { Login, Todo } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from 'react'
-import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
+import { Login, FileList, File, ViewType, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
@@ -533,15 +545,18 @@ import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
   }
 
   return (
-    <div className={'mgt-dark'}>
-      <Login />
-      <FileList itemClick={selectItem} />
-      <File fileDetails={file} view={ViewType.threelines} />
-    </div>
+    <>
+      <ThemeToggle />
+      <div>
+        <Login />
+        <FileList itemClick={selectItem} />
+        <File fileDetails={file} view={ViewType.threelines} />
+      </div>
+    </>
   )
 }`.trim(),
   },
-
+/*
   {
     option: {
       key: 'class-components',
@@ -549,7 +564,7 @@ import { Login, FileList, File, ViewType } from '@microsoft/mgt-react'
       itemType: SelectableOptionMenuItemType.Header,
     },
   },
- /* {
+  {
     option: {
       key: 'class-component-timer',
       text: 'Class Component timer',

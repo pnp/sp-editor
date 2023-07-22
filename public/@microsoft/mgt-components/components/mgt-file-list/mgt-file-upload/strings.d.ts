@@ -24,5 +24,6 @@ export declare const strings: {
     buttonReselect: string;
     fileReplaceTitle: string;
     fileReplace: string;
+    uploadButtonLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

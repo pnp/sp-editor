@@ -13,7 +13,12 @@
 export declare const strings: {
     cancelNewTaskSubtitle: string;
     newTaskPlaceholder: string;
+    newTaskLabel: string;
     addTaskButtonSubtitle: string;
-    removeTaskSubtitle: string;
+    deleteTaskLabel: string;
+    dueDate: string;
+    newTaskDateInputLabel: string;
+    newTaskNameInputLabel: string;
+    cancelAddingTask: string;
 };
 //# sourceMappingURL=strings.d.ts.map

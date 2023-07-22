@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { LitElement, PropertyValues } from 'lit-element';
+import { LitElement, PropertyValueMap, PropertyValues } from 'lit';
 /**
  * Defines media query based on component width
  *
@@ -35,12 +35,20 @@ export declare enum ComponentMediaQuery {
  */
 export declare abstract class MgtBaseComponent extends LitElement {
     /**
+     * Exposes the semver of the library the component is part of
+     *
+     * @readonly
+     * @static
+     * @memberof MgtBaseComponent
+     */
+    static get packageVersion(): string;
+    /**
      * Gets or sets the direction of the component
      *
      * @protected
      * @memberof MgtBaseComponent
      */
-    protected direction: string;
+    protected direction: 'ltr' | 'rtl' | 'auto';
     /**
      * Gets the ComponentMediaQuery of the component
      *
@@ -72,11 +80,10 @@ export declare abstract class MgtBaseComponent extends LitElement {
      * @protected
      * @memberof MgtBaseComponent
      */
-    protected get strings(): {
-        [x: string]: string;
-    };
+    protected get strings(): Record<string, string>;
     /**
      * determines if login component is in loading state
+     *
      * @type {boolean}
      */
     private _isLoadingState;
@@ -104,12 +111,15 @@ export declare abstract class MgtBaseComponent extends LitElement {
      *
      * @param _changedProperties Map of changed properties with old values
      */
-    protected firstUpdated(changedProperties: any): void;
+    protected firstUpdated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
     /**
      * load state into the component.
      * Override this function to provide additional loading logic.
      */
     protected loadState(): Promise<void>;
+    /**
+     * Used to clear state in inherited components
+     */
     protected clearState(): void;
     /**
      * helps facilitate creation of events across components
@@ -119,10 +129,11 @@ export declare abstract class MgtBaseComponent extends LitElement {
      * @param {*} [detail]
      * @param {boolean} [bubbles=false]
      * @param {boolean} [cancelable=false]
+     * @param {boolean} [composed=false]
      * @return {*}  {boolean}
      * @memberof MgtBaseComponent
      */
-    protected fireCustomEvent(eventName: string, detail?: any, bubbles?: boolean, cancelable?: boolean): boolean;
+    protected fireCustomEvent(eventName: string, detail?: any, bubbles?: boolean, cancelable?: boolean, composed?: boolean): boolean;
     /**
      * Invoked whenever the element is updated. Implement to perform
      * post-updating tasks via DOM APIs, for example, focusing an element.
@@ -141,10 +152,10 @@ export declare abstract class MgtBaseComponent extends LitElement {
      * @memberof MgtBaseComponent
      */
     protected requestStateUpdate(force?: boolean): Promise<unknown>;
-    private setLoadingState;
-    private handleProviderUpdates;
-    private handleActiveAccountUpdates;
-    private handleLocalizationChanged;
-    private handleDirectionChanged;
+    protected setLoadingState: (value: boolean) => void;
+    private readonly handleProviderUpdates;
+    private readonly handleActiveAccountUpdates;
+    private readonly handleLocalizationChanged;
+    private readonly handleDirectionChanged;
 }
 //# sourceMappingURL=baseComponent.d.ts.map

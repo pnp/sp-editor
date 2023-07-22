@@ -224,6 +224,7 @@ gulp.task('copy:sp-taxonomy', (done) => {
 gulp.task('copy:microsoft-graph-types', (done) => {
   console.log("Copy @microsoft/microsoft-graph-types");
   gulp.src('./node_modules/@microsoft/microsoft-graph-types/microsoft-graph.d.ts')
+    .pipe(rename('index.d.ts'))
     .pipe(gulp.dest('./public/@microsoft/microsoft-graph-types/'));
   done();
 });
@@ -326,7 +327,7 @@ gulp.task('default',
    // 'copy:sp-taxonomy',
     'copy:microsoft-graph-types',
     'copy:microsoft-graph-client',
-    'copy:msal',
+   // 'copy:msal',
     'copy:msal-browser',
    // 'copy:AuthCodeMSALBrowserAuthenticationProvider',
     'copy:react',

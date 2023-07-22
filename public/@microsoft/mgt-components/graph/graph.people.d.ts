@@ -55,19 +55,20 @@ export declare enum UserType {
  * @param {PersonType} [personType=PersonType.person] - the type of person to search for
  * @returns {(Promise<Person[]>)}
  */
-export declare function findPeople(graph: IGraph, query: string, top?: number, userType?: UserType, filters?: string): Promise<Person[]>;
+export declare const findPeople: (graph: IGraph, query: string, top?: number, userType?: UserType, filters?: string) => Promise<Person[]>;
 /**
  * async promise to the Graph for People, by default, it will request the most frequent contacts for the signed in user.
  *
  * @returns {(Promise<Person[]>)}
  * @memberof Graph
  */
-export declare function getPeople(graph: IGraph, userType?: UserType, peopleFilters?: string): Promise<Person[]>;
+export declare const getPeople: (graph: IGraph, userType?: UserType, peopleFilters?: string, top?: number) => Promise<Person[]>;
 /**
  * returns a promise that resolves after specified time
+ *
  * @param time in milliseconds
  */
-export declare function getEmailFromGraphEntity(entity: IDynamicPerson): string;
+export declare const getEmailFromGraphEntity: (entity: IDynamicPerson) => string;
 /**
  * async promise, returns a Graph contact associated with the email provided
  *
@@ -75,7 +76,7 @@ export declare function getEmailFromGraphEntity(entity: IDynamicPerson): string;
  * @returns {(Promise<Contact[]>)}
  * @memberof Graph
  */
-export declare function findContactsByEmail(graph: IGraph, email: string): Promise<Contact[]>;
+export declare const findContactsByEmail: (graph: IGraph, email: string) => Promise<Contact[]>;
 /**
  * async promise, returns Graph people matching the Graph query specified
  * in the resource param
@@ -84,5 +85,5 @@ export declare function findContactsByEmail(graph: IGraph, email: string): Promi
  * @returns {(Promise<Person[]>)}
  * @memberof Graph
  */
-export declare function getPeopleFromResource(graph: IGraph, version: string, resource: string, scopes: string[]): Promise<Person[]>;
+export declare const getPeopleFromResource: (graph: IGraph, version: string, resource: string, scopes: string[]) => Promise<Person[]>;
 //# sourceMappingURL=graph.people.d.ts.map
