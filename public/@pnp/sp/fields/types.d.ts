@@ -113,7 +113,7 @@ export declare class _Fields extends _SPCollection<IFieldInfo[]> {
      * @param title The field title.
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addMultiChoice(title: string, properties?: IFieldCreationProperties & AddChoiceProps): Promise<IFieldAddResult>;
+    addMultiChoice(title: string, properties?: IFieldCreationProperties & AddMultiChoiceProps): Promise<IFieldAddResult>;
     /**
    * Adds a new SP.FieldBoolean to the collection
    *
@@ -225,6 +225,10 @@ export declare type AddChoiceProps = {
     EditFormat?: ChoiceFieldFormatType;
     FillInChoice?: boolean;
 };
+export declare type AddMultiChoiceProps = {
+    Choices: string[];
+    FillInChoice?: boolean;
+};
 /**
  * Specifies the type of the field.
  */
@@ -259,7 +263,9 @@ export declare const enum FieldTypes {
     ThreadIndex = 27,
     WorkflowStatus = 28,
     AllDayEvent = 29,
-    WorkflowEventType = 30
+    WorkflowEventType = 30,
+    Location = 33,
+    Image = 34
 }
 export declare enum DateTimeFieldFormatType {
     DateOnly = 0,

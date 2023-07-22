@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { PropertyValues, TemplateResult } from 'lit-element';
+import { PropertyValues, TemplateResult } from 'lit';
 import { MgtBaseComponent } from '@microsoft/mgt-element/';
 /**
  * A component to create flyout anchored to an element
@@ -18,7 +18,7 @@ export declare class MgtFlyout extends MgtBaseComponent {
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
     /**
      * Gets or sets whether the flyout is light dismissible.
      *
@@ -42,7 +42,7 @@ export declare class MgtFlyout extends MgtBaseComponent {
      */
     get isOpen(): boolean;
     set isOpen(value: boolean);
-    private _edgePadding;
+    private get _edgePadding();
     private _renderedOnce;
     private get _flyout();
     private get _anchor();
@@ -81,7 +81,7 @@ export declare class MgtFlyout extends MgtBaseComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): TemplateResult;
+    protected render(): TemplateResult<1>;
     /**
      * Renders the anchor content.
      *
@@ -94,11 +94,21 @@ export declare class MgtFlyout extends MgtBaseComponent {
      * Renders the flyout.
      */
     protected renderFlyout(): TemplateResult;
+    /**
+     * Updates the position of the flyout.
+     * Makes a second recursive call to ensure the flyout is positioned correctly.
+     * This is needed as the width of the flyout is not settled until afer the first render.
+     *
+     * @private
+     * @param {boolean} [firstPass=true]
+     * @return {*}
+     * @memberof MgtFlyout
+     */
     private updateFlyout;
     private setupWindowEvents;
-    private handleWindowEvent;
-    private handleResize;
-    private handleKeyUp;
-    private handleFlyoutWheel;
+    private readonly handleWindowEvent;
+    private readonly handleResize;
+    private readonly handleKeyUp;
+    private readonly handleFlyoutWheel;
 }
 //# sourceMappingURL=mgt-flyout.d.ts.map

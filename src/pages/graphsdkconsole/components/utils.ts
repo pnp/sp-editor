@@ -67,9 +67,10 @@ export const GraphSDKConsoleMonacoConfigs = () => {
 export const initCode = () => {
   const code = `
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
+/* check output from browser console */
 
 import { graphClient } from "@speditor"
-import { User } from "@microsoft/microsoft-graph-types/microsoft-graph";
+import { User } from "@microsoft/microsoft-graph-types";
 
 (async () => {
 

@@ -5,9 +5,16 @@
  * -------------------------------------------------------------------------------------------
  */
 export declare const strings: {
-    sendEmailLinkSubtitle: string;
-    startChatLinkSubtitle: string;
     showMoreSectionButton: string;
     endOfCard: string;
+    quickMessage: string;
+    expandDetailsLabel: string;
+    sendMessageLabel: string;
+    emailButtonLabel: string;
+    callButtonLabel: string;
+    chatButtonLabel: string;
+    closeCardLabel: string;
+    videoButtonLabel: string;
+    goBackLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

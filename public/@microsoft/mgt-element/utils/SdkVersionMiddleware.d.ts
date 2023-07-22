@@ -18,8 +18,8 @@ export declare class SdkVersionMiddleware implements Middleware {
      * A member to hold next middleware in the middleware chain
      */
     private _nextMiddleware;
-    private _packageVersion;
-    private _providerName;
+    private readonly _packageVersion;
+    private readonly _providerName;
     constructor(packageVersion: string, providerName?: string);
     execute(context: Context): Promise<void>;
     /**

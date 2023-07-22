@@ -1,4 +1,5 @@
 import { TimelinePipe } from "@pnp/core";
+import { Queryable } from "@pnp/queryable";
 import { ISPQueryable } from "./spqueryable.js";
 declare module "./fi" {
     interface SPFI {
@@ -33,5 +34,12 @@ interface ISPBatchProps {
  * @returns A tuple of [behavior used to assign objects to the batch, the execute function used to resolve the batch requests]
  */
 export declare function createBatch(base: ISPQueryable, props?: ISPBatchProps): [TimelinePipe, () => Promise<void>];
+/**
+ * Behavior that blocks batching for the request regardless of "method"
+ *
+ * This is used for requests to bypass batching methods. Example - Request Digest where we need to get a request-digest inside of a batch.
+ * @returns TimelinePipe
+ */
+export declare function BatchNever(): (instance: Queryable) => Queryable<any>;
 export {};
 //# sourceMappingURL=batching.d.ts.map

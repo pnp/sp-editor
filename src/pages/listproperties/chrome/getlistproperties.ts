@@ -29,7 +29,7 @@ export function getListProperties(...args: any) {
         "Accept": "application/json; odata=verbose",
         "Cache-Control": "no-cache",
         "X-ClientService-ClientTag": "SPEDITOR"
-      }));
+      }, true));
 
     /*** clear previous log listeners ***/
     pnplogging.Logger.clearSubscribers()

@@ -22,8 +22,8 @@ export type IDynamicPerson = (MicrosoftGraph.User | MicrosoftGraph.Person | Micr
     personImage?: string;
 };
 /**
- *  avatarSize describes the enum strings that can be passed in to determine
- *  size of avatar. And in turn will determine presence badge added to it.
+ * avatarSize describes the enum strings that can be passed in to determine
+ * size of avatar.
  */
 export type AvatarSize = 'small' | 'large' | 'auto';
 /**
@@ -52,6 +52,14 @@ export declare enum ViewType {
     /**
      * Render the avatar and three lines of text
      */
-    threelines = 5
+    threelines = 5,
+    /**
+     * Render the avatar and four lines of text
+     */
+    fourlines = 6
 }
+/**
+ * Postion describes the position of the dropdown
+ */
+export type Position = 'above' | 'below';
 //# sourceMappingURL=types.d.ts.map

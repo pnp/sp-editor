@@ -14,5 +14,8 @@ export declare const strings: {
     inputPlaceholderText: string;
     noResultsFound: string;
     loadingMessage: string;
+    photoFor: string;
+    teamsChannels: string;
+    closeButtonAriaLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

@@ -64,6 +64,56 @@ export declare class Providers {
      */
     static me(): Promise<User>;
     /**
+     * Get current signed in user details
+     *
+     * @private
+     * @static
+     * @return {*}  {Promise<User>}
+     * @memberof Providers
+     */
+    private static getMe;
+    /**
+     * Gets the cache ID, creates one if it does not exist
+     *
+     * @static
+     * @memberof Providers
+     */
+    static getCacheId(): Promise<string>;
+    /**
+     * Unset the cache ID
+     *
+     * @static
+     * @memberof Providers
+     */
+    private static unsetCacheId;
+    /**
+     * Create cache ID
+     *
+     * @private
+     * @static
+     * @return {*}  {Promise<string>}
+     * @memberof Providers
+     */
+    private static createCacheId;
+    /**
+     * Create a cache ID with user userID and principal name
+     *
+     * @static
+     * @param {User} response
+     * @return {*}
+     * @memberof Providers
+     */
+    private static createCacheIdWithUserDetails;
+    /**
+     * Create cache ID with tenant ID and user ID
+     *
+     * @private
+     * @static
+     * @return {*}  {string}
+     * @memberof Providers
+     */
+    private static createCacheIdWithAccountDetails;
+    /**
      * Gets the current graph client
      *
      * @readonly
@@ -72,12 +122,13 @@ export declare class Providers {
      * @memberof Providers
      */
     static get client(): Client;
-    private static _eventDispatcher;
-    private static _activeAccountChangedDispatcher;
+    private static readonly _eventDispatcher;
+    private static readonly _activeAccountChangedDispatcher;
     private static _globalProvider;
-    private static _me;
-    private static handleProviderStateChanged;
-    private static handleActiveAccountChanged;
+    private static _cacheId;
+    private static _mePromise;
+    private static readonly handleProviderStateChanged;
+    private static readonly handleActiveAccountChanged;
 }
 /**
  * on Provider Change State

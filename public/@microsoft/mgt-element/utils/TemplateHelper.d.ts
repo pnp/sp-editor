@@ -4,6 +4,12 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+type ContextualTemplateElement = HTMLTemplateElement & {
+    /**
+     * The data context of the parent template
+     */
+    $parentTemplateContext?: object;
+};
 /**
  * Helper class for Template Instantiation
  *
@@ -28,7 +34,7 @@ export declare class TemplateHelper {
      * @param template the template to render
      * @param context the data context to be applied
      */
-    static renderTemplate(root: HTMLElement, template: HTMLTemplateElement, context: object): void;
+    static renderTemplate(root: HTMLElement, template: ContextualTemplateElement, context: object): void;
     /**
      * Set an alternative binding syntax. Default is {{ <value> }}
      *
@@ -47,7 +53,7 @@ export declare class TemplateHelper {
      * @memberof TemplateHelper
      */
     static get globalContext(): {};
-    private static _globalContext;
+    private static readonly _globalContext;
     private static get expression();
     private static _startExpression;
     private static _endExpression;
@@ -60,4 +66,5 @@ export declare class TemplateHelper {
     private static evalInContext;
     private static trimExpression;
 }
+export {};
 //# sourceMappingURL=TemplateHelper.d.ts.map

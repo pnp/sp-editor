@@ -121,7 +121,7 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
      * @param tenantId
      * @param reqTimestamp
      */
-    cacheNativeTokens(response: NativeResponse, request: NativeTokenRequest, homeAccountIdentifier: string, idTokenObj: AuthToken, responseAccessToken: string, tenantId: string, reqTimestamp: number): void;
+    cacheNativeTokens(response: NativeResponse, request: NativeTokenRequest, homeAccountIdentifier: string, accountEntity: AccountEntity, idTokenObj: AuthToken, responseAccessToken: string, tenantId: string, reqTimestamp: number): void;
     protected addTelemetryFromNativeResponse(response: NativeResponse): MATS | null;
     /**
      * Validates native platform response before processing

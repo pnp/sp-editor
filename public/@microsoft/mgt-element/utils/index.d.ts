@@ -6,7 +6,8 @@
  */
 /**
  * returns a promise that resolves after specified time
+ *
  * @param time in milliseconds
  */
-export declare function delay(ms: number): Promise<void>;
+export declare const delay: (ms: number) => Promise<void>;
 //# sourceMappingURL=index.d.ts.map

@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
 import '../sub-components/mgt-spinner/mgt-spinner';
@@ -81,47 +81,33 @@ interface ChannelPickerItemState {
     parent: ChannelPickerItemState;
 }
 /**
- * Configuration object for the TeamsChannelPicker component
- *
- * @export
- * @interface MgtTeamsChannelPickerConfig
- */
-export interface MgtTeamsChannelPickerConfig {
-    /**
-     * Sets or gets whether the teams channel picker component should use
-     * the Teams based scopes instead of the User and Group based scopes
-     *
-     * @type {boolean}
-     */
-    useTeamsBasedScopes: boolean;
-}
-/**
  * Web component used to select channels from a User's Microsoft Teams profile
  *
  *
  * @class MgtTeamsChannelPicker
  * @extends {MgtTemplatedComponent}
  *
- * @fires selectionChanged - Fired when the selection changes
+ * @fires {CustomEvent<SelectedChannel | null>} selectionChanged - Fired when the selection changes
  *
- * @cssprop --color - {font} Default font color
+ * @cssprop --channel-picker-input-border-color - {Color} Input border color
+ * @cssprop --channel-picker-input-background-color - {Color} Input section background color
+ * @cssprop --channel-picker-input-background-color-hover - {Color} Input background hover color
+ * @cssprop --channel-picker-input-background-color-focus - {Color} Input background focus color
  *
- * @cssprop --input-border - {String} Input section entire border
- * @cssprop --input-border-top - {String} Input section border top only
- * @cssprop --input-border-right - {String} Input section border right only
- * @cssprop --input-border-bottom - {String} Input section border bottom only
- * @cssprop --input-border-left - {String} Input section border left only
- * @cssprop --input-background-color - {Color} Input section background color
- * @cssprop --input-border-color--hover - {Color} Input border hover color
- * @cssprop --input-border-color--focus - {Color} Input border focus color
+ * @cssprop --channel-picker-dropdown-background-color - {Color} Background color of dropdown area
+ * @cssprop --channel-picker-dropdown-item-text-color - {Color} Text color of the dropdown text.
+ * @cssprop --channel-picker-dropdown-item-background-color-hover - {Color} Background color of channel or team during hover
+ * @cssprop --channel-picker-dropdown-item-text-color-selected - {Color} Text color of channel or team during after selection
  *
- * @cssprop --dropdown-background-color - {Color} Background color of dropdown area
- * @cssprop --dropdown-item-hover-background - {Color} Background color of channel or team during hover
- * @cssprop --dropdown-item-selected-background - {Color} Background color of selected channel
+ * @cssprop --channel-picker-arrow-fill - {Color} Color of arrow svg
+ * @cssprop --channel-picker-input-placeholder-text-color - {Color} Color of placeholder text
+ * @cssprop --channel-picker-input-placeholder-text-color-focus - {Color} Color of placeholder text during focus state
+ * @cssprop --channel-picker-input-placeholder-text-color-hover - {Color} Color of placeholder text during hover state
  *
- * @cssprop --arrow-fill - {Color} Color of arrow svg
- * @cssprop --placeholder-color--focus - {Color} Color of placeholder text during focus state
- * @cssprop --placeholder-color - {Color} Color of placeholder text
+ * @cssprop --channel-picker-search-icon-color - {Color} the search icon color.
+ * @cssprop --channel-picker-down-chevron-color - {Color} the down chevron icon color.
+ * @cssprop --channel-picker-up-chevron-color - {Color} the up chevron icon color.
+ * @cssprop --channel-picker-close-icon-color - {Color} the close icon color.
  *
  */
 export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
@@ -129,22 +115,23 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
+    /**
+     * Strings for localization
+     *
+     * @readonly
+     * @protected
+     * @memberof MgtTeamsChannelPicker
+     */
     protected get strings(): {
         inputPlaceholderText: string;
         noResultsFound: string;
         loadingMessage: string;
+        photoFor: string;
+        teamsChannels: string;
+        closeButtonAriaLabel: string;
     };
-    /**
-     * Global Configuration object for all
-     * teams channel picker components
-     *
-     * @static
-     * @type {MgtTeamsChannelPickerConfig}
-     * @memberof MgtTeamsChannelPicker
-     */
-    static get config(): MgtTeamsChannelPickerConfig;
-    private static _config;
+    private teamsPhotos;
     /**
      * Gets Selected item to be used
      *
@@ -152,7 +139,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @type {SelectedChannel}
      * @memberof MgtTeamsChannelPicker
      */
-    get selectedItem(): SelectedChannel;
+    get selectedItem(): SelectedChannel | null;
     /**
      * Get the scopes required for teams channel picker
      *
@@ -163,14 +150,13 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
     static get requiredScopes(): string[];
     private set items(value);
     private get items();
+    private get _inputWrapper();
     private get _input();
     private _inputValue;
-    private _isFocused;
     private _selectedItemState;
     private _items;
     private _treeViewState;
     private _focusList;
-    private _focusedIndex;
     private debouncedSearch;
     private _isDropdownVisible;
     constructor();
@@ -195,12 +181,27 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      */
     selectChannelById(channelId: string): Promise<boolean>;
     /**
+     * Marks a channel selected by ID as selected in the dropdown menu.
+     * It ensures the parent team is set to as expanded to show the channel.
+     *
+     * @param channelId ID string of the selected channel
+     */
+    private markSelectedChannelInDropdown;
+    /**
      * Invoked on each update to perform rendering tasks. This method must return a lit-html TemplateResult.
      * Setting properties inside this method will not trigger the element to update.
+     *
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
     render(): TemplateResult;
+    /**
+     * Handles clicks on the input section.
+     *
+     * @param e {UIEvent}
+     */
+    handleInputClick: (e: UIEvent) => void;
+    handleInputKeydown: (e: KeyboardEvent) => void;
     /**
      * Renders selected channel
      *
@@ -208,7 +209,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderSelected(): TemplateResult;
+    protected renderSelected(): TemplateResult<1>;
     /**
      * Clears the state of the component
      *
@@ -223,15 +224,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderSearchIcon(): TemplateResult;
-    /**
-     * Renders input field
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTeamsChannelPicker
-     */
-    protected renderInput(): TemplateResult;
+    protected renderSearchIcon(): TemplateResult<1>;
     /**
      * Renders close button
      *
@@ -239,26 +232,59 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderCloseButton(): TemplateResult;
+    protected renderCloseButton(): TemplateResult<1>;
     /**
-     * Renders dropdown content
+     * Handles clicks on the close button after selecting a channel.
      *
-     * @param {ChannelPickerItemState[]} items
-     * @param {number} [level=0]
+     * @param e {UIEvent}
+     */
+    onClickCloseButton: () => void;
+    /**
+     * Handles keypresses on the close button.
+     *
+     * @param e {KeyboardEvent}
+     */
+    onKeydownCloseButton: (e: KeyboardEvent) => void;
+    /**
+     * Displays the close button after selecting a channel.
+     */
+    protected showCloseIcon(): void;
+    /**
+     * Renders down chevron icon
+     *
+     * @protected
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderDropdown(): any;
+    protected renderDownChevron(): TemplateResult<1>;
+    /**
+     * Renders up chevron icon
+     *
+     * @protected
+     * @returns
+     * @memberof MgtTeamsChannelPicker
+     */
+    protected renderUpChevron(): TemplateResult<1>;
+    /**
+     * Renders both chevrons
+     */
+    private renderChevrons;
+    /**
+     * Renders dropdown content
+     *
+     * @returns
+     * @memberof MgtTeamsChannelPicker
+     */
+    protected renderDropdown(): TemplateResult;
     /**
      * Renders the dropdown list recursively
      *
      * @protected
      * @param {ChannelPickerItemState[]} items
-     * @param {number} [level=0]
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderDropdownList(items: ChannelPickerItemState[], level?: number): any;
+    protected renderDropdownList(items: ChannelPickerItemState[]): TemplateResult<1>;
     /**
      * Renders each Channel or Team
      *
@@ -266,16 +292,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderItem(itemState: ChannelPickerItemState): TemplateResult;
-    /**
-     * Renders the channel with the query text higlighted
-     *
-     * @protected
-     * @param {*} channel
-     * @returns
-     * @memberof MgtTeamsChannelPicker
-     */
-    protected renderHighlightedText(channel: any): TemplateResult;
+    protected renderItem(itemState: ChannelPickerItemState): TemplateResult<1>;
     /**
      * Renders an error message when no channel or teams match the query
      *
@@ -299,18 +316,38 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @memberof MgtTeamsChannelPicker
      */
     protected loadState(): Promise<void>;
+    /**
+     * Handles operations that are performed on the DOM when you remove a
+     * channel. For example on clicking the X button.
+     *
+     * @param item a selected channel item
+     */
+    private removeSelectedChannel;
+    onKeydownTreeView: (e: KeyboardEvent) => void;
     private handleItemClick;
-    private handleInputChanged;
+    handleTeamTreeItemClick: (event: Event) => void;
+    handleInputChanged: (e: KeyboardEvent) => void;
+    private onUserKeyDown;
     private filterList;
     private generateTreeViewState;
     private generateFocusList;
     private resetFocusState;
     private loadTeamsIfNotLoaded;
-    private handleWindowClick;
-    private onUserKeyDown;
-    private gainedFocus;
-    private lostFocus;
+    private readonly handleWindowClick;
+    private readonly gainedFocus;
+    private readonly lostFocus;
+    handleFocus: () => void;
     private selectChannel;
+    /**
+     * Hides the close icon.
+     */
+    private hideCloseIcon;
+    /**
+     * Toggles the up and down chevron depending on the dropdown
+     * visibility.
+     */
+    private toggleChevron;
+    handleUpChevronClick: (e: Event) => void;
 }
 export {};
 //# sourceMappingURL=mgt-teams-channel-picker.d.ts.map

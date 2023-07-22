@@ -7,6 +7,13 @@
 import { CacheItem, CacheStore, GraphPageIterator, IGraph } from '@microsoft/mgt-element';
 import { DriveItem, UploadSession } from '@microsoft/microsoft-graph-types';
 /**
+ * Simple type guard to check if a response is an UploadSession
+ *
+ * @param session
+ * @returns
+ */
+export declare const isUploadSession: (session: any) => session is UploadSession;
+/**
  * Object to be stored in cache
  */
 interface CacheFileList extends CacheItem {
@@ -35,7 +42,7 @@ export interface CacheThumbnail extends CacheItem {
 /**
  * Clear Cache of FileList
  */
-export declare function clearFilesCache(): void;
+export declare const clearFilesCache: () => Promise<void>;
 /**
  * Defines the time it takes for objects in the cache to expire
  */
@@ -52,37 +59,44 @@ export declare const getFileListInvalidationTime: () => number;
  * Whether or not the cache is enabled
  */
 export declare const getIsFileListsCacheEnabled: () => boolean;
-export declare function getDriveItemByQuery(graph: IGraph, resource: string): Promise<DriveItem>;
-export declare function getDriveItemById(graph: IGraph, driveId: string, itemId: string): Promise<DriveItem>;
-export declare function getDriveItemByPath(graph: IGraph, driveId: string, itemPath: string): Promise<DriveItem>;
-export declare function getGroupDriveItemById(graph: IGraph, groupId: string, itemId: string): Promise<DriveItem>;
-export declare function getGroupDriveItemByPath(graph: IGraph, groupId: string, itemPath: string): Promise<DriveItem>;
-export declare function getMyDriveItemById(graph: IGraph, itemId: string): Promise<DriveItem>;
-export declare function getMyDriveItemByPath(graph: IGraph, itemPath: string): Promise<DriveItem>;
-export declare function getSiteDriveItemById(graph: IGraph, siteId: string, itemId: string): Promise<DriveItem>;
-export declare function getSiteDriveItemByPath(graph: IGraph, siteId: string, itemPath: string): Promise<DriveItem>;
-export declare function getListDriveItemById(graph: IGraph, siteId: string, listId: string, itemId: string): Promise<DriveItem>;
-export declare function getUserDriveItemById(graph: IGraph, userId: string, itemId: string): Promise<DriveItem>;
-export declare function getUserDriveItemByPath(graph: IGraph, userId: string, itemPath: string): Promise<DriveItem>;
-export declare function getMyInsightsDriveItemById(graph: IGraph, insightType: string, id: string): Promise<DriveItem>;
-export declare function getUserInsightsDriveItemById(graph: IGraph, userId: string, insightType: string, id: string): Promise<DriveItem>;
-export declare function getFilesIterator(graph: IGraph, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getDriveFilesByIdIterator(graph: IGraph, driveId: string, itemId: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getDriveFilesByPathIterator(graph: IGraph, driveId: string, itemPath: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getGroupFilesByIdIterator(graph: IGraph, groupId: string, itemId: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getGroupFilesByPathIterator(graph: IGraph, groupId: string, itemPath: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getFilesByIdIterator(graph: IGraph, itemId: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getFilesByPathIterator(graph: IGraph, itemPath: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getSiteFilesByIdIterator(graph: IGraph, siteId: string, itemId: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getSiteFilesByPathIterator(graph: IGraph, siteId: string, itemPath: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getUserFilesByIdIterator(graph: IGraph, userId: string, itemId: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getUserFilesByPathIterator(graph: IGraph, userId: string, itemPath: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getFilesByListQueryIterator(graph: IGraph, listQuery: string, top?: number): Promise<GraphPageIterator<DriveItem>>;
-export declare function getMyInsightsFiles(graph: IGraph, insightType: string): Promise<DriveItem[]>;
-export declare function getUserInsightsFiles(graph: IGraph, userId: string, insightType: string): Promise<DriveItem[]>;
-export declare function getFilesByQueries(graph: IGraph, fileQueries: string[]): Promise<DriveItem[]>;
-export declare function getFileListFromCache(cache: CacheStore<CacheFileList>, store: string, key: string): Promise<CacheFileList>;
-export declare function fetchNextAndCacheForFilesPageIterator(filesPageIterator: any): Promise<void>;
+/**
+ * Load a DriveItem give and arbitrary query
+ *
+ * @param graph
+ * @param resource
+ * @returns
+ */
+export declare const getDriveItemByQuery: (graph: IGraph, resource: string, storeName?: string, scopes?: string) => Promise<DriveItem>;
+export declare const getDriveItemById: (graph: IGraph, driveId: string, itemId: string) => Promise<DriveItem>;
+export declare const getDriveItemByPath: (graph: IGraph, driveId: string, itemPath: string) => Promise<DriveItem>;
+export declare const getGroupDriveItemById: (graph: IGraph, groupId: string, itemId: string) => Promise<DriveItem>;
+export declare const getGroupDriveItemByPath: (graph: IGraph, groupId: string, itemPath: string) => Promise<DriveItem>;
+export declare const getMyDriveItemById: (graph: IGraph, itemId: string) => Promise<DriveItem>;
+export declare const getMyDriveItemByPath: (graph: IGraph, itemPath: string) => Promise<DriveItem>;
+export declare const getSiteDriveItemById: (graph: IGraph, siteId: string, itemId: string) => Promise<DriveItem>;
+export declare const getSiteDriveItemByPath: (graph: IGraph, siteId: string, itemPath: string) => Promise<DriveItem>;
+export declare const getListDriveItemById: (graph: IGraph, siteId: string, listId: string, itemId: string) => Promise<DriveItem>;
+export declare const getUserDriveItemById: (graph: IGraph, userId: string, itemId: string) => Promise<DriveItem>;
+export declare const getUserDriveItemByPath: (graph: IGraph, userId: string, itemPath: string) => Promise<DriveItem>;
+export declare const getMyInsightsDriveItemById: (graph: IGraph, insightType: string, id: string) => Promise<DriveItem>;
+export declare const getUserInsightsDriveItemById: (graph: IGraph, userId: string, insightType: string, id: string) => Promise<DriveItem>;
+export declare const getFilesIterator: (graph: IGraph, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getDriveFilesByIdIterator: (graph: IGraph, driveId: string, itemId: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getDriveFilesByPathIterator: (graph: IGraph, driveId: string, itemPath: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getGroupFilesByIdIterator: (graph: IGraph, groupId: string, itemId: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getGroupFilesByPathIterator: (graph: IGraph, groupId: string, itemPath: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getFilesByIdIterator: (graph: IGraph, itemId: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getFilesByPathIterator: (graph: IGraph, itemPath: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getSiteFilesByIdIterator: (graph: IGraph, siteId: string, itemId: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getSiteFilesByPathIterator: (graph: IGraph, siteId: string, itemPath: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getUserFilesByIdIterator: (graph: IGraph, userId: string, itemId: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getUserFilesByPathIterator: (graph: IGraph, userId: string, itemPath: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getFilesByListQueryIterator: (graph: IGraph, listQuery: string, top?: number) => Promise<GraphPageIterator<DriveItem>>;
+export declare const getMyInsightsFiles: (graph: IGraph, insightType: string) => Promise<DriveItem[]>;
+export declare const getUserInsightsFiles: (graph: IGraph, userId: string, insightType: string) => Promise<DriveItem[]>;
+export declare const getFilesByQueries: (graph: IGraph, fileQueries: string[]) => Promise<DriveItem[]>;
+export declare const getFileListFromCache: (cache: CacheStore<CacheFileList>, store: string, key: string) => Promise<CacheFileList>;
+export declare const fetchNextAndCacheForFilesPageIterator: (filesPageIterator: GraphPageIterator<DriveItem>) => Promise<void>;
 /**
  * retrieves the specified document thumbnail
  *
@@ -90,7 +104,7 @@ export declare function fetchNextAndCacheForFilesPageIterator(filesPageIterator:
  * @param {string[]} scopes
  * @returns {Promise<string>}
  */
-export declare function getDocumentThumbnail(graph: IGraph, resource: string, scopes: string[]): Promise<CacheThumbnail>;
+export declare const getDocumentThumbnail: (graph: IGraph, resource: string, scopes: string[]) => Promise<CacheThumbnail>;
 /**
  * retrieve file properties based on Graph query
  *
@@ -98,7 +112,7 @@ export declare function getDocumentThumbnail(graph: IGraph, resource: string, sc
  * @param resource
  * @returns
  */
-export declare function getGraphfile(graph: IGraph, resource: string): Promise<DriveItem>;
+export declare const getGraphfile: (graph: IGraph, resource: string) => Promise<DriveItem>;
 /**
  * retrieve UploadSession Url for large file and send by chuncks
  *
@@ -106,7 +120,7 @@ export declare function getGraphfile(graph: IGraph, resource: string): Promise<D
  * @param resource
  * @returns
  */
-export declare function getUploadSession(graph: IGraph, resource: string, conflictBehavior: number): Promise<UploadSession>;
+export declare const getUploadSession: (graph: IGraph, resource: string, conflictBehavior: number) => Promise<UploadSession>;
 /**
  * send file chunck to OneDrive, SharePoint Site
  *
@@ -115,7 +129,7 @@ export declare function getUploadSession(graph: IGraph, resource: string, confli
  * @param file
  * @returns
  */
-export declare function sendFileChunck(graph: IGraph, resource: string, contentLength: string, contentRange: string, file: Blob): Promise<any>;
+export declare const sendFileChunk: (graph: IGraph, resource: string, contentLength: string, contentRange: string, file: Blob) => Promise<UploadSession | DriveItem>;
 /**
  * send file to OneDrive, SharePoint Site
  *
@@ -124,7 +138,7 @@ export declare function sendFileChunck(graph: IGraph, resource: string, contentL
  * @param file
  * @returns
  */
-export declare function sendFileContent(graph: IGraph, resource: string, file: File): Promise<DriveItem>;
+export declare const sendFileContent: (graph: IGraph, resource: string, file: File) => Promise<DriveItem>;
 /**
  * delete upload session
  *
@@ -132,6 +146,6 @@ export declare function sendFileContent(graph: IGraph, resource: string, file: F
  * @param resource
  * @returns
  */
-export declare function deleteSessionFile(graph: IGraph, resource: string): Promise<any>;
+export declare const deleteSessionFile: (graph: IGraph, resource: string) => Promise<void>;
 export {};
 //# sourceMappingURL=graph.files.d.ts.map

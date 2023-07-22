@@ -55,9 +55,17 @@ export declare class GraphPageIterator<T> {
      * @returns a GraphPageIterator
      * @memberof GraphPageIterator
      */
-    static createFromValue<T>(graph: IGraph, value: any, nextLink?: any): GraphPageIterator<T>;
+    static createFromValue<T>(graph: IGraph, value: T[], nextLink?: string): GraphPageIterator<T>;
     private _graph;
     private _nextLink;
+    /**
+     * Gets the next link for this request
+     *
+     * @readonly
+     * @type {string}
+     * @memberof GraphPageIterator
+     */
+    get nextLink(): string;
     private _version;
     private _value;
     /**

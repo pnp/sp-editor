@@ -30,6 +30,7 @@ export declare const schemas: {
             contacts: string;
             users: string;
             groups: string;
+            teams: string;
         };
         version: number;
     };
@@ -51,6 +52,13 @@ export declare const schemas: {
         version: number;
     };
     get: {
+        name: string;
+        stores: {
+            responses: string;
+        };
+        version: number;
+    };
+    search: {
         name: string;
         stores: {
             responses: string;

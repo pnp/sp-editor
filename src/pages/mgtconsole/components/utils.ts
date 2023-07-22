@@ -58,7 +58,7 @@ export const MGTPlaygroundMonacoConfigs = () => {
     colorDecorators: true,
     minimap: {
       enabled: true,
-    },
+    }
     // automaticLayout: true,
   }
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({

@@ -4,9 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { AuthenticationProvider } from '@microsoft/microsoft-graph-client/lib/es/IAuthenticationProvider';
-import { AuthenticationProviderOptions } from '@microsoft/microsoft-graph-client/lib/es/IAuthenticationProviderOptions';
-import { IGraph } from '../IGraph';
+import { AuthenticationProvider, AuthenticationProviderOptions } from '@microsoft/microsoft-graph-client';
+import { GraphEndpoint, IGraph } from '../IGraph';
 import { EventHandler } from '../utils/EventDispatcher';
 /**
  * Provider Type to be extended for implmenting new providers
@@ -25,16 +24,36 @@ export declare abstract class IProvider implements AuthenticationProvider {
      */
     graph: IGraph;
     /**
-     * Enable/Disable multi account functionality
+     * Specifies if the provider has enabled support for multiple accounts
      *
      * @protected
      * @type {boolean}
      * @memberof IProvider
      */
     protected isMultipleAccountDisabled: boolean;
+    /**
+     * Specifies if Multi account functionality is supported by the provider and enabled.
+     *
+     * @readonly
+     * @type {boolean}
+     * @memberof IProvider
+     */
+    get isMultiAccountSupportedAndEnabled(): boolean;
     private _state;
-    private _loginChangedDispatcher;
-    private _activeAccountChangedDispatcher;
+    private readonly _loginChangedDispatcher;
+    private readonly _activeAccountChangedDispatcher;
+    private _baseURL;
+    /**
+     * The base URL to be used in the graph client config.
+     */
+    set baseURL(url: GraphEndpoint);
+    get baseURL(): GraphEndpoint;
+    private _customHosts?;
+    /**
+     * Custom Hostnames to allow graph client to utilize
+     */
+    set customHosts(hosts: string[] | undefined);
+    get customHosts(): string[] | undefined;
     /**
      * Enable/Disable incremental consent
      *
@@ -43,6 +62,21 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     private _isIncrementalConsentDisabled;
+    /**
+     * Backing field for isMultiAccountSupported
+     *
+     * @protected
+     * @memberof IProvider
+     */
+    protected isMultipleAccountSupported: boolean;
+    /**
+     * Does the provider support multiple accounts?
+     *
+     * @readonly
+     * @type {boolean}
+     * @memberof IProvider
+     */
+    get isMultiAccountSupported(): boolean;
     /**
      * returns state of Provider
      *
@@ -115,6 +149,13 @@ export declare abstract class IProvider implements AuthenticationProvider {
      * @memberof IProvider
      */
     getAllAccounts?(): IProviderAccount[];
+    /**
+     * Returns active account in case of multi-account sign in
+     *
+     * @return {*}  {any[]}
+     * @memberof IProvider
+     */
+    getActiveAccount?(): IProviderAccount;
     /**
      * Switch between two signed in accounts
      *
@@ -218,7 +259,9 @@ export declare enum ProviderState {
  * @export
  */
 export type IProviderAccount = {
-    username?: string;
     id: string;
+    mail?: string;
+    name?: string;
+    tenantId?: string;
 };
 //# sourceMappingURL=IProvider.d.ts.map

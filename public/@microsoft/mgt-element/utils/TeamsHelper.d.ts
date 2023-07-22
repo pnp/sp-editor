@@ -4,6 +4,27 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+export interface loginContext {
+    loginHint: string;
+}
+export interface TeamsLib {
+    initialize(): void;
+    executeDeepLink(deeplink: string, onComplete?: (status: boolean, reason?: string) => void): void;
+    authentication: {
+        authenticate(authConfig: {
+            failureCallback: (reason: any) => void;
+            successCallback: (result: any) => void;
+            url: string;
+        }): void;
+        getAuthToken(authCallback: {
+            failureCallback: (reason: any) => void;
+            successCallback: (result: any) => void;
+        }): void;
+        notifySuccess(message?: string): void;
+        notifyFailure(message: string): void;
+    };
+    getContext(callback?: (context: loginContext) => void): Promise<loginContext>;
+}
 /**
  * A helper class for interacting with the Teams Client SDK.
  *
@@ -17,11 +38,11 @@ export declare class TeamsHelper {
      * the microsoftTeams global variable.
      *
      * @static
-     * @type {*}
+     * @type {TeamsLib}
      * @memberof TeamsHelper
      */
-    static get microsoftTeamsLib(): any;
-    static set microsoftTeamsLib(value: any);
+    static get microsoftTeamsLib(): TeamsLib;
+    static set microsoftTeamsLib(value: TeamsLib);
     /**
      * Gets whether the Teams provider can be used in the current context
      * (Whether the app is running in Microsoft Teams)

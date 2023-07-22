@@ -21,15 +21,21 @@ export interface MgtPersonCardConfig {
      */
     useContactApis: boolean;
     /**
+     * Sets whether the person card component can directly send messages
+     *
+     * @type {boolean}
+     */
+    isSendMessageVisible: boolean;
+    /**
      * Gets or sets whether each subsection should be shown
      *
      * @type {{
-     *     contact: boolean;
-     *     organization: boolean;
-     *     mailMessages: boolean;
-     *     files: boolean;
-     *     profile: boolean;
-     *   }}
+     * contact: boolean;
+     * organization: boolean;
+     * mailMessages: boolean;
+     * files: boolean;
+     * profile: boolean;
+     * }}
      * @memberof MgtPersonCardConfig
      */
     sections: {
@@ -65,7 +71,7 @@ export interface MgtPersonCardConfig {
         profile: boolean;
     };
 }
-type UserWithManager = User & {
+export type UserWithManager = User & {
     manager?: UserWithManager;
 };
 export interface MgtPersonCardState {
@@ -76,5 +82,4 @@ export interface MgtPersonCardState {
     person?: UserWithManager;
     profile?: Profile;
 }
-export {};
 //# sourceMappingURL=mgt-person-card.types.d.ts.map

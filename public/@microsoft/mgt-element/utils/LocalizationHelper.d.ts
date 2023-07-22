@@ -32,7 +32,7 @@ export declare class LocalizationHelper {
      * @returns {string} dir
      * @memberof LocalizationHelper
      */
-    static getDocumentDirection(): string;
+    static getDocumentDirection(): 'rtl' | 'ltr' | 'auto';
     /**
      * Fires event when LocalizationHelper changes state
      *
@@ -63,6 +63,6 @@ export declare class LocalizationHelper {
      * @returns
      * @memberof LocalizationHelper
      */
-    static updateStringsForTag(tagName: string, stringObj: any): any;
+    static updateStringsForTag(tagName: string, stringObj: Record<string, any>): Record<string, any>;
 }
 //# sourceMappingURL=LocalizationHelper.d.ts.map

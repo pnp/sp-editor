@@ -39,6 +39,23 @@ const MGTIframe = () => {
     // window.removeEventListener("message", onMessageReceivedFromIframe);
   }, [onMessageReceivedFromIframe]);
 
+  React.useEffect(function setupListener() {
+    function handleResize(x: any) {
+      console.log('theme changed', x.detail)
+      if(x.detail){
+        document.body.style.backgroundColor = "black";
+      } else {
+        document.body.style.backgroundColor = "white";
+      }
+    }
+    window.addEventListener('darkmodechanged', handleResize)
+
+    return function cleanupListener() {
+      console.log('removing listener')
+      window.removeEventListener('darkmodechanged', handleResize)
+    }
+  })
+
   CacheService.config.isEnabled = false;
 
   var getAccessToken = async (scopes: any[]): Promise<string> => {

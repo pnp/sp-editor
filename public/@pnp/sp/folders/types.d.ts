@@ -111,6 +111,15 @@ export declare class _Folder extends _SPInstance<IFolderInfo> {
      * Gets the parent information for this folder's list and web
      */
     getParentInfos(): Promise<IFolderParentInfos>;
+    /**
+     * Implementation of folder move/copy
+     *
+     * @param destUrl The server relative path to which the folder will be copied/moved
+     * @param options Any options
+     * @param methodName The method to call
+     * @returns An IFolder representing the moved or copied folder
+     */
+    protected moveCopyImpl(destUrl: string, options: Partial<IMoveCopyOptions>, methodName: "MoveFolderByPath" | "CopyFolderByPath"): Promise<IFolder>;
 }
 export interface IFolder extends _Folder, IDeleteableWithETag {
 }

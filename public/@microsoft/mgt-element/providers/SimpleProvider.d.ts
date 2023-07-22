@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { AuthenticationProviderOptions } from '@microsoft/microsoft-graph-client/lib/es/IAuthenticationProviderOptions';
+import { AuthenticationProviderOptions } from '@microsoft/microsoft-graph-client';
 import { IProvider } from './IProvider';
 /**
  * Facilitates create of new custom provider
@@ -14,9 +14,9 @@ import { IProvider } from './IProvider';
  * @extends {IProvider}
  */
 export declare class SimpleProvider extends IProvider {
-    private _getAccessTokenHandler;
-    private _loginHandler;
-    private _logoutHandler;
+    private readonly _getAccessTokenHandler;
+    private readonly _loginHandler;
+    private readonly _logoutHandler;
     /**
      * Name used for analytics
      *

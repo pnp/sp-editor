@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
 import '../mgt-person/mgt-person';
@@ -16,10 +16,10 @@ import '../mgt-person/mgt-person';
  * @class MgtAgenda
  * @extends {MgtTemplatedComponent}
  *
- * @fires eventClick - Fired when user click an event
+ * @fires {CustomEvent<MicrosoftGraph.Event>} eventClick - Fired when user click an event
  *
  * @cssprop --event-box-shadow - {String} Event box shadow color and size
- * @cssprop --event-margin - {String} Event margin
+ * @cssprop --event-row-gap - {String} The size of the gap between two event elements
  * @cssprop --event-padding - {String} Event padding
  * @cssprop --event-background-color - {Color} Event background color
  * @cssprop --event-border - {String} Event border style
@@ -32,57 +32,66 @@ import '../mgt-person/mgt-person';
  * @cssprop --event-subject-color - {Color} Event subject color
  * @cssprop --event-location-font-size - {Length} Event location font size
  * @cssprop --event-location-color - {Color} Event location color
+ * @cssprop --event-attendees-color - {Color} Event attendees color
  */
 export declare class MgtAgenda extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
     /**
      * stores current date for initial calender selection in events.
+     *
      * @type {string}
      */
     get date(): string;
     set date(value: string);
     /**
      * determines if agenda events come from specific group
+     *
      * @type {string}
      */
     get groupId(): string;
     set groupId(value: string);
     /**
      * sets number of days until end date, 3 is the default
+     *
      * @type {number}
      */
     get days(): number;
     set days(value: number);
     /**
      * allows developer to specify a different graph query that retrieves events
+     *
      * @type {string}
      */
     get eventQuery(): string;
     set eventQuery(value: string);
     /**
      * array containing events from user agenda.
+     *
      * @type {MicrosoftGraph.Event[]}
      */
     events: MicrosoftGraph.Event[];
     /**
      * allows developer to define max number of events shown
+     *
      * @type {number}
      */
     showMax: number;
     /**
      * allows developer to define agenda to group events by day.
+     *
      * @type {boolean}
      */
     groupByDay: boolean;
     /**
      * allows developer to specify preferred timezone that should be used for
-     * retrieving events from Graph, eg. `Pacific Standard Time`. The preferred timezone for
-     * the current user can be retrieved by calling `me/mailboxSettings` and
-     * retrieving the value of the `timeZone` property.
+     * rendering events retrieved from Graph, eg. `America/Los_Angeles`.
+     * By default events are rendered using the current timezone of the
+     * device being used.
+     *
      * @type {string}
      */
     get preferredTimezone(): string;
@@ -97,6 +106,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
     static get requiredScopes(): string[];
     /**
      * determines width available for agenda component.
+     *
      * @type {boolean}
      */
     private _isNarrow;
@@ -105,7 +115,6 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
     private _groupId;
     private _date;
     private _preferredTimezone;
-    constructor();
     /**
      * Determines width available if resize is necessary, adds onResize event listener to window
      *
@@ -237,7 +246,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      */
     protected loadState(): Promise<void>;
     private reloadState;
-    private onResize;
+    private readonly onResize;
     private eventClicked;
     private getEventTimeString;
     private loadEvents;

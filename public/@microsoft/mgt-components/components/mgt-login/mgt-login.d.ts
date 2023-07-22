@@ -4,10 +4,16 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
+import { CSSResult, TemplateResult } from 'lit';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import '../../styles/style-helper';
+/**
+ * loginViewType describes the enum strings that can be passed in to determine
+ * size of the mgt-login control.
+ */
+export type LoginViewType = 'avatar' | 'compact' | 'full';
 /**
  * Web component button and flyout control to facilitate Microsoft identity platform authentication
  *
@@ -15,45 +21,69 @@ import '../../styles/style-helper';
  * @class MgtLogin
  * @extends {MgtBaseComponent}
  *
- * @fires loginInitiated - Fired when login is initiated by the user
- * @fires loginCompleted - Fired when login completes
- * @fires loginFailed - Fired when login fails
- * @fires logoutInitiated - Fired when logout is initiated by the user
- * @fires logoutCompleted - Fired when logout completed
+ * @fires {CustomEvent<undefined>} loginInitiated - Fired when login is initiated by the user
+ * @fires {CustomEvent<undefined>} loginCompleted - Fired when login completes
+ * @fires {CustomEvent<undefined>} loginFailed - Fired when login fails
+ * @fires {CustomEvent<undefined>} logoutInitiated - Fired when logout is initiated by the user
+ * @fires {CustomEvent<undefined>} logoutCompleted - Fired when logout completed
  *
  * @template signed-in-button-content (dataContext: {personDetails, personImage})
  * @template signed-out-button-content (dataContext: null)
  * @template flyout-commands (dataContext: {handleSignOut})
  * @template flyout-person-details (dataContext: {personDetails, personImage})
  *
- * @cssprop --font-size - {Length} Login font size
- * @cssprop --font-weight - {Length} Login font weight
- * @cssprop --height - {String} Login height percentage
- * @cssprop --margin - {String} Margin size
- * @cssprop --padding - {String} Padding size
- * @cssprop --button-color - {Color} Login button font color
- * @cssprop --button-color--hover - {Color} Login button font hover color
- * @cssprop --button-background-color - {Color} Login button background color
- * @cssprop --button-background-color--hover - {Color} Login background hover color
- * @cssprop --popup-background-color - {Color} Popup background color
- * @cssprop --popup-color - {Color} Popup font color
- * @cssprop --popup-command-font-size - {Length} Popup command font size
+ * @cssprop --login-signed-in-background - {String} the background properties of the component when signed in.
+ * @cssprop --login-signed-in-hover-background - {String} the background properties of the component when signed in.
+ * @cssprop --login-signed-out-button-background - {String} the background properties of the component when signed out.
+ * @cssprop --login-signed-out-button-hover-background - {String} the background properties of the component when signed out.
+ * @cssprop --login-signed-out-button-text-color - {Color} the background color of the component when signed out.
+ * @cssprop --login-button-padding - {Length} the padding of the button. Default is 0px.
+ * @cssprop --login-popup-background-color - {Color} the background color of the popup.
+ * @cssprop --login-popup-command-button-background-color - {Color} the color of the background to the popup command button.
+ * @cssprop --login-popup-padding - {Length} the padding applied to the popup card. Default is 16px.
+ * @cssprop --login-add-account-button-text-color - {Color} the color for the text and icon of the add account button.
+ * @cssprop --login-add-account-button-background-color - {Color} the color for the background and icon of the add account button.
+ * @cssprop --login-add-account-button-hover-background-color - {Color} the color for the background and icon of the add account button on hover.
+ * @cssprop --login-command-button-text-color - {Color} the color for the text of the command button.
+ * @cssprop --login-command-button-background-color - {Color} the color for the background of the command button.
+ * @cssprop --login-command-button-hover-background-color - {Color} the color for the background of the command button on hovering.
+ * @cssprop --login-account-item-hover-bg-color - {Color} the background color of the account item on hover.
+ * @cssprop --login-flyout-command-text-color - {Color} the color for the text of the flyout command button.
  */
 export declare class MgtLogin extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
-    protected get strings(): {
-        signInLinkSubtitle: string;
-        signOutLinkSubtitle: string;
-    };
+    static get styles(): CSSResult[];
     /**
-     * allows developer to use specific user details for login
+     * Returns the object of strings for localization
+     *
+     * @readonly
+     * @protected
+     * @memberof MgtLogin
+     */
+    protected get strings(): Record<string, string>;
+    /**
+     * Allows developer to use specific user details for login.
+     *
      * @type {IDynamicPerson}
      */
     userDetails: IDynamicPerson;
+    /**
+     * Determines if presence is shown for logged in user
+     * defaults to false
+     *
+     * @type {boolean}
+     */
+    showPresence: boolean;
+    /**
+     * Determines the view style to apply to the logged in user
+     * options are 'full', 'compact', 'avatar', defaults to 'full'
+     *
+     * @type {LoginViewType}
+     */
+    loginView: LoginViewType;
     /**
      * Gets the flyout element
      *
@@ -71,11 +101,29 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      */
     static get requiredScopes(): string[];
     /**
-     * determines if login menu popup should be showing
+     * Determines if login menu popup should be showing.
+     *
+     * @private
      * @type {boolean}
      */
     private _isFlyoutOpen;
+    /**
+     * The image blob string
+     *
+     * @private
+     * @type {string}
+     * @memberof MgtLogin
+     */
     private _image;
+    /**
+     * Suffix for user details key
+     *
+     * @private
+     * @type {string}
+     * @memberof MgtLogin
+     */
+    private get _userDetailsKey();
+    private _arrowKeyLocation;
     constructor();
     /**
      * Invoked each time the custom element is appended into a document-connected element
@@ -96,75 +144,107 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @returns {Promise<void>}
      * @memberof MgtLogin
      */
-    logout(): Promise<void>;
+    logout: () => Promise<void>;
     /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
+     *
+     * @protected
+     * @returns {TemplateResult}
      */
-    protected render(): import("lit-element").TemplateResult;
+    protected render(): TemplateResult;
     /**
      * Load state into the component.
      *
      * @protected
-     * @returns
      * @memberof MgtLogin
      */
     protected loadState(): Promise<void>;
     /**
-     * Render the button.
+     * Render the sign in or sign out button.
      *
      * @protected
      * @memberof MgtLogin
+     * @returns {TemplateResult}
      */
-    protected renderButton(): import("lit-element").TemplateResult;
+    protected renderButton(): TemplateResult;
+    private readonly flyoutOpened;
+    private readonly flyoutClosed;
     /**
      * Render the details flyout.
      *
      * @protected
      * @memberof MgtLogin
+     * @returns {TemplateResult}
      */
-    protected renderFlyout(): import("lit-element").TemplateResult;
+    protected renderFlyout(): TemplateResult;
     /**
      * Render the flyout menu content.
      *
      * @protected
-     * @returns
+     * @returns {TemplateResult}
      * @memberof MgtLogin
      */
-    protected renderFlyoutContent(): import("lit-element").TemplateResult;
+    protected renderFlyoutContent(): TemplateResult;
+    private get hasMultipleAccounts();
+    private get usesVerticalPersonCard();
     /**
      * Render the flyout person details.
      *
      * @protected
-     * @returns
+     * @returns {TemplateResult}
      * @memberof MgtLogin
      */
-    protected renderFlyoutPersonDetails(personDetails: IDynamicPerson, personImage: string): import("lit-element").TemplateResult;
+    protected renderFlyoutPersonDetails(personDetails: IDynamicPerson, personImage: string): TemplateResult;
     /**
      * Render the flyout commands.
      *
      * @protected
-     * @returns
+     * @returns {TemplateResult}
      * @memberof MgtLogin
      */
-    protected renderFlyoutCommands(): import("lit-element").TemplateResult;
+    protected renderFlyoutCommands(): TemplateResult;
     /**
      * Render the button content.
      *
      * @protected
-     * @returns
+     * @returns {TemplateResult}
      * @memberof MgtLogin
      */
-    protected renderButtonContent(): import("lit-element").TemplateResult;
+    protected renderButtonContent(): TemplateResult;
     /**
-     * Render the button content when the user is signed in.
+     * Renders the button to allow adding accounts.
      *
      * @protected
      * @returns
      * @memberof MgtLogin
      */
-    protected renderSignedInButtonContent(personDetails: IDynamicPerson, personImage: string): import("lit-element").TemplateResult;
+    protected renderAddAccountContent(): TemplateResult<1>;
+    private parsePersonDisplayConfiguration;
+    /**
+     * Render the button content when the user is signed in.
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtLogin
+     */
+    protected renderSignedInButtonContent(personDetails: IDynamicPerson, personImage: string): TemplateResult;
+    /**
+     * Renders multiple accounts that can be used to sign in.
+     *
+     * @return {TemplateResult}
+     * @memberof MgtLogin
+     */
+    renderAccounts(): TemplateResult;
+    private readonly handleAccountListKeyDown;
+    /**
+     * Set one of the non-active accounts as the active account
+     *
+     * @param {IProviderAccount} account
+     * @memberof MgtLogin
+     */
+    private setActiveAccount;
     /**
      * Clears state of the component
      *
@@ -179,7 +259,7 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtLogin
      */
-    protected renderSignedOutButtonContent(): import("lit-element").TemplateResult;
+    protected renderSignedOutButtonContent(): TemplateResult;
     /**
      * Show the flyout and its content.
      *
@@ -194,6 +274,12 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @memberof MgtLogin
      */
     protected hideFlyout(): void;
-    private onClick;
+    /**
+     * Handles the click on the button in the flyout.
+     *
+     * @private
+     * @memberof MgtLogin
+     */
+    private readonly onClick;
 }
 //# sourceMappingURL=mgt-login.d.ts.map

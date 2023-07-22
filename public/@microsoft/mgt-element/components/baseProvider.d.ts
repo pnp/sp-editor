@@ -6,6 +6,8 @@
  */
 import { MgtBaseComponent } from './baseComponent';
 import { IProvider } from '../providers/IProvider';
+import { GraphEndpoint } from '../IGraph';
+import { PropertyValueMap } from 'lit';
 /**
  * Abstract implementation for provider component
  *
@@ -39,6 +41,18 @@ export declare abstract class MgtBaseProvider extends MgtBaseComponent {
      * @memberof MgtBaseProvider
      */
     dependsOn: MgtBaseProvider;
+    /**
+     * The base URL that should be used in the graph client config.
+     *
+     * @memberof MgtBaseProvider
+     */
+    baseUrl: GraphEndpoint;
+    /**
+     * Custom Hosts to be passed through to the graph client
+     *
+     * @memberof MgtBaseProvider
+     */
+    customHosts?: string[];
     private _provider;
     /**
      * Invoked when the element is first updated. Implement to perform one time
@@ -49,7 +63,7 @@ export declare abstract class MgtBaseProvider extends MgtBaseComponent {
      *
      * * @param _changedProperties Map of changed properties with old values
      */
-    protected firstUpdated(changedProperties: any): void;
+    protected firstUpdated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
     /**
      * method called to initialize the provider. Each derived class should provide
      * their own implementation
@@ -58,6 +72,6 @@ export declare abstract class MgtBaseProvider extends MgtBaseComponent {
      * @memberof MgtBaseProvider
      */
     protected initializeProvider(): void;
-    private stateChangedHandler;
+    private readonly stateChangedHandler;
 }
 //# sourceMappingURL=baseProvider.d.ts.map

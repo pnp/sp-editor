@@ -4,8 +4,5 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-export declare const strings: {
-    signInLinkSubtitle: string;
-    signOutLinkSubtitle: string;
-};
+export declare const strings: Record<string, string>;
 //# sourceMappingURL=strings.d.ts.map

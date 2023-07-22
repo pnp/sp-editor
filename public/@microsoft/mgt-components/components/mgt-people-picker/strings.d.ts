@@ -6,11 +6,13 @@
  */
 export declare const strings: {
     inputPlaceholderText: string;
+    maxSelectionsPlaceHolder: string;
+    maxSelectionsAriaLabel: string;
     noResultsFound: string;
     loadingMessage: string;
-    suggestedContact: string;
-    suggestedContacts: string;
     selected: string;
-    removeSelectedItem: string;
+    removeSelectedUser: string;
+    selectContact: string;
+    suggestionsTitle: string;
 };
 //# sourceMappingURL=strings.d.ts.map

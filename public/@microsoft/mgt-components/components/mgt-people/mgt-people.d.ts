@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
@@ -18,17 +18,21 @@ export { PersonCardInteraction } from './../PersonCardInteraction';
  * @class MgtPeople
  * @extends {MgtTemplatedComponent}
  *
- * @cssprop --list-margin - {String} List margin for component
- * @cssprop --avatar-margin - {String} Margin for each person
+ * @cssprop --people-list-margin- {String} the margin around the list of people. Default is 8px 4px 8px 8px.
+ * @cssprop --people-avatar-gap - {String} the gap between the people in the list. Default is 4px.
+ * @cssprop --people-overflow-font-color - {Color} the color of the overflow text.
+ * @cssprop --people-overflow-font-size - {String} the text color of the overflow text. Default is 12px.
+ * @cssprop --people-overflow-font-weight - {String} the font weight of the overflow text. Default is 400.
  */
 export declare class MgtPeople extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
     /**
      * determines if agenda events come from specific group
+     *
      * @type {string}
      */
     get groupId(): string;
@@ -42,22 +46,26 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     set userIds(value: string[]);
     /**
      * containing array of people used in the component.
+     *
      * @type {IDynamicPerson[]}
      */
     people: IDynamicPerson[];
     /**
      * allows developer to define queries of people for component
+     *
      * @type {string[]}
      */
     get peopleQueries(): string[];
     set peopleQueries(value: string[]);
     /**
      * developer determined max people shown in component
+     *
      * @type {number}
      */
     showMax: number;
     /**
      * determines if person component renders presence
+     *
      * @type {boolean}
      */
     showPresence: boolean;
@@ -94,6 +102,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     scopes: string[];
     /**
      * Fallback when no user is found
+     *
      * @type {IDynamicPerson[]}
      */
     get fallbackDetails(): IDynamicPerson[];
@@ -113,6 +122,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     private _resource;
     private _version;
     private _fallbackDetails;
+    private _arrowKeyLocation;
     constructor();
     /**
      * Clears the state of the component
@@ -160,6 +170,12 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @memberof MgtPeople
      */
     protected renderOverflow(): TemplateResult;
+    /**
+     * Handles the keypresses on a keyboard for the listed people.
+     *
+     * @param event is a KeyboardEvent.
+     */
+    protected handleKeyDown: (event: KeyboardEvent) => void;
     /**
      * Render an individual person.
      *

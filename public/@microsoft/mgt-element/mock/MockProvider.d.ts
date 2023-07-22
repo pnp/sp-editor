@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IProvider } from '../providers/IProvider';
+import { IProvider, IProviderAccount } from '../providers/IProvider';
 import { MockGraph } from './MockGraph';
 /**
  * Mock Provider access token for Microsoft Graph APIs
@@ -15,13 +15,38 @@ import { MockGraph } from './MockGraph';
  */
 export declare class MockProvider extends IProvider {
     provider: any;
+    private readonly _mockGraphPromise;
     /**
      * new instance of mock graph provider
      *
      * @memberof MockProvider
      */
     graph: MockGraph;
-    constructor(signedIn?: boolean);
+    constructor(signedIn?: boolean, signedInAccounts?: IProviderAccount[]);
+    /**
+     * Indicates if the MockProvider is configured to support multi account mode
+     * This is only true if the Mock provider has been configured with signedInAccounts in the constructor
+     *
+     * @readonly
+     * @type {boolean}
+     * @memberof MockProvider
+     */
+    get isMultiAccountSupportedAndEnabled(): boolean;
+    private readonly _accounts;
+    /**
+     * Returns the array of accounts the MockProviders has been configured with
+     *
+     * @return {*}  {IProviderAccount[]}
+     * @memberof MockProvider
+     */
+    getAllAccounts?(): IProviderAccount[];
+    /**
+     * Returns the first account in the set of accounts the MockProvider has been configured with
+     *
+     * @return {*}  {IProviderAccount}
+     * @memberof MockProvider
+     */
+    getActiveAccount?(): IProviderAccount;
     /**
      * sets Provider state to SignedIn
      *
@@ -50,5 +75,6 @@ export declare class MockProvider extends IProvider {
      * @memberof IProvider
      */
     get name(): string;
+    private initializeMockGraph;
 }
 //# sourceMappingURL=MockProvider.d.ts.map

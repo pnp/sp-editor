@@ -60,7 +60,9 @@ export const pnpjsMonacoConfigs = () => {
 
 export const initCode = () => {
   const code = `
-// CTRL/CMD + D to execute the code
+  /* Hit 'ctrl + d' or 'cmd + d' to run the code */
+  /* Check output from browser console */
+
 import { spfi, SPBrowser } from "@pnp/sp";
 import "@pnp/sp/webs";
 

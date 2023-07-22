@@ -40,9 +40,9 @@ export declare class Graph implements IGraph {
      * @memberof Graph
      */
     get version(): string;
-    private _client;
+    private readonly _client;
     private _componentName;
-    private _version;
+    private readonly _version;
     constructor(client: Client, version?: string);
     /**
      * Returns a new instance of the Graph using the same
@@ -67,7 +67,7 @@ export declare class Graph implements IGraph {
      * @returns {Batch}
      * @memberof Graph
      */
-    createBatch(): Batch;
+    createBatch<T = any>(): Batch<T>;
     /**
      * sets the component name used in request headers.
      *
@@ -85,5 +85,5 @@ export declare class Graph implements IGraph {
  * @returns {Graph}
  * @memberof Graph
  */
-export declare function createFromProvider(provider: IProvider, version?: string, component?: Element): Graph;
+export declare const createFromProvider: (provider: IProvider, version?: string, component?: Element) => Graph;
 //# sourceMappingURL=Graph.d.ts.map

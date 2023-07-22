@@ -744,7 +744,9 @@ class timeline_Timeline {
                     }
                     finally {
                         // here we need to remove any "once" observers
-                        Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        if (observers && observers.length > 0) {
+                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                        }
                     }
                 },
             });

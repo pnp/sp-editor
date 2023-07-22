@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import { GroupType } from '../../graph/graph.groups';
 import { PersonType, UserType } from '../../graph/graph.people';
 import { IDynamicPerson } from '../../graph/types';
@@ -21,41 +21,33 @@ export { PersonType, UserType } from '../../graph/graph.people';
  * @class MgtPicker
  * @extends {MgtTemplatedComponent}
  *
- * @fires selectionChanged - Fired when selection changes
+ * @fires {CustomEvent<IDynamicPerson[]>} selectionChanged - Fired when set of selected people changes
  *
- * @cssprop --color - {Color} Default font color
- *
- * @cssprop --input-border - {String} Input section entire border
- * @cssprop --input-border-top - {String} Input section border top only
- * @cssprop --input-border-right - {String} Input section border right only
- * @cssprop --input-border-bottom - {String} Input section border bottom only
- * @cssprop --input-border-left - {String} Input section border left only
- * @cssprop --input-background-color - {Color} Input section background color
- * @cssprop --input-border-color--hover - {Color} Input border hover color
- * @cssprop --input-border-color--focus - {Color} Input border focus color
- *
- * @cssprop --selected-person-background-color - {Color} Selected person background color
- *
- * @cssprop --dropdown-background-color - {Color} Background color of dropdown area
- * @cssprop --dropdown-item-hover-background - {Color} Background color of person during hover
- * @cssprop --dropdown-item-text-color - {Color} Color of person text
- * @cssprop --dropdown-item-text-hover-color - {Color} Color of person text during hover
- *
- * @cssprop --placeholder-color--focus - {Color} Color of placeholder text during focus state
- * @cssprop --placeholder-color - {Color} Color of placeholder text
- *
- * @cssprop --people-picker-flyout-line1-text-font-size - {String} the font size of the line 1 text on the flyout results. Default is 14px.
- * @cssprop --people-picker-flyout-line1-text-font-weight - {String} the font weight of the line 1 text on the flyout results. Default is normal.
- * @cssprop --people-picker-flyout-line2-text-font-size - {String} the font size of the line 2 text on the flyout results. Default is 12px.
- * @cssprop --people-picker-flyout-line2-text-font-weight - {String} the font weight of the line 2 text on the flyout results. Default is normal.
- *
+ * @cssprop --people-picker-selected-option-background-color - {Color} the background color of the selected person.
+ * @cssprop --people-picker-selected-option-highlight-background-color - {Color} the background color of the selected person when you select it for copy/cut.
+ * @cssprop --people-picker-dropdown-background-color - {Color} the background color of the dropdown card.
+ * @cssprop --people-picker-dropdown-result-background-color - {Color} the background color of the dropdown result.
+ * @cssprop --people-picker-dropdown-result-hover-background-color - {Color} the background color of the dropdown result on hover.
+ * @cssprop --people-picker-dropdown-result-focus-background-color - {Color} the background color of the dropdown result on focus.
+ * @cssprop --people-picker-no-results-text-color - {Color} the no results found text color.
+ * @cssprop --people-picker-input-background - {Color} the input background color.
+ * @cssprop --people-picker-input-border-color - {Color} the input border color.
+ * @cssprop --people-picker-input-hover-background - {Color} the input background color when you hover.
+ * @cssprop --people-picker-input-hover-border-color - {Color} the input border color when you hover
+ * @cssprop --people-picker-input-focus-background - {Color} the input background color when you focus.
+ * @cssprop --people-picker-input-focus-border-color - {Color} the input border color when you focus.
+ * @cssprop --people-picker-input-placeholder-focus-text-color - {Color} the placeholder text color when you focus.
+ * @cssprop --people-picker-input-placeholder-hover-text-color - {Color} the placeholder text color when you hover.
+ * @cssprop --people-picker-input-placeholder-text-color - {Color} the placeholder text color.
+ * @cssprop --people-picker-search-icon-color - {Color} the search icon color
+ * @cssprop --people-picker-remove-selected-close-icon-color - {Color} the remove selected person close icon color.
  */
 export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
     /**
      * The strings to be used for localizing the component.
      *
@@ -65,12 +57,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     protected get strings(): {
         inputPlaceholderText: string;
+        maxSelectionsPlaceHolder: string;
+        maxSelectionsAriaLabel: string;
         noResultsFound: string;
         loadingMessage: string;
-        suggestedContact: string;
-        suggestedContacts: string;
         selected: string;
-        removeSelectedItem: string;
+        removeSelectedUser: string;
+        selectContact: string;
+        suggestionsTitle: string;
     };
     /**
      * Gets the flyout element
@@ -90,18 +84,21 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     protected get input(): HTMLInputElement;
     /**
      * value determining if search is filtered to a group.
+     *
      * @type {string}
      */
     get groupId(): string;
     set groupId(value: string);
     /**
      * array of groups for search to be filtered by.
+     *
      * @type {string[]}
      */
     get groupIds(): string[];
     set groupIds(value: string[]);
     /**
      * value determining if search is filtered to a group.
+     *
      * @type {PersonType}
      */
     get type(): PersonType;
@@ -109,6 +106,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
      * type of group to search for - requires personType to be
      * set to "Group" or "All"
+     *
      * @type {GroupType}
      */
     get groupType(): GroupType;
@@ -124,18 +122,21 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     set userType(value: UserType);
     /**
      * whether the return should contain a flat list of all nested members
+     *
      * @type {boolean}
      */
     get transitiveSearch(): boolean;
     set transitiveSearch(value: boolean);
     /**
      * containing object of IDynamicPerson.
+     *
      * @type {IDynamicPerson[]}
      */
     get people(): IDynamicPerson[];
     set people(value: IDynamicPerson[]);
     /**
      * determining how many people to show in list.
+     *
      * @type {number}
      */
     get showMax(): number;
@@ -150,6 +151,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     disableImages: boolean;
     /**
      * array of user picked people.
+     *
      * @type {IDynamicPerson[]}
      */
     get selectedPeople(): IDynamicPerson[];
@@ -279,6 +281,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     private _foundPeople;
     constructor();
+    private get hasMaxSelections();
     /**
      * Focuses the input element when focus is called
      *
@@ -305,6 +308,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
      * Invoked on each update to perform rendering tasks. This method must return a lit-html TemplateResult.
      * Setting properties inside this method will not trigger the element to update.
+     *
      * @returns {TemplateResult}
      * @memberof MgtPeoplePicker
      */
@@ -331,7 +335,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof MgtPeoplePicker
      */
-    protected renderInput(): TemplateResult;
+    protected renderInput(selectedPeopleTemplate: TemplateResult): TemplateResult;
     /**
      * Render the selected people tokens.
      *
@@ -380,7 +384,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtPeoplePicker
      */
-    protected renderSearchResults(people: IDynamicPerson[]): TemplateResult;
+    protected renderSearchResults(people: IDynamicPerson[]): TemplateResult<1>;
     /**
      * Render an individual person search result.
      *
@@ -428,43 +432,47 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     protected showFlyout(): void;
     /**
      * Removes person from selected people
+     *
      * @param person - person and details pertaining to user selected
      */
     protected removePerson(person: IDynamicPerson, e: UIEvent): void;
     /**
      * Checks if key pressed is an `Enter` key before removing person
+     *
      * @param person
      * @param e
      */
     protected handleRemovePersonKeyDown(person: IDynamicPerson, e: KeyboardEvent): void;
     /**
      * Tracks when user selects person from picker
+     *
      * @param person - contains details pertaining to selected user
      * @param event - tracks user event
      */
     protected addPerson(person: IDynamicPerson): void;
     private clearInput;
-    private handleInputClick;
-    private gainedFocus;
-    private lostFocus;
-    private renderHighlightText;
+    private readonly handleInputClick;
+    private readonly gainedFocus;
+    private readonly lostFocus;
     /**
      * Handles input from the key up events on the keyboard.
      */
-    private onUserKeyUp;
-    private onUserInput;
+    private readonly onUserKeyUp;
+    private readonly onUserInput;
     private handleAnyEmail;
     private handleSuggestionClick;
     /**
      * Tracks event on user input in search
+     *
      * @param input - input text
      */
     private handleUserSearch;
     /**
      * Tracks event on user search (keydown)
+     *
      * @param event - event tracked on user input (keydown)
      */
-    private onUserKeyDown;
+    private readonly onUserKeyDown;
     /**
      * Gets the text of the highlighed people and writes it to the clipboard
      */
@@ -472,21 +480,22 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
     /**
      * Handles the cut event when it is fired
      */
-    private handleCut;
+    private readonly handleCut;
     /**
      * Handles the copy event when it is fired
      */
-    private handleCopy;
+    private readonly handleCopy;
     /**
      * Parses the copied people text and adds them when you paste
      */
-    private handlePaste;
+    private readonly handlePaste;
     /**
      * Removes only the highlighted elements from the peoplePicker during cut operations.
      */
     private removeHighlightedOnCut;
     /**
      * Changes the color class to show which people are selected for copy/cut-paste
+     *
      * @param people list of selected people classes
      */
     private highlightSelectedPeople;
@@ -495,17 +504,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     private clearHighlighted;
     /**
-     * Returns the original classes of a highlighted person element
-     * @param node a highlighted node element
-     */
-    private clearNodeHighlights;
-    /**
      * Tracks user key selection for arrow key selection of people
+     *
      * @param event - tracks user key selection
      */
     private handleArrowSelection;
     /**
      * Filters people searched from already selected people
+     *
      * @param people - array of people returned from query to Graph
      */
     private filterPeople;

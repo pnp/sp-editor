@@ -6,61 +6,44 @@
  */
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
-import { TemplateResult } from 'lit-element';
+import { TemplateResult } from 'lit';
 import './mgt-file-upload/mgt-file-upload';
 import { OfficeGraphInsightString, ViewType } from '../../graph/types';
-export { FluentDesignSystemProvider, FluentProgressRing } from '@fluentui/web-components';
-export * from './mgt-file-upload/mgt-file-upload';
+import { CardSection } from '../BasePersonCardSection';
 /**
  * The File List component displays a list of multiple folders and files by
- * using the file/folder name, an icon, and other properties specicified by the developer.
+ * using the file/folder name, an icon, and other properties specified by the developer.
  * This component uses the mgt-file component.
  *
  * @export
  * @class MgtFileList
- * @extends {MgtTemplatedComponent}
  *
- * @fires itemClick - Fired when user click a file. Returns the file (DriveItem) details.
- * @cssprop --file-upload-border- {String} File upload border top style
- * @cssprop --file-upload-background-color - {Color} File upload background color with opacity style
- * @cssprop --file-upload-button-float - {string} Upload button float position
- * @cssprop --file-upload-button-background-color - {Color} Background color of upload button
- * @cssprop --file-upload-dialog-background-color - {Color} Background color of upload dialog
- * @cssprop --file-upload-dialog-content-background-color - {Color} Background color of dialog content
- * @cssprop --file-upload-dialog-content-color - {Color} Color of dialog content
- * @cssprop --file-upload-dialog-primarybutton-background-color - {Color} Background color of primary button
- * @cssprop --file-upload-dialog-primarybutton-color - {Color} Color text of primary button
- * @cssprop --file-upload-button-color - {Color} Text color of upload button
- * @cssprop --file-list-background-color - {Color} File list background color
- * @cssprop --file-list-box-shadow - {String} File list box shadow style
- * @cssprop --file-list-border - {String} File list border styles
- * @cssprop --file-list-padding -{String} File list padding
- * @cssprop --file-list-margin -{String} File list margin
- * @cssprop --file-item-background-color--hover - {Color} File item background hover color
- * @cssprop --file-item-border-top - {String} File item border top style
- * @cssprop --file-item-border-left - {String} File item border left style
- * @cssprop --file-item-border-right - {String} File item border right style
- * @cssprop --file-item-border-bottom - {String} File item border bottom style
- * @cssprop --file-item-background-color--active - {Color} File item background active color
- * @cssprop --file-item-border-radius - {String} File item border radius
- * @cssprop --file-item-margin - {String} File item margin
- * @cssprop --show-more-button-background-color - {Color} Show more button background color
- * @cssprop --show-more-button-background-color--hover - {Color} Show more button background hover color
- * @cssprop --show-more-button-font-size - {String} Show more button font size
- * @cssprop --show-more-button-padding - {String} Show more button padding
- * @cssprop --show-more-button-border-bottom-right-radius - {String} Show more button bottom right radius
- * @cssprop --show-more-button-border-bottom-left-radius - {String} Show more button bottom left radius
- * @cssprop --progress-ring-size -{String} Progress ring height and width
+ * @fires {CustomEvent<MicrosoftGraph.DriveItem>} itemClick - Fired when a user clicks on a file.
+ * it returns the file (DriveItem) details.
+ *
+ * NOTE: This component also allows customizing the tokens from mgt-file and mgt-file-upload components.
+ * @cssprop --file-list-background-color - {Color} the background color of the component.
+ * @cssprop --file-list-box-shadow - {String} the box-shadow syle of the component. Default value is --elevation-shadow-card-rest.
+ * @cssprop --file-list-border-radius - {Length} the file list box border radius. Default value is 8px.
+ * @cssprop --file-list-border - {String} the file list border style. Default value is none.
+ * @cssprop --file-list-padding -{String} the file list padding.  Default value is 0px.
+ * @cssprop --file-list-margin -{String} the file list margin. Default value is 0px.
+ * @cssprop --show-more-button-background-color - {Color} the "show more" button background color.
+ * @cssprop --show-more-button-background-color--hover - {Color} the "show more" button background color on hover.
+ * @cssprop --show-more-button-font-size - {String} the "show more" text font size. Default value is 12px.
+ * @cssprop --show-more-button-padding - {String} the "show more" button padding. Default value is 0px.
+ * @cssprop --show-more-button-border-bottom-right-radius - {String} the "show more" button bottom right border radius. Default value is 8px.
+ * @cssprop --show-more-button-border-bottom-left-radius - {String} the "show more" button bottom left border radius. Default value is 8px;
+ * @cssprop --progress-ring-size -{String} Progress ring height and width. Default value is 24px.
  */
-export declare class MgtFileList extends MgtTemplatedComponent {
+export declare class MgtFileList extends MgtTemplatedComponent implements CardSection {
+    private _isCompact;
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
-    protected get strings(): {
-        showMoreSubtitle: string;
-    };
+    static get styles(): import("lit").CSSResult[];
+    protected get strings(): Record<string, string>;
     /**
      * allows developer to provide query for a file list
      *
@@ -69,6 +52,29 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      */
     get fileListQuery(): string;
     set fileListQuery(value: string);
+    /**
+     * The name for display in the overview section.
+     *
+     * @readonly
+     * @type {string}
+     * @memberof MgtFileList
+     */
+    get displayName(): string;
+    /**
+     * The title for the card when rendered as a card full.
+     *
+     * @readonly
+     * @type {string}
+     * @memberof MgtFileList
+     */
+    get cardTitle(): string;
+    /**
+     * Render the icon for display in the navigation ribbon.
+     *
+     * @returns {TemplateResult}
+     * @memberof MgtFileList
+     */
+    renderIcon(): TemplateResult;
     /**
      * allows developer to provide an array of file queries
      *
@@ -160,6 +166,7 @@ export declare class MgtFileList extends MgtTemplatedComponent {
     set fileExtensions(value: string[]);
     /**
      * A number value to indicate the number of more files to load when show more button is clicked
+     *
      * @type {number}
      * @memberof MgtFileList
      */
@@ -167,12 +174,14 @@ export declare class MgtFileList extends MgtTemplatedComponent {
     set pageSize(value: number);
     /**
      * A boolean value indication if 'show-more' button should be disabled
+     *
      * @type {boolean}
      * @memberof MgtFileList
      */
     hideMoreFilesButton: boolean;
     /**
      * A number value indication for file size upload (KB)
+     *
      * @type {number}
      * @memberof MgtFileList
      */
@@ -180,12 +189,14 @@ export declare class MgtFileList extends MgtTemplatedComponent {
     set maxFileSize(value: number);
     /**
      * A boolean value indication if file upload extension should be enable or disabled
+     *
      * @type {boolean}
      * @memberof MgtFileList
      */
     enableFileUpload: boolean;
     /**
      * A number value to indicate the max number allowed of files to upload.
+     *
      * @type {number}
      * @memberof MgtFileList
      */
@@ -238,7 +249,41 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      * @memberof MgtFileList
      */
     protected clearState(): void;
+    /**
+     * Set the section to compact view mode
+     *
+     * @returns
+     * @memberof BasePersonCardSection
+     */
+    asCompactView(): this;
+    /**
+     * Set the section to full view mode
+     *
+     * @returns
+     * @memberof BasePersonCardSection
+     */
+    asFullView(): this;
+    /**
+     * Render the file list
+     *
+     * @return {*}
+     * @memberof MgtFileList
+     */
     render(): TemplateResult;
+    /**
+     * Render the compact view
+     *
+     * @returns {TemplateResult}
+     * @memberof MgtFileList
+     */
+    renderCompactView(): TemplateResult;
+    /**
+     * Render the full view
+     *
+     * @returns {TemplateResult}
+     * @memberof MgtFileList
+     */
+    renderFullView(): TemplateResult;
     /**
      * Render the loading state
      *
@@ -263,7 +308,7 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof mgtFileList
      */
-    protected renderFiles(): TemplateResult;
+    protected renderFiles(files: DriveItem[]): TemplateResult;
     /**
      * Render an individual file.
      *
@@ -287,28 +332,18 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      */
     protected renderFileUpload(): TemplateResult;
     /**
-     * Handle accessibility keyboard enter event on 'show more items' button
+     * Handles setting the focusedItemIndex to 0 when you focus on the first item
+     * in the file list.
      *
-     * @param event
+     * @returns void
      */
-    private onShowMoreKeyDown;
-    /**
-     * Handle accessibility keyboard keyup events on file list
-     *
-     * @param event
-     */
-    private onFileListKeyUp;
+    private readonly onFocusFirstItem;
     /**
      * Handle accessibility keyboard keydown events (arrow up, arrow down, enter, tab) on file list
      *
      * @param event
      */
-    private onFileListKeyDown;
-    /**
-     * Remove accessibility keyboard focused when out of file list
-     *
-     */
-    private onFileListOut;
+    private readonly onFileListKeyDown;
     /**
      * load state into the component.
      *
@@ -323,7 +358,7 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      * @protected
      * @memberof MgtFileList
      */
-    protected handleItemSelect(item: DriveItem, event: any): void;
+    protected handleItemSelect(item: DriveItem, event: UIEvent): void;
     /**
      * Handle the click event on button to show next page.
      *
@@ -331,6 +366,7 @@ export declare class MgtFileList extends MgtTemplatedComponent {
      * @memberof MgtFileList
      */
     protected renderNextPage(): Promise<void>;
+    private handleFileClick;
     /**
      * Get file extension string from file name
      *

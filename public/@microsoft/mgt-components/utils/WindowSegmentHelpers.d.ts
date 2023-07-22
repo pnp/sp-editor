@@ -35,12 +35,12 @@ export interface ISegmentAwareWindow extends Window {
  * @export
  * @returns {boolean}
  */
-export declare function isWindowSegmentAware(): boolean;
+export declare const isWindowSegmentAware: () => boolean;
 /**
  * Returns an ISegmentAwareWindow instance of the Window object, or null if the API is not supported.
  *
  * @export
  * @returns {ISegmentAwareWindow}
  */
-export declare function getSegmentAwareWindow(): ISegmentAwareWindow;
+export declare const getSegmentAwareWindow: () => ISegmentAwareWindow;
 //# sourceMappingURL=WindowSegmentHelpers.d.ts.map

@@ -62,7 +62,7 @@ const MGTEditor = () => {
       const errors: string[] = []
       markers.forEach((mark) => {
         if (mark.severity === 8) {
-          errors.push(mark.message)
+         errors.push(mark.message)
         }
       })
 
@@ -77,7 +77,7 @@ const MGTEditor = () => {
 
         let preview_code = js.outputText
 
-        // console.log(preview_code)
+        console.log(preview_code)
         preview_code = parseModules(preview_code)
 
         preview_code = preview_code.replaceAll(

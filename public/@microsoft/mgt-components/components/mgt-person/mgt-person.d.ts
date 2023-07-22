@@ -4,64 +4,16 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { Presence } from '@microsoft/microsoft-graph-types';
-import { TemplateResult } from 'lit-element';
-import { AvatarSize, IDynamicPerson, ViewType } from '../../graph/types';
 import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { Presence } from '@microsoft/microsoft-graph-types';
+import { TemplateResult } from 'lit';
+import { AvatarSize, IDynamicPerson, ViewType } from '../../graph/types';
 import '../../styles/style-helper';
 import '../sub-components/mgt-flyout/mgt-flyout';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import { PersonCardInteraction } from './../PersonCardInteraction';
+import { MgtPersonConfig, PersonViewType } from './mgt-person-types';
 export { PersonCardInteraction } from '../PersonCardInteraction';
-/**
- * Enumeration to define what parts of the person component render
- *
- * @export
- * @enum {number}
- */
-export declare enum PersonViewType {
-    /**
-     * Render only the avatar
-     */
-    avatar = 2,
-    /**
-     * Render the avatar and one line of text
-     */
-    oneline = 3,
-    /**
-     * Render the avatar and two lines of text
-     */
-    twolines = 4,
-    /**
-     * Render the avatar and three lines of text
-     */
-    threelines = 5
-}
-export declare enum avatarType {
-    /**
-     * Renders avatar photo if available, falls back to initials
-     */
-    photo = "photo",
-    /**
-     * Forces render avatar initials
-     */
-    initials = "initials"
-}
-/**
- * Configuration object for the Person component
- *
- * @export
- * @interface MgtPersonConfig
- */
-export interface MgtPersonConfig {
-    /**
-     * Sets or gets whether the person component can use Contacts APIs to
-     * find contacts and their images
-     *
-     * @type {boolean}
-     */
-    useContactApis: boolean;
-}
 /**
  * The person component is used to display a person or contact by using their photo, name, and/or email address.
  *
@@ -69,39 +21,62 @@ export interface MgtPersonConfig {
  * @class MgtPerson
  * @extends {MgtTemplatedComponent}
  *
- * @fires line1clicked - Fired when line1 is clicked
- * @fires line2clicked - Fired when line2 is clicked
- * @fires line3clicked - Fired when line3 is clicked
+ * @fires {CustomEvent<IDynamicPerson>} line1clicked - Fired when line1 is clicked
+ * @fires {CustomEvent<IDynamicPerson>} line2clicked - Fired when line2 is clicked
+ * @fires {CustomEvent<IDynamicPerson>} line3clicked - Fired when line3 is clicked
+ * @fires {CustomEvent<IDynamicPerson>} line4clicked - Fired when line4 is clicked
  *
- * @cssprop --avatar-size - {Length} Avatar size
- * @cssprop --avatar-border - {String} Avatar border
- * @cssprop --avatar-border-radius - {String} Avatar border radius
- * @cssprop --avatar-cursor - {String} Avatar cursor
- * @cssprop --initials-color - {Color} Initials color
- * @cssprop --initials-background-color - {Color} Initials background color
- * @cssprop --font-family - {String} Font family
- * @cssprop --font-size - {Length} Font size
- * @cssprop --font-weight - {Length} Font weight
- * @cssprop --color - {Color} Color
- * @cssprop --presence-background-color - {Color} Presence badge background color
- * @cssprop --presence-icon-color - {Color} Presence badge icon color
- * @cssprop --text-transform - {String} text transform
- * @cssprop --line2-font-size - {Length} Line 2 font size
- * @cssprop --line2-font-weight - {Length} Line 2 font weight
- * @cssprop --line2-color - {Color} Line 2 color
- * @cssprop --line2-text-transform - {String} Line 2 text transform
- * @cssprop --line3-font-size - {Length} Line 2 font size
- * @cssprop --line3-font-weight - {Length} Line 2 font weight
- * @cssprop --line3-color - {Color} Line 2 color
- * @cssprop --line3-text-transform - {String} Line 2 text transform
- * @cssprop --details-spacing - {Length} spacing between avatar and person details
+ * @cssprop --person-background-color - {Color} the color of the person component background.
+ * @cssprop --person-background-border-radius - {Length} the border radius of the person component. Default is 4px.
+ *
+ * @cssprop --person-avatar-size - {Length} the width and height of the avatar. Default is 24px.
+ * @cssprop --person-avatar-border - {String} the border around an avatar. Default is none.
+ * @cssprop --person-avatar-border-radius - {String} the radius around the border of an avatar. Default is 50%.
+ *
+ * @cssprop --person-initials-text-color - {Color} the color of initials in an avatar.
+ * @cssprop --person-initials-background-color - {Color} the color of the background in an avatar with initials.
+ *
+ * @cssprop --person-details-spacing - {Length} the space between the avatar and the person details. Default is 12px.
+ *
+ * @cssprop --person-line1-font-size - {String} the font-size of the line 1 text. Default is 14px.
+ * @cssprop --person-line1-font-weight - {Length} the font weight of the line 1 text. Default is 600.
+ * @cssprop --person-line1-text-color - {Color} the color of the line 1 text.
+ * @cssprop --person-line1-text-transform - {String} the tex transform of the line 1 text. Default is inherit.
+ * @cssprop --person-line1-text-line-height - {Length} the line height of the line 1 text. Default is 20px.
+ *
+ * @cssprop --person-line2-font-size - {Length} the font-size of the line 2 text. Default is 12px.
+ * @cssprop --person-line2-font-weight - {Length} the font weight of the line 2 text. Default is 400.
+ * @cssprop --person-line2-text-color - {Color} the color of the line 2 text.
+ * @cssprop --person-line2-text-transform - {String} the tex transform of the line 2 text. Default is inherit.
+ * @cssprop --person-line2-text-line-height - {Length} the line height of the line 2 text. Default is 16px.
+ *
+ * @cssprop --person-line3-font-size - {Length} the font-size of the line 3 text. Default is 12px.
+ * @cssprop --person-line3-font-weight - {Length} the font weight of the line 3 text. Default is 400.
+ * @cssprop --person-line3-text-color - {Color} the color of the line 3 text.
+ * @cssprop --person-line3-text-transform - {String} the tex transform of the line 3 text. Default is inherit.
+ * @cssprop --person-line3-text-line-height - {Length} the line height of the line 3 text. Default is 16px.
+ *
+ * @cssprop --person-line4-font-size - {Length} the font-size of the line 4 text. Default is 12px.
+ * @cssprop --person-line4-font-weight - {Length} the font weight of the line 4 text. Default is 400.
+ * @cssprop --person-line4-text-color - {Color} the color of the line 4 text.
+ * @cssprop --person-line4-text-transform - {String} the tex transform of the line 4 text. Default is inherit.
+ * @cssprop --person-line4-text-line-height - {Length} the line height of the line 4 text. Default is 16px.
+ *
+ * @cssprop --person-details-wrapper-width - {Length} the minimum width of the details section. Default is 168px.
  */
 export declare class MgtPerson extends MgtTemplatedComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
      */
-    static get styles(): import("lit-element").CSSResult[];
+    static get styles(): import("lit").CSSResult[];
+    /**
+     * Strings to use for localization
+     *
+     * @readonly
+     * @protected
+     * @memberof MgtPerson
+     */
     protected get strings(): {
         photoFor: string;
         emailAddress: string;
@@ -118,41 +93,58 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     static config: MgtPersonConfig;
     /**
      * allows developer to define name of person for component
+     *
      * @type {string}
      */
     get personQuery(): string;
     set personQuery(value: string);
     /**
      * Fallback when no user is found
+     *
      * @type {IDynamicPerson}
      */
     get fallbackDetails(): IDynamicPerson;
     set fallbackDetails(value: IDynamicPerson);
     /**
      * user-id property allows developer to use id value to determine person
+     *
      * @type {string}
      */
     get userId(): string;
     set userId(value: string);
     /**
+     * usage property allows you to specify where the component is being used to add
+     * customized personalization for it. Currently only supports "people" as used in
+     * the people component.
+     *
+     * @type {string}
+     */
+    get usage(): string;
+    set usage(value: string);
+    /**
      * determines if person component renders presence
+     *
      * @type {boolean}
      */
     showPresence: boolean;
     /**
-     * determines person component avatar size and apply presence badge accordingly
+     * determines person component avatar size and apply presence badge accordingly.
+     * Default is "auto". When you set the view > 1, it will default to "auto".
+     *
      * @type {AvatarSize}
      */
     avatarSize: AvatarSize;
     /**
      * object containing Graph details on person
      * a copy of person-details attribute
+     *
      * @type {IDynamicPerson}
      */
     private get personDetailsInternal();
     private set personDetailsInternal(value);
     /**
      * object containing Graph details on person
+     *
      * @type {IDynamicPerson}
      */
     get personDetails(): IDynamicPerson;
@@ -182,6 +174,14 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     disableImageFetch: boolean;
+    /**
+     * Sets the vertical layout of
+     * the Person Card
+     *
+     * @type {boolean}
+     * @memberof MgtPerson
+     */
+    verticalLayout: boolean;
     /**
      * Determines and sets person avatar
      *
@@ -240,13 +240,21 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     line2Property: string;
     /**
-     * Sets the property of the personDetailsInternal to use for the second line of text.
+     * Sets the property of the personDetailsInternal to use for the third line of text.
      * Default is mail.
      *
      * @type {string}
      * @memberof MgtPerson
      */
     line3Property: string;
+    /**
+     * Sets the property of the personDetailsInternal to use for the fourth line of text.
+     * Default is mail.
+     *
+     * @type {string}
+     * @memberof MgtPerson
+     */
+    line4Property: string;
     /**
      * Sets what data to be rendered (image only, oneLine, twoLines).
      * Default is 'image'.
@@ -262,11 +270,11 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private _personDetailsInternal;
     private _personDetails;
     private _fallbackDetails;
-    private _personAvatarBg;
     private _personImage;
     private _personPresence;
     private _personQuery;
     private _userId;
+    private _usage;
     private _avatarType;
     private _mouseLeaveTimeout;
     private _mouseEnterTimeout;
@@ -301,6 +309,14 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     protected renderNoData(): TemplateResult;
     /**
+     * Render a person icon.
+     *
+     * @protected
+     * @returns
+     * @memberof MgtPerson
+     */
+    protected renderPersonIcon(): TemplateResult<1>;
+    /**
      * Render the image part of the person template.
      * If the image is unavailable, the person's initials will be used instead.
      *
@@ -310,13 +326,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtPerson
      */
-    protected renderImage(personDetailsInternal: IDynamicPerson, imageSrc: string): TemplateResult;
+    protected renderImage(personDetailsInternal: IDynamicPerson, imageSrc: string): TemplateResult<1>;
     /**
      * Render presence for the person.
      *
-     * @protected
-     * @param
-     * @memberof MgtPersonCard
+     * @param presence
+     * @memberof MgtPerson
+     * @returns
      */
     protected renderPresence(presence: Presence): TemplateResult;
     /**
@@ -330,14 +346,14 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private handleLine1Clicked;
     private handleLine2Clicked;
     private handleLine3Clicked;
+    private handleLine4Clicked;
     /**
      * Render the details part of the person template.
      *
-     * @protected
-     * @param {IDynamicPerson} [person]
-     * @param {string} [image]
-     * @returns {TemplateResult}
+     * @param personProps
+     * @param presence
      * @memberof MgtPerson
+     * @returns
      */
     protected renderDetails(personProps: IDynamicPerson, presence?: Presence): TemplateResult;
     /**
@@ -372,24 +388,26 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     protected getInitials(person?: IDynamicPerson): string;
-    /**
-     * Gets color from name
-     *
-     * @protected
-     * @param {string} name
-     * @returns {string}
-     * @memberof MgtPerson
-     */
-    protected getColorFromName(name: string): string;
     private getImage;
     private isLetter;
     private getTextFromProperty;
     private isLargeAvatar;
-    private handleMouseClick;
-    private handleKeyDown;
-    private handleMouseEnter;
-    private handleMouseLeave;
-    private hidePersonCard;
-    private showPersonCard;
+    private isNoLine;
+    private isOneLine;
+    private isTwoLines;
+    private isThreeLines;
+    private isFourLines;
+    private isVertical;
+    private readonly handleMouseClick;
+    private readonly handleKeyDown;
+    private readonly handleMouseEnter;
+    private readonly handleMouseLeave;
+    /**
+     * hides the person card
+     *
+     * @memberof MgtPerson
+     */
+    hidePersonCard: () => void;
+    showPersonCard: () => void;
 }
 //# sourceMappingURL=mgt-person.d.ts.map

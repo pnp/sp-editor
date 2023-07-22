@@ -44,7 +44,7 @@ export function updateCacheCustomAction(...args: any) {
         "Accept": "application/json; odata=verbose",
         "Cache-Control": "no-cache",
         "X-ClientService-ClientTag": "SPEDITOR"
-      }));
+      }, true));
 
 
     sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {

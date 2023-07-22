@@ -7,65 +7,18 @@
 import { BatchResponse, IBatch } from '../IBatch';
 import { IGraph } from '../IGraph';
 /**
- * Represents a request to be executed in a batch
- *
- * @class BatchRequest
- */
-export declare class BatchRequest {
-    /**
-     * url used in request
-     *
-     * @type {string}
-     * @memberof BatchRequest
-     */
-    resource: string;
-    /**
-     * method passed to be requested
-     *
-     * @type {string}
-     * @memberof BatchRequest
-     */
-    method: string;
-    /**
-     * The index of the requests as it was added to the queue
-     * Use this value if you need to sort the responses
-     * in the order they were added
-     *
-     * @type {number}
-     * @memberof BatchRequest
-     */
-    index: number;
-    /**
-     * The headers of the request
-     *
-     * @type {{[headerName: string]: string}}
-     * @memberof BatchRequest
-     */
-    headers: {
-        [header: string]: string;
-    };
-    /**
-     * The id of the requests
-     *
-     * @type {string}
-     * @memberof BatchRequest
-     */
-    id: string;
-    constructor(index: any, id: any, resource: string, method: string);
-}
-/**
  * Method to reduce repetitive requests to the Graph
  *
  * @export
  * @class Batch
  */
-export declare class Batch implements IBatch {
-    private static baseUrl;
-    private allRequests;
-    private requestsQueue;
+export declare class Batch<T = any> implements IBatch<T> {
+    private static get baseUrl();
+    private readonly allRequests;
+    private readonly requestsQueue;
     private scopes;
     private retryAfter;
-    private graph;
+    private readonly graph;
     private nextIndex;
     constructor(graph: IGraph);
     /**
@@ -83,24 +36,22 @@ export declare class Batch implements IBatch {
      * @param {string[]} [scopes]
      * @memberof Batch
      */
-    get(id: string, resource: string, scopes?: string[], headers?: {
-        [header: string]: string;
-    }): void;
+    get(id: string, resource: string, scopes?: string[], headers?: Record<string, string>): void;
     /**
      * Execute the next set of requests.
      * This will execute up to 20 requests at a time
      *
-     * @returns {Promise<Map<string, BatchResponse>>}
+     * @returns {Promise<Map<string, BatchResponse<T>>>}
      * @memberof Batch
      */
-    executeNext(): Promise<Map<string, BatchResponse>>;
+    executeNext(): Promise<Map<string, BatchResponse<T>>>;
     /**
      * Execute all requests, up to 20 at a time until
      * all requests have been executed
      *
-     * @returns {Promise<Map<string, BatchResponse>>}
+     * @returns {Promise<Map<string, BatchResponse<T>>>}
      * @memberof Batch
      */
-    executeAll(): Promise<Map<string, BatchResponse>>;
+    executeAll(): Promise<Map<string, BatchResponse<T>>>;
 }
 //# sourceMappingURL=Batch.d.ts.map

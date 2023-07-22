@@ -13,9 +13,9 @@ import { Context, Middleware } from '@microsoft/microsoft-graph-client';
  * @implements {Middleware}
  */
 export declare class CustomHeaderMiddleware implements Middleware {
-    private nextMiddleware;
-    private _getCustomHeaders;
-    constructor(getCustomHeaders: () => Promise<object>);
+    private _nextMiddleware;
+    private readonly _getCustomHeaders?;
+    constructor(getCustomHeaders?: () => Promise<object>);
     /**
      * Execute the current middleware
      *
