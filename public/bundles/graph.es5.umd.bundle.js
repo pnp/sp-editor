@@ -2458,7 +2458,7 @@ const graphPut = (o, init) => {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.16.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.17.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

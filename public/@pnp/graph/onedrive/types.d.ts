@@ -102,12 +102,6 @@ export declare class _Root extends _GraphQueryableInstance<IDriveItemType> {
      * @returns IDriveItem
      */
     upload(fileOptions: IFileOptions): Promise<IDriveItemAddResult>;
-    /**
-     * Method for getting item analytics. Defaults to lastSevenDays.
-     * @param analyticsOptions - IAnalyticsOptions (Optional)
-     * @returns IGraphQueryableCollection<IItemAnalytics>
-     */
-    analytics(analyticsOptions?: IAnalyticsOptions): IGraphQueryableCollection<IItemAnalytics>;
 }
 export interface IRoot extends _Root {
 }

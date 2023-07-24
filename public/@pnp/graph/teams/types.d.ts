@@ -43,9 +43,9 @@ export declare const Teams: import("../graphqueryable.js").IGraphInvokableFactor
 /**
  * Channel
  */
-export declare class _Channel extends _GraphQueryableInstance {
+export declare class _Channel extends _GraphQueryableInstance<IChannel> {
     get tabs(): ITabs;
-    messages(message: IChatMessage): Promise<IChatMessage>;
+    get messages(): IMessages;
 }
 export interface IChannel extends _Channel {
 }
@@ -53,7 +53,7 @@ export declare const Channel: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Channels
  */
-export declare class _Channels extends _GraphQueryableCollection {
+export declare class _Channels extends _GraphQueryableCollection<IChannel[]> {
     /**
      * Creates a new Channel in the Team
      * @param displayName The display name of the new channel
@@ -65,6 +65,29 @@ export declare class _Channels extends _GraphQueryableCollection {
 export interface IChannels extends _Channels, IGetById<IChannel> {
 }
 export declare const Channels: import("../graphqueryable.js").IGraphInvokableFactory<IChannels>;
+/**
+ * Channel
+ */
+export declare class _Message extends _GraphQueryableInstance<IChatMessage> {
+}
+export interface IMessage extends _Message {
+}
+export declare const Message: import("../graphqueryable.js").IGraphInvokableFactory<IMessage>;
+/**
+ * Channels
+ */
+export declare class _Messages extends _GraphQueryableCollection<IChatMessage[]> {
+    /**
+     * Creates a new Channel in the Team
+     * @param displayName The display name of the new channel
+     * @param description Optional description of the channel
+     *
+     */
+    add(displayName: string, description?: string): Promise<IMessageCreateResult>;
+}
+export interface IMessages extends _Messages, IGetById<IMessage> {
+}
+export declare const Messages: import("../graphqueryable.js").IGraphInvokableFactory<IMessages>;
 /**
  * Tab
  */
@@ -95,6 +118,10 @@ export interface ITeamUpdateResult {
 export interface IChannelCreateResult {
     data: any;
     channel: IChannel;
+}
+export interface IMessageCreateResult {
+    data: any;
+    message: IMessage;
 }
 export interface ITabCreateResult {
     data: any;

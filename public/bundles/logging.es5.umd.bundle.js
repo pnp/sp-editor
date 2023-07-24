@@ -113,12 +113,12 @@ __webpack_require__.d(__webpack_exports__, "PnPLogging", function() { return /* 
 function ConsoleListener(prefix, colors) {
     return new _ConsoleListener(prefix, colors);
 }
-function withColor(msg, color) {
+function withColor(msg, color, logMethod) {
     if (typeof color === "undefined") {
-        console.log(msg);
+        logMethod(msg);
     }
     else {
-        console.log(`%c${msg}`, `color:${color}`);
+        logMethod(`%c${msg}`, `color:${color}`);
     }
 }
 /**
@@ -165,7 +165,24 @@ class _ConsoleListener {
      * @param entry The information to be logged
      */
     log(entry) {
-        withColor(entryToString(entry, this._prefix), this._colors[colorProps[entry.level]]);
+        let logMethod = console.log;
+        switch (entry.level) {
+            case 3 /* Error */:
+                logMethod = console.error;
+                break;
+            case 2 /* Warning */:
+                logMethod = console.warn;
+                break;
+            case 0 /* Verbose */:
+                logMethod = console.debug;
+                break;
+            case 1 /* Info */:
+                logMethod = console.info;
+                break;
+            default:
+                logMethod = console.log;
+        }
+        withColor(entryToString(entry, this._prefix), this._colors[colorProps[entry.level]], logMethod);
     }
 }
 function FunctionListener(impl) {

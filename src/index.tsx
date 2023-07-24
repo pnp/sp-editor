@@ -94,7 +94,7 @@ window.MonacoEnvironment = {
 } as any
 
 // @ts-ignore: this is the only way to make it work
-window.require(['vs/editor/editor.main', 'vs/language/typescript/tsWorker'], () => {
+window.require(['vs/editor/editor.main'], () => {
 
   ReactDOM.render(
     <Provider store={store}>
