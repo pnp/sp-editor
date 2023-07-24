@@ -105,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "MSAL", function() { return /* reexport */ MSAL; });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: ./node_modules/msal/node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -325,7 +325,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
     return value;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/CryptoUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/CryptoUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -484,7 +484,7 @@ var CryptoUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/Constants.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/Constants.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -765,7 +765,7 @@ var FramePrefix = {
     TOKEN_FRAME: "msalRenewFrame"
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/error/AuthError.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/error/AuthError.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -804,7 +804,7 @@ var AuthError_AuthError = /** @class */ (function (_super) {
 }(Error));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/StringUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/StringUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -847,7 +847,7 @@ var StringUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/error/ClientAuthError.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/error/ClientAuthError.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1023,7 +1023,7 @@ var ClientAuthError_ClientAuthError = /** @class */ (function (_super) {
 }(AuthError_AuthError));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/error/ClientConfigurationError.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/error/ClientConfigurationError.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1195,7 +1195,7 @@ var ClientConfigurationError_ClientConfigurationError = /** @class */ (function 
 }(ClientAuthError_ClientAuthError));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/ScopeSet.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/ScopeSet.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1408,7 +1408,7 @@ var ScopeSet_ScopeSet = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/UrlUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/UrlUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1663,7 +1663,7 @@ var UrlUtils_UrlUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/cache/AccessTokenKey.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/cache/AccessTokenKey.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1684,7 +1684,7 @@ var AccessTokenKey_AccessTokenKey = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/cache/AccessTokenValue.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/cache/AccessTokenValue.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1703,12 +1703,12 @@ var AccessTokenValue = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/packageMetadata.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/packageMetadata.js
 /* eslint-disable header/header */
 var packageMetadata_name = "msal";
 var version = "1.4.17";
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/ServerRequestParameters.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/ServerRequestParameters.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -1970,7 +1970,7 @@ var ServerRequestParameters_ServerRequestParameters = /** @class */ (function ()
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/XHRClient.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/XHRClient.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2042,7 +2042,7 @@ var XHRClient_XhrClient = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/authority/TrustedAuthority.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/authority/TrustedAuthority.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2137,7 +2137,7 @@ var TrustedAuthority_TrustedAuthority = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/authority/Authority.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/authority/Authority.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2342,7 +2342,7 @@ var Authority_Authority = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/ClientInfo.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/ClientInfo.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2429,7 +2429,7 @@ var ClientInfo_ClientInfo = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/TimeUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/TimeUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2466,7 +2466,7 @@ var TimeUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/TokenUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/TokenUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2540,7 +2540,7 @@ var TokenUtils_TokenUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/IdToken.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/IdToken.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2615,7 +2615,7 @@ var IdToken_IdToken = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/cache/AccessTokenCacheItem.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/cache/AccessTokenCacheItem.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2632,7 +2632,7 @@ var AccessTokenCacheItem = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/cache/BrowserStorage.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/cache/BrowserStorage.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2741,7 +2741,7 @@ var BrowserStorage_BrowserStorage = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/RequestUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/RequestUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -2925,7 +2925,7 @@ var RequestUtils_RequestUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/cache/AuthCache.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/cache/AuthCache.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3304,7 +3304,7 @@ var AuthCache_AuthCache = /** @class */ (function (_super) {
 }(BrowserStorage_BrowserStorage));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/Account.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/Account.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3380,7 +3380,7 @@ var Account_Account = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/WindowUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/WindowUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3699,7 +3699,7 @@ var WindowUtils_WindowUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/ResponseUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/ResponseUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3749,7 +3749,7 @@ var ResponseUtils_ResponseUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/authority/AuthorityFactory.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/authority/AuthorityFactory.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3818,7 +3818,7 @@ var AuthorityFactory_AuthorityFactory = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/Logger.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/Logger.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3925,7 +3925,7 @@ var Logger_Logger = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/Configuration.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/Configuration.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -3986,7 +3986,7 @@ function buildConfiguration(_a) {
     return overlayedConfig;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/error/ServerError.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/error/ServerError.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4023,7 +4023,7 @@ var ServerError_ServerError = /** @class */ (function (_super) {
 }(AuthError_AuthError));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/error/InteractionRequiredAuthError.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/error/InteractionRequiredAuthError.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4073,7 +4073,7 @@ var InteractionRequiredAuthError_InteractionRequiredAuthError = /** @class */ (f
 }(ServerError_ServerError));
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/AuthResponse.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/AuthResponse.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4094,7 +4094,7 @@ function buildResponseStateOnly(state) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/TelemetryConstants.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/TelemetryConstants.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4120,7 +4120,7 @@ var TELEMETRY_BLOB_EVENT_NAMES = {
 // This is used to replace the real tenant in telemetry info
 var TENANT_PLACEHOLDER = "<tenant>";
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/TelemetryUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/TelemetryUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4177,7 +4177,7 @@ var startBrowserPerformanceMeasurement = function (startMark) {
     }
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/TelemetryEvent.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/TelemetryEvent.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4262,7 +4262,7 @@ var TelemetryEvent_TelemetryEvent = /** @class */ (function () {
 }());
 /* harmony default export */ var telemetry_TelemetryEvent = (TelemetryEvent_TelemetryEvent);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/DefaultEvent.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/DefaultEvent.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4298,7 +4298,7 @@ var DefaultEvent_DefaultEvent = /** @class */ (function (_super) {
 }(telemetry_TelemetryEvent));
 /* harmony default export */ var telemetry_DefaultEvent = (DefaultEvent_DefaultEvent);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/ApiEvent.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/ApiEvent.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4438,7 +4438,7 @@ var ApiEvent_ApiEvent = /** @class */ (function (_super) {
 }(telemetry_TelemetryEvent));
 /* harmony default export */ var telemetry_ApiEvent = (ApiEvent_ApiEvent);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/HttpEvent.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/HttpEvent.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4560,7 +4560,7 @@ var HttpEvent_HttpEvent = /** @class */ (function (_super) {
 }(telemetry_TelemetryEvent));
 /* harmony default export */ var telemetry_HttpEvent = (HttpEvent_HttpEvent);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/telemetry/TelemetryManager.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/telemetry/TelemetryManager.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4703,7 +4703,7 @@ var TelemetryManager_TelemetryManager = /** @class */ (function () {
 }());
 /* harmony default export */ var telemetry_TelemetryManager = (TelemetryManager_TelemetryManager);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/utils/AuthCacheUtils.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/utils/AuthCacheUtils.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -4737,7 +4737,7 @@ var AuthCacheUtils_AuthCacheUtils = /** @class */ (function () {
 }());
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/msal/lib-es6/UserAgentApplication.js
+// CONCATENATED MODULE: ./node_modules/msal/lib-es6/UserAgentApplication.js
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
