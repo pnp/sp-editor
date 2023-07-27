@@ -299,7 +299,7 @@ gulp.task('copy:mgt-react', (done) => {
 gulp.task('copy:monaco-editor', (done) => {
   console.log("Copy monaco-editor");
   gulp.src('./node_modules/monaco-editor/min/**/*')
-    .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
+   // .pipe(replace(/(\/\/.*?sourceMappingURL\s*=.*\.js\.map)/g, ''))
     .pipe(gulp.dest('./public/'));
   // gulp.src('./node_modules/monaco-editor/min-maps/**/*')
   //   .pipe(gulp.dest('./public/monaco-editor/min-maps/'));

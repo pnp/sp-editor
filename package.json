@@ -1,6 +1,6 @@
 {
   "name": "sp-editor",
-  "version": "6.6.3",
+  "version": "6.6.4",
   "private": true,
   "homepage": ".",
   "dependencies": {
