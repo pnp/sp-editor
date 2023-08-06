@@ -121,7 +121,7 @@ export const fixImports = (lines: string[], ecode: string[]) => {
 // find all import lines from code
 export const getImportModules = (content: string) => {
   const importTexts: string[] = []
-  const imports = content.match(/(import|from).*(@pnp|microsoft).*/g)
+  const imports = content.match(/(import|from).*(@pnp|microsoft|msal).*/g)
   if (imports) {
     imports.forEach(iText => {
       const match = iText.match(/(["'])(.*?[^\\])\1/g)

@@ -7,7 +7,7 @@ import { loadDefinitions } from '../components/utils'
 
 export async function fetchDefinitions(dispatch: Dispatch<PnPjsConsoleActions | HomeActions>) {
   const directoryEntry = await getExtensionDirectory()
-  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@pnp', '@microsoft'])
+  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@pnp', '@microsoft', 'msal'])
   dispatch(setDefinitions(definitions))
   return
 }
