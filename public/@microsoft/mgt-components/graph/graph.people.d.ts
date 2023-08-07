@@ -64,9 +64,9 @@ export declare const findPeople: (graph: IGraph, query: string, top?: number, us
  */
 export declare const getPeople: (graph: IGraph, userType?: UserType, peopleFilters?: string, top?: number) => Promise<Person[]>;
 /**
- * returns a promise that resolves after specified time
+ * Attempts to extract the email from the IDynamicPerson properties.
  *
- * @param time in milliseconds
+ * @param {IDynamicperson} entity
  */
 export declare const getEmailFromGraphEntity: (entity: IDynamicPerson) => string;
 /**

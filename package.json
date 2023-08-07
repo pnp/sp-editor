@@ -1,6 +1,6 @@
 {
   "name": "sp-editor",
-  "version": "6.6.4",
+  "version": "6.6.5",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -10,8 +10,8 @@
     "@fluentui/react": "^8.110.10",
     "@ionic/react": "^5.8.4",
     "@ionic/react-router": "^5.8.4",
-    "@microsoft/mgt": "^3.0.1",
-    "@microsoft/mgt-react": "^3.0.1",
+    "@microsoft/mgt": "^3.1.0",
+    "@microsoft/mgt-react": "^3.1.0",
     "@microsoft/microsoft-graph-client": "^3.0.5",
     "@minoru/react-dnd-treeview": "^3.4.0",
     "@uifabric/theme-samples": "^7.5.29",
