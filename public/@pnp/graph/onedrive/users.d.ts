@@ -27,11 +27,5 @@ declare module "./types" {
         unfollow(): void;
     }
 }
-export declare enum SpecialFolder {
-    "Documents" = "documents",
-    "Photos" = "photos",
-    "CameraRoll" = "cameraroll",
-    "AppRoot" = "approot",
-    "Music" = "music"
-}
+export declare type SpecialFolder = "documents" | "photos" | "cameraroll" | "approot" | "music";
 //# sourceMappingURL=users.d.ts.map

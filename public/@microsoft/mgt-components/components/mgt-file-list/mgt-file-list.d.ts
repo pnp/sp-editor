@@ -172,6 +172,7 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      */
     get pageSize(): number;
     set pageSize(value: number);
+    disableOpenOnClick: boolean;
     /**
      * A boolean value indication if 'show-more' button should be disabled
      *

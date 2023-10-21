@@ -12,8 +12,12 @@ import '../../styles/style-helper';
 import '../sub-components/mgt-flyout/mgt-flyout';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import { PersonCardInteraction } from './../PersonCardInteraction';
-import { MgtPersonConfig, PersonViewType } from './mgt-person-types';
+import { MgtPersonConfig, PersonViewType, avatarType } from './mgt-person-types';
 export { PersonCardInteraction } from '../PersonCardInteraction';
+/**
+ * Person properties part of original set provided by graph by default
+ */
+export declare const defaultPersonProperties: string[];
 /**
  * The person component is used to display a person or contact by using their photo, name, and/or email address.
  *
@@ -81,6 +85,21 @@ export declare class MgtPerson extends MgtTemplatedComponent {
         photoFor: string;
         emailAddress: string;
         initials: string;
+        Available: string;
+        Away: string;
+        BeRightBack: string;
+        Busy: string;
+        DoNotDisturb: string;
+        InACall: string;
+        InAConferenceCall: string;
+        Inactive: string;
+        InAMeeting: string;
+        Offline: string;
+        OffWork: string;
+        OutOfOffice: string;
+        PresenceUnknown: string;
+        Presenting: string;
+        UrgentInterruptionsOnly: string;
     };
     /**
      * Global Configuration object for all
@@ -189,8 +208,8 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @type {string}
      * @memberof MgtPerson
      */
-    get avatarType(): string;
-    set avatarType(value: string);
+    get avatarType(): avatarType;
+    set avatarType(value: avatarType);
     /**
      * Gets or sets presence of person
      *

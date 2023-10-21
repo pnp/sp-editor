@@ -47,7 +47,7 @@ export declare class Providers {
      * @param {EventHandler<ProvidersChangedState>} event
      * @memberof Providers
      */
-    static onActiveAccountChanged(event: EventHandler<any>): void;
+    static onActiveAccountChanged(event: EventHandler<unknown>): void;
     /**
      * Remove event handler
      *
@@ -55,7 +55,7 @@ export declare class Providers {
      * @param {EventHandler<ProvidersChangedState>} event
      * @memberof Providers
      */
-    static removeActiveAccountChangedListener(event: EventHandler<any>): void;
+    static removeActiveAccountChangedListener(event: EventHandler<unknown>): void;
     /**
      * Gets the current signed in user
      *

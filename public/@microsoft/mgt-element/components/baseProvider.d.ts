@@ -63,7 +63,7 @@ export declare abstract class MgtBaseProvider extends MgtBaseComponent {
      *
      * * @param _changedProperties Map of changed properties with old values
      */
-    protected firstUpdated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
+    protected firstUpdated(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void;
     /**
      * method called to initialize the provider. Each derived class should provide
      * their own implementation

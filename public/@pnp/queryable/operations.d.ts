@@ -1,4 +1,4 @@
-import { IQueryableInternal } from "./queryable";
+import { IQueryableInternal } from "./queryable.js";
 export declare type Operation = <T = any>(this: IQueryableInternal, init?: RequestInit) => Promise<T>;
 export declare function get<T = any>(this: IQueryableInternal, init?: RequestInit): Promise<T>;
 export declare function post<T = any>(this: IQueryableInternal, init?: RequestInit): Promise<T>;

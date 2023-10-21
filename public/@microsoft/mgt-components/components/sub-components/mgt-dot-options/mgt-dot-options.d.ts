@@ -40,7 +40,7 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      *
      * @memberof MgtDotOptions
      */
-    options: Record<string, (e: Event) => void | any>;
+    options: Record<string, (e: Event) => void>;
     private readonly _clickHandler;
     connectedCallback(): void;
     disconnectedCallback(): void;
@@ -49,7 +49,7 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    render(): import("lit").TemplateResult<1>;
+    render(): import("lit-html").TemplateResult<1>;
     private readonly handleItemClick;
     private readonly handleItemKeydown;
     /**
@@ -60,7 +60,7 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * @returns
      * @memberof MgtDotOptions
      */
-    getMenuOption(name: string, clickFn: (e: Event) => void | any): import("lit").TemplateResult<1>;
+    getMenuOption(name: string, clickFn: (e: Event) => void): import("lit-html").TemplateResult<1>;
     private readonly onDotClick;
     private readonly onDotKeydown;
     private handleKeydownMenuOption;

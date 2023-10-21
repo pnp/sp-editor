@@ -5,6 +5,11 @@
  * -------------------------------------------------------------------------------------------
  */
 import { EventDispatcher, EventHandler } from './EventDispatcher';
+type ComponentLocalizationRecord = Record<string, string>;
+type LocalizationRecord = Record<string, ComponentLocalizationRecord>;
+type LocalizationStorage = {
+    _components: LocalizationRecord;
+} & Record<string, string>;
 /**
  * Helper class for Localization
  *
@@ -13,18 +18,18 @@ import { EventDispatcher, EventHandler } from './EventDispatcher';
  * @class LocalizationHelper
  */
 export declare class LocalizationHelper {
-    static _strings: any;
-    static _stringsEventDispatcher: EventDispatcher<any>;
-    static _directionEventDispatcher: EventDispatcher<any>;
+    static _strings: LocalizationStorage;
+    static _stringsEventDispatcher: EventDispatcher<unknown>;
+    static _directionEventDispatcher: EventDispatcher<unknown>;
     private static mutationObserver;
-    static get strings(): any;
+    static get strings(): LocalizationStorage;
     /**
      * Set strings to be localized
      *
      * @static
      * @memberof LocalizationHelper
      */
-    static set strings(value: any);
+    static set strings(value: LocalizationStorage);
     /**
      * returns body dir attribute to determine rtl or ltr
      *
@@ -40,10 +45,10 @@ export declare class LocalizationHelper {
      * @param {EventHandler<ProvidersChangedState>} event
      * @memberof LocalizationHelper
      */
-    static onStringsUpdated(event: EventHandler<any>): void;
-    static removeOnStringsUpdated(event: EventHandler<any>): void;
-    static onDirectionUpdated(event: EventHandler<any>): void;
-    static removeOnDirectionUpdated(event: EventHandler<any>): void;
+    static onStringsUpdated(event: EventHandler<unknown>): void;
+    static removeOnStringsUpdated(event: EventHandler<unknown>): void;
+    static onDirectionUpdated(event: EventHandler<unknown>): void;
+    static removeOnDirectionUpdated(event: EventHandler<unknown>): void;
     private static _isDirectionInit;
     /**
      * Checks for direction setup and adds mutationObserver
@@ -63,6 +68,7 @@ export declare class LocalizationHelper {
      * @returns
      * @memberof LocalizationHelper
      */
-    static updateStringsForTag(tagName: string, stringObj: Record<string, any>): Record<string, any>;
+    static updateStringsForTag(tagName: string, stringObj: Record<string, string>): Record<string, string>;
 }
+export {};
 //# sourceMappingURL=LocalizationHelper.d.ts.map

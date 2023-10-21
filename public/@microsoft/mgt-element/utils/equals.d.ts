@@ -11,7 +11,7 @@
  * are expected to be object literals with potentially nested structures and
  * where leaf values are primitives.
  */
-export declare const equals: (o1: any, o2: any) => boolean;
+export declare const equals: (o1: unknown, o2: unknown) => boolean;
 /**
  * Compares two arrays if the elements are equals
  * Should be used for arrays of primitive types

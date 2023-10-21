@@ -174,6 +174,7 @@ export declare class MgtProfile extends BasePersonCardSection {
     private readonly isBirthdayAnniversary;
     private getDisplayDate;
     private getDisplayDateRange;
+    private displayLocation;
     private initPostRenderOperations;
     private handleTokenOverflow;
 }

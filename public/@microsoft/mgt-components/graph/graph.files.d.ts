@@ -12,7 +12,7 @@ import { DriveItem, UploadSession } from '@microsoft/microsoft-graph-types';
  * @param session
  * @returns
  */
-export declare const isUploadSession: (session: any) => session is UploadSession;
+export declare const isUploadSession: (session: unknown) => session is UploadSession;
 /**
  * Object to be stored in cache
  */

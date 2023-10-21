@@ -3626,7 +3626,7 @@ function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.17.0:";
+            let clientTag = "PnPCoreJS:3.19.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -8144,7 +8144,7 @@ const FieldTypeClassMapping = {
     [4 /* DateTime */]: "SP.FieldDateTime",
     [16 /* GridChoice */]: "SP.FieldRatingScale",
     [14 /* Guid */]: "SP.FieldGuid",
-    [34 /* Image */]: "FieldMultiLineText",
+    [34 /* Image */]: "SP.FieldMultiLineText",
     [1 /* Integer */]: "SP.FieldNumber",
     [33 /* Location */]: "SP.FieldLocation",
     [7 /* Lookup */]: "SP.FieldLookup",
@@ -11645,7 +11645,7 @@ let types_TermSets = class _TermSets extends _SPCollection {
     /**
      * Adds a new term set to this collection
      * @param props The set of properties
-     * @returns The information on the create group
+     * @returns The information on the created set
      */
     add(props) {
         return spPost(this, request_builders_body(props));

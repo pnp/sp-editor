@@ -1,5 +1,4 @@
 import { IInvokable, Queryable } from "@pnp/queryable";
-import { IPagedResult } from "./behaviors/paged.js";
 export declare type GraphInit = string | IGraphQueryable | [IGraphQueryable, string];
 export interface IGraphQueryableConstructor<T> {
     new (base: GraphInit, path?: string): T;
@@ -91,7 +90,7 @@ export declare class _GraphQueryableCollection<GetType = any[]> extends _GraphQu
      *
      * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
      */
-    paged(): Promise<IPagedResult>;
+    paged(): AsyncIterable<GetType>;
 }
 export interface IGraphQueryableCollection<GetType = any[]> extends _GraphQueryableCollection<GetType> {
 }

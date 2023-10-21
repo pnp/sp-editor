@@ -1,7 +1,6 @@
 import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
 import { DirectoryObject as IDirectoryObjectType } from "@microsoft/microsoft-graph-types";
 import { IGetById, IDeleteable } from "../decorators.js";
-import { IPagedResult } from "../behaviors/paged.js";
 /**
  * Represents a Directory Object entity
  */
@@ -46,12 +45,6 @@ export declare class _DirectoryObjects<GetType = IDirectoryObjectType[]> extends
      *  If the resource doesn't support count, this value will always be zero
      */
     count(): Promise<number>;
-    /**
-     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
-     *
-     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
-     */
-    paged(): Promise<IPagedResult>;
 }
 export interface IDirectoryObjects extends _DirectoryObjects, IGetById<IDirectoryObjectType> {
 }

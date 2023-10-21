@@ -55,5 +55,5 @@ export declare class Mgt extends Wc {
  * @param {(string | Function)} tag
  * @returns React component
  */
-export declare const wrapMgt: <T = WcProps>(tag: string) => React.ForwardRefExoticComponent<React.PropsWithoutRef<T & React.HTMLAttributes<any>> & React.RefAttributes<unknown>>;
+export declare const wrapMgt: <T = WcProps>(tag: string) => React.ForwardRefExoticComponent<React.PropsWithoutRef<T & React.HTMLAttributes<unknown>> & React.RefAttributes<unknown>>;
 //# sourceMappingURL=Mgt.d.ts.map

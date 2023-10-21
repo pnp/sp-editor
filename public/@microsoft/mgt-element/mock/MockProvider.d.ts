@@ -14,7 +14,7 @@ import { MockGraph } from './MockGraph';
  * @extends {IProvider}
  */
 export declare class MockProvider extends IProvider {
-    provider: any;
+    provider: IProvider;
     private readonly _mockGraphPromise;
     /**
      * new instance of mock graph provider

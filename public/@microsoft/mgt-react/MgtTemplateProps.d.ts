@@ -4,8 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-export type MgtTemplateProps = {
+export interface MgtTemplateProps<T = any> {
     template?: string;
-    dataContext?: any;
-};
+    dataContext?: T;
+}
 //# sourceMappingURL=MgtTemplateProps.d.ts.map

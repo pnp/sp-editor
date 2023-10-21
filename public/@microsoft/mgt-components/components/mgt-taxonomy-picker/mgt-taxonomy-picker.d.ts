@@ -23,6 +23,8 @@ import '../../styles/style-helper';
  *
  * @cssprop --taxonomy-picker-background-color - {Color} Picker component background color
  * @cssprop --taxonomy-picker-list-max-height - {String} max height for options list. Default value is 380px.
+ * @cssprop --taxonomy-picker-placeholder-color - {Color} Text color for the placeholder in the picker
+ * @cssprop --taxonomy-picker-placeholder-hover-color - {Color} Text color for the placeholder in the picker on hover
  */
 export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
     /**

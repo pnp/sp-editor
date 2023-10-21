@@ -179,6 +179,10 @@ export interface IListEnsureResult {
  */
 export interface ICamlQuery {
     /**
+     * Gets or sets a value that indicates whether the query can return incremental results.
+     */
+    AllowIncrementalResults?: boolean;
+    /**
      * Gets or sets a value that indicates whether the query returns dates in Coordinated Universal Time (UTC) format.
      */
     DatesInUtc?: boolean;

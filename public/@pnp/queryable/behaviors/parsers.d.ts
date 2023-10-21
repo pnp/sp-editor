@@ -1,4 +1,4 @@
-import { Queryable } from "../queryable";
+import { Queryable } from "../queryable.js";
 import { TimelinePipe } from "@pnp/core";
 export declare function DefaultParse(): TimelinePipe;
 export declare function TextParse(): TimelinePipe;

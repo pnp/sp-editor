@@ -180,6 +180,10 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      */
     protected renderFlyout(): TemplateResult;
     /**
+     * Tracks tabbing through the flyout (keydown)
+     */
+    private readonly onUserKeyDown;
+    /**
      * Render the flyout menu content.
      *
      * @protected

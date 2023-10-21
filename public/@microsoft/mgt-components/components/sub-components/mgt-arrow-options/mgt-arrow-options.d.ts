@@ -44,7 +44,7 @@ export declare class MgtArrowOptions extends MgtBaseComponent {
      * @type {object}
      * @memberof MgtArrowOptions
      */
-    options: Record<string, (e: UIEvent) => any | void>;
+    options: Record<string, (e: UIEvent) => void>;
     private readonly _clickHandler;
     constructor();
     connectedCallback(): void;
@@ -67,7 +67,7 @@ export declare class MgtArrowOptions extends MgtBaseComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    render(): import("lit").TemplateResult<1>;
+    render(): import("lit-html").TemplateResult<1>;
     private getMenuOptions;
 }
 //# sourceMappingURL=mgt-arrow-options.d.ts.map

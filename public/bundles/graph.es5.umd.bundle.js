@@ -108,8 +108,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GraphQueryableInstance; });
 /* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _behaviors_consistency_level_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
-/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _behaviors_consistency_level_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
 
 
 
@@ -244,9 +244,8 @@ class _GraphQueryableCollection extends _GraphQueryable {
      *  If the resource doesn't support count, this value will always be zero
      */
     async count() {
-        const q = Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsPaged */ "a"])(this);
-        const r = await q.top(1)();
-        return r.count;
+        // TODO::do we want to do this, or just attach count to the collections that support it? we could use a decorator for countable on the few collections that support count.
+        return -1;
     }
     /**
      * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
@@ -254,7 +253,7 @@ class _GraphQueryableCollection extends _GraphQueryable {
      * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
      */
     paged() {
-        return Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsPaged */ "a"])(this)();
+        return Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsAsyncIterable */ "a"])(this);
     }
 }
 const GraphQueryableCollection = graphInvokableFactory(_GraphQueryableCollection);
@@ -2961,9 +2960,7 @@ function copyObservers(source, behavior, filter) {
 /* harmony import */ var _decorators_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
 /* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
 /* harmony import */ var _operations_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
-/* harmony import */ var _funcs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
-/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
-
+/* harmony import */ var _funcs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
 
 
 
@@ -3100,7 +3097,8 @@ let _Root = class _Root extends _graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[
             const nextLink = json["@odata.nextLink"];
             const deltaLink = json["@odata.deltaLink"];
             result = {
-                next: () => (nextLink ? Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_7__[/* AsPaged */ "a"])(Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([this, nextLink]))() : null),
+                // TODO:: update docs to show how to load next with async iterator
+                next: () => (nextLink ? Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([this, nextLink]) : null),
                 delta: () => (deltaLink ? Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([query, deltaLink])() : null),
                 values: json.value,
             };
@@ -3341,73 +3339,6 @@ const DriveItems = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* gra
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AsPaged; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Paged; });
-/* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
-/* harmony import */ var _consistency_level_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
-
-
-
-
-/**
- * Configures a collection query to returned paged results
- *
- * @param col Collection forming the basis of the paged collection, this param is NOT modified
- * @returns A duplicate collection which will return paged results
- */
-function AsPaged(col, supportsCount = false) {
-    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(supportsCount), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
-    const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
-    if (supportsCount) {
-        // we might be constructing our query with a next url that will already contain $count so we need
-        // to ensure we don't add it again, likewise if it is already in our query collection we don't add it again
-        if (!q.query.has("$count") && !/\$count=true/i.test(q.toUrl())) {
-            q.query.set("$count", "true");
-        }
-        queryParams.push("$count");
-    }
-    for (let i = 0; i < queryParams.length; i++) {
-        const param = col.query.get(queryParams[i]);
-        if (Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* objectDefinedNotNull */ "s"])(param)) {
-            q.query.set(queryParams[i], param);
-        }
-    }
-    return q;
-}
-/**
- * Behavior that converts results to pages when used with a collection (exposed through the paged method of GraphCollection)
- *
- * @returns A TimelinePipe used to configure the queryable
- */
-function Paged(supportsCount = false) {
-    return (instance) => {
-        instance.on.parse.replace(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* errorCheck */ "n"]);
-        instance.on.parse(async (url, response, result) => {
-            const txt = await response.text();
-            const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
-            const nextLink = json["@odata.nextLink"];
-            const count = supportsCount && Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* hOP */ "l"])(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : 0;
-            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "v"])(nextLink);
-            result = {
-                count,
-                hasNext,
-                next: () => (hasNext ? AsPaged(Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])([instance, nextLink]), supportsCount)() : null),
-                value: Object(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* parseODataJSON */ "r"])(json),
-            };
-            return [url, response, result];
-        });
-        return instance;
-    };
-}
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return checkIn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return checkOut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return driveItemUpload; });
@@ -3447,7 +3378,7 @@ async function driveItemUpload(fileOptions) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3457,6 +3388,100 @@ function ConsistencyLevel(level = "eventual") {
         instance.on.pre(async function (url, init, result) {
             init.headers = { ...init.headers, "ConsistencyLevel": level };
             return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Count; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AsAsyncIterable; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Paged; });
+/* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
+/* harmony import */ var _consistency_level_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+
+
+
+
+/**
+ * A function that will take a collection defining IGraphQueryableCollection and return the count of items
+ * in that collection. Not all Graph collections support Count.
+ *
+ * @param col The collection to count
+ * @returns number representing the count
+ */
+async function Count(col) {
+    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
+    q.query.set("$count", "true");
+    q.top(1);
+    const y = await q();
+    return y.count;
+}
+/**
+ * Configures a collection query to returned paged results via async iteration
+ *
+ * @param col Collection forming the basis of the paged collection, this param is NOT modified
+ * @returns A duplicate collection which will return paged results
+ */
+function AsAsyncIterable(col) {
+    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
+    const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
+    for (let i = 0; i < queryParams.length; i++) {
+        const param = col.query.get(queryParams[i]);
+        if (Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* objectDefinedNotNull */ "s"])(param)) {
+            q.query.set(queryParams[i], param);
+        }
+    }
+    return {
+        [Symbol.asyncIterator]() {
+            return {
+                _next: q,
+                async next() {
+                    if (this._next === null) {
+                        return { done: true, value: undefined };
+                    }
+                    const result = await this._next();
+                    if (result.hasNext) {
+                        this._next = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])([this._next, result.nextLink]);
+                        return { done: false, value: result.value };
+                    }
+                    else {
+                        this._next = null;
+                        return { done: false, value: result.value };
+                    }
+                },
+            };
+        },
+    };
+}
+/**
+ * Behavior that converts results to pages when used with a collection (exposed through the paged method of GraphCollection)
+ *
+ * @returns A TimelinePipe used to configure the queryable
+ */
+function Paged() {
+    return (instance) => {
+        instance.on.parse.replace(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* errorCheck */ "n"]);
+        instance.on.parse(async (url, response, result) => {
+            const txt = await response.text();
+            const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
+            const nextLink = json["@odata.nextLink"];
+            const count = Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* hOP */ "l"])(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : -1;
+            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "v"])(nextLink);
+            result = {
+                count,
+                hasNext,
+                nextLink: hasNext ? nextLink : null,
+                value: Object(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* parseODataJSON */ "r"])(json),
+            };
+            return [url, response, result];
         });
         return instance;
     };
@@ -5653,7 +5678,6 @@ __webpack_require__.d(__webpack_exports__, "MailFolders", function() { return /*
 __webpack_require__.d(__webpack_exports__, "MailboxSettings", function() { return /* reexport */ MailboxSettings; });
 __webpack_require__.d(__webpack_exports__, "Message", function() { return /* reexport */ Message; });
 __webpack_require__.d(__webpack_exports__, "Messages", function() { return /* reexport */ Messages; });
-__webpack_require__.d(__webpack_exports__, "SpecialFolder", function() { return /* reexport */ SpecialFolder; });
 __webpack_require__.d(__webpack_exports__, "Drive", function() { return /* reexport */ types["a" /* Drive */]; });
 __webpack_require__.d(__webpack_exports__, "DriveItem", function() { return /* reexport */ types["b" /* DriveItem */]; });
 __webpack_require__.d(__webpack_exports__, "DriveItems", function() { return /* reexport */ types["c" /* DriveItems */]; });
@@ -5703,8 +5727,9 @@ __webpack_require__.d(__webpack_exports__, "DefaultInit", function() { return /*
 __webpack_require__.d(__webpack_exports__, "DefaultHeaders", function() { return /* reexport */ DefaultHeaders; });
 __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return /* reexport */ Endpoint; });
 __webpack_require__.d(__webpack_exports__, "GraphBrowser", function() { return /* reexport */ GraphBrowser; });
-__webpack_require__.d(__webpack_exports__, "AsPaged", function() { return /* reexport */ paged["a" /* AsPaged */]; });
-__webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ paged["b" /* Paged */]; });
+__webpack_require__.d(__webpack_exports__, "Count", function() { return /* reexport */ paged["b" /* Count */]; });
+__webpack_require__.d(__webpack_exports__, "AsAsyncIterable", function() { return /* reexport */ paged["a" /* AsAsyncIterable */]; });
+__webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ paged["c" /* Paged */]; });
 __webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
 __webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
 __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
@@ -5908,7 +5933,7 @@ Object(queryable["k" /* addProp */])(types_Post, "attachments", Attachments);
 
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/behaviors/paged.js
-var paged = __webpack_require__(7);
+var paged = __webpack_require__(9);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/types.js
 
@@ -5971,17 +5996,7 @@ let types_DirectoryObjects = class _DirectoryObjects extends graphqueryable["d" 
      *  If the resource doesn't support count, this value will always be zero
      */
     async count() {
-        const q = Object(paged["a" /* AsPaged */])(this, true);
-        const r = await q.top(1)();
-        return r.count;
-    }
-    /**
-     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
-     *
-     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
-     */
-    paged() {
-        return Object(paged["a" /* AsPaged */])(this, true)();
+        return Object(paged["b" /* Count */])(this);
     }
 };
 types_DirectoryObjects = Object(tslib_es6["a" /* __decorate */])([
@@ -6871,14 +6886,6 @@ Object(queryable["k" /* addProp */])(types_User, "drives", types["d" /* Drives *
 types["f" /* _Drive */].prototype.special = function special(specialFolder) {
     return Object(types["b" /* DriveItem */])(this, `special/${specialFolder}`);
 };
-var SpecialFolder;
-(function (SpecialFolder) {
-    SpecialFolder["Documents"] = "documents";
-    SpecialFolder["Photos"] = "photos";
-    SpecialFolder["CameraRoll"] = "cameraroll";
-    SpecialFolder["AppRoot"] = "approot";
-    SpecialFolder["Music"] = "music";
-})(SpecialFolder || (SpecialFolder = {}));
 types["g" /* _DriveItem */].prototype.restore = function restore(restoreOptions) {
     return Object(operations["d" /* graphPost */])(Object(types["b" /* DriveItem */])(this, "restore"), Object(queryable["l" /* body */])(restoreOptions));
 };
@@ -6890,7 +6897,7 @@ types["g" /* _DriveItem */].prototype.unfollow = function unfollow() {
 };
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/onedrive/funcs.js
-var funcs = __webpack_require__(8);
+var funcs = __webpack_require__(7);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/groups.js
 
@@ -6955,7 +6962,6 @@ types["g" /* _DriveItem */].prototype.checkIn = funcs["a" /* checkIn */];
 types["g" /* _DriveItem */].prototype.checkOut = funcs["b" /* checkOut */];
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/index.js
-
 
 
 
@@ -7750,7 +7756,7 @@ Reflect.defineProperty(fi_GraphFI.prototype, "users", {
 });
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/behaviors/consistency-level.js
-var consistency_level = __webpack_require__(9);
+var consistency_level = __webpack_require__(8);
 
 // EXTERNAL MODULE: ./node_modules/@pnp/core/index.js + 7 modules
 var core = __webpack_require__(5);
@@ -7759,7 +7765,7 @@ var core = __webpack_require__(5);
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.17.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.19.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

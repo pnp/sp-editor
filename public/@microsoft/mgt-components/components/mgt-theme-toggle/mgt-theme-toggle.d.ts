@@ -43,7 +43,7 @@ export declare class MgtThemeToggle extends MgtBaseComponent {
      * @param {Map<string, any>} changedProperties
      * @memberof MgtDarkToggle
      */
-    updated(changedProperties: Map<string, any>): void;
+    updated(changedProperties: Map<string, unknown>): void;
     /**
      * renders the component
      *
