@@ -16,19 +16,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../store";
 import { runsearch } from "../chrome/runsearch";
 import { setSearchResults } from "../../../store/search/actions";
+import * as rootActions from "../../../store/home/actions";
 
 const SearchCommands = () => {
   const dispatch = useDispatch();
 
-  var payload = {
-    Querytext: "contentclass:STS_Web",
-    RowLimit: 50,
-    StartRow: 0,
-    ClientType: "ContentSearchRegular",
-    EnableNicknames: false,
-    TrimDuplicates: true,
-    SelectProperties: ["Webid", "OriginalPath", "Title", "DocId"],
-  };
+  const { searchQuery } = useSelector((state: IRootState) => state.search);
 
   return (
     <CommandBar
@@ -41,12 +34,12 @@ const SearchCommands = () => {
               allowDisabledFocus
               styles={{ root: { marginTop: 6, marginRight: 6 } }}
               onClick={() => {
-                console.log("Search clicked");
+                dispatch(rootActions.setLoading(true));
                 chrome.scripting
                   .executeScript({
                     target: { tabId: chrome.devtools.inspectedWindow.tabId },
                     world: "MAIN",
-                    args: [payload, chrome.runtime.getURL("")],
+                    args: [searchQuery, chrome.runtime.getURL("")],
                     func: runsearch,
                   })
                   .then((injectionResults) => {
@@ -60,6 +53,7 @@ const SearchCommands = () => {
                         var temp = [];
                         for (var name in item) {
                           temp.push({
+                            DocId: item["DocId"],
                             property: name,
                             value: item[name],
                           });
@@ -79,6 +73,7 @@ const SearchCommands = () => {
                             key: uniqueKey++,
                             property: temp[i].property,
                             value: temp[i].value,
+                            DocId: temp[i].DocId,
                           }); // Push each item from temp to items and add unique key
                         }
 
@@ -94,8 +89,10 @@ const SearchCommands = () => {
                       });
 
                       dispatch(setSearchResults(items, groups));
+                      dispatch(rootActions.setLoading(false));
                     } else {
                       console.log("Injection failed: ", injectionResults);
+                      dispatch(rootActions.setLoading(false));
                     }
                   });
               }}
