@@ -11,20 +11,19 @@ const init: ISearchState = {
     ClientType: "ContentSearchRegular",
     EnableNicknames: false,
     TrimDuplicates: true,
-    SelectProperties: ["Webid", "OriginalPath", "Title", "DocId"],
+    SelectProperties: [],
+    SortList: [],
   },
 };
 
-export function searchReducer(
-  state: ISearchState = init,
-  action: SearchActions
-): ISearchState {
+export function searchReducer(state: ISearchState = init, action: SearchActions): ISearchState {
   switch (action.type) {
     case Constants.S_GET_ITEMS:
       return {
         ...state,
         items: action.payload.items,
         groups: action.payload.groups,
+        searchResults: action.payload.searchResults,
       };
     case Constants.S_SET_QUERY:
       return {

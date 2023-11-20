@@ -12,10 +12,20 @@ export interface ISearchItem {
   DocId: string;
 }
 
+export interface SearchResult {
+  ElapsedTime: number;
+  PrimarySearchResults: any[];
+  RawSearchResults: any[];
+  RowCount: number;
+  TotalRows: number;
+  TotalRowsIncludingDuplicates: number;
+}
+
 export interface ISearchState {
   items: ISearchItem[];
   groups: IGroup[];
   searchQuery: ISearchQuery;
+  searchResults?: SearchResult;
   loading: boolean;
 }
 

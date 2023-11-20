@@ -1,6 +1,6 @@
-import * as SP from "@pnp/sp/presets/all";
-import * as Logging from "@pnp/logging";
-import * as Queryable from "@pnp/queryable";
+import * as SP from '@pnp/sp/presets/all';
+import * as Logging from '@pnp/logging';
+import * as Queryable from '@pnp/queryable';
 
 export const allprops = (content: any, SourceId: any, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
@@ -10,13 +10,9 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     var pnpqueryable = modules[2];
 
     // if we are in a modern page we need to get the _spPageContextInfo from the module loader
-    if (
-      !(window as any)._spPageContextInfo &&
-      (window as any).moduleLoaderPromise
-    ) {
+    if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
       (window as any).moduleLoaderPromise.then((e: any) => {
-        (window as any)._spPageContextInfo =
-          e.context._pageContext._legacyPageContext;
+        (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
       });
     }
     /***  init pnpjs ***/
@@ -30,9 +26,9 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
       .using(
         pnpqueryable.InjectHeaders(
           {
-            Accept: "application/json; odata=verbose",
-            "Cache-Control": "no-cache",
-            "X-ClientService-ClientTag": "SPEDITOR",
+            Accept: 'application/json; odata=verbose',
+            'Cache-Control': 'no-cache',
+            'X-ClientService-ClientTag': 'SPEDITOR',
           },
           true
         )
@@ -51,7 +47,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
             success: false,
             result: null,
             errorMessage: error.error.message.value,
-            source: "chrome-sp-editor",
+            source: 'chrome-sp-editor',
           };
         });
     });
@@ -61,7 +57,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     var opts = {
       Querytext: `WorkId:${content}`,
       RowLimit: 1,
-      Refiners: "managedproperties(filter=600/0/*)",
+      Refiners: 'managedproperties(filter=600/0/*)',
     } as any;
 
     if (SourceId && SourceId.length > 0) {
@@ -70,21 +66,23 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     return sp
       .search(opts)
       .then((r1: any) => {
-        const entries =
-          r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners[0]
-            .Entries;
+        console.log(r1);
+        const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners[0].Entries;
         const allProps = entries.map((entry) => entry.RefinementName);
 
+        allProps.push('ClassificationLastScan'); // this might cause issue in some tenants, and some dont provide value.
+        /*
         const filteredProps = allProps.filter(
           (value) =>
             value !== "ClassificationLastScan" &&
             value !== "ClassificationCount" &&
             value !== "ClassificationConfidence"
-        );
+        );*/
 
-        opts.SelectProperties = filteredProps;
+        opts.SelectProperties = allProps; //filteredProps;
 
         return sp.search(opts).then((r: any) => {
+          console.log(r);
           var result = {
             ElapsedTime: r.ElapsedTime,
             PrimarySearchResults: r.PrimarySearchResults,
@@ -97,17 +95,14 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         });
       })
       .catch((error) => {
-        console.log("we errored it");
+        console.log('we errored it');
 
         var errorMessage = error.message;
         if (error !== null && error !== void 0 && error.isHttpRequestError) {
           // we can read the json from the response
           error.response.json().then((json) => {
             // if we have a value property we can show it
-            errorMessage =
-              typeof json["odata.error"] === "object"
-                ? json["odata.error"].message.value
-                : error.message;
+            errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
           });
         } else {
           // not an HttpRequestError so we just log message
@@ -117,7 +112,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
           success: false,
           result: null,
           errorMessage: errorMessage,
-          source: "chrome-sp-editor",
+          source: 'chrome-sp-editor',
         };
       });
   });
@@ -126,21 +121,15 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     type libTypes = [typeof SP, typeof Logging, typeof Queryable];
     /*** load systemjs ***/
     return new Promise<libTypes>((resolve) => {
-      const s = document.createElement("script");
-      s.src = extPath + "bundles/system.js";
+      const s = document.createElement('script');
+      s.src = extPath + 'bundles/system.js';
       (document.head || document.documentElement).appendChild(s);
       s.onload = () =>
         /*** load pnpjs modules ***/
         Promise.all<libTypes>([
-          (window as any).SystemJS.import(
-            extPath + "bundles/sp.es5.umd.bundle.js"
-          ),
-          (window as any).SystemJS.import(
-            extPath + "bundles/logging.es5.umd.bundle.js"
-          ),
-          (window as any).SystemJS.import(
-            extPath + "bundles/queryable.es5.umd.bundle.js"
-          ),
+          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
         ]).then((modules) => {
           resolve(modules);
         });

@@ -1,38 +1,45 @@
-import { IScrollablePaneStyles, ISeparatorStyles, ScrollablePane, ScrollbarVisibility, Separator } from '@fluentui/react';
+import {
+  IScrollablePaneStyles,
+  ISeparatorStyles,
+  ScrollablePane,
+  ScrollbarVisibility,
+  Separator,
+} from '@fluentui/react';
 import ChangePageLayout from './ChangePageLayout';
 
 export interface IQuickLinkListProps {
-  ctx: any,
-  plo: any,
-  tabId: number,
+  ctx: any;
+  plo: any;
+  tabId: number;
 }
 
 const separatorStyles: ISeparatorStyles = {
   root: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
-  content: undefined
-}
+  content: undefined,
+};
 
 const scrollablePaneStyles: IScrollablePaneStyles = {
   root: {
-    marginTop: 50
+    marginTop: 50,
   },
   stickyAbove: undefined,
   stickyBelow: undefined,
   stickyBelowItems: undefined,
-  contentContainer: undefined
-}
+  contentContainer: undefined,
+};
 const Actions = ({ ctx, plo, tabId }: IQuickLinkListProps) => {
+  return ctx && plo ? (
+    <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={scrollablePaneStyles}>
+      <Separator alignContent="start" styles={separatorStyles}>
+        Page actions
+      </Separator>
+      <ChangePageLayout ctx={ctx} plo={plo} tabId={tabId} />
+    </ScrollablePane>
+  ) : (
+    <></>
+  );
+};
 
-  return (
-    ctx && plo ?
-      <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={scrollablePaneStyles}>
-        <Separator alignContent="start" styles={separatorStyles}>Page actions</Separator>
-        <ChangePageLayout ctx={ctx} plo={plo} tabId={tabId} />
-      </ScrollablePane>
-      : <></>
-  )
-}
-
-export default Actions
+export default Actions;
