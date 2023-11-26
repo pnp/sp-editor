@@ -102,7 +102,15 @@ export const runsearch = (payload: any, extPath: string) => {
           (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
           (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
         ]).then((modules) => {
-          resolve(modules);
+          // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+          if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+            (window as any).moduleLoaderPromise.then((e: any) => {
+              (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+              resolve(modules);
+            });
+          } else {
+            resolve(modules);
+          }
         });
     });
   }

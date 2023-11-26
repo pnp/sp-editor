@@ -24,14 +24,11 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         })
       )
       .using(
-        pnpqueryable.InjectHeaders(
-          {
-            Accept: 'application/json; odata=verbose',
-            'Cache-Control': 'no-cache',
-            'X-ClientService-ClientTag': 'SPEDITOR',
-          },
-          true
-        )
+        pnpqueryable.InjectHeaders({
+          Accept: 'application/json; odata=verbose',
+          'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
+        })
       );
 
     /*** clear previous log listeners ***/
@@ -70,16 +67,14 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners[0].Entries;
         const allProps = entries.map((entry) => entry.RefinementName);
 
-        allProps.push('ClassificationLastScan'); // this might cause issue in some tenants, and some dont provide value.
-        /*
         const filteredProps = allProps.filter(
           (value) =>
-            value !== "ClassificationLastScan" &&
-            value !== "ClassificationCount" &&
-            value !== "ClassificationConfidence"
-        );*/
+            value !== 'ClassificationLastScan' &&
+            value !== 'ClassificationCount' &&
+            value !== 'ClassificationConfidence'
+        );
 
-        opts.SelectProperties = allProps; //filteredProps;
+        opts.SelectProperties = filteredProps;
 
         return sp.search(opts).then((r: any) => {
           console.log(r);
@@ -131,7 +126,15 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
           (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
           (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
         ]).then((modules) => {
-          resolve(modules);
+          // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+          if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+            (window as any).moduleLoaderPromise.then((e: any) => {
+              (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+              resolve(modules);
+            });
+          } else {
+            resolve(modules);
+          }
         });
     });
   }
