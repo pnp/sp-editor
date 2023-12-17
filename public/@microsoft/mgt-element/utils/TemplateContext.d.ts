@@ -7,5 +7,5 @@
 /**
  * Template context object
  */
-export type TemplateContext = Record<string, any>;
+export type TemplateContext = Record<string, unknown>;
 //# sourceMappingURL=TemplateContext.d.ts.map

@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v2.38.0 2023-07-05 */
+/*! @azure/msal-browser v2.38.3 2023-10-27 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -119,7 +119,7 @@
         return ar;
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
@@ -206,7 +206,7 @@
         return r;
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -579,7 +579,7 @@
         JsonTypes["Pop"] = "pop";
     })(JsonTypes || (JsonTypes = {}));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -635,7 +635,7 @@
         return AuthError;
     }(Error));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -710,7 +710,7 @@
         }
     };
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1225,7 +1225,7 @@
         return ClientAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1350,7 +1350,7 @@
         return StringUtils;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1540,12 +1540,12 @@
         return Logger;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /* eslint-disable header/header */
     var name$1 = "@azure/msal-common";
-    var version$1 = "13.2.0";
+    var version$1 = "13.3.1";
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1566,7 +1566,7 @@
         AzureCloudInstance["AzureUsGovernment"] = "https://login.microsoftonline.us";
     })(exports.AzureCloudInstance || (exports.AzureCloudInstance = {}));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1831,7 +1831,7 @@
         return ClientConfigurationError;
     }(ClientAuthError));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2030,7 +2030,7 @@
         return ScopeSet;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2068,7 +2068,7 @@
         };
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2084,7 +2084,7 @@
         AuthorityType[AuthorityType["Ciam"] = 3] = "Ciam";
     })(AuthorityType || (AuthorityType = {}));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2323,7 +2323,7 @@
         return AccountEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2375,7 +2375,7 @@
         return AuthToken;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2903,6 +2903,7 @@
          * @param inputRealm
          */
         CacheManager.prototype.getIdToken = function (account, tokenKeys) {
+            var _this = this;
             this.commonLogger.trace("CacheManager - getIdToken called");
             var idTokenFilter = {
                 homeAccountId: account.homeAccountId,
@@ -2918,7 +2919,11 @@
                 return null;
             }
             else if (numIdTokens > 1) {
-                throw ClientAuthError.createMultipleMatchingTokensInCacheError();
+                this.commonLogger.info("CacheManager:getIdToken - Multiple id tokens found, clearing them");
+                idTokens.forEach(function (idToken) {
+                    _this.removeIdToken(idToken.generateCredentialKey());
+                });
+                return null;
             }
             this.commonLogger.info("CacheManager:getIdToken - Returning id token");
             return idTokens[0];
@@ -3019,7 +3024,11 @@
                 return null;
             }
             else if (numAccessTokens > 1) {
-                throw ClientAuthError.createMultipleMatchingTokensInCacheError();
+                this.commonLogger.info("CacheManager:getAccessToken - Multiple access tokens found, clearing them");
+                accessTokens.forEach(function (accessToken) {
+                    _this.removeAccessToken(accessToken.generateCredentialKey());
+                });
+                return null;
             }
             this.commonLogger.info("CacheManager:getAccessToken - Returning access token");
             return accessTokens[0];
@@ -3423,7 +3432,7 @@
         return DefaultStorageClass;
     }(CacheManager));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3520,7 +3529,7 @@
         return __assign({ clientCapabilities: [], azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS, skipAuthorityMetadataCache: false }, authOptions);
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3540,7 +3549,7 @@
         return ServerError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3636,7 +3645,7 @@
         return ThrottlingUtils;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3685,7 +3694,7 @@
         return NetworkManager;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3696,7 +3705,7 @@
         CcsCredentialType["UPN"] = "UPN";
     })(CcsCredentialType || (CcsCredentialType = {}));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3787,7 +3796,7 @@
         return RequestValidator;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4165,7 +4174,7 @@
         return RequestParameterBuilder;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4267,7 +4276,7 @@
         return BaseClient;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4405,7 +4414,7 @@
         return CredentialEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4469,7 +4478,7 @@
         return IdTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4519,7 +4528,7 @@
         return TimeUtils;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4633,7 +4642,7 @@
         return AccessTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4700,7 +4709,7 @@
         return RefreshTokenEntity;
     }(CredentialEntity));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4779,7 +4788,7 @@
         return InteractionRequiredAuthError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4795,7 +4804,7 @@
         return CacheRecord;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4866,7 +4875,7 @@
         return ProtocolUtils;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5100,7 +5109,7 @@
         return UrlString;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5304,6 +5313,10 @@
         PerformanceEvents["UpdateCloudDiscoveryMetadataMeasurement"] = "updateCloudDiscoveryMetadataMeasurement";
         PerformanceEvents["UsernamePasswordClientAcquireToken"] = "usernamePasswordClientAcquireToken";
         PerformanceEvents["NativeMessageHandlerHandshake"] = "nativeMessageHandlerHandshake";
+        /**
+         * Cache operations
+         */
+        PerformanceEvents["ClearTokensAndKeysWithClaims"] = "clearTokensAndKeysWithClaims";
     })(exports.PerformanceEvents || (exports.PerformanceEvents = {}));
     /**
      * State of the performance event.
@@ -5329,7 +5342,7 @@
         "status",
     ]);
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5438,7 +5451,7 @@
         return PopTokenGenerator;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5508,7 +5521,7 @@
         return AppMetadataEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5544,7 +5557,7 @@
         return TokenCacheContext;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5831,7 +5844,7 @@
         return ResponseHandler;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6309,7 +6322,7 @@
         return AuthorizationCodeClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6583,7 +6596,7 @@
         return RefreshTokenClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6713,7 +6726,7 @@
         return SilentFlowClient;
     }(BaseClient));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6725,7 +6738,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6734,7 +6747,7 @@
     var EndpointMetadata = rawMetdataJSON.endpointMetadata;
     var InstanceDiscoveryMetadata = rawMetdataJSON.instanceDiscoveryMetadata;
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6748,7 +6761,7 @@
         ProtocolMode["OIDC"] = "OIDC";
     })(exports.ProtocolMode || (exports.ProtocolMode = {}));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6825,7 +6838,7 @@
         return AuthorityMetadataEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6835,7 +6848,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6845,7 +6858,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6977,7 +6990,7 @@
         return RegionDiscovery;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7770,7 +7783,7 @@
         return Authority;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7834,7 +7847,7 @@
         return AuthorityFactory;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7865,7 +7878,7 @@
         return ServerTelemetryEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7893,7 +7906,7 @@
         return ThrottlingEntity;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7910,7 +7923,7 @@
         }
     };
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7955,7 +7968,7 @@
         return JoseHeaderError;
     }(AuthError));
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7995,7 +8008,7 @@
         return JoseHeader;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8054,7 +8067,7 @@
         return AuthenticationHeaderParser;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8216,7 +8229,7 @@
         return ServerTelemetryManager;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8619,7 +8632,7 @@
         return PerformanceClient;
     }());
 
-    /*! @azure/msal-common v13.2.0 2023-07-05 */
+    /*! @azure/msal-common v13.3.1 2023-10-27 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10451,6 +10464,40 @@
             });
         };
         /**
+         * Clears all access tokes that have claims prior to saving the current one
+         * @param credential
+         * @returns
+         */
+        BrowserCacheManager.prototype.clearTokensAndKeysWithClaims = function () {
+            return __awaiter$1(this, void 0, void 0, function () {
+                var tokenKeys, removedAccessTokens;
+                var _this = this;
+                return __generator$1(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.logger.trace("BrowserCacheManager.clearTokensAndKeysWithClaims called");
+                            tokenKeys = this.getTokenKeys();
+                            removedAccessTokens = [];
+                            tokenKeys.accessToken.forEach(function (key) {
+                                // if the access token has claims in its key, remove the token key and the token
+                                var credential = _this.getAccessTokenCredential(key);
+                                if ((credential === null || credential === void 0 ? void 0 : credential.requestedClaimsHash) && key.includes(credential.requestedClaimsHash.toLowerCase())) {
+                                    removedAccessTokens.push(_this.removeAccessToken(key));
+                                }
+                            });
+                            return [4 /*yield*/, Promise.all(removedAccessTokens)];
+                        case 1:
+                            _a.sent();
+                            // warn if any access tokens are removed
+                            if (removedAccessTokens.length > 0) {
+                                this.logger.warning(removedAccessTokens.length + " access tokens with claims in the cache keys have been removed from the cache.");
+                            }
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        /**
          * Add value to cookies
          * @param cookieName
          * @param cookieValue
@@ -10845,7 +10892,7 @@
 
     /* eslint-disable header/header */
     var name = "@azure/msal-browser";
-    var version = "2.38.0";
+    var version = "2.38.3";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16711,7 +16758,7 @@
          */
         ClientApplication.prototype.initialize = function () {
             return __awaiter$1(this, void 0, void 0, function () {
-                var allowNativeBroker, initMeasurement, _a, e_1;
+                var allowNativeBroker, initMeasurement, _a, e_1, claimsTokensRemovalMeasurement;
                 return __generator$1(this, function (_b) {
                     switch (_b.label) {
                         case 0:
@@ -16737,6 +16784,15 @@
                             this.logger.verbose(e_1);
                             return [3 /*break*/, 4];
                         case 4:
+                            if (!!this.config.cache.claimsBasedCachingEnabled) return [3 /*break*/, 6];
+                            this.logger.verbose("Claims-based caching is disabled. Clearing the previous cache with claims");
+                            claimsTokensRemovalMeasurement = this.performanceClient.startMeasurement(exports.PerformanceEvents.ClearTokensAndKeysWithClaims);
+                            return [4 /*yield*/, this.browserStorage.clearTokensAndKeysWithClaims()];
+                        case 5:
+                            _b.sent();
+                            claimsTokensRemovalMeasurement.endMeasurement({ success: true });
+                            _b.label = 6;
+                        case 6:
                             this.initialized = true;
                             this.eventHandler.emitEvent(exports.EventType.INITIALIZE_END);
                             initMeasurement.endMeasurement({ allowNativeBroker: allowNativeBroker, success: true });
@@ -17875,13 +17931,15 @@
                                 return _this.acquireTokenByRefreshToken(silentRequest_1, requestWithCLP_1).catch(function (refreshTokenError) {
                                     var isServerError = refreshTokenError instanceof ServerError;
                                     var isInteractionRequiredError = refreshTokenError instanceof InteractionRequiredAuthError;
+                                    var rtNotFound = (refreshTokenError.errorCode === InteractionRequiredAuthErrorMessage.noTokensFoundError.code);
                                     var isInvalidGrantError = (refreshTokenError.errorCode === BrowserConstants.INVALID_GRANT_ERROR);
                                     if ((!isServerError ||
                                         !isInvalidGrantError ||
                                         isInteractionRequiredError ||
                                         requestWithCLP_1.cacheLookupPolicy === exports.CacheLookupPolicy.AccessTokenAndRefreshToken ||
                                         requestWithCLP_1.cacheLookupPolicy === exports.CacheLookupPolicy.RefreshToken)
-                                        && (requestWithCLP_1.cacheLookupPolicy !== exports.CacheLookupPolicy.Skip)) {
+                                        && (requestWithCLP_1.cacheLookupPolicy !== exports.CacheLookupPolicy.Skip)
+                                        && !rtNotFound) {
                                         throw refreshTokenError;
                                     }
                                     _this.logger.verbose("Refresh token expired/invalid or CacheLookupPolicy is set to Skip, attempting acquire token by iframe.", request.correlationId);

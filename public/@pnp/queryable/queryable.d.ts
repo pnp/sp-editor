@@ -15,6 +15,7 @@ declare const DefaultMoments: {
     readonly parse: (observers: QueryableParseObserver[], url: URL, response: Response, result: any) => Promise<[url: URL, response: Response, result: any]>;
     readonly post: (observers: QueryablePostObserver[], url: URL, result: any) => Promise<[url: URL, result: any]>;
     readonly data: (observers: QueryableDataObserver<any>[], ...args: any[]) => void;
+    readonly rawData: (observers: QueryableDataObserver<any>[], ...args: any[]) => void;
 };
 export declare type QueryableInit = Queryable<any> | string | [Queryable<any>, string];
 export declare class Queryable<R> extends Timeline<typeof DefaultMoments> implements IQueryableInternal<R> {

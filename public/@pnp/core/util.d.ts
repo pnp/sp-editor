@@ -70,6 +70,10 @@ export declare function jsS(o: any): string;
  */
 export declare function hOP<T extends string>(o: any, p: T): boolean;
 /**
+ * @returns validates and returns a valid atob conversion
+*/
+export declare function parseToAtob(str: string): string;
+/**
  * Generates a ~unique hash code
  *
  * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript

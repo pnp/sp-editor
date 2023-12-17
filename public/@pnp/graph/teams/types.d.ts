@@ -66,7 +66,7 @@ export interface IChannels extends _Channels, IGetById<IChannel> {
 }
 export declare const Channels: import("../graphqueryable.js").IGraphInvokableFactory<IChannels>;
 /**
- * Channel
+ * Message
  */
 export declare class _Message extends _GraphQueryableInstance<IChatMessage> {
 }
@@ -74,16 +74,15 @@ export interface IMessage extends _Message {
 }
 export declare const Message: import("../graphqueryable.js").IGraphInvokableFactory<IMessage>;
 /**
- * Channels
+ * Messages
  */
 export declare class _Messages extends _GraphQueryableCollection<IChatMessage[]> {
     /**
-     * Creates a new Channel in the Team
-     * @param displayName The display name of the new channel
-     * @param description Optional description of the channel
+     * Adds a message
+     * @param message ChatMessage object that defines the message
      *
      */
-    add(displayName: string, description?: string): Promise<IMessageCreateResult>;
+    add(message: IChatMessage): Promise<IMessageCreateResult>;
 }
 export interface IMessages extends _Messages, IGetById<IMessage> {
 }

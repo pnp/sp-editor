@@ -111,7 +111,7 @@ export declare abstract class MgtBaseComponent extends LitElement {
      *
      * @param _changedProperties Map of changed properties with old values
      */
-    protected firstUpdated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
+    protected firstUpdated(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void;
     /**
      * load state into the component.
      * Override this function to provide additional loading logic.
@@ -133,7 +133,7 @@ export declare abstract class MgtBaseComponent extends LitElement {
      * @return {*}  {boolean}
      * @memberof MgtBaseComponent
      */
-    protected fireCustomEvent(eventName: string, detail?: any, bubbles?: boolean, cancelable?: boolean, composed?: boolean): boolean;
+    protected fireCustomEvent(eventName: string, detail?: unknown, bubbles?: boolean, cancelable?: boolean, composed?: boolean): boolean;
     /**
      * Invoked whenever the element is updated. Implement to perform
      * post-updating tasks via DOM APIs, for example, focusing an element.

@@ -72,7 +72,7 @@ export declare const getPersonImage: (graph: IGraph, person: IDynamicPerson, use
  * @param useContactsApis
  * @returns
  */
-export declare const getGroupImage: (graph: IGraph, group: IDynamicPerson, useContactsApis?: boolean) => Promise<string>;
+export declare const getGroupImage: (graph: IGraph, group: IDynamicPerson) => Promise<string>;
 /**
  * checks if user has a photo in the cache
  *

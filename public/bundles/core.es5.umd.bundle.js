@@ -116,6 +116,7 @@ __webpack_require__.d(__webpack_exports__, "stringIsNullOrEmpty", function() { r
 __webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return /* reexport */ objectDefinedNotNull; });
 __webpack_require__.d(__webpack_exports__, "jsS", function() { return /* reexport */ jsS; });
 __webpack_require__.d(__webpack_exports__, "hOP", function() { return /* reexport */ hOP; });
+__webpack_require__.d(__webpack_exports__, "parseToAtob", function() { return /* reexport */ parseToAtob; });
 __webpack_require__.d(__webpack_exports__, "getHashCode", function() { return /* reexport */ getHashCode; });
 __webpack_require__.d(__webpack_exports__, "delay", function() { return /* reexport */ delay; });
 __webpack_require__.d(__webpack_exports__, "broadcast", function() { return /* reexport */ broadcast; });
@@ -275,6 +276,24 @@ function jsS(o) {
  */
 function hOP(o, p) {
     return Object.hasOwnProperty.call(o, p);
+}
+/**
+ * @returns validates and returns a valid atob conversion
+*/
+function parseToAtob(str) {
+    const base64Regex = /^[A-Za-z0-9+/]+={0,2}$/;
+    try {
+        // test if str has been JSON.stringified
+        const parsed = JSON.parse(str);
+        if (base64Regex.test(parsed)) {
+            return atob(parsed);
+        }
+        return null;
+    }
+    catch (err) {
+        // Not a valid JSON string, check if it's a standalone Base64 string
+        return base64Regex.test(str) ? atob(str) : null;
+    }
 }
 /**
  * Generates a ~unique hash code

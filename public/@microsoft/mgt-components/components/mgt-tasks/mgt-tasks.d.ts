@@ -343,7 +343,7 @@ export declare class MgtTasks extends MgtTemplatedComponent {
      *
      * @param _changedProperties Map of changed properties with old values
      */
-    protected firstUpdated(changedProperties: PropertyValueMap<any>): void;
+    protected firstUpdated(changedProperties: PropertyValueMap<unknown>): void;
     /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*

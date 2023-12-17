@@ -81,5 +81,5 @@ export declare const setTodoTaskIncomplete: (graph: IGraph, taskId: string, eTag
  * @returns {Promise<OutlookTask>}
  * @memberof BetaGraph
  */
-export declare const setTodoTaskDetails: (graph: IGraph, taskId: string, task: any, eTag: string) => Promise<OutlookTask>;
+export declare const setTodoTaskDetails: (graph: IGraph, taskId: string, task: Partial<OutlookTask>, eTag: string) => Promise<OutlookTask>;
 //# sourceMappingURL=mgt-tasks.graph.todo.d.ts.map

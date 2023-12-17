@@ -85,7 +85,12 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
           disabled={!ctx || !ctx.webAbsoluteUrl}
           url={ctx.webAbsoluteUrl + "/_layouts/15/AdminRecycleBin.aspx?view=5"}
         />
-
+        <QuickLinkButton
+          text={'All People'}
+          iconName={'People'}
+          disabled={!ctx || !ctx.webAbsoluteUrl}
+          url={ctx.webAbsoluteUrl + "/_layouts/people.aspx?MembershipGroupId=0"}
+        />
         <Separator alignContent="start" styles={separatorStyles}>Current user</Separator>
         <QuickLinkButton
           text={'Edit user profile'}

@@ -61,7 +61,7 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
      *
      * * @param _changedProperties Map of changed properties with old values
      */
-    protected update(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
+    protected update(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void;
     /**
      * Invoked whenever the element is updated. Implement to perform
      * post-updating tasks via DOM APIs, for example, focusing an element.

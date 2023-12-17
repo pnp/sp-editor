@@ -253,7 +253,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      * @param fileItem
      * @returns
      */
-    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): import("lit").HTMLTemplateResult;
+    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): import("lit-html").HTMLTemplateResult;
     /**
      * Render file upload progress
      *

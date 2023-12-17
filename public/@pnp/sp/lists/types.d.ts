@@ -179,6 +179,10 @@ export interface IListEnsureResult {
  */
 export interface ICamlQuery {
     /**
+     * Gets or sets a value that indicates whether the query can return incremental results.
+     */
+    AllowIncrementalResults?: boolean;
+    /**
      * Gets or sets a value that indicates whether the query returns dates in Coordinated Universal Time (UTC) format.
      */
     DatesInUtc?: boolean;
@@ -488,6 +492,10 @@ export interface IListItemFormUpdateValue {
      * Indicates whether there was an error result after validating the value for the field.
      */
     HasException?: boolean;
+    /**
+     * The ItemId
+     */
+    ItemId?: number;
 }
 /**
  * Represents the output parameter of the renderListData method.

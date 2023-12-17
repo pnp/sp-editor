@@ -5,8 +5,8 @@
  * -------------------------------------------------------------------------------------------
  */
 import { IGraph } from '@microsoft/mgt-element';
-import { PlannerAssignments } from '@microsoft/microsoft-graph-types';
-import { OutlookTask, PlannerTask } from '@microsoft/microsoft-graph-types-beta';
+import { PlannerAssignments, PlannerBucket, PlannerPlan } from '@microsoft/microsoft-graph-types';
+import { OutlookTask, OutlookTaskFolder, OutlookTaskGroup, PlannerTask } from '@microsoft/microsoft-graph-types-beta';
 /**
  * ITask
  *
@@ -112,7 +112,7 @@ export interface ITaskFolder {
      * @type {*}
      * @memberof ITaskFolder
      */
-    _raw?: any;
+    _raw?: PlannerBucket | OutlookTaskFolder;
 }
 /**
  * container for folders
@@ -148,7 +148,7 @@ export interface ITaskGroup {
      * @type {*}
      * @memberof ITaskGroup
      */
-    _raw?: any;
+    _raw?: PlannerPlan | OutlookTaskGroup;
     /**
      * Plan Container ID. Same as the group ID of the group in the plan.
      *
@@ -218,7 +218,7 @@ export interface ITaskSource {
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    setTaskIncomplete(task: ITask): Promise<any>;
+    setTaskIncomplete(task: ITask): Promise<void>;
     /**
      * Promise to add a new task
      *
@@ -226,7 +226,7 @@ export interface ITaskSource {
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    addTask(newTask: ITask): Promise<any>;
+    addTask(newTask: ITask): Promise<PlannerTask | OutlookTask>;
     /**
      * assign id's to task
      *
@@ -243,7 +243,7 @@ export interface ITaskSource {
      * @returns {Promise<any>}
      * @memberof ITaskSource
      */
-    removeTask(task: ITask): Promise<any>;
+    removeTask(task: ITask): Promise<void>;
     /**
      * assigns task to the current signed in user
      *
@@ -340,7 +340,7 @@ export declare class PlannerTaskSource extends TaskSourceBase implements ITaskSo
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    addTask(newTask: ITask): Promise<any>;
+    addTask(newTask: ITask): Promise<PlannerTask>;
     /**
      * Assigns people to task
      *
@@ -416,7 +416,7 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    setTaskComplete(task: ITask): Promise<any>;
+    setTaskComplete(task: ITask): Promise<void>;
     /**
      * Assigns people to task in a planner
      *
@@ -425,7 +425,7 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      * @returns {Promise<any>}
      * @memberof PlannerTaskSource
      */
-    assignPeopleToTask(task: ITask, people: PlannerAssignments): Promise<any>;
+    assignPeopleToTask(task: ITask, people: PlannerAssignments): Promise<void>;
     /**
      * set task in planner to incomplete state by id
      *
@@ -433,7 +433,7 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      * @returns {Promise<any>}
      * @memberof TodoTaskSource
      */
-    setTaskIncomplete(task: ITask): Promise<any>;
+    setTaskIncomplete(task: ITask): Promise<void>;
     /**
      * add new task to planner
      *
@@ -466,7 +466,7 @@ export declare class TodoTaskSource extends TaskSourceBase implements ITaskSourc
      * @returns {Promise<ITaskGroup[]>}
      * @memberof PlannerTaskSource
      */
-    getTaskGroupsForGroup(id: string): Promise<ITaskGroup[]>;
+    getTaskGroupsForGroup(_id: string): Promise<ITaskGroup[]>;
 }
 export {};
 //# sourceMappingURL=task-sources.d.ts.map

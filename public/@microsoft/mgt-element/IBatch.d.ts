@@ -98,9 +98,7 @@ export interface IBatch<T = any> {
      * @param {{ [header: string]: string }} [headers]
      * @memberof IBatch
      */
-    get(id: string, resource: string, scopes?: string[], headers?: {
-        [header: string]: string;
-    }): any;
+    get(id: string, resource: string, scopes?: string[], headers?: Record<string, string>): any;
     /**
      * Execute the next set of requests.
      * This will execute up to 20 requests at a time

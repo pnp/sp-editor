@@ -1,6 +1,6 @@
-import { _GraphQueryableInstance } from "../graphqueryable.js";
-import { Photo as IPhotoType } from "@microsoft/microsoft-graph-types";
-export declare class _Photo extends _GraphQueryableInstance<IPhotoType> {
+import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { ProfilePhoto as IProfilePhotoType } from "@microsoft/microsoft-graph-types";
+export declare class _Photo extends _GraphQueryableInstance<IProfilePhotoType> {
     /**
      * Gets the image bytes as a blob (browser)
      */
@@ -19,4 +19,13 @@ export declare class _Photo extends _GraphQueryableInstance<IPhotoType> {
 export interface IPhoto extends _Photo {
 }
 export declare const Photo: import("../graphqueryable.js").IGraphInvokableFactory<IPhoto>;
+export declare class _Photos extends _GraphQueryableCollection<IProfilePhotoType[]> {
+    /**
+     * Gets the image reference by size. 48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, and 648x648.
+     */
+    getBySize(size: string): IPhoto;
+}
+export interface IPhotos extends _Photos {
+}
+export declare const Photos: import("../graphqueryable.js").IGraphInvokableFactory<IPhotos>;
 //# sourceMappingURL=types.d.ts.map

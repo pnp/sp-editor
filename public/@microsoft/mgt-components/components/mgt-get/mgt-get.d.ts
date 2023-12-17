@@ -10,9 +10,9 @@ import { Entity } from '@microsoft/microsoft-graph-types';
 /**
  * Simple holder type for an image
  */
-type ImageValue = {
+interface ImageValue {
     image: string;
-};
+}
 /**
  * A type guard to check if a value is a collection response
  *
@@ -39,10 +39,10 @@ export declare enum ResponseType {
 /**
  * Holder type emitted with the dataChange event
  */
-export type DataChangedDetail = {
+export interface DataChangedDetail {
     response?: CollectionResponse<Entity>;
     error?: object;
-};
+}
 /**
  * Custom element for making Microsoft Graph get queries
  *

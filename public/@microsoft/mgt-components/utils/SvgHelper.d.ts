@@ -255,5 +255,5 @@ export declare enum SvgIcon {
  * @param svgIcon defined by name
  * @param color hex value
  */
-export declare const getSvg: (svgIcon: SvgIcon, color?: string) => import("lit").TemplateResult<1>;
+export declare const getSvg: (svgIcon: SvgIcon, color?: string) => import("lit-html").TemplateResult<1>;
 //# sourceMappingURL=SvgHelper.d.ts.map
