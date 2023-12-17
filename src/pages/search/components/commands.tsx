@@ -13,6 +13,40 @@ const SearchCommands = () => {
 
   const { searchQuery } = useSelector((state: IRootState) => state.search);
 
+  const indexWebOnClick = () => {
+    dispatch(rootActions.setLoading(true));
+    chrome.scripting
+      .executeScript({
+        target: { tabId: chrome.devtools.inspectedWindow.tabId },
+        world: 'MAIN',
+        args: [chrome.runtime.getURL('')],
+        func: reindexweb,
+      })
+      .then((injectionResults) => {
+        if (injectionResults[0].result) {
+          const res = injectionResults[0].result as any;
+          if (res.errorMessage) {
+            dispatch(
+              rootActions.setAppMessage({
+                showMessage: true,
+                message: res.errorMessage,
+                color: MessageBarColors.danger,
+              })
+            );
+          } else {
+            dispatch(
+              rootActions.setAppMessage({
+                showMessage: true,
+                message: 'Reindexing complete',
+                color: MessageBarColors.success,
+              })
+            );
+          }
+          dispatch(rootActions.setLoading(false));
+        }
+      });
+  };
+
   return (
     <CommandBar
       items={[
@@ -37,17 +71,6 @@ const SearchCommands = () => {
             />
           ),
         },
-        {
-          key: 'Options',
-          text: 'Query Options',
-          iconProps: { iconName: 'MultiSelect' },
-          split: true,
-        },
-        // {
-        //   key: "Payload",
-        //   text: "Show Payload",
-        //   iconProps: { iconName: "Code" },
-        // },
       ]}
       farItems={[
         {
@@ -70,39 +93,7 @@ const SearchCommands = () => {
           key: 'IndexWeb',
           text: 'Reindex Current Web',
           iconProps: { iconName: 'SiteScan' },
-          onClick: () => {
-            dispatch(rootActions.setLoading(true));
-            chrome.scripting
-              .executeScript({
-                target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                world: 'MAIN',
-                args: [chrome.runtime.getURL('')],
-                func: reindexweb,
-              })
-              .then((injectionResults) => {
-                if (injectionResults[0].result) {
-                  const res = injectionResults[0].result as any;
-                  if (res.errorMessage) {
-                    dispatch(
-                      rootActions.setAppMessage({
-                        showMessage: true,
-                        message: res.errorMessage,
-                        color: MessageBarColors.danger,
-                      })
-                    );
-                  } else {
-                    dispatch(
-                      rootActions.setAppMessage({
-                        showMessage: true,
-                        message: 'Reindexing complete',
-                        color: MessageBarColors.success,
-                      })
-                    );
-                  }
-                  dispatch(rootActions.setLoading(false));
-                }
-              });
-          },
+          onClick: () => indexWebOnClick()
         },
       ]}
     />

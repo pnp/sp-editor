@@ -15,7 +15,6 @@ export const currentpageallprops = (extPath: string) => {
         (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
       });
     }
-
     /***  init pnpjs ***/
     const sp = pnpsp
       .spfi()
@@ -40,7 +39,7 @@ export const currentpageallprops = (extPath: string) => {
 
     /*** setup log listener ***/
     const listener = pnplogging.FunctionListener((entry) => {
-      entry.data.response
+      return entry.data.response
         .clone()
         .json()
         .then((error) => {
@@ -67,6 +66,7 @@ export const currentpageallprops = (extPath: string) => {
           Querytext: `NormUniqueID:${page.UniqueId}`,
           RowLimit: 1,
           Refiners: 'managedproperties(filter=600/0/*)',
+          SelectProperties: ['WorkId'],
         };
         return sp.search(opts).then((r1: any) => {
           if (r1.RowCount > 0) {
@@ -109,20 +109,11 @@ export const currentpageallprops = (extPath: string) => {
         });
       })
       .catch((error) => {
-        var errorMessage = error.message;
-        if (error !== null && error !== void 0 && error.isHttpRequestError) {
-          // we can read the json from the response
-          return error.response.json().then((json) => {
-            // if we have a value property we can show it
-            errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
-            return {
-              errorMessage: errorMessage,
-            };
-          });
-        } else
-          return {
-            errorMessage: errorMessage,
-          };
+        return {
+          success: false,
+          result: null,
+          errorMessage: error.message,
+        };
       });
   });
 

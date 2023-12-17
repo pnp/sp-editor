@@ -28,7 +28,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
           'X-ClientService-ClientTag': 'SPEDITOR',
-        })
+        }, true)
       );
 
     /*** clear previous log listeners ***/
@@ -63,7 +63,6 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     return sp
       .search(opts)
       .then((r1: any) => {
-        console.log(r1);
         const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners[0].Entries;
         const allProps = entries.map((entry) => entry.RefinementName);
 
@@ -77,7 +76,6 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         opts.SelectProperties = filteredProps;
 
         return sp.search(opts).then((r: any) => {
-          console.log(r);
           var result = {
             ElapsedTime: r.ElapsedTime,
             PrimarySearchResults: r.PrimarySearchResults,
@@ -90,24 +88,10 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         });
       })
       .catch((error) => {
-        console.log('we errored it');
-
-        var errorMessage = error.message;
-        if (error !== null && error !== void 0 && error.isHttpRequestError) {
-          // we can read the json from the response
-          error.response.json().then((json) => {
-            // if we have a value property we can show it
-            errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
-          });
-        } else {
-          // not an HttpRequestError so we just log message
-          console.log(error);
-        }
         return {
           success: false,
           result: null,
-          errorMessage: errorMessage,
-          source: 'chrome-sp-editor',
+          errorMessage: error.message,
         };
       });
   });

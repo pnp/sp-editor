@@ -1,4 +1,4 @@
-import { ComboBox, ScrollablePane, ScrollbarVisibility, TextField } from '@fluentui/react';
+import { Checkbox, ComboBox, IStackStyles, ScrollablePane, ScrollbarVisibility, Stack, TextField } from '@fluentui/react';
 import { setSearchQuery } from '../../../store/search/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
@@ -72,6 +72,27 @@ const SearchQueryForm = () => {
     },
   ];
 
+  const options = [
+    'EnableInterleaving',
+    'EnableStemming',
+    'TrimDuplicates',
+    'EnableNicknames',
+    'EnableFQL',
+    'EnablePhonetic',
+    'BypassResultTypes',
+    'ProcessBestBets',
+    'EnableQueryRules',
+    'EnableSorting',
+    'GenerateBlockRankLog',
+    'ProcessPersonalFavorites',
+  ];
+
+  const checkBoxStyles: IStackStyles = {
+    root: {
+      marginTop: 10,
+    },
+  };
+
   function convertToSortList(sortListStr: string): ISort[] | null {
     try {
       const newSortList: ISort[] = sortListStr.split(',').map((sortItem) => {
@@ -92,13 +113,16 @@ const SearchQueryForm = () => {
     <ScrollablePane
       scrollbarVisibility={ScrollbarVisibility.always}
       style={{
-        width: '300px',
+        width: '500px',
         marginLeft: '5px',
         marginTop: '50px',
         marginBottom: '25px',
         backgroundColor: 'transparent',
       }}
     >
+    <Stack enableScopedSelectors horizontal>
+      <Stack.Item disableShrink style={{width: '300px', marginRight: '25px'}}>
+
       <TextField
         spellCheck={false}
         label="Queryt"
@@ -192,6 +216,34 @@ const SearchQueryForm = () => {
           );
         }}
       />
+
+      </Stack.Item>
+      <Stack.Item disableShrink style={{width: '200px', marginTop: '20px'}}>
+      {options.map((key) => {
+        return (
+          <Checkbox
+            key={key}
+            styles={checkBoxStyles}
+            label={key}
+            indeterminate={searchQuery[key] === undefined}
+            checked={searchQuery[key] === undefined ? true : searchQuery[key]}
+            defaultChecked={searchQuery[key]}
+            onChange={(ev?: React.FormEvent<HTMLElement | HTMLInputElement>, newChecked?: boolean) => {
+              if (searchQuery[key] !== undefined && newChecked) {
+                const newItems = { ...searchQuery };
+                delete newItems[key];
+                dispatch(setSearchQuery(newItems));
+              } else {
+                dispatch(setSearchQuery({ ...searchQuery, [key]: newChecked }));
+              }
+            }}
+          />
+        );
+      })}
+      </Stack.Item>
+      </Stack>
+
+
     </ScrollablePane>
   );
 };

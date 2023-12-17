@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { CommandBarButton, Label, Pivot, PivotItem } from '@fluentui/react';
+import { Label, Pivot, PivotItem } from '@fluentui/react';
 
 import './popup.css';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import Actions from './Components/Actions';
 import ContextInfoPropertiesList, { ICtxInfoProperty } from './Components/ContextInfoPropertiesList';
 import QuickLinkList from './Components/QuickLinkList';
-import { buttonStyles } from './Components/QuickLinkButton';
 import LoadTeamsDebug from './Components/LoadTeamsDebug';
 
 initializeIcons();

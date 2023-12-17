@@ -15,16 +15,16 @@ import {
   Stack,
   Sticky,
   StickyPositionType,
-} from "@fluentui/react";
-import { Text } from "@fluentui/react";
-import { allprops } from "../chrome/allprops";
-import * as rootActions from "../../../store/home/actions";
+} from '@fluentui/react';
+import { Text } from '@fluentui/react';
+import { allprops } from '../chrome/allprops';
+import * as rootActions from '../../../store/home/actions';
 
-import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../store";
-import SearchQueryForm from "./searchqueryform";
-import { useRef, useState } from "react";
-import { setSearchResults } from "../../../store/search/actions";
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '../../../store';
+import SearchQueryForm from './searchqueryform';
+import { useRef, useState } from 'react';
+import { setSearchResults } from '../../../store/search/actions';
 
 const SearchResults = () => {
   const { items, groups, searchResults, searchQuery } = useSelector((state: IRootState) => state.search);
@@ -34,25 +34,25 @@ const SearchResults = () => {
 
   const [columns] = useState<IColumn[]>([
     {
-      key: "row",
-      name: "Row",
-      fieldName: "row",
+      key: 'row',
+      name: 'Row',
+      fieldName: 'row',
       minWidth: 50,
       maxWidth: 50,
       isResizable: true,
     },
     {
-      key: "property",
-      name: "Property",
-      fieldName: "property",
+      key: 'property',
+      name: 'Property',
+      fieldName: 'property',
       minWidth: 100,
       maxWidth: 200,
       isResizable: true,
     },
     {
-      key: "value",
-      name: "Value",
-      fieldName: "value",
+      key: 'value',
+      name: 'Value',
+      fieldName: 'value',
       minWidth: 100,
       maxWidth: 200,
       isMultiline: true,
@@ -65,7 +65,7 @@ const SearchResults = () => {
       <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={false}>
         {searchResults && (
           <Text
-            variant={"medium"}
+            variant={'medium'}
           >{`Results, ${searchResults.TotalRows} hits in ${searchResults.ElapsedTime}ms. Total rows with dublicates ${searchResults.TotalRowsIncludingDuplicates}`}</Text>
         )}
         {defaultRender(headerProps)}
@@ -76,7 +76,7 @@ const SearchResults = () => {
   // Non-mutating styles definition
   const queryEditorStackStyles: IStackItemStyles = {
     root: {
-      width: 300,
+      width: 500,
     },
   };
 
@@ -86,6 +86,7 @@ const SearchResults = () => {
       width: 400,
     },
   };
+
   const nonShrinkingStackItemStyles: IStackItemStyles = {
     root: {
       // width: "calc(100% - 600px)",
@@ -98,17 +99,19 @@ const SearchResults = () => {
       width: `100%`,
     },
   };
+
   const scrollablePaneStyles: IScrollablePaneStyles = {
     root: {
       marginTop: 50,
       marginRight: 410,
-      marginLeft: 310,
+      marginLeft: 510,
     },
     stickyAbove: undefined,
     stickyBelow: undefined,
     stickyBelowItems: undefined,
     contentContainer: undefined,
   };
+
   return (
     <Stack enableScopedSelectors horizontal styles={stackStyles}>
       <Stack.Item disableShrink styles={queryEditorStackStyles}>
@@ -126,7 +129,7 @@ const SearchResults = () => {
             componentRef={root}
             styles={{
               root: {
-                width: "100%",
+                width: '100%',
               },
             }}
             items={items}
@@ -147,19 +150,19 @@ const SearchResults = () => {
                     onRenderTitle={() => {
                       return (
                         <>
-                          <Text variant={"large"}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
+                          <Text variant={'large'}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
                           <ActionButton
                             //hidden={props?.group?.isCollapsed}
-                            iconProps={{ iconName: "OpenInNewTab" }}
-                            text={"open in new tab"}
+                            iconProps={{ iconName: 'OpenInNewTab' }}
+                            text={'open in new tab'}
                             style={{
-                              marginLeft: "auto",
-                              backgroundColor: "transparent",
+                              marginLeft: 'auto',
+                              backgroundColor: 'transparent',
                             }}
                             onClick={() => {
                               const properties = props as any;
                               const link = properties.selection._items.find(
-                                (o) => o.DocId === props?.group?.key && o.property === "OriginalPath"
+                                (o) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
                               ).value;
                               // let obj = props?.group?.data.find((o) => o.key === "OriginalPath");
                               chrome.tabs.create({ url: link });
@@ -167,10 +170,10 @@ const SearchResults = () => {
                           />
                           <ActionButton
                             //hidden={props?.group?.isCollapsed}
-                            iconProps={{ iconName: "AllApps" }}
-                            text={"Load all properties"}
+                            iconProps={{ iconName: 'AllApps' }}
+                            text={'Load all properties'}
                             style={{
-                              backgroundColor: "transparent",
+                              backgroundColor: 'transparent',
                             }}
                             onClick={() => {
                               dispatch(rootActions.setLoading(true));
@@ -179,8 +182,8 @@ const SearchResults = () => {
                                   target: {
                                     tabId: chrome.devtools.inspectedWindow.tabId,
                                   },
-                                  world: "MAIN",
-                                  args: [props?.group?.key, null, chrome.runtime.getURL("")],
+                                  world: 'MAIN',
+                                  args: [props?.group?.key, null, chrome.runtime.getURL('')],
                                   func: allprops,
                                 })
                                 .then((injectionResults) => {
@@ -229,7 +232,7 @@ const SearchResults = () => {
                                     dispatch(setSearchResults(newItems2, newGroups, searchResults));
                                     dispatch(rootActions.setLoading(false));
                                   } else {
-                                    console.log("Injection failed: ", injectionResults);
+                                    console.log('Injection failed: ', injectionResults);
                                     dispatch(rootActions.setLoading(false));
                                   }
                                 });
@@ -246,7 +249,7 @@ const SearchResults = () => {
         </ScrollablePane>
       </Stack.Item>
       <Stack.Item disableShrink styles={previewStackStyles}>
-        <Text variant={"medium"}>Payload preview</Text>
+        <Text variant={'medium'}>Payload preview</Text>
         <pre spellCheck="false">{JSON.stringify(searchQuery, null, 2)}</pre>
       </Stack.Item>
     </Stack>
