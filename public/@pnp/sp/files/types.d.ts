@@ -386,7 +386,7 @@ export interface IAddUsingPathProps {
     /**
      * Overwrite the file if it exists
      */
-    Overwrite: boolean;
+    Overwrite?: boolean;
     /**
      * specifies whether to auto checkout on invalid Data. It'll be useful if the list contains validation whose requirements upload will not be able to meet.
      */
@@ -395,6 +395,10 @@ export interface IAddUsingPathProps {
      * Specifies a XOR hash of the file data which should be used to ensure end-2-end data integrity, base64 representation
      */
     XorHash?: string;
+    /**
+     * Specifies whether to force unique file name. When using this, omit the Overwrite parameter.
+     */
+    EnsureUniqueFileName?: boolean;
 }
 export interface IFileInfo {
     readonly "odata.id": string;

@@ -412,6 +412,24 @@ function hOP(o, p) {
     return Object.hasOwnProperty.call(o, p);
 }
 /**
+ * @returns validates and returns a valid atob conversion
+*/
+function parseToAtob(str) {
+    const base64Regex = /^[A-Za-z0-9+/]+={0,2}$/;
+    try {
+        // test if str has been JSON.stringified
+        const parsed = JSON.parse(str);
+        if (base64Regex.test(parsed)) {
+            return atob(parsed);
+        }
+        return null;
+    }
+    catch (err) {
+        // Not a valid JSON string, check if it's a standalone Base64 string
+        return base64Regex.test(str) ? atob(str) : null;
+    }
+}
+/**
  * Generates a ~unique hash code
  *
  * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
@@ -1523,6 +1541,7 @@ const DefaultMoments = {
     parse: asyncReduce(),
     post: asyncReduce(),
     data: broadcast(),
+    rawData: broadcast(),
 };
 let queryable_Queryable = class Queryable extends timeline_Timeline {
     constructor(init, path) {
@@ -1630,6 +1649,9 @@ let queryable_Queryable = class Queryable extends timeline_Timeline {
                 log("Emitting send");
                 let response = await this.emit.send(requestUrl, init);
                 log("Emitted send");
+                log("Emitting rawData");
+                this.emit.rawData(await response.clone().text());
+                log("Emitted rawData");
                 log("Emitting parse");
                 [requestUrl, response, result] = await this.emit.parse(requestUrl, response, result);
                 log("Emitted parse");
@@ -1749,7 +1771,21 @@ function TextParse() {
     return parseBinderWithErrorCheck(r => r.text());
 }
 function BlobParse() {
-    return parseBinderWithErrorCheck(r => r.blob());
+    return parseBinderWithErrorCheck(async (response) => {
+        const binaryResponseBody = parseToAtob(await response.clone().text());
+        // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
+        if (binaryResponseBody) {
+            // Create an array buffer from the binary string
+            const arrayBuffer = new ArrayBuffer(binaryResponseBody.length);
+            const uint8Array = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < binaryResponseBody.length; i++) {
+                uint8Array[i] = binaryResponseBody.charCodeAt(i);
+            }
+            // Create a Blob from the array buffer
+            return new Blob([arrayBuffer], { type: response.headers.get("Content-Type") });
+        }
+        return response.blob();
+    });
 }
 function JSONParse() {
     return parseBinderWithErrorCheck(r => r.json());
@@ -1981,14 +2017,17 @@ function Caching(props) {
                 const cached = getCachedValue();
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
-                    // if we don't have a cached result we need to get it after the request is sent and parsed
-                    this.on.post(noInherit(async function (url, result) {
-                        setCachedValue(result);
-                        return [url, result];
+                    // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
+                    this.on.rawData(noInherit(async function (response) {
+                        setCachedValue(response);
                     }));
                 }
                 else {
-                    result = cached;
+                    // if we find it in cache, override send request, and continue flow through timeline and parsers.
+                    this.on.auth.clear();
+                    this.on.send.replace(async function () {
+                        return new Response(cached, {});
+                    });
                 }
             }
             return [url, init, result];
@@ -3626,7 +3665,7 @@ function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.19.0:";
+            let clientTag = "PnPCoreJS:3.21.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -4569,6 +4608,9 @@ let types_Files = class _Files extends _SPCollection {
         if (parameters) {
             if (parameters.Overwrite) {
                 path.push(",Overwrite=true");
+            }
+            if (parameters.EnsureUniqueFileName) {
+                path.push(`,EnsureUniqueFileName=${parameters.EnsureUniqueFileName}`);
             }
             if (parameters.AutoCheckoutOnInvalidData) {
                 path.push(",AutoCheckoutOnInvalidData=true");

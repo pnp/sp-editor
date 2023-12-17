@@ -108,8 +108,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GraphQueryableInstance; });
 /* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _behaviors_consistency_level_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
-/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
+/* harmony import */ var _behaviors_consistency_level_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 
 
 
@@ -244,8 +244,9 @@ class _GraphQueryableCollection extends _GraphQueryable {
      *  If the resource doesn't support count, this value will always be zero
      */
     async count() {
-        // TODO::do we want to do this, or just attach count to the collections that support it? we could use a decorator for countable on the few collections that support count.
-        return -1;
+        const q = Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsPaged */ "a"])(this);
+        const r = await q.top(1)();
+        return r.count;
     }
     /**
      * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
@@ -253,7 +254,7 @@ class _GraphQueryableCollection extends _GraphQueryable {
      * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
      */
     paged() {
-        return Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsAsyncIterable */ "a"])(this);
+        return Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_3__[/* AsPaged */ "a"])(this)();
     }
 }
 const GraphQueryableCollection = graphInvokableFactory(_GraphQueryableCollection);
@@ -631,10 +632,11 @@ const DefaultMoments = {
     construct: Object(core["q" /* lifecycle */])(),
     pre: Object(core["d" /* asyncReduce */])(),
     auth: Object(core["d" /* asyncReduce */])(),
-    send: Object(core["u" /* request */])(),
+    send: Object(core["v" /* request */])(),
     parse: Object(core["d" /* asyncReduce */])(),
     post: Object(core["d" /* asyncReduce */])(),
     data: Object(core["e" /* broadcast */])(),
+    rawData: Object(core["e" /* broadcast */])(),
 };
 let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
     constructor(init, path) {
@@ -647,7 +649,7 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
         this.InternalPromise = Symbol.for("Queryable_Promise");
         this._query = new URLSearchParams();
         // add an intneral moment with specific implementaion for promise creation
-        this.moments[this.InternalPromise] = Object(core["t" /* reduce */])();
+        this.moments[this.InternalPromise] = Object(core["u" /* reduce */])();
         let parent;
         if (typeof init === "string") {
             this._url = Object(core["f" /* combine */])(init, path);
@@ -687,7 +689,7 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
     toRequestUrl() {
         let url = this.toUrl();
         const query = this.query.toString();
-        if (!Object(core["v" /* stringIsNullOrEmpty */])(query)) {
+        if (!Object(core["w" /* stringIsNullOrEmpty */])(query)) {
             url += `${url.indexOf("?") > -1 ? "&" : "?"}${query}`;
         }
         return url;
@@ -742,6 +744,9 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
                 log("Emitting send");
                 let response = await this.emit.send(requestUrl, init);
                 log("Emitted send");
+                log("Emitting rawData");
+                this.emit.rawData(await response.clone().text());
+                log("Emitted rawData");
                 log("Emitting parse");
                 [requestUrl, response, result] = await this.emit.parse(requestUrl, response, result);
                 log("Emitted parse");
@@ -861,7 +866,21 @@ function TextParse() {
     return parseBinderWithErrorCheck(r => r.text());
 }
 function BlobParse() {
-    return parseBinderWithErrorCheck(r => r.blob());
+    return parseBinderWithErrorCheck(async (response) => {
+        const binaryResponseBody = Object(core["t" /* parseToAtob */])(await response.clone().text());
+        // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
+        if (binaryResponseBody) {
+            // Create an array buffer from the binary string
+            const arrayBuffer = new ArrayBuffer(binaryResponseBody.length);
+            const uint8Array = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < binaryResponseBody.length; i++) {
+                uint8Array[i] = binaryResponseBody.charCodeAt(i);
+            }
+            // Create a Blob from the array buffer
+            return new Blob([arrayBuffer], { type: response.headers.get("Content-Type") });
+        }
+        return response.blob();
+    });
 }
 function JSONParse() {
     return parseBinderWithErrorCheck(r => r.json());
@@ -1093,14 +1112,17 @@ function Caching(props) {
                 const cached = getCachedValue();
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
-                    // if we don't have a cached result we need to get it after the request is sent and parsed
-                    this.on.post(Object(core["r" /* noInherit */])(async function (url, result) {
-                        setCachedValue(result);
-                        return [url, result];
+                    // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
+                    this.on.rawData(Object(core["r" /* noInherit */])(async function (response) {
+                        setCachedValue(response);
                     }));
                 }
                 else {
-                    result = cached;
+                    // if we find it in cache, override send request, and continue flow through timeline and parsers.
+                    this.on.auth.clear();
+                    this.on.send.replace(async function () {
+                        return new Response(cached, {});
+                    });
                 }
             }
             return [url, init, result];
@@ -2002,17 +2024,18 @@ __webpack_require__.d(__webpack_exports__, "j", function() { return /* reexport 
 __webpack_require__.d(__webpack_exports__, "n", function() { return /* reexport */ isFunc; });
 __webpack_require__.d(__webpack_exports__, "m", function() { return /* reexport */ isArray; });
 __webpack_require__.d(__webpack_exports__, "o", function() { return /* reexport */ isUrlAbsolute; });
-__webpack_require__.d(__webpack_exports__, "v", function() { return /* reexport */ stringIsNullOrEmpty; });
+__webpack_require__.d(__webpack_exports__, "w", function() { return /* reexport */ stringIsNullOrEmpty; });
 __webpack_require__.d(__webpack_exports__, "s", function() { return /* reexport */ objectDefinedNotNull; });
 __webpack_require__.d(__webpack_exports__, "p", function() { return /* reexport */ jsS; });
 __webpack_require__.d(__webpack_exports__, "l", function() { return /* reexport */ hOP; });
+__webpack_require__.d(__webpack_exports__, "t", function() { return /* reexport */ parseToAtob; });
 __webpack_require__.d(__webpack_exports__, "k", function() { return /* reexport */ getHashCode; });
 __webpack_require__.d(__webpack_exports__, "h", function() { return /* reexport */ delay; });
 __webpack_require__.d(__webpack_exports__, "e", function() { return /* reexport */ broadcast; });
 __webpack_require__.d(__webpack_exports__, "c", function() { return /* reexport */ asyncBroadcast; });
-__webpack_require__.d(__webpack_exports__, "t", function() { return /* reexport */ reduce; });
+__webpack_require__.d(__webpack_exports__, "u", function() { return /* reexport */ reduce; });
 __webpack_require__.d(__webpack_exports__, "d", function() { return /* reexport */ asyncReduce; });
-__webpack_require__.d(__webpack_exports__, "u", function() { return /* reexport */ request; });
+__webpack_require__.d(__webpack_exports__, "v", function() { return /* reexport */ request; });
 __webpack_require__.d(__webpack_exports__, "q", function() { return /* reexport */ lifecycle; });
 __webpack_require__.d(__webpack_exports__, "r", function() { return /* reexport */ noInherit; });
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ timeline_Timeline; });
@@ -2159,6 +2182,24 @@ function jsS(o) {
  */
 function hOP(o, p) {
     return Object.hasOwnProperty.call(o, p);
+}
+/**
+ * @returns validates and returns a valid atob conversion
+*/
+function parseToAtob(str) {
+    const base64Regex = /^[A-Za-z0-9+/]+={0,2}$/;
+    try {
+        // test if str has been JSON.stringified
+        const parsed = JSON.parse(str);
+        if (base64Regex.test(parsed)) {
+            return atob(parsed);
+        }
+        return null;
+    }
+    catch (err) {
+        // Not a valid JSON string, check if it's a standalone Base64 string
+        return base64Regex.test(str) ? atob(str) : null;
+    }
 }
 /**
  * Generates a ~unique hash code
@@ -2960,7 +3001,9 @@ function copyObservers(source, behavior, filter) {
 /* harmony import */ var _decorators_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
 /* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
 /* harmony import */ var _operations_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
-/* harmony import */ var _funcs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+/* harmony import */ var _funcs_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+/* harmony import */ var _behaviors_paged_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(7);
+
 
 
 
@@ -3097,8 +3140,7 @@ let _Root = class _Root extends _graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[
             const nextLink = json["@odata.nextLink"];
             const deltaLink = json["@odata.deltaLink"];
             result = {
-                // TODO:: update docs to show how to load next with async iterator
-                next: () => (nextLink ? Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([this, nextLink]) : null),
+                next: () => (nextLink ? Object(_behaviors_paged_js__WEBPACK_IMPORTED_MODULE_7__[/* AsPaged */ "a"])(Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([this, nextLink]))() : null),
                 delta: () => (deltaLink ? Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* GraphQueryableCollection */ "b"])([query, deltaLink])() : null),
                 values: json.value,
             };
@@ -3339,6 +3381,73 @@ const DriveItems = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_1__[/* gra
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AsPaged; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Paged; });
+/* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
+/* harmony import */ var _consistency_level_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
+
+
+
+
+/**
+ * Configures a collection query to returned paged results
+ *
+ * @param col Collection forming the basis of the paged collection, this param is NOT modified
+ * @returns A duplicate collection which will return paged results
+ */
+function AsPaged(col, supportsCount = false) {
+    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(supportsCount), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
+    const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
+    if (supportsCount) {
+        // we might be constructing our query with a next url that will already contain $count so we need
+        // to ensure we don't add it again, likewise if it is already in our query collection we don't add it again
+        if (!q.query.has("$count") && !/\$count=true/i.test(q.toUrl())) {
+            q.query.set("$count", "true");
+        }
+        queryParams.push("$count");
+    }
+    for (let i = 0; i < queryParams.length; i++) {
+        const param = col.query.get(queryParams[i]);
+        if (Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* objectDefinedNotNull */ "s"])(param)) {
+            q.query.set(queryParams[i], param);
+        }
+    }
+    return q;
+}
+/**
+ * Behavior that converts results to pages when used with a collection (exposed through the paged method of GraphCollection)
+ *
+ * @returns A TimelinePipe used to configure the queryable
+ */
+function Paged(supportsCount = false) {
+    return (instance) => {
+        instance.on.parse.replace(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* errorCheck */ "n"]);
+        instance.on.parse(async (url, response, result) => {
+            const txt = await response.text();
+            const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
+            const nextLink = json["@odata.nextLink"];
+            const count = supportsCount && Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* hOP */ "l"])(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : 0;
+            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "w"])(nextLink);
+            result = {
+                count,
+                hasNext,
+                next: () => (hasNext ? AsPaged(Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])([instance, nextLink]), supportsCount)() : null),
+                value: Object(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* parseODataJSON */ "r"])(json),
+            };
+            return [url, response, result];
+        });
+        return instance;
+    };
+}
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return checkIn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return checkOut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return driveItemUpload; });
@@ -3378,7 +3487,7 @@ async function driveItemUpload(fileOptions) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3388,100 +3497,6 @@ function ConsistencyLevel(level = "eventual") {
         instance.on.pre(async function (url, init, result) {
             init.headers = { ...init.headers, "ConsistencyLevel": level };
             return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Count; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AsAsyncIterable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Paged; });
-/* harmony import */ var _pnp_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _pnp_queryable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-/* harmony import */ var _graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(0);
-/* harmony import */ var _consistency_level_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-
-
-
-
-/**
- * A function that will take a collection defining IGraphQueryableCollection and return the count of items
- * in that collection. Not all Graph collections support Count.
- *
- * @param col The collection to count
- * @returns number representing the count
- */
-async function Count(col) {
-    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
-    q.query.set("$count", "true");
-    q.top(1);
-    const y = await q();
-    return y.count;
-}
-/**
- * Configures a collection query to returned paged results via async iteration
- *
- * @param col Collection forming the basis of the paged collection, this param is NOT modified
- * @returns A duplicate collection which will return paged results
- */
-function AsAsyncIterable(col) {
-    const q = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])(col).using(Paged(), Object(_consistency_level_js__WEBPACK_IMPORTED_MODULE_3__[/* ConsistencyLevel */ "a"])());
-    const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
-    for (let i = 0; i < queryParams.length; i++) {
-        const param = col.query.get(queryParams[i]);
-        if (Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* objectDefinedNotNull */ "s"])(param)) {
-            q.query.set(queryParams[i], param);
-        }
-    }
-    return {
-        [Symbol.asyncIterator]() {
-            return {
-                _next: q,
-                async next() {
-                    if (this._next === null) {
-                        return { done: true, value: undefined };
-                    }
-                    const result = await this._next();
-                    if (result.hasNext) {
-                        this._next = Object(_graphqueryable_js__WEBPACK_IMPORTED_MODULE_2__[/* GraphQueryableCollection */ "b"])([this._next, result.nextLink]);
-                        return { done: false, value: result.value };
-                    }
-                    else {
-                        this._next = null;
-                        return { done: false, value: result.value };
-                    }
-                },
-            };
-        },
-    };
-}
-/**
- * Behavior that converts results to pages when used with a collection (exposed through the paged method of GraphCollection)
- *
- * @returns A TimelinePipe used to configure the queryable
- */
-function Paged() {
-    return (instance) => {
-        instance.on.parse.replace(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* errorCheck */ "n"]);
-        instance.on.parse(async (url, response, result) => {
-            const txt = await response.text();
-            const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
-            const nextLink = json["@odata.nextLink"];
-            const count = Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* hOP */ "l"])(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : -1;
-            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "v"])(nextLink);
-            result = {
-                count,
-                hasNext,
-                nextLink: hasNext ? nextLink : null,
-                value: Object(_pnp_queryable__WEBPACK_IMPORTED_MODULE_1__[/* parseODataJSON */ "r"])(json),
-            };
-            return [url, response, result];
         });
         return instance;
     };
@@ -5678,6 +5693,7 @@ __webpack_require__.d(__webpack_exports__, "MailFolders", function() { return /*
 __webpack_require__.d(__webpack_exports__, "MailboxSettings", function() { return /* reexport */ MailboxSettings; });
 __webpack_require__.d(__webpack_exports__, "Message", function() { return /* reexport */ Message; });
 __webpack_require__.d(__webpack_exports__, "Messages", function() { return /* reexport */ Messages; });
+__webpack_require__.d(__webpack_exports__, "SpecialFolder", function() { return /* reexport */ SpecialFolder; });
 __webpack_require__.d(__webpack_exports__, "Drive", function() { return /* reexport */ types["a" /* Drive */]; });
 __webpack_require__.d(__webpack_exports__, "DriveItem", function() { return /* reexport */ types["b" /* DriveItem */]; });
 __webpack_require__.d(__webpack_exports__, "DriveItems", function() { return /* reexport */ types["c" /* DriveItems */]; });
@@ -5727,9 +5743,8 @@ __webpack_require__.d(__webpack_exports__, "DefaultInit", function() { return /*
 __webpack_require__.d(__webpack_exports__, "DefaultHeaders", function() { return /* reexport */ DefaultHeaders; });
 __webpack_require__.d(__webpack_exports__, "Endpoint", function() { return /* reexport */ Endpoint; });
 __webpack_require__.d(__webpack_exports__, "GraphBrowser", function() { return /* reexport */ GraphBrowser; });
-__webpack_require__.d(__webpack_exports__, "Count", function() { return /* reexport */ paged["b" /* Count */]; });
-__webpack_require__.d(__webpack_exports__, "AsAsyncIterable", function() { return /* reexport */ paged["a" /* AsAsyncIterable */]; });
-__webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ paged["c" /* Paged */]; });
+__webpack_require__.d(__webpack_exports__, "AsPaged", function() { return /* reexport */ paged["a" /* AsPaged */]; });
+__webpack_require__.d(__webpack_exports__, "Paged", function() { return /* reexport */ paged["b" /* Paged */]; });
 __webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
 __webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
 __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
@@ -5933,7 +5948,7 @@ Object(queryable["k" /* addProp */])(types_Post, "attachments", Attachments);
 
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/behaviors/paged.js
-var paged = __webpack_require__(9);
+var paged = __webpack_require__(7);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/types.js
 
@@ -5996,7 +6011,17 @@ let types_DirectoryObjects = class _DirectoryObjects extends graphqueryable["d" 
      *  If the resource doesn't support count, this value will always be zero
      */
     async count() {
-        return Object(paged["b" /* Count */])(this);
+        const q = Object(paged["a" /* AsPaged */])(this, true);
+        const r = await q.top(1)();
+        return r.count;
+    }
+    /**
+     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
+     *
+     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
+     */
+    paged() {
+        return Object(paged["a" /* AsPaged */])(this, true)();
     }
 };
 types_DirectoryObjects = Object(tslib_es6["a" /* __decorate */])([
@@ -6886,6 +6911,14 @@ Object(queryable["k" /* addProp */])(types_User, "drives", types["d" /* Drives *
 types["f" /* _Drive */].prototype.special = function special(specialFolder) {
     return Object(types["b" /* DriveItem */])(this, `special/${specialFolder}`);
 };
+var SpecialFolder;
+(function (SpecialFolder) {
+    SpecialFolder["Documents"] = "documents";
+    SpecialFolder["Photos"] = "photos";
+    SpecialFolder["CameraRoll"] = "cameraroll";
+    SpecialFolder["AppRoot"] = "approot";
+    SpecialFolder["Music"] = "music";
+})(SpecialFolder || (SpecialFolder = {}));
 types["g" /* _DriveItem */].prototype.restore = function restore(restoreOptions) {
     return Object(operations["d" /* graphPost */])(Object(types["b" /* DriveItem */])(this, "restore"), Object(queryable["l" /* body */])(restoreOptions));
 };
@@ -6897,7 +6930,7 @@ types["g" /* _DriveItem */].prototype.unfollow = function unfollow() {
 };
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/onedrive/funcs.js
-var funcs = __webpack_require__(7);
+var funcs = __webpack_require__(8);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/groups.js
 
@@ -6962,6 +6995,7 @@ types["g" /* _DriveItem */].prototype.checkIn = funcs["a" /* checkIn */];
 types["g" /* _DriveItem */].prototype.checkOut = funcs["b" /* checkOut */];
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/onedrive/index.js
+
 
 
 
@@ -7109,20 +7143,294 @@ types_Photo = Object(tslib_es6["a" /* __decorate */])([
 ], types_Photo);
 
 const Photo = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Photo);
+let types_Photos = class _Photos extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    /**
+     * Gets the image reference by size. 48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, and 648x648.
+     */
+    getBySize(size) {
+        return Photo(this, `/${size}`);
+    }
+};
+types_Photos = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("photos")
+], types_Photos);
+
+const Photos = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Photos);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/groups.js
 
 
 
 Object(queryable["k" /* addProp */])(types_Group, "photo", Photo);
+Object(queryable["k" /* addProp */])(types_Group, "photos", Photos);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/users.js
 
 
 
 Object(queryable["k" /* addProp */])(types_User, "photo", Photo);
+Object(queryable["k" /* addProp */])(types_User, "photos", Photos);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/types.js
+
+
+
+
+
+
+/**
+ * Represents a Microsoft Team
+ */
+let types_Team = class _Team extends graphqueryable["e" /* _GraphQueryableInstance */] {
+    get primaryChannel() {
+        return Channel(this, "primaryChannel");
+    }
+    get channels() {
+        return Channels(this);
+    }
+    get installedApps() {
+        return InstalledApps(this);
+    }
+    /**
+     * Archives this Team
+     *
+     * @param shouldSetSpoSiteReadOnlyForMembers Should members have Read-only in associated Team Site
+     */
+    archive(shouldSetSpoSiteReadOnlyForMembers = false) {
+        return Object(operations["d" /* graphPost */])(Team(this, "archive"), Object(queryable["l" /* body */])({ shouldSetSpoSiteReadOnlyForMembers }));
+    }
+    /**
+    * Unarchives this Team
+    */
+    unarchive() {
+        return Object(operations["d" /* graphPost */])(Team(this, "unarchive"));
+    }
+    /**
+     * Clones this Team
+     * @param name The name of the new Group
+     * @param description Optional description of the group
+     * @param partsToClone Parts to clone ex: apps,tabs,settings,channels,members
+     * @param visibility Set visibility to public or private
+     */
+    async cloneTeam(name, description = "", partsToClone = "apps,tabs,settings,channels,members", visibility = "private") {
+        const postBody = {
+            description: description ? description : "",
+            displayName: name,
+            mailNickname: name,
+            partsToClone,
+            visibility,
+        };
+        // TODO:: make sure this works
+        const creator = Teams(this, "clone").using((instance) => {
+            instance.on.parse(async (url, response, result) => {
+                result = response.headers.has("location") ? response.headers : response;
+                return [url, response, result];
+            });
+            return instance;
+        });
+        const data = await Object(operations["d" /* graphPost */])(creator, Object(queryable["l" /* body */])(postBody));
+        const result = { teamId: "", operationId: "" };
+        if (data.has("location")) {
+            const location = data.get("location");
+            const locationArray = location.split("/");
+            if (locationArray.length === 3) {
+                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
+                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
+            }
+        }
+        return result;
+    }
+    getOperationById(id) {
+        return Object(graphqueryable["c" /* GraphQueryableInstance */])(this, `operations/${id}`)();
+    }
+};
+types_Team = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("team"),
+    Object(decorators["f" /* updateable */])()
+], types_Team);
+
+const Team = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Team);
+/**
+ * Teams
+ */
+let types_Teams = class _Teams extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    async create(team) {
+        const creator = Teams(this, null).using(Object(queryable["f" /* HeaderParse */])());
+        const data = await Object(operations["d" /* graphPost */])(creator, Object(queryable["l" /* body */])(team));
+        const result = { teamId: "", operationId: "" };
+        if (data.has("location")) {
+            const location = data.get("location");
+            const locationArray = location.split("/");
+            if (locationArray.length === 3) {
+                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
+                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
+            }
+        }
+        return result;
+    }
+};
+types_Teams = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("teams"),
+    Object(decorators["e" /* getById */])(Team)
+], types_Teams);
+
+const Teams = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Teams);
+/**
+ * Channel
+ */
+class types_Channel extends graphqueryable["e" /* _GraphQueryableInstance */] {
+    get tabs() {
+        return Tabs(this);
+    }
+    get messages() {
+        return graph_teams_types_Messages(this);
+    }
+}
+const Channel = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Channel);
+/**
+ * Channels
+ */
+let types_Channels = class _Channels extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    /**
+     * Creates a new Channel in the Team
+     * @param displayName The display name of the new channel
+     * @param description Optional description of the channel
+     *
+     */
+    async add(displayName, description = "") {
+        const postBody = {
+            description,
+            displayName,
+        };
+        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(postBody));
+        return {
+            channel: this.getById(data.id),
+            data,
+        };
+    }
+};
+types_Channels = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("channels"),
+    Object(decorators["e" /* getById */])(Channel)
+], types_Channels);
+
+const Channels = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Channels);
+/**
+ * Message
+ */
+class teams_types_Message extends graphqueryable["e" /* _GraphQueryableInstance */] {
+}
+const graph_teams_types_Message = Object(graphqueryable["f" /* graphInvokableFactory */])(teams_types_Message);
+/**
+ * Messages
+ */
+let teams_types_Messages = class _Messages extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    /**
+     * Adds a message
+     * @param message ChatMessage object that defines the message
+     *
+     */
+    async add(message) {
+        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(message));
+        return {
+            message: this.getById(data.id),
+            data,
+        };
+    }
+};
+teams_types_Messages = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("messages"),
+    Object(decorators["e" /* getById */])(graph_teams_types_Message)
+], teams_types_Messages);
+
+const graph_teams_types_Messages = Object(graphqueryable["f" /* graphInvokableFactory */])(teams_types_Messages);
+/**
+ * Tab
+ */
+let types_Tab = class _Tab extends graphqueryable["e" /* _GraphQueryableInstance */] {
+};
+types_Tab = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("tab"),
+    Object(decorators["f" /* updateable */])(),
+    Object(decorators["c" /* deleteable */])()
+], types_Tab);
+
+const Tab = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Tab);
+/**
+ * Tabs
+ */
+let types_Tabs = class _Tabs extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    /**
+     * Adds a tab to the channel
+     * @param name The name of the new Tab
+     * @param appUrl The url to an app ex: https://graph.microsoft.com/beta/appCatalogs/teamsApps/12345678-9abc-def0-123456789a
+     * @param tabsConfiguration visit https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamstab_add for reference
+     */
+    async add(name, appUrl, properties) {
+        const postBody = {
+            displayName: name,
+            "teamsApp@odata.bind": appUrl,
+            ...properties,
+        };
+        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(postBody));
+        return {
+            data,
+            tab: this.getById(data.id),
+        };
+    }
+};
+types_Tabs = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("tabs"),
+    Object(decorators["e" /* getById */])(Tab)
+], types_Tabs);
+
+const Tabs = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Tabs);
+/**
+ * InstalledApp
+ */
+let types_InstalledApp = class _InstalledApp extends graphqueryable["e" /* _GraphQueryableInstance */] {
+    upgrade() {
+        return Object(operations["d" /* graphPost */])(InstalledApp(this, "upgrade"));
+    }
+};
+types_InstalledApp = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["c" /* deleteable */])()
+], types_InstalledApp);
+
+const InstalledApp = Object(graphqueryable["f" /* graphInvokableFactory */])(types_InstalledApp);
+/**
+ * InstalledApps
+ */
+let types_InstalledApps = class _InstalledApps extends graphqueryable["d" /* _GraphQueryableCollection */] {
+    /**
+     * Adds an installed app to the collection
+     * @param teamsAppId The id of the app to add.
+     */
+    async add(teamsAppId) {
+        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])({
+            "teamsApp@odata.bind": teamsAppId,
+        }));
+        return {
+            data,
+            app: this.getById(data.id),
+        };
+    }
+};
+types_InstalledApps = Object(tslib_es6["a" /* __decorate */])([
+    Object(decorators["b" /* defaultPath */])("installedApps"),
+    Object(decorators["e" /* getById */])(InstalledApp)
+], types_InstalledApps);
+
+const InstalledApps = Object(graphqueryable["f" /* graphInvokableFactory */])(types_InstalledApps);
+
+// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/teams.js
+
+
+
+Object(queryable["k" /* addProp */])(types_Team, "photo", Photo);
 
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/index.js
+
 
 
 
@@ -7449,263 +7757,6 @@ Reflect.defineProperty(fi_GraphFI.prototype, "subscriptions", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/types.js
-
-
-
-
-
-
-/**
- * Represents a Microsoft Team
- */
-let types_Team = class _Team extends graphqueryable["e" /* _GraphQueryableInstance */] {
-    get primaryChannel() {
-        return Channel(this, "primaryChannel");
-    }
-    get channels() {
-        return Channels(this);
-    }
-    get installedApps() {
-        return InstalledApps(this);
-    }
-    /**
-     * Archives this Team
-     *
-     * @param shouldSetSpoSiteReadOnlyForMembers Should members have Read-only in associated Team Site
-     */
-    archive(shouldSetSpoSiteReadOnlyForMembers = false) {
-        return Object(operations["d" /* graphPost */])(Team(this, "archive"), Object(queryable["l" /* body */])({ shouldSetSpoSiteReadOnlyForMembers }));
-    }
-    /**
-    * Unarchives this Team
-    */
-    unarchive() {
-        return Object(operations["d" /* graphPost */])(Team(this, "unarchive"));
-    }
-    /**
-     * Clones this Team
-     * @param name The name of the new Group
-     * @param description Optional description of the group
-     * @param partsToClone Parts to clone ex: apps,tabs,settings,channels,members
-     * @param visibility Set visibility to public or private
-     */
-    async cloneTeam(name, description = "", partsToClone = "apps,tabs,settings,channels,members", visibility = "private") {
-        const postBody = {
-            description: description ? description : "",
-            displayName: name,
-            mailNickname: name,
-            partsToClone,
-            visibility,
-        };
-        // TODO:: make sure this works
-        const creator = Teams(this, "clone").using((instance) => {
-            instance.on.parse(async (url, response, result) => {
-                result = response.headers.has("location") ? response.headers : response;
-                return [url, response, result];
-            });
-            return instance;
-        });
-        const data = await Object(operations["d" /* graphPost */])(creator, Object(queryable["l" /* body */])(postBody));
-        const result = { teamId: "", operationId: "" };
-        if (data.has("location")) {
-            const location = data.get("location");
-            const locationArray = location.split("/");
-            if (locationArray.length === 3) {
-                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
-                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
-            }
-        }
-        return result;
-    }
-    getOperationById(id) {
-        return Object(graphqueryable["c" /* GraphQueryableInstance */])(this, `operations/${id}`)();
-    }
-};
-types_Team = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("team"),
-    Object(decorators["f" /* updateable */])()
-], types_Team);
-
-const Team = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Team);
-/**
- * Teams
- */
-let types_Teams = class _Teams extends graphqueryable["d" /* _GraphQueryableCollection */] {
-    async create(team) {
-        const creator = Teams(this, null).using(Object(queryable["f" /* HeaderParse */])());
-        const data = await Object(operations["d" /* graphPost */])(creator, Object(queryable["l" /* body */])(team));
-        const result = { teamId: "", operationId: "" };
-        if (data.has("location")) {
-            const location = data.get("location");
-            const locationArray = location.split("/");
-            if (locationArray.length === 3) {
-                result.teamId = locationArray[1].substring(locationArray[1].indexOf("'") + 1, locationArray[1].lastIndexOf("'"));
-                result.operationId = locationArray[2].substring(locationArray[2].indexOf("'") + 1, locationArray[2].lastIndexOf("'"));
-            }
-        }
-        return result;
-    }
-};
-types_Teams = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("teams"),
-    Object(decorators["e" /* getById */])(Team)
-], types_Teams);
-
-const Teams = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Teams);
-/**
- * Channel
- */
-class types_Channel extends graphqueryable["e" /* _GraphQueryableInstance */] {
-    get tabs() {
-        return Tabs(this);
-    }
-    get messages() {
-        return graph_teams_types_Messages(this);
-    }
-}
-const Channel = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Channel);
-/**
- * Channels
- */
-let types_Channels = class _Channels extends graphqueryable["d" /* _GraphQueryableCollection */] {
-    /**
-     * Creates a new Channel in the Team
-     * @param displayName The display name of the new channel
-     * @param description Optional description of the channel
-     *
-     */
-    async add(displayName, description = "") {
-        const postBody = {
-            description,
-            displayName,
-        };
-        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(postBody));
-        return {
-            channel: this.getById(data.id),
-            data,
-        };
-    }
-};
-types_Channels = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("channels"),
-    Object(decorators["e" /* getById */])(Channel)
-], types_Channels);
-
-const Channels = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Channels);
-/**
- * Channel
- */
-class teams_types_Message extends graphqueryable["e" /* _GraphQueryableInstance */] {
-}
-const graph_teams_types_Message = Object(graphqueryable["f" /* graphInvokableFactory */])(teams_types_Message);
-/**
- * Channels
- */
-let teams_types_Messages = class _Messages extends graphqueryable["d" /* _GraphQueryableCollection */] {
-    /**
-     * Creates a new Channel in the Team
-     * @param displayName The display name of the new channel
-     * @param description Optional description of the channel
-     *
-     */
-    async add(displayName, description = "") {
-        const postBody = {
-            description,
-            displayName,
-        };
-        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(postBody));
-        return {
-            message: this.getById(data.id),
-            data,
-        };
-    }
-};
-teams_types_Messages = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("messages"),
-    Object(decorators["e" /* getById */])(graph_teams_types_Message)
-], teams_types_Messages);
-
-const graph_teams_types_Messages = Object(graphqueryable["f" /* graphInvokableFactory */])(teams_types_Messages);
-/**
- * Tab
- */
-let types_Tab = class _Tab extends graphqueryable["e" /* _GraphQueryableInstance */] {
-};
-types_Tab = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("tab"),
-    Object(decorators["f" /* updateable */])(),
-    Object(decorators["c" /* deleteable */])()
-], types_Tab);
-
-const Tab = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Tab);
-/**
- * Tabs
- */
-let types_Tabs = class _Tabs extends graphqueryable["d" /* _GraphQueryableCollection */] {
-    /**
-     * Adds a tab to the channel
-     * @param name The name of the new Tab
-     * @param appUrl The url to an app ex: https://graph.microsoft.com/beta/appCatalogs/teamsApps/12345678-9abc-def0-123456789a
-     * @param tabsConfiguration visit https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/teamstab_add for reference
-     */
-    async add(name, appUrl, properties) {
-        const postBody = {
-            displayName: name,
-            "teamsApp@odata.bind": appUrl,
-            ...properties,
-        };
-        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])(postBody));
-        return {
-            data,
-            tab: this.getById(data.id),
-        };
-    }
-};
-types_Tabs = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("tabs"),
-    Object(decorators["e" /* getById */])(Tab)
-], types_Tabs);
-
-const Tabs = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Tabs);
-/**
- * InstalledApp
- */
-let types_InstalledApp = class _InstalledApp extends graphqueryable["e" /* _GraphQueryableInstance */] {
-    upgrade() {
-        return Object(operations["d" /* graphPost */])(InstalledApp(this, "upgrade"));
-    }
-};
-types_InstalledApp = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["c" /* deleteable */])()
-], types_InstalledApp);
-
-const InstalledApp = Object(graphqueryable["f" /* graphInvokableFactory */])(types_InstalledApp);
-/**
- * InstalledApps
- */
-let types_InstalledApps = class _InstalledApps extends graphqueryable["d" /* _GraphQueryableCollection */] {
-    /**
-     * Adds an installed app to the collection
-     * @param teamsAppId The id of the app to add.
-     */
-    async add(teamsAppId) {
-        const data = await Object(operations["d" /* graphPost */])(this, Object(queryable["l" /* body */])({
-            "teamsApp@odata.bind": teamsAppId,
-        }));
-        return {
-            data,
-            app: this.getById(data.id),
-        };
-    }
-};
-types_InstalledApps = Object(tslib_es6["a" /* __decorate */])([
-    Object(decorators["b" /* defaultPath */])("installedApps"),
-    Object(decorators["e" /* getById */])(InstalledApp)
-], types_InstalledApps);
-
-const InstalledApps = Object(graphqueryable["f" /* graphInvokableFactory */])(types_InstalledApps);
-
 // CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/users.js
 
 
@@ -7756,7 +7807,7 @@ Reflect.defineProperty(fi_GraphFI.prototype, "users", {
 });
 
 // EXTERNAL MODULE: ./node_modules/@pnp/graph/behaviors/consistency-level.js
-var consistency_level = __webpack_require__(8);
+var consistency_level = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@pnp/core/index.js + 7 modules
 var core = __webpack_require__(5);
@@ -7765,7 +7816,7 @@ var core = __webpack_require__(5);
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.19.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.21.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

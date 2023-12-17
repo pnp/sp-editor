@@ -58,8 +58,6 @@ export const runsearch = (payload: any, extPath: string) => {
     return sp
       .search(payload)
       .then((r) => {
-        console.log('we runned it');
-        console.log(r);
         var result = {
           ElapsedTime: r.ElapsedTime,
           PrimarySearchResults: r.PrimarySearchResults,

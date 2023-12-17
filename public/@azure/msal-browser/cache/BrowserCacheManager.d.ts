@@ -264,6 +264,12 @@ export declare class BrowserCacheManager extends CacheManager {
      */
     clear(): Promise<void>;
     /**
+     * Clears all access tokes that have claims prior to saving the current one
+     * @param credential
+     * @returns
+     */
+    clearTokensAndKeysWithClaims(): Promise<void>;
+    /**
      * Add value to cookies
      * @param cookieName
      * @param cookieValue
