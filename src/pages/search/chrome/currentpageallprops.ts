@@ -69,7 +69,7 @@ export const currentpageallprops = (extPath: string) => {
         };
         return sp.search(opts).then((r1: any) => {
           if (r1.RowCount > 0) {
-            const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners[0].Entries;
+            const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
             const allProps = entries.map((entry) => entry.RefinementName);
 
             const filteredProps = allProps.filter(
