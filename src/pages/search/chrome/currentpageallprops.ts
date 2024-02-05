@@ -29,8 +29,7 @@ export const currentpageallprops = (extPath: string) => {
             Accept: 'application/json; odata=verbose',
             'Cache-Control': 'no-cache',
             'X-ClientService-ClientTag': 'SPEDITOR',
-          },
-          true
+          }
         )
       );
 

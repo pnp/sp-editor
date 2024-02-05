@@ -1,6 +1,6 @@
 {
   "name": "sp-editor",
-  "version": "6.6.7",
+  "version": "6.6.8",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -52,14 +52,14 @@
     ]
   },
   "devDependencies": {
-    "@pnp/core": "^3.21.0",
-    "@pnp/graph": "^3.21.0",
-    "@pnp/logging": "^3.21.0",
-    "@pnp/msaljsclient": "^3.21.0",
-    "@pnp/nodejs": "^3.21.0",
-    "@pnp/queryable": "^3.21.0",
-    "@pnp/sp": "^3.21.0",
-    "@pnp/sp-admin": "^3.21.0",
+    "@pnp/core": "^3.22.0",
+    "@pnp/graph": "^3.22.0",
+    "@pnp/logging": "^3.22.0",
+    "@pnp/msaljsclient": "^3.22.0",
+    "@pnp/nodejs": "^3.22.0",
+    "@pnp/queryable": "^3.22.0",
+    "@pnp/sp": "^3.22.0",
+    "@pnp/sp-admin": "^3.22.0",
     "@types/chrome": "0.0.254",
     "@types/jest": "29.2.4",
     "@types/jscodeshift": "^0.11.6",

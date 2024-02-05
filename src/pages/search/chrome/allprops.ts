@@ -28,7 +28,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
           Accept: 'application/json; odata=verbose',
           'Cache-Control': 'no-cache',
           'X-ClientService-ClientTag': 'SPEDITOR',
-        }, true)
+        })
       );
 
     /*** clear previous log listeners ***/
