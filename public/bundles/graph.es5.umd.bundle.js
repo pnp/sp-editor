@@ -744,9 +744,6 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
                 log("Emitting send");
                 let response = await this.emit.send(requestUrl, init);
                 log("Emitted send");
-                log("Emitting rawData");
-                this.emit.rawData(await response.clone().text());
-                log("Emitted rawData");
                 log("Emitting parse");
                 [requestUrl, response, result] = await this.emit.parse(requestUrl, response, result);
                 log("Emitted parse");
@@ -867,7 +864,7 @@ function TextParse() {
 }
 function BlobParse() {
     return parseBinderWithErrorCheck(async (response) => {
-        const binaryResponseBody = Object(core["t" /* parseToAtob */])(await response.clone().text());
+        const binaryResponseBody = Object(core["t" /* parseToAtob */])(await response.text());
         // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
         if (binaryResponseBody) {
             // Create an array buffer from the binary string
@@ -940,7 +937,11 @@ function parseBinderWithErrorCheck(impl) {
         instance.on.parse.replace(errorCheck);
         instance.on.parse(async (url, response, result) => {
             if (response.ok && typeof result === "undefined") {
-                result = await impl(response);
+                const respClone = response.clone();
+                // https://github.com/node-fetch/node-fetch?tab=readme-ov-file#custom-highwatermark
+                const [implResult, raw] = await Promise.all([impl(response), respClone.text()]);
+                result = implResult;
+                instance.emit.rawData(raw);
             }
             return [url, response, result];
         });
@@ -1113,7 +1114,7 @@ function Caching(props) {
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
                     // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
-                    this.on.rawData(Object(core["r" /* noInherit */])(async function (response) {
+                    instance.on.rawData(Object(core["r" /* noInherit */])(async function (response) {
                         setCachedValue(response);
                     }));
                 }
@@ -1905,7 +1906,7 @@ function __classPrivateFieldIn(state, receiver) {
 
 function __addDisposableResource(env, value, async) {
     if (value !== null && value !== void 0) {
-        if (typeof value !== "object") throw new TypeError("Object expected.");
+        if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
         var dispose;
         if (async) {
             if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
@@ -1951,33 +1952,33 @@ function __disposeResources(env) {
 }
 
 /* unused harmony default export */ var _unused_webpack_default_export = ({
-    __extends,
-    __assign,
-    __rest,
-    __decorate,
-    __param,
-    __metadata,
-    __awaiter,
-    __generator,
-    __createBinding,
-    __exportStar,
-    __values,
-    __read,
-    __spread,
-    __spreadArrays,
-    __spreadArray,
-    __await,
-    __asyncGenerator,
-    __asyncDelegator,
-    __asyncValues,
-    __makeTemplateObject,
-    __importStar,
-    __importDefault,
-    __classPrivateFieldGet,
-    __classPrivateFieldSet,
-    __classPrivateFieldIn,
-    __addDisposableResource,
-    __disposeResources,
+    __extends: __extends,
+    __assign: __assign,
+    __rest: __rest,
+    __decorate: __decorate,
+    __param: __param,
+    __metadata: __metadata,
+    __awaiter: __awaiter,
+    __generator: __generator,
+    __createBinding: __createBinding,
+    __exportStar: __exportStar,
+    __values: __values,
+    __read: __read,
+    __spread: __spread,
+    __spreadArrays: __spreadArrays,
+    __spreadArray: __spreadArray,
+    __await: __await,
+    __asyncGenerator: __asyncGenerator,
+    __asyncDelegator: __asyncDelegator,
+    __asyncValues: __asyncValues,
+    __makeTemplateObject: __makeTemplateObject,
+    __importStar: __importStar,
+    __importDefault: __importDefault,
+    __classPrivateFieldGet: __classPrivateFieldGet,
+    __classPrivateFieldSet: __classPrivateFieldSet,
+    __classPrivateFieldIn: __classPrivateFieldIn,
+    __addDisposableResource: __addDisposableResource,
+    __disposeResources: __disposeResources,
 });
 
 
@@ -5749,7 +5750,7 @@ __webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
 __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
 
-// EXTERNAL MODULE: ./node_modules/@pnp/graph/node_modules/tslib/tslib.es6.js
+// EXTERNAL MODULE: ./node_modules/tslib/tslib.es6.js
 var tslib_es6 = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@pnp/queryable/index.js + 16 modules
@@ -7816,7 +7817,7 @@ var core = __webpack_require__(5);
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.21.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.22.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

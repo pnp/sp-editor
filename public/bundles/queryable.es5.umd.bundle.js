@@ -1522,9 +1522,6 @@ let queryable_Queryable = class Queryable extends timeline_Timeline {
                 log("Emitting send");
                 let response = await this.emit.send(requestUrl, init);
                 log("Emitted send");
-                log("Emitting rawData");
-                this.emit.rawData(await response.clone().text());
-                log("Emitted rawData");
                 log("Emitting parse");
                 [requestUrl, response, result] = await this.emit.parse(requestUrl, response, result);
                 log("Emitted parse");
@@ -1645,7 +1642,7 @@ function TextParse() {
 }
 function BlobParse() {
     return parseBinderWithErrorCheck(async (response) => {
-        const binaryResponseBody = parseToAtob(await response.clone().text());
+        const binaryResponseBody = parseToAtob(await response.text());
         // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
         if (binaryResponseBody) {
             // Create an array buffer from the binary string
@@ -1718,7 +1715,11 @@ function parseBinderWithErrorCheck(impl) {
         instance.on.parse.replace(errorCheck);
         instance.on.parse(async (url, response, result) => {
             if (response.ok && typeof result === "undefined") {
-                result = await impl(response);
+                const respClone = response.clone();
+                // https://github.com/node-fetch/node-fetch?tab=readme-ov-file#custom-highwatermark
+                const [implResult, raw] = await Promise.all([impl(response), respClone.text()]);
+                result = implResult;
+                instance.emit.rawData(raw);
             }
             return [url, response, result];
         });
@@ -1891,7 +1892,7 @@ function Caching(props) {
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
                     // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
-                    this.on.rawData(noInherit(async function (response) {
+                    instance.on.rawData(noInherit(async function (response) {
                         setCachedValue(response);
                     }));
                 }
