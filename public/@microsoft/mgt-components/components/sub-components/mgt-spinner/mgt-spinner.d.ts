@@ -4,7 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtBaseComponent } from '@microsoft/mgt-element';
+import { MgtBaseTaskComponent } from '@microsoft/mgt-element';
+export declare const registerMgtSpinnerComponent: () => void;
 /**
  * Custom Component used to handle loading state in components.
  *
@@ -12,7 +13,7 @@ import { MgtBaseComponent } from '@microsoft/mgt-element';
  * @class MgtSpinner
  * @extends {MgtBaseComponent}
  */
-export declare class MgtSpinner extends MgtBaseComponent {
+export declare class MgtSpinner extends MgtBaseTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
@@ -24,6 +25,6 @@ export declare class MgtSpinner extends MgtBaseComponent {
      * @returns
      * @memberof MgtSpinner
      */
-    render(): import("lit-html").TemplateResult<1>;
+    render(): import("lit").TemplateResult<1>;
 }
 //# sourceMappingURL=mgt-spinner.d.ts.map

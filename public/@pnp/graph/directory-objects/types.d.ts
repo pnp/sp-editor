@@ -53,7 +53,7 @@ export declare class _DirectoryObjects<GetType = IDirectoryObjectType[]> extends
      */
     paged(): Promise<IPagedResult>;
 }
-export interface IDirectoryObjects extends _DirectoryObjects, IGetById<IDirectoryObjectType> {
+export interface IDirectoryObjects extends _DirectoryObjects, IGetById<IDirectoryObject> {
 }
 export declare const DirectoryObjects: import("../graphqueryable.js").IGraphInvokableFactory<IDirectoryObjects>;
 /**

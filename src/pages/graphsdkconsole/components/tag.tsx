@@ -15,7 +15,6 @@ export const TagItemBase = (props: ITagItemProps) => {
     styles,
     selected,
     disabled,
-    enableTagFocusInDisabledPicker,
     children,
     className,
     index,
@@ -36,15 +35,6 @@ export const TagItemBase = (props: ITagItemProps) => {
   });
 
   const itemId = useId();
-
-  const disabledAttrs = enableTagFocusInDisabledPicker
-    ? {
-        'aria-disabled': disabled,
-        tabindex: 0,
-      }
-    : {
-        disabled: disabled,
-      };
 
   return (
     <div data-selection-index={index} className={classNames.root} role={'listitem'} key={index} onClick={handleClick}>

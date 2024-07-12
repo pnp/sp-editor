@@ -17,11 +17,13 @@ import { useMsal } from '@azure/msal-react';
 
 const MGTEditor = () => {
   const { instance, accounts } = useMsal();
+  const [scopes, setScopes] = useState(undefined);
+
   const dispatch = useDispatch();
   const [mgtEditorInitialized, setMGTEditorInitialized] = useState(false);
   const [selectedItem, setSelectedItem] = useState<IDropdownOption>();
 
-  const { definitions, transpiled } = useSelector((state: IRootState) => state.mgtconsole);
+  const { definitions } = useSelector((state: IRootState) => state.mgtconsole);
 
   const mgtEditorRef = useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
 
@@ -70,7 +72,6 @@ const MGTEditor = () => {
 
         let preview_code = js.outputText;
 
-        console.log(preview_code);
         preview_code = parseModules(preview_code);
 
         preview_code = preview_code.replaceAll('Object.defineProperty(exports, "__esModule", { value: true });', '');
@@ -107,7 +108,13 @@ const MGTEditor = () => {
   const onMessageReceivedFromIframe = React.useCallback(async (event: any) => {
     try {
       let data = JSON.parse(event.data);
+
       if (data.scopes) {
+        if(data.scopes.length === 0) {
+          data.scopes = scopes; // use previous scopes
+        } else {
+          setScopes(data.scopes);
+        }
         let response: AuthenticationResult;
         try {
           response = await instance.acquireTokenSilent({
@@ -121,7 +128,6 @@ const MGTEditor = () => {
             prompt: 'select_account',
           });
         }
-        console.log(response.accessToken);
         let frame: HTMLIFrameElement = document.getElementById('testSandboxFrame') as HTMLIFrameElement;
         frame.contentWindow?.postMessage(
           JSON.stringify({
@@ -257,7 +263,7 @@ const MGTEditor = () => {
       setMGTEditorInitialized(true);
       initMGTEditor();
     }
-  }, [definitions, dispatch, initMGTEditor, mgtEditorInitialized]);
+  }, [definitions]);
 
   const changeModel = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption | undefined) => {
     setSelectedItem(option);

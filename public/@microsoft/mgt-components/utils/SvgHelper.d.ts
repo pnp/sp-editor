@@ -100,154 +100,165 @@ export declare enum SvgIcon {
      */
     Department = 21,
     /**
+     *
+     * Dot Icon
+     */
+    Dot = 22,
+    /**
      * Email message
      */
-    Email = 22,
+    Email = 23,
     /**
      * Location indicator
      */
-    OfficeLocation = 23,
+    OfficeLocation = 24,
     /**
      * A person
      */
-    Person = 24,
+    Person = 25,
     /**
      * Messages
      */
-    Messages = 25,
+    Messages = 26,
     /**
      * Organization tree
      */
-    Organization = 26,
+    Organization = 27,
     /**
      * Right facing chevron
      */
-    ExpandRight = 27,
+    ExpandRight = 28,
     /**
      * Person profile
      */
-    Profile = 28,
+    Profile = 29,
     /**
      * Balloon
      */
-    Birthday = 29,
+    Birthday = 30,
     /**
      * File icon
      */
-    File = 30,
+    File = 31,
     /**
      * Files icon
      */
-    Files = 31,
+    Files = 32,
     /**
      * Back arrow
      */
-    Back = 32,
+    Back = 33,
     /**
      * Close icon
      */
-    Close = 33,
+    Close = 34,
     /**
      * Upload icon
      */
-    Upload = 34,
+    Upload = 35,
     /**
      * File Cloud icon
      */
-    FileCloud = 35,
+    FileCloud = 36,
     /**
      * Drag File Mouse Icon
      */
-    DragFile = 36,
+    DragFile = 37,
     /**
      *
      * Cancel icon
      */
-    Cancel = 37,
+    Cancel = 38,
     /**
      *
      * Checkmark icon
      *
      */
-    CheckMark = 38,
+    CheckMark = 39,
+    /**
+     *
+     * Radio icon
+     *
+     */
+    Radio = 40,
     /**
      *
      * Success icon
      */
-    Success = 39,
+    Success = 41,
     /**
      *
      * Fail icon
      */
-    Fail = 40,
+    Fail = 42,
     /**
      *
      * account selection
      */
-    SelectAccount = 41,
+    SelectAccount = 43,
     /**
      * News
      */
-    News = 42,
+    News = 44,
     /**
      * Bookmark
      */
-    DoubleBookmark = 43,
+    DoubleBookmark = 45,
     /**
      * Left chevron
      */
-    ChevronLeft = 44,
+    ChevronLeft = 46,
     /**
      * Right chevron
      */
-    ChevronRight = 45,
+    ChevronRight = 47,
     /**
      * Event
      */
-    Event = 46,
+    Event = 48,
     /**
      * Q&A
      */
-    BookOpen = 47,
+    BookOpen = 49,
     /**
      * File outer icon
      */
-    FileOuter = 48,
+    FileOuter = 50,
     /**
      * Book question icon
      */
-    BookQuestion = 49,
+    BookQuestion = 51,
     /**
      * Globe icon
      */
-    Globe = 50,
+    Globe = 52,
     /**
      * Delete icon
      */
-    Delete = 51,
+    Delete = 53,
     /**
      *
      * Add icon
      */
-    Add = 52,
+    Add = 54,
     /**
      *
      * Calendar icon
      */
-    Calendar = 53,
-    Planner = 54,
-    Milestone = 55,
-    PersonAdd = 56,
-    PresenceAvailable = 57,
-    PresenceOofAvailable = 58,
-    PresenceBusy = 59,
-    PresenceOofBusy = 60,
-    PresenceDnd = 61,
-    PresenceOofDnd = 62,
-    PresenceAway = 63,
-    PresenceOofAway = 64,
-    PresenceOffline = 65,
-    PresenceStatusUnknown = 66
+    Calendar = 55,
+    Planner = 56,
+    Milestone = 57,
+    PersonAdd = 58,
+    PresenceAvailable = 59,
+    PresenceOofAvailable = 60,
+    PresenceBusy = 61,
+    PresenceOofBusy = 62,
+    PresenceDnd = 63,
+    PresenceOofDnd = 64,
+    PresenceAway = 65,
+    PresenceOofAway = 66,
+    PresenceOffline = 67,
+    PresenceStatusUnknown = 68
 }
 /**
  * returns an svg
@@ -255,5 +266,5 @@ export declare enum SvgIcon {
  * @param svgIcon defined by name
  * @param color hex value
  */
-export declare const getSvg: (svgIcon: SvgIcon, color?: string) => import("lit-html").TemplateResult<1>;
+export declare const getSvg: (svgIcon: SvgIcon, color?: string) => import("lit").TemplateResult<1>;
 //# sourceMappingURL=SvgHelper.d.ts.map

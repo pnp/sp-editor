@@ -11,12 +11,15 @@ import {
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { useNavigate } from 'react-router-dom';
+
 import { IRootState } from '../store'
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions'
 
-export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
+export const FabricNav = () => {
+  const navigate = useNavigate();
 
+  
   const dispatch = useDispatch()
 
   const navLinks = [
@@ -119,7 +122,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
     },
   ]
 
-  const currentLink = navLinks.find(x => x.url === history.location.pathname)
+  const currentLink = navLinks.find(x => x.url === document.location.pathname)
   const [selectedKey, setSelectedKey] = useState(currentLink?.key ?? 'key1')
   const { isDark } = useSelector((state: IRootState) => state.home)
 
@@ -148,7 +151,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       <IonContent class='no-scroll' no-bounce>
       <ScrollablePane>
         <Nav
-          selectedKey={selectedKey}
+         selectedKey={selectedKey}
           onLinkClick={(event, element) => {
             if (event && element) {
               const menu = document.querySelector('ion-menu') as any
@@ -156,7 +159,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
               event.preventDefault()
               if (element.key && selectedKey !== element.key) {
                 dispatch(setLoading(false))
-                history.push(element.url)
+                navigate(element.url);
                 setSelectedKey(element.key)
               }
             }
@@ -171,4 +174,4 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       </IonContent>
     </IonMenu>
   )
-})
+};

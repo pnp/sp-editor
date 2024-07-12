@@ -173,9 +173,6 @@ const ListPropertiesList = () => {
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}
             selectionMode={SelectionMode.multiple}
-            getKey={(item: IListProperty) => {
-              return item.key
-            }}
             setKey='Webset'
             isHeaderVisible={true}
             enterModalSelectionOnTouch={true}

@@ -10,7 +10,7 @@ export const reindexweb = (extPath: string) => {
     var pnpqueryable = modules[2];
 
     function SPSoapHandler() {
-      return (instance) => {
+      return (instance: Queryable.Queryable) => {
         instance.using(
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
@@ -20,7 +20,7 @@ export const reindexweb = (extPath: string) => {
         );
 
         // fix url for SOAP call
-        instance.on.pre.prepend((url, init, result) => {
+        instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
             url = url.replace(/_api.*_vti_bin/, '_vti_bin');
           }
@@ -57,7 +57,7 @@ export const reindexweb = (extPath: string) => {
       entry.data.response
         .clone()
         .json()
-        .then((error) => {
+        .then((error: any) => {
           return {
             success: false,
             result: null,

@@ -46,6 +46,7 @@ export declare const getUsers: (graph: IGraph, userFilters?: string, top?: numbe
  * @memberof Graph
  */
 export declare const getMe: (graph: IGraph, requestedProps?: string[]) => Promise<User>;
+export declare const validUserByIdScopes: string[];
 /**
  * async promise, returns all Graph users associated with the userPrincipleName provided
  *
@@ -88,7 +89,7 @@ export declare const findUsers: (graph: IGraph, query: string, top?: number, use
  * @param {string} query
  * @param {string} groupId - the group to query
  * @param {number} [top=10] - number of people to return
- * @param {PersonType} [personType=PersonType.person] - the type of person to search for
+ * @param {PersonType} [personType='person'] - the type of person to search for
  * @param {boolean} [transitive=false] - whether the return should contain a flat list of all nested members
  * @returns {(Promise<User[]>)}
  */

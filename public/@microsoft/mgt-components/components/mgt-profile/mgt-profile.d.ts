@@ -7,6 +7,7 @@
 import { Profile } from '@microsoft/microsoft-graph-types-beta';
 import { TemplateResult } from 'lit';
 import { BasePersonCardSection } from '../BasePersonCardSection';
+export declare const registerMgtProfileComponent: () => void;
 /**
  * The user profile subsection of the person card
  *

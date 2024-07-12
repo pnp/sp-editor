@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import { TemplateResult } from 'lit';
 import { IDynamicPerson } from '../graph/types';
 import './sub-components/mgt-spinner/mgt-spinner';
@@ -26,15 +26,14 @@ export interface CardSection {
  * @class BasePersonCardSection
  * @extends {MgtTemplatedComponent}
  */
-export declare abstract class BasePersonCardSection extends MgtTemplatedComponent implements CardSection {
+export declare abstract class BasePersonCardSection extends MgtTemplatedTaskComponent implements CardSection {
     /**
      * Set the person details to render
      *
      * @type {IDynamicPerson}
      * @memberof BasePersonCardSection
      */
-    get personDetails(): IDynamicPerson;
-    set personDetails(value: IDynamicPerson);
+    personDetails: IDynamicPerson | null;
     /**
      * The name for display in the overview section.
      *
@@ -60,7 +59,6 @@ export declare abstract class BasePersonCardSection extends MgtTemplatedComponen
      */
     protected get isCompact(): boolean;
     private _isCompact;
-    private _personDetails;
     constructor();
     /**
      * Render the icon for display in the navigation ribbon.
@@ -89,7 +87,6 @@ export declare abstract class BasePersonCardSection extends MgtTemplatedComponen
      * Reset any state in the section
      *
      * @protected
-     * @abstract
      * @memberof BasePersonCardSection
      */
     protected clearState(): void;
@@ -106,7 +103,7 @@ export declare abstract class BasePersonCardSection extends MgtTemplatedComponen
      * @returns {TemplateResult}
      * @memberof BasePersonCardSection
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
     /**
      * Render the section in a empty data state
      *

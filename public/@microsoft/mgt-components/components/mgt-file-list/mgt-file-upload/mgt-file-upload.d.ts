@@ -8,13 +8,11 @@ import { IGraph, MgtBaseComponent } from '@microsoft/mgt-element';
 import { TemplateResult } from 'lit';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
 import { ViewType } from '../../../graph/types';
+declare const conflictBehaviors: readonly ["rename", "replace"];
 /**
  * Upload conflict behavior status
  */
-export declare const enum MgtFileUploadConflictBehavior {
-    rename = 0,
-    replace = 1
-}
+export type MgtFileUploadConflictBehavior = (typeof conflictBehaviors)[number];
 /**
  * MgtFileUpload upload item lifecycle object.
  *
@@ -143,6 +141,7 @@ export interface MgtFileUploadConfig {
      */
     excludedFileExtensions?: string[];
 }
+export declare const registerMgtFileUploadComponent: () => void;
 /**
  * A component to upload files to OneDrive or SharePoint Sites
  *
@@ -253,7 +252,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      * @param fileItem
      * @returns
      */
-    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): import("lit-html").HTMLTemplateResult;
+    protected renderFileTemplate(fileItem: MgtFileUploadItem, folderTabStyle: string): import("lit").HTMLTemplateResult;
     /**
      * Render file upload progress
      *
@@ -316,7 +315,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
      * @param file
      * @returns
      */
-    protected getFileUploadStatus(file: File, fullPath: string, DialogStatus: string, fileUploadList: MgtFileUploadConfig): Promise<(number | true)[]>;
+    protected getFileUploadStatus(file: File, fullPath: string, DialogStatus: string, fileUploadList: MgtFileUploadConfig): Promise<(number | true | MgtFileUploadConflictBehavior)[]>;
     /**
      * Get GraphQuery based on pre defined parameters.
      *
@@ -374,4 +373,5 @@ export declare class MgtFileUpload extends MgtBaseComponent {
     protected getFolderFiles(folders: FileSystemDirectoryEntry[]): Promise<File[]>;
     private writeFilePath;
 }
+export {};
 //# sourceMappingURL=mgt-file-upload.d.ts.map

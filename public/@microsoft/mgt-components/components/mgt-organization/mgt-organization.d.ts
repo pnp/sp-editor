@@ -8,6 +8,7 @@ import { User } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import { BasePersonCardSection } from '../BasePersonCardSection';
 import { MgtPersonCardState } from '../mgt-person-card/mgt-person-card.types';
+export declare const registerMgtOrganizationComponent: () => void;
 /**
  * The member organization subsection of the person card
  *
@@ -35,9 +36,9 @@ export declare class MgtOrganization extends BasePersonCardSection {
         youWorkWithSubSectionTitle: string;
         userWorksWithSubSectionTitle: string;
     };
-    private _state;
-    private _me;
-    constructor(state: MgtPersonCardState, me: User);
+    private _state?;
+    private _me?;
+    constructor(cardState: MgtPersonCardState, me: User);
     /**
      * Reset any state in the section
      *

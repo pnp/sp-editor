@@ -39,7 +39,7 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
       entry.data.response
         .clone()
         .json()
-        .then((error) => {
+        .then((error: any) => {
           return {
             success: false,
             result: null,
@@ -64,10 +64,10 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
       .search(opts)
       .then((r1: any) => {
         const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
-        const allProps = entries.map((entry) => entry.RefinementName);
+        const allProps = entries.map((entry: any) => entry.RefinementName);
 
         const filteredProps = allProps.filter(
-          (value) =>
+          (value: any) =>
             value !== 'ClassificationLastScan' &&
             value !== 'ClassificationCount' &&
             value !== 'ClassificationConfidence'

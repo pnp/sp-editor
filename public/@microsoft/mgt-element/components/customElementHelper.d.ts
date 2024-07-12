@@ -10,7 +10,7 @@ declare class CustomElementHelper {
     /**
      * Adds a disambiguation segment to the custom elements registered with the browser
      *
-     * @param {string} disambiguation
+     * @param {string} disambiguation the disambiguation value to be used, should be lowercase
      * @return {CustomElementHelper} the current object
      * @memberof CustomElementHelper
      */

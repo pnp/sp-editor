@@ -1,4 +1,4 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers } from "redux";
 import { fileExplorerReducer } from "./fileexplorer/reducers";
 import { IFileExplorerState } from "./fileexplorer/types";
 import { GraphSDKConsoleReducer } from "./graphsdkconsole/reducers";
@@ -21,6 +21,7 @@ import { webPropertiesReducer } from "./webproperties/reducers";
 import { IWebPropertiesState } from "./webproperties/types";
 import { searchReducer } from "./search/reducers";
 import { ISearchState } from "./search/types";
+import { configureStore } from "@reduxjs/toolkit";
 
 export interface IRootState {
   home: IHomeState;
@@ -36,20 +37,26 @@ export interface IRootState {
   search: ISearchState;
 }
 
-const store = createStore<IRootState, any, any, any>(
-  combineReducers({
-    home: homeReducer,
-    scriptLinks: scriptLinksReducer,
-    pnpjsconsole: pnpJSConsoleReducer,
-    webProperties: webPropertiesReducer,
-    webHooks: webHooksReducer,
-    listProperties: listPropertiesReducer,
-    spshoot: spshootReducer,
-    graphsdkconsole: GraphSDKConsoleReducer,
-    mgtconsole: MGTConsoleReducer,
-    fileexplorer: fileExplorerReducer,
-    search: searchReducer,
-  })
-);
+const rootReducer = combineReducers({
+  home: homeReducer,
+  scriptLinks: scriptLinksReducer,
+  pnpjsconsole: pnpJSConsoleReducer,
+  webProperties: webPropertiesReducer,
+  webHooks: webHooksReducer,
+  listProperties: listPropertiesReducer,
+  spshoot: spshootReducer,
+  graphsdkconsole: GraphSDKConsoleReducer,
+  mgtconsole: MGTConsoleReducer,
+  fileexplorer: fileExplorerReducer,
+  search: searchReducer,
+});
+
+const store = configureStore({
+  reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
 
 export default store;

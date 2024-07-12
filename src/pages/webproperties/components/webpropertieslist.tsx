@@ -159,7 +159,6 @@ const WebPropertiesList = () => {
           <DetailsList
             layoutMode={DetailsListLayoutMode.justified}
             onShouldVirtualize={() => false}
-            selection={selection}
             items={filteredProps}
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}

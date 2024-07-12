@@ -41,7 +41,7 @@ export const currentpageallprops = (extPath: string) => {
       return entry.data.response
         .clone()
         .json()
-        .then((error) => {
+        .then((error: any) => {
           return {
             success: false,
             result: null,
@@ -53,14 +53,14 @@ export const currentpageallprops = (extPath: string) => {
 
     pnplogging.Logger.subscribe(listener);
 
-    let page = { UniqueId: null };
+    let page = { UniqueId: '' };
 
     return sp.web
       .getFileByServerRelativePath((window as any)._spPageContextInfo.serverRequestPath)
       .select('UniqueId')()
       .then((r) => {
-        page.UniqueId = r.UniqueId;
-
+          page.UniqueId = r.UniqueId;
+        
         var opts = {
           Querytext: `NormUniqueID:${page.UniqueId}`,
           RowLimit: 1,
@@ -70,10 +70,10 @@ export const currentpageallprops = (extPath: string) => {
         return sp.search(opts).then((r1: any) => {
           if (r1.RowCount > 0) {
             const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
-            const allProps = entries.map((entry) => entry.RefinementName);
+            const allProps = entries.map((entry: any) => entry.RefinementName);
 
             const filteredProps = allProps.filter(
-              (value) =>
+              (value: any) =>
                 value !== 'ClassificationLastScan' &&
                 value !== 'ClassificationCount' &&
                 value !== 'ClassificationConfidence'

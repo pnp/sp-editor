@@ -5,7 +5,8 @@
  * -------------------------------------------------------------------------------------------
  */
 import { PropertyValues, TemplateResult } from 'lit';
-import { MgtBaseComponent } from '@microsoft/mgt-element/';
+import { MgtBaseTaskComponent } from '@microsoft/mgt-element';
+export declare const registerMgtFlyoutComponent: () => void;
 /**
  * A component to create flyout anchored to an element
  *
@@ -13,7 +14,7 @@ import { MgtBaseComponent } from '@microsoft/mgt-element/';
  * @class MgtFlyout
  * @extends {LitElement}
  */
-export declare class MgtFlyout extends MgtBaseComponent {
+export declare class MgtFlyout extends MgtBaseTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -97,7 +98,7 @@ export declare class MgtFlyout extends MgtBaseComponent {
     /**
      * Updates the position of the flyout.
      * Makes a second recursive call to ensure the flyout is positioned correctly.
-     * This is needed as the width of the flyout is not settled until afer the first render.
+     * This is needed as the width of the flyout is not settled until after the first render.
      *
      * @private
      * @param {boolean} [firstPass=true]

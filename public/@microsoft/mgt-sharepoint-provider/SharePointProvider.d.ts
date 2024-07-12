@@ -66,7 +66,9 @@ export declare class SharePointProvider extends IProvider {
      * @type {string[]}
      * @memberof SharePointProvider
      */
-    scopes: string[];
+    private _scopes;
+    get scopes(): string[];
+    set scopes(value: string[]);
     /**
      * authority
      *

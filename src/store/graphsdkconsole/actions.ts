@@ -39,7 +39,7 @@ export function setAuthdata(authData: AuthenticationResult) {
   })
 }
 
-export function setUser(spuoser: SPEditorUser) {
+export function setUser(spuoser: SPEditorUser | undefined) {
   return action(Constants.GC_SET_USER, {
     spuoser,
   })

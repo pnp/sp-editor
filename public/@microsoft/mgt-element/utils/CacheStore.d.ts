@@ -4,7 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { CacheItem, CacheSchema } from './CacheService';
+import { CacheItem } from './CacheItem';
+import { CacheSchema } from './CacheSchema';
 /**
  * Represents a store in the cache
  *

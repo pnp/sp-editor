@@ -4,5 +4,5 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import './mgt-person';
+export {};
 //# sourceMappingURL=mgt-person.tests.d.ts.map

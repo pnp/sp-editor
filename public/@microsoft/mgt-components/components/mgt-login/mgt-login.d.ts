@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { CSSResult, TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
 import '../../styles/style-helper';
@@ -14,12 +14,13 @@ import '../../styles/style-helper';
  * size of the mgt-login control.
  */
 export type LoginViewType = 'avatar' | 'compact' | 'full';
+export declare const registerMgtLoginComponent: () => void;
 /**
  * Web component button and flyout control to facilitate Microsoft identity platform authentication
  *
  * @export
  * @class MgtLogin
- * @extends {MgtBaseComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @fires {CustomEvent<undefined>} loginInitiated - Fired when login is initiated by the user
  * @fires {CustomEvent<undefined>} loginCompleted - Fired when login completes
@@ -49,8 +50,9 @@ export type LoginViewType = 'avatar' | 'compact' | 'full';
  * @cssprop --login-command-button-hover-background-color - {Color} the color for the background of the command button on hovering.
  * @cssprop --login-account-item-hover-bg-color - {Color} the background color of the account item on hover.
  * @cssprop --login-flyout-command-text-color - {Color} the color for the text of the flyout command button.
+ * @cssprop --login-person-avatar-size - {Length} the size of the avatar in the person component. Default is 40px.
  */
-export declare class MgtLogin extends MgtTemplatedComponent {
+export declare class MgtLogin extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -153,7 +155,8 @@ export declare class MgtLogin extends MgtTemplatedComponent {
      * @protected
      * @returns {TemplateResult}
      */
-    protected render(): TemplateResult;
+    protected renderContent: () => TemplateResult;
+    protected args(): unknown[];
     /**
      * Load state into the component.
      *

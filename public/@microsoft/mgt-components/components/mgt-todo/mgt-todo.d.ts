@@ -5,15 +5,13 @@
  * -------------------------------------------------------------------------------------------
  */
 import { TemplateResult } from 'lit';
-import '../mgt-person/mgt-person';
-import { MgtTasksBase } from '../mgt-tasks-base/mgt-tasks-base';
-import '../sub-components/mgt-arrow-options/mgt-arrow-options';
-import '../sub-components/mgt-dot-options/mgt-dot-options';
 import { TodoTaskList, TodoTask } from '@microsoft/microsoft-graph-types';
+import { MgtTasksBase } from '../mgt-tasks-base/mgt-tasks-base';
 /**
  * Filter function
  */
 export type TodoFilter = (task: TodoTask) => boolean;
+export declare const registerMgtTodoComponent: () => void;
 /**
  * component enables the user to view, add, remove, complete, or edit todo tasks. It works with tasks in Microsoft Planner or Microsoft To-Do.
  *
@@ -48,10 +46,13 @@ export declare class MgtTodo extends MgtTasksBase {
         cancelNewTaskSubtitle: string;
         newTaskPlaceholder: string;
         newTaskLabel: string;
+        editTaskLabel: string;
         addTaskButtonSubtitle: string;
-        deleteTaskLabel: string;
+        deleteTaskOption: string;
+        editTaskOption: string;
         dueDate: string;
         newTaskDateInputLabel: string;
+        changeTaskDateInputLabel: string;
         newTaskNameInputLabel: string;
         cancelAddingTask: string;
     };
@@ -71,10 +72,12 @@ export declare class MgtTodo extends MgtTasksBase {
      */
     static get requiredScopes(): string[];
     private _tasks;
-    private _isLoadingTasks;
-    private _loadingTasks;
+    private _taskBeingUpdated;
+    private _updatingTaskDate;
+    private _isChangedDueDate;
     private _newTaskDueDate;
     private _newTaskName;
+    private _changedTaskName;
     private _isNewTaskBeingAdded;
     private _graph;
     private currentList;
@@ -83,13 +86,13 @@ export declare class MgtTodo extends MgtTasksBase {
     /**
      * updates provider state
      *
-     * @memberof MgtTasks
+     * @memberof MgtTodo
      */
     connectedCallback(): void;
     /**
      * removes updates on provider state
      *
-     * @memberof MgtTasks
+     * @memberof MgtTodo
      */
     disconnectedCallback(): void;
     private readonly onThemeChanged;
@@ -102,14 +105,6 @@ export declare class MgtTodo extends MgtTasksBase {
      *
      */
     protected renderPicker(): TemplateResult<1>;
-    /**
-     * Create a new todo task and add it to the list
-     *
-     * @protected
-     * @returns {Promise<void>}
-     * @memberof MgtTodo
-     */
-    protected addTask: () => Promise<void>;
     /**
      * Render the panel for creating a new task
      *
@@ -146,15 +141,6 @@ export declare class MgtTodo extends MgtTasksBase {
      */
     protected renderTask: (task: TodoTask) => TemplateResult<1>;
     /**
-     * Render a completed task in the list.
-     *
-     * @protected
-     * @param {TodoTask} task
-     * @returns {TemplateResult}
-     * @memberof MgtTodo
-     */
-    protected renderCompletedTask: (task: TodoTask) => TemplateResult<1>;
-    /**
      * loads tasks from dataSource
      *
      * @returns {Promise<void>}
@@ -170,12 +156,36 @@ export declare class MgtTodo extends MgtTasksBase {
      */
     protected createNewTask(): Promise<void>;
     /**
+     * Create a new todo task and add it to the list
+     *
+     * @protected
+     * @returns {Promise<void>}
+     * @memberof MgtTodo
+     */
+    protected addTask: () => Promise<void>;
+    /**
+     *Update a todo task in the todo list
+     * @protected
+     * @returns {Promise<void>}
+     * @memberof MgtTodo
+     */
+    protected updateTask: (task: TodoTask) => Promise<void>;
+    /**
+     * Send a request the Graph to update a todo task item
+     *
+     * @protected
+     * @returns {Promise<void>}
+     * @memberof MgtTodo
+     */
+    protected updateTaskItem(task: TodoTask): Promise<void>;
+    /**
      * Clear out the new task metadata input fields
      *
      * @protected
      * @memberof MgtTodo
      */
     protected clearNewTaskData: () => void;
+    protected focusOnTaskInput: () => void;
     /**
      * Clear the state of the component
      *
@@ -187,8 +197,13 @@ export declare class MgtTodo extends MgtTasksBase {
     private readonly updateTaskStatus;
     private readonly removeTask;
     private handleTaskCheckClick;
+    private handleTaskCheckKeydown;
     private readonly handleInput;
+    private readonly handleChange;
     private readonly handleKeyDown;
+    private readonly updatingTask;
+    private readonly handleBlur;
     private readonly handleDateChange;
+    private readonly handleDateUpdate;
 }
 //# sourceMappingURL=mgt-todo.d.ts.map

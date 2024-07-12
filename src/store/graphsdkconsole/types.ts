@@ -11,7 +11,7 @@ export interface SPEditorUser {
   TenantName: string
   TenantId: string
   userId: string
-  imageUrl: string
+  imageUrl?: string
 }
 export interface IScope {
   scope: string
@@ -23,8 +23,8 @@ export interface IGraphSDKConsoleState {
   definitions: IDefinitions[],
   editpanel: boolean,
   scopes: string[],
-  authData: AuthenticationResult
-  spuoser: SPEditorUser;
+  authData?: AuthenticationResult
+  spuoser?: SPEditorUser;
 }
 
 export enum Constants {

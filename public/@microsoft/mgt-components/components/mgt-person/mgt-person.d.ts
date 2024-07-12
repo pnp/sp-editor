@@ -4,20 +4,20 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent, ProviderState } from '@microsoft/mgt-element';
 import { Presence } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import { AvatarSize, IDynamicPerson, ViewType } from '../../graph/types';
 import '../../styles/style-helper';
 import '../sub-components/mgt-flyout/mgt-flyout';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
-import { PersonCardInteraction } from './../PersonCardInteraction';
-import { MgtPersonConfig, PersonViewType, avatarType } from './mgt-person-types';
-export { PersonCardInteraction } from '../PersonCardInteraction';
+import { type PersonCardInteraction } from './../PersonCardInteraction';
+import { AvatarType, MgtPersonConfig } from './mgt-person-types';
 /**
  * Person properties part of original set provided by graph by default
  */
 export declare const defaultPersonProperties: string[];
+export declare const registerMgtPersonComponent: () => void;
 /**
  * The person component is used to display a person or contact by using their photo, name, and/or email address.
  *
@@ -68,7 +68,7 @@ export declare const defaultPersonProperties: string[];
  *
  * @cssprop --person-details-wrapper-width - {Length} the minimum width of the details section. Default is 168px.
  */
-export declare class MgtPerson extends MgtTemplatedComponent {
+export declare class MgtPerson extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -84,7 +84,6 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     protected get strings(): {
         photoFor: string;
         emailAddress: string;
-        initials: string;
         Available: string;
         Away: string;
         BeRightBack: string;
@@ -133,7 +132,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     set userId(value: string);
     /**
      * usage property allows you to specify where the component is being used to add
-     * customized personalization for it. Currently only supports "people" as used in
+     * customized personalization for it. Currently only supports "people" and "people-picker" as used in
      * the people component.
      *
      * @type {string}
@@ -148,7 +147,8 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     showPresence: boolean;
     /**
      * determines person component avatar size and apply presence badge accordingly.
-     * Default is "auto". When you set the view > 1, it will default to "auto".
+     * Valid options are 'small', 'large', and 'auto'
+     * Default is "auto". When you set the view more than oneline, it will default to "auto".
      *
      * @type {AvatarSize}
      */
@@ -202,14 +202,13 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     verticalLayout: boolean;
     /**
-     * Determines and sets person avatar
+     * Determines and sets person avatar view
+     * Valid options are 'photo' or 'initials'
      *
-     *
-     * @type {string}
+     * @type {AvatarType}
      * @memberof MgtPerson
      */
-    get avatarType(): avatarType;
-    set avatarType(value: avatarType);
+    avatarType: AvatarType;
     /**
      * Gets or sets presence of person
      *
@@ -220,7 +219,8 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     set personPresence(value: Presence);
     /**
      * Sets how the person-card is invoked
-     * Set to PersonCardInteraction.none to not show the card
+     * Valid options are: 'none', 'hover', or 'click'
+     * Set to 'none' to not show the card
      *
      * @type {PersonCardInteraction}
      * @memberof MgtPerson
@@ -275,17 +275,19 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      */
     line4Property: string;
     /**
-     * Sets what data to be rendered (image only, oneLine, twoLines).
+     * Sets what data to be rendered.
+     * Valid options are 'image', 'oneline', 'twolines', 'threelines', or 'fourlines'
      * Default is 'image'.
      *
-     * @type {ViewType | PersonViewType}
+     * @type {ViewType}
      * @memberof MgtPerson
      */
-    view: ViewType | PersonViewType;
+    view: ViewType;
     private _fetchedImage;
     private _fetchedPresence;
     private _isInvalidImageSrc;
     private _personCardShouldRender;
+    private _hasLoadedPersonCard;
     private _personDetailsInternal;
     private _personDetails;
     private _fallbackDetails;
@@ -294,16 +296,10 @@ export declare class MgtPerson extends MgtTemplatedComponent {
     private _personQuery;
     private _userId;
     private _usage;
-    private _avatarType;
     private _mouseLeaveTimeout;
     private _mouseEnterTimeout;
     constructor();
-    /**
-     * Invoked on each update to perform rendering tasks. This method must return
-     * a lit-html TemplateResult. Setting properties inside this method will *not*
-     * trigger the element to update.
-     */
-    render(): TemplateResult;
+    protected readonly renderContent: () => TemplateResult;
     /**
      * Render the loading state
      *
@@ -311,7 +307,9 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof MgtPerson
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
+    protected renderLoadingLines: () => TemplateResult[];
+    protected renderLoadingLine: (line: number) => TemplateResult;
     /**
      * Clears state of the component
      *
@@ -391,6 +389,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     protected renderFlyoutContent(personDetails: IDynamicPerson, image: string, presence: Presence): TemplateResult;
+    protected args(): (string | boolean | IDynamicPerson | Presence | ProviderState)[];
     /**
      * load state into the component.
      *
@@ -427,6 +426,7 @@ export declare class MgtPerson extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     hidePersonCard: () => void;
+    private readonly loadPersonCardResources;
     showPersonCard: () => void;
 }
 //# sourceMappingURL=mgt-person.d.ts.map

@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import { TodoTask } from '@microsoft/microsoft-graph-types';
 /**
  * The foundation for creating task based components.
@@ -14,7 +14,7 @@ import { TodoTask } from '@microsoft/microsoft-graph-types';
  * @class MgtTasksBase
  * @extends {MgtTemplatedComponent}
  */
-export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
+export declare abstract class MgtTasksBase extends MgtTemplatedTaskComponent {
     /**
      * determines if tasks are un-editable
      *
@@ -25,14 +25,14 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
      * sets whether the header is rendered
      *
      * @type {boolean}
-     * @memberof MgtTasks
+     * @memberof MgtTasksBase
      */
     hideHeader: boolean;
     /**
      * sets whether the options are rendered
      *
      * @type {boolean}
-     * @memberof MgtTasks
+     * @memberof MgtTasksBase
      */
     hideOptions: boolean;
     /**
@@ -51,33 +51,31 @@ export declare abstract class MgtTasksBase extends MgtTemplatedComponent {
     private _previousMediaQuery;
     protected get strings(): Record<string, string>;
     constructor();
-    /**
-     * Synchronizes property values when attributes change.
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     * @memberof MgtTasks
-     */
-    attributeChangedCallback(name: string, oldVal: string, newVal: string): void;
+    protected args(): unknown[];
     /**
      * updates provider state
      *
-     * @memberof MgtTasks
+     * @memberof MgtTasksBase
      */
     connectedCallback(): void;
     /**
      * removes updates on provider state
      *
-     * @memberof MgtTasks
+     * @memberof MgtTasksBase
      */
     disconnectedCallback(): void;
     /**
-     * Invoked on each update to perform rendering tasks. This method must return
-     * a lit-html TemplateResult. Setting properties inside this method will *not*
-     * trigger the element to update.
+     * Render the loading state
+     *
+     * @protected
+     * @returns {TemplateResult}
+     * @memberof MgtTasksBase
      */
-    protected render(): TemplateResult<1>;
+    protected renderLoading: () => TemplateResult;
+    /**
+     * Invoked by render when the task is in a completed state
+     */
+    protected renderContent: () => TemplateResult<1>;
     /**
      * Render a task in a loading state.
      *

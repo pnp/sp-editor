@@ -5,6 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { LitElement, PropertyValueMap, PropertyValues } from 'lit';
+import { ProviderState } from '../providers/IProvider';
 /**
  * Defines media query based on component width
  *
@@ -32,8 +33,10 @@ export declare enum ComponentMediaQuery {
  * @abstract
  * @class MgtBaseComponent
  * @extends {LitElement}
+ * @deprecated Use MgtBaseTaskComponent instead
  */
 export declare abstract class MgtBaseComponent extends LitElement {
+    protected providerState: ProviderState;
     /**
      * Exposes the semver of the library the component is part of
      *

@@ -4,12 +4,13 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import { DriveItem } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import './mgt-file-upload/mgt-file-upload';
 import { OfficeGraphInsightString, ViewType } from '../../graph/types';
 import { CardSection } from '../BasePersonCardSection';
+export declare const registerMgtFileListComponent: () => void;
 /**
  * The File List component displays a list of multiple folders and files by
  * using the file/folder name, an icon, and other properties specified by the developer.
@@ -36,7 +37,7 @@ import { CardSection } from '../BasePersonCardSection';
  * @cssprop --show-more-button-border-bottom-left-radius - {String} the "show more" button bottom left border radius. Default value is 8px;
  * @cssprop --progress-ring-size -{String} Progress ring height and width. Default value is 24px.
  */
-export declare class MgtFileList extends MgtTemplatedComponent implements CardSection {
+export declare class MgtFileList extends MgtTemplatedTaskComponent implements CardSection {
     private _isCompact;
     /**
      * Array of styles to apply to the element. The styles should be defined
@@ -50,8 +51,7 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {string}
      * @memberof MgtFileList
      */
-    get fileListQuery(): string;
-    set fileListQuery(value: string);
+    fileListQuery: string;
     /**
      * The name for display in the overview section.
      *
@@ -81,63 +81,56 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {string[]}
      * @memberof MgtFileList
      */
-    get fileQueries(): string[];
-    set fileQueries(value: string[]);
+    fileQueries: string[] | null;
     /**
      * allows developer to provide an array of files
      *
      * @type {MicrosoftGraph.DriveItem[]}
      * @memberof MgtFileList
      */
-    files: DriveItem[];
+    files: DriveItem[] | null;
     /**
      * allows developer to provide site id for a file
      *
      * @type {string}
      * @memberof MgtFileList
      */
-    get siteId(): string;
-    set siteId(value: string);
+    siteId: string;
     /**
      * allows developer to provide drive id for a file
      *
      * @type {string}
      * @memberof MgtFileList
      */
-    get driveId(): string;
-    set driveId(value: string);
+    driveId: string;
     /**
      * allows developer to provide group id for a file
      *
      * @type {string}
      * @memberof MgtFileList
      */
-    get groupId(): string;
-    set groupId(value: string);
+    groupId: string;
     /**
      * allows developer to provide item id for a file
      *
      * @type {string}
      * @memberof MgtFileList
      */
-    get itemId(): string;
-    set itemId(value: string);
+    itemId: string;
     /**
      * allows developer to provide item path for a file
      *
      * @type {string}
      * @memberof MgtFileList
      */
-    get itemPath(): string;
-    set itemPath(value: string);
+    itemPath: string;
     /**
      * allows developer to provide user id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get userId(): string;
-    set userId(value: string);
+    userId: string;
     /**
      * allows developer to provide insight type for a file
      * can be trending, used, or shared
@@ -145,11 +138,10 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {OfficeGraphInsightString}
      * @memberof MgtFileList
      */
-    get insightType(): OfficeGraphInsightString;
-    set insightType(value: OfficeGraphInsightString);
+    insightType: OfficeGraphInsightString;
     /**
-     * Sets what data to be rendered (file icon only, oneLine, twoLines threeLines).
-     * Default is 'threeLines'.
+     * Sets what data to be rendered (file icon only, oneline, twolines threelines).
+     * Default is 'threelines'.
      *
      * @type {ViewType}
      * @memberof MgtFileList
@@ -162,16 +154,14 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {string[]}
      * @memberof MgtFileList
      */
-    get fileExtensions(): string[];
-    set fileExtensions(value: string[]);
+    fileExtensions: string[];
     /**
      * A number value to indicate the number of more files to load when show more button is clicked
      *
      * @type {number}
      * @memberof MgtFileList
      */
-    get pageSize(): number;
-    set pageSize(value: number);
+    pageSize: number;
     disableOpenOnClick: boolean;
     /**
      * A boolean value indication if 'show-more' button should be disabled
@@ -186,8 +176,7 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {number}
      * @memberof MgtFileList
      */
-    get maxFileSize(): number;
-    set maxFileSize(value: number);
+    maxFileSize: number;
     /**
      * A boolean value indication if file upload extension should be enable or disabled
      *
@@ -201,16 +190,14 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @type {number}
      * @memberof MgtFileList
      */
-    get maxUploadFile(): number;
-    set maxUploadFile(value: number);
+    maxUploadFile: number;
     /**
      * A Array of file extensions to be excluded from file upload.
      *
      * @type {string[]}
      * @memberof MgtFileList
      */
-    get excludedFileExtensions(): string[];
-    set excludedFileExtensions(value: string[]);
+    excludedFileExtensions: string[];
     /**
      * Get the scopes required for file list
      *
@@ -219,31 +206,11 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @memberof MgtFileList
      */
     static get requiredScopes(): string[];
-    private _fileListQuery;
-    private _fileQueries;
-    private _siteId;
-    private _itemId;
-    private _driveId;
-    private _itemPath;
-    private _groupId;
-    private _insightType;
-    private _fileExtensions;
-    private _pageSize;
-    private _excludedFileExtensions;
-    private _maxUploadFile;
-    private _maxFileSize;
-    private _userId;
     private _preloadedFiles;
     private pageIterator;
     private _focusedItemIndex;
     private _isLoadingMore;
     constructor();
-    /**
-     * Override requestStateUpdate to include clearstate.
-     *
-     * @memberof MgtFileList
-     */
-    protected requestStateUpdate(force?: boolean): Promise<unknown>;
     /**
      * Reset state
      *
@@ -264,13 +231,15 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @memberof BasePersonCardSection
      */
     asFullView(): this;
+    protected args(): unknown[];
+    protected renderLoading: () => TemplateResult;
     /**
      * Render the file list
      *
      * @return {*}
      * @memberof MgtFileList
      */
-    render(): TemplateResult;
+    protected renderContent: () => TemplateResult;
     /**
      * Render the compact view
      *
@@ -285,14 +254,6 @@ export declare class MgtFileList extends MgtTemplatedComponent implements CardSe
      * @memberof MgtFileList
      */
     renderFullView(): TemplateResult;
-    /**
-     * Render the loading state
-     *
-     * @protected
-     * @returns {TemplateResult}
-     * @memberof MgtFileList
-     */
-    protected renderLoading(): TemplateResult;
     /**
      * Render the state when no data is available
      *

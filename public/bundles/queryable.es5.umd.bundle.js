@@ -1414,7 +1414,6 @@ const DefaultMoments = {
     parse: asyncReduce(),
     post: asyncReduce(),
     data: broadcast(),
-    rawData: broadcast(),
 };
 let queryable_Queryable = class Queryable extends timeline_Timeline {
     constructor(init, path) {
@@ -1641,21 +1640,7 @@ function TextParse() {
     return parseBinderWithErrorCheck(r => r.text());
 }
 function BlobParse() {
-    return parseBinderWithErrorCheck(async (response) => {
-        const binaryResponseBody = parseToAtob(await response.text());
-        // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
-        if (binaryResponseBody) {
-            // Create an array buffer from the binary string
-            const arrayBuffer = new ArrayBuffer(binaryResponseBody.length);
-            const uint8Array = new Uint8Array(arrayBuffer);
-            for (let i = 0; i < binaryResponseBody.length; i++) {
-                uint8Array[i] = binaryResponseBody.charCodeAt(i);
-            }
-            // Create a Blob from the array buffer
-            return new Blob([arrayBuffer], { type: response.headers.get("Content-Type") });
-        }
-        return response.blob();
-    });
+    return parseBinderWithErrorCheck(r => r.blob());
 }
 function JSONParse() {
     return parseBinderWithErrorCheck(r => r.json());
@@ -1675,8 +1660,7 @@ function JSONHeaderParse() {
         // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
         const txt = await response.text();
         const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
-        const all = { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
-        return all;
+        return { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
     });
 }
 async function errorCheck(url, response, result) {
@@ -1715,11 +1699,7 @@ function parseBinderWithErrorCheck(impl) {
         instance.on.parse.replace(errorCheck);
         instance.on.parse(async (url, response, result) => {
             if (response.ok && typeof result === "undefined") {
-                const respClone = response.clone();
-                // https://github.com/node-fetch/node-fetch?tab=readme-ov-file#custom-highwatermark
-                const [implResult, raw] = await Promise.all([impl(response), respClone.text()]);
-                result = implResult;
-                instance.emit.rawData(raw);
+                result = await impl(response);
             }
             return [url, response, result];
         });
@@ -1892,16 +1872,13 @@ function Caching(props) {
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
                     // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
-                    instance.on.rawData(noInherit(async function (response) {
-                        setCachedValue(response);
+                    this.on.post(noInherit(async function (url, result) {
+                        setCachedValue(result);
+                        return [url, result];
                     }));
                 }
                 else {
-                    // if we find it in cache, override send request, and continue flow through timeline and parsers.
-                    this.on.auth.clear();
-                    this.on.send.replace(async function () {
-                        return new Response(cached, {});
-                    });
+                    result = cached;
                 }
             }
             return [url, init, result];

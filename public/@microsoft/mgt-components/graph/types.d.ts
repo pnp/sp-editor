@@ -30,39 +30,22 @@ export type IDynamicPerson = (IUser | IContact | IGroup) & {
  */
 export type AvatarSize = 'small' | 'large' | 'auto';
 /**
- * Insight string types used to retrive OneDrive files
+ * Insight string types used to retrieve OneDrive files
  */
 export type OfficeGraphInsightString = 'trending' | 'used' | 'shared';
+declare const viewTypes: readonly ["image", "oneline", "twolines", "threelines", "fourlines"];
 /**
  * Enumeration to define what parts of the person component render
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
-export declare enum ViewType {
-    /**
-     * Render only the avatar
-     */
-    image = 2,
-    /**
-     * Render the avatar and one line of text
-     */
-    oneline = 3,
-    /**
-     * Render the avatar and two lines of text
-     */
-    twolines = 4,
-    /**
-     * Render the avatar and three lines of text
-     */
-    threelines = 5,
-    /**
-     * Render the avatar and four lines of text
-     */
-    fourlines = 6
-}
+export type ViewType = (typeof viewTypes)[number];
+export declare const isViewType: (value: unknown) => value is "image" | "oneline" | "twolines" | "threelines" | "fourlines";
+export declare const viewTypeConverter: (value: string, defaultValue?: ViewType) => ViewType;
 /**
  * Postion describes the position of the dropdown
  */
 export type Position = 'above' | 'below';
+export {};
 //# sourceMappingURL=types.d.ts.map

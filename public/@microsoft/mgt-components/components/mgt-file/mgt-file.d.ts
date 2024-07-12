@@ -6,8 +6,9 @@
  */
 import { DriveItem } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import { OfficeGraphInsightString, ViewType } from '../../graph/types';
+export declare const registerMgtFileComponent: () => void;
 /**
  * The File component is used to represent an individual file/folder from OneDrive or SharePoint by displaying information such as the file/folder name, an icon indicating the file type, and other properties such as the author, last modified date, or other details selected by the developer.
  *
@@ -38,7 +39,7 @@ import { OfficeGraphInsightString, ViewType } from '../../graph/types';
  * @cssprop --file-line3-color - {Color} the third line text color.
  * @cssprop --file-line3-text-transform - {String} the third line text text transform. Default value is 400.
  */
-export declare class MgtFile extends MgtTemplatedComponent {
+export declare class MgtFile extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -54,64 +55,56 @@ export declare class MgtFile extends MgtTemplatedComponent {
      * @type {string}
      * @memberof MgtFile
      */
-    get fileQuery(): string;
-    set fileQuery(value: string);
+    fileQuery: string;
     /**
      * allows developer to provide site id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get siteId(): string;
-    set siteId(value: string);
+    siteId: string;
     /**
      * allows developer to provide drive id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get driveId(): string;
-    set driveId(value: string);
+    driveId: string;
     /**
      * allows developer to provide group id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get groupId(): string;
-    set groupId(value: string);
+    groupId: string;
     /**
      * allows developer to provide list id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get listId(): string;
-    set listId(value: string);
+    listId: string;
     /**
      * allows developer to provide user id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get userId(): string;
-    set userId(value: string);
+    userId: string;
     /**
      * allows developer to provide item id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get itemId(): string;
-    set itemId(value: string);
+    itemId: string;
     /**
      * allows developer to provide item path for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get itemPath(): string;
-    set itemPath(value: string);
+    itemPath: string;
     /**
      * allows developer to provide insight type for a file
      * can be trending, used, or shared
@@ -119,32 +112,28 @@ export declare class MgtFile extends MgtTemplatedComponent {
      * @type {OfficeGraphInsightString}
      * @memberof MgtFile
      */
-    get insightType(): OfficeGraphInsightString;
-    set insightType(value: OfficeGraphInsightString);
+    insightType: OfficeGraphInsightString;
     /**
      * allows developer to provide insight id for a file
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get insightId(): string;
-    set insightId(value: string);
+    insightId: string;
     /**
      * allows developer to provide DriveItem object
      *
      * @type {MicrosoftGraph.DriveItem}
      * @memberof MgtFile
      */
-    get fileDetails(): DriveItem;
-    set fileDetails(value: DriveItem);
+    fileDetails: DriveItem;
     /**
      * allows developer to provide file type icon url
      *
      * @type {string}
      * @memberof MgtFile
      */
-    get fileIcon(): string;
-    set fileIcon(value: string);
+    fileIcon: string;
     /**
      * object containing Graph details on item
      *
@@ -177,8 +166,9 @@ export declare class MgtFile extends MgtTemplatedComponent {
      */
     line3Property: string;
     /**
-     * Sets what data to be rendered (file icon only, oneLine, twoLines threeLines).
-     * Default is 'threeLines'.
+     * Sets what data will be rendered.
+     * Valid options are 'image', 'oneline', 'twolines', 'threelines', or 'fourlines'
+     * Default is 'threelines'.
      *
      * @type {ViewType}
      * @memberof MgtFile
@@ -192,28 +182,9 @@ export declare class MgtFile extends MgtTemplatedComponent {
      * @memberof MgtFile
      */
     static get requiredScopes(): string[];
-    private _fileQuery;
-    private _siteId;
-    private _itemId;
-    private _driveId;
-    private _itemPath;
-    private _listId;
-    private _groupId;
-    private _userId;
-    private _insightType;
-    private _insightId;
-    private _fileDetails;
-    private _fileIcon;
+    protected args(): unknown[];
     constructor();
-    render(): TemplateResult;
-    /**
-     * Render the loading state
-     *
-     * @protected
-     * @returns {TemplateResult}
-     * @memberof MgtFile
-     */
-    protected renderLoading(): TemplateResult;
+    renderContent: () => TemplateResult;
     /**
      * Render the state when no data is available
      *

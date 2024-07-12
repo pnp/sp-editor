@@ -152,9 +152,9 @@ const ScriptLinkList = () => {
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}
             selectionMode={SelectionMode.multiple}
-            getKey={(item: IScriptLink) => {
+/*             getKey={(item: IScriptLink) => {
               return item.Id
-            }}
+            }} */
             setKey='scriptlinkslist'
             isHeaderVisible={true}
             enterModalSelectionOnTouch={true}

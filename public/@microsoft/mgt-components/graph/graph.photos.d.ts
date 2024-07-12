@@ -28,6 +28,14 @@ export declare const getPhotoInvalidationTime: () => number;
  */
 export declare const getIsPhotosCacheEnabled: () => boolean;
 /**
+ * Ordered list of scopes able to load user photos for any user, least privilege comes first
+ */
+export declare const anyUserValidPhotoScopes: string[];
+/**
+ * Ordered list of scopes able to load user photo for the current user, least privilege comes first
+ */
+export declare const currentUserValidPhotoScopes: string[];
+/**
  * retrieves a photo for the specified resource.
  *
  * @param {string} resource

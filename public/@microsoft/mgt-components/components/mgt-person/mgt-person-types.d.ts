@@ -4,44 +4,10 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/**
- * Enumeration to define what parts of the person component render
- *
- * @export
- * @enum {number}
- */
-export declare enum PersonViewType {
-    /**
-     * Render only the avatar
-     */
-    avatar = 2,
-    /**
-     * Render the avatar and one line of text
-     */
-    oneline = 3,
-    /**
-     * Render the avatar and two lines of text
-     */
-    twolines = 4,
-    /**
-     * Render the avatar and three lines of text
-     */
-    threelines = 5,
-    /**
-     * Render the avatar and four lines of text
-     */
-    fourlines = 6
-}
-export declare enum avatarType {
-    /**
-     * Renders avatar photo if available, falls back to initials
-     */
-    photo = "photo",
-    /**
-     * Forces render avatar initials
-     */
-    initials = "initials"
-}
+declare const avatarTypes: readonly ["photo", "initials"];
+export type AvatarType = (typeof avatarTypes)[number];
+export declare const isAvatarType: (value: unknown) => value is "initials" | "photo";
+export declare const avatarTypeConverter: (value: string, defaultValue?: AvatarType) => AvatarType;
 /**
  * Configuration object for the Person component
  *
@@ -57,4 +23,5 @@ export interface MgtPersonConfig {
      */
     useContactApis: boolean;
 }
+export {};
 //# sourceMappingURL=mgt-person-types.d.ts.map

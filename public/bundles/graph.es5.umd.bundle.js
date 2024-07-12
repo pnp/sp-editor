@@ -632,11 +632,10 @@ const DefaultMoments = {
     construct: Object(core["q" /* lifecycle */])(),
     pre: Object(core["d" /* asyncReduce */])(),
     auth: Object(core["d" /* asyncReduce */])(),
-    send: Object(core["v" /* request */])(),
+    send: Object(core["u" /* request */])(),
     parse: Object(core["d" /* asyncReduce */])(),
     post: Object(core["d" /* asyncReduce */])(),
     data: Object(core["e" /* broadcast */])(),
-    rawData: Object(core["e" /* broadcast */])(),
 };
 let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
     constructor(init, path) {
@@ -649,7 +648,7 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
         this.InternalPromise = Symbol.for("Queryable_Promise");
         this._query = new URLSearchParams();
         // add an intneral moment with specific implementaion for promise creation
-        this.moments[this.InternalPromise] = Object(core["u" /* reduce */])();
+        this.moments[this.InternalPromise] = Object(core["t" /* reduce */])();
         let parent;
         if (typeof init === "string") {
             this._url = Object(core["f" /* combine */])(init, path);
@@ -689,7 +688,7 @@ let queryable_Queryable = class Queryable extends core["b" /* Timeline */] {
     toRequestUrl() {
         let url = this.toUrl();
         const query = this.query.toString();
-        if (!Object(core["w" /* stringIsNullOrEmpty */])(query)) {
+        if (!Object(core["v" /* stringIsNullOrEmpty */])(query)) {
             url += `${url.indexOf("?") > -1 ? "&" : "?"}${query}`;
         }
         return url;
@@ -863,21 +862,7 @@ function TextParse() {
     return parseBinderWithErrorCheck(r => r.text());
 }
 function BlobParse() {
-    return parseBinderWithErrorCheck(async (response) => {
-        const binaryResponseBody = Object(core["t" /* parseToAtob */])(await response.text());
-        // handle batch responses for things that are base64, like photos https://github.com/pnp/pnpjs/issues/2825
-        if (binaryResponseBody) {
-            // Create an array buffer from the binary string
-            const arrayBuffer = new ArrayBuffer(binaryResponseBody.length);
-            const uint8Array = new Uint8Array(arrayBuffer);
-            for (let i = 0; i < binaryResponseBody.length; i++) {
-                uint8Array[i] = binaryResponseBody.charCodeAt(i);
-            }
-            // Create a Blob from the array buffer
-            return new Blob([arrayBuffer], { type: response.headers.get("Content-Type") });
-        }
-        return response.blob();
-    });
+    return parseBinderWithErrorCheck(r => r.blob());
 }
 function JSONParse() {
     return parseBinderWithErrorCheck(r => r.json());
@@ -897,8 +882,7 @@ function JSONHeaderParse() {
         // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
         const txt = await response.text();
         const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
-        const all = { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
-        return all;
+        return { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
     });
 }
 async function errorCheck(url, response, result) {
@@ -937,11 +921,7 @@ function parseBinderWithErrorCheck(impl) {
         instance.on.parse.replace(errorCheck);
         instance.on.parse(async (url, response, result) => {
             if (response.ok && typeof result === "undefined") {
-                const respClone = response.clone();
-                // https://github.com/node-fetch/node-fetch?tab=readme-ov-file#custom-highwatermark
-                const [implResult, raw] = await Promise.all([impl(response), respClone.text()]);
-                result = implResult;
-                instance.emit.rawData(raw);
+                result = await impl(response);
             }
             return [url, response, result];
         });
@@ -1114,16 +1094,13 @@ function Caching(props) {
                 // we need to ensure that result stays "undefined" unless we mean to set null as the result
                 if (cached === null) {
                     // if we don't have a cached result we need to get it after the request is sent. Get the raw value (un-parsed) to store into cache
-                    instance.on.rawData(Object(core["r" /* noInherit */])(async function (response) {
-                        setCachedValue(response);
+                    this.on.post(Object(core["r" /* noInherit */])(async function (url, result) {
+                        setCachedValue(result);
+                        return [url, result];
                     }));
                 }
                 else {
-                    // if we find it in cache, override send request, and continue flow through timeline and parsers.
-                    this.on.auth.clear();
-                    this.on.send.replace(async function () {
-                        return new Response(cached, {});
-                    });
+                    result = cached;
                 }
             }
             return [url, init, result];
@@ -2025,24 +2002,23 @@ __webpack_require__.d(__webpack_exports__, "j", function() { return /* reexport 
 __webpack_require__.d(__webpack_exports__, "n", function() { return /* reexport */ isFunc; });
 __webpack_require__.d(__webpack_exports__, "m", function() { return /* reexport */ isArray; });
 __webpack_require__.d(__webpack_exports__, "o", function() { return /* reexport */ isUrlAbsolute; });
-__webpack_require__.d(__webpack_exports__, "w", function() { return /* reexport */ stringIsNullOrEmpty; });
+__webpack_require__.d(__webpack_exports__, "v", function() { return /* reexport */ stringIsNullOrEmpty; });
 __webpack_require__.d(__webpack_exports__, "s", function() { return /* reexport */ objectDefinedNotNull; });
 __webpack_require__.d(__webpack_exports__, "p", function() { return /* reexport */ jsS; });
 __webpack_require__.d(__webpack_exports__, "l", function() { return /* reexport */ hOP; });
-__webpack_require__.d(__webpack_exports__, "t", function() { return /* reexport */ parseToAtob; });
 __webpack_require__.d(__webpack_exports__, "k", function() { return /* reexport */ getHashCode; });
 __webpack_require__.d(__webpack_exports__, "h", function() { return /* reexport */ delay; });
 __webpack_require__.d(__webpack_exports__, "e", function() { return /* reexport */ broadcast; });
 __webpack_require__.d(__webpack_exports__, "c", function() { return /* reexport */ asyncBroadcast; });
-__webpack_require__.d(__webpack_exports__, "u", function() { return /* reexport */ reduce; });
+__webpack_require__.d(__webpack_exports__, "t", function() { return /* reexport */ reduce; });
 __webpack_require__.d(__webpack_exports__, "d", function() { return /* reexport */ asyncReduce; });
-__webpack_require__.d(__webpack_exports__, "v", function() { return /* reexport */ request; });
+__webpack_require__.d(__webpack_exports__, "u", function() { return /* reexport */ request; });
 __webpack_require__.d(__webpack_exports__, "q", function() { return /* reexport */ lifecycle; });
 __webpack_require__.d(__webpack_exports__, "r", function() { return /* reexport */ noInherit; });
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ timeline_Timeline; });
 __webpack_require__.d(__webpack_exports__, "i", function() { return /* reexport */ extendable; });
 
-// UNUSED EXPORTS: PnPClientStorageWrapper, getRandomString, once, cloneObserverCollection, extend, extendFactory, disableExtensions, enableExtensions, AssignFrom, CopyFrom
+// UNUSED EXPORTS: PnPClientStorageWrapper, getRandomString, parseToAtob, once, cloneObserverCollection, extend, extendFactory, disableExtensions, enableExtensions, AssignFrom, CopyFrom
 
 // CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
 /**
@@ -3430,7 +3406,7 @@ function Paged(supportsCount = false) {
             const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
             const nextLink = json["@odata.nextLink"];
             const count = supportsCount && Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* hOP */ "l"])(json, "@odata.count") ? parseInt(json["@odata.count"], 10) : 0;
-            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "w"])(nextLink);
+            const hasNext = !Object(_pnp_core__WEBPACK_IMPORTED_MODULE_0__[/* stringIsNullOrEmpty */ "v"])(nextLink);
             result = {
                 count,
                 hasNext,
@@ -6253,6 +6229,15 @@ class types_Calendar extends graphqueryable["e" /* _GraphQueryableInstance */] {
     get events() {
         return Events(this);
     }
+    /**
+     * Get the free/busy availability information for a collection of users,
+     * distributions lists, or resources (rooms or equipment) for a specified time period.
+     *
+     * @param properties The set of properties used to get the schedule
+     */
+    async getSchedule(properties) {
+        return Object(operations["d" /* graphPost */])(Calendar(this, "getSchedule"), Object(queryable["l" /* body */])(properties));
+    }
 }
 const Calendar = Object(graphqueryable["f" /* graphInvokableFactory */])(types_Calendar);
 /**
@@ -7817,7 +7802,7 @@ var core = __webpack_require__(5);
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.22.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/3.24.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];

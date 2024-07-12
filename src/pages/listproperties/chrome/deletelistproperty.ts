@@ -2,64 +2,18 @@ import * as SP from '@pnp/sp/presets/all'
 import * as Logging from '@pnp/logging'
 import * as Queryable from '@pnp/queryable'
 
-// we cannot use async methods, they do not work correctly when running 'npm run build',
-// async methods works when running 'npm run watch'
-export function deleteListProperty(...args: any) {
+export const deleteListProperty = (values: any, extPath: string) => {
 
-  /* get parameters */
-  const params = args
-  const functionName = params[0].name
-  const key = params[1]
-  const listId = params[2]
+  return moduleLoader(extPath).then((modules) => {
 
-  const listPropertyPayload = (pkey: any, pvalue: any, plistId: any, pdel: boolean) => {
-    return `
-          <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-          <Actions>
-            <ObjectPath Id="1" ObjectPathId="0" />
-            <ObjectPath Id="3" ObjectPathId="2" />
-            <ObjectPath Id="5" ObjectPathId="4" />
-            <ObjectPath Id="7" ObjectPathId="6" />
-            <ObjectPath Id="9" ObjectPathId="8" />
-            <ObjectPath Id="11" ObjectPathId="10" />
-            <Method Name="SetFieldValue" Id="12" ObjectPathId="10">
-              <Parameters>
-                <Parameter Type="String">${pkey}</Parameter>
-                ${!pdel ? `<Parameter Type="String">${pvalue}</Parameter>` : `<Parameter Type="Null" />`}
-              </Parameters>
-            </Method>
-            <Method Name="Update" Id="13" ObjectPathId="8" />
-          </Actions>
-          <ObjectPaths>
-            <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
-            <Property Id="2" ParentId="0" Name="Web" />
-            <Property Id="4" ParentId="2" Name="Lists" />
-            <Method Id="6" ParentId="4" Name="GetById">
-              <Parameters>
-                <Parameter Type="String">${plistId}</Parameter>
-              </Parameters>
-            </Method>
-            <Property Id="8" ParentId="6" Name="RootFolder" />
-            <Property Id="10" ParentId="8" Name="Properties" />
-          </ObjectPaths>
-        </Request>`
-  }
+    /*** map modules ***/
+    var pnpsp = modules[0];
+    var pnplogging = modules[1];
+    var pnpqueryable = modules[2];
 
-  /* import pnp */
-  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
-
-  Promise.all<libTypes>([
-    (window as any).SystemJS.import((window as any).mod_sp),
-    (window as any).SystemJS.import((window as any).mod_logging),
-    (window as any).SystemJS.import((window as any).mod_queryable)
-  ]).then((modules) => {
-
-    var pnpsp = modules[0]
-    var pnplogging = modules[1]
-    var pnpqueryable = modules[2]
 
     function SPSoapHandler() {
-      return (instance) => {
+      return (instance: Queryable.Queryable) => {
         instance.using(
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
@@ -68,7 +22,7 @@ export function deleteListProperty(...args: any) {
           pnpsp.RequestDigest());
 
         // fix url for SOAP call
-        instance.on.pre.prepend((url, init, result) => {
+        instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
             url = url.replace(/_api.*_vti_bin/, '_vti_bin')
           }
@@ -87,51 +41,71 @@ export function deleteListProperty(...args: any) {
       }));
 
     /*** clear previous log listeners ***/
-    pnplogging.Logger.clearSubscribers()
+    pnplogging.Logger.clearSubscribers();
+
     /*** setup log listener ***/
-    const listener = pnplogging.FunctionListener((entry) => {
+    const listener = pnplogging.FunctionListener(entry => {
       entry.data.response.clone().json().then((error: any) => {
-        window.postMessage(JSON.stringify({
-          function: functionName,
+        return {
           success: false,
           result: null,
           errorMessage: error.error.message.value,
-          source: 'chrome-sp-editor',
-        }), '*')
-      })
-    })
-    pnplogging.Logger.subscribe(listener)
-    /* *** */
+          source: 'chrome-sp-editor'
+        }
+      });
+    });
+    pnplogging.Logger.subscribe(listener);
 
-    const postMessage = () => {
-      window.postMessage(JSON.stringify({
-        function: functionName,
-        success: true,
-        result: [],
-        errorMessage: '',
-        source: 'chrome-sp-editor',
-      }), '*')
+    const listPropertyPayload = (pkey: any, pvalue: any, plistId: any, pdel: boolean) => {
+      return `
+            <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
+            <Actions>
+              <ObjectPath Id="1" ObjectPathId="0" />
+              <ObjectPath Id="3" ObjectPathId="2" />
+              <ObjectPath Id="5" ObjectPathId="4" />
+              <ObjectPath Id="7" ObjectPathId="6" />
+              <ObjectPath Id="9" ObjectPathId="8" />
+              <ObjectPath Id="11" ObjectPathId="10" />
+              <Method Name="SetFieldValue" Id="12" ObjectPathId="10">
+                <Parameters>
+                  <Parameter Type="String">${pkey}</Parameter>
+                  ${!pdel ? `<Parameter Type="String">${pvalue}</Parameter>` : `<Parameter Type="Null" />`}
+                </Parameters>
+              </Method>
+              <Method Name="Update" Id="13" ObjectPathId="8" />
+            </Actions>
+            <ObjectPaths>
+              <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
+              <Property Id="2" ParentId="0" Name="Web" />
+              <Property Id="4" ParentId="2" Name="Lists" />
+              <Method Id="6" ParentId="4" Name="GetById">
+                <Parameters>
+                  <Parameter Type="String">${plistId}</Parameter>
+                </Parameters>
+              </Method>
+              <Property Id="8" ParentId="6" Name="RootFolder" />
+              <Property Id="10" ParentId="8" Name="Properties" />
+            </ObjectPaths>
+          </Request>`
     }
 
-    pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload(key, '', listId, true) })
+    return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload(values.key, '', values.listId, true) })
       .then(r => {
         if (r[0]?.ErrorInfo?.ErrorMessage) {
-          window.postMessage(JSON.stringify({
-            function: functionName,
+          return {
             success: false,
             result: null,
             errorMessage: r[0].ErrorInfo.ErrorMessage,
             source: 'chrome-sp-editor',
-          }), '*')
-          return
+          }
         }
-        sp.web.lists.getById(listId).expand('RootFolder/Properties')
+        return sp.web.lists.getById(values.listId).expand('RootFolder/Properties')
           .select('RootFolder/Properties/vti_x005f_indexedpropertykeys')().then((res: any) => {
             const vtiprop = res.RootFolder.Properties.vti_x005f_indexedpropertykeys
 
             const bytes = []
-            for (let i = 0; i < key.length; ++i) {
-              bytes.push(key.charCodeAt(i))
+            for (let i = 0; i < values.key.length; ++i) {
+              bytes.push(values.key.charCodeAt(i))
               bytes.push(0)
             }
 
@@ -141,24 +115,63 @@ export function deleteListProperty(...args: any) {
             if (vtiprop && vtiprop.indexOf(b64encoded) > -1) {
               newIndexValue = vtiprop.replace(b64encoded, '')
 
-              pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload('vti_indexedpropertykeys', newIndexValue, listId, false) })
+              return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: listPropertyPayload('vti_indexedpropertykeys', newIndexValue, values.listId, false) })
                 .then(r2 => {
                   if (r2[0]?.ErrorInfo?.ErrorMessage) {
-                    window.postMessage(JSON.stringify({
-                      function: functionName,
+                    return {
                       success: false,
                       result: null,
                       errorMessage: r2[0].ErrorInfo.ErrorMessage,
                       source: 'chrome-sp-editor',
-                    }), '*')
-                    return
+                    }
                   }
-                  postMessage()
+                  return {
+                    success: true,
+                    result: [],
+                    errorMessage: '',
+                    source: 'chrome-sp-editor',
+                  }
                 })
             } else {
-              postMessage()
+              return {
+                success: true,
+                result: [],
+                errorMessage: '',
+                source: 'chrome-sp-editor',
+              }
             }
           })
       })
-  })
+
+
+  });
+
+  function moduleLoader(extPath: string) {
+
+    type libTypes = [typeof SP, typeof Logging, typeof Queryable];
+    /*** load systemjs ***/
+    return new Promise<libTypes>((resolve) => {
+      const s = document.createElement('script');
+      s.src = extPath + 'bundles/system.js';
+      (document.head || document.documentElement).appendChild(s);
+      s.onload = () =>
+        /*** load pnpjs modules ***/
+        Promise.all<libTypes>([
+          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js')])
+          .then((modules) => {
+              // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+              if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+                (window as any).moduleLoaderPromise.then((e: any) => {
+                  (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+                  resolve(modules);
+                });
+              } else {
+                resolve(modules);
+              }
+          });
+    });
+  }
+
 }

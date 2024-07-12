@@ -4,21 +4,23 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { PropertyValueMap, TemplateResult } from 'lit';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
+export declare const registerMgtPickerComponent: () => void;
 /**
- * Web component that allows a single entity pick from a generic endpoint from Graph. Uses mgt-get.
+ * Web component that allows a single entity pick from a generic endpoint from Graph. Is a thin wrapper over mgt-get.
+ * Does not load any state itself, only received state from mgt-get via events.
  *
  * @fires {CustomEvent<any>} selectionChanged - Fired when an option is clicked/selected
  * @export
  * @class MgtPicker
- * @extends {MgtTemplatedComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @cssprop --picker-background-color - {Color} Picker component background color
  * @cssprop --picker-list-max-height - {String} max height for options list. Default value is 380px.
  */
-export declare class MgtPicker extends MgtTemplatedComponent {
+export declare class MgtPicker extends MgtTemplatedTaskComponent {
     protected get strings(): {
         comboboxPlaceholder: string;
     };
@@ -97,7 +99,6 @@ export declare class MgtPicker extends MgtTemplatedComponent {
      * @memberof MgtPicker
      */
     selectedValue: string;
-    private isRefreshing;
     private response;
     constructor();
     /**
@@ -116,12 +117,13 @@ export declare class MgtPicker extends MgtTemplatedComponent {
      * @memberof MgtPicker
      */
     protected clearState(): void;
+    renderLoading: () => TemplateResult;
     /**
      * Invoked on each update to perform rendering the picker. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    render(): TemplateResult;
+    renderContent: () => TemplateResult;
     /**
      * Render picker.
      *
@@ -130,6 +132,7 @@ export declare class MgtPicker extends MgtTemplatedComponent {
      * @memberof MgtPicker
      */
     protected renderPicker(): TemplateResult;
+    private getNestedPropertyValue;
     /**
      * Renders mgt-get which does a GET request to the resource.
      *
@@ -139,13 +142,10 @@ export declare class MgtPicker extends MgtTemplatedComponent {
      */
     protected renderGet(): TemplateResult;
     /**
-     * load state into the component.
-     *
-     * @protected
-     * @returns
-     * @memberof MgtPicker
+     * When the component is first updated wire up the event listeners.
+     * @param changedProperties a map of changed properties with old values
      */
-    protected loadState(): Promise<void>;
+    protected firstUpdated(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void;
     private handleDataChange;
     private handleClick;
     /**

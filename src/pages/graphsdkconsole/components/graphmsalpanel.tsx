@@ -50,14 +50,14 @@ const GraphMSALPanel = () => {
   const testTags2: ITag[] = someJson.delegatedScopesList.map(item => ({ key: item.value, name: item.value }));
 
   const listContainsTagList = (tag: ITag, tagList?: ITag[]) => {
-    var tags = tagList.concat(selectedTags)
+    var tags = (tagList || []).concat(selectedTags)
     if (!tags || !tags.length || tags.length === 0) {
       return false;
     }
     return tags.concat(selectedTags).some(compareTag => compareTag.key.toString().toLowerCase() === tag.key.toString().toLowerCase());
   };
 
-  const filterSuggestedTags = (filterText: string, tagList: ITag[]): ITag[] => {
+  const filterSuggestedTags = (filterText: string, tagList?: ITag[]): ITag[] => {
     return filterText
       ? testTags2.filter(
         tag => tag.name.toLowerCase().indexOf(filterText.toLowerCase()) === 0 && !listContainsTagList(tag, tagList),
@@ -71,7 +71,7 @@ const GraphMSALPanel = () => {
       <PrimaryButton
         onClick={async () => {
 
-          if (picker.current.items.length > 0) {
+          if (picker.current && picker.current.items && picker.current.items.length > 0) {
             const response = await instance.acquireTokenPopup({
               account: accounts[0],
               prompt: 'consent',
@@ -124,6 +124,7 @@ const GraphMSALPanel = () => {
         removeButtonAriaLabel="Remove"
         selectionAriaLabel="Selected scopes"
         onResolveSuggestions={filterSuggestedTags}
+        //onResolveSuggestions={filterSuggestedTags}
         getTextFromItem={getTextFromItem}
         pickerCalloutProps={{ doNotLayer: true, hidden: true }}
         inputProps={{

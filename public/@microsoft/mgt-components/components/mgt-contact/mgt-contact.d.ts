@@ -19,6 +19,7 @@ interface IContactPart {
     onClick?: (e: Event) => void;
     showCompact: boolean;
 }
+export declare const registerMgtContactComponent: () => void;
 /**
  * The contact details subsection of the person card
  *
@@ -39,7 +40,7 @@ export declare class MgtContact extends BasePersonCardSection {
         businessPhoneTitle: string;
         cellPhoneTitle: string;
         departmentTitle: string;
-        titleTitle: string;
+        personTitle: string;
         officeLocationTitle: string;
         copyToClipboardButton: string;
     };

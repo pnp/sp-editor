@@ -5,13 +5,8 @@
  * -------------------------------------------------------------------------------------------
  */
 import { CacheStore } from './CacheStore';
-/**
- * Localstorage key for storing names of cache databases
- *
- * @type {string}
- *
- */
-export declare const dbListKey = "mgt-db-list";
+import { CacheSchema } from './CacheSchema';
+import { CacheItem } from './CacheItem';
 /**
  * Holds the cache options for cache store
  *
@@ -159,49 +154,5 @@ export declare class CacheService {
      * @memberof CacheService
      */
     private static init;
-}
-/**
- * Represents organization for a cache
- *
- * @export
- * @interface CacheSchema
- */
-export interface CacheSchema {
-    /**
-     * version number of cache, useful for upgrading
-     *
-     * @type {number}
-     * @memberof CacheSchema
-     */
-    version: number;
-    /**
-     * name of the cache
-     *
-     * @type {string}
-     * @memberof CacheSchema
-     */
-    name: string;
-    /**
-     * list of stores in the cache
-     *
-     * @type {{ [name: string]: CacheSchemaStore }}
-     * @memberof CacheSchema
-     */
-    stores: Record<string, string>;
-}
-/**
- * item that is stored in cache
- *
- * @export
- * @interface CacheItem
- */
-export interface CacheItem {
-    /**
-     * date and time that item was retrieved from api/stored in cache
-     *
-     * @type {number}
-     * @memberof CacheItem
-     */
-    timeCached?: number;
 }
 //# sourceMappingURL=CacheService.d.ts.map

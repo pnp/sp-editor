@@ -7,12 +7,25 @@
 import { PropertyValueMap, PropertyValues, TemplateResult } from 'lit';
 import { MgtBaseComponent } from './baseComponent';
 import { TemplateContext } from '../utils/TemplateContext';
+/**
+ * Lookup for rendered component templates and contexts by slot name.
+ */
+export type RenderedTemplates = Record<string, {
+    /**
+     * Reference to the data context used to render the slot.
+     */
+    context: Record<string, unknown>;
+    /**
+     * Reference to the rendered DOM element corresponding to the slot.
+     */
+    slot: HTMLElement;
+}>;
 export interface TemplateRenderedData {
     templateType: string;
     context: Record<string, unknown>;
     element: HTMLElement;
 }
-type OrderedHtmlTemplate = HTMLTemplateElement & {
+export type OrderedHtmlTemplate = HTMLTemplateElement & {
     templateOrder: number;
 };
 /**
@@ -22,6 +35,7 @@ type OrderedHtmlTemplate = HTMLTemplateElement & {
  * @abstract
  * @class MgtTemplatedComponent
  * @extends {MgtBaseComponent}
+ * @deprecated Use MgtTemplatedTaskComponent instead
  *
  * @fires {CustomEvent<MgtElement.TemplateRenderedData>} templateRendered - fires when a template is rendered
  */
@@ -98,5 +112,4 @@ export declare abstract class MgtTemplatedComponent extends MgtBaseComponent {
     protected renderError(): TemplateResult;
     private removeUnusedSlottedElements;
 }
-export {};
 //# sourceMappingURL=templatedComponent.d.ts.map

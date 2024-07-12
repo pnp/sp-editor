@@ -42,7 +42,7 @@ export const runsearch = (payload: any, extPath: string) => {
       entry.data.response
         .clone()
         .json()
-        .then((error) => {
+        .then((error: any) => {
           return {
             success: false,
             result: null,
@@ -71,7 +71,7 @@ export const runsearch = (payload: any, extPath: string) => {
         var errorMessage = error.message;
         if (error !== null && error !== void 0 && error.isHttpRequestError) {
           // we can read the json from the response
-          return error.response.json().then((json) => {
+          return error.response.json().then((json: any) => {
             // if we have a value property we can show it
             errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
             return {
