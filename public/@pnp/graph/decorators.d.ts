@@ -1,4 +1,4 @@
-import { IGraphQueryable } from "./graphqueryable.js";
+import { IGraphCollection, IGraphQueryable } from "./graphqueryable.js";
 /**
  * Decorator used to specify the default path for Queryable objects
  *
@@ -100,5 +100,43 @@ export interface IGetById<R = any, T = string> {
      * @param props properties used to create the new thread
      */
     getById(id: T): R;
+}
+/**
+ * Adds the getByName method to a collection
+ */
+export declare function getByName<R>(factory: (...args: any[]) => R): <T extends new (...args: any[]) => {}>(target: T) => {
+    new (...args: any[]): {
+        getByName(this: IGraphQueryable, name: string): R;
+    };
+} & T;
+export interface IGetByName<R = any, T = string> {
+    /**
+     * Adds a new item to this collection
+     *
+     * @param props properties used to create the new thread
+     */
+    getByName(name: T): R;
+}
+export declare function hasDelta(): <T extends new (...args: any[]) => {}>(target: T) => {
+    new (...args: any[]): {
+        delta(this: IGraphQueryable, properties?: IDeltaProps): IGraphCollection<IDeltaItems<T> | T[]>;
+    };
+} & T;
+export interface IHasDelta<T = any, R = any> {
+    /**
+     * Gets the delta of the queryable
+     *
+     */
+    delta(properties?: T): IGraphCollection<R[] | IDeltaItems<R>>;
+}
+export interface IDeltaItems<R = any> {
+    next: IGraphCollection<IDeltaItems>;
+    delta: IGraphCollection<IDeltaItems>;
+    values: R[];
+}
+export interface IDeltaProps {
+    deltatoken?: string;
+    token?: string;
+    maxPageSize?: number;
 }
 //# sourceMappingURL=decorators.d.ts.map

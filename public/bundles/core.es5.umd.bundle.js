@@ -7,137 +7,79 @@
 		exports["pnp.core"] = factory();
 	else
 		root["pnp.core"] = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "PnPClientStorageWrapper", function() { return /* reexport */ storage_PnPClientStorageWrapper; });
-__webpack_require__.d(__webpack_exports__, "PnPClientStorage", function() { return /* reexport */ PnPClientStorage; });
-__webpack_require__.d(__webpack_exports__, "dateAdd", function() { return /* reexport */ dateAdd; });
-__webpack_require__.d(__webpack_exports__, "combine", function() { return /* reexport */ combine; });
-__webpack_require__.d(__webpack_exports__, "getRandomString", function() { return /* reexport */ getRandomString; });
-__webpack_require__.d(__webpack_exports__, "getGUID", function() { return /* reexport */ getGUID; });
-__webpack_require__.d(__webpack_exports__, "isFunc", function() { return /* reexport */ isFunc; });
-__webpack_require__.d(__webpack_exports__, "isArray", function() { return /* reexport */ isArray; });
-__webpack_require__.d(__webpack_exports__, "isUrlAbsolute", function() { return /* reexport */ isUrlAbsolute; });
-__webpack_require__.d(__webpack_exports__, "stringIsNullOrEmpty", function() { return /* reexport */ stringIsNullOrEmpty; });
-__webpack_require__.d(__webpack_exports__, "objectDefinedNotNull", function() { return /* reexport */ objectDefinedNotNull; });
-__webpack_require__.d(__webpack_exports__, "jsS", function() { return /* reexport */ jsS; });
-__webpack_require__.d(__webpack_exports__, "hOP", function() { return /* reexport */ hOP; });
-__webpack_require__.d(__webpack_exports__, "parseToAtob", function() { return /* reexport */ parseToAtob; });
-__webpack_require__.d(__webpack_exports__, "getHashCode", function() { return /* reexport */ getHashCode; });
-__webpack_require__.d(__webpack_exports__, "delay", function() { return /* reexport */ delay; });
-__webpack_require__.d(__webpack_exports__, "broadcast", function() { return /* reexport */ broadcast; });
-__webpack_require__.d(__webpack_exports__, "asyncBroadcast", function() { return /* reexport */ asyncBroadcast; });
-__webpack_require__.d(__webpack_exports__, "reduce", function() { return /* reexport */ reduce; });
-__webpack_require__.d(__webpack_exports__, "asyncReduce", function() { return /* reexport */ asyncReduce; });
-__webpack_require__.d(__webpack_exports__, "request", function() { return /* reexport */ request; });
-__webpack_require__.d(__webpack_exports__, "lifecycle", function() { return /* reexport */ lifecycle; });
-__webpack_require__.d(__webpack_exports__, "noInherit", function() { return /* reexport */ noInherit; });
-__webpack_require__.d(__webpack_exports__, "once", function() { return /* reexport */ once; });
-__webpack_require__.d(__webpack_exports__, "Timeline", function() { return /* reexport */ timeline_Timeline; });
-__webpack_require__.d(__webpack_exports__, "cloneObserverCollection", function() { return /* reexport */ cloneObserverCollection; });
-__webpack_require__.d(__webpack_exports__, "extendable", function() { return /* reexport */ extendable; });
-__webpack_require__.d(__webpack_exports__, "extend", function() { return /* reexport */ extend; });
-__webpack_require__.d(__webpack_exports__, "extendFactory", function() { return /* reexport */ extendFactory; });
-__webpack_require__.d(__webpack_exports__, "disableExtensions", function() { return /* reexport */ disableExtensions; });
-__webpack_require__.d(__webpack_exports__, "enableExtensions", function() { return /* reexport */ enableExtensions; });
-__webpack_require__.d(__webpack_exports__, "AssignFrom", function() { return /* reexport */ AssignFrom; });
-__webpack_require__.d(__webpack_exports__, "CopyFrom", function() { return /* reexport */ CopyFrom; });
+__webpack_require__.d(__webpack_exports__, {
+  AssignFrom: () => (/* reexport */ AssignFrom),
+  CopyFrom: () => (/* reexport */ CopyFrom),
+  PnPClientStorage: () => (/* reexport */ PnPClientStorage),
+  PnPClientStorageWrapper: () => (/* reexport */ PnPClientStorageWrapper),
+  Timeline: () => (/* reexport */ Timeline),
+  asyncBroadcast: () => (/* reexport */ asyncBroadcast),
+  asyncReduce: () => (/* reexport */ asyncReduce),
+  broadcast: () => (/* reexport */ broadcast),
+  cloneObserverCollection: () => (/* reexport */ cloneObserverCollection),
+  combine: () => (/* reexport */ combine),
+  dateAdd: () => (/* reexport */ dateAdd),
+  delay: () => (/* reexport */ delay),
+  getGUID: () => (/* reexport */ getGUID),
+  getHashCode: () => (/* reexport */ getHashCode),
+  getRandomString: () => (/* reexport */ getRandomString),
+  hOP: () => (/* reexport */ hOP),
+  isArray: () => (/* reexport */ isArray),
+  isFunc: () => (/* reexport */ isFunc),
+  isUrlAbsolute: () => (/* reexport */ isUrlAbsolute),
+  jsS: () => (/* reexport */ jsS),
+  lifecycle: () => (/* reexport */ lifecycle),
+  noInherit: () => (/* reexport */ noInherit),
+  objectDefinedNotNull: () => (/* reexport */ objectDefinedNotNull),
+  once: () => (/* reexport */ once),
+  parseToAtob: () => (/* reexport */ parseToAtob),
+  reduce: () => (/* reexport */ reduce),
+  request: () => (/* reexport */ request),
+  stringIsNullOrEmpty: () => (/* reexport */ stringIsNullOrEmpty)
+});
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -325,7 +267,7 @@ function delay(ms) {
     });
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -338,7 +280,7 @@ function getStorageShim() {
  * A wrapper class to provide a consistent interface to browser based storage
  *
  */
-class storage_PnPClientStorageWrapper {
+class PnPClientStorageWrapper {
     /**
      * Creates a new instance of the PnPClientStorageWrapper class
      *
@@ -496,7 +438,7 @@ class PnPClientStorage {
      */
     get local() {
         if (this._local === null) {
-            this._local = new storage_PnPClientStorageWrapper(typeof localStorage === "undefined" ? getStorageShim() : localStorage);
+            this._local = new PnPClientStorageWrapper(typeof localStorage === "undefined" ? getStorageShim() : localStorage);
         }
         return this._local;
     }
@@ -505,13 +447,13 @@ class PnPClientStorage {
      */
     get session() {
         if (this._session === null) {
-            this._session = new storage_PnPClientStorageWrapper(typeof sessionStorage === "undefined" ? getStorageShim() : sessionStorage);
+            this._session = new PnPClientStorageWrapper(typeof sessionStorage === "undefined" ? getStorageShim() : sessionStorage);
         }
         return this._session;
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -599,23 +541,13 @@ function lifecycle() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
 
 
 /**
  * Field name to hold any flags on observer functions used to modify their behavior
  */
 const flags = Symbol.for("ObserverLifecycleFlags");
-/**
- * Bitwise flags to indicate modified behavior
- */
-var ObserverLifecycleFlags;
-(function (ObserverLifecycleFlags) {
-    // eslint-disable-next-line no-bitwise
-    ObserverLifecycleFlags[ObserverLifecycleFlags["noInherit"] = 1] = "noInherit";
-    // eslint-disable-next-line no-bitwise
-    ObserverLifecycleFlags[ObserverLifecycleFlags["once"] = 2] = "once";
-})(ObserverLifecycleFlags || (ObserverLifecycleFlags = {}));
 /**
  * Creates a filter function for use in Array.filter that will filter OUT any observers with the specified [flag]
  *
@@ -638,19 +570,19 @@ const addFlag = (flag) => ((observer) => {
  * Observer lifecycle modifier that indicates this observer should NOT be inherited by any child
  * timelines.
  */
-const noInherit = addFlag(1 /* noInherit */);
+const noInherit = addFlag(1 /* ObserverLifecycleFlags.noInherit */);
 /**
  * Observer lifecycle modifier that indicates this observer should only fire once per instance, it is then removed.
  *
  * Note: If you have a parent and child timeline "once" will affect both and the observer will fire once for a parent lifecycle
  * and once for a child lifecycle
  */
-const once = addFlag(2 /* once */);
+const once = addFlag(2 /* ObserverLifecycleFlags.once */);
 /**
  * Timeline represents a set of operations executed in order of definition,
  * with each moment's behavior controlled by the implementing function
  */
-class timeline_Timeline {
+class Timeline {
     /**
      * Creates a new instance of Timeline with the supplied moments and optionally any observers to include
      *
@@ -684,7 +616,7 @@ class timeline_Timeline {
             this._onProxy = new Proxy(this, {
                 get: (target, p) => Object.assign((handler) => {
                     target.cloneObserversOnChange();
-                    addObserver(target.observers, p, handler, "add");
+                    addObserver(target.observers, p, handler, 1 /* ObserverAddBehavior.Add */);
                     return target;
                 }, {
                     toArray: () => {
@@ -692,12 +624,12 @@ class timeline_Timeline {
                     },
                     replace: (handler) => {
                         target.cloneObserversOnChange();
-                        addObserver(target.observers, p, handler, "replace");
+                        addObserver(target.observers, p, handler, 3 /* ObserverAddBehavior.Replace */);
                         return target;
                     },
                     prepend: (handler) => {
                         target.cloneObserversOnChange();
-                        addObserver(target.observers, p, handler, "prepend");
+                        addObserver(target.observers, p, handler, 2 /* ObserverAddBehavior.Prepend */);
                         return target;
                     },
                     clear: () => {
@@ -764,7 +696,7 @@ class timeline_Timeline {
                     finally {
                         // here we need to remove any "once" observers
                         if (observers && observers.length > 0) {
-                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* ObserverLifecycleFlags.once */)));
                         }
                     }
                 },
@@ -793,9 +725,7 @@ class timeline_Timeline {
             }
             catch (e) {
                 // shouldn't happen, but possible dispose throws - which may be missed as the usercode await will have resolved.
-                const e2 = Object.assign(Error("Error in dispose."), {
-                    innerException: e,
-                });
+                const e2 = Object.assign(Error("Error in dispose."), { innerException: e });
                 this.error(e2);
             }
         }).catch(() => void (0));
@@ -833,13 +763,13 @@ function addObserver(target, moment, observer, addBehavior) {
     else {
         // if we have an existing property then we follow the specified behavior
         switch (addBehavior) {
-            case "add":
+            case 1 /* ObserverAddBehavior.Add */:
                 target[moment].push(observer);
                 break;
-            case "prepend":
+            case 2 /* ObserverAddBehavior.Prepend */:
                 target[moment].unshift(observer);
                 break;
-            case "replace":
+            case 3 /* ObserverAddBehavior.Replace */:
                 target[moment].length = 0;
                 target[moment].push(observer);
                 break;
@@ -849,160 +779,12 @@ function addObserver(target, moment, observer, addBehavior) {
 }
 function cloneObserverCollection(source) {
     return Reflect.ownKeys(source).reduce((clone, key) => {
-        // eslint-disable-next-line no-bitwise
-        clone[key] = [...source[key].filter(byFlag(1 /* noInherit */))];
+        clone[key] = [...source[key].filter(byFlag(1 /* ObserverLifecycleFlags.noInherit */))];
         return clone;
     }, {});
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/extendable.js
-
-let _enableExtensions = false;
-const ObjExtensionsSym = Symbol.for("PnPExt");
-const factoryExtensions = new Map();
-/**
- * Decorator factory wrapping any tagged class in the extension proxy, enabling the use of object extensions
- *
- * @description MUST be applied last (i.e. be the first decorator in the list top to bottom applied to a class)
- *
- * @returns Decorator implementation
- */
-function extendable() {
-    return (target) => {
-        return new Proxy(target, {
-            construct(clz, args, newTarget) {
-                let r = Reflect.construct(clz, args, newTarget);
-                // this block handles the factory function extensions by picking
-                // them off the factory and applying them to the created object
-                const proto = Reflect.getPrototypeOf(target);
-                if (Reflect.has(proto, ObjExtensionsSym)) {
-                    const extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
-                    if (extensions) {
-                        r = extend(r, extensions);
-                    }
-                }
-                const proxied = new Proxy(r, {
-                    apply: (target, _thisArg, argArray) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("apply", (...a) => Reflect.apply(...a), target, proxied, argArray);
-                    },
-                    get: (target, p, receiver) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("get", (...a) => Reflect.get(...a), target, p, receiver);
-                    },
-                    has: (target, p) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("has", (...a) => Reflect.has(...a), target, p);
-                    },
-                    set: (target, p, value, receiver) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("set", (...a) => Reflect.set(...a), target, p, value, receiver);
-                    },
-                });
-                return proxied;
-            },
-        });
-    };
-}
-/**
- * Applies the supplied extensions to a single instance
- *
- * @param target Object to which extensions are applied
- * @param extensions Extensions to apply
- */
-function extend(target, extensions) {
-    _enableExtensions = true;
-    if (!Reflect.has(target, ObjExtensionsSym)) {
-        Reflect.defineProperty(target, ObjExtensionsSym, {
-            writable: true,
-            value: [],
-        });
-    }
-    extendCol(Reflect.get(target, ObjExtensionsSym), extensions);
-    return target;
-}
-/**
- * Allows applying extensions to all instances created from the supplied factory
- *
- * @param factory The Invokable Factory method to extend
- * @param extensions Extensions to apply
- */
-function extendFactory(factory, extensions) {
-    _enableExtensions = true;
-    // factoryExtensions
-    const proto = Reflect.getPrototypeOf(factory);
-    if (proto) {
-        if (!Reflect.has(proto, ObjExtensionsSym)) {
-            Reflect.defineProperty(proto, ObjExtensionsSym, {
-                value: getGUID(),
-            });
-        }
-        const key = proto[ObjExtensionsSym];
-        if (!factoryExtensions.has(key)) {
-            factoryExtensions.set(key, []);
-        }
-        extendCol(factoryExtensions.get(key), extensions);
-    }
-}
-function extendCol(a, e) {
-    if (isArray(e)) {
-        a.push(...e);
-    }
-    else {
-        a.push(e);
-    }
-}
-/**
- * Disables all extensions
- */
-const disableExtensions = () => {
-    _enableExtensions = false;
-};
-/**
- * Enables all extensions
- */
-const enableExtensions = () => {
-    _enableExtensions = true;
-};
-/**
- * Executes the extended functionality if present, or the default action
- *
- * @param op Current operation type
- * @param or The default non-extended functionality
- * @param target The current "this" to which the current call applies
- * @param rest Any arguments required for the called method
- * @returns Whatever the underlying extension or method returns
- */
-function extensionOrDefault(op, or, target, ...rest) {
-    if (_enableExtensions && Reflect.has(target, ObjExtensionsSym)) {
-        const extensions = [...Reflect.get(target, ObjExtensionsSym)];
-        let result = undefined;
-        for (let i = 0; i < extensions.length; i++) {
-            const extension = extensions[i];
-            if (isFunc(extension)) {
-                // this extension is a function which we call
-                result = extension(op, target, ...rest);
-            }
-            else if (op === "get" && Reflect.has(extension, rest[0])) {
-                // this extension is a named extension meaning we are adding/overriding a specific method/property
-                result = Reflect.get(extension, rest[0], target);
-            }
-            else if (Reflect.has(extension, op)) {
-                // this extension is a ProxyHandler that has a handler defined for {op} so we pass control and see if we get a result
-                result = Reflect.get(extension, op)(target, ...rest);
-            }
-            if (typeof result !== "undefined") {
-                // if a extension returned a result, we return that
-                // this means that this extension overrides any other extensions and no more are executed
-                // first extension in the list to return "wins"
-                return result;
-            }
-        }
-    }
-    return or(target, ...rest);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
 /**
  * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
  *
@@ -1016,7 +798,7 @@ function AssignFrom(source) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -1061,8 +843,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
 
 
 
@@ -1073,10 +854,10 @@ function copyObservers(source, behavior, filter) {
 
 
 
-// CONCATENATED MODULE: ./pnpjs-sources/index-core.ts
+;// CONCATENATED MODULE: ./pnpjs-sources/index-core.ts
 
 
-
-/***/ })
-/******/ ]);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
 });

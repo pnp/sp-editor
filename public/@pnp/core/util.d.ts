@@ -1,4 +1,4 @@
-export declare type DateAddInterval = "year" | "quarter" | "month" | "week" | "day" | "hour" | "minute" | "second";
+export type DateAddInterval = "year" | "quarter" | "month" | "week" | "day" | "hour" | "minute" | "second";
 /**
  * Adds a value to a date
  *

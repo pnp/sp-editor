@@ -16,7 +16,7 @@ export declare class _Folders extends _SPCollection<IFolderInfo[]> {
      * @param serverRelativeUrl The server relative url of the new folder to create
      * @param overwrite True to overwrite an existing folder, default false
      */
-    addUsingPath(serverRelativeUrl: string, overwrite?: boolean): Promise<IFolderAddResult>;
+    addUsingPath(serverRelativeUrl: string, overwrite?: boolean): Promise<IFolderInfo>;
 }
 export interface IFolders extends _Folders {
 }
@@ -52,7 +52,7 @@ export declare class _Folder extends _SPInstance<IFolderInfo> {
      * Updates folder's properties
      * @param props Folder's properties to update
      */
-    update(props: Partial<IFolderInfo>): Promise<IFolderUpdateResult>;
+    update(props: Partial<IFolderInfo>): Promise<IFolderInfo>;
     /**
      * Moves the folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
@@ -148,32 +148,6 @@ export declare function folderFromAbsolutePath(base: ISPQueryable, absoluteFolde
  * @returns IFile instance referencing the file described by the supplied parameters
  */
 export declare function folderFromPath(base: ISPQueryable, path: string): Promise<IFolder>;
-/**
- * Describes result of adding a folder
- */
-export interface IFolderAddResult {
-    /**
-     * A folder's instance
-     */
-    folder: IFolder;
-    /**
-     * Additional data from the server
-     */
-    data: any;
-}
-/**
- * Describes result of updating a folder
- */
-export interface IFolderUpdateResult {
-    /**
-     * A folder's instance
-     */
-    folder: IFolder;
-    /**
-     * Additional data from the server
-     */
-    data: any;
-}
 export interface IFolderInfo {
     readonly "odata.id": string;
     Exists: boolean;

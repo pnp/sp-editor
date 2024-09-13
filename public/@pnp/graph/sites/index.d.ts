@@ -1,5 +1,6 @@
 import { ISites } from "./types.js";
 import "./group.js";
+import "./user.js";
 export { ISites, Sites, ISite, Site, } from "./types.js";
 declare module "../fi" {
     interface GraphFI {

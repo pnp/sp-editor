@@ -79,43 +79,43 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
-      name: 'File Explorer',
+      name: 'File Explorer (working on it...)',
       url: '/FileExplorer',
       key: 'key9',
       disabled: true,
     },
     {
-      name: 'Page editor',
+      name: 'Page editor (working on it...)',
       url: '/pageeditor',
       key: 'key11',
       disabled: true,
     },
     {
-      name: 'File editor',
+      name: 'File editor (working on it...)',
       url: '/fileeditor',
       key: 'key12',
       disabled: true,
     },
     {
-      name: 'Modern properties',
+      name: 'Modern properties (working on it...)',
       url: '/modernproperties',
       key: 'key13',
       disabled: true,
     },
     {
-      name: 'Site designs',
+      name: 'Site designs (working on it...)',
       url: '/sitedesigns',
       key: 'key14',
       disabled: true,
     },
     {
-      name: 'Site scripts',
+      name: 'Site scripts (working on it...)',
       url: '/sitescripts',
       key: 'key15',
       disabled: true,
     },
     {
-      name: 'App catalog',
+      name: 'App catalog (working on it...)',
       url: '/appcatalog',
       key: 'key16',
       disabled: true,
@@ -148,7 +148,7 @@ export const FabricNav = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent class='no-scroll' no-bounce>
+      <IonContent no-bounce>
       <ScrollablePane>
         <Nav
          selectedKey={selectedKey}

@@ -178,6 +178,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
     static get styles(): import("lit").CSSResult[];
     protected get strings(): {
         failUploadFile: string;
+        successUploadFile: string;
         cancelUploadFile: string;
         buttonUploadFile: string;
         maximumFilesTitle: string;
@@ -233,6 +234,7 @@ export declare class MgtFileUpload extends MgtBaseComponent {
     private _maximumFileSize;
     private _excludedFileType;
     constructor();
+    focusOnUpload(): void;
     /**
      * Render the file upload component
      *

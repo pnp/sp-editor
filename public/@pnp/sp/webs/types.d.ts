@@ -11,7 +11,7 @@ export declare class _Webs extends _SPCollection<IWebInfo[]> {
      * @param language The locale id that specifies the new web's language (default = 1033 [English, US])
      * @param inheritPermissions When true, permissions will be inherited from the new web's parent (default = true)
      */
-    add(Title: string, Url: string, Description?: string, WebTemplate?: string, Language?: number, UseSamePermissionsAsParentSite?: boolean): Promise<IWebAddResult>;
+    add(Title: string, Url: string, Description?: string, WebTemplate?: string, Language?: number, UseSamePermissionsAsParentSite?: boolean): Promise<IWebInfo>;
 }
 export interface IWebs extends _Webs {
 }
@@ -116,22 +116,6 @@ export declare class _Web extends _SPInstance<IWebInfo> {
 export interface IWeb extends _Web, IDeleteable {
 }
 export declare const Web: import("../spqueryable.js").ISPInvokableFactory<IWeb>;
-/**
- * Result from adding a web
- *
- */
-export interface IWebAddResult {
-    data: IWebInfo;
-    web: IWeb;
-}
-/**
- * Result from updating a web
- *
- */
-export interface IWebUpdateResult {
-    data: any;
-    web: IWeb;
-}
 export interface IWebInfosData {
     Configuration: number;
     Created: string;

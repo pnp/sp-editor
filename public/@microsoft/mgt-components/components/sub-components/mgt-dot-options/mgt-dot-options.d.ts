@@ -12,6 +12,11 @@ export declare const registerMgtDotOptionsComponent: () => void;
  * @export MgtDotOptions
  * @class MgtDotOptions
  * @extends {MgtBaseComponent}
+ *
+ * @cssprop --dot-options-menu-background-color - {Color} The color of the background of the menu.
+ * @cssprop --dot-options-menu-shadow-color - {Color} The color of the shadow of the menu.
+ * @cssprop --dot-options-menu-item-color - {Color} The color of the menu items.
+ * @cssprop --dot-options-menu-item-hover-background-color - {Color} The color of the menu items when hovered.
  */
 export declare class MgtDotOptions extends MgtBaseTaskComponent {
     /**

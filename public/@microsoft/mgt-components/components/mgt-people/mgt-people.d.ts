@@ -128,6 +128,8 @@ export declare class MgtPeople extends MgtTemplatedTaskComponent {
      * trigger the element to update.
      */
     protected renderContent: () => TemplateResult;
+    protected updated(changedProperties: Map<string | number | symbol, unknown>): void;
+    private checkPeopleListAndFireEvent;
     /**
      * Render the loading state.
      *

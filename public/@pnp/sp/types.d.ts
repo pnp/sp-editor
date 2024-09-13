@@ -157,7 +157,7 @@ export interface IChangeQuery {
 /**
  * Specifies the type of a principal.
  */
-export declare const enum PrincipalType {
+export declare enum PrincipalType {
     /**
      * Enumeration whose value specifies no principal type.
      */
@@ -186,7 +186,7 @@ export declare const enum PrincipalType {
 /**
  * Specifies the source of a principal.
  */
-export declare const enum PrincipalSource {
+export declare enum PrincipalSource {
     /**
      * Enumeration whose value specifies no principal source.
      */

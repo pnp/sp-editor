@@ -1,9 +1,9 @@
 import { SearchRequest as ISearchRequestType, SearchResponse as ISearchResponseType } from "@microsoft/microsoft-graph-types";
-import { GraphInit, _GraphQueryableInstance } from "../graphqueryable.js";
+import { GraphInit, _GraphInstance } from "../graphqueryable.js";
 /**
  * Search
  */
-export declare class _Search extends _GraphQueryableInstance<ISearchRequestType[]> {
+export declare class _Search extends _GraphInstance<ISearchRequestType[]> {
     executeQuery(request: {
         requests: ISearchRequestType[];
     }): Promise<ISearchResponseType[]>;

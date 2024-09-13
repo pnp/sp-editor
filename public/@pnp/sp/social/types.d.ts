@@ -104,7 +104,7 @@ export interface ISocialActorInfo {
  * Social actor type
  *
  */
-export declare const enum SocialActorType {
+export declare enum SocialActorType {
     User = 0,
     Document = 1,
     Site = 2,
@@ -114,7 +114,7 @@ export declare const enum SocialActorType {
  * Social actor type
  *
  */
-export declare const enum SocialActorTypes {
+export declare enum SocialActorTypes {
     None = 0,
     User = 1,
     Document = 2,
@@ -137,7 +137,7 @@ export declare const enum SocialActorTypes {
  * Result from following
  *
  */
-export declare const enum SocialFollowResult {
+export declare enum SocialFollowResult {
     Ok = 0,
     AlreadyFollowing = 1,
     LimitReached = 2,
@@ -146,7 +146,7 @@ export declare const enum SocialFollowResult {
 /**
  * Specifies an exception or status code.
  */
-export declare const enum SocialStatusCode {
+export declare enum SocialStatusCode {
     /**
    * The operation completed successfully
    */

@@ -1,4 +1,4 @@
-import { _SPInstance, ISPQueryable } from "@pnp/sp";
+import { _SPInstance, ISPQueryable } from "../spqueryable.js";
 declare class _GroupSiteManager extends _SPInstance<Record<string, never>> {
     /**
      * Indicates if the current user / application can create Microsoft 365 groups
@@ -210,7 +210,7 @@ declare class _GroupSiteManager extends _SPInstance<Record<string, never>> {
 }
 export interface IGroupSiteManager extends _GroupSiteManager {
 }
-export declare const GroupSiteManager: import("@pnp/sp").ISPInvokableFactory<ISPQueryable<IGroupSiteManager>>;
+export declare const GroupSiteManager: import("../spqueryable.js").ISPInvokableFactory<ISPQueryable<IGroupSiteManager>>;
 export interface IEnsureTeamForGroupExResponse {
     teamsId: string;
     teamsUrl: string;

@@ -1,14 +1,14 @@
-import { SystemOptions, LoggerOptions, INetworkModule, ProtocolMode, AzureCloudOptions, ApplicationTelemetry } from "@azure/msal-common";
+import { SystemOptions, LoggerOptions, INetworkModule, ProtocolMode, OIDCOptions, AzureCloudOptions, ApplicationTelemetry, IPerformanceClient } from "@azure/msal-common";
 import { BrowserCacheLocation } from "../utils/BrowserConstants";
 import { INavigationClient } from "../navigation/INavigationClient";
 export declare const DEFAULT_POPUP_TIMEOUT_MS = 60000;
-export declare const DEFAULT_IFRAME_TIMEOUT_MS = 6000;
+export declare const DEFAULT_IFRAME_TIMEOUT_MS = 10000;
 export declare const DEFAULT_REDIRECT_TIMEOUT_MS = 30000;
 export declare const DEFAULT_NATIVE_BROKER_HANDSHAKE_TIMEOUT_MS = 2000;
 /**
  * Use this to configure the auth options in the Configuration object
  */
-export declare type BrowserAuthOptions = {
+export type BrowserAuthOptions = {
     /**
      * Client ID of your app registered with our Application registration portal : https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview in Microsoft Identity Platform
      */
@@ -50,6 +50,10 @@ export declare type BrowserAuthOptions = {
      */
     protocolMode?: ProtocolMode;
     /**
+     * Enum that configures options for the OIDC protocol mode.
+     */
+    OIDCOptions?: OIDCOptions;
+    /**
      * Enum that represents the Azure Cloud to use.
      */
     azureCloudOptions?: AzureCloudOptions;
@@ -57,11 +61,26 @@ export declare type BrowserAuthOptions = {
      * Flag of whether to use the local metadata cache
      */
     skipAuthorityMetadataCache?: boolean;
+    /**
+     * App supports nested app auth or not; defaults to
+     *
+     * @deprecated This flag is deprecated and will be removed in the next major version. createNestablePublicClientApplication should be used instead.
+     */
+    supportsNestedAppAuth?: boolean;
+    /**
+     * Callback that will be passed the url that MSAL will navigate to in redirect flows. Returning false in the callback will stop navigation.
+     */
+    onRedirectNavigate?: (url: string) => boolean | void;
+};
+/** @internal */
+export type InternalAuthOptions = Omit<Required<BrowserAuthOptions>, "onRedirectNavigate"> & {
+    OIDCOptions: Required<OIDCOptions>;
+    onRedirectNavigate?: (url: string) => boolean | void;
 };
 /**
  * Use this to configure the below cache configuration options:
  */
-export declare type CacheOptions = {
+export type CacheOptions = {
     /**
      * Used to specify the cacheLocation user wants to set. Valid values are "localStorage", "sessionStorage" and "memoryStorage".
      */
@@ -87,7 +106,7 @@ export declare type CacheOptions = {
      */
     claimsBasedCachingEnabled?: boolean;
 };
-export declare type BrowserSystemOptions = SystemOptions & {
+export type BrowserSystemOptions = SystemOptions & {
     /**
      * Used to initialize the Logger object (See ClientConfiguration.ts)
      */
@@ -114,6 +133,7 @@ export declare type BrowserSystemOptions = SystemOptions & {
     loadFrameTimeout?: number;
     /**
      * Maximum time the library should wait for a frame to load
+     * @deprecated This was previously needed for older browsers which are no longer supported by MSAL.js. This option will be removed in the next major version
      */
     navigateFrameWait?: number;
     /**
@@ -137,41 +157,26 @@ export declare type BrowserSystemOptions = SystemOptions & {
      */
     nativeBrokerHandshakeTimeout?: number;
     /**
-     * Options related to browser crypto APIs
-     */
-    cryptoOptions?: CryptoOptions;
-    /**
      * Sets the interval length in milliseconds for polling the location attribute in popup windows (default is 30ms)
      */
     pollIntervalMilliseconds?: number;
 };
-export declare type CryptoOptions = {
-    /**
-     * Enables the application to use the MSR Crypto interface, if available (and other interfaces are not)
-     * @type {?boolean}
-     */
-    useMsrCrypto?: boolean;
-    /**
-     * Entropy to seed browser crypto API (needed for MSR Crypto). Must be cryptographically strong random numbers (e.g. crypto.randomBytes(48) from Node)
-     * @type {?Uint8Array}
-     */
-    entropy?: Uint8Array;
-};
 /**
  * Telemetry Options
  */
-export declare type BrowserTelemetryOptions = {
+export type BrowserTelemetryOptions = {
     /**
      * Telemetry information sent on request
      * - appName: Unique string name of an application
      * - appVersion: Version of the application using MSAL
      */
     application?: ApplicationTelemetry;
+    client?: IPerformanceClient;
 };
 /**
  * This object allows you to configure important elements of MSAL functionality and is passed into the constructor of PublicClientApplication
  */
-export declare type Configuration = {
+export type Configuration = {
     /**
      * This is where you configure auth elements like clientID, authority used for authenticating against the Microsoft Identity Platform
      */
@@ -189,8 +194,9 @@ export declare type Configuration = {
      */
     telemetry?: BrowserTelemetryOptions;
 };
-export declare type BrowserConfiguration = {
-    auth: Required<BrowserAuthOptions>;
+/** @internal */
+export type BrowserConfiguration = {
+    auth: InternalAuthOptions;
     cache: Required<CacheOptions>;
     system: Required<BrowserSystemOptions>;
     telemetry: Required<BrowserTelemetryOptions>;
@@ -204,5 +210,5 @@ export declare type BrowserConfiguration = {
  *
  * @returns Configuration object
  */
-export declare function buildConfiguration({ auth: userInputAuth, cache: userInputCache, system: userInputSystem, telemetry: userInputTelemetry }: Configuration, isBrowserEnvironment: boolean): BrowserConfiguration;
+export declare function buildConfiguration({ auth: userInputAuth, cache: userInputCache, system: userInputSystem, telemetry: userInputTelemetry, }: Configuration, isBrowserEnvironment: boolean): BrowserConfiguration;
 //# sourceMappingURL=Configuration.d.ts.map

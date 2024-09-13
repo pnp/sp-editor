@@ -7,7 +7,7 @@ import "../comments/item.js";
 /**
  * Page promotion state
  */
-export declare const enum PromotedState {
+export declare enum PromotedState {
     /**
      * Regular client side page
      */
@@ -24,11 +24,11 @@ export declare const enum PromotedState {
 /**
  * Type describing the available page layout types for client side "modern" pages
  */
-export declare type ClientsidePageLayoutType = "Article" | "Home" | "SingleWebPartAppPage" | "RepostPage";
+export type ClientsidePageLayoutType = "Article" | "Home" | "SingleWebPartAppPage" | "RepostPage";
 /**
  * Column size factor. Max value is 12 (= one column), other options are 8,6,4 or 0
  */
-export declare type CanvasColumnFactor = 0 | 2 | 4 | 6 | 8 | 12;
+export type CanvasColumnFactor = 0 | 2 | 4 | 6 | 8 | 12;
 /**
  * Represents the data and methods associated with client side "modern" pages
  */
@@ -471,8 +471,8 @@ export interface IClientsideWebPartData<PropertiesType = any> extends ICanvasCon
 export interface IClientControlEmphasis {
     zoneEmphasis?: 0 | 1 | 2 | 3;
 }
-export declare type LayoutType = "FullWidthImage" | "NoImage" | "ColorBlock" | "CutInShape";
-export declare type TextAlignment = "Left" | "Center";
+export type LayoutType = "FullWidthImage" | "NoImage" | "ColorBlock" | "CutInShape";
+export type TextAlignment = "Left" | "Center";
 export interface IBannerImageProps {
     altText?: string;
     imageSourceType?: number;

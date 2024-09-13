@@ -2,7 +2,7 @@ export * from "./listeners.js";
 /**
  * A set of logging levels
  */
-export declare const enum LogLevel {
+export declare enum LogLevel {
     Verbose = 0,
     Info = 1,
     Warning = 2,

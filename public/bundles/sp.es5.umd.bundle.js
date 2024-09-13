@@ -7,271 +7,207 @@
 		exports["pnp.sp"] = factory();
 	else
 		root["pnp.sp"] = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "App", function() { return /* reexport */ App; });
-__webpack_require__.d(__webpack_exports__, "AppCatalog", function() { return /* reexport */ AppCatalog; });
-__webpack_require__.d(__webpack_exports__, "Attachment", function() { return /* reexport */ Attachment; });
-__webpack_require__.d(__webpack_exports__, "Attachments", function() { return /* reexport */ Attachments; });
-__webpack_require__.d(__webpack_exports__, "ClientsidePageFromFile", function() { return /* reexport */ ClientsidePageFromFile; });
-__webpack_require__.d(__webpack_exports__, "CreateClientsidePage", function() { return /* reexport */ CreateClientsidePage; });
-__webpack_require__.d(__webpack_exports__, "CanvasColumn", function() { return /* reexport */ types_CanvasColumn; });
-__webpack_require__.d(__webpack_exports__, "CanvasSection", function() { return /* reexport */ types_CanvasSection; });
-__webpack_require__.d(__webpack_exports__, "ClientsideText", function() { return /* reexport */ types_ClientsideText; });
-__webpack_require__.d(__webpack_exports__, "ClientsideWebpart", function() { return /* reexport */ types_ClientsideWebpart; });
-__webpack_require__.d(__webpack_exports__, "ColumnControl", function() { return /* reexport */ types_ColumnControl; });
-__webpack_require__.d(__webpack_exports__, "PromotedState", function() { return /* reexport */ PromotedState; });
-__webpack_require__.d(__webpack_exports__, "Comment", function() { return /* reexport */ Comment; });
-__webpack_require__.d(__webpack_exports__, "Comments", function() { return /* reexport */ Comments; });
-__webpack_require__.d(__webpack_exports__, "Replies", function() { return /* reexport */ Replies; });
-__webpack_require__.d(__webpack_exports__, "ContentType", function() { return /* reexport */ ContentType; });
-__webpack_require__.d(__webpack_exports__, "ContentTypes", function() { return /* reexport */ ContentTypes; });
-__webpack_require__.d(__webpack_exports__, "FieldLink", function() { return /* reexport */ FieldLink; });
-__webpack_require__.d(__webpack_exports__, "FieldLinks", function() { return /* reexport */ FieldLinks; });
-__webpack_require__.d(__webpack_exports__, "Favorites", function() { return /* reexport */ Favorites; });
-__webpack_require__.d(__webpack_exports__, "Feature", function() { return /* reexport */ Feature; });
-__webpack_require__.d(__webpack_exports__, "Features", function() { return /* reexport */ Features; });
-__webpack_require__.d(__webpack_exports__, "Fields", function() { return /* reexport */ Fields; });
-__webpack_require__.d(__webpack_exports__, "Field", function() { return /* reexport */ Field; });
-__webpack_require__.d(__webpack_exports__, "AddFieldOptions", function() { return /* reexport */ AddFieldOptions; });
-__webpack_require__.d(__webpack_exports__, "CalendarType", function() { return /* reexport */ CalendarType; });
-__webpack_require__.d(__webpack_exports__, "ChoiceFieldFormatType", function() { return /* reexport */ ChoiceFieldFormatType; });
-__webpack_require__.d(__webpack_exports__, "DateTimeFieldFormatType", function() { return /* reexport */ DateTimeFieldFormatType; });
-__webpack_require__.d(__webpack_exports__, "DateTimeFieldFriendlyFormatType", function() { return /* reexport */ DateTimeFieldFriendlyFormatType; });
-__webpack_require__.d(__webpack_exports__, "FieldTypes", function() { return /* reexport */ FieldTypes; });
-__webpack_require__.d(__webpack_exports__, "FieldUserSelectionMode", function() { return /* reexport */ FieldUserSelectionMode; });
-__webpack_require__.d(__webpack_exports__, "UrlFieldFormatType", function() { return /* reexport */ UrlFieldFormatType; });
-__webpack_require__.d(__webpack_exports__, "File", function() { return /* reexport */ File; });
-__webpack_require__.d(__webpack_exports__, "Files", function() { return /* reexport */ Files; });
-__webpack_require__.d(__webpack_exports__, "CheckinType", function() { return /* reexport */ CheckinType; });
-__webpack_require__.d(__webpack_exports__, "MoveOperations", function() { return /* reexport */ MoveOperations; });
-__webpack_require__.d(__webpack_exports__, "TemplateFileType", function() { return /* reexport */ TemplateFileType; });
-__webpack_require__.d(__webpack_exports__, "Version", function() { return /* reexport */ Version; });
-__webpack_require__.d(__webpack_exports__, "Versions", function() { return /* reexport */ Versions; });
-__webpack_require__.d(__webpack_exports__, "fileFromServerRelativePath", function() { return /* reexport */ fileFromServerRelativePath; });
-__webpack_require__.d(__webpack_exports__, "fileFromAbsolutePath", function() { return /* reexport */ fileFromAbsolutePath; });
-__webpack_require__.d(__webpack_exports__, "fileFromPath", function() { return /* reexport */ fileFromPath; });
-__webpack_require__.d(__webpack_exports__, "Folder", function() { return /* reexport */ Folder; });
-__webpack_require__.d(__webpack_exports__, "Folders", function() { return /* reexport */ Folders; });
-__webpack_require__.d(__webpack_exports__, "folderFromServerRelativePath", function() { return /* reexport */ folderFromServerRelativePath; });
-__webpack_require__.d(__webpack_exports__, "folderFromAbsolutePath", function() { return /* reexport */ folderFromAbsolutePath; });
-__webpack_require__.d(__webpack_exports__, "folderFromPath", function() { return /* reexport */ folderFromPath; });
-__webpack_require__.d(__webpack_exports__, "Form", function() { return /* reexport */ Form; });
-__webpack_require__.d(__webpack_exports__, "Forms", function() { return /* reexport */ Forms; });
-__webpack_require__.d(__webpack_exports__, "HubSite", function() { return /* reexport */ HubSite; });
-__webpack_require__.d(__webpack_exports__, "HubSites", function() { return /* reexport */ HubSites; });
-__webpack_require__.d(__webpack_exports__, "Item", function() { return /* reexport */ Item; });
-__webpack_require__.d(__webpack_exports__, "Items", function() { return /* reexport */ Items; });
-__webpack_require__.d(__webpack_exports__, "ItemVersion", function() { return /* reexport */ ItemVersion; });
-__webpack_require__.d(__webpack_exports__, "ItemVersions", function() { return /* reexport */ ItemVersions; });
-__webpack_require__.d(__webpack_exports__, "PagedItemCollection", function() { return /* reexport */ PagedItemCollection; });
-__webpack_require__.d(__webpack_exports__, "List", function() { return /* reexport */ List; });
-__webpack_require__.d(__webpack_exports__, "Lists", function() { return /* reexport */ Lists; });
-__webpack_require__.d(__webpack_exports__, "ControlMode", function() { return /* reexport */ ControlMode; });
-__webpack_require__.d(__webpack_exports__, "RenderListDataOptions", function() { return /* reexport */ RenderListDataOptions; });
-__webpack_require__.d(__webpack_exports__, "Navigation", function() { return /* reexport */ Navigation; });
-__webpack_require__.d(__webpack_exports__, "NavigationNode", function() { return /* reexport */ NavigationNode; });
-__webpack_require__.d(__webpack_exports__, "NavigationNodes", function() { return /* reexport */ NavigationNodes; });
-__webpack_require__.d(__webpack_exports__, "NavigationService", function() { return /* reexport */ NavigationService; });
-__webpack_require__.d(__webpack_exports__, "odataUrlFrom", function() { return /* reexport */ odataUrlFrom; });
-__webpack_require__.d(__webpack_exports__, "Profiles", function() { return /* reexport */ Profiles; });
-__webpack_require__.d(__webpack_exports__, "UrlZone", function() { return /* reexport */ UrlZone; });
-__webpack_require__.d(__webpack_exports__, "SitePageService", function() { return /* reexport */ SitePageService; });
-__webpack_require__.d(__webpack_exports__, "RegionalSettings", function() { return /* reexport */ RegionalSettings; });
-__webpack_require__.d(__webpack_exports__, "TimeZone", function() { return /* reexport */ TimeZone; });
-__webpack_require__.d(__webpack_exports__, "TimeZones", function() { return /* reexport */ TimeZones; });
-__webpack_require__.d(__webpack_exports__, "RelatedItemManager", function() { return /* reexport */ RelatedItemManager; });
-__webpack_require__.d(__webpack_exports__, "SortDirection", function() { return /* reexport */ SortDirection; });
-__webpack_require__.d(__webpack_exports__, "ReorderingRuleMatchType", function() { return /* reexport */ ReorderingRuleMatchType; });
-__webpack_require__.d(__webpack_exports__, "QueryPropertyValueType", function() { return /* reexport */ QueryPropertyValueType; });
-__webpack_require__.d(__webpack_exports__, "SearchBuiltInSourceId", function() { return /* reexport */ SearchBuiltInSourceId; });
-__webpack_require__.d(__webpack_exports__, "SearchQueryBuilder", function() { return /* reexport */ SearchQueryBuilder; });
-__webpack_require__.d(__webpack_exports__, "SearchResults", function() { return /* reexport */ query_SearchResults; });
-__webpack_require__.d(__webpack_exports__, "Search", function() { return /* reexport */ Search; });
-__webpack_require__.d(__webpack_exports__, "Suggest", function() { return /* reexport */ Suggest; });
-__webpack_require__.d(__webpack_exports__, "RoleAssignment", function() { return /* reexport */ RoleAssignment; });
-__webpack_require__.d(__webpack_exports__, "RoleAssignments", function() { return /* reexport */ RoleAssignments; });
-__webpack_require__.d(__webpack_exports__, "RoleDefinition", function() { return /* reexport */ RoleDefinition; });
-__webpack_require__.d(__webpack_exports__, "RoleDefinitions", function() { return /* reexport */ RoleDefinitions; });
-__webpack_require__.d(__webpack_exports__, "PermissionKind", function() { return /* reexport */ PermissionKind; });
-__webpack_require__.d(__webpack_exports__, "SPSharedObjectType", function() { return /* reexport */ SPSharedObjectType; });
-__webpack_require__.d(__webpack_exports__, "SharingDomainRestrictionMode", function() { return /* reexport */ SharingDomainRestrictionMode; });
-__webpack_require__.d(__webpack_exports__, "SharingLinkKind", function() { return /* reexport */ SharingLinkKind; });
-__webpack_require__.d(__webpack_exports__, "SharingOperationStatusCode", function() { return /* reexport */ SharingOperationStatusCode; });
-__webpack_require__.d(__webpack_exports__, "SharingRole", function() { return /* reexport */ SharingRole; });
-__webpack_require__.d(__webpack_exports__, "RoleType", function() { return /* reexport */ RoleType; });
-__webpack_require__.d(__webpack_exports__, "SiteDesigns", function() { return /* reexport */ SiteDesigns; });
-__webpack_require__.d(__webpack_exports__, "SiteGroup", function() { return /* reexport */ SiteGroup; });
-__webpack_require__.d(__webpack_exports__, "SiteGroups", function() { return /* reexport */ SiteGroups; });
-__webpack_require__.d(__webpack_exports__, "SiteScripts", function() { return /* reexport */ SiteScripts; });
-__webpack_require__.d(__webpack_exports__, "SiteUser", function() { return /* reexport */ SiteUser; });
-__webpack_require__.d(__webpack_exports__, "SiteUsers", function() { return /* reexport */ SiteUsers; });
-__webpack_require__.d(__webpack_exports__, "Site", function() { return /* reexport */ Site; });
-__webpack_require__.d(__webpack_exports__, "SiteLogoAspect", function() { return /* reexport */ SiteLogoAspect; });
-__webpack_require__.d(__webpack_exports__, "SiteLogoType", function() { return /* reexport */ SiteLogoType; });
-__webpack_require__.d(__webpack_exports__, "MySocial", function() { return /* reexport */ MySocial; });
-__webpack_require__.d(__webpack_exports__, "Social", function() { return /* reexport */ Social; });
-__webpack_require__.d(__webpack_exports__, "SocialActorType", function() { return /* reexport */ SocialActorType; });
-__webpack_require__.d(__webpack_exports__, "SocialActorTypes", function() { return /* reexport */ SocialActorTypes; });
-__webpack_require__.d(__webpack_exports__, "SocialFollowResult", function() { return /* reexport */ SocialFollowResult; });
-__webpack_require__.d(__webpack_exports__, "SocialStatusCode", function() { return /* reexport */ SocialStatusCode; });
-__webpack_require__.d(__webpack_exports__, "Utilities", function() { return /* reexport */ Utilities; });
-__webpack_require__.d(__webpack_exports__, "Subscription", function() { return /* reexport */ Subscription; });
-__webpack_require__.d(__webpack_exports__, "Subscriptions", function() { return /* reexport */ Subscriptions; });
-__webpack_require__.d(__webpack_exports__, "TermStore", function() { return /* reexport */ TermStore; });
-__webpack_require__.d(__webpack_exports__, "TermGroup", function() { return /* reexport */ TermGroup; });
-__webpack_require__.d(__webpack_exports__, "TermGroups", function() { return /* reexport */ TermGroups; });
-__webpack_require__.d(__webpack_exports__, "TermSets", function() { return /* reexport */ TermSets; });
-__webpack_require__.d(__webpack_exports__, "TermSet", function() { return /* reexport */ TermSet; });
-__webpack_require__.d(__webpack_exports__, "Relations", function() { return /* reexport */ Relations; });
-__webpack_require__.d(__webpack_exports__, "Term", function() { return /* reexport */ Term; });
-__webpack_require__.d(__webpack_exports__, "Children", function() { return /* reexport */ Children; });
-__webpack_require__.d(__webpack_exports__, "Terms", function() { return /* reexport */ Terms; });
-__webpack_require__.d(__webpack_exports__, "UserCustomAction", function() { return /* reexport */ UserCustomAction; });
-__webpack_require__.d(__webpack_exports__, "UserCustomActions", function() { return /* reexport */ UserCustomActions; });
-__webpack_require__.d(__webpack_exports__, "UserCustomActionRegistrationType", function() { return /* reexport */ UserCustomActionRegistrationType; });
-__webpack_require__.d(__webpack_exports__, "UserCustomActionScope", function() { return /* reexport */ UserCustomActionScope; });
-__webpack_require__.d(__webpack_exports__, "View", function() { return /* reexport */ View; });
-__webpack_require__.d(__webpack_exports__, "ViewFields", function() { return /* reexport */ ViewFields; });
-__webpack_require__.d(__webpack_exports__, "Views", function() { return /* reexport */ Views; });
-__webpack_require__.d(__webpack_exports__, "ViewScope", function() { return /* reexport */ ViewScope; });
-__webpack_require__.d(__webpack_exports__, "WebPartsPersonalizationScope", function() { return /* reexport */ WebPartsPersonalizationScope; });
-__webpack_require__.d(__webpack_exports__, "WebPartDefinitions", function() { return /* reexport */ WebPartDefinitions; });
-__webpack_require__.d(__webpack_exports__, "WebPartDefinition", function() { return /* reexport */ WebPartDefinition; });
-__webpack_require__.d(__webpack_exports__, "LimitedWebPartManager", function() { return /* reexport */ LimitedWebPartManager; });
-__webpack_require__.d(__webpack_exports__, "Web", function() { return /* reexport */ Web; });
-__webpack_require__.d(__webpack_exports__, "Webs", function() { return /* reexport */ Webs; });
-__webpack_require__.d(__webpack_exports__, "spInvokableFactory", function() { return /* reexport */ spInvokableFactory; });
-__webpack_require__.d(__webpack_exports__, "_SPQueryable", function() { return /* reexport */ spqueryable_SPQueryable; });
-__webpack_require__.d(__webpack_exports__, "SPQueryable", function() { return /* reexport */ SPQueryable; });
-__webpack_require__.d(__webpack_exports__, "_SPCollection", function() { return /* reexport */ _SPCollection; });
-__webpack_require__.d(__webpack_exports__, "SPCollection", function() { return /* reexport */ SPCollection; });
-__webpack_require__.d(__webpack_exports__, "_SPInstance", function() { return /* reexport */ _SPInstance; });
-__webpack_require__.d(__webpack_exports__, "SPInstance", function() { return /* reexport */ SPInstance; });
-__webpack_require__.d(__webpack_exports__, "deleteable", function() { return /* reexport */ deleteable; });
-__webpack_require__.d(__webpack_exports__, "deleteableWithETag", function() { return /* reexport */ deleteableWithETag; });
-__webpack_require__.d(__webpack_exports__, "defaultPath", function() { return /* reexport */ defaultPath; });
-__webpack_require__.d(__webpack_exports__, "spGet", function() { return /* reexport */ spGet; });
-__webpack_require__.d(__webpack_exports__, "spPost", function() { return /* reexport */ spPost; });
-__webpack_require__.d(__webpack_exports__, "spPostMerge", function() { return /* reexport */ spPostMerge; });
-__webpack_require__.d(__webpack_exports__, "spPostDelete", function() { return /* reexport */ spPostDelete; });
-__webpack_require__.d(__webpack_exports__, "spPostDeleteETag", function() { return /* reexport */ spPostDeleteETag; });
-__webpack_require__.d(__webpack_exports__, "spDelete", function() { return /* reexport */ spDelete; });
-__webpack_require__.d(__webpack_exports__, "spPatch", function() { return /* reexport */ spPatch; });
-__webpack_require__.d(__webpack_exports__, "SPFI", function() { return /* reexport */ fi_SPFI; });
-__webpack_require__.d(__webpack_exports__, "spfi", function() { return /* reexport */ spfi; });
-__webpack_require__.d(__webpack_exports__, "emptyGuid", function() { return /* reexport */ emptyGuid; });
-__webpack_require__.d(__webpack_exports__, "PrincipalType", function() { return /* reexport */ PrincipalType; });
-__webpack_require__.d(__webpack_exports__, "PrincipalSource", function() { return /* reexport */ PrincipalSource; });
-__webpack_require__.d(__webpack_exports__, "PageType", function() { return /* reexport */ PageType; });
-__webpack_require__.d(__webpack_exports__, "extractWebUrl", function() { return /* reexport */ extractWebUrl; });
-__webpack_require__.d(__webpack_exports__, "containsInvalidFileFolderChars", function() { return /* reexport */ containsInvalidFileFolderChars; });
-__webpack_require__.d(__webpack_exports__, "stripInvalidFileFolderChars", function() { return /* reexport */ stripInvalidFileFolderChars; });
-__webpack_require__.d(__webpack_exports__, "toResourcePath", function() { return /* reexport */ toResourcePath; });
-__webpack_require__.d(__webpack_exports__, "encodePath", function() { return /* reexport */ encodePath; });
-__webpack_require__.d(__webpack_exports__, "DefaultInit", function() { return /* reexport */ DefaultInit; });
-__webpack_require__.d(__webpack_exports__, "DefaultHeaders", function() { return /* reexport */ DefaultHeaders; });
-__webpack_require__.d(__webpack_exports__, "Telemetry", function() { return /* reexport */ Telemetry; });
-__webpack_require__.d(__webpack_exports__, "RequestDigest", function() { return /* reexport */ RequestDigest; });
-__webpack_require__.d(__webpack_exports__, "SPBrowser", function() { return /* reexport */ SPBrowser; });
-__webpack_require__.d(__webpack_exports__, "SPFxToken", function() { return /* reexport */ SPFxToken; });
-__webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexport */ SPFx; });
+__webpack_require__.d(__webpack_exports__, {
+  AddFieldOptions: () => (/* reexport */ AddFieldOptions),
+  App: () => (/* reexport */ App),
+  AppCatalog: () => (/* reexport */ AppCatalog),
+  Attachment: () => (/* reexport */ Attachment),
+  Attachments: () => (/* reexport */ Attachments),
+  CalendarType: () => (/* reexport */ CalendarType),
+  CanvasColumn: () => (/* reexport */ CanvasColumn),
+  CanvasSection: () => (/* reexport */ CanvasSection),
+  CheckinType: () => (/* reexport */ CheckinType),
+  ChoiceFieldFormatType: () => (/* reexport */ ChoiceFieldFormatType),
+  ClientsidePageFromFile: () => (/* reexport */ ClientsidePageFromFile),
+  ClientsideText: () => (/* reexport */ ClientsideText),
+  ClientsideWebpart: () => (/* reexport */ ClientsideWebpart),
+  ColumnControl: () => (/* reexport */ ColumnControl),
+  Comment: () => (/* reexport */ Comment),
+  Comments: () => (/* reexport */ Comments),
+  ContentType: () => (/* reexport */ ContentType),
+  ContentTypes: () => (/* reexport */ ContentTypes),
+  ControlMode: () => (/* reexport */ ControlMode),
+  CreateClientsidePage: () => (/* reexport */ CreateClientsidePage),
+  DateTimeFieldFormatType: () => (/* reexport */ DateTimeFieldFormatType),
+  DateTimeFieldFriendlyFormatType: () => (/* reexport */ DateTimeFieldFriendlyFormatType),
+  DefaultHeaders: () => (/* reexport */ DefaultHeaders),
+  DefaultInit: () => (/* reexport */ DefaultInit),
+  Feature: () => (/* reexport */ Feature),
+  Features: () => (/* reexport */ Features),
+  Field: () => (/* reexport */ Field),
+  FieldLink: () => (/* reexport */ FieldLink),
+  FieldLinks: () => (/* reexport */ FieldLinks),
+  FieldTypes: () => (/* reexport */ FieldTypes),
+  FieldUserSelectionMode: () => (/* reexport */ FieldUserSelectionMode),
+  Fields: () => (/* reexport */ Fields),
+  File: () => (/* reexport */ File),
+  Files: () => (/* reexport */ Files),
+  Folder: () => (/* reexport */ Folder),
+  Folders: () => (/* reexport */ Folders),
+  Form: () => (/* reexport */ Form),
+  Forms: () => (/* reexport */ Forms),
+  HubSite: () => (/* reexport */ HubSite),
+  HubSites: () => (/* reexport */ HubSites),
+  Item: () => (/* reexport */ Item),
+  ItemVersion: () => (/* reexport */ ItemVersion),
+  ItemVersions: () => (/* reexport */ ItemVersions),
+  Items: () => (/* reexport */ Items),
+  LimitedWebPartManager: () => (/* reexport */ LimitedWebPartManager),
+  List: () => (/* reexport */ List),
+  Lists: () => (/* reexport */ Lists),
+  MoveOperations: () => (/* reexport */ MoveOperations),
+  MySocial: () => (/* reexport */ MySocial),
+  Navigation: () => (/* reexport */ Navigation),
+  NavigationNode: () => (/* reexport */ NavigationNode),
+  NavigationNodes: () => (/* reexport */ NavigationNodes),
+  NavigationService: () => (/* reexport */ NavigationService),
+  PageType: () => (/* reexport */ PageType),
+  PermissionKind: () => (/* reexport */ PermissionKind),
+  PrincipalSource: () => (/* reexport */ PrincipalSource),
+  PrincipalType: () => (/* reexport */ PrincipalType),
+  Profiles: () => (/* reexport */ Profiles),
+  PromotedState: () => (/* reexport */ PromotedState),
+  QueryPropertyValueType: () => (/* reexport */ QueryPropertyValueType),
+  RegionalSettings: () => (/* reexport */ RegionalSettings),
+  RelatedItemManager: () => (/* reexport */ RelatedItemManager),
+  RenderListDataOptions: () => (/* reexport */ RenderListDataOptions),
+  ReorderingRuleMatchType: () => (/* reexport */ ReorderingRuleMatchType),
+  Replies: () => (/* reexport */ Replies),
+  RequestDigest: () => (/* reexport */ RequestDigest),
+  RoleAssignment: () => (/* reexport */ RoleAssignment),
+  RoleAssignments: () => (/* reexport */ RoleAssignments),
+  RoleDefinition: () => (/* reexport */ RoleDefinition),
+  RoleDefinitions: () => (/* reexport */ RoleDefinitions),
+  RoleType: () => (/* reexport */ RoleType),
+  SPBrowser: () => (/* reexport */ SPBrowser),
+  SPCollection: () => (/* reexport */ SPCollection),
+  SPFI: () => (/* reexport */ SPFI),
+  SPFx: () => (/* reexport */ SPFx),
+  SPFxToken: () => (/* reexport */ SPFxToken),
+  SPInstance: () => (/* reexport */ SPInstance),
+  SPQueryable: () => (/* reexport */ SPQueryable),
+  SPSharedObjectType: () => (/* reexport */ SPSharedObjectType),
+  Search: () => (/* reexport */ Search),
+  SearchBuiltInSourceId: () => (/* reexport */ SearchBuiltInSourceId),
+  SearchQueryBuilder: () => (/* reexport */ SearchQueryBuilder),
+  SearchResults: () => (/* reexport */ SearchResults),
+  SharingDomainRestrictionMode: () => (/* reexport */ SharingDomainRestrictionMode),
+  SharingLinkKind: () => (/* reexport */ SharingLinkKind),
+  SharingOperationStatusCode: () => (/* reexport */ SharingOperationStatusCode),
+  SharingRole: () => (/* reexport */ SharingRole),
+  Site: () => (/* reexport */ Site),
+  SiteDesigns: () => (/* reexport */ SiteDesigns),
+  SiteGroup: () => (/* reexport */ SiteGroup),
+  SiteGroups: () => (/* reexport */ SiteGroups),
+  SiteLogoAspect: () => (/* reexport */ SiteLogoAspect),
+  SiteLogoType: () => (/* reexport */ SiteLogoType),
+  SitePageService: () => (/* reexport */ SitePageService),
+  SiteScripts: () => (/* reexport */ SiteScripts),
+  SiteUser: () => (/* reexport */ SiteUser),
+  SiteUsers: () => (/* reexport */ SiteUsers),
+  Social: () => (/* reexport */ Social),
+  SocialActorType: () => (/* reexport */ SocialActorType),
+  SocialActorTypes: () => (/* reexport */ SocialActorTypes),
+  SocialFollowResult: () => (/* reexport */ SocialFollowResult),
+  SocialStatusCode: () => (/* reexport */ SocialStatusCode),
+  SortDirection: () => (/* reexport */ SortDirection),
+  Subscription: () => (/* reexport */ Subscription),
+  Subscriptions: () => (/* reexport */ Subscriptions),
+  Suggest: () => (/* reexport */ Suggest),
+  Telemetry: () => (/* reexport */ Telemetry),
+  TemplateFileType: () => (/* reexport */ TemplateFileType),
+  TimeZone: () => (/* reexport */ TimeZone),
+  TimeZones: () => (/* reexport */ TimeZones),
+  UrlFieldFormatType: () => (/* reexport */ UrlFieldFormatType),
+  UrlZone: () => (/* reexport */ UrlZone),
+  UserCustomAction: () => (/* reexport */ UserCustomAction),
+  UserCustomActionRegistrationType: () => (/* reexport */ UserCustomActionRegistrationType),
+  UserCustomActionScope: () => (/* reexport */ UserCustomActionScope),
+  UserCustomActions: () => (/* reexport */ UserCustomActions),
+  Utilities: () => (/* reexport */ Utilities),
+  Version: () => (/* reexport */ Version),
+  Versions: () => (/* reexport */ Versions),
+  View: () => (/* reexport */ View),
+  ViewFields: () => (/* reexport */ ViewFields),
+  ViewScope: () => (/* reexport */ ViewScope),
+  Views: () => (/* reexport */ Views),
+  Web: () => (/* reexport */ Web),
+  WebPartDefinition: () => (/* reexport */ WebPartDefinition),
+  WebPartDefinitions: () => (/* reexport */ WebPartDefinitions),
+  WebPartsPersonalizationScope: () => (/* reexport */ WebPartsPersonalizationScope),
+  Webs: () => (/* reexport */ Webs),
+  _SPCollection: () => (/* reexport */ _SPCollection),
+  _SPInstance: () => (/* reexport */ _SPInstance),
+  _SPQueryable: () => (/* reexport */ _SPQueryable),
+  containsInvalidFileFolderChars: () => (/* reexport */ containsInvalidFileFolderChars),
+  defaultPath: () => (/* reexport */ defaultPath),
+  deleteable: () => (/* reexport */ deleteable),
+  deleteableWithETag: () => (/* reexport */ deleteableWithETag),
+  emptyGuid: () => (/* reexport */ emptyGuid),
+  encodePath: () => (/* reexport */ encodePath),
+  extractWebUrl: () => (/* reexport */ extractWebUrl),
+  fileFromAbsolutePath: () => (/* reexport */ fileFromAbsolutePath),
+  fileFromPath: () => (/* reexport */ fileFromPath),
+  fileFromServerRelativePath: () => (/* reexport */ fileFromServerRelativePath),
+  folderFromAbsolutePath: () => (/* reexport */ folderFromAbsolutePath),
+  folderFromPath: () => (/* reexport */ folderFromPath),
+  folderFromServerRelativePath: () => (/* reexport */ folderFromServerRelativePath),
+  odataUrlFrom: () => (/* reexport */ odataUrlFrom),
+  spDelete: () => (/* reexport */ spDelete),
+  spGet: () => (/* reexport */ spGet),
+  spInvokableFactory: () => (/* reexport */ spInvokableFactory),
+  spPatch: () => (/* reexport */ spPatch),
+  spPost: () => (/* reexport */ spPost),
+  spPostDelete: () => (/* reexport */ spPostDelete),
+  spPostDeleteETag: () => (/* reexport */ spPostDeleteETag),
+  spPostMerge: () => (/* reexport */ spPostMerge),
+  spfi: () => (/* reexport */ spfi),
+  stripInvalidFileFolderChars: () => (/* reexport */ stripInvalidFileFolderChars),
+  toResourcePath: () => (/* reexport */ toResourcePath)
+});
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -281,7 +217,7 @@ __webpack_require__.d(__webpack_exports__, "SPFx", function() { return /* reexpo
  *
  * http://stackoverflow.com/questions/1197928/how-to-add-30-minutes-to-a-javascript-date-object
  */
-function dateAdd(date, interval, units) {
+function util_dateAdd(date, interval, units) {
     let ret = new Date(date.toString()); // don't change original date
     switch (interval.toLowerCase()) {
         case "year":
@@ -368,7 +304,7 @@ function isFunc(f) {
 /**
  * @returns whether the provided parameter is a JavaScript Array or not.
 */
-function isArray(array) {
+function util_isArray(array) {
     return Array.isArray(array);
 }
 /**
@@ -391,7 +327,7 @@ function stringIsNullOrEmpty(s) {
  * Determines if an object is both defined and not null
  * @param obj Object to test
  */
-function objectDefinedNotNull(obj) {
+function util_objectDefinedNotNull(obj) {
     return typeof obj !== "undefined" && obj !== null;
 }
 /**
@@ -435,7 +371,7 @@ function parseToAtob(str) {
  * From: https://stackoverflow.com/questions/6122571/simple-non-secure-hash-function-for-javascript
  */
 /* eslint-disable no-bitwise */
-function getHashCode(s) {
+function util_getHashCode(s) {
     let hash = 0;
     if (s.length === 0) {
         return hash;
@@ -459,7 +395,7 @@ function delay(ms) {
     });
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -472,7 +408,7 @@ function getStorageShim() {
  * A wrapper class to provide a consistent interface to browser based storage
  *
  */
-class storage_PnPClientStorageWrapper {
+class PnPClientStorageWrapper {
     /**
      * Creates a new instance of the PnPClientStorageWrapper class
      *
@@ -492,7 +428,7 @@ class storage_PnPClientStorageWrapper {
             return null;
         }
         const o = this.store.getItem(key);
-        if (!objectDefinedNotNull(o)) {
+        if (!util_objectDefinedNotNull(o)) {
             return null;
         }
         const persistable = JSON.parse(o);
@@ -581,7 +517,7 @@ class storage_PnPClientStorageWrapper {
      */
     createPersistable(o, expire) {
         if (expire === undefined) {
-            expire = dateAdd(new Date(), "minute", 5);
+            expire = util_dateAdd(new Date(), "minute", 5);
         }
         return jsS({ pnp: 1, expiration: expire, value: o });
     }
@@ -630,7 +566,7 @@ class PnPClientStorage {
      */
     get local() {
         if (this._local === null) {
-            this._local = new storage_PnPClientStorageWrapper(typeof localStorage === "undefined" ? getStorageShim() : localStorage);
+            this._local = new PnPClientStorageWrapper(typeof localStorage === "undefined" ? getStorageShim() : localStorage);
         }
         return this._local;
     }
@@ -639,13 +575,13 @@ class PnPClientStorage {
      */
     get session() {
         if (this._session === null) {
-            this._session = new storage_PnPClientStorageWrapper(typeof sessionStorage === "undefined" ? getStorageShim() : sessionStorage);
+            this._session = new PnPClientStorageWrapper(typeof sessionStorage === "undefined" ? getStorageShim() : sessionStorage);
         }
         return this._session;
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -665,7 +601,7 @@ function broadcast() {
  *
  * @returns The final set of arguments
  */
-function asyncBroadcast() {
+function moments_asyncBroadcast() {
     return async function (observers, ...args) {
         // get our initial values
         const r = args;
@@ -707,9 +643,9 @@ function asyncReduce() {
  *
  * @returns The result returned by the first registered observer
  */
-function moments_request() {
+function request() {
     return async function (observers, ...args) {
-        if (!isArray(observers) || observers.length < 1) {
+        if (!util_isArray(observers) || observers.length < 1) {
             return undefined;
         }
         const handler = observers[0];
@@ -733,23 +669,13 @@ function lifecycle() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
 
 
 /**
  * Field name to hold any flags on observer functions used to modify their behavior
  */
 const flags = Symbol.for("ObserverLifecycleFlags");
-/**
- * Bitwise flags to indicate modified behavior
- */
-var ObserverLifecycleFlags;
-(function (ObserverLifecycleFlags) {
-    // eslint-disable-next-line no-bitwise
-    ObserverLifecycleFlags[ObserverLifecycleFlags["noInherit"] = 1] = "noInherit";
-    // eslint-disable-next-line no-bitwise
-    ObserverLifecycleFlags[ObserverLifecycleFlags["once"] = 2] = "once";
-})(ObserverLifecycleFlags || (ObserverLifecycleFlags = {}));
 /**
  * Creates a filter function for use in Array.filter that will filter OUT any observers with the specified [flag]
  *
@@ -772,19 +698,19 @@ const addFlag = (flag) => ((observer) => {
  * Observer lifecycle modifier that indicates this observer should NOT be inherited by any child
  * timelines.
  */
-const noInherit = addFlag(1 /* noInherit */);
+const timeline_noInherit = addFlag(1 /* ObserverLifecycleFlags.noInherit */);
 /**
  * Observer lifecycle modifier that indicates this observer should only fire once per instance, it is then removed.
  *
  * Note: If you have a parent and child timeline "once" will affect both and the observer will fire once for a parent lifecycle
  * and once for a child lifecycle
  */
-const once = addFlag(2 /* once */);
+const once = addFlag(2 /* ObserverLifecycleFlags.once */);
 /**
  * Timeline represents a set of operations executed in order of definition,
  * with each moment's behavior controlled by the implementing function
  */
-class timeline_Timeline {
+class Timeline {
     /**
      * Creates a new instance of Timeline with the supplied moments and optionally any observers to include
      *
@@ -818,7 +744,7 @@ class timeline_Timeline {
             this._onProxy = new Proxy(this, {
                 get: (target, p) => Object.assign((handler) => {
                     target.cloneObserversOnChange();
-                    addObserver(target.observers, p, handler, "add");
+                    addObserver(target.observers, p, handler, 1 /* ObserverAddBehavior.Add */);
                     return target;
                 }, {
                     toArray: () => {
@@ -826,12 +752,12 @@ class timeline_Timeline {
                     },
                     replace: (handler) => {
                         target.cloneObserversOnChange();
-                        addObserver(target.observers, p, handler, "replace");
+                        addObserver(target.observers, p, handler, 3 /* ObserverAddBehavior.Replace */);
                         return target;
                     },
                     prepend: (handler) => {
                         target.cloneObserversOnChange();
-                        addObserver(target.observers, p, handler, "prepend");
+                        addObserver(target.observers, p, handler, 2 /* ObserverAddBehavior.Prepend */);
                         return target;
                     },
                     clear: () => {
@@ -863,7 +789,7 @@ class timeline_Timeline {
      * @param e Optional. Any error object to emit. If none is provided no emit occurs
      */
     error(e) {
-        if (objectDefinedNotNull(e)) {
+        if (util_objectDefinedNotNull(e)) {
             this.emit.error(e);
         }
     }
@@ -876,7 +802,7 @@ class timeline_Timeline {
                 get: (target, p) => (...args) => {
                     // handle the case where no observers registered for the target moment
                     const observers = Reflect.has(target.observers, p) ? Reflect.get(target.observers, p) : [];
-                    if ((!isArray(observers) || observers.length < 1) && p === "error") {
+                    if ((!util_isArray(observers) || observers.length < 1) && p === "error") {
                         // if we are emitting an error, and no error observers are defined, we throw
                         throw Error(`Unhandled Exception: ${args[0]}`);
                     }
@@ -898,7 +824,7 @@ class timeline_Timeline {
                     finally {
                         // here we need to remove any "once" observers
                         if (observers && observers.length > 0) {
-                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* once */)));
+                            Reflect.set(target.observers, p, observers.filter(byFlag(2 /* ObserverLifecycleFlags.once */)));
                         }
                     }
                 },
@@ -927,9 +853,7 @@ class timeline_Timeline {
             }
             catch (e) {
                 // shouldn't happen, but possible dispose throws - which may be missed as the usercode await will have resolved.
-                const e2 = Object.assign(Error("Error in dispose."), {
-                    innerException: e,
-                });
+                const e2 = Object.assign(Error("Error in dispose."), { innerException: e });
                 this.error(e2);
             }
         }).catch(() => void (0));
@@ -967,13 +891,13 @@ function addObserver(target, moment, observer, addBehavior) {
     else {
         // if we have an existing property then we follow the specified behavior
         switch (addBehavior) {
-            case "add":
+            case 1 /* ObserverAddBehavior.Add */:
                 target[moment].push(observer);
                 break;
-            case "prepend":
+            case 2 /* ObserverAddBehavior.Prepend */:
                 target[moment].unshift(observer);
                 break;
-            case "replace":
+            case 3 /* ObserverAddBehavior.Replace */:
                 target[moment].length = 0;
                 target[moment].push(observer);
                 break;
@@ -983,160 +907,12 @@ function addObserver(target, moment, observer, addBehavior) {
 }
 function cloneObserverCollection(source) {
     return Reflect.ownKeys(source).reduce((clone, key) => {
-        // eslint-disable-next-line no-bitwise
-        clone[key] = [...source[key].filter(byFlag(1 /* noInherit */))];
+        clone[key] = [...source[key].filter(byFlag(1 /* ObserverLifecycleFlags.noInherit */))];
         return clone;
     }, {});
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/extendable.js
-
-let _enableExtensions = false;
-const ObjExtensionsSym = Symbol.for("PnPExt");
-const factoryExtensions = new Map();
-/**
- * Decorator factory wrapping any tagged class in the extension proxy, enabling the use of object extensions
- *
- * @description MUST be applied last (i.e. be the first decorator in the list top to bottom applied to a class)
- *
- * @returns Decorator implementation
- */
-function extendable() {
-    return (target) => {
-        return new Proxy(target, {
-            construct(clz, args, newTarget) {
-                let r = Reflect.construct(clz, args, newTarget);
-                // this block handles the factory function extensions by picking
-                // them off the factory and applying them to the created object
-                const proto = Reflect.getPrototypeOf(target);
-                if (Reflect.has(proto, ObjExtensionsSym)) {
-                    const extensions = factoryExtensions.get(Reflect.get(proto, ObjExtensionsSym));
-                    if (extensions) {
-                        r = extend(r, extensions);
-                    }
-                }
-                const proxied = new Proxy(r, {
-                    apply: (target, _thisArg, argArray) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("apply", (...a) => Reflect.apply(...a), target, proxied, argArray);
-                    },
-                    get: (target, p, receiver) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("get", (...a) => Reflect.get(...a), target, p, receiver);
-                    },
-                    has: (target, p) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("has", (...a) => Reflect.has(...a), target, p);
-                    },
-                    set: (target, p, value, receiver) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-types
-                        return extensionOrDefault("set", (...a) => Reflect.set(...a), target, p, value, receiver);
-                    },
-                });
-                return proxied;
-            },
-        });
-    };
-}
-/**
- * Applies the supplied extensions to a single instance
- *
- * @param target Object to which extensions are applied
- * @param extensions Extensions to apply
- */
-function extend(target, extensions) {
-    _enableExtensions = true;
-    if (!Reflect.has(target, ObjExtensionsSym)) {
-        Reflect.defineProperty(target, ObjExtensionsSym, {
-            writable: true,
-            value: [],
-        });
-    }
-    extendCol(Reflect.get(target, ObjExtensionsSym), extensions);
-    return target;
-}
-/**
- * Allows applying extensions to all instances created from the supplied factory
- *
- * @param factory The Invokable Factory method to extend
- * @param extensions Extensions to apply
- */
-function extendFactory(factory, extensions) {
-    _enableExtensions = true;
-    // factoryExtensions
-    const proto = Reflect.getPrototypeOf(factory);
-    if (proto) {
-        if (!Reflect.has(proto, ObjExtensionsSym)) {
-            Reflect.defineProperty(proto, ObjExtensionsSym, {
-                value: getGUID(),
-            });
-        }
-        const key = proto[ObjExtensionsSym];
-        if (!factoryExtensions.has(key)) {
-            factoryExtensions.set(key, []);
-        }
-        extendCol(factoryExtensions.get(key), extensions);
-    }
-}
-function extendCol(a, e) {
-    if (isArray(e)) {
-        a.push(...e);
-    }
-    else {
-        a.push(e);
-    }
-}
-/**
- * Disables all extensions
- */
-const disableExtensions = () => {
-    _enableExtensions = false;
-};
-/**
- * Enables all extensions
- */
-const enableExtensions = () => {
-    _enableExtensions = true;
-};
-/**
- * Executes the extended functionality if present, or the default action
- *
- * @param op Current operation type
- * @param or The default non-extended functionality
- * @param target The current "this" to which the current call applies
- * @param rest Any arguments required for the called method
- * @returns Whatever the underlying extension or method returns
- */
-function extensionOrDefault(op, or, target, ...rest) {
-    if (_enableExtensions && Reflect.has(target, ObjExtensionsSym)) {
-        const extensions = [...Reflect.get(target, ObjExtensionsSym)];
-        let result = undefined;
-        for (let i = 0; i < extensions.length; i++) {
-            const extension = extensions[i];
-            if (isFunc(extension)) {
-                // this extension is a function which we call
-                result = extension(op, target, ...rest);
-            }
-            else if (op === "get" && Reflect.has(extension, rest[0])) {
-                // this extension is a named extension meaning we are adding/overriding a specific method/property
-                result = Reflect.get(extension, rest[0], target);
-            }
-            else if (Reflect.has(extension, op)) {
-                // this extension is a ProxyHandler that has a handler defined for {op} so we pass control and see if we get a result
-                result = Reflect.get(extension, op)(target, ...rest);
-            }
-            if (typeof result !== "undefined") {
-                // if a extension returned a result, we return that
-                // this means that this extension overrides any other extensions and no more are executed
-                // first extension in the list to return "wins"
-                return result;
-            }
-        }
-    }
-    return or(target, ...rest);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
 /**
  * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
  *
@@ -1150,7 +926,7 @@ function AssignFrom(source) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -1175,7 +951,7 @@ function CopyFrom(source, behavior = "append", filter) {
  * @returns The mutated this
  */
 function copyObservers(source, behavior, filter) {
-    if (!objectDefinedNotNull(source) || !objectDefinedNotNull(source.observers)) {
+    if (!util_objectDefinedNotNull(source) || !util_objectDefinedNotNull(source.observers)) {
         return this;
     }
     if (!isFunc(filter)) {
@@ -1195,8 +971,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
 
 
 
@@ -1207,79 +982,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/add-prop.js
-/**
- * Adds a property to a target instance
- *
- * @param target The object to whose prototype we will add a property
- * @param name Property name
- * @param factory Factory method used to produce the property value
- * @param path Any additional path required to produce the value
- */
-function addProp(target, name, factory, path) {
-    Reflect.defineProperty(target.prototype, name, {
-        configurable: true,
-        enumerable: true,
-        get: function () {
-            return factory(this, path || name);
-        },
-    });
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/operations.js
-function ensureInit(method, init = { headers: {} }) {
-    return { method, ...init, headers: { ...init.headers } };
-}
-function get(init) {
-    return this.start(ensureInit("GET", init));
-}
-function post(init) {
-    return this.start(ensureInit("POST", init));
-}
-function put(init) {
-    return this.start(ensureInit("PUT", init));
-}
-function patch(init) {
-    return this.start(ensureInit("PATCH", init));
-}
-function del(init) {
-    return this.start(ensureInit("DELETE", init));
-}
-function operations_op(q, operation, init) {
-    return Reflect.apply(operation, q, [init]);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/invokable.js
-
-
-/**
- * Allows a decorated object to be invoked as a function, optionally providing an implementation for that action
- *
- * @param invokeableAction Optional. The logic to execute upon invoking the object as a function.
- * @returns Decorator which applies the invokable logic to the tagged class
- */
-function invokable(invokeableAction) {
-    if (!isFunc(invokeableAction)) {
-        invokeableAction = function (init) {
-            return operations_op(this, get, init);
-        };
-    }
-    return (target) => {
-        return new Proxy(target, {
-            construct(clz, args, newTarget) {
-                const invokableInstance = Object.assign(function (init) {
-                    // the "this" for our invoked object will be set by extendable OR we use invokableInstance directly
-                    const localThis = typeof this === "undefined" ? invokableInstance : this;
-                    return Reflect.apply(invokeableAction, localThis, [init]);
-                }, Reflect.construct(clz, args, newTarget));
-                Reflect.setPrototypeOf(invokableInstance, newTarget.prototype);
-                return invokableInstance;
-            },
-        });
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1294,255 +997,379 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise */
+/* global Reflect, Promise, SuppressedError, Symbol */
 
 var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics(d, b);
+  extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return extendStatics(d, b);
 };
 
 function __extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
 var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return __assign.apply(this, arguments);
+  __assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return __assign.apply(this, arguments);
 }
 
 function __rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
 }
 
 function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
 function __param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
+  return function (target, key) { decorator(target, key, paramIndex); }
 }
 
+function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function __runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function __propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function __setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
 function __metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
 
 function __awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
 }
 
 function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+  return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
 }
 
 var __createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
 });
 
 function __exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
 
 function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 
 function __read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
 }
 
 /** @deprecated */
 function __spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(__read(arguments[i]));
-    return ar;
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(__read(arguments[i]));
+  return ar;
 }
 
 /** @deprecated */
 function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
 }
 
 function __spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function __await(v) {
-    return this instanceof __await ? (this.v = v, this) : new __await(v);
+  return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
 
 function __asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = {}, verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 }
 
 function __asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
 }
 
 function __asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 }
 
 function __makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
 };
 
 var __setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+  o["default"] = v;
 };
 
 function __importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
 }
 
 function __importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
+  return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
 function __classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
 function __classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 function __classPrivateFieldIn(state, receiver) {
-    if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
-    return typeof state === "function" ? receiver === state : state.has(receiver);
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
+function __addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
 
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function __disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  function next() {
+    while (env.stack.length) {
+      var rec = env.stack.pop();
+      try {
+        var result = rec.dispose && rec.dispose.call(rec.value);
+        if (rec.async) return Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+      }
+      catch (e) {
+          fail(e);
+      }
+    }
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const tslib_es6 = ({
+  __extends,
+  __assign,
+  __rest,
+  __decorate,
+  __param,
+  __metadata,
+  __awaiter,
+  __generator,
+  __createBinding,
+  __exportStar,
+  __values,
+  __read,
+  __spread,
+  __spreadArrays,
+  __spreadArray,
+  __await,
+  __asyncGenerator,
+  __asyncDelegator,
+  __asyncValues,
+  __makeTemplateObject,
+  __importStar,
+  __importDefault,
+  __classPrivateFieldGet,
+  __classPrivateFieldSet,
+  __classPrivateFieldIn,
+  __addDisposableResource,
+  __disposeResources,
+});
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
 
 
 const DefaultMoments = {
     construct: lifecycle(),
     pre: asyncReduce(),
     auth: asyncReduce(),
-    send: moments_request(),
+    send: request(),
     parse: asyncReduce(),
     post: asyncReduce(),
     data: broadcast(),
 };
-let queryable_Queryable = class Queryable extends timeline_Timeline {
+let queryable_Queryable = class Queryable extends Timeline {
     constructor(init, path) {
         super(DefaultMoments);
         // these keys represent internal events for Queryable, users are not expected to
@@ -1551,14 +1378,15 @@ let queryable_Queryable = class Queryable extends timeline_Timeline {
         this.InternalResolve = Symbol.for("Queryable_Resolve");
         this.InternalReject = Symbol.for("Queryable_Reject");
         this.InternalPromise = Symbol.for("Queryable_Promise");
+        // default to use the included URL search params to parse the query string
         this._query = new URLSearchParams();
-        // add an intneral moment with specific implementaion for promise creation
+        // add an internal moment with specific implementation for promise creation
         this.moments[this.InternalPromise] = reduce();
         let parent;
         if (typeof init === "string") {
             this._url = combine(init, path);
         }
-        else if (isArray(init)) {
+        else if (util_isArray(init)) {
             if (init.length !== 2) {
                 throw Error("When using the tuple param exactly two arguments are expected.");
             }
@@ -1668,26 +1496,42 @@ let queryable_Queryable = class Queryable extends timeline_Timeline {
                 log("Finished request", 0);
             }
         }, 0);
-        // this is the promise that the calling code will recieve and await
-        let promise = new Promise((resolve, reject) => {
+        // this allows us to internally hook the promise creation and modify it. This was introduced to allow for
+        // cancelable to work as envisioned, but may have other users. Meant for internal use in the library accessed via behaviors.
+        return this.emit[this.InternalPromise](new Promise((resolve, reject) => {
             // we overwrite any pre-existing internal events as a
             // given queryable only processes a single request at a time
             this.on[this.InternalResolve].replace(resolve);
             this.on[this.InternalReject].replace(reject);
-        });
-        // this allows us to internally hook the promise creation and modify it. This was introduced to allow for
-        // cancelable to work as envisioned, but may have other users. Meant for internal use in the library accessed via behaviors.
-        [promise] = this.emit[this.InternalPromise](promise);
-        return promise;
+        }))[0];
     }
 };
 queryable_Queryable = __decorate([
-    extendable(),
     invokable()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 ], queryable_Queryable);
 
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable-factory.js
+function ensureInit(method, init = { headers: {} }) {
+    return { method, ...init, headers: { ...init.headers } };
+}
+function get(init) {
+    return this.start(ensureInit("GET", init));
+}
+function post(init) {
+    return this.start(ensureInit("POST", init));
+}
+function put(init) {
+    return this.start(ensureInit("PUT", init));
+}
+function patch(init) {
+    return this.start(ensureInit("PATCH", init));
+}
+function del(init) {
+    return this.start(ensureInit("DELETE", init));
+}
+function op(q, operation, init) {
+    return Reflect.apply(operation, q, [init]);
+}
 function queryableFactory(constructor) {
     return (init, path) => {
         // construct the concrete instance
@@ -1699,56 +1543,32 @@ function queryableFactory(constructor) {
         return instance;
     };
 }
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/request-builders.js
-
 /**
- * takes the supplied object of type U, JSON.stringify's it, and sets it as the value of a "body" property
- */
-function request_builders_body(o, previous) {
-    return Object.assign({ body: jsS(o) }, previous);
-}
-/**
- * Adds headers to an new/existing RequestInit
+ * Allows a decorated object to be invoked as a function, optionally providing an implementation for that action
  *
- * @param o Headers to add
- * @param previous Any previous partial RequestInit
- * @returns RequestInit combining previous and specified headers
+ * @param invokeableAction Optional. The logic to execute upon invoking the object as a function.
+ * @returns Decorator which applies the invokable logic to the tagged class
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function request_builders_headers(o, previous) {
-    return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/inject-headers.js
-function InjectHeaders(headers, prepend = false) {
-    return (instance) => {
-        const f = async function (url, init, result) {
-            init.headers = { ...init.headers, ...headers };
-            return [url, init, result];
-        };
-        if (prepend) {
-            instance.on.pre.prepend(f);
-        }
-        else {
-            instance.on.pre(f);
-        }
-        return instance;
+function invokable(invokeableAction) {
+    return (target) => {
+        return new Proxy(target, {
+            construct(clz, args, newTarget) {
+                const invokableInstance = Object.assign(function (init) {
+                    if (!isFunc(invokeableAction)) {
+                        invokeableAction = function (init) {
+                            return op(this, get, init);
+                        };
+                    }
+                    return Reflect.apply(invokeableAction, invokableInstance, [init]);
+                }, Reflect.construct(clz, args, newTarget));
+                Reflect.setPrototypeOf(invokableInstance, newTarget.prototype);
+                return invokableInstance;
+            },
+        });
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/bearer-token.js
-
-function BearerToken(token) {
-    return (instance) => {
-        instance.using(InjectHeaders({
-            "Authorization": `Bearer ${token}`,
-        }));
-        return instance;
-    };
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
 
 
 function DefaultParse() {
@@ -1847,7 +1667,7 @@ class HttpRequestError extends Error {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
 
 
 function BrowserFetch(props) {
@@ -1936,7 +1756,7 @@ function BrowserFetchWithRetry(props) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
 
 /**
  * Behavior that forces caching for the request regardless of "method"
@@ -1992,7 +1812,7 @@ function CacheKey(key) {
 function Caching(props) {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            const [shouldCache, getCachedValue, setCachedValue] = bindCachingCore(url, init, props);
+            const [shouldCache, getCachedValue, setCachedValue] = caching_bindCachingCore(url, init, props);
             // only cache get requested data or where the CacheAlways header is present (allows caching of POST requests)
             if (shouldCache) {
                 const cached = getCachedValue();
@@ -2020,7 +1840,7 @@ const storage = new PnPClientStorage();
  *
  * @param props Any caching props used to initialize the core functions
  */
-function bindCachingCore(url, init, props) {
+function caching_bindCachingCore(url, init, props) {
     var _a, _b;
     const { store, keyFactory, expireFunc } = {
         store: "local",
@@ -2040,7 +1860,7 @@ function bindCachingCore(url, init, props) {
     ];
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
 
 
 
@@ -2065,7 +1885,7 @@ function CachingPessimisticRefresh(props) {
                 // set our result
                 result = cached;
                 setTimeout(async () => {
-                    const q = new queryable_Queryable(this);
+                    const q = new Queryable(this);
                     const a = q.on.pre.toArray();
                     q.on.pre.clear();
                     // filter out this pre handler from the original queryable as we don't want to re-run it
@@ -2090,7 +1910,7 @@ function CachingPessimisticRefresh(props) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
 
 /**
  * Cancelable is a fairly complex behavior as there is a lot to consider through multiple timelines. We have
@@ -2132,7 +1952,7 @@ const cancelScopes = new Map();
 async function cancelPrimitive(scopeId) {
     const scope = cancelScopes.get(scopeId);
     scope.controller.abort();
-    if (isArray(scope === null || scope === void 0 ? void 0 : scope.actions)) {
+    if (util_isArray(scope === null || scope === void 0 ? void 0 : scope.actions)) {
         scope.actions.map(action => scope.currentSelf.on[MomentName](action));
     }
     try {
@@ -2270,8 +2090,8 @@ function CancelAction(action) {
         instance.on.pre(async function (...args) {
             const existingScope = cancelScopes.get(this[ScopeId]);
             // if we don't have a scope this request is not using Cancelable so we do nothing
-            if (objectDefinedNotNull(existingScope)) {
-                if (!isArray(existingScope.actions)) {
+            if (util_objectDefinedNotNull(existingScope)) {
+                if (!util_isArray(existingScope.actions)) {
                     existingScope.actions = [];
                 }
                 if (existingScope.actions.indexOf(action) < 0) {
@@ -2284,25 +2104,24 @@ function CancelAction(action) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/timeout.js
-/**
- * Behavior that will cause a timeout in the request after the specified milliseconds
- *
- * @param timeout Number of milliseconds to set the timeout
- */
-function Timeout(timeout) {
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/inject-headers.js
+function InjectHeaders(headers, prepend = false) {
     return (instance) => {
-        instance.on.pre(async (url, init, result) => {
-            const controller = new AbortController();
-            init.signal = controller.signal;
-            setTimeout(() => controller.abort(), timeout);
+        const f = async function (url, init, result) {
+            init.headers = { ...init.headers, ...headers };
             return [url, init, result];
-        });
+        };
+        if (prepend) {
+            instance.on.pre.prepend(f);
+        }
+        else {
+            instance.on.pre(f);
+        }
         return instance;
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/resolvers.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/resolvers.js
 function ResolveOnData() {
     return (instance) => {
         instance.on.data(function (data) {
@@ -2320,11 +2139,7 @@ function RejectOnError() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
-
-
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
 
 
 /**
@@ -2339,33 +2154,42 @@ function RejectOnError() {
 
 
 
+/**
+ * Adds a property to a target instance
+ *
+ * @param target The object to whose prototype we will add a property
+ * @param name Property name
+ * @param factory Factory method used to produce the property value
+ * @param path Any additional path required to produce the value
+ */
+function addProp(target, name, factory, path) {
+    Reflect.defineProperty(target.prototype, name, {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+            return factory(this, path || name);
+        },
+    });
+}
+/**
+ * takes the supplied object of type U, JSON.stringify's it, and sets it as the value of a "body" property
+ */
+function body(o, previous) {
+    return Object.assign({ body: jsS(o) }, previous);
+}
+/**
+ * Adds headers to an new/existing RequestInit
+ *
+ * @param o Headers to add
+ * @param previous Any previous partial RequestInit
+ * @returns RequestInit combining previous and specified headers
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+function headers(o, previous) {
+    return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
+}
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/operations.js
-
-const spGet = (o, init) => {
-    return operations_op(o, get, init);
-};
-const spPost = (o, init) => operations_op(o, post, init);
-const spPostMerge = (o, init) => {
-    init = init || {};
-    init.headers = { ...init.headers, "X-HTTP-Method": "MERGE" };
-    return spPost(o, init);
-};
-const spPostDelete = (o, init) => {
-    init = init || {};
-    init.headers = { ...init.headers || {}, "X-HTTP-Method": "DELETE" };
-    return spPost(o, init);
-};
-const spPostDeleteETag = (o, init, eTag = "*") => {
-    init = init || {};
-    init.headers = { ...init.headers || {}, "IF-Match": eTag };
-    return spPostDelete(o, init);
-};
-const spDelete = (o, init) => operations_op(o, del, init);
-const spPatch = (o, init) => operations_op(o, patch, init);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/spqueryable.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/spqueryable.js
 
 
 const spInvokableFactory = (f) => {
@@ -2375,7 +2199,7 @@ const spInvokableFactory = (f) => {
  * SharePointQueryable Base Class
  *
  */
-class spqueryable_SPQueryable extends queryable_Queryable {
+class _SPQueryable extends queryable_Queryable {
     /**
      * Creates a new instance of the SharePointQueryable class
      *
@@ -2412,12 +2236,8 @@ class spqueryable_SPQueryable extends queryable_Queryable {
         }
         else {
             super(base, path);
-            const q = isArray(base) ? base[0] : base;
-            this.parentUrl = isArray(base) ? base[1] : q.toUrl();
-            const target = q.query.get("@target");
-            if (objectDefinedNotNull(target)) {
-                this.query.set("@target", target);
-            }
+            const q = util_isArray(base) ? base[0] : base;
+            this.parentUrl = util_isArray(base) ? base[1] : q.toUrl();
         }
     }
     /**
@@ -2425,17 +2245,11 @@ class spqueryable_SPQueryable extends queryable_Queryable {
      */
     toRequestUrl() {
         const aliasedParams = new URLSearchParams(this.query);
-        // this regex is designed to locate aliased parameters within url paths. These may have the form:
-        // /something(!@p1::value)
-        // /something(!@p1::value, param=value)
-        // /something(param=value,!@p1::value)
-        // /something(param=value,!@p1::value,param=value)
-        // /something(param=!@p1::value)
-        // there could be spaces or not around the boundaries
-        let url = this.toUrl().replace(/([( *| *, *| *= *])'!(@.*?)::(.*?)'([ *)| *, *])/ig, (match, frontBoundary, labelName, value, endBoundary) => {
+        // this regex is designed to locate aliased parameters within url paths
+        let url = this.toUrl().replace(/'!(@.+?)::((?:[^']|'')+)'/ig, (match, labelName, value) => {
             this.log(`Rewriting aliased parameter from match ${match} to label: ${labelName} value: ${value}`, 0);
             aliasedParams.set(labelName, `'${value}'`);
-            return `${frontBoundary}${labelName}${endBoundary}`;
+            return labelName;
         });
         const query = aliasedParams.toString();
         if (!stringIsNullOrEmpty(query)) {
@@ -2471,20 +2285,15 @@ class spqueryable_SPQueryable extends queryable_Queryable {
      * @param factory The contructor for the class to create
      */
     getParent(factory, path, base = this.parentUrl) {
-        const parent = factory([this, base], path);
-        const t = "@target";
-        if (this.query.has(t)) {
-            parent.query.set(t, this.query.get(t));
-        }
-        return parent;
+        return factory([this, base], path);
     }
 }
-const SPQueryable = spInvokableFactory(spqueryable_SPQueryable);
+const SPQueryable = spInvokableFactory(_SPQueryable);
 /**
  * Represents a REST collection which can be filtered, paged, and selected
  *
  */
-class _SPCollection extends spqueryable_SPQueryable {
+class _SPCollection extends _SPQueryable {
     /**
      * Filters the returned collection (https://msdn.microsoft.com/en-us/library/office/fp142385.aspx#bk_supported)
      *
@@ -2531,7 +2340,7 @@ const SPCollection = spInvokableFactory(_SPCollection);
  * Represents an instance that can be selected
  *
  */
-class _SPInstance extends spqueryable_SPQueryable {
+class _SPInstance extends _SPQueryable {
 }
 const SPInstance = spInvokableFactory(_SPInstance);
 /**
@@ -2547,10 +2356,31 @@ function deleteableWithETag() {
         return spPostDeleteETag(this, {}, eTag);
     };
 }
+const spGet = (o, init) => {
+    return op(o, get, init);
+};
+const spPost = (o, init) => op(o, post, init);
+const spPostMerge = (o, init) => {
+    init = init || {};
+    init.headers = { ...init.headers, "X-HTTP-Method": "MERGE" };
+    return spPost(o, init);
+};
+const spPostDelete = (o, init) => {
+    init = init || {};
+    init.headers = { ...init.headers || {}, "X-HTTP-Method": "DELETE" };
+    return spPost(o, init);
+};
+const spPostDeleteETag = (o, init, eTag = "*") => {
+    init = init || {};
+    init.headers = { ...init.headers || {}, "IF-Match": eTag };
+    return spPostDelete(o, init);
+};
+const spDelete = (o, init) => op(o, del, init);
+const spPatch = (o, init) => op(o, patch, init);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/fi.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fi.js
 
-class fi_SPFI {
+class SPFI {
     /**
      * Creates a new instance of the SPFI class
      *
@@ -2581,10 +2411,10 @@ function spfi(root = "") {
     if (typeof root === "object" && !Reflect.has(root, "length")) {
         root = root._root;
     }
-    return new fi_SPFI(root);
+    return new SPFI(root);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -2599,242 +2429,367 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise */
+/* global Reflect, Promise, SuppressedError, Symbol */
 
 var tslib_es6_extendStatics = function(d, b) {
-    tslib_es6_extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return tslib_es6_extendStatics(d, b);
+  tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_es6_extendStatics(d, b);
 };
 
 function tslib_es6_extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    tslib_es6_extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
 var tslib_es6_assign = function() {
-    tslib_es6_assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return tslib_es6_assign.apply(this, arguments);
+  tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_es6_assign.apply(this, arguments);
 }
 
 function tslib_es6_rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
 }
 
 function tslib_es6_decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
 function tslib_es6_param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
+  return function (target, key) { decorator(target, key, paramIndex); }
 }
 
+function tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
 function tslib_es6_metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
 
 function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
 }
 
 function tslib_es6_generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+  return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
 }
 
 var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
 });
 
 function tslib_es6_exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
 }
 
 function tslib_es6_values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 
 function tslib_es6_read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
 }
 
 /** @deprecated */
 function tslib_es6_spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(tslib_es6_read(arguments[i]));
-    return ar;
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_es6_read(arguments[i]));
+  return ar;
 }
 
 /** @deprecated */
 function tslib_es6_spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
 }
 
 function tslib_es6_spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function tslib_es6_await(v) {
-    return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
+  return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
 }
 
 function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = {}, verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 }
 
 function tslib_es6_asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
 }
 
 function tslib_es6_asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 }
 
 function tslib_es6_makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
 };
 
 var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+  o["default"] = v;
 };
 
 function tslib_es6_importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
-    tslib_es6_setModuleDefault(result, mod);
-    return result;
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
+  tslib_es6_setModuleDefault(result, mod);
+  return result;
 }
 
 function tslib_es6_importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
+  return (mod && mod.__esModule) ? mod : { default: mod };
 }
 
 function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
 
 function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
 function tslib_es6_classPrivateFieldIn(state, receiver) {
-    if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
-    return typeof state === "function" ? receiver === state : state.has(receiver);
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/decorators.js
+function tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  function next() {
+    while (env.stack.length) {
+      var rec = env.stack.pop();
+      try {
+        var result = rec.dispose && rec.dispose.call(rec.value);
+        if (rec.async) return Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+      }
+      catch (e) {
+          fail(e);
+      }
+    }
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const tslib_tslib_es6 = ({
+  __extends: tslib_es6_extends,
+  __assign: tslib_es6_assign,
+  __rest: tslib_es6_rest,
+  __decorate: tslib_es6_decorate,
+  __param: tslib_es6_param,
+  __metadata: tslib_es6_metadata,
+  __awaiter: tslib_es6_awaiter,
+  __generator: tslib_es6_generator,
+  __createBinding: tslib_es6_createBinding,
+  __exportStar: tslib_es6_exportStar,
+  __values: tslib_es6_values,
+  __read: tslib_es6_read,
+  __spread: tslib_es6_spread,
+  __spreadArrays: tslib_es6_spreadArrays,
+  __spreadArray: tslib_es6_spreadArray,
+  __await: tslib_es6_await,
+  __asyncGenerator: tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_es6_asyncDelegator,
+  __asyncValues: tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_es6_makeTemplateObject,
+  __importStar: tslib_es6_importStar,
+  __importDefault: tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_es6_addDisposableResource,
+  __disposeResources: tslib_es6_disposeResources,
+});
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/decorators.js
 /**
  * Decorator used to specify the default path for SPQueryable objects
  *
@@ -2851,7 +2806,7 @@ function defaultPath(path) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extract-web-url.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extract-web-url.js
 
 function extractWebUrl(candidateUrl) {
     if (stringIsNullOrEmpty(candidateUrl)) {
@@ -2868,45 +2823,7 @@ function extractWebUrl(candidateUrl) {
     return candidateUrl;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/odata-url-from.js
-
-
-function odataUrlFrom(candidate) {
-    const parts = [];
-    const s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
-    if (hOP(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
-        // webs return an absolute url in the id
-        if (hOP(candidate, s[4])) {
-            parts.push(candidate[s[4]]);
-        }
-        else if (hOP(candidate, s[2])) {
-            // we are dealing with verbose, which has an absolute uri
-            parts.push(candidate.__metadata.uri);
-        }
-    }
-    else {
-        if (hOP(candidate, s[3]) && hOP(candidate, s[1])) {
-            // we are dealign with minimal metadata (default)
-            // some entities return an abosolute url in the editlink while for others it is relative
-            // without the _api. This code is meant to handle both situations
-            const editLink = isUrlAbsolute(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
-            parts.push(extractWebUrl(candidate[s[3]]), "_api", editLink);
-        }
-        else if (hOP(candidate, s[1])) {
-            parts.push("_api", candidate[s[1]]);
-        }
-        else if (hOP(candidate, s[2])) {
-            // we are dealing with verbose, which has an absolute uri
-            parts.push(candidate.__metadata.uri);
-        }
-    }
-    if (parts.length < 1) {
-        return "";
-    }
-    return combine(...parts);
-}
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/encode-path-str.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/encode-path-str.js
 
 /**
  * Encodes path portions of SharePoint urls such as decodedUrl=`encodePath(pathStr)`
@@ -2932,7 +2849,7 @@ function encodePath(value) {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
 
 
 
@@ -2940,9 +2857,7 @@ function encodePath(value) {
 
 
 
-
-
-let types_Webs = class _Webs extends _SPCollection {
+let _Webs = class _Webs extends _SPCollection {
     /**
      * Adds a new web to the collection
      *
@@ -2954,7 +2869,7 @@ let types_Webs = class _Webs extends _SPCollection {
      * @param inheritPermissions When true, permissions will be inherited from the new web's parent (default = true)
      */
     async add(Title, Url, Description = "", WebTemplate = "STS", Language = 1033, UseSamePermissionsAsParentSite = true) {
-        const postBody = request_builders_body({
+        const postBody = body({
             "parameters": {
                 Description,
                 Language,
@@ -2964,18 +2879,14 @@ let types_Webs = class _Webs extends _SPCollection {
                 WebTemplate,
             },
         });
-        const data = await spPost(Webs(this, "add"), postBody);
-        return {
-            data,
-            web: Web([this, odataUrlFrom(data).replace(/_api\/web\/?/i, "")]),
-        };
+        return spPost(Webs(this, "add"), postBody);
     }
 };
-types_Webs = tslib_es6_decorate([
+_Webs = tslib_es6_decorate([
     defaultPath("webs")
-], types_Webs);
+], _Webs);
 
-const Webs = spInvokableFactory(types_Webs);
+const Webs = spInvokableFactory(_Webs);
 /**
  * Ensures the url passed to the constructor is correctly rebased to a web url
  *
@@ -3005,12 +2916,12 @@ function rebaseWebUrl(candidate, path) {
  * Describes a web
  *
  */
-let types_Web = class _Web extends _SPInstance {
+let _Web = class _Web extends _SPInstance {
     constructor(base, path) {
         if (typeof base === "string") {
             base = rebaseWebUrl(base, path);
         }
-        else if (isArray(base)) {
+        else if (util_isArray(base)) {
             base = [base[0], rebaseWebUrl(base[1], path)];
         }
         else {
@@ -3056,7 +2967,7 @@ let types_Web = class _Web extends _SPInstance {
      * @param properties A plain object hash of values to update for the web
      */
     async update(properties) {
-        return spPostMerge(this, request_builders_body(properties));
+        return spPostMerge(this, body(properties));
     }
     /**
      * Applies the theme specified by the contents of each of the files specified in the arguments to the site
@@ -3067,7 +2978,7 @@ let types_Web = class _Web extends _SPInstance {
      * @param shareGenerated When true, the generated theme files are stored in the root site. When false, they are stored in this web
      */
     applyTheme(colorPaletteUrl, fontSchemeUrl, backgroundImageUrl, shareGenerated) {
-        const postBody = request_builders_body({
+        const postBody = body({
             backgroundImageUrl,
             colorPaletteUrl,
             fontSchemeUrl,
@@ -3089,7 +3000,7 @@ let types_Web = class _Web extends _SPInstance {
      * @param query The change query
      */
     getChanges(query) {
-        return spPost(Web(this, "getchanges"), request_builders_body({ query }));
+        return spPost(Web(this, "getchanges"), body({ query }));
     }
     /**
      * Returns the name of the image file for the icon that is used to represent the specified file
@@ -3118,7 +3029,7 @@ let types_Web = class _Web extends _SPInstance {
      * @param comments Comments of storage entity to be set
      */
     setStorageEntity(key, value, description = "", comments = "") {
-        return spPost(Web(this, "setStorageEntity"), request_builders_body({
+        return spPost(Web(this, "setStorageEntity"), body({
             comments,
             description,
             key,
@@ -3152,375 +3063,164 @@ let types_Web = class _Web extends _SPInstance {
         return SPCollection(this, `getavailablewebtemplates(lcid=${language},doincludecrosslanguage=${includeCrossLanugage})`);
     }
 };
-types_Web = tslib_es6_decorate([
+_Web = tslib_es6_decorate([
     defaultPath("_api/web")
-], types_Web);
+], _Web);
 
-const Web = spInvokableFactory(types_Web);
+const Web = spInvokableFactory(_Web);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/to-resource-path.js
-function toResourcePath(url) {
-    return {
-        DecodedUrl: url,
-    };
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/types.js
+
+
+
+
+
+function getAppCatalogPath(base, path) {
+    const paths = ["_api/web/tenantappcatalog/", "_api/web/sitecollectionappcatalog/"];
+    for (let i = 0; i < paths.length; i++) {
+        const index = base.indexOf(paths[i]);
+        if (index > -1) {
+            return combine(base.substring(index, index + paths[i].length), path);
+        }
+    }
+    return combine(base, path);
 }
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/types.js
-
-
-
-
-
-
-
-
-
-let types_Lists = class _Lists extends _SPCollection {
-    /**
-     * Gets a list from the collection by guid id
-     *
-     * @param id The Id of the list (GUID)
-     */
-    getById(id) {
-        return List(this).concat(`('${id}')`);
+let _AppCatalog = class _AppCatalog extends _SPCollection {
+    constructor(base, path) {
+        super(base, null);
+        this._url = combine(extractWebUrl(this._url), path);
     }
     /**
-     * Gets a list from the collection by title
-     *
-     * @param title The title of the list
+     * Get details of specific app from the app catalog
+     * @param id - Specify the guid of the app
      */
-    getByTitle(title) {
-        return List(this, `getByTitle('${encodePath(title)}')`);
+    getAppById(id) {
+        return App(this, `getById('${id}')`);
     }
     /**
-     * Adds a new list to the collection
-     *
-     * @param title The new list's title
-     * @param description The new list's description
-     * @param template The list template value
-     * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
-     * @param additionalSettings Will be passed as part of the list creation body
+     * Synchronize a solution to the Microsoft Teams App Catalog
+     * @param id - Specify the guid of the app
+     * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
+     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
      */
-    async add(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
-        const addSettings = {
-            "AllowContentTypes": enableContentTypes,
-            "BaseTemplate": template,
-            "ContentTypesEnabled": enableContentTypes,
-            "Description": desc,
-            "Title": title,
-            ...additionalSettings,
-        };
-        const data = await spPost(this, request_builders_body(addSettings));
-        return { data, list: this.getByTitle(addSettings.Title) };
-    }
-    /**
-     * Ensures that the specified list exists in the collection (note: this method not supported for batching)
-     *
-     * @param title The new list's title
-     * @param desc The new list's description
-     * @param template The list template value
-     * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
-     * @param additionalSettings Will be passed as part of the list creation body or used to update an existing list
-     */
-    async ensure(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
-        const addOrUpdateSettings = { Title: title, Description: desc, ContentTypesEnabled: enableContentTypes, ...additionalSettings };
-        const list = this.getByTitle(addOrUpdateSettings.Title);
-        try {
-            await list.select("Title")();
-            const data = await list.update(addOrUpdateSettings).then(r => r.data);
-            return { created: false, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+    async syncSolutionToTeams(id, useSharePointItemId = false) {
+        // This REST call requires that you refer the list item id of the solution in the app catalog site.
+        let appId = null;
+        const webUrl = combine(extractWebUrl(this.toUrl()), "_api/web");
+        if (useSharePointItemId) {
+            appId = id;
         }
-        catch (e) {
-            const data = await this.add(title, desc, template, enableContentTypes, addOrUpdateSettings).then(r => r.data);
-            return { created: true, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+        else {
+            const listId = (await SPCollection([this, webUrl], "lists").select("Id").filter("EntityTypeName eq 'AppCatalog'")())[0].Id;
+            const listItems = await SPCollection([this, webUrl], `lists/getById('${listId}')/items`).select("Id").filter(`AppProductID eq '${id}'`).top(1)();
+            if (listItems && listItems.length > 0) {
+                appId = listItems[0].Id;
+            }
+            else {
+                throw Error(`Did not find the app with id ${id} in the appcatalog.`);
+            }
         }
+        return spPost(AppCatalog(this, getAppCatalogPath(this.toUrl(), `SyncSolutionToTeams(id=${appId})`)));
     }
     /**
-     * Gets a list that is the default asset location for images or other files, which the users upload to their wiki pages.
+     * Uploads an app package. Not supported for batching
+     *
+     * @param filename Filename to create.
+     * @param content app package data (eg: the .app or .sppkg file).
+     * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
+     * @returns Promise<IAppAddResult>
      */
-    async ensureSiteAssetsLibrary() {
-        const json = await spPost(Lists(this, "ensuresiteassetslibrary"));
-        return List([this, odataUrlFrom(json)]);
-    }
-    /**
-     * Gets a list that is the default location for wiki pages.
-     */
-    async ensureSitePagesLibrary() {
-        const json = await spPost(Lists(this, "ensuresitepageslibrary"));
-        return List([this, odataUrlFrom(json)]);
+    async add(filename, content, shouldOverWrite = true) {
+        // you don't add to the availableapps collection
+        const adder = AppCatalog(this, getAppCatalogPath(this.toUrl(), `add(overwrite=${shouldOverWrite},url='${filename}')`));
+        return spPost(adder, {
+            body: content, headers: {
+                "binaryStringRequestBody": "true",
+            },
+        });
     }
 };
-types_Lists = tslib_es6_decorate([
-    defaultPath("lists")
-], types_Lists);
+_AppCatalog = tslib_es6_decorate([
+    defaultPath("_api/web/tenantappcatalog/AvailableApps")
+], _AppCatalog);
 
-const Lists = spInvokableFactory(types_Lists);
-class types_List extends _SPInstance {
-    constructor() {
-        super(...arguments);
-        this.delete = deleteableWithETag();
-    }
+const AppCatalog = spInvokableFactory(_AppCatalog);
+class _App extends _SPInstance {
     /**
-     * Gets the effective base permissions of this list
+     * This method deploys an app on the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
      *
+     * @param skipFeatureDeployment Deploy the app to the entire tenant
      */
-    get effectiveBasePermissions() {
-        return SPQueryable(this, "EffectiveBasePermissions");
+    deploy(skipFeatureDeployment = false) {
+        return this.do(`Deploy(${skipFeatureDeployment})`);
     }
     /**
-     * Gets the event receivers attached to this list
-     *
+     * This method retracts a deployed app on the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
      */
-    get eventReceivers() {
-        return SPCollection(this, "EventReceivers");
+    retract() {
+        return this.do("Retract");
     }
     /**
-     * Gets the related fields of this list
-     *
+     * This method allows an app which is already deployed to be installed on a web
      */
-    get relatedFields() {
-        return SPQueryable(this, "getRelatedFields");
+    install() {
+        return this.do("Install");
     }
     /**
-     * Gets the IRM settings for this list
-     *
+     * This method allows an app which is already installed to be uninstalled on a web
+     * Note: when you use the REST API to uninstall a solution package from the site, it is not relocated to the recycle bin
      */
-    get informationRightsManagementSettings() {
-        return SPQueryable(this, "InformationRightsManagementSettings");
+    uninstall() {
+        return this.do("Uninstall");
     }
     /**
-     * Updates this list intance with the supplied properties
-     *
-     * @param properties A plain object hash of values to update for the list
-     * @param eTag Value used in the IF-Match header, by default "*"
+     * This method allows an app which is already installed to be upgraded on a web
      */
-    async update(properties, eTag = "*") {
-        const data = await spPostMerge(this, request_builders_body(properties, request_builders_headers({ "IF-Match": eTag })));
-        const list = hOP(properties, "Title") ? this.getParent(List, `getByTitle('${properties.Title}')`) : List(this);
-        return {
-            data,
-            list,
-        };
+    upgrade() {
+        return this.do("Upgrade");
     }
     /**
-     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query.
-     * @param query A query that is performed against the change log.
+     * This method removes an app from the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
      */
-    getChanges(query) {
-        return spPost(List(this, "getchanges"), request_builders_body({ query }));
+    remove() {
+        return this.do("Remove");
     }
-    /**
-     * Returns the collection of items in the list based on the provided CamlQuery
-     * @param query A query that is performed against the list
-     * @param expands An expanded array of n items that contains fields to expand in the CamlQuery
-     */
-    getItemsByCAMLQuery(query, ...expands) {
-        return spPost(List(this, "getitems").expand(...expands), request_builders_body({ query }));
-    }
-    /**
-     * See: https://msdn.microsoft.com/en-us/library/office/dn292554.aspx
-     * @param query An object that defines the change log item query
-     */
-    getListItemChangesSinceToken(query) {
-        return spPost(List(this, "getlistitemchangessincetoken").using(TextParse()), request_builders_body({ query }));
-    }
-    /**
-     * Moves the list to the Recycle Bin and returns the identifier of the new Recycle Bin item.
-     */
-    async recycle() {
-        return spPost(List(this, "recycle"));
-    }
-    /**
-     * Renders list data based on the view xml provided
-     * @param viewXml A string object representing a view xml
-     */
-    async renderListData(viewXml) {
-        const q = List(this, "renderlistdata(@viewXml)");
-        q.query.set("@viewXml", `'${viewXml}'`);
-        const data = await spPost(q);
-        return JSON.parse(data);
-    }
-    /**
-     * Returns the data for the specified query view
-     *
-     * @param parameters The parameters to be used to render list data as JSON string.
-     * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
-     * @param query Allows setting of query parameters
-     */
-    // eslint-disable-next-line max-len
-    renderListDataAsStream(parameters, overrideParameters = null, query = new Map()) {
-        if (hOP(parameters, "RenderOptions") && isArray(parameters.RenderOptions)) {
-            parameters.RenderOptions = parameters.RenderOptions.reduce((v, c) => v + c);
-        }
-        const clone = List(this, "RenderListDataAsStream");
-        if (query && query.size > 0) {
-            query.forEach((v, k) => clone.query.set(k, v));
-        }
-        const params = objectDefinedNotNull(overrideParameters) ? { parameters, overrideParameters } : { parameters };
-        return spPost(clone, request_builders_body(params));
-    }
-    /**
-     * Gets the field values and field schema attributes for a list item.
-     * @param itemId Item id of the item to render form data for
-     * @param formId The id of the form
-     * @param mode Enum representing the control mode of the form (Display, Edit, New)
-     */
-    async renderListFormData(itemId, formId, mode) {
-        const data = await spPost(List(this, `renderlistformdata(itemid=${itemId}, formid='${formId}', mode='${mode}')`));
-        // data will be a string, so we parse it again
-        return JSON.parse(data);
-    }
-    /**
-     * Reserves a list item ID for idempotent list item creation.
-     */
-    async reserveListItemId() {
-        return spPost(List(this, "reservelistitemid"));
-    }
-    /**
-     * Creates an item using path (in a folder), validates and sets its field values.
-     *
-     * @param formValues The fields to change and their new values.
-     * @param decodedUrl Path decoded url; folder's server relative path.
-     * @param bNewDocumentUpdate true if the list item is a document being updated after upload; otherwise false.
-     * @param checkInComment Optional check in comment.
-     * @param additionalProps Optional set of additional properties LeafName new document file name,
-     */
-    async addValidateUpdateItemUsingPath(formValues, decodedUrl, bNewDocumentUpdate = false, checkInComment, additionalProps) {
-        const addProps = {
-            FolderPath: toResourcePath(decodedUrl),
-        };
-        if (objectDefinedNotNull(additionalProps)) {
-            if (additionalProps.leafName) {
-                addProps.LeafName = toResourcePath(additionalProps.leafName);
-            }
-            if (additionalProps.objectType) {
-                addProps.UnderlyingObjectType = additionalProps.objectType;
-            }
-        }
-        return spPost(List(this, "AddValidateUpdateItemUsingPath()"), request_builders_body({
-            bNewDocumentUpdate,
-            checkInComment,
-            formValues,
-            listItemCreateInfo: addProps,
-        }));
-    }
-    /**
-     * Gets the parent information for this item's list and web
-     */
-    async getParentInfos() {
-        const urlInfo = await this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")();
-        return {
-            List: {
-                Id: urlInfo.Id,
-                RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
-                RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
-                RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
-            },
-            ParentWeb: {
-                Id: urlInfo.ParentWeb.Id,
-                ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
-                ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
-                Url: urlInfo.ParentWeb.Url,
-            },
-        };
+    do(path) {
+        return spPost(App(this, path));
     }
 }
-const List = spInvokableFactory(types_List);
-/**
- * Enum representing the options of the RenderOptions property on IRenderListDataParameters interface
- */
-var RenderListDataOptions;
-(function (RenderListDataOptions) {
-    RenderListDataOptions[RenderListDataOptions["None"] = 0] = "None";
-    RenderListDataOptions[RenderListDataOptions["ContextInfo"] = 1] = "ContextInfo";
-    RenderListDataOptions[RenderListDataOptions["ListData"] = 2] = "ListData";
-    RenderListDataOptions[RenderListDataOptions["ListSchema"] = 4] = "ListSchema";
-    RenderListDataOptions[RenderListDataOptions["MenuView"] = 8] = "MenuView";
-    RenderListDataOptions[RenderListDataOptions["ListContentType"] = 16] = "ListContentType";
-    /**
-     * The returned list will have a FileSystemItemId field on each item if possible.
-     */
-    RenderListDataOptions[RenderListDataOptions["FileSystemItemId"] = 32] = "FileSystemItemId";
-    /**
-     * Returns the client form schema to add and edit items.
-     */
-    RenderListDataOptions[RenderListDataOptions["ClientFormSchema"] = 64] = "ClientFormSchema";
-    /**
-     * Returns QuickLaunch navigation nodes.
-     */
-    RenderListDataOptions[RenderListDataOptions["QuickLaunch"] = 128] = "QuickLaunch";
-    /**
-     * Returns Spotlight rendering information.
-     */
-    RenderListDataOptions[RenderListDataOptions["Spotlight"] = 256] = "Spotlight";
-    /**
-     * Returns Visualization rendering information.
-     */
-    RenderListDataOptions[RenderListDataOptions["Visualization"] = 512] = "Visualization";
-    /**
-     * Returns view XML and other information about the current view.
-     */
-    RenderListDataOptions[RenderListDataOptions["ViewMetadata"] = 1024] = "ViewMetadata";
-    /**
-     * Prevents AutoHyperlink from being run on text fields in this query.
-     */
-    RenderListDataOptions[RenderListDataOptions["DisableAutoHyperlink"] = 2048] = "DisableAutoHyperlink";
-    /**
-     * Enables urls pointing to Media TA service, such as .thumbnailUrl, .videoManifestUrl, .pdfConversionUrls.
-     */
-    RenderListDataOptions[RenderListDataOptions["EnableMediaTAUrls"] = 4096] = "EnableMediaTAUrls";
-    /**
-     * Return Parant folder information.
-     */
-    RenderListDataOptions[RenderListDataOptions["ParentInfo"] = 8192] = "ParentInfo";
-    /**
-     * Return Page context info for the current list being rendered.
-     */
-    RenderListDataOptions[RenderListDataOptions["PageContextInfo"] = 16384] = "PageContextInfo";
-    /**
-     * Return client-side component manifest information associated with the list.
-     */
-    RenderListDataOptions[RenderListDataOptions["ClientSideComponentManifest"] = 32768] = "ClientSideComponentManifest";
-    /**
-     * Return all content-types available on the list.
-     */
-    RenderListDataOptions[RenderListDataOptions["ListAvailableContentTypes"] = 65536] = "ListAvailableContentTypes";
-    /**
-      * Return the order of items in the new-item menu.
-      */
-    RenderListDataOptions[RenderListDataOptions["FolderContentTypeOrder"] = 131072] = "FolderContentTypeOrder";
-    /**
-     * Return information to initialize Grid for quick edit.
-     */
-    RenderListDataOptions[RenderListDataOptions["GridInitInfo"] = 262144] = "GridInitInfo";
-    /**
-     * Indicator if the vroom API of the SPItemUrl returned in MediaTAUrlGenerator should use site url as host.
-     */
-    RenderListDataOptions[RenderListDataOptions["SiteUrlAsMediaTASPItemHost"] = 524288] = "SiteUrlAsMediaTASPItemHost";
-    /**
-     * Return the files representing mount points in the list.
-     */
-    RenderListDataOptions[RenderListDataOptions["AddToOneDrive"] = 1048576] = "AddToOneDrive";
-    /**
-     * Return SPFX CustomAction.
-     */
-    RenderListDataOptions[RenderListDataOptions["SPFXCustomActions"] = 2097152] = "SPFXCustomActions";
-    /**
-     * Do not return non-SPFX CustomAction.
-     */
-    RenderListDataOptions[RenderListDataOptions["CustomActions"] = 4194304] = "CustomActions";
-})(RenderListDataOptions || (RenderListDataOptions = {}));
-/**
- * Determines the display mode of the given control or view
- */
-var ControlMode;
-(function (ControlMode) {
-    ControlMode[ControlMode["Display"] = 1] = "Display";
-    ControlMode[ControlMode["Edit"] = 2] = "Edit";
-    ControlMode[ControlMode["New"] = 3] = "New";
-})(ControlMode || (ControlMode = {}));
+const App = spInvokableFactory(_App);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/web.js
+
+
+
+// we use this function to wrap the AppCatalog as we want to ignore any path values addProp
+// will pass and use the defaultPath defined for AppCatalog
+addProp(_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/index.js
+
+
+
+
+
+Reflect.defineProperty(SPFI.prototype, "tenantAppcatalog", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(AppCatalog, "_api/web/tenantappcatalog/AvailableApps");
+    },
+});
+SPFI.prototype.getTenantAppCatalogWeb = async function () {
+    const data = await Web(this._root, "_api/SP_TenantSettings_Current")();
+    return Web([this._root, data.CorporateCatalogUrl]);
+};
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
 // reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
 const emptyGuid = "00000000-0000-0000-0000-000000000000";
 /**
@@ -3602,7 +3302,7 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
 // eslint-disable-next-line no-control-regex
 const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
 // eslint-disable-next-line no-control-regex
@@ -3639,19 +3339,65 @@ function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/odata-url-from.js
+
+
+function odataUrlFrom(candidate) {
+    const parts = [];
+    const s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
+    if (hOP(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
+        // webs return an absolute url in the id
+        if (hOP(candidate, s[4])) {
+            parts.push(candidate[s[4]]);
+        }
+        else if (hOP(candidate, s[2])) {
+            // we are dealing with verbose, which has an absolute uri
+            parts.push(candidate.__metadata.uri);
+        }
+    }
+    else {
+        if (hOP(candidate, s[3]) && hOP(candidate, s[1])) {
+            // we are dealign with minimal metadata (default)
+            // some entities return an abosolute url in the editlink while for others it is relative
+            // without the _api. This code is meant to handle both situations
+            const editLink = isUrlAbsolute(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
+            parts.push(extractWebUrl(candidate[s[3]]), "_api", editLink);
+        }
+        else if (hOP(candidate, s[1])) {
+            parts.push("_api", candidate[s[1]]);
+        }
+        else if (hOP(candidate, s[2])) {
+            // we are dealing with verbose, which has an absolute uri
+            parts.push(candidate.__metadata.uri);
+        }
+    }
+    if (parts.length < 1) {
+        return "";
+    }
+    return combine(...parts);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/to-resource-path.js
+function toResourcePath(url) {
+    return {
+        DecodedUrl: url,
+    };
+}
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
+
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:3.24.0:";
+            let clientTag = "PnPCoreJS:4.4.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
             // and we want to modify any (*) calls at the end such as items(3) and items(344) so we just track "items()"
-            clientTag += pathname
-                .substring(pathname.indexOf("_api/") + 5)
-                .split("/")
-                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0]).join(".");
+            clientTag = pathname.split("/")
+                .filter((v) => !stringIsNullOrEmpty(v) && ["_api", "v2.1", "v2.0"].indexOf(v) < 0)
+                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0])
+                .join(".");
             if (clientTag.length > 32) {
                 clientTag = clientTag.substring(0, 32);
             }
@@ -3663,7 +3409,7 @@ function Telemetry() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
 
 
 function DefaultInit() {
@@ -3688,20 +3434,19 @@ function DefaultHeaders() {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
 
 
 
 
 
-
-fi_SPFI.prototype.batched = function (props) {
+SPFI.prototype.batched = function (props) {
     const batched = spfi(this);
     const [behavior, execute] = createBatch(batched._root, props);
     batched.using(behavior);
     return [batched, execute];
 };
-types_Web.prototype.batched = function (props) {
+_Web.prototype.batched = function (props) {
     const batched = Web(this);
     const [behavior, execute] = createBatch(batched, props);
     batched.using(behavior);
@@ -3728,7 +3473,7 @@ function BatchParse() {
 /**
  * Internal class used to execute the batch request through the timeline lifecycle
  */
-class batching_BatchQueryable extends spqueryable_SPQueryable {
+class BatchQueryable extends _SPQueryable {
     constructor(base, requestBaseUrl = base.toUrl().replace(/_api[\\|/].*$/i, "")) {
         super(requestBaseUrl, "_api/$batch");
         this.requestBaseUrl = requestBaseUrl;
@@ -3764,10 +3509,10 @@ function createBatch(base, props) {
     const completePromises = [];
     const requests = [];
     const batchId = getGUID();
-    const batchQuery = new batching_BatchQueryable(base);
+    const batchQuery = new BatchQueryable(base);
     // this query is used to copy back the behaviors after the batch executes
     // it should not manipulated or have behaviors added.
-    const refQuery = new batching_BatchQueryable(base);
+    const refQuery = new BatchQueryable(base);
     const { headersCopyPattern } = {
         headersCopyPattern: /Accept|Content-Type|IF-Match/i,
         ...props,
@@ -4040,8 +3785,7 @@ function parseResponse(body) {
     return responses;
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
 
@@ -4049,7 +3793,7 @@ function parseResponse(body) {
 
 function clearExpired(digest) {
     const now = new Date();
-    return !objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
+    return !util_objectDefinedNotNull(digest) || (now > digest.expiration) ? null : digest;
 }
 // allows for the caching of digests across all calls which each have their own IDigestInfo wrapper.
 const digests = new Map();
@@ -4067,21 +3811,21 @@ function RequestDigest(hook) {
                 // do we have one in the cache that is still valid
                 // from #2186 we need to always ensure the digest we get isn't expired
                 let digest = clearExpired(digests.get(webUrl));
-                if (!objectDefinedNotNull(digest) && isFunc(hook)) {
+                if (!util_objectDefinedNotNull(digest) && isFunc(hook)) {
                     digest = clearExpired(hook(urlAsString, init));
                 }
-                if (!objectDefinedNotNull(digest)) {
+                if (!util_objectDefinedNotNull(digest)) {
                     digest = await spPost(SPQueryable([this, combine(webUrl, "_api/contextinfo")]).using(JSONParse(), BatchNever()), {
                         headers: {
                             "Accept": "application/json",
                             "X-PnPjs-NoDigest": "1",
                         },
                     }).then(p => ({
-                        expiration: dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
+                        expiration: util_dateAdd(new Date(), "second", p.FormDigestTimeoutSeconds),
                         value: p.FormDigestValue,
                     }));
                 }
-                if (objectDefinedNotNull(digest)) {
+                if (util_objectDefinedNotNull(digest)) {
                     // if we got a digest, set it in the headers
                     init.headers = {
                         "X-RequestDigest": digest.value,
@@ -4098,7 +3842,7 @@ function RequestDigest(hook) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
 
 
 
@@ -4122,12 +3866,23 @@ function SPBrowser(props) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
 
 
 
 
+class SPFxTokenNullOrUndefinedError extends Error {
+    constructor(behaviorName) {
+        super(`SPFx Context supplied to ${behaviorName} Behavior is null or undefined.`);
+    }
+    static check(behaviorName, context) {
+        if (typeof context === "undefined" || context === null) {
+            throw new SPFxTokenNullOrUndefinedError(behaviorName);
+        }
+    }
+}
 function SPFxToken(context) {
+    SPFxTokenNullOrUndefinedError.check("SPFxToken", context);
     return (instance) => {
         instance.on.auth.replace(async function (url, init) {
             const provider = await context.aadTokenProviderFactory.getTokenProvider();
@@ -4140,6 +3895,7 @@ function SPFxToken(context) {
     };
 }
 function SPFx(context) {
+    SPFxTokenNullOrUndefinedError.check("SPFx", context);
     return (instance) => {
         instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), 
         // remove SPFx Token in default due to issues #2570, #2571
@@ -4153,7 +3909,7 @@ function SPFx(context) {
                 // account for tab sleep #2550
                 return {
                     value: context.pageContext.legacyPageContext.formDigestValue,
-                    expiration: dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
+                    expiration: util_dateAdd(creationDateFromDigest, "second", ((_c = context.pageContext.legacyPageContext) === null || _c === void 0 ? void 0 : _c.formDigestTimeoutSeconds) - 15 || 1585),
                 };
             }
         }));
@@ -4168,7 +3924,7 @@ function SPFx(context) {
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
 
 
 
@@ -4184,9 +3940,356 @@ function SPFx(context) {
 
 
 
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/types.js
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/types.js
 
+
+
+
+
+
+
+let _Lists = class _Lists extends _SPCollection {
+    /**
+     * Gets a list from the collection by guid id
+     *
+     * @param id The Id of the list (GUID)
+     */
+    getById(id) {
+        return List(this).concat(`('${id}')`);
+    }
+    /**
+     * Gets a list from the collection by title
+     *
+     * @param title The title of the list
+     */
+    getByTitle(title) {
+        return List(this, `getByTitle('${encodePath(title)}')`);
+    }
+    /**
+     * Adds a new list to the collection
+     *
+     * @param title The new list's title
+     * @param description The new list's description
+     * @param template The list template value
+     * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
+     * @param additionalSettings Will be passed as part of the list creation body
+     */
+    async add(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
+        const addSettings = {
+            "AllowContentTypes": enableContentTypes,
+            "BaseTemplate": template,
+            "ContentTypesEnabled": enableContentTypes,
+            "Description": desc,
+            "Title": title,
+            ...additionalSettings,
+        };
+        return spPost(this, body(addSettings));
+    }
+    /**
+     * Ensures that the specified list exists in the collection (note: this method not supported for batching)
+     *
+     * @param title The new list's title
+     * @param desc The new list's description
+     * @param template The list template value
+     * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
+     * @param additionalSettings Will be passed as part of the list creation body or used to update an existing list
+     */
+    async ensure(title, desc = "", template = 100, enableContentTypes = false, additionalSettings = {}) {
+        const addOrUpdateSettings = { Title: title, Description: desc, ContentTypesEnabled: enableContentTypes, ...additionalSettings };
+        const list = this.getByTitle(addOrUpdateSettings.Title);
+        try {
+            await list.select("Title")();
+            const data = await list.update(addOrUpdateSettings);
+            return { created: false, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+        }
+        catch (e) {
+            const data = await this.add(title, desc, template, enableContentTypes, addOrUpdateSettings);
+            return { created: true, data, list: this.getByTitle(addOrUpdateSettings.Title) };
+        }
+    }
+    /**
+     * Gets a list that is the default asset location for images or other files, which the users upload to their wiki pages.
+     */
+    async ensureSiteAssetsLibrary() {
+        const json = await spPost(Lists(this, "ensuresiteassetslibrary"));
+        return List([this, odataUrlFrom(json)]);
+    }
+    /**
+     * Gets a list that is the default location for wiki pages.
+     */
+    async ensureSitePagesLibrary() {
+        const json = await spPost(Lists(this, "ensuresitepageslibrary"));
+        return List([this, odataUrlFrom(json)]);
+    }
+};
+_Lists = tslib_es6_decorate([
+    defaultPath("lists")
+], _Lists);
+
+const Lists = spInvokableFactory(_Lists);
+class _List extends _SPInstance {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag();
+    }
+    /**
+     * Gets the effective base permissions of this list
+     *
+     */
+    get effectiveBasePermissions() {
+        return SPQueryable(this, "EffectiveBasePermissions");
+    }
+    /**
+     * Gets the event receivers attached to this list
+     *
+     */
+    get eventReceivers() {
+        return SPCollection(this, "EventReceivers");
+    }
+    /**
+     * Gets the related fields of this list
+     *
+     */
+    get relatedFields() {
+        return SPQueryable(this, "getRelatedFields");
+    }
+    /**
+     * Gets the IRM settings for this list
+     *
+     */
+    get informationRightsManagementSettings() {
+        return SPQueryable(this, "InformationRightsManagementSettings");
+    }
+    /**
+     * Updates this list intance with the supplied properties
+     *
+     * @param properties A plain object hash of values to update for the list
+     * @param eTag Value used in the IF-Match header, by default "*"
+     */
+    async update(properties, eTag = "*") {
+        const data = await spPostMerge(this, body(properties, headers({ "IF-Match": eTag })));
+        return data;
+    }
+    /**
+     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query.
+     * @param query A query that is performed against the change log.
+     */
+    getChanges(query) {
+        return spPost(List(this, "getchanges"), body({ query }));
+    }
+    /**
+     * Returns the collection of items in the list based on the provided CamlQuery
+     * @param query A query that is performed against the list
+     * @param expands An expanded array of n items that contains fields to expand in the CamlQuery
+     */
+    getItemsByCAMLQuery(query, ...expands) {
+        return spPost(List(this, "getitems").expand(...expands), body({ query }));
+    }
+    /**
+     * See: https://msdn.microsoft.com/en-us/library/office/dn292554.aspx
+     * @param query An object that defines the change log item query
+     */
+    getListItemChangesSinceToken(query) {
+        return spPost(List(this, "getlistitemchangessincetoken").using(TextParse()), body({ query }));
+    }
+    /**
+     * Moves the list to the Recycle Bin and returns the identifier of the new Recycle Bin item.
+     */
+    async recycle() {
+        return spPost(List(this, "recycle"));
+    }
+    /**
+     * Renders list data based on the view xml provided
+     * @param viewXml A string object representing a view xml
+     */
+    async renderListData(viewXml) {
+        const q = List(this, "renderlistdata(@viewXml)");
+        q.query.set("@viewXml", `'${viewXml}'`);
+        const data = await spPost(q);
+        return JSON.parse(data);
+    }
+    /**
+     * Returns the data for the specified query view
+     *
+     * @param parameters The parameters to be used to render list data as JSON string.
+     * @param overrideParams The parameters that are used to override and extend the regular SPRenderListDataParameters.
+     * @param query Allows setting of query parameters
+     */
+    // eslint-disable-next-line max-len
+    renderListDataAsStream(parameters, overrideParameters = null, query = new Map()) {
+        if (hOP(parameters, "RenderOptions") && util_isArray(parameters.RenderOptions)) {
+            parameters.RenderOptions = parameters.RenderOptions.reduce((v, c) => v + c);
+        }
+        const clone = List(this, "RenderListDataAsStream");
+        if (query && query.size > 0) {
+            query.forEach((v, k) => clone.query.set(k, v));
+        }
+        const params = util_objectDefinedNotNull(overrideParameters) ? { parameters, overrideParameters } : { parameters };
+        return spPost(clone, body(params));
+    }
+    /**
+     * Gets the field values and field schema attributes for a list item.
+     * @param itemId Item id of the item to render form data for
+     * @param formId The id of the form
+     * @param mode Enum representing the control mode of the form (Display, Edit, New)
+     */
+    async renderListFormData(itemId, formId, mode) {
+        const data = await spPost(List(this, `renderlistformdata(itemid=${itemId}, formid='${formId}', mode='${mode}')`));
+        // data will be a string, so we parse it again
+        return JSON.parse(data);
+    }
+    /**
+     * Reserves a list item ID for idempotent list item creation.
+     */
+    async reserveListItemId() {
+        return spPost(List(this, "reservelistitemid"));
+    }
+    /**
+     * Creates an item using path (in a folder), validates and sets its field values.
+     *
+     * @param formValues The fields to change and their new values.
+     * @param decodedUrl Path decoded url; folder's server relative path.
+     * @param bNewDocumentUpdate true if the list item is a document being updated after upload; otherwise false.
+     * @param checkInComment Optional check in comment.
+     * @param additionalProps Optional set of additional properties LeafName new document file name,
+     */
+    async addValidateUpdateItemUsingPath(formValues, decodedUrl, bNewDocumentUpdate = false, checkInComment, additionalProps) {
+        const addProps = {
+            FolderPath: toResourcePath(decodedUrl),
+        };
+        if (util_objectDefinedNotNull(additionalProps)) {
+            if (additionalProps.leafName) {
+                addProps.LeafName = toResourcePath(additionalProps.leafName);
+            }
+            if (additionalProps.objectType) {
+                addProps.UnderlyingObjectType = additionalProps.objectType;
+            }
+        }
+        return spPost(List(this, "AddValidateUpdateItemUsingPath()"), body({
+            bNewDocumentUpdate,
+            checkInComment,
+            formValues,
+            listItemCreateInfo: addProps,
+        }));
+    }
+    /**
+     * Gets the parent information for this item's list and web
+     */
+    async getParentInfos() {
+        const urlInfo = await this.select("Id", "RootFolder/UniqueId", "RootFolder/ServerRelativeUrl", "RootFolder/ServerRelativePath", "ParentWeb/Id", "ParentWeb/Url", "ParentWeb/ServerRelativeUrl", "ParentWeb/ServerRelativePath").expand("RootFolder", "ParentWeb")();
+        return {
+            List: {
+                Id: urlInfo.Id,
+                RootFolderServerRelativePath: urlInfo.RootFolder.ServerRelativePath,
+                RootFolderServerRelativeUrl: urlInfo.RootFolder.ServerRelativeUrl,
+                RootFolderUniqueId: urlInfo.RootFolder.UniqueId,
+            },
+            ParentWeb: {
+                Id: urlInfo.ParentWeb.Id,
+                ServerRelativePath: urlInfo.ParentWeb.ServerRelativePath,
+                ServerRelativeUrl: urlInfo.ParentWeb.ServerRelativeUrl,
+                Url: urlInfo.ParentWeb.Url,
+            },
+        };
+    }
+}
+const List = spInvokableFactory(_List);
+/**
+ * Enum representing the options of the RenderOptions property on IRenderListDataParameters interface
+ */
+var RenderListDataOptions;
+(function (RenderListDataOptions) {
+    RenderListDataOptions[RenderListDataOptions["None"] = 0] = "None";
+    RenderListDataOptions[RenderListDataOptions["ContextInfo"] = 1] = "ContextInfo";
+    RenderListDataOptions[RenderListDataOptions["ListData"] = 2] = "ListData";
+    RenderListDataOptions[RenderListDataOptions["ListSchema"] = 4] = "ListSchema";
+    RenderListDataOptions[RenderListDataOptions["MenuView"] = 8] = "MenuView";
+    RenderListDataOptions[RenderListDataOptions["ListContentType"] = 16] = "ListContentType";
+    /**
+     * The returned list will have a FileSystemItemId field on each item if possible.
+     */
+    RenderListDataOptions[RenderListDataOptions["FileSystemItemId"] = 32] = "FileSystemItemId";
+    /**
+     * Returns the client form schema to add and edit items.
+     */
+    RenderListDataOptions[RenderListDataOptions["ClientFormSchema"] = 64] = "ClientFormSchema";
+    /**
+     * Returns QuickLaunch navigation nodes.
+     */
+    RenderListDataOptions[RenderListDataOptions["QuickLaunch"] = 128] = "QuickLaunch";
+    /**
+     * Returns Spotlight rendering information.
+     */
+    RenderListDataOptions[RenderListDataOptions["Spotlight"] = 256] = "Spotlight";
+    /**
+     * Returns Visualization rendering information.
+     */
+    RenderListDataOptions[RenderListDataOptions["Visualization"] = 512] = "Visualization";
+    /**
+     * Returns view XML and other information about the current view.
+     */
+    RenderListDataOptions[RenderListDataOptions["ViewMetadata"] = 1024] = "ViewMetadata";
+    /**
+     * Prevents AutoHyperlink from being run on text fields in this query.
+     */
+    RenderListDataOptions[RenderListDataOptions["DisableAutoHyperlink"] = 2048] = "DisableAutoHyperlink";
+    /**
+     * Enables urls pointing to Media TA service, such as .thumbnailUrl, .videoManifestUrl, .pdfConversionUrls.
+     */
+    RenderListDataOptions[RenderListDataOptions["EnableMediaTAUrls"] = 4096] = "EnableMediaTAUrls";
+    /**
+     * Return Parant folder information.
+     */
+    RenderListDataOptions[RenderListDataOptions["ParentInfo"] = 8192] = "ParentInfo";
+    /**
+     * Return Page context info for the current list being rendered.
+     */
+    RenderListDataOptions[RenderListDataOptions["PageContextInfo"] = 16384] = "PageContextInfo";
+    /**
+     * Return client-side component manifest information associated with the list.
+     */
+    RenderListDataOptions[RenderListDataOptions["ClientSideComponentManifest"] = 32768] = "ClientSideComponentManifest";
+    /**
+     * Return all content-types available on the list.
+     */
+    RenderListDataOptions[RenderListDataOptions["ListAvailableContentTypes"] = 65536] = "ListAvailableContentTypes";
+    /**
+      * Return the order of items in the new-item menu.
+      */
+    RenderListDataOptions[RenderListDataOptions["FolderContentTypeOrder"] = 131072] = "FolderContentTypeOrder";
+    /**
+     * Return information to initialize Grid for quick edit.
+     */
+    RenderListDataOptions[RenderListDataOptions["GridInitInfo"] = 262144] = "GridInitInfo";
+    /**
+     * Indicator if the vroom API of the SPItemUrl returned in MediaTAUrlGenerator should use site url as host.
+     */
+    RenderListDataOptions[RenderListDataOptions["SiteUrlAsMediaTASPItemHost"] = 524288] = "SiteUrlAsMediaTASPItemHost";
+    /**
+     * Return the files representing mount points in the list.
+     */
+    RenderListDataOptions[RenderListDataOptions["AddToOneDrive"] = 1048576] = "AddToOneDrive";
+    /**
+     * Return SPFX CustomAction.
+     */
+    RenderListDataOptions[RenderListDataOptions["SPFXCustomActions"] = 2097152] = "SPFXCustomActions";
+    /**
+     * Do not return non-SPFX CustomAction.
+     */
+    RenderListDataOptions[RenderListDataOptions["CustomActions"] = 4194304] = "CustomActions";
+})(RenderListDataOptions || (RenderListDataOptions = {}));
+/**
+ * Determines the display mode of the given control or view
+ */
+var ControlMode;
+(function (ControlMode) {
+    ControlMode[ControlMode["Display"] = 1] = "Display";
+    ControlMode[ControlMode["Edit"] = 2] = "Edit";
+    ControlMode[ControlMode["New"] = 3] = "New";
+})(ControlMode || (ControlMode = {}));
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/types.js
 
 
 
@@ -4198,7 +4301,7 @@ function SPFx(context) {
  * Describes a collection of Item objects
  *
  */
-let types_Items = class _Items extends _SPCollection {
+let _Items = class _Items extends _SPCollection {
     /**
     * Gets an Item by id
     *
@@ -4231,12 +4334,40 @@ let types_Items = class _Items extends _SPCollection {
         }
         return this;
     }
-    /**
-     * Gets a collection designed to aid in paging through data
-     *
-     */
-    getPaged() {
-        return this.using(PagedItemParser(this))();
+    [Symbol.asyncIterator]() {
+        const nextInit = SPCollection(this).using(parseBinderWithErrorCheck(async (r) => {
+            const json = await r.json();
+            const nextLink = hOP(json, "d") && hOP(json.d, "__next") ? json.d.__next : json["odata.nextLink"];
+            return {
+                hasNext: typeof nextLink === "string" && nextLink.length > 0,
+                nextLink,
+                value: parseODataJSON(json),
+            };
+        }));
+        const queryParams = ["$top", "$select", "$expand", "$filter", "$orderby", "$skiptoken"];
+        for (let i = 0; i < queryParams.length; i++) {
+            const param = this.query.get(queryParams[i]);
+            if (util_objectDefinedNotNull(param)) {
+                nextInit.query.set(queryParams[i], param);
+            }
+        }
+        return {
+            _next: nextInit,
+            async next() {
+                if (this._next === null) {
+                    return { done: true, value: undefined };
+                }
+                const result = await this._next();
+                if (result.hasNext) {
+                    this._next = SPCollection([this._next, result.nextLink]);
+                    return { done: false, value: result.value };
+                }
+                else {
+                    this._next = null;
+                    return { done: false, value: result.value };
+                }
+            },
+        };
     }
     /**
      * Adds a new item to the collection
@@ -4245,22 +4376,19 @@ let types_Items = class _Items extends _SPCollection {
      * @param listItemEntityTypeFullName The type name of the list's entities
      */
     async add(properties = {}) {
-        return spPost(this, request_builders_body(properties)).then((data) => ({
-            data: data,
-            item: this.getById(data.Id),
-        }));
+        return spPost(this, body(properties));
     }
 };
-types_Items = tslib_es6_decorate([
+_Items = tslib_es6_decorate([
     defaultPath("items")
-], types_Items);
+], _Items);
 
-const Items = spInvokableFactory(types_Items);
+const Items = spInvokableFactory(_Items);
 /**
  * Descrines a single Item instance
  *
  */
-class types_Item extends _SPInstance {
+class _Item extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteableWithETag();
@@ -4319,15 +4447,11 @@ class types_Item extends _SPInstance {
      * @param eTag Value used in the IF-Match header, by default "*"
      */
     async update(properties, eTag = "*") {
-        const postBody = request_builders_body(properties, request_builders_headers({
+        const postBody = body(properties, headers({
             "IF-Match": eTag,
             "X-HTTP-Method": "MERGE",
         }));
-        const data = await spPost(Item(this).using(ItemUpdatedParser()), postBody);
-        return {
-            data,
-            item: this,
-        };
+        return spPost(Item(this).using(ItemUpdatedParser()), postBody);
     }
     /**
      * Moves the list item to the Recycle Bin and returns the identifier of the new Recycle Bin item.
@@ -4341,7 +4465,7 @@ class types_Item extends _SPInstance {
      * @param parameters Specifies the options to use when deleting a item.
      */
     async deleteWithParams(parameters) {
-        return spPost(Item(this, "DeleteWithParameters"), request_builders_body({ parameters }));
+        return spPost(Item(this, "DeleteWithParameters"), body({ parameters }));
     }
     /**
      * Gets a string representation of the full URL to the WOPI frame.
@@ -4361,7 +4485,7 @@ class types_Item extends _SPInstance {
      * @param bNewDocumentUpdate true if the list item is a document being updated after upload; otherwise false.
      */
     validateUpdateListItem(formValues, bNewDocumentUpdate = false) {
-        return spPost(Item(this, "validateupdatelistitem"), request_builders_body({ formValues, bNewDocumentUpdate }));
+        return spPost(Item(this, "validateupdatelistitem"), body({ formValues, bNewDocumentUpdate }));
     }
     /**
      * Gets the parent information for this item's list and web
@@ -4412,12 +4536,12 @@ class types_Item extends _SPInstance {
             }]);
     }
 }
-const Item = spInvokableFactory(types_Item);
+const Item = spInvokableFactory(_Item);
 /**
  * Describes a collection of Version objects
  *
  */
-let types_ItemVersions = class _ItemVersions extends _SPCollection {
+let _ItemVersions = class _ItemVersions extends _SPCollection {
     /**
      * Gets a version by id
      *
@@ -4427,75 +4551,35 @@ let types_ItemVersions = class _ItemVersions extends _SPCollection {
         return ItemVersion(this).concat(`(${versionId})`);
     }
 };
-types_ItemVersions = tslib_es6_decorate([
+_ItemVersions = tslib_es6_decorate([
     defaultPath("versions")
-], types_ItemVersions);
+], _ItemVersions);
 
-const ItemVersions = spInvokableFactory(types_ItemVersions);
+const ItemVersions = spInvokableFactory(_ItemVersions);
 /**
  * Describes a single Version instance
  *
  */
-class types_ItemVersion extends _SPInstance {
+class _ItemVersion extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteableWithETag();
     }
 }
-const ItemVersion = spInvokableFactory(types_ItemVersion);
-/**
- * Provides paging functionality for list items
- */
-class PagedItemCollection {
-    constructor(parent, nextUrl, results) {
-        this.parent = parent;
-        this.nextUrl = nextUrl;
-        this.results = results;
-    }
-    /**
-     * If true there are more results available in the set, otherwise there are not
-     */
-    get hasNext() {
-        return typeof this.nextUrl === "string" && this.nextUrl.length > 0;
-    }
-    /**
-     * Gets the next set of results, or resolves to null if no results are available
-     */
-    async getNext() {
-        if (this.hasNext) {
-            const items = Items([this.parent, this.nextUrl], "");
-            return items.getPaged();
-        }
-        return null;
-    }
-}
-function PagedItemParser(parent) {
-    return parseBinderWithErrorCheck(async (r) => {
-        const json = await r.json();
-        const nextUrl = hOP(json, "d") && hOP(json.d, "__next") ? json.d.__next : json["odata.nextLink"];
-        return new PagedItemCollection(parent, nextUrl, parseODataJSON(json));
-    });
-}
+const ItemVersion = spInvokableFactory(_ItemVersion);
 function ItemUpdatedParser() {
     return parseBinderWithErrorCheck(async (r) => ({
         etag: r.headers.get("etag"),
     }));
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/readable-file.js
 
 
-
-addProp(types_List, "items", Items);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/readable-file.js
-
-
-class readable_file_ReadableFile extends _SPInstance {
+function StreamParse() {
+    return parseBinderWithErrorCheck(async (r) => { var _a; return ({ body: r.body, knownLength: parseInt(((_a = r === null || r === void 0 ? void 0 : r.headers) === null || _a === void 0 ? void 0 : _a.get("content-length")) || "-1", 10) }); });
+}
+class ReadableFile extends _SPInstance {
     /**
      * Gets the contents of the file as text. Not supported in batching.
      *
@@ -4522,17 +4606,394 @@ class readable_file_ReadableFile extends _SPInstance {
     getJSON() {
         return this.getParsed(JSONParse());
     }
+    /**
+     * Gets the content of a file as a ReadableStream
+     *
+     */
+    getStream() {
+        return SPQueryable(this, "$value").using(StreamParse(), CacheNever())(headers({ "binaryStringResponseBody": "true" }));
+    }
     getParsed(parser) {
         return SPQueryable(this, "$value").using(parser, CacheNever())();
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/context-info/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/types.js
 
 
 
 
-spqueryable_SPQueryable.prototype.getContextInfo = async function (path = this.parentUrl) {
+
+
+let _Attachments = class _Attachments extends _SPCollection {
+    /**
+    * Gets a Attachment File by filename
+    *
+    * @param name The name of the file, including extension.
+    */
+    getByName(name) {
+        const f = Attachment(this);
+        f.concat(`('${encodePath(name)}')`);
+        return f;
+    }
+    /**
+     * Adds a new attachment to the collection. Not supported for batching.
+     *
+     * @param name The name of the file, including extension.
+     * @param content The Base64 file content.
+     */
+    async add(name, content) {
+        const response = await spPost(Attachments(this, `add(FileName='${encodePath(name)}')`), { body: content });
+        return {
+            data: response,
+            file: this.getByName(name),
+        };
+    }
+};
+_Attachments = tslib_es6_decorate([
+    defaultPath("AttachmentFiles")
+], _Attachments);
+
+const Attachments = spInvokableFactory(_Attachments);
+class _Attachment extends ReadableFile {
+    constructor() {
+        super(...arguments);
+        this.delete = deleteableWithETag();
+    }
+    /**
+     * Sets the content of a file. Not supported for batching
+     *
+     * @param content The value to set for the file contents
+     */
+    async setContent(body) {
+        await spPost(Attachment(this, "$value"), headers({ "X-HTTP-Method": "PUT" }, { body }));
+        return this;
+    }
+    /**
+     * Delete this attachment file and send it to recycle bin
+     *
+     * @param eTag Value used in the IF-Match header, by default "*"
+     */
+    recycle(eTag = "*") {
+        return spPost(Attachment(this, "recycleObject"), headers({
+            "IF-Match": eTag,
+            "X-HTTP-Method": "DELETE",
+        }));
+    }
+}
+const Attachment = spInvokableFactory(_Attachment);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/item.js
+
+
+
+addProp(_Item, "attachmentFiles", Attachments);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/index.js
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/types.js
+
+
+
+
+
+
+
+
+
+/**
+ * Ensures that whatever url is passed to the constructor we can correctly rebase it to a site url
+ *
+ * @param candidate The candidate site url
+ * @param path The caller supplied path, which may contain _api, meaning we don't append _api/site
+ */
+function rebaseSiteUrl(candidate, path) {
+    let replace = "_api/site";
+    // this allows us to both:
+    // - test if `candidate` already has an api path
+    // - ensure that we append the correct one as sometimes a web is not defined
+    //   by _api/web, in the case of _api/site/rootweb for example
+    const matches = /(_api[/|\\](site|web))/i.exec(candidate);
+    if ((matches === null || matches === void 0 ? void 0 : matches.length) > 0) {
+        // we want just the base url part (before the _api)
+        candidate = extractWebUrl(candidate);
+        // we want to ensure we put back the correct string
+        replace = matches[1];
+    }
+    // we only need to append the _api part IF `path` doesn't already include it.
+    if ((path === null || path === void 0 ? void 0 : path.indexOf("_api")) < 0) {
+        candidate = combine(candidate, replace);
+    }
+    return candidate;
+}
+let _Site = class _Site extends _SPInstance {
+    constructor(base, path) {
+        if (typeof base === "string") {
+            base = rebaseSiteUrl(base, path);
+        }
+        else if (util_isArray(base)) {
+            base = [base[0], rebaseSiteUrl(base[1], path)];
+        }
+        else {
+            base = [base, rebaseSiteUrl(base.toUrl(), path)];
+        }
+        super(base, path);
+    }
+    /**
+     * Gets the root web of the site collection
+     *
+     */
+    get rootWeb() {
+        return Web(this, "rootweb");
+    }
+    /**
+     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
+     *
+     * @param query The change query
+     */
+    getChanges(query) {
+        const postBody = body({ query });
+        return spPost(Web(this, "getchanges"), postBody);
+    }
+    /**
+     * Opens a web by id (using POST)
+     *
+     * @param webId The GUID id of the web to open
+     */
+    async openWebById(webId) {
+        const data = await spPost(Site(this, `openWebById('${webId}')`));
+        return {
+            data,
+            web: Web([this, extractWebUrl(odataUrlFrom(data))]),
+        };
+    }
+    /**
+     * Gets a Web instance representing the root web of the site collection
+     * correctly setup for chaining within the library
+     */
+    async getRootWeb() {
+        const web = await this.rootWeb.select("Url")();
+        return Web([this, web.Url]);
+    }
+    /**
+     * Deletes the current site
+     *
+     */
+    async delete() {
+        const site = await Site(this, "").select("Id")();
+        const q = Site([this, this.parentUrl], "_api/SPSiteManager/Delete");
+        await spPost(q, body({ siteId: site.Id }));
+    }
+    /**
+     * Gets the document libraries on a site. Static method. (SharePoint Online only)
+     *
+     * @param absoluteWebUrl The absolute url of the web whose document libraries should be returned
+     */
+    async getDocumentLibraries(absoluteWebUrl) {
+        const q = Site([this, this.parentUrl], "_api/sp.web.getdocumentlibraries(@v)");
+        q.query.set("@v", `'${absoluteWebUrl}'`);
+        const data = await q();
+        return hOP(data, "GetDocumentLibraries") ? data.GetDocumentLibraries : data;
+    }
+    /**
+     * Gets the site url from a page url
+     *
+     * @param absolutePageUrl The absolute url of the page
+     */
+    async getWebUrlFromPageUrl(absolutePageUrl) {
+        const q = Site([this, this.parentUrl], "_api/sp.web.getweburlfrompageurl(@v)");
+        q.query.set("@v", `'${absolutePageUrl}'`);
+        const data = await q();
+        return hOP(data, "GetWebUrlFromPageUrl") ? data.GetWebUrlFromPageUrl : data;
+    }
+    /**
+     * Creates a Modern communication site.
+     *
+     * @param title The title of the site to create
+     * @param lcid The language to use for the site. If not specified will default to 1033 (English).
+     * @param shareByEmailEnabled If set to true, it will enable sharing files via Email. By default it is set to false
+     * @param url The fully qualified URL (e.g. https://yourtenant.sharepoint.com/sites/mysitecollection) of the site.
+     * @param description The description of the communication site.
+     * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
+     * @param siteDesignId The Guid of the site design to be used.
+     *                     You can use the below default OOTB GUIDs:
+     *                     Topic: 00000000-0000-0000-0000-000000000000
+     *                     Showcase: 6142d2a0-63a5-4ba0-aede-d9fefca2c767
+     *                     Blank: f6cc5403-0d63-442e-96c0-285923709ffc
+     * @param hubSiteId The id of the hub site to which the new site should be associated
+     * @param owner Optional owner value, required if executing the method in app only mode
+     */
+    async createCommunicationSite(title, lcid = 1033, shareByEmailEnabled = false, url, description, classification, siteDesignId, hubSiteId, owner) {
+        return this.createCommunicationSiteFromProps({
+            Classification: classification,
+            Description: description,
+            HubSiteId: hubSiteId,
+            Lcid: lcid,
+            Owner: owner,
+            ShareByEmailEnabled: shareByEmailEnabled,
+            SiteDesignId: siteDesignId,
+            Title: title,
+            Url: url,
+        });
+    }
+    async createCommunicationSiteFromProps(props) {
+        // handle defaults
+        const request = {
+            Classification: "",
+            Description: "",
+            HubSiteId: emptyGuid,
+            Lcid: 1033,
+            ShareByEmailEnabled: false,
+            SiteDesignId: emptyGuid,
+            WebTemplate: "SITEPAGEPUBLISHING#0",
+            WebTemplateExtensionId: emptyGuid,
+            ...props,
+        };
+        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/SPSiteManager/Create"), body({ request }));
+    }
+    /**
+     *
+     * @param url Site Url that you want to check if exists
+     */
+    async exists(url) {
+        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/SP.Site.Exists"), body({ url }));
+    }
+    /**
+     * Creates a Modern team site backed by Office 365 group. For use in SP Online only. This will not work with App-only tokens
+     *
+     * @param displayName The title or display name of the Modern team site to be created
+     * @param alias Alias of the underlying Office 365 Group
+     * @param isPublic Defines whether the Office 365 Group will be public (default), or private.
+     * @param lcid The language to use for the site. If not specified will default to English (1033).
+     * @param description The description of the site to be created.
+     * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
+     * @param owners The Owners of the site to be created
+     */
+    async createModernTeamSite(displayName, alias, isPublic, lcid, description, classification, owners, hubSiteId, siteDesignId) {
+        return this.createModernTeamSiteFromProps({
+            alias,
+            classification,
+            description,
+            displayName,
+            hubSiteId,
+            isPublic,
+            lcid,
+            owners,
+            siteDesignId,
+        });
+    }
+    async createModernTeamSiteFromProps(props) {
+        // handle defaults
+        const p = Object.assign({}, {
+            classification: "",
+            description: "",
+            hubSiteId: emptyGuid,
+            isPublic: true,
+            lcid: 1033,
+            owners: [],
+        }, props);
+        const postBody = {
+            alias: p.alias,
+            displayName: p.displayName,
+            isPublic: p.isPublic,
+            optionalParams: {
+                Classification: p.classification,
+                CreationOptions: [`SPSiteLanguage:${p.lcid}`, `HubSiteId:${p.hubSiteId}`],
+                Description: p.description,
+                Owners: p.owners,
+            },
+        };
+        if (p.siteDesignId) {
+            postBody.optionalParams.CreationOptions.push(`implicit_formula_292aa8a00786498a87a5ca52d9f4214a_${p.siteDesignId}`);
+        }
+        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/GroupSiteManager/CreateGroupEx").using(TextParse()), body(postBody));
+    }
+    update(props) {
+        return spPatch(this, body(props));
+    }
+    /**
+     * Set's the site's `Site Logo` property, vs the Site Icon property available on the web's properties
+     *
+     * @param logoProperties An instance of ISiteLogoProperties which sets the new site logo.
+     */
+    setSiteLogo(logoProperties) {
+        return spPost(SPQueryable([this, extractWebUrl(this.toUrl())], "_api/siteiconmanager/setsitelogo"), body(logoProperties));
+    }
+};
+_Site = tslib_es6_decorate([
+    defaultPath("_api/site")
+], _Site);
+
+const Site = spInvokableFactory(_Site);
+var SiteLogoType;
+(function (SiteLogoType) {
+    /**
+     * Site header logo
+     */
+    SiteLogoType[SiteLogoType["WebLogo"] = 0] = "WebLogo";
+    /**
+     * Hub site logo
+     */
+    SiteLogoType[SiteLogoType["HubLogo"] = 1] = "HubLogo";
+    /**
+     * Header background image
+     */
+    SiteLogoType[SiteLogoType["HeaderBackground"] = 2] = "HeaderBackground";
+    /**
+     * Global navigation logo
+     */
+    SiteLogoType[SiteLogoType["GlobalNavLogo"] = 3] = "GlobalNavLogo";
+})(SiteLogoType || (SiteLogoType = {}));
+var SiteLogoAspect;
+(function (SiteLogoAspect) {
+    SiteLogoAspect[SiteLogoAspect["Square"] = 0] = "Square";
+    SiteLogoAspect[SiteLogoAspect["Rectangular"] = 1] = "Rectangular";
+})(SiteLogoAspect || (SiteLogoAspect = {}));
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/funcs.js
+
+/**
+ * Gets the next order value 1 based for the provided collection
+ *
+ * @param collection Collection of orderable things
+ */
+function getNextOrder(collection) {
+    return collection.length < 1 ? 1 : (Math.max.apply(null, collection.map(i => i.order)) + 1);
+}
+/**
+ * Normalizes the order value for all the sections, columns, and controls to be 1 based and stepped (1, 2, 3...)
+ *
+ * @param collection The collection to normalize
+ */
+function reindex(collection) {
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].order = i + 1;
+        if (hOP(collection[i], "columns")) {
+            reindex(collection[i].columns);
+        }
+        else if (hOP(collection[i], "controls")) {
+            reindex(collection[i].controls);
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/list.js
+
+
+
+addProp(_List, "items", Items);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/index.js
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/context-info/index.js
+
+
+
+_SPQueryable.prototype.getContextInfo = async function (path = this.parentUrl) {
     const data = await spPost(SPQueryable([this, extractWebUrl(path)], "_api/contextinfo"));
     if (hOP(data, "GetContextWebInformation")) {
         const info = data.GetContextWebInformation;
@@ -4544,8 +5005,7 @@ spqueryable_SPQueryable.prototype.getContextInfo = async function (path = this.p
     }
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/types.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/types.js
 
 
 
@@ -4563,7 +5023,7 @@ spqueryable_SPQueryable.prototype.getContextInfo = async function (path = this.p
  * Describes a collection of File objects
  *
  */
-let types_Files = class _Files extends _SPCollection {
+let _Files = class _Files extends _SPCollection {
     /**
      * Gets a File by filename
      *
@@ -4599,29 +5059,24 @@ let types_Files = class _Files extends _SPCollection {
             }
         }
         path.push(")");
-        const resp = await spPost(Files(this, path.join("")), { body: content });
-        return {
-            data: resp,
-            file: fileFromServerRelativePath(this, resp.ServerRelativeUrl),
-        };
+        return spPost(Files(this, path.join("")), { body: content });
     }
     /**
      * Uploads a file. Not supported for batching
      *
      * @param url The folder-relative url of the file.
      * @param content The Blob file content to add
-     * @param progress A callback function which can be used to track the progress of the upload
-     * @param shouldOverWrite Should a file with the same name in the same location be overwritten? (default: true)
-     * @param chunkSize The size of each file slice, in bytes (default: 10485760)
+     * @param props Set of optional values that control the behavior of the underlying addUsingPath and chunkedUpload feature
      * @returns The new File and the raw response.
      */
-    async addChunked(url, content, progress, shouldOverWrite = true, chunkSize = 10485760) {
-        const response = await spPost(Files(this, `add(overwrite=${shouldOverWrite},url='${encodePath(url)}')`));
+    async addChunked(url, content, props) {
+        // add an empty stub
+        const response = await this.addUsingPath(url, null, props);
         const file = fileFromServerRelativePath(this, response.ServerRelativeUrl);
         file.using(CancelAction(() => {
             return File(file).delete();
         }));
-        return file.setContentChunked(content, progress, chunkSize);
+        return file.setContentChunked(content, props);
     }
     /**
      * Adds a ghosted file to an existing list or document library. Not supported for batching.
@@ -4631,32 +5086,28 @@ let types_Files = class _Files extends _SPCollection {
      * @returns The template file that was added and the raw response.
      */
     async addTemplateFile(fileUrl, templateFileType) {
-        const response = await spPost(Files(this, `addTemplateFile(urloffile='${encodePath(fileUrl)}',templatefiletype=${templateFileType})`));
-        return {
-            data: response,
-            file: fileFromServerRelativePath(this, response.ServerRelativeUrl),
-        };
+        return spPost(Files(this, `addTemplateFile(urloffile='${encodePath(fileUrl)}',templatefiletype=${templateFileType})`));
     }
 };
 tslib_es6_decorate([
     cancelableScope
-], types_Files.prototype, "addUsingPath", null);
+], _Files.prototype, "addUsingPath", null);
 tslib_es6_decorate([
     cancelableScope
-], types_Files.prototype, "addChunked", null);
+], _Files.prototype, "addChunked", null);
 tslib_es6_decorate([
     cancelableScope
-], types_Files.prototype, "addTemplateFile", null);
-types_Files = tslib_es6_decorate([
+], _Files.prototype, "addTemplateFile", null);
+_Files = tslib_es6_decorate([
     defaultPath("files")
-], types_Files);
+], _Files);
 
-const Files = spInvokableFactory(types_Files);
+const Files = spInvokableFactory(_Files);
 /**
  * Describes a single File instance
  *
  */
-class types_File extends readable_file_ReadableFile {
+class _File extends ReadableFile {
     constructor() {
         super(...arguments);
         this.delete = deleteableWithETag();
@@ -4805,7 +5256,7 @@ class types_File extends readable_file_ReadableFile {
      * @param parameters Specifies the options to use when deleting a file.
      */
     async deleteWithParams(parameters) {
-        return spPost(File(this, "DeleteWithParameters"), request_builders_body({ parameters }));
+        return spPost(File(this, "DeleteWithParameters"), body({ parameters }));
     }
     /**
      * Reverts an existing checkout for the file.
@@ -4870,96 +5321,42 @@ class types_File extends readable_file_ReadableFile {
      * @param progress A callback function which can be used to track the progress of the upload
      * @param chunkSize The size of each file slice, in bytes (default: 10485760)
      */
-    async setContentChunked(file, progress, chunkSize = 10485760) {
-        if (!isFunc(progress)) {
-            progress = () => null;
-        }
-        const fileSize = (file === null || file === void 0 ? void 0 : file.size) || file.length;
-        const totalBlocks = parseInt((fileSize / chunkSize).toString(), 10) + ((fileSize % chunkSize === 0) ? 1 : 0);
+    async setContentChunked(file, props) {
+        const { progress } = applyChunckedOperationDefaults(props);
         const uploadId = getGUID();
+        let first = true;
+        let chunk;
+        let offset = 0;
         const fileRef = File(this).using(CancelAction(() => {
             return File(fileRef).cancelUpload(uploadId);
         }));
-        // report that we are starting
-        progress({ uploadId, blockNumber: 1, chunkSize, currentPointer: 0, fileSize, stage: "starting", totalBlocks });
-        let currentPointer = await fileRef.startUpload(uploadId, file.slice(0, chunkSize));
-        // skip the first and last blocks
-        for (let i = 2; i < totalBlocks; i++) {
-            progress({ uploadId, blockNumber: i, chunkSize, currentPointer, fileSize, stage: "continue", totalBlocks });
-            currentPointer = await fileRef.continueUpload(uploadId, currentPointer, file.slice(currentPointer, currentPointer + chunkSize));
+        const contentStream = sourceToReadableStream(file);
+        const reader = contentStream.getReader();
+        while ((chunk = await reader.read())) {
+            if (chunk.done) {
+                progress({ offset, stage: "finishing", uploadId });
+                return spPost(File(fileRef, `finishUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: (chunk === null || chunk === void 0 ? void 0 : chunk.value) || "" });
+            }
+            else if (first) {
+                progress({ offset, stage: "starting", uploadId });
+                offset = await spPost(File(fileRef, `startUpload(uploadId=guid'${uploadId}')`), { body: chunk.value });
+                first = false;
+            }
+            else {
+                progress({ offset, stage: "continue", uploadId });
+                offset = await spPost(File(fileRef, `continueUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: chunk.value });
+            }
         }
-        progress({ uploadId, blockNumber: totalBlocks, chunkSize, currentPointer, fileSize, stage: "finishing", totalBlocks });
-        return fileRef.finishUpload(uploadId, currentPointer, file.slice(currentPointer));
-    }
-    /**
-     * Starts a new chunk upload session and uploads the first fragment.
-     * The current file content is not changed when this method completes.
-     * The method is idempotent (and therefore does not change the result) as long as you use the same values for uploadId and stream.
-     * The upload session ends either when you use the CancelUpload method or when you successfully
-     * complete the upload session by passing the rest of the file contents through the ContinueUpload and FinishUpload methods.
-     * The StartUpload and ContinueUpload methods return the size of the running total of uploaded data in bytes,
-     * so you can pass those return values to subsequent uses of ContinueUpload and FinishUpload.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fragment The file contents.
-     * @returns The size of the total uploaded data in bytes.
-     */
-    async startUpload(uploadId, fragment) {
-        let n = await spPost(File(this, `startUpload(uploadId=guid'${uploadId}')`), { body: fragment });
-        if (typeof n === "object") {
-            // When OData=verbose the payload has the following shape:
-            // { StartUpload: "10485760" }
-            n = n.StartUpload;
-        }
-        return parseFloat(n);
-    }
-    /**
-     * Continues the chunk upload session with an additional fragment.
-     * The current file content is not changed.
-     * Use the uploadId value that was passed to the StartUpload method that started the upload session.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fileOffset The size of the offset into the file where the fragment starts.
-     * @param fragment The file contents.
-     * @returns The size of the total uploaded data in bytes.
-     */
-    async continueUpload(uploadId, fileOffset, fragment) {
-        let n = await spPost(File(this, `continueUpload(uploadId=guid'${uploadId}',fileOffset=${fileOffset})`), { body: fragment });
-        if (typeof n === "object") {
-            // When OData=verbose the payload has the following shape:
-            // { ContinueUpload: "20971520" }
-            n = n.ContinueUpload;
-        }
-        return parseFloat(n);
-    }
-    /**
-     * Uploads the last file fragment and commits the file. The current file content is changed when this method completes.
-     * Use the uploadId value that was passed to the StartUpload method that started the upload session.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fileOffset The size of the offset into the file where the fragment starts.
-     * @param fragment The file contents.
-     * @returns The newly uploaded file.
-     */
-    async finishUpload(uploadId, fileOffset, fragment) {
-        const response = await spPost(File(this, `finishUpload(uploadId=guid'${uploadId}',fileOffset=${fileOffset})`), { body: fragment });
-        return {
-            data: response,
-            file: fileFromServerRelativePath(this, response.ServerRelativeUrl),
-        };
     }
     moveCopyImpl(destUrl, options, overwrite, methodName) {
         // create a timeline we will manipulate for this request
         const poster = File(this);
         // add our pre-request actions, this fixes issues with batching hanging #2668
-        poster.on.pre(noInherit(async (url, init, result) => {
+        poster.on.pre(timeline_noInherit(async (url, init, result) => {
             const { ServerRelativeUrl: srcUrl, ["odata.id"]: absoluteUrl } = await File(this).using(BatchNever()).select("ServerRelativeUrl")();
             const webBaseUrl = new URL(extractWebUrl(absoluteUrl));
             url = combine(webBaseUrl.toString(), `/_api/SP.MoveCopyUtil.${methodName}(overwrite=@a1)?@a1=${overwrite}`);
-            init = request_builders_body({
+            init = body({
                 destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${destUrl}`),
                 options,
                 srcPath: toResourcePath(isUrlAbsolute(srcUrl) ? srcUrl : `${webBaseUrl.protocol}//${webBaseUrl.host}${srcUrl}`),
@@ -4971,14 +5368,14 @@ class types_File extends readable_file_ReadableFile {
 }
 tslib_es6_decorate([
     cancelableScope
-], types_File.prototype, "copyByPath", null);
+], _File.prototype, "copyByPath", null);
 tslib_es6_decorate([
     cancelableScope
-], types_File.prototype, "moveByPath", null);
+], _File.prototype, "moveByPath", null);
 tslib_es6_decorate([
     cancelableScope
-], types_File.prototype, "setContentChunked", null);
-const File = spInvokableFactory(types_File);
+], _File.prototype, "setContentChunked", null);
+const File = spInvokableFactory(_File);
 /**
  * Creates an IFile instance given a base object and a server relative path
  *
@@ -5015,7 +5412,7 @@ async function fileFromPath(base, path) {
  * Describes a collection of Version objects
  *
  */
-let types_Versions = class _Versions extends _SPCollection {
+let _Versions = class _Versions extends _SPCollection {
     /**
      * Gets a version by id
      *
@@ -5072,22 +5469,22 @@ let types_Versions = class _Versions extends _SPCollection {
         return spPost(Versions(this, `restoreByLabel(versionlabel='${encodePath(label)}')`));
     }
 };
-types_Versions = tslib_es6_decorate([
+_Versions = tslib_es6_decorate([
     defaultPath("versions")
-], types_Versions);
+], _Versions);
 
-const Versions = spInvokableFactory(types_Versions);
+const Versions = spInvokableFactory(_Versions);
 /**
  * Describes a single Version instance
  *
  */
-class types_Version extends readable_file_ReadableFile {
+class _Version extends ReadableFile {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
     }
 }
-const Version = spInvokableFactory(types_Version);
+const Version = spInvokableFactory(_Version);
 /**
  * Types for document check in.
  * Minor = 0
@@ -5129,550 +5526,91 @@ var TemplateFileType;
     TemplateFileType[TemplateFileType["FormPage"] = 2] = "FormPage";
     TemplateFileType[TemplateFileType["ClientSidePage"] = 3] = "ClientSidePage";
 })(TemplateFileType || (TemplateFileType = {}));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/types.js
-
-
-
-
-
-
-
-
-function getAppCatalogPath(base, path) {
-    const paths = ["_api/web/tenantappcatalog/", "_api/web/sitecollectionappcatalog/"];
-    for (let i = 0; i < paths.length; i++) {
-        const index = base.indexOf(paths[i]);
-        if (index > -1) {
-            return combine(base.substring(index, index + paths[i].length), path);
-        }
-    }
-    return combine(base, path);
+function applyChunckedOperationDefaults(props) {
+    return {
+        progress: () => null,
+        ...props,
+    };
 }
-let types_AppCatalog = class _AppCatalog extends _SPCollection {
-    constructor(base, path) {
-        super(base, null);
-        this._url = combine(extractWebUrl(this._url), path);
+/**
+ * Converts the source into a ReadableStream we can understand
+ */
+function sourceToReadableStream(source) {
+    if (isBlob(source)) {
+        return source.stream();
     }
-    /**
-     * Get details of specific app from the app catalog
-     * @param id - Specify the guid of the app
-     */
-    getAppById(id) {
-        return App(this, `getById('${id}')`);
-    }
-    /**
-     * Synchronize a solution to the Microsoft Teams App Catalog
-     * @param id - Specify the guid of the app
-     * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
-     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
-     */
-    async syncSolutionToTeams(id, useSharePointItemId = false) {
-        // This REST call requires that you refer the list item id of the solution in the app catalog site.
-        let appId = null;
-        const webUrl = combine(extractWebUrl(this.toUrl()), "_api/web");
-        if (useSharePointItemId) {
-            appId = id;
-        }
-        else {
-            const listId = (await SPCollection([this, webUrl], "lists").select("Id").filter("EntityTypeName eq 'AppCatalog'")())[0].Id;
-            const listItems = await SPCollection([this, webUrl], `lists/getById('${listId}')/items`).select("Id").filter(`AppProductID eq '${id}'`).top(1)();
-            if (listItems && listItems.length > 0) {
-                appId = listItems[0].Id;
-            }
-            else {
-                throw Error(`Did not find the app with id ${id} in the appcatalog.`);
-            }
-        }
-        return spPost(AppCatalog(this, getAppCatalogPath(this.toUrl(), `SyncSolutionToTeams(id=${appId})`)));
-    }
-    /**
-     * Uploads an app package. Not supported for batching
-     *
-     * @param filename Filename to create.
-     * @param content app package data (eg: the .app or .sppkg file).
-     * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
-     * @returns Promise<IAppAddResult>
-     */
-    async add(filename, content, shouldOverWrite = true) {
-        // you don't add to the availableapps collection
-        const adder = AppCatalog(this, getAppCatalogPath(this.toUrl(), `add(overwrite=${shouldOverWrite},url='${filename}')`));
-        const r = await spPost(adder, {
-            body: content, headers: {
-                "binaryStringRequestBody": "true",
+    else if (hasOn(source)) {
+        // we probably have a passthrough stream from NodeFetch or some other type that supports "on(data)"
+        return new ReadableStream({
+            start(controller) {
+                source.on("data", (chunk) => {
+                    controller.enqueue(chunk);
+                });
+                source.on("end", () => {
+                    controller.close();
+                });
             },
         });
-        return {
-            data: r,
-            file: File([this, odataUrlFrom(r)]),
-        };
     }
-};
-types_AppCatalog = tslib_es6_decorate([
-    defaultPath("_api/web/tenantappcatalog/AvailableApps")
-], types_AppCatalog);
-
-const AppCatalog = spInvokableFactory(types_AppCatalog);
-class types_App extends _SPInstance {
-    /**
-     * This method deploys an app on the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     *
-     * @param skipFeatureDeployment Deploy the app to the entire tenant
-     */
-    deploy(skipFeatureDeployment = false) {
-        return this.do(`Deploy(${skipFeatureDeployment})`);
-    }
-    /**
-     * This method retracts a deployed app on the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     */
-    retract() {
-        return this.do("Retract");
-    }
-    /**
-     * This method allows an app which is already deployed to be installed on a web
-     */
-    install() {
-        return this.do("Install");
-    }
-    /**
-     * This method allows an app which is already installed to be uninstalled on a web
-     * Note: when you use the REST API to uninstall a solution package from the site, it is not relocated to the recycle bin
-     */
-    uninstall() {
-        return this.do("Uninstall");
-    }
-    /**
-     * This method allows an app which is already installed to be upgraded on a web
-     */
-    upgrade() {
-        return this.do("Upgrade");
-    }
-    /**
-     * This method removes an app from the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     */
-    remove() {
-        return this.do("Remove");
-    }
-    do(path) {
-        return spPost(App(this, path));
-    }
-}
-const App = spInvokableFactory(types_App);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/web.js
-
-
-
-// we use this function to wrap the AppCatalog as we want to ignore any path values addProp
-// will pass and use the defaultPath defined for AppCatalog
-addProp(types_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/index.js
-
-
-
-
-
-Reflect.defineProperty(fi_SPFI.prototype, "tenantAppcatalog", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.create(AppCatalog, "_api/web/tenantappcatalog/AvailableApps");
-    },
-});
-fi_SPFI.prototype.getTenantAppCatalogWeb = async function () {
-    const data = await Web(this._root, "_api/SP_TenantSettings_Current")();
-    return Web([this._root, data.CorporateCatalogUrl]);
-};
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/types.js
-
-
-
-
-
-
-
-let types_Attachments = class _Attachments extends _SPCollection {
-    /**
-    * Gets a Attachment File by filename
-    *
-    * @param name The name of the file, including extension.
-    */
-    getByName(name) {
-        const f = Attachment(this);
-        f.concat(`('${name}')`);
-        return f;
-    }
-    /**
-     * Adds a new attachment to the collection. Not supported for batching.
-     *
-     * @param name The name of the file, including extension.
-     * @param content The Base64 file content.
-     */
-    async add(name, content) {
-        const response = await spPost(Attachments(this, `add(FileName='${encodePath(name)}')`), { body: content });
-        return {
-            data: response,
-            file: this.getByName(name),
-        };
-    }
-};
-types_Attachments = tslib_es6_decorate([
-    defaultPath("AttachmentFiles")
-], types_Attachments);
-
-const Attachments = spInvokableFactory(types_Attachments);
-class types_Attachment extends readable_file_ReadableFile {
-    constructor() {
-        super(...arguments);
-        this.delete = deleteableWithETag();
-    }
-    /**
-     * Sets the content of a file. Not supported for batching
-     *
-     * @param content The value to set for the file contents
-     */
-    async setContent(body) {
-        await spPost(Attachment(this, "$value"), request_builders_headers({ "X-HTTP-Method": "PUT" }, { body }));
-        return this;
-    }
-    /**
-     * Delete this attachment file and send it to recycle bin
-     *
-     * @param eTag Value used in the IF-Match header, by default "*"
-     */
-    recycle(eTag = "*") {
-        return spPost(Attachment(this, "recycleObject"), request_builders_headers({
-            "IF-Match": eTag,
-            "X-HTTP-Method": "DELETE",
-        }));
-    }
-}
-const Attachment = spInvokableFactory(types_Attachment);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/item.js
-
-
-
-addProp(types_Item, "attachmentFiles", Attachments);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/types.js
-
-
-
-
-
-
-
-
-
-
-/**
- * Ensures that whatever url is passed to the constructor we can correctly rebase it to a site url
- *
- * @param candidate The candidate site url
- * @param path The caller supplied path, which may contain _api, meaning we don't append _api/site
- */
-function rebaseSiteUrl(candidate, path) {
-    let replace = "_api/site";
-    // this allows us to both:
-    // - test if `candidate` already has an api path
-    // - ensure that we append the correct one as sometimes a web is not defined
-    //   by _api/web, in the case of _api/site/rootweb for example
-    const matches = /(_api[/|\\](site|web))/i.exec(candidate);
-    if ((matches === null || matches === void 0 ? void 0 : matches.length) > 0) {
-        // we want just the base url part (before the _api)
-        candidate = extractWebUrl(candidate);
-        // we want to ensure we put back the correct string
-        replace = matches[1];
-    }
-    // we only need to append the _api part IF `path` doesn't already include it.
-    if ((path === null || path === void 0 ? void 0 : path.indexOf("_api")) < 0) {
-        candidate = combine(candidate, replace);
-    }
-    return candidate;
-}
-let types_Site = class _Site extends _SPInstance {
-    constructor(base, path) {
-        if (typeof base === "string") {
-            base = rebaseSiteUrl(base, path);
-        }
-        else if (isArray(base)) {
-            base = [base[0], rebaseSiteUrl(base[1], path)];
-        }
-        else {
-            base = [base, rebaseSiteUrl(base.toUrl(), path)];
-        }
-        super(base, path);
-    }
-    /**
-     * Gets the root web of the site collection
-     *
-     */
-    get rootWeb() {
-        return Web(this, "rootweb");
-    }
-    /**
-     * Returns the collection of changes from the change log that have occurred within the list, based on the specified query
-     *
-     * @param query The change query
-     */
-    getChanges(query) {
-        const postBody = request_builders_body({ query });
-        return spPost(Web(this, "getchanges"), postBody);
-    }
-    /**
-     * Opens a web by id (using POST)
-     *
-     * @param webId The GUID id of the web to open
-     */
-    async openWebById(webId) {
-        const data = await spPost(Site(this, `openWebById('${webId}')`));
-        return {
-            data,
-            web: Web([this, extractWebUrl(odataUrlFrom(data))]),
-        };
-    }
-    /**
-     * Gets a Web instance representing the root web of the site collection
-     * correctly setup for chaining within the library
-     */
-    async getRootWeb() {
-        const web = await this.rootWeb.select("Url")();
-        return Web([this, web.Url]);
-    }
-    /**
-     * Deletes the current site
-     *
-     */
-    async delete() {
-        const site = await Site(this, "").select("Id")();
-        const q = Site([this, this.parentUrl], "_api/SPSiteManager/Delete");
-        await spPost(q, request_builders_body({ siteId: site.Id }));
-    }
-    /**
-     * Gets the document libraries on a site. Static method. (SharePoint Online only)
-     *
-     * @param absoluteWebUrl The absolute url of the web whose document libraries should be returned
-     */
-    async getDocumentLibraries(absoluteWebUrl) {
-        const q = Site([this, this.parentUrl], "_api/sp.web.getdocumentlibraries(@v)");
-        q.query.set("@v", `'${absoluteWebUrl}'`);
-        const data = await q();
-        return hOP(data, "GetDocumentLibraries") ? data.GetDocumentLibraries : data;
-    }
-    /**
-     * Gets the site url from a page url
-     *
-     * @param absolutePageUrl The absolute url of the page
-     */
-    async getWebUrlFromPageUrl(absolutePageUrl) {
-        const q = Site([this, this.parentUrl], "_api/sp.web.getweburlfrompageurl(@v)");
-        q.query.set("@v", `'${absolutePageUrl}'`);
-        const data = await q();
-        return hOP(data, "GetWebUrlFromPageUrl") ? data.GetWebUrlFromPageUrl : data;
-    }
-    /**
-     * Creates a Modern communication site.
-     *
-     * @param title The title of the site to create
-     * @param lcid The language to use for the site. If not specified will default to 1033 (English).
-     * @param shareByEmailEnabled If set to true, it will enable sharing files via Email. By default it is set to false
-     * @param url The fully qualified URL (e.g. https://yourtenant.sharepoint.com/sites/mysitecollection) of the site.
-     * @param description The description of the communication site.
-     * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
-     * @param siteDesignId The Guid of the site design to be used.
-     *                     You can use the below default OOTB GUIDs:
-     *                     Topic: 00000000-0000-0000-0000-000000000000
-     *                     Showcase: 6142d2a0-63a5-4ba0-aede-d9fefca2c767
-     *                     Blank: f6cc5403-0d63-442e-96c0-285923709ffc
-     * @param hubSiteId The id of the hub site to which the new site should be associated
-     * @param owner Optional owner value, required if executing the method in app only mode
-     */
-    async createCommunicationSite(title, lcid = 1033, shareByEmailEnabled = false, url, description, classification, siteDesignId, hubSiteId, owner) {
-        return this.createCommunicationSiteFromProps({
-            Classification: classification,
-            Description: description,
-            HubSiteId: hubSiteId,
-            Lcid: lcid,
-            Owner: owner,
-            ShareByEmailEnabled: shareByEmailEnabled,
-            SiteDesignId: siteDesignId,
-            Title: title,
-            Url: url,
-        });
-    }
-    async createCommunicationSiteFromProps(props) {
-        // handle defaults
-        const request = {
-            Classification: "",
-            Description: "",
-            HubSiteId: emptyGuid,
-            Lcid: 1033,
-            ShareByEmailEnabled: false,
-            SiteDesignId: emptyGuid,
-            WebTemplate: "SITEPAGEPUBLISHING#0",
-            WebTemplateExtensionId: emptyGuid,
-            ...props,
-        };
-        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/SPSiteManager/Create"), request_builders_body({ request }));
-    }
-    /**
-     *
-     * @param url Site Url that you want to check if exists
-     */
-    async exists(url) {
-        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/SP.Site.Exists"), request_builders_body({ url }));
-    }
-    /**
-     * Creates a Modern team site backed by Office 365 group. For use in SP Online only. This will not work with App-only tokens
-     *
-     * @param displayName The title or display name of the Modern team site to be created
-     * @param alias Alias of the underlying Office 365 Group
-     * @param isPublic Defines whether the Office 365 Group will be public (default), or private.
-     * @param lcid The language to use for the site. If not specified will default to English (1033).
-     * @param description The description of the site to be created.
-     * @param classification The Site classification to use. For instance 'Contoso Classified'. See https://www.youtube.com/watch?v=E-8Z2ggHcS0 for more information
-     * @param owners The Owners of the site to be created
-     */
-    async createModernTeamSite(displayName, alias, isPublic, lcid, description, classification, owners, hubSiteId, siteDesignId) {
-        return this.createModernTeamSiteFromProps({
-            alias,
-            classification,
-            description,
-            displayName,
-            hubSiteId,
-            isPublic,
-            lcid,
-            owners,
-            siteDesignId,
-        });
-    }
-    async createModernTeamSiteFromProps(props) {
-        // handle defaults
-        const p = Object.assign({}, {
-            classification: "",
-            description: "",
-            hubSiteId: emptyGuid,
-            isPublic: true,
-            lcid: 1033,
-            owners: [],
-        }, props);
-        const postBody = {
-            alias: p.alias,
-            displayName: p.displayName,
-            isPublic: p.isPublic,
-            optionalParams: {
-                Classification: p.classification,
-                CreationOptions: [`SPSiteLanguage:${p.lcid}`, `HubSiteId:${p.hubSiteId}`],
-                Description: p.description,
-                Owners: p.owners,
+    else if (isBuffer(source)) {
+        // we think we have a buffer
+        return new ReadableStream({
+            start(controller) {
+                controller.enqueue(source);
+                controller.close();
             },
-        };
-        if (p.siteDesignId) {
-            postBody.optionalParams.CreationOptions.push(`implicit_formula_292aa8a00786498a87a5ca52d9f4214a_${p.siteDesignId}`);
-        }
-        return spPost(Site([this, extractWebUrl(this.toUrl())], "/_api/GroupSiteManager/CreateGroupEx").using(TextParse()), request_builders_body(postBody));
+        });
     }
-    update(props) {
-        return spPatch(this, request_builders_body(props));
+    else if (isTransform(source)) {
+        return source.readable;
     }
-    /**
-     * Set's the site's `Site Logo` property, vs the Site Icon property available on the web's properties
-     *
-     * @param logoProperties An instance of ISiteLogoProperties which sets the new site logo.
-     */
-    setSiteLogo(logoProperties) {
-        return spPost(SPQueryable([this, extractWebUrl(this.toUrl())], "_api/siteiconmanager/setsitelogo"), request_builders_body(logoProperties));
-    }
-};
-types_Site = tslib_es6_decorate([
-    defaultPath("_api/site")
-], types_Site);
-
-const Site = spInvokableFactory(types_Site);
-var SiteLogoType;
-(function (SiteLogoType) {
-    /**
-     * Site header logo
-     */
-    SiteLogoType[SiteLogoType["WebLogo"] = 0] = "WebLogo";
-    /**
-     * Hub site logo
-     */
-    SiteLogoType[SiteLogoType["HubLogo"] = 1] = "HubLogo";
-    /**
-     * Header background image
-     */
-    SiteLogoType[SiteLogoType["HeaderBackground"] = 2] = "HeaderBackground";
-    /**
-     * Global navigation logo
-     */
-    SiteLogoType[SiteLogoType["GlobalNavLogo"] = 3] = "GlobalNavLogo";
-})(SiteLogoType || (SiteLogoType = {}));
-var SiteLogoAspect;
-(function (SiteLogoAspect) {
-    SiteLogoAspect[SiteLogoAspect["Square"] = 0] = "Square";
-    SiteLogoAspect[SiteLogoAspect["Rectangular"] = 1] = "Rectangular";
-})(SiteLogoAspect || (SiteLogoAspect = {}));
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/funcs.js
-
-/**
- * Gets the next order value 1 based for the provided collection
- *
- * @param collection Collection of orderable things
- */
-function getNextOrder(collection) {
-    return collection.length < 1 ? 1 : (Math.max.apply(null, collection.map(i => i.order)) + 1);
-}
-/**
- * Normalizes the order value for all the sections, columns, and controls to be 1 based and stepped (1, 2, 3...)
- *
- * @param collection The collection to normalize
- */
-function reindex(collection) {
-    for (let i = 0; i < collection.length; i++) {
-        collection[i].order = i + 1;
-        if (hOP(collection[i], "columns")) {
-            reindex(collection[i].columns);
-        }
-        else if (hOP(collection[i], "controls")) {
-            reindex(collection[i].controls);
-        }
+    else {
+        return source;
     }
 }
+const NAME = Symbol.toStringTag;
+function hasOn(object) {
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    return typeof object["on"] === "function";
+}
+// FROM: node-fetch source code
+function isBlob(object) {
+    return typeof object === "object" &&
+        typeof object.arrayBuffer === "function" &&
+        typeof object.type === "string" &&
+        typeof object.stream === "function" &&
+        typeof object.constructor === "function" &&
+        (/^(Blob|File)$/.test(object[NAME]) ||
+            /^(Blob|File)$/.test(object.constructor.name));
+}
+function isBuffer(object) {
+    return typeof object === "object" && typeof object.length === "number";
+}
+function isTransform(object) {
+    return typeof object === "object" && typeof object.readable === "object";
+}
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/web.js
 
 
 
-types_Web.prototype.getFileByServerRelativePath = function (fileRelativeUrl) {
+_Web.prototype.getFileByServerRelativePath = function (fileRelativeUrl) {
     return fileFromServerRelativePath(this, fileRelativeUrl);
 };
-types_Web.prototype.getFileById = function (uniqueId) {
+_Web.prototype.getFileById = function (uniqueId) {
     return File(this, `getFileById('${uniqueId}')`);
 };
-types_Web.prototype.getFileByUrl = function (fileUrl) {
+_Web.prototype.getFileByUrl = function (fileUrl) {
     return File(this, `getFileByUrl('${encodePath("!@p1::" + fileUrl)}')`);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/types.js
 
 
 
 
 
-
-let types_Comments = class _Comments extends _SPCollection {
+let _Comments = class _Comments extends _SPCollection {
     /**
      * Adds a new comment to this collection
      *
@@ -5682,7 +5620,7 @@ let types_Comments = class _Comments extends _SPCollection {
         if (typeof info === "string") {
             info = { text: info };
         }
-        const d = await spPost(Comments(this, null), request_builders_body(info));
+        const d = await spPost(Comments(this, null), body(info));
         return Object.assign(this.getById(d.id), d);
     }
     /**
@@ -5700,12 +5638,12 @@ let types_Comments = class _Comments extends _SPCollection {
         return spPost(Comments(this, "DeleteAll"));
     }
 };
-types_Comments = tslib_es6_decorate([
+_Comments = tslib_es6_decorate([
     defaultPath("comments")
-], types_Comments);
+], _Comments);
 
-const Comments = spInvokableFactory(types_Comments);
-class types_Comment extends _SPInstance {
+const Comments = spInvokableFactory(_Comments);
+class _Comment extends _SPInstance {
     /**
      * A comment's replies
      */
@@ -5731,8 +5669,8 @@ class types_Comment extends _SPInstance {
         return spDelete(this);
     }
 }
-const Comment = spInvokableFactory(types_Comment);
-let types_Replies = class _Replies extends _SPCollection {
+const Comment = spInvokableFactory(_Comment);
+let _Replies = class _Replies extends _SPCollection {
     /**
      * Adds a new reply to this collection
      *
@@ -5742,46 +5680,45 @@ let types_Replies = class _Replies extends _SPCollection {
         if (typeof info === "string") {
             info = { text: info };
         }
-        const d = await spPost(Replies(this, null), request_builders_body(info));
+        const d = await spPost(Replies(this, null), body(info));
         return Object.assign(Comment([this, odataUrlFrom(d)]), d);
     }
 };
-types_Replies = tslib_es6_decorate([
+_Replies = tslib_es6_decorate([
     defaultPath("replies")
-], types_Replies);
+], _Replies);
 
-const Replies = spInvokableFactory(types_Replies);
+const Replies = spInvokableFactory(_Replies);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/item.js
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/item.js
 
 
 
 
 
-addProp(types_Item, "comments", Comments);
-types_Item.prototype.getLikedBy = function () {
+
+addProp(_Item, "comments", Comments);
+_Item.prototype.getLikedBy = function () {
     return spPost(Item(this, "likedBy"));
 };
-types_Item.prototype.like = async function () {
+_Item.prototype.like = async function () {
     const itemInfo = await this.getParentInfos();
     const baseUrl = extractWebUrl(this.toUrl());
     const reputationUrl = "_api/Microsoft.Office.Server.ReputationModel.Reputation.SetLike(listID=@a1,itemID=@a2,like=@a3)";
     const likeUrl = combine(baseUrl, reputationUrl) + `?@a1='{${itemInfo.ParentList.Id}}'&@a2='${itemInfo.Item.Id}'&@a3=true`;
     return spPost(SPQueryable([this, likeUrl]));
 };
-types_Item.prototype.unlike = async function () {
+_Item.prototype.unlike = async function () {
     const itemInfo = await this.getParentInfos();
     const baseUrl = extractWebUrl(this.toUrl());
     const reputationUrl = "_api/Microsoft.Office.Server.ReputationModel.Reputation.SetLike(listID=@a1,itemID=@a2,like=@a3)";
     const likeUrl = combine(baseUrl, reputationUrl) + `?@a1='{${itemInfo.ParentList.Id}}'&@a2='${itemInfo.Item.Id}'&@a3=false`;
     return spPost(SPQueryable([this, likeUrl]));
 };
-types_Item.prototype.getLikedByInformation = function () {
+_Item.prototype.getLikedByInformation = function () {
     return Item(this, "likedByInformation").expand("likedby")();
 };
-types_Item.prototype.rate = async function (value) {
+_Item.prototype.rate = async function (value) {
     const itemInfo = await this.getParentInfos();
     const baseUrl = extractWebUrl(this.toUrl());
     const reputationUrl = "_api/Microsoft.Office.Server.ReputationModel.Reputation.SetRating(listID=@a1,itemID=@a2,rating=@a3)";
@@ -5789,8 +5726,7 @@ types_Item.prototype.rate = async function (value) {
     return spPost(SPQueryable([this, rateUrl]));
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/types.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/types.js
 
 
 
@@ -5825,7 +5761,7 @@ var PromotedState;
 /**
  * Represents the data and methods associated with client side "modern" pages
  */
-class types_ClientsidePage extends spqueryable_SPQueryable {
+class _ClientsidePage extends _SPQueryable {
     /**
      * PLEASE DON'T USE THIS CONSTRUCTOR DIRECTLY, thank you 🐇
      */
@@ -5845,7 +5781,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         // set a default page settings slice
         this._pageSettings = { controlType: 0, pageSettingsSlice: { isDefaultDescription: true, isDefaultThumbnail: true } };
         // set a default layout part
-        this._layoutPart = types_ClientsidePage.getDefaultLayoutPart();
+        this._layoutPart = _ClientsidePage.getDefaultLayoutPart();
         if (typeof json !== "undefined" && !noInit) {
             this.fromJSON(json);
         }
@@ -5893,7 +5829,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         this._pageSettings.pageSettingsSlice.isDefaultThumbnail = false;
     }
     get topicHeader() {
-        return objectDefinedNotNull(this.json.TopicHeader) ? this.json.TopicHeader : "";
+        return util_objectDefinedNotNull(this.json.TopicHeader) ? this.json.TopicHeader : "";
     }
     set topicHeader(value) {
         this.json.TopicHeader = value;
@@ -5959,7 +5895,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         return this.sections.findIndex(s => s.layoutIndex === 2) > -1;
     }
     get authorByLine() {
-        if (isArray(this._layoutPart.properties.authorByline) && this._layoutPart.properties.authorByline.length > 0) {
+        if (util_isArray(this._layoutPart.properties.authorByline) && this._layoutPart.properties.authorByline.length > 0) {
             return this._layoutPart.properties.authorByline[0];
         }
         return null;
@@ -5974,7 +5910,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
      * Add a section to this page
      */
     addSection() {
-        const section = new types_CanvasSection(this, getNextOrder(this.sections), 1);
+        const section = new CanvasSection(this, getNextOrder(this.sections), 1);
         this.sections.push(section);
         return section;
     }
@@ -5987,7 +5923,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         if (sectionIndex > -1) {
             return this.sections[sectionIndex];
         }
-        const section = new types_CanvasSection(this, getNextOrder(this.sections), 2);
+        const section = new CanvasSection(this, getNextOrder(this.sections), 2);
         this.sections.push(section);
         return section;
     }
@@ -6043,11 +5979,11 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
             f.query.set("guidWeb", `${imgInfo.WebId}`);
             f.query.set("guidFile", `${imgInfo.UniqueId}`);
             this.bannerImageUrl = f.toRequestUrl();
-            if (!objectDefinedNotNull(this._layoutPart.serverProcessedContent)) {
+            if (!util_objectDefinedNotNull(this._layoutPart.serverProcessedContent)) {
                 this._layoutPart.serverProcessedContent = {};
             }
             this._layoutPart.serverProcessedContent.imageSources = { imageSource: serverRelativePath };
-            if (!objectDefinedNotNull(this._layoutPart.serverProcessedContent.customMetadata)) {
+            if (!util_objectDefinedNotNull(this._layoutPart.serverProcessedContent.customMetadata)) {
                 this._layoutPart.serverProcessedContent.customMetadata = {};
             }
             this._layoutPart.serverProcessedContent.customMetadata.imageSource = {
@@ -6083,7 +6019,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
             };
         }
         const updater = ClientsidePage(this, `_api/sitepages/pages(${this.json.Id})/savepage`);
-        await spPost(updater, request_builders_headers({ "if-match": "*" }, request_builders_body(saveBody)));
+        await spPost(updater, headers({ "if-match": "*" }, body(saveBody)));
         let r = true;
         if (publish) {
             r = await spPost(ClientsidePage(this, `_api/sitepages/pages(${this.json.Id})/publish`));
@@ -6259,7 +6195,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         }
         // this seems to always be true, so default
         this._layoutPart.properties.imageSourceType = 2;
-        if (objectDefinedNotNull(props)) {
+        if (util_objectDefinedNotNull(props)) {
             if (hOP(props, "translateX")) {
                 this._layoutPart.properties.translateX = props.translateX;
             }
@@ -6364,7 +6300,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
      * @returns Version which was scheduled to be published
      */
     async schedulePublish(publishDate) {
-        return spPost(ClientsidePage(this, `_api/sitepages/pages(${this.json.Id})/SchedulePublish`), request_builders_body({
+        return spPost(ClientsidePage(this, `_api/sitepages/pages(${this.json.Id})/SchedulePublish`), body({
             sitePage: { PublishStartDate: publishDate },
         }));
     }
@@ -6389,7 +6325,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
      * @returns void
      */
     share(emails, message) {
-        return spPost(ClientsidePage(this, "_api/SP.Publishing.RichSharing/SharePageByEmail"), request_builders_body({
+        return spPost(ClientsidePage(this, "_api/SP.Publishing.RichSharing/SharePageByEmail"), body({
             recipientEmails: emails,
             message,
             url: this.json.AbsoluteUrl,
@@ -6421,17 +6357,17 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
                         }
                         else {
                             // we have an empty column
-                            this.mergeColumnToTree(new types_CanvasColumn(controls[i]));
+                            this.mergeColumnToTree(new CanvasColumn(controls[i]));
                         }
                         break;
                     case 3: {
-                        const part = new types_ClientsideWebpart(controls[i]);
+                        const part = new ClientsideWebpart(controls[i]);
                         this.mergePartToTree(part, part.data.position);
                         break;
                     }
                     case 4: {
                         const textData = controls[i];
-                        const text = new types_ClientsideText(textData.innerHTML, textData);
+                        const text = new ClientsideText(textData.innerHTML, textData);
                         this.mergePartToTree(text, text.data.position);
                         break;
                     }
@@ -6574,7 +6510,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
         // For #2561 need to process for code snippet webpart and any control && (<any>control).data.webPartId === "c70391ea-0b10-4ee9-b2b4-006d3fcad0cd"
         if (control.data.controlType === 3) {
             const texts = ((_c = (_b = (_a = control.data) === null || _a === void 0 ? void 0 : _a.webPartData) === null || _b === void 0 ? void 0 : _b.serverProcessedContent) === null || _c === void 0 ? void 0 : _c.searchablePlainTexts) || null;
-            if (objectDefinedNotNull(texts)) {
+            if (util_objectDefinedNotNull(texts)) {
                 const keys = Object.getOwnPropertyNames(texts);
                 for (let i = 0; i < keys.length; i++) {
                     texts[keys[i]] = texts[keys[i]].replace(/</ig, "&lt;");
@@ -6589,7 +6525,7 @@ class types_ClientsidePage extends spqueryable_SPQueryable {
  * Invokable factory for IClientSidePage instances
  */
 const ClientsidePage = (base, path, json, noInit = false, sections = [], commentsDisabled = false) => {
-    return new types_ClientsidePage(base, path, json, noInit, sections, commentsDisabled);
+    return new _ClientsidePage(base, path, json, noInit, sections, commentsDisabled);
 };
 /**
  * Loads a client side page from the supplied IFile instance
@@ -6614,7 +6550,7 @@ const CreateClientsidePage = async (web, pageName, title, PageLayoutType = "Arti
     // this allows folk's existing code to work after the re-write to the new API
     pageName = pageName.replace(/\.aspx$/i, "");
     // initialize the page, at this point a checked-out page with a junk filename will be created.
-    const pageInitData = await spPost(ClientsidePage(web, "_api/sitepages/pages"), request_builders_body({
+    const pageInitData = await spPost(ClientsidePage(web, "_api/sitepages/pages"), body({
         PageLayoutType,
         PromotedState: promotedState,
     }));
@@ -6625,7 +6561,7 @@ const CreateClientsidePage = async (web, pageName, title, PageLayoutType = "Arti
     newPage.title = title;
     return newPage;
 };
-class types_CanvasSection {
+class CanvasSection {
     constructor(page, order, layoutIndex, columns = [], _emphasis = 0) {
         this.page = page;
         this.columns = columns;
@@ -6665,7 +6601,7 @@ class types_CanvasSection {
      * Adds a new column to this section
      */
     addColumn(factor, layoutIndex = this.layoutIndex) {
-        const column = new types_CanvasColumn();
+        const column = new CanvasColumn();
         column.section = this;
         column.data.position.zoneIndex = this.order;
         column.data.position.layoutIndex = layoutIndex;
@@ -6697,8 +6633,8 @@ class types_CanvasSection {
         reindex(this.page.sections);
     }
 }
-class types_CanvasColumn {
-    constructor(json = JSON.parse(JSON.stringify(types_CanvasColumn.Default)), controls = []) {
+class CanvasColumn {
+    constructor(json = JSON.parse(JSON.stringify(CanvasColumn.Default)), controls = []) {
         this.json = json;
         this.controls = controls;
         this._section = null;
@@ -6743,7 +6679,7 @@ class types_CanvasColumn {
         reindex(this.section.columns);
     }
 }
-types_CanvasColumn.Default = {
+CanvasColumn.Default = {
     controlType: 0,
     displayMode: 2,
     emphasis: {},
@@ -6754,7 +6690,7 @@ types_CanvasColumn.Default = {
         zoneIndex: 1,
     },
 };
-class types_ColumnControl {
+class ColumnControl {
     constructor(json) {
         this.json = json;
     }
@@ -6779,8 +6715,8 @@ class types_ColumnControl {
         this.json = data;
     }
 }
-class types_ClientsideText extends types_ColumnControl {
-    constructor(text, json = JSON.parse(JSON.stringify(types_ClientsideText.Default))) {
+class ClientsideText extends ColumnControl {
+    constructor(text, json = JSON.parse(JSON.stringify(ClientsideText.Default))) {
         if (stringIsNullOrEmpty(json.id)) {
             json.id = getGUID();
             json.anchorComponentId = json.id;
@@ -6808,7 +6744,7 @@ class types_ClientsideText extends types_ColumnControl {
         this.data.position.layoutIndex = col.data.position.layoutIndex;
     }
 }
-types_ClientsideText.Default = {
+ClientsideText.Default = {
     addedFromPersistedData: false,
     anchorComponentId: "",
     controlType: 4,
@@ -6825,12 +6761,12 @@ types_ClientsideText.Default = {
         zoneIndex: 1,
     },
 };
-class types_ClientsideWebpart extends types_ColumnControl {
-    constructor(json = JSON.parse(JSON.stringify(types_ClientsideWebpart.Default))) {
+class ClientsideWebpart extends ColumnControl {
+    constructor(json = JSON.parse(JSON.stringify(ClientsideWebpart.Default))) {
         super(json);
     }
     static fromComponentDef(definition) {
-        const part = new types_ClientsideWebpart();
+        const part = new ClientsideWebpart();
         part.import(definition);
         return part;
     }
@@ -6916,7 +6852,7 @@ class types_ClientsideWebpart extends types_ColumnControl {
         }));
     }
 }
-types_ClientsideWebpart.Default = {
+ClientsideWebpart.Default = {
     addedFromPersistedData: false,
     controlType: 3,
     displayMode: 2,
@@ -6935,48 +6871,43 @@ types_ClientsideWebpart.Default = {
     webPartId: null,
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/web.js
 
 
 
 
 
-
-types_Web.prototype.getClientsideWebParts = function () {
+_Web.prototype.getClientsideWebParts = function () {
     return SPCollection(this, "GetClientSideWebParts")();
 };
-types_Web.prototype.addClientsidePage =
+_Web.prototype.addClientsidePage =
     function (pageName, title = pageName.replace(/\.[^/.]+$/, ""), layout, promotedState) {
         return CreateClientsidePage(this, pageName, title, layout, promotedState);
     };
-types_Web.prototype.loadClientsidePage = function (path) {
+_Web.prototype.loadClientsidePage = function (path) {
     return ClientsidePageFromFile(this.getFileByServerRelativePath(path));
 };
-types_Web.prototype.addRepostPage = async function (details) {
+_Web.prototype.addRepostPage = async function (details) {
     const query = SPInstance([this, extractWebUrl(this.toUrl())], "_api/sitepages/pages/reposts");
-    const r = await spPost(query, request_builders_body(details));
+    const r = await spPost(query, body(details));
     return r.AbsoluteUrl;
 };
 // eslint-disable-next-line max-len
-types_Web.prototype.addFullPageApp = async function (pageName, title = pageName.replace(/\.[^/.]+$/, ""), componentId, promotedState) {
+_Web.prototype.addFullPageApp = async function (pageName, title = pageName.replace(/\.[^/.]+$/, ""), componentId, promotedState) {
     const parts = await this.getClientsideWebParts();
     const test = new RegExp(`{?${componentId}}?`, "i");
     const partDef = parts.find(p => test.test(p.Id));
-    const part = types_ClientsideWebpart.fromComponentDef(partDef);
+    const part = ClientsideWebpart.fromComponentDef(partDef);
     const page = await this.addClientsidePage(pageName, title, "SingleWebPartAppPage", promotedState);
     page.addSection().addColumn(12).addControl(part);
     return page;
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/types.js
-
-
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/types.js
 
 
 
@@ -6986,7 +6917,10 @@ types_Web.prototype.addFullPageApp = async function (pageName, title = pageName.
 
 
 
-let types_Folders = class _Folders extends _SPCollection {
+
+
+
+let _Folders = class _Folders extends _SPCollection {
     /**
      * Gets a folder by it's name
      *
@@ -7002,19 +6936,15 @@ let types_Folders = class _Folders extends _SPCollection {
      * @param overwrite True to overwrite an existing folder, default false
      */
     async addUsingPath(serverRelativeUrl, overwrite = false) {
-        const data = await spPost(Folders(this, `addUsingPath(DecodedUrl='${encodePath(serverRelativeUrl)}',overwrite=${overwrite})`));
-        return {
-            data,
-            folder: folderFromServerRelativePath(this, data.ServerRelativeUrl),
-        };
+        return spPost(Folders(this, `addUsingPath(DecodedUrl='${encodePath(serverRelativeUrl)}',overwrite=${overwrite})`));
     }
 };
-types_Folders = tslib_es6_decorate([
+_Folders = tslib_es6_decorate([
     defaultPath("folders")
-], types_Folders);
+], _Folders);
 
-const Folders = spInvokableFactory(types_Folders);
-class types_Folder extends _SPInstance {
+const Folders = spInvokableFactory(_Folders);
+class _Folder extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteableWithETag();
@@ -7059,11 +6989,7 @@ class types_Folder extends _SPInstance {
      * @param props Folder's properties to update
      */
     async update(props) {
-        const data = await spPostMerge(this, request_builders_body(props));
-        return {
-            data,
-            folder: this,
-        };
+        return spPostMerge(this, body(props));
     }
     /**
      * Moves the folder to the Recycle Bin and returns the identifier of the new Recycle Bin item.
@@ -7120,7 +7046,7 @@ class types_Folder extends _SPInstance {
      * @param parameters Specifies the options to use when deleting a folder.
      */
     async deleteWithParams(parameters) {
-        return spPost(Folder(this, "DeleteWithParameters"), request_builders_body({ parameters }));
+        return spPost(Folder(this, "DeleteWithParameters"), body({ parameters }));
     }
     /**
      * Create the subfolder inside the current folder, as specified by the leafPath
@@ -7128,7 +7054,7 @@ class types_Folder extends _SPInstance {
      * @param leafPath leafName of the new folder
      */
     async addSubFolderUsingPath(leafPath) {
-        await spPost(Folder(this, "AddSubFolderUsingPath"), request_builders_body({ leafPath: toResourcePath(leafPath) }));
+        await spPost(Folder(this, "AddSubFolderUsingPath"), body({ leafPath: toResourcePath(leafPath) }));
         return this.folders.getByUrl(leafPath);
     }
     /**
@@ -7166,11 +7092,11 @@ class types_Folder extends _SPInstance {
         // create a timeline we will manipulate for this request
         const poster = Folder(this);
         // add our pre-request actions, this fixes issues with batching hanging #2668
-        poster.on.pre(noInherit(async (url, init, result) => {
+        poster.on.pre(timeline_noInherit(async (url, init, result) => {
             const urlInfo = await Folder(this).using(BatchNever()).getParentInfos();
             const uri = new URL(urlInfo.ParentWeb.Url);
             url = combine(urlInfo.ParentWeb.Url, `/_api/SP.MoveCopyUtil.${methodName}()`);
-            init = request_builders_body({
+            init = body({
                 destPath: toResourcePath(isUrlAbsolute(destUrl) ? destUrl : combine(uri.origin, destUrl)),
                 options,
                 srcPath: toResourcePath(combine(uri.origin, urlInfo.Folder.ServerRelativeUrl)),
@@ -7182,11 +7108,11 @@ class types_Folder extends _SPInstance {
 }
 tslib_es6_decorate([
     cancelableScope
-], types_Folder.prototype, "moveByPath", null);
+], _Folder.prototype, "moveByPath", null);
 tslib_es6_decorate([
     cancelableScope
-], types_Folder.prototype, "copyByPath", null);
-const Folder = spInvokableFactory(types_Folder);
+], _Folder.prototype, "copyByPath", null);
+const Folder = spInvokableFactory(_Folder);
 /**
  * Creates an IFolder instance given a base object and a server relative path
  *
@@ -7220,7 +7146,7 @@ async function folderFromPath(base, path) {
     return (isUrlAbsolute(path) ? folderFromAbsolutePath : folderFromServerRelativePath)(base, path);
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/list.js
 
 
 
@@ -7228,8 +7154,8 @@ async function folderFromPath(base, path) {
 
 
 
-addProp(types_List, "rootFolder", Folder);
-types_List.prototype.getDefaultColumnValues = async function () {
+addProp(_List, "rootFolder", Folder);
+_List.prototype.getDefaultColumnValues = async function () {
     const pathPart = await this.rootFolder.select("ServerRelativePath")();
     const webUrl = await this.select("ParentWeb/Url").expand("ParentWeb")();
     const path = combine("/", pathPart.ServerRelativePath.DecodedUrl, "Forms/client_LocationBasedDefaults.html");
@@ -7286,7 +7212,7 @@ types_List.prototype.getDefaultColumnValues = async function () {
         return defVals;
     }, []).filter(v => v !== null);
 };
-types_List.prototype.setDefaultColumnValues = async function (defaults) {
+_List.prototype.setDefaultColumnValues = async function (defaults) {
     // we need the field types from the list to map the values
     // eslint-disable-next-line max-len
     const fieldDefs = await SPCollection(this, "fields").select("InternalName", "TypeAsString").filter("Hidden ne true")();
@@ -7321,13 +7247,13 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
                 case "Number":
                 case "Choice":
                 case "User":
-                    if (isArray(fieldDefault.value)) {
+                    if (util_isArray(fieldDefault.value)) {
                         throw Error(`The type '${fieldDef.TypeAsString}' does not support multiple values.`);
                     }
                     value = `${fieldDefault.value}`;
                     break;
                 case "MultiChoice":
-                    if (isArray(fieldDefault.value)) {
+                    if (util_isArray(fieldDefault.value)) {
                         value = fieldDefault.value.map(v => `${v}`).join(";");
                     }
                     else {
@@ -7335,7 +7261,7 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
                     }
                     break;
                 case "UserMulti":
-                    if (isArray(fieldDefault.value)) {
+                    if (util_isArray(fieldDefault.value)) {
                         value = fieldDefault.value.map(v => `${v}`).join(";#");
                     }
                     else {
@@ -7344,7 +7270,7 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
                     break;
                 case "Taxonomy":
                 case "TaxonomyFieldType":
-                    if (isArray(fieldDefault.value)) {
+                    if (util_isArray(fieldDefault.value)) {
                         throw Error(`The type '${fieldDef.TypeAsString}' does not support multiple values.`);
                     }
                     else {
@@ -7353,7 +7279,7 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
                     break;
                 case "TaxonomyMulti":
                 case "TaxonomyFieldTypeMulti":
-                    if (isArray(fieldDefault.value)) {
+                    if (util_isArray(fieldDefault.value)) {
                         value = fieldDefault.value.map(v => `${v.wssId};#${v.termName}|${v.termId}`).join(";#");
                     }
                     else {
@@ -7377,7 +7303,7 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
     // finally we need to ensure this list has the right event receiver added
     const existingReceivers = await this.eventReceivers.filter("ReceiverName eq 'LocationBasedMetadataDefaultsReceiver ItemAdded'").select("ReceiverId")();
     if (existingReceivers.length < 1) {
-        await spPost(List(this.eventReceivers, "add"), request_builders_body({
+        await spPost(List(this.eventReceivers, "add"), body({
             eventReceiverCreationInformation: {
                 EventType: 10001,
                 ReceiverAssembly: "Microsoft.Office.DocumentManagement, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c",
@@ -7390,32 +7316,32 @@ types_List.prototype.setDefaultColumnValues = async function (defaults) {
     }
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/web.js
 
 
 
 
 
 
-addProp(types_Web, "lists", Lists);
-addProp(types_Web, "siteUserInfoList", List);
-addProp(types_Web, "defaultDocumentLibrary", List);
-addProp(types_Web, "customListTemplates", SPCollection, "getcustomlisttemplates");
-types_Web.prototype.getList = function (listRelativeUrl) {
+addProp(_Web, "lists", Lists);
+addProp(_Web, "siteUserInfoList", List);
+addProp(_Web, "defaultDocumentLibrary", List);
+addProp(_Web, "customListTemplates", SPCollection, "getcustomlisttemplates");
+_Web.prototype.getList = function (listRelativeUrl) {
     return List(this, `getList('${encodePath(listRelativeUrl)}')`);
 };
-types_Web.prototype.getCatalog = async function (type) {
+_Web.prototype.getCatalog = async function (type) {
     const data = await Web(this, `getcatalog(${type})`).select("Id")();
     return List([this, odataUrlFrom(data)]);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/folder.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/folder.js
 
 
 
 
 
-types_Folder.prototype.getDefaultColumnValues = async function () {
+_Folder.prototype.getDefaultColumnValues = async function () {
     const folderProps = await Folder(this, "Properties").select("vti_x005f_listname")();
     const { ServerRelativePath: serRelPath } = await this.select("ServerRelativePath")();
     const web = Web([this, extractWebUrl(odataUrlFrom(folderProps))]);
@@ -7424,7 +7350,7 @@ types_Folder.prototype.getDefaultColumnValues = async function () {
     // if you want all the defaults use list.getDefaultColumnValues()
     return (await docLib.getDefaultColumnValues()).filter(v => v.path.toLowerCase() === serRelPath.DecodedUrl.toLowerCase());
 };
-types_Folder.prototype.setDefaultColumnValues = async function (fieldDefaults, merge = true) {
+_Folder.prototype.setDefaultColumnValues = async function (fieldDefaults, merge = true) {
     // we start by figuring out where we are
     const folderProps = await Folder(this, "Properties").select("vti_x005f_listname")();
     // now we create a web, list and batch to get some info we need
@@ -7454,32 +7380,31 @@ types_Folder.prototype.setDefaultColumnValues = async function (fieldDefaults, m
     // after this operation filteredExistingDefaults should contain all the value we want to write to the file
     await docLib.setDefaultColumnValues(filteredExistingDefaults);
 };
-types_Folder.prototype.clearDefaultColumnValues = async function () {
+_Folder.prototype.clearDefaultColumnValues = async function () {
     await this.setDefaultColumnValues([], false);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/types.js
 
 
 
 
-
-let types_ContentTypes = class _ContentTypes extends _SPCollection {
+let _ContentTypes = class _ContentTypes extends _SPCollection {
     /**
      * Adds an existing contenttype to a content type collection
      *
      * @param contentTypeId in the following format, for example: 0x010102
      */
     async addAvailableContentType(contentTypeId) {
-        const data = await spPost(ContentTypes(this, "addAvailableContentType"), request_builders_body({ "contentTypeId": contentTypeId }));
+        const data = await spPost(ContentTypes(this, "addAvailableContentType"), body({ "contentTypeId": contentTypeId }));
         return {
             contentType: this.getById(data.id),
             data: data,
@@ -7504,7 +7429,7 @@ let types_ContentTypes = class _ContentTypes extends _SPCollection {
      *
      */
     async add(id, name, description = "", group = "Custom Content Types", additionalSettings = {}) {
-        const postBody = request_builders_body({
+        const postBody = body({
             Description: description,
             Group: group,
             Id: { StringValue: id },
@@ -7515,12 +7440,12 @@ let types_ContentTypes = class _ContentTypes extends _SPCollection {
         return { contentType: this.getById(data.id), data };
     }
 };
-types_ContentTypes = tslib_es6_decorate([
+_ContentTypes = tslib_es6_decorate([
     defaultPath("contenttypes")
-], types_ContentTypes);
+], _ContentTypes);
 
-const ContentTypes = spInvokableFactory(types_ContentTypes);
-class types_ContentType extends _SPInstance {
+const ContentTypes = spInvokableFactory(_ContentTypes);
+class _ContentType extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -7531,7 +7456,7 @@ class types_ContentType extends _SPInstance {
      * @param properties A plain object hash of values to update for the web
      */
     async update(properties) {
-        return spPostMerge(this, request_builders_body(properties));
+        return spPostMerge(this, body(properties));
     }
     /**
      * Gets the column (also known as field) references in the content type.
@@ -7558,8 +7483,8 @@ class types_ContentType extends _SPInstance {
         return SPCollection(this, "workflowAssociations");
     }
 }
-const ContentType = spInvokableFactory(types_ContentType);
-let types_FieldLinks = class _FieldLinks extends _SPCollection {
+const ContentType = spInvokableFactory(_ContentType);
+let _FieldLinks = class _FieldLinks extends _SPCollection {
     /**
     *  Gets a FieldLink by GUID id
     *
@@ -7569,171 +7494,45 @@ let types_FieldLinks = class _FieldLinks extends _SPCollection {
         return FieldLink(this).concat(`(guid'${id}')`);
     }
 };
-types_FieldLinks = tslib_es6_decorate([
+_FieldLinks = tslib_es6_decorate([
     defaultPath("fieldlinks")
-], types_FieldLinks);
+], _FieldLinks);
 
-const FieldLinks = spInvokableFactory(types_FieldLinks);
-class types_FieldLink extends _SPInstance {
+const FieldLinks = spInvokableFactory(_FieldLinks);
+class _FieldLink extends _SPInstance {
 }
-const FieldLink = spInvokableFactory(types_FieldLink);
+const FieldLink = spInvokableFactory(_FieldLink);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/web.js
-
-
-
-addProp(types_Web, "contentTypes", ContentTypes);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/item.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/web.js
 
 
 
-addProp(types_Item, "contentType", ContentType);
+addProp(_Web, "contentTypes", ContentTypes);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/list.js
-
-
-
-addProp(types_List, "contentTypes", ContentTypes);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/item.js
 
 
 
+addProp(_Item, "contentType", ContentType);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/list.js
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/favorites/types.js
+
+addProp(_List, "contentTypes", ContentTypes);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/index.js
 
 
 
 
 
-
-let types_Favorites = class _Favorites extends _SPInstance {
-    get followedSites() {
-        return FollowedSites(this);
-    }
-    get followedListItems() {
-        return FollowedListItems(this);
-    }
-};
-types_Favorites = tslib_es6_decorate([
-    defaultPath("_api/v2.1/favorites")
-], types_Favorites);
-
-const Favorites = (baseUrl) => new types_Favorites(baseUrl);
-let types_FollowedSites = class _FollowedSites extends _SPCollection {
-    /**
-    * Adds a site to user's followed sites
-    *
-    * @param tenantUrl Name of a tenant (e.g. yourtenant.sharepoint.com).
-    * @param siteId Id of a site collection.
-    * @param webId Id of a site.
-    * @param webUrl Absolute URL of a site.
-    */
-    async add(tenantUrl, siteId, webId, webUrl) {
-        const data = await spPost(FollowedListItems(this, "oneDrive.add"), request_builders_body({
-            value: [
-                {
-                    id: [tenantUrl, webId, siteId].join(","),
-                    webUrl: webUrl,
-                },
-            ],
-        }));
-        return hOP(data, "value") ? data.value : data;
-    }
-    /**
-    * Removes a site from user's followed sites
-    *
-    * @param tenantUrl Name of a tenant (e.g. yourtenant.sharepoint.com).
-    * @param siteId Id of a site collection.
-    * @param webId Id of a site.
-    * @param webUrl Absolute URL of a site.
-    */
-    async remove(tenantUrl, siteId, webId, webUrl) {
-        await spPost(FollowedListItems(this, "oneDrive.remove"), request_builders_body({
-            value: [
-                {
-                    id: [tenantUrl, webId, siteId].join(","),
-                    webUrl: webUrl,
-                },
-            ],
-        }));
-    }
-};
-types_FollowedSites = tslib_es6_decorate([
-    defaultPath("followedSites")
-], types_FollowedSites);
-
-const FollowedSites = spInvokableFactory(types_FollowedSites);
-let types_FollowedListItems = class _FollowedListItems extends _SPCollection {
-    /**
-    * Adds an item to user's _saved for later_ list
-    *
-    * @param siteId Id of a site collection of an item to add
-    * @param webId Id of a site of an item to add
-    * @param listId Id of a list of an item to add
-    * @param listItemUniqueId Unique id of an item to add
-    */
-    async add(siteId, webId, listId, listItemUniqueId) {
-        const data = await spPost(FollowedListItems(this, "oneDrive.add"), request_builders_body({
-            value: [
-                {
-                    siteId: siteId,
-                    webId: webId,
-                    listId: listId,
-                    listItemUniqueId: listItemUniqueId,
-                },
-            ],
-        }));
-        return hOP(data, "value") ? data.value : data;
-    }
-    /**
-    * Removes an item from user's _saved for later_ list
-    *
-    * @param siteId Id of a site collection of an item to remove
-    * @param webId Id of a site of an item to remove
-    * @param listId Id of a list of an item to remove
-    * @param listItemUniqueId Unique id of an item to remove
-    */
-    async remove(siteId, webId, listId, listItemUniqueId) {
-        await spPost(FollowedListItems(this, "oneDrive.remove"), request_builders_body({
-            value: [
-                {
-                    siteId: siteId,
-                    webId: webId,
-                    listId: listId,
-                    listItemUniqueId: listItemUniqueId,
-                },
-            ],
-        }));
-    }
-};
-types_FollowedListItems = tslib_es6_decorate([
-    defaultPath("followedListItems")
-], types_FollowedListItems);
-
-const FollowedListItems = spInvokableFactory(types_FollowedListItems);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/favorites/index.js
-
-
-
-Reflect.defineProperty(fi_SPFI.prototype, "favorites", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.create(Favorites);
-    },
-});
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/types.js
 
 
 
 
-
-let types_Features = class _Features extends _SPCollection {
+let _Features = class _Features extends _SPCollection {
     /**
      * Adds (activates) the specified feature
      *
@@ -7741,7 +7540,7 @@ let types_Features = class _Features extends _SPCollection {
      * @param force If true the feature activation will be forced
      */
     async add(featureId, force = false) {
-        const data = await spPost(Features(this, "add"), request_builders_body({
+        const data = await spPost(Features(this, "add"), body({
             featdefScope: 0,
             featureId,
             force,
@@ -7766,53 +7565,52 @@ let types_Features = class _Features extends _SPCollection {
      * @param force If true the feature deactivation will be forced
      */
     remove(featureId, force = false) {
-        return spPost(Features(this, "remove"), request_builders_body({
+        return spPost(Features(this, "remove"), body({
             featureId,
             force,
         }));
     }
 };
-types_Features = tslib_es6_decorate([
+_Features = tslib_es6_decorate([
     defaultPath("features")
-], types_Features);
+], _Features);
 
-const Features = spInvokableFactory(types_Features);
-class types_Feature extends _SPInstance {
+const Features = spInvokableFactory(_Features);
+class _Feature extends _SPInstance {
 }
-const Feature = spInvokableFactory(types_Feature);
+const Feature = spInvokableFactory(_Feature);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/site.js
-
-
-
-addProp(types_Site, "features", Features);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/site.js
 
 
 
-addProp(types_Web, "features", Features);
+addProp(_Site, "features", Features);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/index.js
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/web.js
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/metadata.js
+
+addProp(_Web, "features", Features);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/index.js
+
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/metadata.js
 function metadata(type) {
     return {
         "__metadata": { "type": type },
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/types.js
 
 
 
 
 
-
-let types_Fields = class _Fields extends _SPCollection {
+let _Fields = class _Fields extends _SPCollection {
     /**
      * Creates a field based on the specified schema
      *
@@ -7822,11 +7620,7 @@ let types_Fields = class _Fields extends _SPCollection {
         if (typeof xml === "string") {
             xml = { SchemaXml: xml };
         }
-        const data = await spPost(Fields(this, "createfieldasxml"), request_builders_body({ parameters: xml }));
-        return {
-            data,
-            field: this.getById(data.Id),
-        };
+        return spPost(Fields(this, "createfieldasxml"), body({ parameters: xml }));
     }
     /**
      * Gets a field from the collection by id
@@ -7859,18 +7653,14 @@ let types_Fields = class _Fields extends _SPCollection {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
     async add(title, fieldTypeKind, properties) {
-        const data = await spPost(Fields(this, null), request_builders_body(Object.assign(metadata(mapFieldTypeEnumToString(fieldTypeKind)), {
+        return spPost(Fields(this, null), body(Object.assign(metadata(mapFieldTypeEnumToString(fieldTypeKind)), {
             Title: title,
             FieldTypeKind: fieldTypeKind,
             ...properties,
-        }), request_builders_headers({
+        }), headers({
             "Accept": "application/json;odata=verbose",
             "Content-Type": "application/json;odata=verbose",
         })));
-        return {
-            data,
-            field: this.getById(data.Id),
-        };
     }
     /**
      * Adds a new field to the collection
@@ -7879,17 +7669,13 @@ let types_Fields = class _Fields extends _SPCollection {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
     async addField(title, fieldTypeKind, properties) {
-        const data = await spPost(Fields(this, "AddField"), request_builders_body({
+        return spPost(Fields(this, "AddField"), body({
             parameters: {
                 Title: title,
                 FieldTypeKind: fieldTypeKind,
                 ...properties,
             },
         }));
-        return {
-            data,
-            field: this.getById(data.Id),
-        };
     }
     /**
      * Adds a new SP.FieldText to the collection
@@ -7911,7 +7697,7 @@ let types_Fields = class _Fields extends _SPCollection {
      */
     addCalculated(title, properties) {
         return this.add(title, 17, {
-            OutputType: 2 /* Text */,
+            OutputType: FieldTypes.Text,
             ...properties,
         });
     }
@@ -7923,7 +7709,7 @@ let types_Fields = class _Fields extends _SPCollection {
      */
     addDateTime(title, properties) {
         return this.add(title, 4, {
-            DateTimeCalendarType: 1 /* Gregorian */,
+            DateTimeCalendarType: CalendarType.Gregorian,
             DisplayFormat: DateTimeFieldFormatType.DateOnly,
             FriendlyDisplayFormat: DateTimeFieldFriendlyFormatType.Unspecified,
             ...properties,
@@ -8046,11 +7832,7 @@ let types_Fields = class _Fields extends _SPCollection {
   */
     async addDependentLookupField(displayName, primaryLookupFieldId, showField) {
         const path = `adddependentlookupfield(displayName='${displayName}', primarylookupfieldid='${primaryLookupFieldId}', showfield='${showField}')`;
-        const data = await spPost(Fields(this, path));
-        return {
-            data,
-            field: this.getById(data.Id),
-        };
+        return spPost(Fields(this, path));
     }
     /**
    * Adds a new SP.FieldLocation to the collection
@@ -8071,12 +7853,12 @@ let types_Fields = class _Fields extends _SPCollection {
         return this.add(title, 34, properties);
     }
 };
-types_Fields = tslib_es6_decorate([
+_Fields = tslib_es6_decorate([
     defaultPath("fields")
-], types_Fields);
+], _Fields);
 
-const Fields = spInvokableFactory(types_Fields);
-class types_Field extends _SPInstance {
+const Fields = spInvokableFactory(_Fields);
+class _Field extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -8092,11 +7874,7 @@ class types_Field extends _SPInstance {
             const info = await Field(this).select("FieldTypeKind")();
             fieldType = info["odata.type"];
         }
-        const data = await spPostMerge(this, request_builders_body(properties));
-        return {
-            data,
-            field: this,
-        };
+        return spPostMerge(this, body(properties));
     }
     /**
    * Sets the value of the ShowInDisplayForm property for this field.
@@ -8117,7 +7895,7 @@ class types_Field extends _SPInstance {
         return spPost(Field(this, `setshowinnewform(${show})`));
     }
 }
-const Field = spInvokableFactory(types_Field);
+const Field = spInvokableFactory(_Field);
 /**
  * Specifies the type of the field.
  */
@@ -8158,26 +7936,26 @@ var FieldTypes;
     FieldTypes[FieldTypes["Image"] = 34] = "Image";
 })(FieldTypes || (FieldTypes = {}));
 const FieldTypeClassMapping = {
-    [17 /* Calculated */]: "SP.FieldCalculated",
-    [6 /* Choice */]: "SP.FieldChoice",
-    [12 /* Computed */]: "SP.FieldComputed",
-    [10 /* Currency */]: "SP.FieldCurrency",
-    [4 /* DateTime */]: "SP.FieldDateTime",
-    [16 /* GridChoice */]: "SP.FieldRatingScale",
-    [14 /* Guid */]: "SP.FieldGuid",
-    [34 /* Image */]: "SP.FieldMultiLineText",
-    [1 /* Integer */]: "SP.FieldNumber",
-    [33 /* Location */]: "SP.FieldLocation",
-    [7 /* Lookup */]: "SP.FieldLookup",
-    [23 /* ModStat */]: "SP.FieldChoice",
-    [15 /* MultiChoice */]: "SP.FieldMultiChoice",
-    [3 /* Note */]: "SP.FieldMultiLineText",
-    [9 /* Number */]: "SP.FieldNumber",
-    [2 /* Text */]: "SP.FieldText",
-    [11 /* URL */]: "SP.FieldUrl",
-    [20 /* User */]: "SP.FieldUser",
-    [28 /* WorkflowStatus */]: "SP.FieldChoice",
-    [30 /* WorkflowEventType */]: "SP.FieldNumber",
+    [FieldTypes.Calculated]: "SP.FieldCalculated",
+    [FieldTypes.Choice]: "SP.FieldChoice",
+    [FieldTypes.Computed]: "SP.FieldComputed",
+    [FieldTypes.Currency]: "SP.FieldCurrency",
+    [FieldTypes.DateTime]: "SP.FieldDateTime",
+    [FieldTypes.GridChoice]: "SP.FieldRatingScale",
+    [FieldTypes.Guid]: "SP.FieldGuid",
+    [FieldTypes.Image]: "SP.FieldMultiLineText",
+    [FieldTypes.Integer]: "SP.FieldNumber",
+    [FieldTypes.Location]: "SP.FieldLocation",
+    [FieldTypes.Lookup]: "SP.FieldLookup",
+    [FieldTypes.ModStat]: "SP.FieldChoice",
+    [FieldTypes.MultiChoice]: "SP.FieldMultiChoice",
+    [FieldTypes.Note]: "SP.FieldMultiLineText",
+    [FieldTypes.Number]: "SP.FieldNumber",
+    [FieldTypes.Text]: "SP.FieldText",
+    [FieldTypes.URL]: "SP.FieldUrl",
+    [FieldTypes.User]: "SP.FieldUser",
+    [FieldTypes.WorkflowStatus]: "SP.FieldChoice",
+    [FieldTypes.WorkflowEventType]: "SP.FieldNumber",
 };
 function mapFieldTypeEnumToString(enumValue) {
     var _a;
@@ -8262,74 +8040,74 @@ var ChoiceFieldFormatType;
     ChoiceFieldFormatType[ChoiceFieldFormatType["RadioButtons"] = 1] = "RadioButtons";
 })(ChoiceFieldFormatType || (ChoiceFieldFormatType = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/web.js
 
 
 
-addProp(types_Web, "fields", Fields);
-addProp(types_Web, "availablefields", Fields);
+addProp(_Web, "fields", Fields);
+addProp(_Web, "availablefields", Fields);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/list.js
-
-
-
-addProp(types_List, "fields", Fields);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/list.js
 
 
 
+addProp(_List, "fields", Fields);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/folder.js
-
-
-
-addProp(types_Folder, "files", Files);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/item.js
-
-
-
-addProp(types_Item, "file", File, "file");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/index.js
 
 
 
 
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/item.js
-
-
-
-addProp(types_Item, "folder", Folder);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/folder.js
 
 
 
-addProp(types_List, "rootFolder", Folder);
+addProp(_Folder, "files", Files);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/item.js
 
 
 
-addProp(types_Web, "folders", Folders);
-addProp(types_Web, "rootFolder", Folder);
-types_Web.prototype.getFolderByServerRelativePath = function (folderRelativeUrl) {
+addProp(_Item, "file", File, "file");
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/index.js
+
+
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/item.js
+
+
+
+addProp(_Item, "folder", Folder);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/list.js
+
+
+
+addProp(_List, "rootFolder", Folder);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/web.js
+
+
+
+addProp(_Web, "folders", Folders);
+addProp(_Web, "rootFolder", Folder);
+_Web.prototype.getFolderByServerRelativePath = function (folderRelativeUrl) {
     return folderFromServerRelativePath(this, folderRelativeUrl);
 };
-types_Web.prototype.getFolderById = function (uniqueId) {
+_Web.prototype.getFolderById = function (uniqueId) {
     return Folder(this, `getFolderById('${uniqueId}')`);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/index.js
 
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/types.js
 
 
 
@@ -8337,7 +8115,7 @@ types_Web.prototype.getFolderById = function (uniqueId) {
  * Describes a collection of Form objects
  *
  */
-let types_Forms = class _Forms extends _SPCollection {
+let _Forms = class _Forms extends _SPCollection {
     /**
      * Gets a form by id
      *
@@ -8347,35 +8125,35 @@ let types_Forms = class _Forms extends _SPCollection {
         return Form(this).concat(`('${id}')`);
     }
 };
-types_Forms = tslib_es6_decorate([
+_Forms = tslib_es6_decorate([
     defaultPath("forms")
-], types_Forms);
+], _Forms);
 
-const Forms = spInvokableFactory(types_Forms);
+const Forms = spInvokableFactory(_Forms);
 /**
  * Describes a single of Form instance
  *
  */
-class types_Form extends _SPInstance {
+class _Form extends _SPInstance {
 }
-const Form = spInvokableFactory(types_Form);
+const Form = spInvokableFactory(_Form);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/list.js
-
-
-
-addProp(types_List, "forms", Forms);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/list.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/types.js
+addProp(_List, "forms", Forms);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/index.js
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/types.js
 
 
 
 
-let types_HubSites = class _HubSites extends _SPCollection {
+let _HubSites = class _HubSites extends _SPCollection {
     /**
      * Gets a Hub Site from the collection by id
      *
@@ -8385,12 +8163,12 @@ let types_HubSites = class _HubSites extends _SPCollection {
         return HubSite(this, `GetById?hubSiteId='${id}'`);
     }
 };
-types_HubSites = tslib_es6_decorate([
+_HubSites = tslib_es6_decorate([
     defaultPath("_api/hubsites")
-], types_HubSites);
+], _HubSites);
 
-const HubSites = spInvokableFactory(types_HubSites);
-class types_HubSite extends _SPInstance {
+const HubSites = spInvokableFactory(_HubSites);
+class _HubSite extends _SPInstance {
     /**
      * Gets the ISite instance associated with this hubsite
      */
@@ -8399,42 +8177,42 @@ class types_HubSite extends _SPInstance {
         return Site([this, d.SiteUrl]);
     }
 }
-const HubSite = spInvokableFactory(types_HubSite);
+const HubSite = spInvokableFactory(_HubSite);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/site.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/site.js
 
 
-types_Site.prototype.joinHubSite = async function (siteId) {
+_Site.prototype.joinHubSite = async function (siteId) {
     await spPost(Site(this, `joinHubSite('${siteId}')`));
 };
-types_Site.prototype.registerHubSite = async function () {
+_Site.prototype.registerHubSite = async function () {
     await spPost(Site(this, "registerHubSite"));
 };
-types_Site.prototype.unRegisterHubSite = async function () {
+_Site.prototype.unRegisterHubSite = async function () {
     await spPost(Site(this, "unRegisterHubSite"));
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/web.js
 
 
-types_Web.prototype.hubSiteData = async function (forceRefresh = false) {
+_Web.prototype.hubSiteData = async function (forceRefresh = false) {
     const data = await Web(this, `hubSiteData(${forceRefresh})`)();
     if (typeof data === "string") {
         return JSON.parse(data);
     }
     return data;
 };
-types_Web.prototype.syncHubSiteTheme = function () {
+_Web.prototype.syncHubSiteTheme = function () {
     return spPost(Web(this, "syncHubSiteTheme"));
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/index.js
 
 
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "hubSites", {
+Reflect.defineProperty(SPFI.prototype, "hubSites", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -8442,12 +8220,11 @@ Reflect.defineProperty(fi_SPFI.prototype, "hubSites", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/types.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/types.js
 
 
 
@@ -8458,7 +8235,7 @@ Reflect.defineProperty(fi_SPFI.prototype, "hubSites", {
  * Represents a collection of navigation nodes
  *
  */
-class types_NavigationNodes extends _SPCollection {
+class _NavigationNodes extends _SPCollection {
     /**
      * Gets a navigation node by id
      *
@@ -8475,16 +8252,12 @@ class types_NavigationNodes extends _SPCollection {
      * @param visible If true the node is visible, otherwise it is hidden (default: true)
      */
     async add(title, url, visible = true) {
-        const postBody = request_builders_body({
+        const postBody = body({
             IsVisible: visible,
             Title: title,
             Url: url,
         });
-        const data = await spPost(NavigationNodes(this, null), postBody);
-        return {
-            data,
-            node: this.getById(data.Id),
-        };
+        return spPost(NavigationNodes(this, null), postBody);
     }
     /**
      * Moves a node to be after another node in the navigation
@@ -8493,19 +8266,19 @@ class types_NavigationNodes extends _SPCollection {
      * @param previousNodeId Id of the node after which we move the node specified by nodeId
      */
     moveAfter(nodeId, previousNodeId) {
-        const postBody = request_builders_body({
+        const postBody = body({
             nodeId: nodeId,
             previousNodeId: previousNodeId,
         });
         return spPost(NavigationNodes(this, "MoveAfter"), postBody);
     }
 }
-const NavigationNodes = spInvokableFactory(types_NavigationNodes);
+const NavigationNodes = spInvokableFactory(_NavigationNodes);
 /**
  * Represents an instance of a navigation node
  *
  */
-class types_NavigationNode extends _SPInstance {
+class _NavigationNode extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -8522,19 +8295,19 @@ class types_NavigationNode extends _SPInstance {
      * @param properties Properties used to update this node
      */
     async update(properties) {
-        const data = await spPostMerge(this, request_builders_body(properties));
+        const data = await spPostMerge(this, body(properties));
         return {
             data,
             node: this,
         };
     }
 }
-const NavigationNode = spInvokableFactory(types_NavigationNode);
+const NavigationNode = spInvokableFactory(_NavigationNode);
 /**
  * Exposes the navigation components
  *
  */
-let types_Navigation = class _Navigation extends spqueryable_SPQueryable {
+let _Navigation = class _Navigation extends _SPQueryable {
     /**
      * Gets the quicklaunch navigation nodes for the current context
      *
@@ -8550,15 +8323,15 @@ let types_Navigation = class _Navigation extends spqueryable_SPQueryable {
         return NavigationNodes(this, "topnavigationbar");
     }
 };
-types_Navigation = tslib_es6_decorate([
+_Navigation = tslib_es6_decorate([
     defaultPath("navigation")
-], types_Navigation);
+], _Navigation);
 
-const Navigation = spInvokableFactory(types_Navigation);
+const Navigation = spInvokableFactory(_Navigation);
 /**
  * Represents the top level navigation service
  */
-class types_NavigationService extends spqueryable_SPQueryable {
+class _NavigationService extends _SPQueryable {
     constructor(base = null, path) {
         super(base, path);
         this._url = combine(extractWebUrl(this._url), "_api/navigation", path);
@@ -8572,7 +8345,7 @@ class types_NavigationService extends spqueryable_SPQueryable {
      * @param customProperties comma seperated list of custom properties to be returned.
      */
     getMenuState(menuNodeKey = null, depth = 10, mapProviderName = null, customProperties = null) {
-        return spPost(NavigationService(this, "MenuState"), request_builders_body({
+        return spPost(NavigationService(this, "MenuState"), body({
             customProperties,
             depth,
             mapProviderName,
@@ -8586,26 +8359,26 @@ class types_NavigationService extends spqueryable_SPQueryable {
      * @param mapProviderName The name identifying the SiteMapProvider to be used
      */
     getMenuNodeKey(currentUrl, mapProviderName = null) {
-        return spPost(NavigationService(this, "MenuNodeKey"), request_builders_body({
+        return spPost(NavigationService(this, "MenuNodeKey"), body({
             currentUrl,
             mapProviderName,
         }));
     }
 }
-const NavigationService = (base, path) => new types_NavigationService(base, path);
+const NavigationService = (base, path) => new _NavigationService(base, path);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/web.js
-
-
-
-addProp(types_Web, "navigation", Navigation);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/web.js
 
 
 
+addProp(_Web, "navigation", Navigation);
 
-Reflect.defineProperty(fi_SPFI.prototype, "navigation", {
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/index.js
+
+
+
+
+Reflect.defineProperty(SPFI.prototype, "navigation", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -8613,14 +8386,13 @@ Reflect.defineProperty(fi_SPFI.prototype, "navigation", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/types.js
 
 
 
 
 
-
-class types_Profiles extends _SPInstance {
+class _Profiles extends _SPInstance {
     /**
      * Creates a new instance of the UserProfileQuery class
      *
@@ -8628,8 +8400,8 @@ class types_Profiles extends _SPInstance {
      */
     constructor(baseUrl, path = "_api/sp.userprofiles.peoplemanager") {
         super(baseUrl, path);
-        this.clientPeoplePickerQuery = (new types_ClientPeoplePickerQuery(baseUrl)).using(AssignFrom(this));
-        this.profileLoader = (new types_ProfileLoader(baseUrl)).using(AssignFrom(this));
+        this.clientPeoplePickerQuery = (new ClientPeoplePickerQuery(baseUrl)).using(AssignFrom(this));
+        this.profileLoader = (new ProfileLoader(baseUrl)).using(AssignFrom(this));
     }
     /**
      * The url of the edit profile page for the current user
@@ -8787,7 +8559,7 @@ class types_Profiles extends _SPInstance {
      * @param propertyValue Property value
      */
     setSingleValueProfileProperty(accountName, propertyName, propertyValue) {
-        return spPost(Profiles(this, "SetSingleValueProfileProperty"), request_builders_body({
+        return spPost(Profiles(this, "SetSingleValueProfileProperty"), body({
             accountName,
             propertyName,
             propertyValue,
@@ -8801,7 +8573,7 @@ class types_Profiles extends _SPInstance {
      * @param propertyValues Property values
      */
     setMultiValuedProfileProperty(accountName, propertyName, propertyValues) {
-        return spPost(Profiles(this, "SetMultiValuedProfileProperty"), request_builders_body({
+        return spPost(Profiles(this, "SetMultiValuedProfileProperty"), body({
             accountName,
             propertyName,
             propertyValues,
@@ -8861,15 +8633,15 @@ class types_Profiles extends _SPInstance {
         return this.clientPeoplePickerQuery.clientPeoplePickerSearchUser(queryParams);
     }
 }
-const Profiles = spInvokableFactory(types_Profiles);
-let types_ProfileLoader = class ProfileLoader extends spqueryable_SPQueryable {
+const Profiles = spInvokableFactory(_Profiles);
+let ProfileLoader = class ProfileLoader extends _SPQueryable {
     /**
      * Provisions one or more users' personal sites. (My Site administrator on SharePoint Online only) Doesn't support batching
      *
      * @param emails The email addresses of the users to provision sites for
      */
     createPersonalSiteEnqueueBulk(emails) {
-        return spPost(ProfileLoaderFactory(this, "createpersonalsiteenqueuebulk"), request_builders_body({ "emailIDs": emails }));
+        return spPost(ProfileLoaderFactory(this, "createpersonalsiteenqueuebulk"), body({ "emailIDs": emails }));
     }
     /**
      * Gets the user profile of the site owner.
@@ -8902,13 +8674,13 @@ let types_ProfileLoader = class ProfileLoader extends spqueryable_SPQueryable {
         return spPost(ProfileLoaderFactory(this, `getuserprofile/shareallsocialdata(${share})`));
     }
 };
-types_ProfileLoader = tslib_es6_decorate([
+ProfileLoader = tslib_es6_decorate([
     defaultPath("_api/sp.userprofiles.profileloader.getprofileloader")
-], types_ProfileLoader);
+], ProfileLoader);
 const ProfileLoaderFactory = (baseUrl, path) => {
-    return new types_ProfileLoader(baseUrl, path);
+    return new ProfileLoader(baseUrl, path);
 };
-let types_ClientPeoplePickerQuery = class ClientPeoplePickerQuery extends spqueryable_SPQueryable {
+let ClientPeoplePickerQuery = class ClientPeoplePickerQuery extends _SPQueryable {
     /**
      * Resolves user or group using specified query parameters
      *
@@ -8937,14 +8709,14 @@ let types_ClientPeoplePickerQuery = class ClientPeoplePickerQuery extends spquer
      * @param queryParams The query parameters to create request body
      */
     getBodyFrom(queryParams) {
-        return request_builders_body({ queryParams });
+        return body({ queryParams });
     }
 };
-types_ClientPeoplePickerQuery = tslib_es6_decorate([
+ClientPeoplePickerQuery = tslib_es6_decorate([
     defaultPath("_api/sp.ui.applicationpages.clientpeoplepickerwebserviceinterface")
-], types_ClientPeoplePickerQuery);
+], ClientPeoplePickerQuery);
 const ClientPeoplePickerFactory = (baseUrl, path) => {
-    return new types_ClientPeoplePickerQuery(baseUrl, path);
+    return new ClientPeoplePickerQuery(baseUrl, path);
 };
 /**
  * Specifies the originating zone of a request received.
@@ -8973,11 +8745,11 @@ var UrlZone;
     UrlZone[UrlZone["Extranet"] = 4] = "Extranet";
 })(UrlZone || (UrlZone = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "profiles", {
+Reflect.defineProperty(SPFI.prototype, "profiles", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -8985,9 +8757,9 @@ Reflect.defineProperty(fi_SPFI.prototype, "profiles", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/types.js
 
-class types_SitePageService extends _SPInstance {
+class _SitePageService extends _SPInstance {
     constructor(baseUrl, path = "_api/SP.Publishing.SitePageService") {
         super(baseUrl, path);
     }
@@ -9000,25 +8772,24 @@ class types_SitePageService extends _SPInstance {
         return q();
     }
 }
-const SitePageService = spInvokableFactory(types_SitePageService);
+const SitePageService = spInvokableFactory(_SitePageService);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "publishingSitePageService", {
+Reflect.defineProperty(SPFI.prototype, "publishingSitePageService", {
     get: function () {
         return this.create(SitePageService);
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/types.js
 
 
 
 
-
-let types_RegionalSettings = class _RegionalSettings extends _SPInstance {
+let _RegionalSettings = class _RegionalSettings extends _SPInstance {
     /**
      * Gets time zone
      */
@@ -9039,12 +8810,12 @@ let types_RegionalSettings = class _RegionalSettings extends _SPInstance {
         return results.Items;
     }
 };
-types_RegionalSettings = tslib_es6_decorate([
+_RegionalSettings = tslib_es6_decorate([
     defaultPath("regionalsettings")
-], types_RegionalSettings);
+], _RegionalSettings);
 
-const RegionalSettings = spInvokableFactory(types_RegionalSettings);
-let types_TimeZone = class _TimeZone extends _SPInstance {
+const RegionalSettings = spInvokableFactory(_RegionalSettings);
+let _TimeZone = class _TimeZone extends _SPInstance {
     /**
      * Gets an Local Time by UTC Time
      *
@@ -9072,18 +8843,18 @@ let types_TimeZone = class _TimeZone extends _SPInstance {
             dateIsoString = localTime;
         }
         else {
-            dateIsoString = dateAdd(localTime, "minute", localTime.getTimezoneOffset() * -1).toISOString();
+            dateIsoString = util_dateAdd(localTime, "minute", localTime.getTimezoneOffset() * -1).toISOString();
         }
         const res = await spPost(TimeZone(this, `localtimetoutc('${dateIsoString}')`));
         return hOP(res, "LocalTimeToUTC") ? res.LocalTimeToUTC : res;
     }
 };
-types_TimeZone = tslib_es6_decorate([
+_TimeZone = tslib_es6_decorate([
     defaultPath("timezone")
-], types_TimeZone);
+], _TimeZone);
 
-const TimeZone = spInvokableFactory(types_TimeZone);
-let types_TimeZones = class _TimeZones extends _SPCollection {
+const TimeZone = spInvokableFactory(_TimeZone);
+let _TimeZones = class _TimeZones extends _SPCollection {
     /**
      * Gets an TimeZone by id (see: https://msdn.microsoft.com/en-us/library/office/jj247008.aspx)
      *
@@ -9093,38 +8864,36 @@ let types_TimeZones = class _TimeZones extends _SPCollection {
         return spPost(TimeZones(this, `GetById(${id})`));
     }
 };
-types_TimeZones = tslib_es6_decorate([
+_TimeZones = tslib_es6_decorate([
     defaultPath("timezones")
-], types_TimeZones);
+], _TimeZones);
 
-const TimeZones = spInvokableFactory(types_TimeZones);
+const TimeZones = spInvokableFactory(_TimeZones);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/funcs.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/funcs.js
 
 
 function getValueForUICultureBinder(propName) {
     return function (cultureName) {
-        return spPost(SPQueryable(this, `${propName}/getValueForUICulture`), request_builders_body({ cultureName }));
+        return spPost(SPQueryable(this, `${propName}/getValueForUICulture`), body({ cultureName }));
     };
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/web.js
 
 
 
 
-addProp(types_Web, "regionalSettings", RegionalSettings);
-types_Web.prototype.titleResource = getValueForUICultureBinder("titleResource");
-types_Web.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
+addProp(_Web, "regionalSettings", RegionalSettings);
+_Web.prototype.titleResource = getValueForUICultureBinder("titleResource");
+_Web.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/types.js
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/types.js
 
 
 
-let types_UserCustomActions = class _UserCustomActions extends _SPCollection {
+
+let _UserCustomActions = class _UserCustomActions extends _SPCollection {
     /**
      * Returns the user custom action with the specified id
      *
@@ -9139,7 +8908,7 @@ let types_UserCustomActions = class _UserCustomActions extends _SPCollection {
      * @param properties The information object of property names and values which define the new user custom action
      */
     async add(properties) {
-        const data = await spPost(this, request_builders_body(properties));
+        const data = await spPost(this, body(properties));
         return {
             action: this.getById(data.Id),
             data,
@@ -9152,12 +8921,12 @@ let types_UserCustomActions = class _UserCustomActions extends _SPCollection {
         return spPost(UserCustomActions(this, "clear"));
     }
 };
-types_UserCustomActions = tslib_es6_decorate([
+_UserCustomActions = tslib_es6_decorate([
     defaultPath("usercustomactions")
-], types_UserCustomActions);
+], _UserCustomActions);
 
-const UserCustomActions = spInvokableFactory(types_UserCustomActions);
-class types_UserCustomAction extends _SPInstance {
+const UserCustomActions = spInvokableFactory(_UserCustomActions);
+class _UserCustomAction extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -9168,14 +8937,14 @@ class types_UserCustomAction extends _SPInstance {
     * @param properties An information object of property names and values to update for this user custom action
     */
     async update(props) {
-        const data = await spPostMerge(this, request_builders_body(props));
+        const data = await spPostMerge(this, body(props));
         return {
             data,
             action: this,
         };
     }
 }
-const UserCustomAction = spInvokableFactory(types_UserCustomAction);
+const UserCustomAction = spInvokableFactory(_UserCustomAction);
 var UserCustomActionRegistrationType;
 (function (UserCustomActionRegistrationType) {
     UserCustomActionRegistrationType[UserCustomActionRegistrationType["None"] = 0] = "None";
@@ -9192,50 +8961,49 @@ var UserCustomActionScope;
     UserCustomActionScope[UserCustomActionScope["List"] = 4] = "List";
 })(UserCustomActionScope || (UserCustomActionScope = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/user-custom-actions.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/user-custom-actions.js
 
 
-types_UserCustomAction.prototype.titleResource = getValueForUICultureBinder("titleResource");
-types_UserCustomAction.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
+_UserCustomAction.prototype.titleResource = getValueForUICultureBinder("titleResource");
+_UserCustomAction.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/list.js
-
-
-types_List.prototype.titleResource = getValueForUICultureBinder("titleResource");
-types_List.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/field.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/list.js
 
 
-types_Field.prototype.titleResource = getValueForUICultureBinder("titleResource");
-types_Field.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
+_List.prototype.titleResource = getValueForUICultureBinder("titleResource");
+_List.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/content-type.js
-
-
-types_ContentType.prototype.titleResource = getValueForUICultureBinder("nameResource");
-types_ContentType.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/field.js
 
 
+_Field.prototype.titleResource = getValueForUICultureBinder("titleResource");
+_Field.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/content-type.js
 
 
+_ContentType.prototype.titleResource = getValueForUICultureBinder("nameResource");
+_ContentType.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/index.js
 
 
 
 
 
 
-let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQueryable {
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/types.js
+
+
+
+
+
+let _RelatedItemManager = class _RelatedItemManager extends _SPQueryable {
     getRelatedItems(sourceListName, sourceItemId) {
         const query = RelatedItemManager(this);
         query.concat(".GetRelatedItems");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
         }));
@@ -9243,7 +9011,7 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
     getPageOneRelatedItems(sourceListName, sourceItemId) {
         const query = RelatedItemManager(this);
         query.concat(".GetPageOneRelatedItems");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
         }));
@@ -9251,7 +9019,7 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
     addSingleLink(sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemID, targetWebUrl, tryAddReverseLink = false) {
         const query = RelatedItemManager(this);
         query.concat(".AddSingleLink");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             SourceWebUrl: sourceWebUrl,
@@ -9264,7 +9032,7 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
     addSingleLinkToUrl(sourceListName, sourceItemId, targetItemUrl, tryAddReverseLink = false) {
         const query = RelatedItemManager(this);
         query.concat(".AddSingleLinkToUrl");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             TargetItemUrl: targetItemUrl,
@@ -9274,7 +9042,7 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
     addSingleLinkFromUrl(sourceItemUrl, targetListName, targetItemId, tryAddReverseLink = false) {
         const query = RelatedItemManager(this);
         query.concat(".AddSingleLinkFromUrl");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemUrl: sourceItemUrl,
             TargetItemID: targetItemId,
             TargetListName: targetListName,
@@ -9284,7 +9052,7 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
     deleteSingleLink(sourceListName, sourceItemId, sourceWebUrl, targetListName, targetItemId, targetWebUrl, tryDeleteReverseLink = false) {
         const query = RelatedItemManager(this);
         query.concat(".DeleteSingleLink");
-        return spPost(query, request_builders_body({
+        return spPost(query, body({
             SourceItemID: sourceItemId,
             SourceListName: sourceListName,
             SourceWebUrl: sourceWebUrl,
@@ -9295,21 +9063,21 @@ let types_RelatedItemManager = class _RelatedItemManager extends spqueryable_SPQ
         }));
     }
 };
-types_RelatedItemManager = tslib_es6_decorate([
+_RelatedItemManager = tslib_es6_decorate([
     defaultPath("_api/SP.RelatedItemManager")
-], types_RelatedItemManager);
+], _RelatedItemManager);
 
 const RelatedItemManager = (base) => {
     if (typeof base === "string") {
-        return new types_RelatedItemManager(extractWebUrl(base));
+        return new _RelatedItemManager(extractWebUrl(base));
     }
-    return new types_RelatedItemManager([base, extractWebUrl(base.toUrl())]);
+    return new _RelatedItemManager([base, extractWebUrl(base.toUrl())]);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/web.js
 
 
-Reflect.defineProperty(types_Web.prototype, "relatedItems", {
+Reflect.defineProperty(_Web.prototype, "relatedItems", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -9317,13 +9085,12 @@ Reflect.defineProperty(types_Web.prototype, "relatedItems", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/query.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/query.js
 var _Search_1;
-
 
 
 
@@ -9361,7 +9128,7 @@ const funcs = new Map([
     ["maxSnippetLength", ""],
     ["summaryLength", ""],
 ]);
-const query_props = new Map([]);
+const props = new Map([]);
 function toPropCase(str) {
     return str.replace(/^(.)/, ($1) => $1.toUpperCase());
 }
@@ -9389,7 +9156,7 @@ function SearchQueryBuilder(queryText = "", _query = {}) {
                     return proxy;
                 };
             }
-            const propKey = query_props.has(pk) ? query_props.get(pk) : toPropCase(pk);
+            const propKey = props.has(pk) ? props.get(pk) : toPropCase(pk);
             self.query[propKey] = true;
             return proxy;
         },
@@ -9399,13 +9166,13 @@ function SearchQueryBuilder(queryText = "", _query = {}) {
  * Describes the search API
  *
  */
-let query_Search = _Search_1 = class _Search extends _SPInstance {
+let _Search = _Search_1 = class _Search extends _SPInstance {
     /**
      * @returns Promise
      */
     async run(queryInit) {
         const query = this.parseQuery(queryInit);
-        const postBody = request_builders_body({
+        const postBody = body({
             request: {
                 ...query,
                 HitHighlightedProperties: this.fixArrProp(query.HitHighlightedProperties),
@@ -9417,10 +9184,10 @@ let query_Search = _Search_1 = class _Search extends _SPInstance {
             },
         });
         const poster = new _Search_1([this, this.parentUrl]);
-        poster.using(CacheAlways(), CacheKey(getHashCode(JSON.stringify(postBody)).toString()));
+        poster.using(CacheAlways(), CacheKey(util_getHashCode(JSON.stringify(postBody)).toString()));
         const data = await spPost(poster, postBody);
         // Create search instance copy for SearchResult's getPage request.
-        return new query_SearchResults(data, new _Search_1([this, this.parentUrl]), query);
+        return new SearchResults(data, new _Search_1([this, this.parentUrl]), query);
     }
     /**
      * Fix array property
@@ -9428,7 +9195,7 @@ let query_Search = _Search_1 = class _Search extends _SPInstance {
      * @param prop property to fix for container struct
      */
     fixArrProp(prop) {
-        return typeof prop === "undefined" ? [] : isArray(prop) ? prop : [prop];
+        return typeof prop === "undefined" ? [] : util_isArray(prop) ? prop : [prop];
     }
     /**
      * Translates one of the query initializers into a SearchQuery instance
@@ -9449,15 +9216,15 @@ let query_Search = _Search_1 = class _Search extends _SPInstance {
         return finalQuery;
     }
 };
-query_Search = _Search_1 = tslib_es6_decorate([
+_Search = _Search_1 = tslib_es6_decorate([
     defaultPath("_api/search/postquery"),
     invokable(function (init) {
         return this.run(init);
     })
-], query_Search);
+], _Search);
 
-const Search = spInvokableFactory(query_Search);
-class query_SearchResults {
+const Search = spInvokableFactory(_Search);
+class SearchResults {
     constructor(rawResponse, _search, _query, _raw = null, _primary = null) {
         this._search = _search;
         this._query = _query;
@@ -9538,12 +9305,12 @@ class query_SearchResults {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/suggest.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/suggest.js
 
 
 
 
-let suggest_Suggest = class _Suggest extends _SPInstance {
+let _Suggest = class _Suggest extends _SPInstance {
     async run(query) {
         this.mapQueryToQueryString(query);
         const response = await this();
@@ -9574,13 +9341,13 @@ let suggest_Suggest = class _Suggest extends _SPInstance {
         querySetter("prefixMatch")("fprefixmatchallterms");
     }
 };
-suggest_Suggest = tslib_es6_decorate([
+_Suggest = tslib_es6_decorate([
     defaultPath("_api/search/suggest")
-], suggest_Suggest);
+], _Suggest);
 
-const Suggest = spInvokableFactory(suggest_Suggest);
+const Suggest = spInvokableFactory(_Suggest);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/types.js
 /**
  * defines the SortDirection enum
  */
@@ -9635,28 +9402,27 @@ SearchBuiltInSourceId.RecentlyChangedItems = "ba63bbae-fa9c-42c0-b027-9a878f1655
 SearchBuiltInSourceId.RecommendedItems = "ec675252-14fa-4fbe-84dd-8d098ed74181";
 SearchBuiltInSourceId.Wiki = "9479bf85-e257-4318-b5a8-81a180f5faa1";
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/index.js
 
 
 
 
 
 
-fi_SPFI.prototype.search = function (query) {
-    return (new query_Search(this._root)).run(query);
+SPFI.prototype.search = function (query) {
+    return (new _Search(this._root)).run(query);
 };
-fi_SPFI.prototype.searchSuggest = function (query) {
-    return (new suggest_Suggest(this._root)).run(typeof query === "string" ? { querytext: query } : query);
+SPFI.prototype.searchSuggest = function (query) {
+    return (new _Suggest(this._root)).run(typeof query === "string" ? { querytext: query } : query);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/types.js
 
 
 
 
 
-
-let types_SiteUsers = class _SiteUsers extends _SPCollection {
+let _SiteUsers = class _SiteUsers extends _SPCollection {
     /**
      * Gets a user from the collection by id
      *
@@ -9677,6 +9443,7 @@ let types_SiteUsers = class _SiteUsers extends _SPCollection {
      * Gets a user from the collection by login name
      *
      * @param loginName The login name of the user to retrieve
+     *   e.g. SharePoint Online: 'i:0#.f|membership|user@domain'
      */
     getByLoginName(loginName) {
         return SiteUser(this).concat(`('!@v::${loginName}')`);
@@ -9706,20 +9473,20 @@ let types_SiteUsers = class _SiteUsers extends _SPCollection {
      *
      */
     async add(loginName) {
-        await spPost(this, request_builders_body({ LoginName: loginName }));
+        await spPost(this, body({ LoginName: loginName }));
         return this.getByLoginName(loginName);
     }
 };
-types_SiteUsers = tslib_es6_decorate([
+_SiteUsers = tslib_es6_decorate([
     defaultPath("siteusers")
-], types_SiteUsers);
+], _SiteUsers);
 
-const SiteUsers = spInvokableFactory(types_SiteUsers);
+const SiteUsers = spInvokableFactory(_SiteUsers);
 /**
  * Describes a single user
  *
  */
-class types_SiteUser extends _SPInstance {
+class _SiteUser extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -9737,23 +9504,18 @@ class types_SiteUser extends _SPInstance {
      * @param props Group properties to update
      */
     async update(props) {
-        const data = await spPostMerge(this, request_builders_body(props));
-        return {
-            data,
-            user: this,
-        };
+        return spPostMerge(this, body(props));
     }
 }
-const SiteUser = spInvokableFactory(types_SiteUser);
+const SiteUser = spInvokableFactory(_SiteUser);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/types.js
-
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/types.js
 
 
 
 
-let types_SiteGroups = class _SiteGroups extends _SPCollection {
+
+let _SiteGroups = class _SiteGroups extends _SPCollection {
     /**
      * Gets a group from the collection by id
      *
@@ -9768,11 +9530,7 @@ let types_SiteGroups = class _SiteGroups extends _SPCollection {
      * @param properties The group properties object of property names and values to be set for the group
      */
     async add(properties) {
-        const data = await spPost(this, request_builders_body(properties));
-        return {
-            data,
-            group: this.getById(data.Id),
-        };
+        return spPost(this, body(properties));
     }
     /**
      * Gets a group from the collection by name
@@ -9799,12 +9557,12 @@ let types_SiteGroups = class _SiteGroups extends _SPCollection {
         return spPost(SiteGroups(this, `removeByLoginName('${loginName}')`));
     }
 };
-types_SiteGroups = tslib_es6_decorate([
+_SiteGroups = tslib_es6_decorate([
     defaultPath("sitegroups")
-], types_SiteGroups);
+], _SiteGroups);
 
-const SiteGroups = spInvokableFactory(types_SiteGroups);
-class types_SiteGroup extends _SPInstance {
+const SiteGroups = spInvokableFactory(_SiteGroups);
+class _SiteGroup extends _SPInstance {
     /**
      * Gets the users for this group
      *
@@ -9816,11 +9574,7 @@ class types_SiteGroup extends _SPInstance {
     * @param props Group properties to update
     */
     async update(props) {
-        const data = await spPostMerge(this, request_builders_body(props));
-        return {
-            data,
-            group: this,
-        };
+        return spPostMerge(this, body(props));
     }
     /**
      * Set the owner of a group using a user id
@@ -9830,10 +9584,9 @@ class types_SiteGroup extends _SPInstance {
         return spPost(SiteGroup(this, `SetUserAsOwner(${userId})`));
     }
 }
-const SiteGroup = spInvokableFactory(types_SiteGroup);
+const SiteGroup = spInvokableFactory(_SiteGroup);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/types.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/types.js
 
 
 
@@ -9844,7 +9597,7 @@ const SiteGroup = spInvokableFactory(types_SiteGroup);
  * Describes a set of role assignments for the current scope
  *
  */
-let types_RoleAssignments = class _RoleAssignments extends _SPCollection {
+let _RoleAssignments = class _RoleAssignments extends _SPCollection {
     /**
      * Gets the role assignment associated with the specified principal id from the collection.
      *
@@ -9874,16 +9627,16 @@ let types_RoleAssignments = class _RoleAssignments extends _SPCollection {
         await spPost(RoleAssignments(this, `removeroleassignment(principalid=${principalId}, roledefid=${roleDefId})`));
     }
 };
-types_RoleAssignments = tslib_es6_decorate([
+_RoleAssignments = tslib_es6_decorate([
     defaultPath("roleassignments")
-], types_RoleAssignments);
+], _RoleAssignments);
 
-const RoleAssignments = spInvokableFactory(types_RoleAssignments);
+const RoleAssignments = spInvokableFactory(_RoleAssignments);
 /**
  * Describes a role assignment
  *
  */
-class types_RoleAssignment extends _SPInstance {
+class _RoleAssignment extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -9903,12 +9656,12 @@ class types_RoleAssignment extends _SPInstance {
         return SPCollection(this, "roledefinitionbindings");
     }
 }
-const RoleAssignment = spInvokableFactory(types_RoleAssignment);
+const RoleAssignment = spInvokableFactory(_RoleAssignment);
 /**
  * Describes a collection of role definitions
  *
  */
-let types_RoleDefinitions = class _RoleDefinitions extends _SPCollection {
+let _RoleDefinitions = class _RoleDefinitions extends _SPCollection {
     /**
      * Gets the role definition with the specified id from the collection
      *
@@ -9946,7 +9699,7 @@ let types_RoleDefinitions = class _RoleDefinitions extends _SPCollection {
      *
      */
     async add(name, description, order, basePermissions) {
-        const postBody = request_builders_body({
+        const postBody = body({
             BasePermissions: { "High": basePermissions.High.toString(), "Low": basePermissions.Low.toString() },
             Description: description,
             Name: name,
@@ -9960,16 +9713,16 @@ let types_RoleDefinitions = class _RoleDefinitions extends _SPCollection {
         };
     }
 };
-types_RoleDefinitions = tslib_es6_decorate([
+_RoleDefinitions = tslib_es6_decorate([
     defaultPath("roledefinitions")
-], types_RoleDefinitions);
+], _RoleDefinitions);
 
-const RoleDefinitions = spInvokableFactory(types_RoleDefinitions);
+const RoleDefinitions = spInvokableFactory(_RoleDefinitions);
 /**
  * Describes a role definition
  *
  */
-class types_RoleDefinition extends _SPInstance {
+class _RoleDefinition extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -9986,7 +9739,7 @@ class types_RoleDefinition extends _SPInstance {
             bpObj.High = bpObj.High.toString();
             bpObj.Low = bpObj.Low.toString();
         }
-        const data = await spPostMerge(this, request_builders_body(properties));
+        const data = await spPostMerge(this, body(properties));
         let definition = this;
         if (hOP(properties, "Name")) {
             const parent = this.getParent(RoleDefinitions);
@@ -9998,7 +9751,7 @@ class types_RoleDefinition extends _SPInstance {
         };
     }
 }
-const RoleDefinition = spInvokableFactory(types_RoleDefinition);
+const RoleDefinition = spInvokableFactory(_RoleDefinition);
 var PermissionKind;
 (function (PermissionKind) {
     /**
@@ -10165,8 +9918,7 @@ var PermissionKind;
     PermissionKind[PermissionKind["FullMask"] = 65] = "FullMask";
 })(PermissionKind || (PermissionKind = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/funcs.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/funcs.js
 
 
 /**
@@ -10192,14 +9944,14 @@ async function getCurrentUserEffectivePermissions() {
  * @param clearSubscopes Optional. true to make all child securable objects inherit role assignments from the current object
  */
 async function breakRoleInheritance(copyRoleAssignments = false, clearSubscopes = false) {
-    await spPost(SPQueryable(this, `breakroleinheritance(copyroleassignments=${copyRoleAssignments}, clearsubscopes=${clearSubscopes})`));
+    return spPost(SPQueryable(this, `breakroleinheritance(copyroleassignments=${copyRoleAssignments}, clearsubscopes=${clearSubscopes})`));
 }
 /**
  * Removes the local role assignments so that it re-inherit role assignments from the parent object.
  *
  */
 async function resetRoleInheritance() {
-    await spPost(SPQueryable(this, "resetroleinheritance"));
+    return spPost(SPQueryable(this, "resetroleinheritance"));
 }
 /**
  * Determines if a given user has the appropriate permissions
@@ -10248,62 +10000,62 @@ function hasPermissions(value, perm) {
 }
 /* eslint-enable no-bitwise */
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/item.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/item.js
 
 
 
 
 
-addProp(types_Item, "roleAssignments", RoleAssignments);
-addProp(types_Item, "firstUniqueAncestorSecurableObject", SPInstance);
-types_Item.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
-types_Item.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
-types_Item.prototype.breakRoleInheritance = breakRoleInheritance;
-types_Item.prototype.resetRoleInheritance = resetRoleInheritance;
-types_Item.prototype.userHasPermissions = userHasPermissions;
-types_Item.prototype.currentUserHasPermissions = currentUserHasPermissions;
-types_Item.prototype.hasPermissions = hasPermissions;
+addProp(_Item, "roleAssignments", RoleAssignments);
+addProp(_Item, "firstUniqueAncestorSecurableObject", SPInstance);
+_Item.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
+_Item.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
+_Item.prototype.breakRoleInheritance = breakRoleInheritance;
+_Item.prototype.resetRoleInheritance = resetRoleInheritance;
+_Item.prototype.userHasPermissions = userHasPermissions;
+_Item.prototype.currentUserHasPermissions = currentUserHasPermissions;
+_Item.prototype.hasPermissions = hasPermissions;
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/list.js
-
-
-
-
-
-addProp(types_List, "roleAssignments", RoleAssignments);
-addProp(types_List, "firstUniqueAncestorSecurableObject", SPInstance);
-types_List.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
-types_List.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
-types_List.prototype.breakRoleInheritance = breakRoleInheritance;
-types_List.prototype.resetRoleInheritance = resetRoleInheritance;
-types_List.prototype.userHasPermissions = userHasPermissions;
-types_List.prototype.currentUserHasPermissions = currentUserHasPermissions;
-types_List.prototype.hasPermissions = hasPermissions;
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/list.js
 
 
 
 
 
-addProp(types_Web, "roleDefinitions", RoleDefinitions);
-addProp(types_Web, "roleAssignments", RoleAssignments);
-addProp(types_Web, "firstUniqueAncestorSecurableObject", SPInstance);
-types_Web.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
-types_Web.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
-types_Web.prototype.breakRoleInheritance = breakRoleInheritance;
-types_Web.prototype.resetRoleInheritance = resetRoleInheritance;
-types_Web.prototype.userHasPermissions = userHasPermissions;
-types_Web.prototype.currentUserHasPermissions = currentUserHasPermissions;
-types_Web.prototype.hasPermissions = hasPermissions;
+addProp(_List, "roleAssignments", RoleAssignments);
+addProp(_List, "firstUniqueAncestorSecurableObject", SPInstance);
+_List.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
+_List.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
+_List.prototype.breakRoleInheritance = breakRoleInheritance;
+_List.prototype.resetRoleInheritance = resetRoleInheritance;
+_List.prototype.userHasPermissions = userHasPermissions;
+_List.prototype.currentUserHasPermissions = currentUserHasPermissions;
+_List.prototype.hasPermissions = hasPermissions;
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/index.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/web.js
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/types.js
+
+addProp(_Web, "roleDefinitions", RoleDefinitions);
+addProp(_Web, "roleAssignments", RoleAssignments);
+addProp(_Web, "firstUniqueAncestorSecurableObject", SPInstance);
+_Web.prototype.getUserEffectivePermissions = getUserEffectivePermissions;
+_Web.prototype.getCurrentUserEffectivePermissions = getCurrentUserEffectivePermissions;
+_Web.prototype.breakRoleInheritance = breakRoleInheritance;
+_Web.prototype.resetRoleInheritance = resetRoleInheritance;
+_Web.prototype.userHasPermissions = userHasPermissions;
+_Web.prototype.currentUserHasPermissions = currentUserHasPermissions;
+_Web.prototype.hasPermissions = hasPermissions;
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/index.js
+
+
+
+
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/types.js
 /**
  * Indicates the role of the sharing link
  */
@@ -10418,84 +10170,83 @@ var RoleType;
     RoleType[RoleType["Administrator"] = 5] = "Administrator";
 })(RoleType || (RoleType = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/file.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/file.js
 
 
 
-types_File.prototype.shareWith = async function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
+_File.prototype.shareWith = async function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
     const item = await this.getItem();
     return item.shareWith(loginNames, role, requireSignin, emailData);
 };
-types_File.prototype.getShareLink = async function (kind, expiration = null) {
+_File.prototype.getShareLink = async function (kind, expiration = null) {
     const item = await this.getItem();
     return item.getShareLink(kind, expiration);
 };
-types_File.prototype.checkSharingPermissions = async function (recipients) {
+_File.prototype.checkSharingPermissions = async function (recipients) {
     const item = await this.getItem();
     return item.checkSharingPermissions(recipients);
 };
 // TODO:: clean up this method signature for next major release
 // eslint-disable-next-line max-len
-types_File.prototype.getSharingInformation = async function (request = null, expands, selects) {
+_File.prototype.getSharingInformation = async function (request = null, expands, selects) {
     const item = await this.getItem();
     return item.getSharingInformation(request, expands, selects);
 };
-types_File.prototype.getObjectSharingSettings = async function (useSimplifiedRoles = true) {
+_File.prototype.getObjectSharingSettings = async function (useSimplifiedRoles = true) {
     const item = await this.getItem();
     return item.getObjectSharingSettings(useSimplifiedRoles);
 };
-types_File.prototype.unshare = async function () {
+_File.prototype.unshare = async function () {
     const item = await this.getItem();
     return item.unshare();
 };
-types_File.prototype.deleteSharingLinkByKind = async function (linkKind) {
+_File.prototype.deleteSharingLinkByKind = async function (linkKind) {
     const item = await this.getItem();
     return item.deleteSharingLinkByKind(linkKind);
 };
-types_File.prototype.unshareLink = async function unshareLink(linkKind, shareId = emptyGuid) {
+_File.prototype.unshareLink = async function unshareLink(linkKind, shareId = emptyGuid) {
     const item = await this.getItem();
     return item.unshareLink(linkKind, shareId);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/folder.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/folder.js
 
 
-const folder_field = "odata.id";
-types_Folder.prototype.shareWith = async function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
-    const shareable = await this.getItem(folder_field);
+const field = "odata.id";
+_Folder.prototype.shareWith = async function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
+    const shareable = await this.getItem(field);
     return shareable.shareWith(loginNames, role, requireSignin, emailData);
 };
-types_Folder.prototype.getShareLink = async function (kind, expiration = null) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.getShareLink = async function (kind, expiration = null) {
+    const shareable = await this.getItem(field);
     return shareable.getShareLink(kind, expiration);
 };
-types_Folder.prototype.checkSharingPermissions = async function (recipients) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.checkSharingPermissions = async function (recipients) {
+    const shareable = await this.getItem(field);
     return shareable.checkSharingPermissions(recipients);
 };
-types_Folder.prototype.getSharingInformation = async function (request, expands, selects) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.getSharingInformation = async function (request, expands, selects) {
+    const shareable = await this.getItem(field);
     return shareable.getSharingInformation(request, expands, selects);
 };
-types_Folder.prototype.getObjectSharingSettings = async function (useSimplifiedRoles = true) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.getObjectSharingSettings = async function (useSimplifiedRoles = true) {
+    const shareable = await this.getItem(field);
     return shareable.getObjectSharingSettings(useSimplifiedRoles);
 };
-types_Folder.prototype.unshare = async function () {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.unshare = async function () {
+    const shareable = await this.getItem(field);
     return shareable.unshare();
 };
-types_Folder.prototype.deleteSharingLinkByKind = async function (kind) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.deleteSharingLinkByKind = async function (kind) {
+    const shareable = await this.getItem(field);
     return shareable.deleteSharingLinkByKind(kind);
 };
-types_Folder.prototype.unshareLink = async function (kind, shareId) {
-    const shareable = await this.getItem(folder_field);
+_Folder.prototype.unshareLink = async function (kind, shareId) {
+    const shareable = await this.getItem(field);
     return shareable.unshareLink(kind, shareId);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/funcs.js
-
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/funcs.js
 
 
 
@@ -10525,7 +10276,7 @@ async function shareObject(o, options, bypass = false) {
     };
     const roleValue = await getRoleValue.apply(o, [options.role, options.group]);
     // handle the multiple input types
-    if (!isArray(options.loginNames)) {
+    if (!util_isArray(options.loginNames)) {
         options.loginNames = [options.loginNames];
     }
     const userStr = jsS(options.loginNames.map(Key => ({ Key })));
@@ -10555,7 +10306,7 @@ function getShareLink(kind, expiration = null) {
     const expString = expiration !== null ? expiration.toISOString() : null;
     // clone using the factory and send the request
     const o = SPInstance(this, "shareLink");
-    return spPost(o, request_builders_body({
+    return spPost(o, body({
         request: {
             createLink: true,
             emailData: null,
@@ -10573,7 +10324,7 @@ function getShareLink(kind, expiration = null) {
  */
 function checkPermissions(recipients) {
     const o = SPInstance(this, "checkPermissions");
-    return spPost(o, request_builders_body({ recipients }));
+    return spPost(o, body({ recipients }));
 }
 /**
  * Get Sharing Information.
@@ -10584,7 +10335,7 @@ function checkPermissions(recipients) {
  */
 function getSharingInformation(request = null, expands = [], selects = ["*"]) {
     const o = SPInstance(this, "getSharingInformation");
-    return spPost(o.select(...selects).expand(...expands), request_builders_body({ request }));
+    return spPost(o.select(...selects).expand(...expands), body({ request }));
 }
 /**
  * Gets the sharing settings of an item.
@@ -10593,7 +10344,7 @@ function getSharingInformation(request = null, expands = [], selects = ["*"]) {
  */
 function getObjectSharingSettings(useSimplifiedRoles = true) {
     const o = SPInstance(this, "getObjectSharingSettings");
-    return spPost(o, request_builders_body({ useSimplifiedRoles }));
+    return spPost(o, body({ useSimplifiedRoles }));
 }
 /**
  * Unshares this object
@@ -10607,7 +10358,7 @@ function unshareObject() {
  * @param kind Deletes a sharing link by the kind of link
  */
 function deleteLinkByKind(linkKind) {
-    return spPost(SPInstance(this, "deleteLinkByKind"), request_builders_body({ linkKind }));
+    return spPost(SPInstance(this, "deleteLinkByKind"), body({ linkKind }));
 }
 /**
  * Removes the specified link to the item.
@@ -10615,8 +10366,8 @@ function deleteLinkByKind(linkKind) {
  * @param kind The kind of link to be deleted.
  * @param shareId
  */
-function funcs_unshareLink(linkKind, shareId = emptyGuid) {
-    return spPost(SPInstance(this, "unshareLink"), request_builders_body({ linkKind, shareId }));
+function unshareLink(linkKind, shareId = emptyGuid) {
+    return spPost(SPInstance(this, "unshareLink"), body({ linkKind, shareId }));
 }
 /**
  * Shares this instance with the supplied users
@@ -10629,7 +10380,7 @@ function funcs_unshareLink(linkKind, shareId = emptyGuid) {
  */
 async function shareWith(o, loginNames, role, requireSignin = false, propagateAcl = false, emailData) {
     // handle the multiple input types
-    if (!isArray(loginNames)) {
+    if (!util_isArray(loginNames)) {
         loginNames = [loginNames];
     }
     const userStr = jsS(loginNames.map(login => {
@@ -10638,7 +10389,7 @@ async function shareWith(o, loginNames, role, requireSignin = false, propagateAc
     const roleFilter = role === SharingRole.Edit ? RoleType.Contributor : RoleType.Reader;
     // start by looking up the role definition id we need to set the roleValue
     const def = await SPCollection([o, extractWebUrl(o.toUrl())], "_api/web/roledefinitions").select("Id").filter(`RoleTypeKind eq ${roleFilter}`)();
-    if (!isArray(def) || def.length < 1) {
+    if (!util_isArray(def) || def.length < 1) {
         throw Error(`Could not locate a role defintion with RoleTypeKind ${roleFilter}`);
     }
     let postBody = {
@@ -10656,11 +10407,11 @@ async function shareWith(o, loginNames, role, requireSignin = false, propagateAc
             sendEmail: true,
         };
     }
-    return spPost(SPInstance(o, "shareObject"), request_builders_body(postBody));
+    return spPost(SPInstance(o, "shareObject"), body(postBody));
 }
 async function sendShareObjectRequest(o, options) {
     const w = Web([o, extractWebUrl(o.toUrl())], "/_api/SP.Web.ShareObject");
-    return spPost(w.expand("UsersWithAccessRequests", "GroupsSharedWith"), request_builders_body(options));
+    return spPost(w.expand("UsersWithAccessRequests", "GroupsSharedWith"), body(options));
 }
 /**
  * Calculates the roleValue string used in the sharing query
@@ -10695,22 +10446,22 @@ async function getRoleValue(role, group) {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/item.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/item.js
 
 
 
-types_Item.prototype.shareWith = function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
+_Item.prototype.shareWith = function (loginNames, role = SharingRole.View, requireSignin = false, emailData) {
     return shareWith(this, loginNames, role, requireSignin, false, emailData);
 };
-types_Item.prototype.getShareLink = getShareLink;
-types_Item.prototype.checkSharingPermissions = checkPermissions;
-types_Item.prototype.getSharingInformation = getSharingInformation;
-types_Item.prototype.getObjectSharingSettings = getObjectSharingSettings;
-types_Item.prototype.unshare = unshareObject;
-types_Item.prototype.deleteSharingLinkByKind = deleteLinkByKind;
-types_Item.prototype.unshareLink = funcs_unshareLink;
+_Item.prototype.getShareLink = getShareLink;
+_Item.prototype.checkSharingPermissions = checkPermissions;
+_Item.prototype.getSharingInformation = getSharingInformation;
+_Item.prototype.getObjectSharingSettings = getObjectSharingSettings;
+_Item.prototype.unshare = unshareObject;
+_Item.prototype.deleteSharingLinkByKind = deleteLinkByKind;
+_Item.prototype.unshareLink = unshareLink;
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/web.js
 
 
 
@@ -10723,7 +10474,7 @@ types_Item.prototype.unshareLink = funcs_unshareLink;
  * @param role The role to share this web
  * @param emailData Optional email data
  */
-types_Web.prototype.shareWith = async function (loginNames, role = SharingRole.View, emailData) {
+_Web.prototype.shareWith = async function (loginNames, role = SharingRole.View, emailData) {
     const url = await this.select("Url")();
     return this.shareObject(combine(url.Url, "/_layouts/15/aclinv.aspx?forSharing=1&mbypass=1"), loginNames, role, emailData);
 };
@@ -10739,7 +10490,7 @@ types_Web.prototype.shareWith = async function (loginNames, role = SharingRole.V
  * @param includeAnonymousLinkInEmail
  * @param useSimplifiedRoles
  */
-types_Web.prototype.shareObject = function (url, loginNames, role, emailData, group, propagateAcl = false, includeAnonymousLinkInEmail = false, useSimplifiedRoles = true) {
+_Web.prototype.shareObject = function (url, loginNames, role, emailData, group, propagateAcl = false, includeAnonymousLinkInEmail = false, useSimplifiedRoles = true) {
     return shareObject(this, {
         emailData: emailData,
         group: group,
@@ -10756,7 +10507,7 @@ types_Web.prototype.shareObject = function (url, loginNames, role, emailData, gr
  *
  * @param options The set of options to send to ShareObject
  */
-types_Web.prototype.shareObjectRaw = function (options) {
+_Web.prototype.shareObjectRaw = function (options) {
     return shareObject(this, options, true);
 };
 /**
@@ -10764,30 +10515,29 @@ types_Web.prototype.shareObjectRaw = function (options) {
  *
  * @param options The set of options to send to ShareObject
  */
-types_Web.prototype.unshareObject = function (url) {
-    return spPost(Web(this, "unshareObject"), request_builders_body({ url }));
+_Web.prototype.unshareObject = function (url) {
+    return spPost(Web(this, "unshareObject"), body({ url }));
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/index.js
 
 
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/types.js
 
 
 
 
-
-class types_SiteDesigns extends spqueryable_SPQueryable {
+class _SiteDesigns extends _SPQueryable {
     constructor(base, methodName = "") {
         super(base);
         this._url = combine(extractWebUrl(this._url), `_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.${methodName}`);
     }
     run(props) {
-        return spPost(this, request_builders_body(props, request_builders_headers({ "Content-Type": "application/json;charset=utf-8" })));
+        return spPost(this, body(props, headers({ "Content-Type": "application/json;charset=utf-8" })));
     }
     /**
      * Creates a new site design available to users when they create a new site from the SharePoint home page.
@@ -10907,7 +10657,7 @@ class types_SiteDesigns extends spqueryable_SPQueryable {
         return SiteDesignsCloneFactory(this, "GetSiteDesignRunStatus").run({ webUrl, runId });
     }
 }
-const SiteDesigns = (baseUrl, methodName) => new types_SiteDesigns(baseUrl, methodName);
+const SiteDesigns = (baseUrl, methodName) => new _SiteDesigns(baseUrl, methodName);
 const SiteDesignsCloneFactory = (baseUrl, methodName = "") => SiteDesigns(baseUrl, methodName);
 var TemplateDesignType;
 (function (TemplateDesignType) {
@@ -10951,25 +10701,25 @@ var ListDesignIcon;
     ListDesignIcon[ListDesignIcon["Savings"] = 11] = "Savings";
 })(ListDesignIcon || (ListDesignIcon = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/web.js
 
 
-types_Web.prototype.getSiteDesignRuns = function (siteDesignId) {
+_Web.prototype.getSiteDesignRuns = function (siteDesignId) {
     return SiteDesigns(this, "").getSiteDesignRun(undefined, siteDesignId);
 };
-types_Web.prototype.addSiteDesignTask = function (siteDesignId) {
+_Web.prototype.addSiteDesignTask = function (siteDesignId) {
     return SiteDesigns(this, "").addSiteDesignTaskToCurrentWeb(siteDesignId);
 };
-types_Web.prototype.getSiteDesignRunStatus = function (runId) {
+_Web.prototype.getSiteDesignRunStatus = function (runId) {
     return SiteDesigns(this, "").getSiteDesignRunStatus(undefined, runId);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/index.js
 
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "siteDesigns", {
+Reflect.defineProperty(SPFI.prototype, "siteDesigns", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -10977,17 +10727,17 @@ Reflect.defineProperty(fi_SPFI.prototype, "siteDesigns", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/web.js
 
 
 
 
 
-addProp(types_Web, "siteGroups", SiteGroups);
-addProp(types_Web, "associatedOwnerGroup", SiteGroup);
-addProp(types_Web, "associatedMemberGroup", SiteGroup);
-addProp(types_Web, "associatedVisitorGroup", SiteGroup);
-types_Web.prototype.createDefaultAssociatedGroups = async function (groupNameSeed, siteOwner, copyRoleAssignments = false, clearSubscopes = true, siteOwner2) {
+addProp(_Web, "siteGroups", SiteGroups);
+addProp(_Web, "associatedOwnerGroup", SiteGroup);
+addProp(_Web, "associatedMemberGroup", SiteGroup);
+addProp(_Web, "associatedVisitorGroup", SiteGroup);
+_Web.prototype.createDefaultAssociatedGroups = async function (groupNameSeed, siteOwner, copyRoleAssignments = false, clearSubscopes = true, siteOwner2) {
     await this.breakRoleInheritance(copyRoleAssignments, clearSubscopes);
     const q = Web(this, "createDefaultAssociatedGroups(userLogin=@u,userLogin2=@v,groupNameSeed=@s)");
     q.query.set("@u", `'${siteOwner || ""}'`);
@@ -10996,24 +10746,23 @@ types_Web.prototype.createDefaultAssociatedGroups = async function (groupNameSee
     return spPost(q);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/types.js
 
 
 
 
 
-
-class types_SiteScripts extends spqueryable_SPQueryable {
+class _SiteScripts extends _SPQueryable {
     constructor(base, methodName = "") {
         super(base);
         this._url = combine(extractWebUrl(this._url), `_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.${methodName}`);
     }
     run(props) {
-        return spPost(this, request_builders_body(props));
+        return spPost(this, body(props));
     }
     /**
      * Gets a list of information on all existing site scripts.
@@ -11085,7 +10834,7 @@ class types_SiteScripts extends spqueryable_SPQueryable {
         return SiteScriptsCloneFactory(this, "executeSiteScriptAction").run({ actionDefinition });
     }
 }
-const SiteScripts = (baseUrl, methodName) => new types_SiteScripts(baseUrl, methodName);
+const SiteScripts = (baseUrl, methodName) => new _SiteScripts(baseUrl, methodName);
 const SiteScriptsCloneFactory = (baseUrl, methodName = "") => SiteScripts(baseUrl, methodName);
 var SiteScriptActionOutcome;
 (function (SiteScriptActionOutcome) {
@@ -11109,36 +10858,36 @@ var SiteScriptActionOutcome;
     SiteScriptActionOutcome[SiteScriptActionOutcome["SucceededWithException"] = 3] = "SucceededWithException";
 })(SiteScriptActionOutcome || (SiteScriptActionOutcome = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/web.js
 
 
 
-types_Web.prototype.getSiteScript = async function (extractInfo) {
+_Web.prototype.getSiteScript = async function (extractInfo) {
     const info = await this.select("Url")();
     return SiteScripts(this.toUrl(), "").using(AssignFrom(this)).getSiteScriptFromWeb(info.Url, extractInfo);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/list.js
 
 
 
 
 
 
-types_List.prototype.getSiteScript = async function () {
+_List.prototype.getSiteScript = async function () {
     const rootFolder = await List(this).rootFolder();
     const web = await Web([this, extractWebUrl(this.toUrl())]).select("Url")();
     const absoluteListUrl = combine(web.Url, "Lists", rootFolder.Name);
     return SiteScripts(this, "").getSiteScriptFromList(absoluteListUrl);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/index.js
 
 
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "siteScripts", {
+Reflect.defineProperty(SPFI.prototype, "siteScripts", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -11146,34 +10895,29 @@ Reflect.defineProperty(fi_SPFI.prototype, "siteScripts", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/web.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/web.js
 
 
 
 
-
-addProp(types_Web, "siteUsers", SiteUsers);
-addProp(types_Web, "currentUser", SiteUser);
-types_Web.prototype.ensureUser = async function (logonName) {
-    const data = await spPost(Web(this, "ensureuser"), request_builders_body({ logonName }));
-    return {
-        data,
-        user: SiteUser([this, odataUrlFrom(data)]),
-    };
+addProp(_Web, "siteUsers", SiteUsers);
+addProp(_Web, "currentUser", SiteUser);
+_Web.prototype.ensureUser = async function (logonName) {
+    return spPost(Web(this, "ensureuser"), body({ logonName }));
 };
-types_Web.prototype.getUserById = function (id) {
+_Web.prototype.getUserById = function (id) {
     return SiteUser(this, `getUserById(${id})`);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "site", {
+Reflect.defineProperty(SPFI.prototype, "site", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -11181,14 +10925,13 @@ Reflect.defineProperty(fi_SPFI.prototype, "site", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/types.js
 
 
 
 
 
-
-let types_Social = class _Social extends _SPInstance {
+let _Social = class _Social extends _SPInstance {
     get my() {
         return MySocial(this);
     }
@@ -11210,7 +10953,7 @@ let types_Social = class _Social extends _SPInstance {
         return spPost(SocialCloneFactory(this, "stopfollowing"), this.createSocialActorInfoRequestBody(actorInfo));
     }
     createSocialActorInfoRequestBody(actorInfo) {
-        return request_builders_body({
+        return body({
             "actor": {
                 Id: null,
                 ...actorInfo,
@@ -11218,19 +10961,19 @@ let types_Social = class _Social extends _SPInstance {
         });
     }
 };
-types_Social = tslib_es6_decorate([
+_Social = tslib_es6_decorate([
     defaultPath("_api/social.following")
-], types_Social);
+], _Social);
 
 /**
  * Get a new Social instance for the particular Url
  */
-const Social = (baseUrl) => new types_Social(baseUrl);
-const SocialCloneFactory = (baseUrl, paths) => new types_Social(baseUrl, paths);
+const Social = (baseUrl) => new _Social(baseUrl);
+const SocialCloneFactory = (baseUrl, paths) => new _Social(baseUrl, paths);
 /**
  * Current user's Social instance
  */
-let types_MySocial = class _MySocial extends _SPInstance {
+let _MySocial = class _MySocial extends _SPInstance {
     async followed(types) {
         const r = await MySocialCloneFactory(this, `followed(types=${types})`)();
         return hOP(r, "Followed") ? r.Followed.results : r;
@@ -11248,15 +10991,15 @@ let types_MySocial = class _MySocial extends _SPInstance {
         return hOP(r, "Suggestions") ? r.Suggestions.results : r;
     }
 };
-types_MySocial = tslib_es6_decorate([
+_MySocial = tslib_es6_decorate([
     defaultPath("my")
-], types_MySocial);
+], _MySocial);
 
 /**
  * Invokable factory for IMySocial instances
  */
-const MySocial = (baseUrl, path) => new types_MySocial(baseUrl, path);
-const MySocialCloneFactory = (baseUrl, path) => new types_MySocial(baseUrl, path);
+const MySocial = (baseUrl, path) => new _MySocial(baseUrl, path);
+const MySocialCloneFactory = (baseUrl, path) => new _MySocial(baseUrl, path);
 /**
  * Social actor type
  *
@@ -11388,11 +11131,11 @@ var SocialStatusCode;
     SocialStatusCode[SocialStatusCode["DatabaseError"] = 18] = "DatabaseError";
 })(SocialStatusCode || (SocialStatusCode = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "social", {
+Reflect.defineProperty(SPFI.prototype, "social", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -11400,19 +11143,18 @@ Reflect.defineProperty(fi_SPFI.prototype, "social", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/types.js
 
 
 
 
-
-class types_Utilities extends spqueryable_SPQueryable {
+class _Utilities extends _SPQueryable {
     constructor(base, methodName = "") {
         super(base);
         this._url = combine(extractWebUrl(this._url), `_api/SP.Utilities.Utility.${methodName}`);
     }
     excute(props) {
-        return spPost(this, request_builders_body(props));
+        return spPost(this, body(props));
     }
     sendEmail(properties) {
         if (properties.AdditionalHeaders) {
@@ -11464,14 +11206,14 @@ class types_Utilities extends spqueryable_SPQueryable {
         return clone.excute(params);
     }
 }
-const Utilities = spInvokableFactory(types_Utilities);
+const Utilities = spInvokableFactory(_Utilities);
 const UtilitiesCloneFactory = (base, path) => Utilities(base, path);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "utility", {
+Reflect.defineProperty(SPFI.prototype, "utility", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -11479,13 +11221,12 @@ Reflect.defineProperty(fi_SPFI.prototype, "utility", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/types.js
 
 
 
 
-
-let types_Subscriptions = class _Subscriptions extends _SPCollection {
+let _Subscriptions = class _Subscriptions extends _SPCollection {
     /**
     * Returns all the webhook subscriptions or the specified webhook subscription
     *
@@ -11510,16 +11251,15 @@ let types_Subscriptions = class _Subscriptions extends _SPCollection {
         if (clientState) {
             postBody.clientState = clientState;
         }
-        const data = await spPost(this, request_builders_body(postBody));
-        return { data, subscription: this.getById(data.id) };
+        return spPost(this, body(postBody));
     }
 };
-types_Subscriptions = tslib_es6_decorate([
+_Subscriptions = tslib_es6_decorate([
     defaultPath("subscriptions")
-], types_Subscriptions);
+], _Subscriptions);
 
-const Subscriptions = spInvokableFactory(types_Subscriptions);
-class types_Subscription extends _SPInstance {
+const Subscriptions = spInvokableFactory(_Subscriptions);
+class _Subscription extends _SPInstance {
     /**
      * Renews this webhook subscription
      *
@@ -11538,8 +11278,7 @@ class types_Subscription extends _SPInstance {
         if (clientState) {
             postBody.clientState = clientState;
         }
-        const data = await spPatch(this, request_builders_body(postBody));
-        return { data, subscription: this };
+        return spPatch(this, body(postBody));
     }
     /**
      * Removes this webhook subscription
@@ -11549,363 +11288,49 @@ class types_Subscription extends _SPInstance {
         return spDelete(this);
     }
 }
-const Subscription = spInvokableFactory(types_Subscription);
+const Subscription = spInvokableFactory(_Subscription);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/list.js
-
-
-
-addProp(types_List, "subscriptions", Subscriptions);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/list.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/taxonomy/types.js
+addProp(_List, "subscriptions", Subscriptions);
+
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/index.js
 
 
 
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/list.js
 
 
 
+addProp(_List, "userCustomActions", UserCustomActions);
 
-/**
- * Describes a collection of Form objects
- *
- */
-let types_TermStore = class _TermStore extends _SPInstance {
-    /**
-     * Gets the term groups associated with this tenant
-     */
-    get groups() {
-        return TermGroups(this);
-    }
-    /**
-     * Gets the term sets associated with this tenant
-     */
-    get sets() {
-        return TermSets(this);
-    }
-    /**
-     * Allows you to locate terms within the termStore
-     *
-     * @param params Search parameters used to locate the terms, label is required
-     * @returns Array of terms including set information for each term
-     */
-    async searchTerm(params) {
-        const query = Reflect.ownKeys(params).reduce((c, prop) => {
-            c.push(`${prop}='${encodePath(params[prop])}'`);
-            return c;
-        }, []).join(",");
-        return TermStore(this, `searchTerm(${query})`).expand("set")();
-    }
-    /**
-     * Update settings for TermStore
-     *
-     * @param props The set or properties to update
-     * @returns The updated term store information
-     */
-    update(props) {
-        return spPatch(this, request_builders_body(props));
-    }
-};
-types_TermStore = tslib_es6_decorate([
-    defaultPath("_api/v2.1/termstore")
-], types_TermStore);
-
-const TermStore = spInvokableFactory(types_TermStore);
-let types_TermGroups = class _TermGroups extends _SPCollection {
-    /**
-     * Gets a term group by id
-     *
-     * @param id Id of the term group to access
-     */
-    getById(id) {
-        return TermGroup(this, id);
-    }
-    /**
-     * Adds a new term group to this store
-     * @param props The set of properties
-     * @returns The information on the create group
-     */
-    add(props) {
-        return spPost(this, request_builders_body(props));
-    }
-};
-types_TermGroups = tslib_es6_decorate([
-    defaultPath("groups")
-], types_TermGroups);
-
-const TermGroups = spInvokableFactory(types_TermGroups);
-class types_TermGroup extends _SPInstance {
-    /**
-     * Gets the term sets associated with this tenant
-     */
-    get sets() {
-        return TermSets(this, "sets");
-    }
-    /**
-     * Deletes this group
-     *
-     * @returns void
-     */
-    delete() {
-        return spDelete(this);
-    }
-}
-const TermGroup = spInvokableFactory(types_TermGroup);
-let types_TermSets = class _TermSets extends _SPCollection {
-    /**
-     * Gets a term group by id
-     *
-     * @param id Id of the term group to access
-     */
-    getById(id) {
-        return TermSet(this, id);
-    }
-    /**
-     * Adds a new term set to this collection
-     * @param props The set of properties
-     * @returns The information on the created set
-     */
-    add(props) {
-        return spPost(this, request_builders_body(props));
-    }
-};
-types_TermSets = tslib_es6_decorate([
-    defaultPath("sets")
-], types_TermSets);
-
-const TermSets = spInvokableFactory(types_TermSets);
-class types_TermSet extends _SPInstance {
-    /**
-     * Gets all the terms in this set
-     */
-    get terms() {
-        return Terms(this);
-    }
-    get parentGroup() {
-        return TermGroup(this, "parentGroup");
-    }
-    get children() {
-        return Children(this);
-    }
-    get relations() {
-        return Relations(this);
-    }
-    getTermById(id) {
-        return Term(this, `terms/${id}`);
-    }
-    /**
-     * Update settings for TermSet
-     *
-     * @param props The set or properties to update
-     * @returns The updated term set information
-     */
-    update(props) {
-        return spPatch(this, request_builders_body(props));
-    }
-    /**
-     * Deletes this group
-     *
-     * @returns void
-     */
-    delete() {
-        return spDelete(this);
-    }
-    /**
-     * Gets all the terms in this termset in an ordered tree using the appropriate sort ordering
-     * ** This is an expensive operation and you should strongly consider caching the results **
-     *
-     * @param props Optional set of properties controlling how the tree is retrieved.
-     */
-    async getAllChildrenAsOrderedTree(props = {}) {
-        const selects = ["*", "customSortOrder"];
-        if (props.retrieveProperties) {
-            selects.push("properties", "localProperties");
-        }
-        const setInfo = await this.select(...selects)();
-        const tree = [];
-        const childIds = [];
-        const ensureOrder = (terms, sorts, setSorts) => {
-            // handle no custom sort information present
-            if (!isArray(sorts) && !isArray(setSorts)) {
-                return terms;
-            }
-            let ordering = null;
-            if (sorts === null && setSorts.length > 0) {
-                ordering = [...setSorts];
-            }
-            else {
-                const index = sorts.findIndex(v => v.setId === setInfo.id);
-                if (index >= 0) {
-                    ordering = [...sorts[index].order];
-                }
-            }
-            if (ordering !== null) {
-                const orderedChildren = [];
-                ordering.forEach(o => {
-                    const found = terms.find(ch => o === ch.id);
-                    if (found) {
-                        orderedChildren.push(found);
-                    }
-                });
-                // we have a case where if a set is ordered and a term is added to that set
-                // AND the ordering information hasn't been updated in the UI the new term will not have
-                // any associated ordering information. See #1547 which reported this. So here we
-                // append any terms remaining in "terms" not in "orderedChildren" to the end of "orderedChildren"
-                orderedChildren.push(...terms.filter(info => ordering.indexOf(info.id) < 0));
-                return orderedChildren;
-            }
-            return terms;
-        };
-        const visitor = async (source, parent) => {
-            const children = await source();
-            for (let i = 0; i < children.length; i++) {
-                const child = children[i];
-                childIds.push(child.id);
-                const orderedTerm = {
-                    children: [],
-                    defaultLabel: child.labels.find(l => l.isDefault).name,
-                    ...child,
-                };
-                if (child.childrenCount > 0) {
-                    await visitor(this.getTermById(children[i].id).children.select(...selects), orderedTerm.children);
-                    orderedTerm.children = ensureOrder(orderedTerm.children, child.customSortOrder);
-                }
-                parent.push(orderedTerm);
-            }
-        };
-        // There is a series of issues where users expect that copied terms appear in the result of this method call. Copied terms are not "children" so we need
-        // to get all the children + all the "/terms" and filter out the children. This is expensive but this method call is already indicated to be used with caching
-        await visitor(this.children.select(...selects), tree);
-        await visitor(async () => {
-            const terms = await Terms(this).select(...selects)();
-            return terms.filter((t) => childIds.indexOf(t.id) < 0);
-        }, tree);
-        return ensureOrder(tree, null, setInfo.customSortOrder);
-    }
-}
-const TermSet = spInvokableFactory(types_TermSet);
-let types_Children = class _Children extends _SPCollection {
-    /**
-     * Adds a new term set to this collection
-     * @param props The set of properties
-     * @returns The information on the create group
-     */
-    add(props) {
-        return spPost(this, request_builders_body(props));
-    }
-};
-types_Children = tslib_es6_decorate([
-    defaultPath("children")
-], types_Children);
-
-const Children = spInvokableFactory(types_Children);
-let types_Terms = class _Terms extends _SPCollection {
-    /**
-     * Gets a term group by id
-     *
-     * @param id Id of the term group to access
-     */
-    getById(id) {
-        return Term(this, id);
-    }
-};
-types_Terms = tslib_es6_decorate([
-    defaultPath("terms")
-], types_Terms);
-
-const Terms = spInvokableFactory(types_Terms);
-class types_Term extends _SPInstance {
-    get children() {
-        return Children(this);
-    }
-    get relations() {
-        return Relations(this);
-    }
-    get set() {
-        return TermSet(this, "set");
-    }
-    /**
-     * Update settings for TermSet
-     *
-     * @param props The set or properties to update
-     * @returns The updated term set information
-     */
-    update(props) {
-        return spPatch(this, request_builders_body(props));
-    }
-    /**
-     * Deletes this group
-     *
-     * @returns void
-     */
-    delete() {
-        return spDelete(this);
-    }
-}
-const Term = spInvokableFactory(types_Term);
-let types_Relations = class _Relations extends _SPCollection {
-    /**
-     * Adds a new relation to this term
-     * @param props The set of properties
-     * @returns The information on the created relation
-     */
-    add(props) {
-        return spPost(this, request_builders_body(props));
-    }
-};
-types_Relations = tslib_es6_decorate([
-    defaultPath("relations")
-], types_Relations);
-
-const Relations = spInvokableFactory(types_Relations);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/taxonomy/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/web.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "termStore", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.create(TermStore);
-    },
-});
+addProp(_Web, "userCustomActions", UserCustomActions);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/site.js
 
 
 
-addProp(types_List, "userCustomActions", UserCustomActions);
+addProp(_Site, "userCustomActions", UserCustomActions);
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/web.js
-
-
-
-addProp(types_Web, "userCustomActions", UserCustomActions);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/site.js
-
-
-
-addProp(types_Site, "userCustomActions", UserCustomActions);
-
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/index.js
 
 
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/types.js
 
 
 
 
 
-
-let types_Views = class _Views extends _SPCollection {
+let _Views = class _Views extends _SPCollection {
     /**
      * Adds a new view to the collection
      *
@@ -11914,15 +11339,11 @@ let types_Views = class _Views extends _SPCollection {
      * @param additionalSettings Will be passed as part of the view creation body
      */
     async add(Title, PersonalView = false, additionalSettings = {}) {
-        const data = await spPost(this, request_builders_body({
+        return spPost(this, body({
             PersonalView,
             Title,
             ...additionalSettings,
         }));
-        return {
-            data,
-            view: this.getById(data.Id),
-        };
     }
     /**
      * Gets a view by guid id
@@ -11941,12 +11362,12 @@ let types_Views = class _Views extends _SPCollection {
         return View(this, `getByTitle('${encodePath(title)}')`);
     }
 };
-types_Views = tslib_es6_decorate([
+_Views = tslib_es6_decorate([
     defaultPath("views")
-], types_Views);
+], _Views);
 
-const Views = spInvokableFactory(types_Views);
-class types_View extends _SPInstance {
+const Views = spInvokableFactory(_Views);
+class _View extends _SPInstance {
     constructor() {
         super(...arguments);
         this.delete = deleteable();
@@ -11960,11 +11381,7 @@ class types_View extends _SPInstance {
      * @param properties A plain object hash of values to update for the view
      */
     async update(props) {
-        const data = await spPostMerge(this, request_builders_body(props));
-        return {
-            data,
-            view: this,
-        };
+        return await spPostMerge(this, body(props));
     }
     // : any = this._update<IViewUpdateResult, ITypedHash<any>>("SP.View", data => ({ data, view: <any>this }));
     /**
@@ -11980,11 +11397,11 @@ class types_View extends _SPInstance {
      * @param viewXml The view XML to set
      */
     setViewXml(viewXml) {
-        return spPost(View(this, "SetViewXml"), request_builders_body({ viewXml }));
+        return spPost(View(this, "SetViewXml"), body({ viewXml }));
     }
 }
-const View = spInvokableFactory(types_View);
-let types_ViewFields = class _ViewFields extends _SPCollection {
+const View = spInvokableFactory(_View);
+let _ViewFields = class _ViewFields extends _SPCollection {
     /**
      * Gets a value that specifies the XML schema that represents the collection.
      */
@@ -12006,7 +11423,7 @@ let types_ViewFields = class _ViewFields extends _SPCollection {
      * @param index The zero-based index of the new position for the field.
      */
     move(field, index) {
-        return spPost(ViewFields(this, "moveviewfieldto"), request_builders_body({ field, index }));
+        return spPost(ViewFields(this, "moveviewfieldto"), body({ field, index }));
     }
     /**
      * Removes all the fields from the collection.
@@ -12023,11 +11440,11 @@ let types_ViewFields = class _ViewFields extends _SPCollection {
         return spPost(ViewFields(this, `removeviewfield('${encodePath(fieldInternalName)}')`));
     }
 };
-types_ViewFields = tslib_es6_decorate([
+_ViewFields = tslib_es6_decorate([
     defaultPath("viewfields")
-], types_ViewFields);
+], _ViewFields);
 
-const ViewFields = spInvokableFactory(types_ViewFields);
+const ViewFields = spInvokableFactory(_ViewFields);
 var ViewScope;
 (function (ViewScope) {
     ViewScope[ViewScope["DefaultValue"] = 0] = "DefaultValue";
@@ -12036,25 +11453,24 @@ var ViewScope;
     ViewScope[ViewScope["FilesOnly"] = 3] = "FilesOnly";
 })(ViewScope || (ViewScope = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/list.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/list.js
 
 
 
-addProp(types_List, "views", Views);
-addProp(types_List, "defaultView", View);
-types_List.prototype.getView = function (viewId) {
+addProp(_List, "views", Views);
+addProp(_List, "defaultView", View);
+_List.prototype.getView = function (viewId) {
     return View(this, `getView('${viewId}')`);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/types.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/types.js
 
 
-
-class types_LimitedWebPartManager extends spqueryable_SPQueryable {
+class _LimitedWebPartManager extends _SPQueryable {
     get scope() {
         return SPQueryable(this, "Scope");
     }
@@ -12062,15 +11478,15 @@ class types_LimitedWebPartManager extends spqueryable_SPQueryable {
         return WebPartDefinitions(this, "webparts");
     }
     export(id) {
-        return spPost(LimitedWebPartManagerCloneFactory(this, "ExportWebPart"), request_builders_body({ webPartId: id }));
+        return spPost(LimitedWebPartManagerCloneFactory(this, "ExportWebPart"), body({ webPartId: id }));
     }
     import(xml) {
-        return spPost(LimitedWebPartManagerCloneFactory(this, "ImportWebPart"), request_builders_body({ webPartXml: xml }));
+        return spPost(LimitedWebPartManagerCloneFactory(this, "ImportWebPart"), body({ webPartXml: xml }));
     }
 }
-const LimitedWebPartManager = (baseUrl, path) => new types_LimitedWebPartManager(baseUrl, path);
+const LimitedWebPartManager = (baseUrl, path) => new _LimitedWebPartManager(baseUrl, path);
 const LimitedWebPartManagerCloneFactory = (baseUrl, path) => LimitedWebPartManager(baseUrl, path);
-class types_WebPartDefinitions extends _SPCollection {
+class _WebPartDefinitions extends _SPCollection {
     /**
      * Gets a web part definition from the collection by id
      *
@@ -12088,8 +11504,8 @@ class types_WebPartDefinitions extends _SPCollection {
         return WebPartDefinition(this, `getByControlId('${id}')`);
     }
 }
-const WebPartDefinitions = spInvokableFactory(types_WebPartDefinitions);
-class types_WebPartDefinition extends _SPInstance {
+const WebPartDefinitions = spInvokableFactory(_WebPartDefinitions);
+class _WebPartDefinition extends _SPInstance {
     /**
     * Gets the webpart information associated with this definition
     */
@@ -12130,29 +11546,29 @@ class types_WebPartDefinition extends _SPInstance {
         return spPost(WebPartDefinition(this, "DeleteWebPart"));
     }
 }
-const WebPartDefinition = spInvokableFactory(types_WebPartDefinition);
+const WebPartDefinition = spInvokableFactory(_WebPartDefinition);
 var WebPartsPersonalizationScope;
 (function (WebPartsPersonalizationScope) {
     WebPartsPersonalizationScope[WebPartsPersonalizationScope["User"] = 0] = "User";
     WebPartsPersonalizationScope[WebPartsPersonalizationScope["Shared"] = 1] = "Shared";
 })(WebPartsPersonalizationScope || (WebPartsPersonalizationScope = {}));
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/file.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/file.js
 
 
-types_File.prototype.getLimitedWebPartManager = function (scope = WebPartsPersonalizationScope.Shared) {
+_File.prototype.getLimitedWebPartManager = function (scope = WebPartsPersonalizationScope.Shared) {
     return LimitedWebPartManager(this, `getLimitedWebPartManager(scope=${scope})`);
 };
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/index.js
 
 
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/index.js
 
 
 
-Reflect.defineProperty(fi_SPFI.prototype, "web", {
+Reflect.defineProperty(SPFI.prototype, "web", {
     configurable: true,
     enumerable: true,
     get: function () {
@@ -12160,7 +11576,7 @@ Reflect.defineProperty(fi_SPFI.prototype, "web", {
     },
 });
 
-// CONCATENATED MODULE: ./node_modules/@pnp/sp/presets/all.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/sp/presets/all.js
 
 
 
@@ -12232,14 +11648,10 @@ Reflect.defineProperty(fi_SPFI.prototype, "web", {
 
 
 
+;// CONCATENATED MODULE: ./pnpjs-sources/index-sp.ts
 
 
-
-
-// CONCATENATED MODULE: ./pnpjs-sources/index-sp.ts
-
-
-
-/***/ })
-/******/ ]);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
 });

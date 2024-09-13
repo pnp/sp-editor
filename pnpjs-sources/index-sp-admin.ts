@@ -1,1 +1,1 @@
-export * from '../node_modules/@pnp/sp-admin'
+export * from '@pnp/sp-admin'

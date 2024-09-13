@@ -1,1 +1,1 @@
-export * from '../node_modules/@pnp/msaljsclient';  
+export * from '@pnp/msaljsclient';  

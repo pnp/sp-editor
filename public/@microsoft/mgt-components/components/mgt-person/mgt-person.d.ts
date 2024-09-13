@@ -298,6 +298,7 @@ export declare class MgtPerson extends MgtTemplatedTaskComponent {
     private _usage;
     private _mouseLeaveTimeout;
     private _mouseEnterTimeout;
+    private _keyBoardFocus;
     constructor();
     protected readonly renderContent: () => TemplateResult;
     /**

@@ -1,34 +1,21 @@
 import { List as IListEntity } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
-import { IDeleteable, IUpdateable, IGetById } from "../decorators.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
+import { IDeleteable, IUpdateable, IGetById, IAddable } from "../decorators.js";
 /**
- * Represents a booking service entity
+ * Represents a list entity
  */
-export declare class _List extends _GraphQueryableInstance<IListEntity> {
+export declare class _List extends _GraphInstance<IListEntity> {
 }
 export interface IList extends _List, IDeleteable, IUpdateable {
 }
 export declare const List: import("../graphqueryable.js").IGraphInvokableFactory<IList>;
 /**
- * Describes a collection of booking service objects
+ * Describes a collection of list objects
  *
  */
-export declare class _Lists extends _GraphQueryableCollection<IListEntity[]> {
-    /**
-     * Create a new booking service as specified in the request body.
-     *
-     * @param list  a JSON representation of a List object.
-     */
-    add(list: IListEntity): Promise<IListAddResult>;
+export declare class _Lists extends _GraphCollection<IListEntity[]> {
 }
-export interface ILists extends _Lists, IGetById<IList> {
+export interface ILists extends _Lists, IGetById<IList>, IAddable<IListEntity, IListEntity> {
 }
 export declare const Lists: import("../graphqueryable.js").IGraphInvokableFactory<ILists>;
-/**
- * IListAddResult
- */
-export interface IListAddResult {
-    list: IList;
-    data: IListEntity;
-}
 //# sourceMappingURL=types.d.ts.map

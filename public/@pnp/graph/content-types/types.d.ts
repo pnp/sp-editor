@@ -1,10 +1,10 @@
 import { ContentType as IContentTypeEntity, ItemReference as IItemReference } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { IDeleteable, IUpdateable, IGetById } from "../decorators.js";
 /**
  * Represents a content type entity
  */
-export declare class _ContentType extends _GraphQueryableInstance<IContentTypeEntity> {
+export declare class _ContentType extends _GraphInstance<IContentTypeEntity> {
     /**
       * Check the publishing status of a contentType in a content type hub site.
       */
@@ -40,7 +40,7 @@ export declare const ContentType: import("../graphqueryable.js").IGraphInvokable
  * Describes a collection of content type objects
  *
  */
-export declare class _ContentTypes extends _GraphQueryableCollection<IContentTypeEntity[]> {
+export declare class _ContentTypes extends _GraphCollection<IContentTypeEntity[]> {
     /**
      * Add or sync a copy of a published content type from the content type hub to a target site or a list.
      *

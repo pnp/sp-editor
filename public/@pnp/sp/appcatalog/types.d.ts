@@ -1,5 +1,4 @@
 import { _SPCollection, _SPInstance, ISPQueryable } from "../spqueryable.js";
-import { IFile } from "../files/types.js";
 export declare class _AppCatalog extends _SPCollection {
     constructor(base: string | ISPQueryable, path?: string);
     /**
@@ -22,7 +21,7 @@ export declare class _AppCatalog extends _SPCollection {
      * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
      * @returns Promise<IAppAddResult>
      */
-    add(filename: string, content: string | ArrayBuffer | Blob, shouldOverWrite?: boolean): Promise<IAppAddResult>;
+    add(filename: string, content: string | ArrayBuffer | Blob, shouldOverWrite?: boolean): Promise<any>;
 }
 export interface IAppCatalog extends _AppCatalog {
 }
@@ -63,17 +62,4 @@ export declare class _App extends _SPInstance {
 export interface IApp extends _App {
 }
 export declare const App: import("../spqueryable.js").ISPInvokableFactory<IApp>;
-/**
- * Result object after adding an app
- */
-export interface IAppAddResult {
-    /**
-     * Contains metadata of the added app
-     */
-    data: any;
-    /**
-     * A File instance to the item in SharePoint
-     */
-    file: IFile;
-}
 //# sourceMappingURL=types.d.ts.map

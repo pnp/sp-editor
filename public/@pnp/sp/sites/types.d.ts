@@ -191,7 +191,7 @@ export interface ISiteInfo {
     Url: string;
     WriteLocked: boolean;
 }
-export declare const enum SiteLogoType {
+export declare enum SiteLogoType {
     /**
      * Site header logo
      */
@@ -209,7 +209,7 @@ export declare const enum SiteLogoType {
      */
     GlobalNavLogo = 3
 }
-export declare const enum SiteLogoAspect {
+export declare enum SiteLogoAspect {
     Square = 0,
     Rectangular = 1
 }

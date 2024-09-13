@@ -8,6 +8,7 @@ import { IGraph } from '@microsoft/mgt-element';
 import { Chat, ChatMessage } from '@microsoft/microsoft-graph-types';
 import { IDynamicPerson } from '../../graph/types';
 import { MgtPersonCardState } from './mgt-person-card.types';
+export declare const getCardStateInvalidationTime: () => number;
 /**
  * Get data to populate the person card
  *

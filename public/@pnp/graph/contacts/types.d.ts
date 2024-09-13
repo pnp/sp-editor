@@ -1,10 +1,10 @@
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { Contact as IContactType, ContactFolder as IContactFolderType, EmailAddress as IEmailAddressType } from "@microsoft/microsoft-graph-types";
 import { IUpdateable, IDeleteable, IGetById } from "../decorators.js";
 /**
  * Contact
  */
-export declare class _Contact extends _GraphQueryableInstance<IContactType> {
+export declare class _Contact extends _GraphInstance<IContactType> {
 }
 export interface IContact extends _Contact, IUpdateable<IContactType>, IDeleteable {
 }
@@ -12,7 +12,7 @@ export declare const Contact: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Contacts
  */
-export declare class _Contacts extends _GraphQueryableCollection<IContactType[]> {
+export declare class _Contacts extends _GraphCollection<IContactType[]> {
     /**
     * Create a new Contact for the user.
     *
@@ -22,7 +22,7 @@ export declare class _Contacts extends _GraphQueryableCollection<IContactType[]>
     * @param businessPhones The contact's business phone numbers.
     * @param additionalProperties A plain object collection of additional properties you want to set on the new contact
     */
-    add(givenName: string, surName: string, emailAddresses: IEmailAddressType[], businessPhones: string[], additionalProperties?: Record<string, any>): Promise<IContactAddResult>;
+    add(givenName: string, surName: string, emailAddresses: IEmailAddressType[], businessPhones: string[], additionalProperties?: Record<string, any>): Promise<IContactType>;
 }
 export interface IContacts extends _Contacts, IGetById<IContact> {
 }
@@ -30,7 +30,7 @@ export declare const Contacts: import("../graphqueryable.js").IGraphInvokableFac
 /**
  * Contact Folder
  */
-export declare class _ContactFolder extends _GraphQueryableInstance<IContactFolderType> {
+export declare class _ContactFolder extends _GraphInstance<IContactFolderType> {
     /**
      * Gets the contacts in this contact folder
      */
@@ -46,30 +46,16 @@ export declare const ContactFolder: import("../graphqueryable.js").IGraphInvokab
 /**
  * Contact Folders
  */
-export declare class _ContactFolders extends _GraphQueryableCollection<IContactFolderType[]> {
+export declare class _ContactFolders extends _GraphCollection<IContactFolderType[]> {
     /**
      * Create a new Contact Folder for the user.
      *
      * @param displayName The folder's display name.
      * @param parentFolderId The ID of the folder's parent folder.
      */
-    add(displayName: string, parentFolderId?: string): Promise<IContactFolderAddResult>;
+    add(displayName: string, parentFolderId?: string): Promise<IContactFolderType>;
 }
 export interface IContactFolders extends _ContactFolders, IGetById<IContactFolder> {
 }
 export declare const ContactFolders: import("../graphqueryable.js").IGraphInvokableFactory<IContactFolders>;
-/**
- * IContactFolderAddResult
- */
-export interface IContactFolderAddResult {
-    data: IContactFolderType;
-    contactFolder: IContactFolder;
-}
-/**
- * IContactAddResult
- */
-export interface IContactAddResult {
-    data: IContactType;
-    contact: IContact;
-}
 //# sourceMappingURL=types.d.ts.map

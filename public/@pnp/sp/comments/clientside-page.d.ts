@@ -1,5 +1,5 @@
 import { ICommentInfo, IComment, ILikedByInformation } from "./types.js";
-import { IItemUpdateResult } from "../items/index.js";
+import { IItemUpdateResultData } from "../items/types.js";
 declare module "../clientside-pages/types" {
     interface _ClientsidePage {
         addComment(info: string | ICommentInfo): Promise<IComment & ICommentInfo>;
@@ -9,9 +9,9 @@ declare module "../clientside-pages/types" {
         like(): Promise<void>;
         unlike(): Promise<void>;
         getLikedByInformation(): Promise<ILikedByInformation>;
-        enableComments(): Promise<IItemUpdateResult>;
-        disableComments(): Promise<IItemUpdateResult>;
-        setCommentsOn(on: boolean): Promise<IItemUpdateResult>;
+        enableComments(): Promise<IItemUpdateResultData>;
+        disableComments(): Promise<IItemUpdateResultData>;
+        setCommentsOn(on: boolean): Promise<IItemUpdateResultData>;
     }
     interface IClientsidePage {
         /**
@@ -48,11 +48,11 @@ declare module "../clientside-pages/types" {
         /**
          * Enables comments for this page
          */
-        enableComments(): Promise<IItemUpdateResult>;
+        enableComments(): Promise<IItemUpdateResultData>;
         /**
          * Disables comments for this page
          */
-        disableComments(): Promise<IItemUpdateResult>;
+        disableComments(): Promise<IItemUpdateResultData>;
     }
 }
 //# sourceMappingURL=clientside-page.d.ts.map

@@ -1,9 +1,9 @@
 import { Invitation as IInvitationType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection } from "../graphqueryable.js";
+import { _GraphCollection } from "../graphqueryable.js";
 /**
  * Invitations
  */
-export declare class _Invitations extends _GraphQueryableCollection<IInvitationType[]> {
+export declare class _Invitations extends _GraphCollection<IInvitationType[]> {
     /**
      * Create a new Invitation via invitation manager.
      *

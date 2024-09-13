@@ -14,7 +14,7 @@ export const shoot = (payload: any, extPath: string) => {
     /*** custom httpHandler ***/
     const rawFetchHandler = () => {
       return (instance: Queryable.Queryable) => {
-        instance.using(pnpsp.DefaultHeaders(), pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
+        instance.using(pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
         instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('###') > -1) {
             return [url.substring(url.indexOf("###") + 3), init, result];
@@ -26,9 +26,7 @@ export const shoot = (payload: any, extPath: string) => {
     }
 
     /***  init pnpjs ***/
-    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({
-      baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl
-    })).using(rawFetchHandler()).using(pnpqueryable.InjectHeaders({
+    const sp = pnpsp.spfi().using(rawFetchHandler()).using(pnpqueryable.InjectHeaders({
       "Accept": "application/json; odata=verbose",
       "Cache-Control": "no-cache",
       "X-ClientService-ClientTag": "SPEDITOR"
@@ -62,9 +60,18 @@ export const shoot = (payload: any, extPath: string) => {
       }
     }
 
+    const headers = JSON.parse(payload.headers);
+
+    // Capitalize the first letter of each header key
+    const capitalizedHeaders = Object.keys(headers).reduce((acc, key) => {
+      const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[capitalizedKey] = headers[key];
+      return acc;
+    }, {} as { [key: string]: string });
+
     /*** execute request, add ### to trigger custom httpHandler ***/
     return pnpsp.spPost(pnpsp.Web(sp.web, "###" + payload.path), {
-      headers: JSON.parse(payload.headers),
+      headers: capitalizedHeaders,
       method: payload.method,
       body: payload.method === 'GET' ? null : payload.body
     }).then(json => {

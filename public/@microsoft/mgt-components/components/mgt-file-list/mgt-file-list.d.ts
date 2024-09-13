@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
-import { DriveItem } from '@microsoft/microsoft-graph-types';
+import { DriveItem, SharedInsight } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import './mgt-file-upload/mgt-file-upload';
 import { OfficeGraphInsightString, ViewType } from '../../graph/types';
@@ -45,6 +45,7 @@ export declare class MgtFileList extends MgtTemplatedTaskComponent implements Ca
      */
     static get styles(): import("lit").CSSResult[];
     protected get strings(): Record<string, string>;
+    private _personCardFiles;
     /**
      * allows developer to provide query for a file list
      *
@@ -210,7 +211,7 @@ export declare class MgtFileList extends MgtTemplatedTaskComponent implements Ca
     private pageIterator;
     private _focusedItemIndex;
     private _isLoadingMore;
-    constructor();
+    constructor(files?: DriveItem[]);
     /**
      * Reset state
      *
@@ -278,7 +279,16 @@ export declare class MgtFileList extends MgtTemplatedTaskComponent implements Ca
      * @returns {TemplateResult}
      * @memberof mgtFileList
      */
-    protected renderFile(file: DriveItem): TemplateResult;
+    protected renderFile(file: DriveItem | SharedInsight): TemplateResult;
+    /**
+     * Render a file item of Shared Insight Type
+     *
+     * @protected
+     * @param {IFile} file
+     * @returns {TemplateResult}
+     * @memberof MgtFileList
+     */
+    protected renderSharedInsightFile(file: SharedInsight): TemplateResult;
     /**
      * Render the button when clicked will show more files.
      *
@@ -328,7 +338,7 @@ export declare class MgtFileList extends MgtTemplatedTaskComponent implements Ca
      * @memberof MgtFileList
      */
     protected renderNextPage(): Promise<void>;
-    private handleFileClick;
+    private readonly handleFileClick;
     /**
      * Get file extension string from file name
      *

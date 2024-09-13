@@ -7,109 +7,58 @@
 		exports["pnp.logging"] = factory();
 	else
 		root["pnp.logging"] = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
+})(self, () => {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "ConsoleListener", function() { return /* reexport */ ConsoleListener; });
-__webpack_require__.d(__webpack_exports__, "FunctionListener", function() { return /* reexport */ FunctionListener; });
-__webpack_require__.d(__webpack_exports__, "LogLevel", function() { return /* reexport */ LogLevel; });
-__webpack_require__.d(__webpack_exports__, "Logger", function() { return /* reexport */ Logger; });
-__webpack_require__.d(__webpack_exports__, "PnPLogging", function() { return /* reexport */ PnPLogging; });
+__webpack_require__.d(__webpack_exports__, {
+  ConsoleListener: () => (/* reexport */ ConsoleListener),
+  FunctionListener: () => (/* reexport */ FunctionListener),
+  LogLevel: () => (/* reexport */ LogLevel),
+  Logger: () => (/* reexport */ Logger),
+  PnPLogging: () => (/* reexport */ PnPLogging)
+});
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
+/* eslint-disable no-console */
+
 function ConsoleListener(prefix, colors) {
     return new _ConsoleListener(prefix, colors);
 }
@@ -167,16 +116,16 @@ class _ConsoleListener {
     log(entry) {
         let logMethod = console.log;
         switch (entry.level) {
-            case 3 /* Error */:
+            case LogLevel.Error:
                 logMethod = console.error;
                 break;
-            case 2 /* Warning */:
+            case LogLevel.Warning:
                 logMethod = console.warn;
                 break;
-            case 0 /* Verbose */:
+            case LogLevel.Verbose:
                 logMethod = console.debug;
                 break;
-            case 1 /* Info */:
+            case LogLevel.Info:
                 logMethod = console.info;
                 break;
             default:
@@ -212,7 +161,7 @@ class _FunctionListener {
     }
 }
 
-// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
+;// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
 
 /**
  * A set of logging levels
@@ -226,7 +175,7 @@ var LogLevel;
     LogLevel[LogLevel["Off"] = 99] = "Off";
 })(LogLevel || (LogLevel = {}));
 const _subscribers = [];
-let _activeLogLevel = 2 /* Warning */;
+let _activeLogLevel = LogLevel.Warning;
 /**
  * Class used to subscribe ILogListener and log messages throughout an application
  *
@@ -269,7 +218,7 @@ class Logger {
    * @param message The message to write
    * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
    */
-    static write(message, level = 1 /* Info */) {
+    static write(message, level = LogLevel.Info) {
         Logger.log({ level: level, message: message });
     }
     /**
@@ -278,7 +227,7 @@ class Logger {
    * @param json The json object to stringify and write
    * @param level [Optional] if supplied will be used as the level of the entry (Default: LogLevel.Info)
    */
-    static writeJSON(json, level = 1 /* Info */) {
+    static writeJSON(json, level = LogLevel.Info) {
         Logger.write(JSON.stringify(json), level);
     }
     /**
@@ -297,7 +246,7 @@ class Logger {
    * @param err The error object
    */
     static error(err) {
-        Logger.log({ data: err, level: 3 /* Error */, message: err.message });
+        Logger.log({ data: err, level: LogLevel.Error, message: err.message });
     }
 }
 function PnPLogging(activeLevel) {
@@ -311,10 +260,10 @@ function PnPLogging(activeLevel) {
     };
 }
 
-// CONCATENATED MODULE: ./pnpjs-sources/index-logging.ts
+;// CONCATENATED MODULE: ./pnpjs-sources/index-logging.ts
 
 
-
-/***/ })
-/******/ ]);
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
 });

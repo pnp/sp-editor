@@ -1,3 +1,5 @@
+import "./groups.js";
 import "./users.js";
-export { INotebook, INotebookAddResult, INotebooks, IOneNote, ISection, ISectionAddResult, ISections, Notebook, Notebooks, OneNote, Section, Sections, } from "./types.js";
+import "./sites.js";
+export { INotebook, INotebooks, IOneNote, IPages, IResources, ISection, ISections, Notebook, Notebooks, OneNote, Page, Pages, Resources, Section, Sections, } from "./types.js";
 //# sourceMappingURL=index.d.ts.map

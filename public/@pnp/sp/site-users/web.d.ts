@@ -1,9 +1,9 @@
-import { ISiteUsers, ISiteUser, IWebEnsureUserResult } from "./types.js";
+import { ISiteUsers, ISiteUser, ISiteUserInfo } from "./types.js";
 declare module "../webs/types" {
     interface _Web {
         readonly siteUsers: ISiteUsers;
         readonly currentUser: ISiteUser;
-        ensureUser(loginName: string): Promise<IWebEnsureUserResult>;
+        ensureUser(loginName: string): Promise<ISiteUserInfo>;
         getUserById(id: number): ISiteUser;
     }
     interface IWeb {
@@ -20,7 +20,7 @@ declare module "../webs/types" {
         *
         * @param loginName The login name of the user (ex: i:0#.f|membership|user@domain.onmicrosoft.com)
         */
-        ensureUser(loginName: string): Promise<IWebEnsureUserResult>;
+        ensureUser(loginName: string): Promise<ISiteUserInfo>;
         /**
          * Returns the user corresponding to the specified member identifier for the current site
          *

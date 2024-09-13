@@ -292,5 +292,8 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedTaskComponent {
      */
     private toggleChevron;
     handleUpChevronClick: (e: Event) => void;
+    handleChevronKeydown: (e: KeyboardEvent) => void;
+    handleStartSlotKeydown: (e: KeyboardEvent) => void;
+    blurPicker: () => void;
 }
 //# sourceMappingURL=mgt-teams-channel-picker.d.ts.map

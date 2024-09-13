@@ -1,12 +1,11 @@
-import { IColumnAddResult } from "./addColumns.js";
 import { IColumns } from "./types.js";
 import { ColumnDefinition as IColumnDefinition } from "@microsoft/microsoft-graph-types";
 declare module "./types" {
     interface _Columns {
-        add(column: IColumnDefinition): Promise<IColumnAddResult>;
+        add(column: IColumnDefinition): Promise<IColumnDefinition>;
     }
     interface IColumns {
-        add(column: IColumnDefinition): Promise<IColumnAddResult>;
+        add(column: IColumnDefinition): Promise<IColumnDefinition>;
     }
 }
 declare module "../lists/types" {

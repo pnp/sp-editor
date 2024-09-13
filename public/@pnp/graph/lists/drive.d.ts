@@ -1,5 +1,5 @@
 import { IList } from "./types.js";
-declare module "../onedrive/types" {
+declare module "../files/types" {
     interface _Drive {
         getList: () => Promise<IList>;
     }

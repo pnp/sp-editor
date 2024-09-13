@@ -229,11 +229,11 @@ export interface ISiteDesignCreationInfo {
 export interface ISiteDesignUpdateInfo extends Partial<ISiteDesignCreationInfo> {
     Id: string;
 }
-export declare const enum TemplateDesignType {
+export declare enum TemplateDesignType {
     Site = 0,
     List = 1
 }
-export declare const enum ListDesignColor {
+export declare enum ListDesignColor {
     DarkRed = 0,
     Red = 1,
     Orange = 2,
@@ -247,7 +247,7 @@ export declare const enum ListDesignColor {
     Lavendar = 10,
     Pink = 11
 }
-export declare const enum ListDesignIcon {
+export declare enum ListDesignIcon {
     Bug = 0,
     Calendar = 1,
     BullseyeTarget = 2,

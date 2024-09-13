@@ -1,25 +1,25 @@
 import { Attachment as IAttachmentType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
-import { IGetById } from "../decorators.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
+import { IDeleteable, IGetById } from "../decorators.js";
 /**
  * Attachment
  */
-export declare class _Attachment extends _GraphQueryableInstance<IAttachmentType> {
+export declare class _Attachment extends _GraphInstance<IAttachmentType> {
 }
-export interface IAttachment extends _Attachment {
+export interface IAttachment extends _Attachment, IDeleteable {
 }
 export declare const Attachment: import("../graphqueryable.js").IGraphInvokableFactory<IAttachment>;
 /**
  * Attachments
  */
-export declare class _Attachments extends _GraphQueryableCollection<IAttachmentType[]> {
+export declare class _Attachments extends _GraphCollection<IAttachmentType[]> {
     /**
      * Add attachment to this collection
      *
-     * @param name Name given to the attachment file
+     * @param attachmentInfo Attachment properties
      * @param bytes File content
      */
-    addFile(name: string, bytes: string | Blob): Promise<IAttachmentType>;
+    addFile(attachmentInfo: IAttachmentType, bytes: string | Blob): Promise<IAttachmentType>;
 }
 export interface IAttachments extends _Attachments, IGetById<IAttachment> {
 }

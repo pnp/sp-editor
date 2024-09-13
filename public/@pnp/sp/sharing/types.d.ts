@@ -3,7 +3,7 @@ import { _Web } from "../webs/types.js";
 import { _File } from "../files/types.js";
 import { _Item } from "../items/types.js";
 import { _Folder } from "../folders/types.js";
-export declare type ShareableQueryable = _Web | _File | _Folder | _Item;
+export type ShareableQueryable = _Web | _File | _Folder | _Item;
 /**
  * Indicates the role of the sharing link
  */

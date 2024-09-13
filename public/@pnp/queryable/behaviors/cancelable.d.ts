@@ -1,12 +1,12 @@
 import { TimelinePipe } from "@pnp/core";
 import { Queryable } from "../queryable.js";
-export declare type CancelablePromise<T = any> = Promise<T> & {
+export type CancelablePromise<T = any> = Promise<T> & {
     cancel(): Promise<void>;
 };
 /**
  * Defines the signature for observers subscribing to the cancelable moment
  */
-export declare type CancelableObserver = (this: Queryable) => Promise<void>;
+export type CancelableObserver = (this: Queryable) => Promise<void>;
 /**
  * Function wrapper that turns the supplied function into a cancellation scope
  *

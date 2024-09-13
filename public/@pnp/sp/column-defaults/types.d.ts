@@ -1,4 +1,4 @@
-export declare type AllowedDefaultColumnValues = number | string | boolean | {
+export type AllowedDefaultColumnValues = number | string | boolean | {
     wssId: string;
     termName: string;
     termId: string;

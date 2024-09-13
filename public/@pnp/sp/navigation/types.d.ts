@@ -17,7 +17,7 @@ export declare class _NavigationNodes extends _SPCollection<INavNodeInfo[]> {
      * @param url The url of the node
      * @param visible If true the node is visible, otherwise it is hidden (default: true)
      */
-    add(title: string, url: string, visible?: boolean): Promise<INavigationNodeAddResult>;
+    add(title: string, url: string, visible?: boolean): Promise<INavNodeInfo>;
     /**
      * Moves a node to be after another node in the navigation
      *
@@ -130,14 +130,6 @@ export interface ISerializableNavigationNode {
     ListTemplateType: number;
     AudienceIds: string[];
     Children: ISerializableNavigationNode[];
-}
-/**
- * Result from adding a navigation node
- *
- */
-export interface INavigationNodeAddResult {
-    data: INavNodeInfo;
-    node: INavigationNode;
 }
 /**
  * Represents the information describing a navigation node

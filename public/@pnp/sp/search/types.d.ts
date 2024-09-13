@@ -1,4 +1,4 @@
-export declare type SearchQueryInit = string | ISearchQuery | ISearchBuilder;
+export type SearchQueryInit = string | ISearchQuery | ISearchBuilder;
 export interface ISearchBuilder {
     query: any;
     readonly bypassResultTypes: this;
