@@ -4,15 +4,21 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtBaseComponent } from '@microsoft/mgt-element';
+import { MgtBaseTaskComponent } from '@microsoft/mgt-element';
+export declare const registerMgtDotOptionsComponent: () => void;
 /**
  * Custom Component used to handle an arrow rendering for TaskGroups utilized in the task component.
  *
  * @export MgtDotOptions
  * @class MgtDotOptions
  * @extends {MgtBaseComponent}
+ *
+ * @cssprop --dot-options-menu-background-color - {Color} The color of the background of the menu.
+ * @cssprop --dot-options-menu-shadow-color - {Color} The color of the shadow of the menu.
+ * @cssprop --dot-options-menu-item-color - {Color} The color of the menu items.
+ * @cssprop --dot-options-menu-item-hover-background-color - {Color} The color of the menu items when hovered.
  */
-export declare class MgtDotOptions extends MgtBaseComponent {
+export declare class MgtDotOptions extends MgtBaseTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
@@ -45,11 +51,9 @@ export declare class MgtDotOptions extends MgtBaseComponent {
     connectedCallback(): void;
     disconnectedCallback(): void;
     /**
-     * Invoked on each update to perform rendering tasks. This method must return
-     * a lit-html TemplateResult. Setting properties inside this method will *not*
-     * trigger the element to update.
+     * Invoked from the base class render method when the _task is in a completed state.
      */
-    render(): import("lit-html").TemplateResult<1>;
+    readonly renderContent: () => import("lit").TemplateResult<1>;
     private readonly handleItemClick;
     private readonly handleItemKeydown;
     /**
@@ -60,7 +64,7 @@ export declare class MgtDotOptions extends MgtBaseComponent {
      * @returns
      * @memberof MgtDotOptions
      */
-    getMenuOption(name: string, clickFn: (e: Event) => void): import("lit-html").TemplateResult<1>;
+    getMenuOption(name: string, clickFn: (e: Event) => void): import("lit").TemplateResult<1>;
     private readonly onDotClick;
     private readonly onDotKeydown;
     private handleKeydownMenuOption;

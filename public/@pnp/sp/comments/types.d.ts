@@ -107,5 +107,5 @@ export interface ILikedByInformation {
     isLikedByUser: boolean;
     likeCount: number;
 }
-export declare type RatingValues = 1 | 2 | 3 | 4 | 5;
+export type RatingValues = 1 | 2 | 3 | 4 | 5;
 //# sourceMappingURL=types.d.ts.map

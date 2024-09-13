@@ -534,7 +534,7 @@ import { Login, Todo, ThemeToggle } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React, { useState } from 'react'
-import { Login, FileList, File, ViewType, ThemeToggle } from '@microsoft/mgt-react'
+import { Login, FileList, File, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
@@ -550,12 +550,45 @@ import { Login, FileList, File, ViewType, ThemeToggle } from '@microsoft/mgt-rea
       <div>
         <Login />
         <FileList itemClick={selectItem} />
-        <File fileDetails={file} view={ViewType.threelines} />
+        <File fileDetails={file} view={"threelines"} />
       </div>
     </>
   )
 }`.trim(),
   },
+  {
+    option: {
+      key: 'header-search',
+      text: 'MGT Searcht component samples',
+      itemType: SelectableOptionMenuItemType.Header,
+    },
+  },
+  {
+    option: {
+      key: 'mgt-search-results',
+      text: 'SearchResults component',
+      itemType: SelectableOptionMenuItemType.Normal,
+    },
+    snippet: `
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+
+import React from 'react'
+import { SearchResults, ThemeToggle, Login } from '@microsoft/mgt-react'
+
+() => {
+
+  return (
+    <>
+      <ThemeToggle />
+      <div>
+        <Login />
+        <SearchResults scopes={['Sites.Read.All']} entityTypes={['driveItem']} fetchThumbnail={true} queryString="*"></SearchResults>
+      </div>
+    </>
+  )
+}`.trim(),
+  },
+
 /*
   {
     option: {

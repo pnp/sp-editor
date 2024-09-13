@@ -5,7 +5,7 @@ export declare class _Fields extends _SPCollection<IFieldInfo[]> {
      *
      * @param xml A string or XmlSchemaFieldCreationInformation instance descrbing the field to create
      */
-    createFieldAsXml(xml: string | IXmlSchemaFieldCreationInformation): Promise<IFieldAddResult>;
+    createFieldAsXml(xml: string | IXmlSchemaFieldCreationInformation): Promise<Partial<IFieldInfo>>;
     /**
      * Gets a field from the collection by id
      *
@@ -30,49 +30,49 @@ export declare class _Fields extends _SPCollection<IFieldInfo[]> {
      * @param title The new field's title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    add(title: string, fieldTypeKind: number, properties?: IFieldCreationProperties): Promise<IFieldAddResult>;
+    add(title: string, fieldTypeKind: number, properties?: IFieldCreationProperties): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new field to the collection
      *
      * @param title The new field's title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addField(title: string, fieldTypeKind: number, properties?: IAddFieldProperties): Promise<IFieldAddResult>;
+    addField(title: string, fieldTypeKind: number, properties?: IAddFieldProperties): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldText to the collection
      *
      * @param title The field title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addText(title: string, properties?: IFieldCreationProperties & AddTextProps): Promise<IFieldAddResult>;
+    addText(title: string, properties?: IFieldCreationProperties & AddTextProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldCalculated to the collection
      *
      * @param title The field title.
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addCalculated(title: string, properties?: IFieldCreationProperties & AddCalculatedProps): Promise<IFieldAddResult>;
+    addCalculated(title: string, properties?: IFieldCreationProperties & AddCalculatedProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldDateTime to the collection
      *
      * @param title The field title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addDateTime(title: string, properties?: IFieldCreationProperties & AddDateTimeProps): Promise<IFieldAddResult>;
+    addDateTime(title: string, properties?: IFieldCreationProperties & AddDateTimeProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldNumber to the collection
      *
      * @param title The field title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addNumber(title: string, properties?: IFieldCreationProperties & AddNumberProps): Promise<IFieldAddResult>;
+    addNumber(title: string, properties?: IFieldCreationProperties & AddNumberProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldCurrency to the collection
      *
      * @param title The field title
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addCurrency(title: string, properties?: IFieldCreationProperties & AddCurrencyProps): Promise<IFieldAddResult>;
+    addCurrency(title: string, properties?: IFieldCreationProperties & AddCurrencyProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldMultiLineText to the collection
      *
@@ -80,47 +80,47 @@ export declare class _Fields extends _SPCollection<IFieldInfo[]> {
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      *
      */
-    addMultilineText(title: string, properties?: IFieldCreationProperties & AddMultilineTextProps): Promise<IFieldAddResult>;
+    addMultilineText(title: string, properties?: IFieldCreationProperties & AddMultilineTextProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldUrl to the collection
      *
      * @param title The field title
      */
-    addUrl(title: string, properties?: IFieldCreationProperties & AddUrlProps): Promise<IFieldAddResult>;
+    addUrl(title: string, properties?: IFieldCreationProperties & AddUrlProps): Promise<Partial<IFieldInfo>>;
     /** Adds a user field to the colleciton
      *
      * @param title The new field's title
      * @param properties
      */
-    addUser(title: string, properties?: IFieldCreationProperties & AddUserProps): Promise<IFieldAddResult>;
+    addUser(title: string, properties?: IFieldCreationProperties & AddUserProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a SP.FieldLookup to the collection
      *
      * @param title The new field's title
      * @param properties Set of additional properties to set on the new field
      */
-    addLookup(title: string, properties?: IAddFieldProperties): Promise<IFieldAddResult>;
+    addLookup(title: string, properties?: IAddFieldProperties): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldChoice to the collection
      *
      * @param title The field title.
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addChoice(title: string, properties?: IFieldCreationProperties & AddChoiceProps): Promise<IFieldAddResult>;
+    addChoice(title: string, properties?: IFieldCreationProperties & AddChoiceProps): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldMultiChoice to the collection
      *
      * @param title The field title.
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addMultiChoice(title: string, properties?: IFieldCreationProperties & AddMultiChoiceProps): Promise<IFieldAddResult>;
+    addMultiChoice(title: string, properties?: IFieldCreationProperties & AddMultiChoiceProps): Promise<Partial<IFieldInfo>>;
     /**
    * Adds a new SP.FieldBoolean to the collection
    *
    * @param title The field title.
    * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
    */
-    addBoolean(title: string, properties?: IFieldCreationProperties): Promise<IFieldAddResult>;
+    addBoolean(title: string, properties?: IFieldCreationProperties): Promise<Partial<IFieldInfo>>;
     /**
   * Creates a secondary (dependent) lookup field, based on the Id of the primary lookup field.
   *
@@ -128,21 +128,21 @@ export declare class _Fields extends _SPCollection<IFieldInfo[]> {
   * @param primaryLookupFieldId The guid of the primary Lookup Field.
   * @param showField Which field to show from the lookup list.
   */
-    addDependentLookupField(displayName: string, primaryLookupFieldId: string, showField: string): Promise<IFieldAddResult>;
+    addDependentLookupField(displayName: string, primaryLookupFieldId: string, showField: string): Promise<Partial<IFieldInfo>>;
     /**
    * Adds a new SP.FieldLocation to the collection
    *
    * @param title The field title.
    * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
    */
-    addLocation(title: string, properties?: IFieldCreationProperties): Promise<IFieldAddResult>;
+    addLocation(title: string, properties?: IFieldCreationProperties): Promise<Partial<IFieldInfo>>;
     /**
      * Adds a new SP.FieldLocation to the collection
      *
      * @param title The field title.
      * @param properties Differ by type of field being created (see: https://msdn.microsoft.com/en-us/library/office/dn600182.aspx)
      */
-    addImageField(title: string, properties?: IFieldCreationProperties): Promise<IFieldAddResult>;
+    addImageField(title: string, properties?: IFieldCreationProperties): Promise<Partial<IFieldInfo>>;
 }
 export interface IFields extends _Fields {
 }
@@ -155,7 +155,7 @@ export declare class _Field extends _SPInstance<IFieldInfo> {
    * @param properties A plain object hash of values to update for the list
    * @param fieldType The type value such as SP.FieldLookup. Optional, looked up from the field if not provided
    */
-    update(properties: any, fieldType?: string): Promise<IFieldUpdateResult>;
+    update(properties: any, fieldType?: string): Promise<Partial<IFieldInfo>>;
     /**
    * Sets the value of the ShowInDisplayForm property for this field.
    */
@@ -172,67 +172,53 @@ export declare class _Field extends _SPInstance<IFieldInfo> {
 export interface IField extends _Field, IDeleteable {
 }
 export declare const Field: import("../spqueryable.js").ISPInvokableFactory<IField>;
-/**
- * This interface defines the result of adding a field
- */
-export interface IFieldAddResult {
-    data: Partial<IFieldInfo>;
-    field: IField;
-}
-/**
- * This interface defines the result of updating a field
- */
-export interface IFieldUpdateResult {
-    data: Partial<IFieldInfo>;
-    field: IField;
-}
-export declare type AddTextProps = {
+export type AddTextProps = {
     MaxLength?: number;
 };
-export declare type AddCalculatedProps = {
+export type AddCalculatedProps = {
     DateFormat?: DateTimeFieldFormatType;
     FieldTypeKind?: number;
     Formula?: string;
     OutputType?: FieldTypes;
 };
-export declare type AddDateTimeProps = {
+export type AddDateTimeProps = {
     DateTimeCalendarType?: CalendarType;
     DisplayFormat?: DateTimeFieldFormatType;
     FriendlyDisplayFormat?: DateTimeFieldFriendlyFormatType;
 };
-export declare type AddNumberProps = {
+export type AddNumberProps = {
     MinimumValue?: number;
     MaximumValue?: number;
 };
-export declare type AddCurrencyProps = AddNumberProps & {
+export type AddCurrencyProps = AddNumberProps & {
     CurrencyLocaleId?: number;
 };
-export declare type AddMultilineTextProps = {
+export type AddMultilineTextProps = {
     AllowHyperlink?: boolean;
     AppendOnly?: boolean;
     NumberOfLines?: number;
     RestrictedMode?: boolean;
     RichText?: boolean;
 };
-export declare type AddUrlProps = {
+export type AddUrlProps = {
     DisplayFormat?: UrlFieldFormatType;
 };
-export declare type AddUserProps = {
+export type AddUserProps = {
     SelectionMode?: FieldUserSelectionMode;
 };
-export declare type AddChoiceProps = {
+export type AddChoiceProps = {
     Choices: string[];
     EditFormat?: ChoiceFieldFormatType;
     FillInChoice?: boolean;
 };
-export declare type AddMultiChoiceProps = {
+export type AddMultiChoiceProps = {
     Choices: string[];
     FillInChoice?: boolean;
 };
 /**
  * Specifies the type of the field.
  */
-export declare const enum FieldTypes {
+export declare enum FieldTypes {
     Invalid = 0,
     Integer = 1,
     Text = 2,
@@ -279,7 +265,7 @@ export declare enum DateTimeFieldFriendlyFormatType {
 /**
  * Specifies the control settings while adding a field.
  */
-export declare const enum AddFieldOptions {
+export declare enum AddFieldOptions {
     /**
    *  Specify that a new field added to the list must also be added to the default content type in the site collection
    */
@@ -313,7 +299,7 @@ export interface IXmlSchemaFieldCreationInformation {
     Options?: AddFieldOptions;
     SchemaXml: string;
 }
-export declare const enum CalendarType {
+export declare enum CalendarType {
     Gregorian = 1,
     Japan = 3,
     Taiwan = 4,

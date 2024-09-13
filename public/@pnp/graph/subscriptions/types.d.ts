@@ -1,10 +1,10 @@
-import { _GraphQueryableInstance, _GraphQueryableCollection } from "../graphqueryable.js";
+import { _GraphInstance, _GraphCollection } from "../graphqueryable.js";
 import { Subscription as ISubscriptionType } from "@microsoft/microsoft-graph-types";
 import { IDeleteable, IUpdateable, IGetById } from "../decorators.js";
 /**
  * Subscription
  */
-export declare class _Subscription extends _GraphQueryableInstance<ISubscriptionType> {
+export declare class _Subscription extends _GraphInstance<ISubscriptionType> {
 }
 export interface ISubscription extends _Subscription, IDeleteable, IUpdateable<ISubscriptionType> {
 }
@@ -12,7 +12,7 @@ export declare const Subscription: import("../graphqueryable.js").IGraphInvokabl
 /**
  * Subscriptions
  */
-export declare class _Subscriptions extends _GraphQueryableCollection<ISubscriptionType[]> {
+export declare class _Subscriptions extends _GraphCollection<ISubscriptionType[]> {
     /**
      * Create a new Subscription.
      *

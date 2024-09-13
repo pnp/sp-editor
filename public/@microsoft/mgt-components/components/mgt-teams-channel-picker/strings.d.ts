@@ -17,5 +17,7 @@ export declare const strings: {
     photoFor: string;
     teamsChannels: string;
     closeButtonAriaLabel: string;
+    downChevronButtonAriaLabel: string;
+    upChevronButtonAriaLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

@@ -1,4 +1,4 @@
-import { ObserverAction, ObserverFunction, Timeline } from "./timeline.js";
+import { ObserverAction, ObserverFunction, ObserverSyncFunction, Timeline } from "./timeline.js";
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
  *
@@ -17,7 +17,7 @@ export declare function asyncBroadcast<T extends ObserverFunction<void>>(): (obs
  *
  * @returns The final set of arguments
  */
-export declare function reduce<T extends ObserverFunction<[...Parameters<T>]>>(): (observers: T[], ...args: [...Parameters<T>]) => [...Parameters<T>];
+export declare function reduce<T extends ObserverSyncFunction<[...Parameters<T>]>>(): (observers: T[], ...args: [...Parameters<T>]) => [...Parameters<T>];
 /**
  * Defines a moment that executes each observer asynchronously, awaiting the result and passes the returned arguments as the arguments to the next observer.
  * This is very much like the redux pattern taking the arguments as the state which each observer may modify then returning a new state

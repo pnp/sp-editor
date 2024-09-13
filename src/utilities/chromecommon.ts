@@ -39,7 +39,7 @@ export function exescript(this: any, script: any) {
         source: 'chrome-sp-editor',
       }), '*')
     }
-  } catch (e) {
+  } catch (e: any) {
     (window as any).postMessage(JSON.stringify({
       function: script.name,
       success: false,

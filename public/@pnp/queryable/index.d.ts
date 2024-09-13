@@ -1,9 +1,4 @@
-export * from "./add-prop.js";
-export * from "./invokable.js";
-export * from "./operations.js";
 export * from "./queryable.js";
-export * from "./queryable-factory.js";
-export * from "./request-builders.js";
 /**
  * Behavior exports
  */
@@ -16,4 +11,31 @@ export * from "./behaviors/inject-headers.js";
 export * from "./behaviors/parsers.js";
 export * from "./behaviors/timeout.js";
 export * from "./behaviors/resolvers.js";
+/**
+ * Adds a property to a target instance
+ *
+ * @param target The object to whose prototype we will add a property
+ * @param name Property name
+ * @param factory Factory method used to produce the property value
+ * @param path Any additional path required to produce the value
+ */
+export declare function addProp<T, U>(target: {
+    prototype: any;
+}, name: string, factory: (arg: U, p?: string) => T, path?: string): void;
+/**
+ * takes the supplied object of type U, JSON.stringify's it, and sets it as the value of a "body" property
+ */
+export declare function body<T extends Partial<RequestInit>, U = any>(o: U, previous?: T): T & {
+    body: string;
+};
+/**
+ * Adds headers to an new/existing RequestInit
+ *
+ * @param o Headers to add
+ * @param previous Any previous partial RequestInit
+ * @returns RequestInit combining previous and specified headers
+ */
+export declare function headers<T extends Partial<RequestInit>, U extends Record<string, string> = {}>(o: U, previous?: T): T & {
+    headers: U;
+};
 //# sourceMappingURL=index.d.ts.map

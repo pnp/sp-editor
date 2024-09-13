@@ -1,9 +1,9 @@
-import { IInvokable, Queryable } from "@pnp/queryable";
-export declare type SPInit = string | ISPQueryable | [ISPQueryable, string];
+import { Queryable, IInvokable } from "@pnp/queryable";
+export type SPInit = string | ISPQueryable | [ISPQueryable, string];
 export interface ISPConstructor<T extends ISPQueryable = ISPQueryable> {
     new (base: SPInit, path?: string): T;
 }
-export declare type ISPInvokableFactory<R extends ISPQueryable> = (base: SPInit, path?: string) => R & IInvokable;
+export type ISPInvokableFactory<R extends ISPQueryable> = (base: SPInit, path?: string) => R & IInvokable;
 export declare const spInvokableFactory: <R extends ISPQueryable<any>>(f: any) => ISPInvokableFactory<R>;
 /**
  * SharePointQueryable Base Class
@@ -107,4 +107,11 @@ export interface IDeleteableWithETag {
      */
     delete(eTag?: string): Promise<void>;
 }
+export declare const spGet: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const spPost: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const spPostMerge: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const spPostDelete: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const spPostDeleteETag: <T = any>(o: ISPQueryable<any>, init?: RequestInit, eTag?: string) => Promise<T>;
+export declare const spDelete: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const spPatch: <T = any>(o: ISPQueryable<any>, init?: RequestInit) => Promise<T>;
 //# sourceMappingURL=spqueryable.d.ts.map

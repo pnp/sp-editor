@@ -3,30 +3,18 @@ import * as Logging from '@pnp/logging'
 import * as Queryable from '@pnp/queryable'
 import { IWebProperty } from './../../../store/webproperties/types'
 
-// we cannot use async methods, they do not work correctly when running 'npm run build',
-// async methods works when running 'npm run watch'
-export function deleteWebProperties(...args: any) {
+export const deleteWebProperties = (values: any[], extPath: string) => {
 
-  /* get parameters */
-  const params = args
-  const functionName = params[0].name
-  const webprops: IWebProperty[] = JSON.parse(decodeURIComponent(params[1]).replace(/%27/g, "'"));
+  return moduleLoader(extPath).then((modules) => {
 
-  /* import pnp */
-  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
+    /*** map modules ***/
+    var pnpsp = modules[0];
+    var pnplogging = modules[1];
+    var pnpqueryable = modules[2];
 
-  Promise.all<libTypes>([
-    (window as any).SystemJS.import((window as any).mod_sp),
-    (window as any).SystemJS.import((window as any).mod_logging),
-    (window as any).SystemJS.import((window as any).mod_queryable)
-  ]).then((modules) => {
-
-    var pnpsp = modules[0]
-    var pnplogging = modules[1]
-    var pnpqueryable = modules[2]
 
     function SPSoapHandler() {
-      return (instance) => {
+      return (instance: Queryable.Queryable) => {
         instance.using(
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
@@ -35,7 +23,7 @@ export function deleteWebProperties(...args: any) {
           pnpsp.RequestDigest());
 
         // fix url for SOAP call
-        instance.on.pre.prepend((url, init, result) => {
+        instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('/_vti_bin/client.svc/ProcessQuery') > -1) {
             url = url.replace(/_api.*_vti_bin/, '_vti_bin')
           }
@@ -54,59 +42,47 @@ export function deleteWebProperties(...args: any) {
       }));
 
     /*** clear previous log listeners ***/
-    pnplogging.Logger.clearSubscribers()
+    pnplogging.Logger.clearSubscribers();
+
     /*** setup log listener ***/
-    const listener = pnplogging.FunctionListener((entry) => {
+    const listener = pnplogging.FunctionListener(entry => {
       entry.data.response.clone().json().then((error: any) => {
-        window.postMessage(JSON.stringify({
-          function: functionName,
+        return {
           success: false,
           result: null,
           errorMessage: error.error.message.value,
-          source: 'chrome-sp-editor',
-        }), '*')
-      })
-    })
-    pnplogging.Logger.subscribe(listener)
-    /* *** */
+          source: 'chrome-sp-editor'
+        }
+      });
+    });
+    pnplogging.Logger.subscribe(listener);
 
-    const postMessage = () => {
-      window.postMessage(JSON.stringify({
-        function: functionName,
-        success: true,
-        result: [],
-        errorMessage: '',
-        source: 'chrome-sp-editor',
-      }), '*')
-    }
+    const webprops: IWebProperty = values[0];
 
     let siteid = ''
     let webid = ''
 
-    sp.site.select('Id')().then((site) => {
+    return sp.site.select('Id')().then((site) => {
       siteid = site.Id
-      sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
 
         if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-          window.postMessage(JSON.stringify({
-            function: functionName,
+          return{
             success: false,
             result: null,
             errorMessage: 'No script is enabled, cannot edit Web Properties',
             source: 'chrome-sp-editor',
-          }), '*')
-          return
+          }
         }
 
         webid = web.Id
 
-        const prop = webprops[0]
         const payload = `
             <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
               <Actions>
                 <Method Name="SetFieldValue" Id="9" ObjectPathId="4">
                   <Parameters>
-                    <Parameter Type="String">${prop.key}</Parameter>
+                    <Parameter Type="String">${webprops.key}</Parameter>
                     <Parameter Type="Null" />
                   </Parameters>
                 </Method>
@@ -118,20 +94,18 @@ export function deleteWebProperties(...args: any) {
               </ObjectPaths>
             </Request>`
 
-        pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload })
+        return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload })
           .then(r => {
             if (r[0]?.ErrorInfo?.ErrorMessage) {
-              window.postMessage(JSON.stringify({
-                function: functionName,
+              return{
                 success: false,
                 result: null,
                 errorMessage: r[0].ErrorInfo.ErrorMessage,
                 source: 'chrome-sp-editor',
-              }), '*')
-              return
+              }
             }
 
-            sp.web.allProperties.select('vti_indexedpropertykeys')().then(result => {
+            return sp.web.allProperties.select('vti_indexedpropertykeys')().then(result => {
 
               const allProps = []
               for (let iprop in result) {
@@ -158,8 +132,8 @@ export function deleteWebProperties(...args: any) {
                 let newIndexValue = propertyBag.value
 
                 const bytes = []
-                for (let i = 0; i < prop.key.length; ++i) {
-                  bytes.push(prop.key.charCodeAt(i))
+                for (let i = 0; i < webprops.key.length; ++i) {
+                  bytes.push(webprops.key.charCodeAt(i))
                   bytes.push(0)
                 }
 
@@ -184,29 +158,72 @@ export function deleteWebProperties(...args: any) {
                     </ObjectPaths>
                   </Request>`
 
-                  pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload2 })
+                  return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload2 })
                     .then(r2 => {
                       if (r2[0]?.ErrorInfo?.ErrorMessage) {
-                        window.postMessage(JSON.stringify({
-                          function: functionName,
+                        return {
                           success: false,
                           result: null,
                           errorMessage: r2[0].ErrorInfo.ErrorMessage,
                           source: 'chrome-sp-editor',
-                        }), '*')
-                        return
+                        }
                       }
-                      postMessage()
+                      return {
+                        success: true,
+                        result: [],
+                        errorMessage: '',
+                        source: 'chrome-sp-editor',
+                      }
                     })
                 } else {
-                  postMessage()
+                  return {
+                    success: true,
+                    result: [],
+                    errorMessage: '',
+                    source: 'chrome-sp-editor',
+                  }                
                 }
               } else {
-                postMessage()
+                return {
+                  success: true,
+                  result: [],
+                  errorMessage: '',
+                  source: 'chrome-sp-editor',
+                }              
               }
             })
           })
       })
     })
-  })
+
+  });
+
+  function moduleLoader(extPath: string) {
+
+    type libTypes = [typeof SP, typeof Logging, typeof Queryable];
+    /*** load systemjs ***/
+    return new Promise<libTypes>((resolve) => {
+      const s = document.createElement('script');
+      s.src = extPath + 'bundles/system.js';
+      (document.head || document.documentElement).appendChild(s);
+      s.onload = () =>
+        /*** load pnpjs modules ***/
+        Promise.all<libTypes>([
+          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js')])
+          .then((modules) => {
+            // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+            if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+              (window as any).moduleLoaderPromise.then((e: any) => {
+                (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+                resolve(modules);
+              });
+            } else {
+              resolve(modules);
+            }
+          });
+    });
+  }
+
 }

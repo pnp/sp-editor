@@ -7,24 +7,25 @@
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import { IDynamicPerson } from '../../graph/types';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
-import { PersonCardInteraction } from './../PersonCardInteraction';
-export { PersonCardInteraction } from './../PersonCardInteraction';
+import { type PersonCardInteraction } from './../PersonCardInteraction';
 /**
  * web component to display a group of people or contacts by using their photos or initials.
  *
  * @export
  * @class MgtPeople
- * @extends {MgtTemplatedComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @cssprop --people-list-margin- {String} the margin around the list of people. Default is 8px 4px 8px 8px.
  * @cssprop --people-avatar-gap - {String} the gap between the people in the list. Default is 4px.
  * @cssprop --people-overflow-font-color - {Color} the color of the overflow text.
  * @cssprop --people-overflow-font-size - {String} the text color of the overflow text. Default is 12px.
  * @cssprop --people-overflow-font-weight - {String} the font weight of the overflow text. Default is 400.
+ * @cssprop --people-person-avatar-size - {Length} the size of the avatar. Default is 24px.
  */
-export declare class MgtPeople extends MgtTemplatedComponent {
+export declare const registerMgtPeopleComponent: () => void;
+export declare class MgtPeople extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -35,15 +36,13 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      *
      * @type {string}
      */
-    get groupId(): string;
-    set groupId(value: string);
+    groupId: string;
     /**
      * user id array
      *
      * @memberof MgtPeople
      */
-    get userIds(): string[];
-    set userIds(value: string[]);
+    userIds: string[];
     /**
      * containing array of people used in the component.
      *
@@ -55,8 +54,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      *
      * @type {string[]}
      */
-    get peopleQueries(): string[];
-    set peopleQueries(value: string[]);
+    peopleQueries: string[];
     /**
      * developer determined max people shown in component
      *
@@ -71,7 +69,8 @@ export declare class MgtPeople extends MgtTemplatedComponent {
     showPresence: boolean;
     /**
      * Sets how the person-card is invoked
-     * Set to PersonCardInteraction.none to not show the card
+     * Valid options are: 'none', 'hover', or 'click'
+     * Set to 'none' to not show the card
      *
      * @type {PersonCardInteraction}
      * @memberof MgtPerson
@@ -83,16 +82,14 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @type {string}
      * @memberof MgtPeople
      */
-    get resource(): string;
-    set resource(value: string);
+    resource: string;
     /**
      * Api version to use for request
      *
      * @type {string}
      * @memberof MgtPeople
      */
-    get version(): string;
-    set version(value: string);
+    version: string;
     /**
      * The scopes to request
      *
@@ -105,8 +102,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      *
      * @type {IDynamicPerson[]}
      */
-    get fallbackDetails(): IDynamicPerson[];
-    set fallbackDetails(value: IDynamicPerson[]);
+    fallbackDetails: IDynamicPerson[];
     /**
      * Get the scopes required for people
      *
@@ -115,13 +111,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @memberof MgtPeople
      */
     static get requiredScopes(): string[];
-    private _groupId;
-    private _userIds;
-    private _peopleQueries;
     private _peoplePresence;
-    private _resource;
-    private _version;
-    private _fallbackDetails;
     private _arrowKeyLocation;
     constructor();
     /**
@@ -131,20 +121,15 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @memberof MgtPeople
      */
     protected clearState(): void;
-    /**
-     * Request to reload the state.
-     * Use reload instead of load to ensure loading events are fired.
-     *
-     * @protected
-     * @memberof MgtBaseComponent
-     */
-    protected requestStateUpdate(force?: boolean): Promise<unknown>;
+    protected args(): unknown[];
     /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): TemplateResult;
+    protected renderContent: () => TemplateResult;
+    protected updated(changedProperties: Map<string | number | symbol, unknown>): void;
+    private checkPeopleListAndFireEvent;
     /**
      * Render the loading state.
      *
@@ -152,7 +137,7 @@ export declare class MgtPeople extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtPeople
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
     /**
      * Render the list of people.
      *

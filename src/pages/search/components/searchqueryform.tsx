@@ -144,8 +144,8 @@ const SearchQueryForm = () => {
         label="RowLimit"
         value={searchQuery.RowLimit ? searchQuery.RowLimit.toString() : ''}
         onChange={(event, newValue?: string) => {
-          const parsedValue = parseInt(newValue);
-          const rowLimit = isNaN(parsedValue) ? null : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
+          const parsedValue = parseInt(newValue || '');
+          const rowLimit = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
           dispatch(setSearchQuery({ ...searchQuery, RowLimit: rowLimit }));
         }}
       />
@@ -154,8 +154,8 @@ const SearchQueryForm = () => {
         label="StartRow"
         value={searchQuery.StartRow ? searchQuery.StartRow.toString() : ''}
         onChange={(event, newValue?: string) => {
-          const parsedValue = parseInt(newValue);
-          const startRow = isNaN(parsedValue) ? null : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
+          const parsedValue = parseInt(newValue || '');
+          const startRow = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
           dispatch(setSearchQuery({ ...searchQuery, StartRow: startRow }));
         }}
       />
@@ -163,7 +163,7 @@ const SearchQueryForm = () => {
         autoAdjustHeight
         multiline
         spellCheck={false}
-        value={searchQuery.SelectProperties.join(',')}
+        value={searchQuery.SelectProperties?.join(',')}
         label="SelectedProperties"
         placeholder="eg. Title,contentclass"
         onChange={(event, newValue?: string) => {
@@ -178,11 +178,11 @@ const SearchQueryForm = () => {
         defaultValue={
           searchQuery.SortList
             ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
-            : null
+            : undefined
         }
         placeholder="eg. firstName:0,LastName:1"
         onChange={(event, newValue?: string) => {
-          const newSortList = convertToSortList(newValue); // fix this not to allow empty strings
+          const newSortList = convertToSortList(newValue || ''); // fix this not to allow empty strings
           if (newSortList && newSortList.length > 0)
             dispatch(setSearchQuery({ ...searchQuery, SortList: newSortList }));
           else dispatch(setSearchQuery({ ...searchQuery, SortList: [] }));
@@ -225,12 +225,17 @@ const SearchQueryForm = () => {
             key={key}
             styles={checkBoxStyles}
             label={key}
-            indeterminate={searchQuery[key] === undefined}
+            // @ts-ignore
+            indeterminate={searchQuery[key] === undefined }
+            // @ts-ignore
             checked={searchQuery[key] === undefined ? true : searchQuery[key]}
+            // @ts-ignore
             defaultChecked={searchQuery[key]}
             onChange={(ev?: React.FormEvent<HTMLElement | HTMLInputElement>, newChecked?: boolean) => {
+              // @ts-ignore
               if (searchQuery[key] !== undefined && newChecked) {
                 const newItems = { ...searchQuery };
+                // @ts-ignore
                 delete newItems[key];
                 dispatch(setSearchQuery(newItems));
               } else {

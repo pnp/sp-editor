@@ -11,7 +11,7 @@ export declare const strings: {
     businessPhoneTitle: string;
     cellPhoneTitle: string;
     departmentTitle: string;
-    titleTitle: string;
+    personTitle: string;
     officeLocationTitle: string;
     copyToClipboardButton: string;
 };

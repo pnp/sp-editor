@@ -1,8 +1,10 @@
+/// <reference types="node" />
 import { _SPCollection, ISPInstance, IDeleteableWithETag, ISPQueryable, IDeleteable } from "../spqueryable.js";
 import { IItem } from "../items/index.js";
 import { ISiteUserProps } from "../site-users/types.js";
 import { IMoveCopyOptions } from "../types.js";
 import { ReadableFile } from "./readable-file.js";
+import { PassThrough, Stream } from "stream";
 import "../context-info/index.js";
 /**
  * Describes a collection of File objects
@@ -22,18 +24,16 @@ export declare class _Files extends _SPCollection<IFileInfo[]> {
      * @param content The file content
      * @param parameters Additional parameters to control method behavior
      */
-    addUsingPath(url: string, content: string | ArrayBuffer | Blob, parameters?: IAddUsingPathProps): Promise<IFileAddResult>;
+    addUsingPath(url: string, content: string | ArrayBuffer | Blob, parameters?: IAddUsingPathProps): Promise<IFileInfo>;
     /**
      * Uploads a file. Not supported for batching
      *
      * @param url The folder-relative url of the file.
      * @param content The Blob file content to add
-     * @param progress A callback function which can be used to track the progress of the upload
-     * @param shouldOverWrite Should a file with the same name in the same location be overwritten? (default: true)
-     * @param chunkSize The size of each file slice, in bytes (default: 10485760)
+     * @param props Set of optional values that control the behavior of the underlying addUsingPath and chunkedUpload feature
      * @returns The new File and the raw response.
      */
-    addChunked(url: string, content: Blob, progress?: (data: IFileUploadProgressData) => void, shouldOverWrite?: boolean, chunkSize?: number): Promise<IFileAddResult>;
+    addChunked(url: string, content: ValidFileContentSource, props?: Partial<IChunkedOperationProps> & Partial<IAddUsingPathProps>): Promise<IFileInfo>;
     /**
      * Adds a ghosted file to an existing list or document library. Not supported for batching.
      *
@@ -41,7 +41,7 @@ export declare class _Files extends _SPCollection<IFileInfo[]> {
      * @param templateFileType The type of use to create the file.
      * @returns The template file that was added and the raw response.
      */
-    addTemplateFile(fileUrl: string, templateFileType: TemplateFileType): Promise<IFileAddResult>;
+    addTemplateFile(fileUrl: string, templateFileType: TemplateFileType): Promise<IFileInfo>;
 }
 export interface IFiles extends _Files {
 }
@@ -197,45 +197,7 @@ export declare class _File extends ReadableFile<IFileInfo> {
      * @param progress A callback function which can be used to track the progress of the upload
      * @param chunkSize The size of each file slice, in bytes (default: 10485760)
      */
-    setContentChunked(file: Blob, progress?: (data: IFileUploadProgressData) => void, chunkSize?: number): Promise<IFileAddResult>;
-    /**
-     * Starts a new chunk upload session and uploads the first fragment.
-     * The current file content is not changed when this method completes.
-     * The method is idempotent (and therefore does not change the result) as long as you use the same values for uploadId and stream.
-     * The upload session ends either when you use the CancelUpload method or when you successfully
-     * complete the upload session by passing the rest of the file contents through the ContinueUpload and FinishUpload methods.
-     * The StartUpload and ContinueUpload methods return the size of the running total of uploaded data in bytes,
-     * so you can pass those return values to subsequent uses of ContinueUpload and FinishUpload.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fragment The file contents.
-     * @returns The size of the total uploaded data in bytes.
-     */
-    protected startUpload(uploadId: string, fragment: ArrayBuffer | Blob): Promise<number>;
-    /**
-     * Continues the chunk upload session with an additional fragment.
-     * The current file content is not changed.
-     * Use the uploadId value that was passed to the StartUpload method that started the upload session.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fileOffset The size of the offset into the file where the fragment starts.
-     * @param fragment The file contents.
-     * @returns The size of the total uploaded data in bytes.
-     */
-    protected continueUpload(uploadId: string, fileOffset: number, fragment: ArrayBuffer | Blob): Promise<number>;
-    /**
-     * Uploads the last file fragment and commits the file. The current file content is changed when this method completes.
-     * Use the uploadId value that was passed to the StartUpload method that started the upload session.
-     * This method is currently available only on Office 365.
-     *
-     * @param uploadId The unique identifier of the upload session.
-     * @param fileOffset The size of the offset into the file where the fragment starts.
-     * @param fragment The file contents.
-     * @returns The newly uploaded file.
-     */
-    protected finishUpload(uploadId: string, fileOffset: number, fragment: ArrayBuffer | Blob): Promise<IFileAddResult>;
+    setContentChunked(file: ValidFileContentSource, props: Partial<IChunkedOperationProps>): Promise<IFileInfo>;
     protected moveCopyImpl(destUrl: string, options: Partial<IMoveCopyOptions>, overwrite: boolean, methodName: string): Promise<IFile>;
 }
 export interface IFile extends _File, IDeleteableWithETag {
@@ -337,13 +299,6 @@ export declare enum CheckinType {
     Overwrite = 2
 }
 /**
- * Describes file and result
- */
-export interface IFileAddResult {
-    file: IFile;
-    data: IFileInfo;
-}
-/**
  * File move opertions
  */
 export declare enum MoveOperations {
@@ -376,11 +331,7 @@ export declare enum TemplateFileType {
 export interface IFileUploadProgressData {
     uploadId: string;
     stage: "starting" | "continue" | "finishing";
-    blockNumber: number;
-    totalBlocks: number;
-    chunkSize: number;
-    currentPointer: number;
-    fileSize: number;
+    offset: number;
 }
 export interface IAddUsingPathProps {
     /**
@@ -452,4 +403,8 @@ export interface IFileDeleteParams {
      */
     ETagMatch: string;
 }
+export interface IChunkedOperationProps {
+    progress: (data: IFileUploadProgressData) => void;
+}
+export type ValidFileContentSource = Blob | ReadableStream | TransformStream | Stream | PassThrough | ArrayBuffer;
 //# sourceMappingURL=types.d.ts.map

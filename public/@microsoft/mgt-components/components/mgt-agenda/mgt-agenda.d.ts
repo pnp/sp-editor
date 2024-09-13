@@ -6,7 +6,7 @@
  */
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
 import '../mgt-person/mgt-person';
 /**
@@ -34,7 +34,8 @@ import '../mgt-person/mgt-person';
  * @cssprop --event-location-color - {Color} Event location color
  * @cssprop --event-attendees-color - {Color} Event attendees color
  */
-export declare class MgtAgenda extends MgtTemplatedComponent {
+export declare const registerMgtAgendaComponent: () => void;
+export declare class MgtAgenda extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * using the `css` tag function.
@@ -45,29 +46,25 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      *
      * @type {string}
      */
-    get date(): string;
-    set date(value: string);
+    date: string;
     /**
      * determines if agenda events come from specific group
      *
      * @type {string}
      */
-    get groupId(): string;
-    set groupId(value: string);
+    groupId: string;
     /**
      * sets number of days until end date, 3 is the default
      *
      * @type {number}
      */
-    get days(): number;
-    set days(value: number);
+    days: number;
     /**
      * allows developer to specify a different graph query that retrieves events
      *
      * @type {string}
      */
-    get eventQuery(): string;
-    set eventQuery(value: string);
+    eventQuery: string;
     /**
      * array containing events from user agenda.
      *
@@ -94,8 +91,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      *
      * @type {string}
      */
-    get preferredTimezone(): string;
-    set preferredTimezone(value: string);
+    preferredTimezone: string;
     /**
      * Get the scopes required for agenda
      *
@@ -110,11 +106,6 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      * @type {boolean}
      */
     private _isNarrow;
-    private _eventQuery;
-    private _days;
-    private _groupId;
-    private _date;
-    private _preferredTimezone;
     /**
      * Determines width available if resize is necessary, adds onResize event listener to window
      *
@@ -134,7 +125,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtAgenda
      */
-    render(): TemplateResult;
+    renderContent: () => TemplateResult;
     /**
      * Reloads the component with its current settings and potential new data
      *
@@ -148,7 +139,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtAgenda
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
     /**
      * Clears state of the component
      *
@@ -237,6 +228,7 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      * @memberof MgtAgenda
      */
     protected renderEvents(events: MicrosoftGraph.Event[]): TemplateResult;
+    protected args(): (string | number)[];
     /**
      * Load state into the component
      *
@@ -245,7 +237,6 @@ export declare class MgtAgenda extends MgtTemplatedComponent {
      * @memberof MgtAgenda
      */
     protected loadState(): Promise<void>;
-    private reloadState;
     private readonly onResize;
     private eventClicked;
     private getEventTimeString;

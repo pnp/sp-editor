@@ -2,25 +2,46 @@ import * as SP from '@pnp/sp/presets/all'
 import * as Logging from '@pnp/logging'
 import * as Queryable from '@pnp/queryable'
 
-// we cannot use async methods, they do not work correctly when running 'npm run build',
-// async methods works when running 'npm run watch'
-export function updateCustomAction(...args: any) {
+export const updateCustomAction = (values: any, extPath: string) => {
 
-  /* get parameters */
-  const params = args
-  const functionName = params[0].name
-  const scope = params[1]
-  let url = params[2]
-  const sequence = params[3]
-  const id = params[4]
+  return moduleLoader(extPath).then((modules) => {
+
+    /*** map modules ***/
+    var pnpsp = modules[0];
+    var pnplogging = modules[1];
+    var pnpqueryable = modules[2];
+
+    /***  init pnpjs ***/
+    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders({
+        "Accept": "application/json; odata=verbose",
+        "Cache-Control": "no-cache",
+        "X-ClientService-ClientTag": "SPEDITOR"
+      }));
+
+    /*** clear previous log listeners ***/
+    pnplogging.Logger.clearSubscribers();
+
+    /*** setup log listener ***/
+    const listener = pnplogging.FunctionListener(entry => {
+      entry.data.response.clone().json().then((error: any) => {
+        return {
+          success: false,
+          result: null,
+          errorMessage: error.error.message.value,
+          source: 'chrome-sp-editor'
+        }
+      });
+    });
+    pnplogging.Logger.subscribe(listener);
 
   /* prepare payload */
   const payload: { [k: string]: any } = {}
   payload.Location = 'ScriptLink'
-  payload.Sequence = sequence
+  payload.Sequence = values.Sequence
 
   let querystrings = ''
-
+    let url = values.Url
   if (url.split('?').length > 1) {
     querystrings = '?' + url.split('?')[1]
     url = url.split('?')[0]
@@ -28,9 +49,9 @@ export function updateCustomAction(...args: any) {
 
   // if url starts with ~ and ends .js we can inject with ScriptSrc (o365 / onprem)
   // if we are in o365, we can inject anything that ends with .js with ScriptSrc
-  if ((url.indexOf('~') > -1 && url.match(/.js$/)) || (window.location.href.indexOf('.sharepoint.') > 0 && url.match(/.js$/))) {
+  if ((url.indexOf('~') > -1 && url.match(/.js$/)) || (window.location.href.indexOf('.sharepoint.com') > 0 && url.match(/.js$/))) {
     payload.ScriptSrc = url + querystrings
-  } else if (url.match(/.js$/) && window.location.href.indexOf('.sharepoint.') === -1) {
+  } else if (url.match(/.js$/) && window.location.href.indexOf('.sharepoint.com') === -1) {
 
     let headID = ''
     let newScript = ''
@@ -52,106 +73,105 @@ export function updateCustomAction(...args: any) {
     // tslint:disable-next-line:prefer-template
     payload.ScriptBlock = "if (window.location.href.toLowerCase().indexOf('_layouts/15/termstoremanager.aspx') === -1) { document.write('<link rel=\"stylesheet\" href=\"" + url + querystrings + "\" />');}"
   } else {
-    window.postMessage(JSON.stringify({
-      function: functionName,
+    return {
       success: false,
-      result: null,
+      result: [],
       errorMessage: 'Only inject js or css files!',
       source: 'chrome-sp-editor',
-    }), '*')
-    return
+    }
   }
 
-  /* import pnp */
-  type libTypes = [Promise<typeof SP>, Promise<typeof Logging>, Promise<typeof Queryable>];
-
-  Promise.all<libTypes>([
-    (window as any).SystemJS.import((window as any).mod_sp),
-    (window as any).SystemJS.import((window as any).mod_logging),
-    (window as any).SystemJS.import((window as any).mod_queryable)
-  ]).then((modules) => {
-
-    var pnpsp = modules[0]
-    var pnplogging = modules[1]
-    var pnpqueryable = modules[2]
-
-    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
-      .using(pnpqueryable.InjectHeaders({
-        "Accept": "application/json; odata=verbose",
-        "Cache-Control": "no-cache",
-        "X-ClientService-ClientTag": "SPEDITOR"
-      }));
-
-    /*** clear previous log listeners ***/
-    pnplogging.Logger.clearSubscribers()
-    /*** setup log listener ***/
-    const listener = pnplogging.FunctionListener((entry) => {
-      entry.data.response.clone().json().then((error: any) => {
-        window.postMessage(JSON.stringify({
-          function: functionName,
-          success: false,
-          result: null,
-          errorMessage: error.error.message.value,
-          source: 'chrome-sp-editor',
-        }), '*')
-      })
-    })
-    pnplogging.Logger.subscribe(listener)
-    /* *** */
-
-    const postMessage = () => {
-      window.postMessage(JSON.stringify({
-        function: functionName,
-        success: true,
-        result: [],
-        errorMessage: '',
-        source: 'chrome-sp-editor',
-      }), '*')
-    }
-    sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-        window.postMessage(JSON.stringify({
-          function: functionName,
-          success: false,
-          result: null,
-          errorMessage: 'No script is enabled, cannot edit Custom Actions',
-          source: 'chrome-sp-editor',
-        }), '*')
-        return
-      }
       // site collection scope
-      if (scope === 2) {
+      if (values.Scope === 2) {
         // check that uca exists in site
-        sp.site.userCustomActions.getById(id)().then(uca => {
+        return sp.site.userCustomActions.getById(values.Id)().then(uca => {
           // update uca if exists
           if (uca && uca.Id) {
-            sp.site.userCustomActions.getById(id).update(payload).then(postMessage)
+            return sp.site.userCustomActions.getById(values.Id).update(payload).then(() => {
+              return {
+                success: true,
+                result: [],
+                errorMessage: '',
+                source: 'chrome-sp-editor',
+              }
+            })
           } else {
             // uca did not exists in site, so scope must have been switched
             // so lets remove it from web
-            sp.web.userCustomActions.getById(id).delete().then(res => {
+            return sp.web.userCustomActions.getById(values.Id).delete().then(res => {
               // and then add it to site
-              sp.site.userCustomActions.add(payload).then(postMessage)
+              return sp.site.userCustomActions.add(payload).then(() => {
+                return {
+                  success: true,
+                  result: [],
+                  errorMessage: '',
+                  source: 'chrome-sp-editor',
+                }
+              })
             })
           }
         })
         // web scope
       } else {
         // check that uca exists in web
-        sp.web.userCustomActions.getById(id)().then(uca => {
+        return sp.web.userCustomActions.getById(values.Id)().then(uca => {
           // update uca if exists
           if (uca && uca.Id) {
-            sp.web.userCustomActions.getById(id).update(payload).then(postMessage)
+            return sp.web.userCustomActions.getById(values.Id).update(payload).then(() => {
+              return {
+                success: true,
+                result: [],
+                errorMessage: '',
+                source: 'chrome-sp-editor',
+              }
+            })
           } else {
             // uca did not exists in web, so scope must have been switched
             // so lets remove it from site
-            sp.site.userCustomActions.getById(id).delete().then(res => {
+            return sp.site.userCustomActions.getById(values.Id).delete().then(res => {
               // and then add it to web
-              sp.web.userCustomActions.add(payload).then(postMessage)
+              return sp.web.userCustomActions.add(payload).then(() => {
+                return {
+                  success: true,
+                  result: [],
+                  errorMessage: '',
+                  source: 'chrome-sp-editor',
+                }
+              })
             })
           }
         })
       }
-    })
-  })
+
+  });
+
+  function moduleLoader(extPath: string) {
+
+    type libTypes = [typeof SP, typeof Logging, typeof Queryable];
+    /*** load systemjs ***/
+    return new Promise<libTypes>((resolve) => {
+      const s = document.createElement('script');
+      s.src = extPath + 'bundles/system.js';
+      (document.head || document.documentElement).appendChild(s);
+      s.onload = () =>
+        /*** load pnpjs modules ***/
+        Promise.all<libTypes>([
+          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js')])
+          .then((modules) => {
+            // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+            if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+              (window as any).moduleLoaderPromise.then((e: any) => {
+                (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+                resolve(modules);
+              });
+            } else {
+              resolve(modules);
+            }
+          });
+    });
+  }
+
 }
+

@@ -7,7 +7,6 @@
 export declare const strings: {
     photoFor: string;
     emailAddress: string;
-    initials: string;
     Available: string;
     Away: string;
     BeRightBack: string;

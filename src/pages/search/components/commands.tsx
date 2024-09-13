@@ -110,13 +110,13 @@ const SearchCommands = () => {
             color: MessageBarColors.danger,
           })
         );
-        dispatch(setSearchResults([], [], null));
+        dispatch(setSearchResults([], [], undefined));
       } else {
-        var items = [];
-        var groups = [];
+        var items: any[] = [];
+        var groups: any[] = [];
         var uniqueKey = 0;
         var startIndex = 0;
-        res.PrimarySearchResults.forEach((item) => {
+        res.PrimarySearchResults.forEach((item: any) => {
           const temp = Object.keys(item)
             .map((name) => ({
               DocId: item.DocId,

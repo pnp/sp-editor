@@ -5,7 +5,8 @@
  * -------------------------------------------------------------------------------------------
  */
 import { TemplateResult } from 'lit';
-import { MgtBaseComponent } from '@microsoft/mgt-element';
+import { MgtBaseTaskComponent } from '@microsoft/mgt-element';
+export declare const registerMgtThemeToggleComponent: () => void;
 /**
  * Toggle to switch between light and dark mode
  * Will detect browser preference and set accordingly or dark mode can be forced
@@ -13,9 +14,9 @@ import { MgtBaseComponent } from '@microsoft/mgt-element';
  * @fires {CustomEvent<boolean>} darkmodechanged - Fired when dark mode is toggled by a user action
  *
  * @class MgtDarkToggle
- * @extends {MgtBaseComponent}
+ * @extends {MgtBaseTaskComponent}
  */
-export declare class MgtThemeToggle extends MgtBaseComponent {
+export declare class MgtThemeToggle extends MgtBaseTaskComponent {
     constructor();
     /**
      * Provides strings for localization

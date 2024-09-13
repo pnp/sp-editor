@@ -1,27 +1,31 @@
 /**
  * Represents an observer that does not affect the timeline
  */
-export declare type ObserverAction = (this: Timeline<any>, ...args: any[]) => void;
+export type ObserverAction = (this: Timeline<any>, ...args: any[]) => void;
 /**
  * Represents an observer with side effects within the timeline
  */
-export declare type ObserverFunction<R = any> = (this: Timeline<any>, ...args: any[]) => Promise<R>;
+export type ObserverSyncFunction<R = any> = (this: Timeline<any>, ...args: any[]) => R;
+/**
+ * Represents an observer with side effects within the timeline
+ */
+export type ObserverFunction<R = any> = (this: Timeline<any>, ...args: any[]) => Promise<R>;
 /**
  * Defines the set of all valid observer types
  */
-export declare type ValidObserver = ObserverAction | ObserverFunction;
+export type ValidObserver = ObserverAction | ObserverFunction;
 /**
  * The set of moments that make up a timeline
  */
-export declare type Moments = Record<string, (this: Timeline<any>, handlers: ValidObserver[], ...args: any[]) => void>;
+export type Moments = Record<string, (this: Timeline<any>, handlers: ValidObserver[], ...args: any[]) => void>;
 /**
  * Represents the collection of observers
  */
-export declare type ObserverCollection = Record<string, ValidObserver[]>;
+export type ObserverCollection = Record<string, ValidObserver[]>;
 /**
  * A type used to represent the proxied Timeline.on property
  */
-declare type DistributeOn<T extends Moments, R extends Moments = T> = {
+type DistributeOn<T extends Moments, R extends Moments = T> = {
     [Prop in string & keyof T]: {
         (handler: Parameters<T[Prop]>[0][number]): Timeline<R>;
         toArray(): Parameters<T[Prop]>[0][number][];
@@ -33,13 +37,13 @@ declare type DistributeOn<T extends Moments, R extends Moments = T> = {
 /**
  * A type used to represent the proxied Timeline.emit property
  */
-declare type DistributeEmit<T extends Moments> = {
+type DistributeEmit<T extends Moments> = {
     [Prop in string & keyof T]: (...args: Parameters<Parameters<T[Prop]>[0][number]>) => ReturnType<Parameters<T[Prop]>[0][number]>;
 };
 /**
  * Virtual events that are present on all Timelines
  */
-declare type DefaultTimelineMoments<T extends Moments> = {
+type DefaultTimelineMoments<T extends Moments> = {
     init: (observers: ((this: Timeline<T>) => void)[], ...args: any[]) => void;
     dispose: (observers: ((this: Timeline<T>) => void)[], ...args: any[]) => void;
     log: (observers: ((this: Timeline<T>, message: string, level: number) => void)[], ...args: any[]) => void;
@@ -48,15 +52,15 @@ declare type DefaultTimelineMoments<T extends Moments> = {
 /**
  * The type combining the defined moments and DefaultTimelineEvents
  */
-declare type OnProxyType<T extends Moments> = DistributeOn<T> & DistributeOn<DefaultTimelineMoments<T>, T>;
+type OnProxyType<T extends Moments> = DistributeOn<T> & DistributeOn<DefaultTimelineMoments<T>, T>;
 /**
  * The type combining the defined moments and DefaultTimelineEvents
  */
-declare type EmitProxyType<T extends Moments> = DistributeEmit<T> & DistributeEmit<DefaultTimelineMoments<T>>;
+type EmitProxyType<T extends Moments> = DistributeEmit<T> & DistributeEmit<DefaultTimelineMoments<T>>;
 /**
  * Represents a function accepting and returning a timeline, possibly manipulating the observers present
  */
-export declare type TimelinePipe<T extends Timeline<any> = any> = (intance: T) => T;
+export type TimelinePipe<T extends Timeline<any> = any> = (intance: T) => T;
 /**
  * Observer lifecycle modifier that indicates this observer should NOT be inherited by any child
  * timelines.

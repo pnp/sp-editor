@@ -18,6 +18,7 @@ export declare class _SiteUsers extends _SPCollection<ISiteUserInfo[]> {
      * Gets a user from the collection by login name
      *
      * @param loginName The login name of the user to retrieve
+     *   e.g. SharePoint Online: 'i:0#.f|membership|user@domain'
      */
     getByLoginName(loginName: string): ISiteUser;
     /**
@@ -59,14 +60,22 @@ export declare class _SiteUser extends _SPInstance<ISiteUserInfo> {
      *
      * @param props Group properties to update
      */
-    update(props: Partial<ISiteUserInfo>): Promise<IUserUpdateResult>;
+    update(props: Partial<ISiteUserInfo>): Promise<void>;
 }
 export interface ISiteUser extends _SiteUser, IDeleteable {
 }
 export declare const SiteUser: import("../spqueryable.js").ISPInvokableFactory<ISiteUser>;
-export interface ISiteUserInfo extends ISiteUserProps {
+export interface ISiteUserInfo {
+    Id: number;
+    IsHiddenInUI: boolean;
+    LoginName: string;
+    Title: string;
+    PrincipalType: number;
+    Email: string;
     Expiration: string;
     IsEmailAuthenticationGuestUser: boolean;
+    IsShareByEmailGuestUser: boolean;
+    IsSiteAdmin: boolean;
     UserId: {
         NameId: string;
         NameIdIssuer: string;
@@ -118,21 +127,5 @@ export interface ISiteUserProps {
      *
      */
     Title: string;
-}
-/**
- * Properties that provide both a getter, and a setter.
- *
- */
-export interface IUserUpdateResult {
-    user: ISiteUser;
-    data: any;
-}
-/**
- * Result from ensuring a user
- *
- */
-export interface IWebEnsureUserResult {
-    data: ISiteUserProps;
-    user: ISiteUser;
 }
 //# sourceMappingURL=types.d.ts.map

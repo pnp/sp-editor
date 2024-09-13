@@ -6,6 +6,7 @@
  */
 export declare const strings: {
     failUploadFile: string;
+    successUploadFile: string;
     cancelUploadFile: string;
     buttonUploadFile: string;
     maximumFilesTitle: string;

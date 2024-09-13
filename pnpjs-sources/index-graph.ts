@@ -1,1 +1,1 @@
-export * from '../node_modules/@pnp/graph/presets/all'
+export * from '@pnp/graph/presets/all'

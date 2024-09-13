@@ -4,7 +4,8 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { MgtBaseComponent } from '@microsoft/mgt-element';
+import { MgtBaseTaskComponent } from '@microsoft/mgt-element';
+export declare const registerMgtArrowOptionsComponent: () => void;
 /**
  * Custom Component used to handle an arrow rendering for TaskGroups utilized in the task component.
  *
@@ -18,7 +19,7 @@ import { MgtBaseComponent } from '@microsoft/mgt-element';
  * @class MgtArrowOptions
  * @extends {MgtBaseComponent}
  */
-export declare class MgtArrowOptions extends MgtBaseComponent {
+export declare class MgtArrowOptions extends MgtBaseTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
@@ -67,7 +68,7 @@ export declare class MgtArrowOptions extends MgtBaseComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    render(): import("lit-html").TemplateResult<1>;
+    renderContent: () => import("lit").TemplateResult<1>;
     private getMenuOptions;
 }
 //# sourceMappingURL=mgt-arrow-options.d.ts.map

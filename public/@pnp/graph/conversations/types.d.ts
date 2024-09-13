@@ -1,10 +1,10 @@
 import { ConversationThread as IConversationThreadType, Post as IPostType, Recipient as IRecipientType, Conversation as IConversationType, User as IUserType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { IUpdateable, IDeleteable, IAddable, IGetById } from "../decorators.js";
 /**
  * Conversation
  */
-export declare class _Conversation extends _GraphQueryableInstance<IConversationType> {
+export declare class _Conversation extends _GraphInstance<IConversationType> {
     /**
      * Get all the threads in a group conversation.
      */
@@ -16,7 +16,7 @@ export declare const Conversation: import("../graphqueryable.js").IGraphInvokabl
 /**
  * Conversations
  */
-export declare class _Conversations extends _GraphQueryableCollection<IConversationType[]> {
+export declare class _Conversations extends _GraphCollection<IConversationType[]> {
 }
 export interface IConversations extends _Conversations, IGetById<IConversation>, IAddable<IConversationType> {
 }
@@ -24,7 +24,7 @@ export declare const Conversations: import("../graphqueryable.js").IGraphInvokab
 /**
  * Thread
  */
-export declare class _Thread extends _GraphQueryableInstance {
+export declare class _Thread extends _GraphInstance {
     /**
      * Get all the threads in a group conversation.
      */
@@ -42,7 +42,7 @@ export declare const Thread: import("../graphqueryable.js").IGraphInvokableFacto
 /**
  * Threads
  */
-export declare class _Threads extends _GraphQueryableCollection<IConversationThreadType[]> {
+export declare class _Threads extends _GraphCollection<IConversationThreadType[]> {
 }
 export interface IThreads extends _Threads, IGetById<IThread>, IAddable<IConversationThreadType, {
     id: string;
@@ -52,7 +52,7 @@ export declare const Threads: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Post
  */
-export declare class _Post extends _GraphQueryableInstance<IPostType> {
+export declare class _Post extends _GraphInstance<IPostType> {
     /**
      * Forward a post to a recipient
      */
@@ -70,7 +70,7 @@ export declare const Post: import("../graphqueryable.js").IGraphInvokableFactory
 /**
  * Posts
  */
-export declare class _Posts extends _GraphQueryableCollection<IPostType[]> {
+export declare class _Posts extends _GraphCollection<IPostType[]> {
 }
 export interface IPosts extends _Posts, IGetById<IPost>, IAddable<IPostType> {
 }
@@ -78,7 +78,7 @@ export declare const Posts: import("../graphqueryable.js").IGraphInvokableFactor
 /**
  * Senders
  */
-export declare class _Senders extends _GraphQueryableCollection<IUserType[]> {
+export declare class _Senders extends _GraphCollection<IUserType[]> {
     /**
      * Add a new user or group to this senders collection
      * @param id The full @odata.id value to add (ex: https://graph.microsoft.com/v1.0/users/user@contoso.com)

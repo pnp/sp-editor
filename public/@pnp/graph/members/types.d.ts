@@ -1,10 +1,10 @@
 import { User as IMemberType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { IGetById } from "../decorators.js";
 /**
  * Member
  */
-export declare class _Member extends _GraphQueryableInstance<IMemberType> {
+export declare class _Member extends _GraphInstance<IMemberType> {
     /**
      * Removes this Member
      */
@@ -16,7 +16,7 @@ export declare const Member: import("../graphqueryable.js").IGraphInvokableFacto
 /**
  * Members
  */
-export declare class _Members extends _GraphQueryableCollection<IMemberType[]> {
+export declare class _Members extends _GraphCollection<IMemberType[]> {
     /**
      * Use this API to add a member to an Office 365 group, a security group or a mail-enabled security group through
      * the members navigation property. You can add users or other groups.

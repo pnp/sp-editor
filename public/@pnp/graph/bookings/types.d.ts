@@ -1,12 +1,12 @@
 import { BookingBusiness as IBookingBusinessEntity, BookingAppointment as IBookingAppointmentEntity, BookingCustomer as IBookingCustomerEntity, BookingService as IBookingServiceEntity, BookingStaffMember as IBookingStaffMemberEntity, BookingCurrency as IBookingCurrencyEntity, BookingCustomQuestion as IBookingCustomQuestionEntity } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { IDeleteable, IUpdateable, IGetById } from "../decorators.js";
 import { calendarView } from "./funcs.js";
 /**
  * Describes a Booking Currency entity
  *
  */
-export declare class _BookingCurrency extends _GraphQueryableInstance<IBookingCurrencyEntity> {
+export declare class _BookingCurrency extends _GraphInstance<IBookingCurrencyEntity> {
 }
 export interface IBookingCurrency extends _BookingCurrency {
 }
@@ -15,7 +15,7 @@ export declare const BookingCurrency: import("../graphqueryable.js").IGraphInvok
  * Describes a collection of Booking Currency objects
  *
  */
-export declare class _BookingCurrencies extends _GraphQueryableCollection<IBookingCurrencyEntity[]> {
+export declare class _BookingCurrencies extends _GraphCollection<IBookingCurrencyEntity[]> {
 }
 export interface IBookingCurrencies extends _BookingCurrencies, IGetById<IBookingCurrency> {
 }
@@ -23,7 +23,7 @@ export declare const BookingCurrencies: import("../graphqueryable.js").IGraphInv
 /**
  * Represents a booking business entity
  */
-export declare class _BookingBusiness extends _GraphQueryableInstance<IBookingBusinessEntity> {
+export declare class _BookingBusiness extends _GraphInstance<IBookingBusinessEntity> {
     /**
      * Get the calendar view for the booking business.
      */
@@ -64,7 +64,7 @@ export declare const BookingBusiness: import("../graphqueryable.js").IGraphInvok
  * Describes a collection of Booking Business objects
  *
  */
-export declare class _BookingBusinesses extends _GraphQueryableCollection<IBookingBusinessEntity[]> {
+export declare class _BookingBusinesses extends _GraphCollection<IBookingBusinessEntity[]> {
     /**
          * Create a new booking business as specified in the request body.
          *
@@ -79,7 +79,7 @@ export declare const BookingBusinesses: import("../graphqueryable.js").IGraphInv
 /**
  * Represents a booking appointment entity
  */
-export declare class _BookingApointment extends _GraphQueryableInstance<IBookingAppointmentEntity> {
+export declare class _BookingApointment extends _GraphInstance<IBookingAppointmentEntity> {
     /**
      * Cancel the specified bookingAppointment in the specified bookingBusiness and send a message to the involved customer and staff members.
      */
@@ -92,7 +92,7 @@ export declare const BookingAppointment: import("../graphqueryable.js").IGraphIn
  * Describes a collection of booking appointment objects
  *
  */
-export declare class _BookingAppointments extends _GraphQueryableCollection<IBookingAppointmentEntity[]> {
+export declare class _BookingAppointments extends _GraphCollection<IBookingAppointmentEntity[]> {
     /**
      * Create a new booking appointment as specified in the request body.
      *
@@ -106,7 +106,7 @@ export declare const BookingAppointments: import("../graphqueryable.js").IGraphI
 /**
  * Represents a booking customer entity
  */
-export declare class _BookingCustomer extends _GraphQueryableInstance<IBookingCustomerEntity> {
+export declare class _BookingCustomer extends _GraphInstance<IBookingCustomerEntity> {
 }
 export interface IBookingCustomer extends _BookingCustomer, IDeleteable, IUpdateable {
 }
@@ -115,7 +115,7 @@ export declare const BookingCustomer: import("../graphqueryable.js").IGraphInvok
  * Describes a collection of booking customer objects
  *
  */
-export declare class _BookingCustomers extends _GraphQueryableCollection<IBookingCustomerEntity[]> {
+export declare class _BookingCustomers extends _GraphCollection<IBookingCustomerEntity[]> {
     /**
      * Create a new booking customer as specified in the request body.
      *
@@ -129,7 +129,7 @@ export declare const BookingCustomers: import("../graphqueryable.js").IGraphInvo
 /**
  * Represents a booking service entity
  */
-export declare class _BookingService extends _GraphQueryableInstance<IBookingServiceEntity> {
+export declare class _BookingService extends _GraphInstance<IBookingServiceEntity> {
 }
 export interface IBookingService extends _BookingService, IDeleteable, IUpdateable {
 }
@@ -138,7 +138,7 @@ export declare const BookingService: import("../graphqueryable.js").IGraphInvoka
  * Describes a collection of booking service objects
  *
  */
-export declare class _BookingServices extends _GraphQueryableCollection<IBookingServiceEntity[]> {
+export declare class _BookingServices extends _GraphCollection<IBookingServiceEntity[]> {
     /**
      * Create a new booking service as specified in the request body.
      *
@@ -152,7 +152,7 @@ export declare const BookingServices: import("../graphqueryable.js").IGraphInvok
 /**
  * Represents a booking staffmember entity
  */
-export declare class _BookingStaffMember extends _GraphQueryableInstance<IBookingStaffMemberEntity> {
+export declare class _BookingStaffMember extends _GraphInstance<IBookingStaffMemberEntity> {
 }
 export interface IBookingStaffMember extends _BookingStaffMember, IDeleteable, IUpdateable {
 }
@@ -161,7 +161,7 @@ export declare const BookingStaffMember: import("../graphqueryable.js").IGraphIn
  * Describes a collection of booking staffmember objects
  *
  */
-export declare class _BookingStaffMembers extends _GraphQueryableCollection<IBookingStaffMemberEntity[]> {
+export declare class _BookingStaffMembers extends _GraphCollection<IBookingStaffMemberEntity[]> {
     /**
      * Create a new booking staffmember as specified in the request body.
      *
@@ -175,7 +175,7 @@ export declare const BookingStaffMembers: import("../graphqueryable.js").IGraphI
 /**
  * Represents a booking custom questions entity
  */
-export declare class _BookingCustomQuestion extends _GraphQueryableInstance<IBookingCustomQuestionEntity> {
+export declare class _BookingCustomQuestion extends _GraphInstance<IBookingCustomQuestionEntity> {
 }
 export interface IBookingCustomQuestion extends _BookingCustomQuestion, IDeleteable, IUpdateable {
 }
@@ -184,7 +184,7 @@ export declare const BookingCustomQuestion: import("../graphqueryable.js").IGrap
  * Describes a collection of booking custom questions objects
  *
  */
-export declare class _BookingCustomQuestions extends _GraphQueryableCollection<IBookingCustomQuestionEntity[]> {
+export declare class _BookingCustomQuestions extends _GraphCollection<IBookingCustomQuestionEntity[]> {
     /**
      * Create a new booking customquestions as specified in the request body.
      *

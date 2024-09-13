@@ -6,6 +6,7 @@
  */
 import { CacheItem, CacheStore, GraphPageIterator, IGraph } from '@microsoft/mgt-element';
 import { DriveItem, UploadSession } from '@microsoft/microsoft-graph-types';
+import { MgtFileUploadConflictBehavior } from '../components/mgt-file-list/mgt-file-upload/mgt-file-upload';
 /**
  * Simple type guard to check if a response is an UploadSession
  *
@@ -59,6 +60,7 @@ export declare const getFileListInvalidationTime: () => number;
  * Whether or not the cache is enabled
  */
 export declare const getIsFileListsCacheEnabled: () => boolean;
+export declare const validInsightScopes: string[];
 /**
  * Load a DriveItem give and arbitrary query
  *
@@ -66,7 +68,7 @@ export declare const getIsFileListsCacheEnabled: () => boolean;
  * @param resource
  * @returns
  */
-export declare const getDriveItemByQuery: (graph: IGraph, resource: string, storeName?: string, scopes?: string) => Promise<DriveItem>;
+export declare const getDriveItemByQuery: (graph: IGraph, resource: string, storeName?: string, scopes?: string[]) => Promise<DriveItem>;
 export declare const getDriveItemById: (graph: IGraph, driveId: string, itemId: string) => Promise<DriveItem>;
 export declare const getDriveItemByPath: (graph: IGraph, driveId: string, itemPath: string) => Promise<DriveItem>;
 export declare const getGroupDriveItemById: (graph: IGraph, groupId: string, itemId: string) => Promise<DriveItem>;
@@ -120,7 +122,7 @@ export declare const getGraphfile: (graph: IGraph, resource: string) => Promise<
  * @param resource
  * @returns
  */
-export declare const getUploadSession: (graph: IGraph, resource: string, conflictBehavior: number) => Promise<UploadSession>;
+export declare const getUploadSession: (graph: IGraph, resource: string, conflictBehavior: MgtFileUploadConflictBehavior) => Promise<UploadSession>;
 /**
  * send file chunck to OneDrive, SharePoint Site
  *

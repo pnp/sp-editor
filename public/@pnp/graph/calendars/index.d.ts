@@ -1,5 +1,4 @@
 import "./groups.js";
 import "./users.js";
-export { Calendar, Calendars, Event, IEventAddResult, Events, ICalendar, ICalendars, IEvent, IEvents, } from "./types.js";
-export { ICalendarViewInfo, } from "./funcs.js";
+export { Calendar, Calendars, CalendarGroup, CalendarGroups, CalendarPermission, CalendarPermissions, CalendarView, Event, Events, ICalendar, ICalendars, ICalendarGroup, ICalendarGroups, ICalendarPermission, ICalendarPermissions, ICalendarView, IEvent, IEvents, IForwardEvent, IGetScheduleRequest, } from "./types.js";
 //# sourceMappingURL=index.d.ts.map

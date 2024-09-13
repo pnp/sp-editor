@@ -4,7 +4,7 @@ import { loginRequest } from '../..';
 export class GraphClient {
     private static client: Client;
 
-    private static createClient(instance, account): Client {
+    private static createClient(instance: any, account: any): Client {
 
         const graphClient = Client.initWithMiddleware({
             authProvider: {
@@ -27,7 +27,7 @@ export class GraphClient {
         return graphClient
     }
 
-    public static createInstance(instance, account): Client {
+    public static createInstance(instance: any, account: any): Client {
         if (!GraphClient.client) {
             GraphClient.client = this.createClient(instance, account);
         }

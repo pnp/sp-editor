@@ -5,7 +5,7 @@
  * -------------------------------------------------------------------------------------------
  */
 import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent, CollectionResponse } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent, CollectionResponse } from '@microsoft/mgt-element';
 import { Entity } from '@microsoft/microsoft-graph-types';
 /**
  * Simple holder type for an image
@@ -20,22 +20,14 @@ interface ImageValue {
  * @returns {boolean} true if the value is a collection response
  */
 export declare const isCollectionResponse: (value: unknown) => value is CollectionResponse<unknown>;
+declare const responseTypes: readonly ["json", "image"];
 /**
  * Enumeration to define what types of query are available
  *
  * @export
  * @enum {string}
  */
-export declare enum ResponseType {
-    /**
-     * Fetches a call as JSON
-     */
-    json = "json",
-    /**
-     * Fetches a call as image
-     */
-    image = "image"
-}
+export type ResponseType = (typeof responseTypes)[number];
 /**
  * Holder type emitted with the dataChange event
  */
@@ -43,16 +35,17 @@ export interface DataChangedDetail {
     response?: CollectionResponse<Entity>;
     error?: object;
 }
+export declare const registerMgtGetComponent: () => void;
 /**
  * Custom element for making Microsoft Graph get queries
  *
- * @fires {CustomEvent<DataChangedDetail>} dataChange - Fired when data changes
+ * @fires {CustomEvent<DataChangedDetail>} dataChange - Fired when data changes bubbles, composed, and is not cancelable.
  *
  * @export
  * @class mgt-get
  * @extends {MgtTemplatedComponent}
  */
-export declare class MgtGet extends MgtTemplatedComponent {
+export declare class MgtGet extends MgtTemplatedTaskComponent {
     /**
      * The resource to get
      *
@@ -133,15 +126,6 @@ export declare class MgtGet extends MgtTemplatedComponent {
     private isPolling;
     private isRefreshing;
     /**
-     * Synchronizes property values when attributes change.
-     *
-     * @param {*} name
-     * @param {*} oldValue
-     * @param {*} newValue
-     * @memberof MgtPersonCard
-     */
-    attributeChangedCallback(name: any, oldval: any, newval: any): void;
-    /**
      * Refresh the data
      *
      * @param {boolean} [hardRefresh=false]
@@ -157,12 +141,15 @@ export declare class MgtGet extends MgtTemplatedComponent {
      * @memberof MgtGet
      */
     protected clearState(): void;
+    protected args(): unknown[];
+    protected renderLoading: () => TemplateResult;
     /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    protected render(): TemplateResult;
+    protected renderContent: () => TemplateResult;
+    private renderValueContentWithDefaultTemplate;
     /**
      * load state into the component.
      *

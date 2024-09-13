@@ -6,7 +6,7 @@ import { IResourcePath } from "../utils/to-resource-path.js";
  * Describes a collection of Item objects
  *
  */
-export declare class _Items extends _SPCollection {
+export declare class _Items<GetType = any[]> extends _SPCollection<GetType> {
     /**
     * Gets an Item by id
     *
@@ -26,18 +26,14 @@ export declare class _Items extends _SPCollection {
      * @param reverse It true the PagedPrev=true parameter is added allowing backwards navigation in the collection
      */
     skip(skip: number, reverse?: boolean): this;
-    /**
-     * Gets a collection designed to aid in paging through data
-     *
-     */
-    getPaged<T = any[]>(): Promise<PagedItemCollection<T>>;
+    [Symbol.asyncIterator](): AsyncIterator<GetType, any, undefined>;
     /**
      * Adds a new item to the collection
      *
      * @param properties The new items's properties
      * @param listItemEntityTypeFullName The type name of the list's entities
      */
-    add(properties?: Record<string, any>): Promise<IItemAddResult>;
+    add(properties?: Record<string, any>): Promise<any>;
 }
 export interface IItems extends _Items {
 }
@@ -87,7 +83,7 @@ export declare class _Item extends _SPInstance {
      * @param properties A plain object hash of values to update for the list
      * @param eTag Value used in the IF-Match header, by default "*"
      */
-    update(properties: Record<string, any>, eTag?: string): Promise<IItemUpdateResult>;
+    update(properties: Record<string, any>, eTag?: string): Promise<any>;
     /**
      * Moves the list item to the Recycle Bin and returns the identifier of the new Recycle Bin item.
      */
@@ -146,30 +142,10 @@ export declare class _ItemVersion extends _SPInstance {
 export interface IItemVersion extends _ItemVersion, IDeleteableWithETag {
 }
 export declare const ItemVersion: import("@pnp/sp").ISPInvokableFactory<IItemVersion>;
-/**
- * Provides paging functionality for list items
- */
-export declare class PagedItemCollection<T> {
-    private parent;
-    private nextUrl;
-    results: T;
-    constructor(parent: _Items, nextUrl: string, results: T);
-    /**
-     * If true there are more results available in the set, otherwise there are not
-     */
-    get hasNext(): boolean;
-    /**
-     * Gets the next set of results, or resolves to null if no results are available
-     */
-    getNext(): Promise<PagedItemCollection<T> | null>;
-}
-export interface IItemAddResult {
-    item: IItem;
-    data: any;
-}
-export interface IItemUpdateResult {
-    item: IItem;
-    data: IItemUpdateResultData;
+export interface IPagedResult<T> {
+    value: T;
+    hasNext: boolean;
+    nextLink: string;
 }
 export interface IItemUpdateResultData {
     etag: string;

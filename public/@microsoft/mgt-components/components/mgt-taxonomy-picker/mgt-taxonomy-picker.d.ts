@@ -6,9 +6,10 @@
  */
 import type * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { Position } from '../../graph/types';
-import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { PropertyValueMap, TemplateResult } from 'lit';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
+export declare const registerMgtTaxonomyPickerComponent: () => void;
 /**
  * Web component that can query the Microsoft Graph API for Taxonomy
  * and render a dropdown control with terms,
@@ -19,14 +20,14 @@ import '../../styles/style-helper';
  * @fires {CustomEvent<MicrosoftGraph.TermStore.Term>} selectionChanged - Fired when an option is clicked/selected
  * @export
  * @class MgtTaxonomyPicker
- * @extends {MgtTemplatedComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @cssprop --taxonomy-picker-background-color - {Color} Picker component background color
  * @cssprop --taxonomy-picker-list-max-height - {String} max height for options list. Default value is 380px.
  * @cssprop --taxonomy-picker-placeholder-color - {Color} Text color for the placeholder in the picker
  * @cssprop --taxonomy-picker-placeholder-hover-color - {Color} Text color for the placeholder in the picker on hover
  */
-export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
+export declare class MgtTaxonomyPicker extends MgtTemplatedTaskComponent {
     /**
      * The strings to be used for localizing the component.
      *
@@ -97,16 +98,14 @@ export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
      * @type {string}
      * @memberof MgtTaxonomyPicker
      */
-    get defaultSelectedTermId(): string;
-    set defaultSelectedTermId(value: string);
+    defaultSelectedTermId: string;
     /**
      * The selected term.
      *
      * @type {MicrosoftGraph.TermStore.Term}
      * @memberof MgtTaxonomyPicker
      */
-    get selectedTerm(): MicrosoftGraph.TermStore.Term;
-    set selectedTerm(value: MicrosoftGraph.TermStore.Term);
+    selectedTerm: MicrosoftGraph.TermStore.Term | null;
     /**
      * Determines whether component should be disabled or not
      *
@@ -129,9 +128,6 @@ export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
      * @memberof MgtTaxonomyPicker
      */
     cacheInvalidationPeriod: number;
-    private isRefreshing;
-    private _selectedTerm;
-    private _defaultSelectedTermId;
     private terms;
     private noTerms;
     constructor();
@@ -152,19 +148,19 @@ export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
      */
     protected clearState(): void;
     /**
-     * Invoked on each update to perform rendering the picker. This method must return
-     * a lit-html TemplateResult. Setting properties inside this method will *not*
-     * trigger the element to update.
-     */
-    render(): TemplateResult;
-    /**
      * Renders loading spinner while terms are fetched from the Graph
      *
      * @protected
      * @returns
      * @memberof MgtTaxonomyPicker
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
+    /**
+     * Invoked on each update to perform rendering the picker. This method must return
+     * a lit-html TemplateResult. Setting properties inside this method will *not*
+     * trigger the element to update.
+     */
+    renderContent: () => TemplateResult;
     /**
      * Render the no-data state.
      *
@@ -172,7 +168,7 @@ export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
      * @returns {TemplateResult}
      * @memberof MgtTaxonomyPicker
      */
-    protected renderError(): TemplateResult;
+    protected renderError: () => TemplateResult;
     /**
      * Render the no-data state.
      *
@@ -205,14 +201,7 @@ export declare class MgtTaxonomyPicker extends MgtTemplatedComponent {
      * @memberof MgtTaxonomyPicker
      */
     protected renderGet(): TemplateResult;
-    /**
-     * load state into the component.
-     *
-     * @protected
-     * @returns
-     * @memberof MgtTaxonomyPicker
-     */
-    protected loadState(): Promise<void>;
+    protected firstUpdated(changedProperties: PropertyValueMap<unknown> | Map<PropertyKey, unknown>): void;
     private handleDataChange;
     private handleClick;
 }

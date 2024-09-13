@@ -162,7 +162,7 @@ const SearchResults = () => {
                             onClick={() => {
                               const properties = props as any;
                               const link = properties.selection._items.find(
-                                (o) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
+                                (o: any) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
                               ).value;
                               // let obj = props?.group?.data.find((o) => o.key === "OriginalPath");
                               chrome.tabs.create({ url: link });
@@ -191,13 +191,13 @@ const SearchResults = () => {
                                     const res = injectionResults[0].result as any;
 
                                     // Extract the properties from the search results and sort them alphabetically
-                                    const temp = res.PrimarySearchResults.flatMap((item) =>
+                                    const temp = res.PrimarySearchResults.flatMap((item: any) =>
                                       Object.entries(item).map(([property, value]) => ({
                                         DocId: item.DocId,
                                         property,
                                         value,
                                       }))
-                                    ).sort((a, b) =>
+                                    ).sort((a: any, b: any) =>
                                       a.property.toLowerCase() > b.property.toLowerCase()
                                         ? 1
                                         : b.property.toLowerCase() > a.property.toLowerCase()
@@ -210,7 +210,7 @@ const SearchResults = () => {
                                       items.reduce((maxKey, item) => Math.max(maxKey, parseInt(item.key)), 0) + 1;
 
                                     // Add row and key properties to the search results and create a new array
-                                    const tempWithProps = temp.map((item, index) => ({
+                                    const tempWithProps = temp.map((item: any, index: any) => ({
                                       row: index + 1,
                                       key: highestKey + index,
                                       ...item,

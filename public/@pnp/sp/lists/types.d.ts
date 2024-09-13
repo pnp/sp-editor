@@ -29,7 +29,7 @@ export declare class _Lists extends _SPCollection<IListInfo[]> {
      * @param enableContentTypes If true content types will be allowed and enabled, otherwise they will be disallowed and not enabled
      * @param additionalSettings Will be passed as part of the list creation body
      */
-    add(title: string, desc?: string, template?: number, enableContentTypes?: boolean, additionalSettings?: Partial<IListInfo>): Promise<IListAddResult>;
+    add(title: string, desc?: string, template?: number, enableContentTypes?: boolean, additionalSettings?: Partial<IListInfo>): Promise<IListInfo>;
     /**
      * Ensures that the specified list exists in the collection (note: this method not supported for batching)
      *
@@ -80,7 +80,7 @@ export declare class _List extends _SPInstance<IListInfo> {
      * @param properties A plain object hash of values to update for the list
      * @param eTag Value used in the IF-Match header, by default "*"
      */
-    update(properties: Partial<IListInfo>, eTag?: string): Promise<IListUpdateResult>;
+    update(properties: Partial<IListInfo>, eTag?: string): Promise<IListInfo>;
     /**
      * Returns the collection of changes from the change log that have occurred within the list, based on the specified query.
      * @param query A query that is performed against the change log.
@@ -152,20 +152,6 @@ export declare class _List extends _SPInstance<IListInfo> {
 export interface IList extends _List, IDeleteableWithETag {
 }
 export declare const List: import("../spqueryable.js").ISPInvokableFactory<IList>;
-/**
- * Represents the output of the add method
- */
-export interface IListAddResult {
-    list: IList;
-    data: IListInfo;
-}
-/**
- * Represents the output of the update method
- */
-export interface IListUpdateResult {
-    list: IList;
-    data: IListInfo;
-}
 /**
  * Represents the output of the ensure method
  */

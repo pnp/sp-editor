@@ -1,1 +1,1 @@
-export * from '../node_modules/@pnp/core'
+export * from '@pnp/core'

@@ -1,6 +1,6 @@
 import { _SPInstance } from "@pnp/sp";
-import { IRenderListDataParameters } from "@pnp/sp/lists/index.js";
-import { IHubSiteInfo } from "@pnp/sp/hubsites/index.js";
+import { IRenderListDataParameters } from "@pnp/sp/lists";
+import { IHubSiteInfo } from "@pnp/sp/hubsites";
 import { IHomeSitesDetails, IPortalHealthStatus, IPowerAppsEnvironment, ISiteAdministratorsFieldsData, ISiteAdminsInfo, ISiteCreationProps, ISitePropertiesEnumerableFilter, ISiteUserGroupsData, ISPHubSiteCreationInfo, ISPOOperation, ISPOSiteCreationSource, ISPOWebTemplatesInfo, ITenantInfo, ITenantSitePropertiesInfo, IUpdateGroupSiteProperties, SPOHubSiteUserRights } from "./types.js";
 declare class _Tenant extends _SPInstance<ITenantInfo> {
     /**

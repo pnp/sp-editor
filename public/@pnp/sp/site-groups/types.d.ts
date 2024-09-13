@@ -12,7 +12,7 @@ export declare class _SiteGroups extends _SPCollection<ISiteGroupInfo[]> {
      *
      * @param properties The group properties object of property names and values to be set for the group
      */
-    add(properties: Partial<ISiteGroupInfo>): Promise<IGroupAddResult>;
+    add(properties: Partial<ISiteGroupInfo>): Promise<ISiteGroupInfo>;
     /**
      * Gets a group from the collection by name
      *
@@ -44,7 +44,7 @@ export declare class _SiteGroup extends _SPInstance<ISiteGroupInfo> {
     /**
     * @param props Group properties to update
     */
-    update(props: Partial<ISiteGroupInfo>): Promise<IGroupUpdateResult>;
+    update(props: Partial<ISiteGroupInfo>): Promise<ISiteGroupInfo>;
     /**
      * Set the owner of a group using a user id
      * @param userId the id of the user that will be set as the owner of the current group
@@ -54,22 +54,6 @@ export declare class _SiteGroup extends _SPInstance<ISiteGroupInfo> {
 export interface ISiteGroup extends _SiteGroup {
 }
 export declare const SiteGroup: import("../spqueryable.js").ISPInvokableFactory<ISiteGroup>;
-/**
- * Result from updating a group
- *
- */
-export interface IGroupUpdateResult {
-    group: ISiteGroup;
-    data: any;
-}
-/**
- * Results from adding a group
- *
- */
-export interface IGroupAddResult {
-    group: ISiteGroup;
-    data: any;
-}
 export interface ISiteGroupInfo {
     AllowMembersEditMembership: boolean;
     AllowRequestToJoinLeave: boolean;

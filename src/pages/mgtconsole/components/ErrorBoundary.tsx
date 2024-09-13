@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import { Timer } from './Timer'
 
-export class ErrorBoundary extends Component {
+// Step 1: Define Props Interface
+interface ErrorBoundaryProps {
+  children: React.ReactNode; // This type is suitable for any valid React child
+}
+
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, any> {
   state = {
     errorMessage: '',
     errorTime: new Date(),

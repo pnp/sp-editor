@@ -1,7 +1,7 @@
 {
   "name": "SP Editor",
   "homepage_url": "https://microsoftedge.microsoft.com/addons/detail/affnnhcbfmcbbdlcadgkdbfafigmjdkk",
-  "version": "6.6.8",
+  "version": "7.0.0",
   "description": "Create and update SharePoint Online/SP2013/SP2016/SP2019 css/js files, inject files to web, manage web/list properties, list Webhook",
   "manifest_version": 3,
   "devtools_page": "devtools.html",
@@ -14,20 +14,9 @@
       "16": "icons/icon16.png",
       "32": "icons/icon32.png"
     },
-    "default_popup": "build/index2.html#/popup",
+    "default_popup": "index.html#/popup",
     "default_title": "SP Editor"
   },
-  "content_scripts": [
-    {
-      "js": [
-        "chrome/content.js"
-      ],
-      "run_at": "document_idle",
-      "matches": [
-        "<all_urls>"
-      ]
-    }
-  ],
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

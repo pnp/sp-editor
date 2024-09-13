@@ -1,10 +1,9 @@
 import { IInvokable, Queryable } from "@pnp/queryable";
-import { IPagedResult } from "./behaviors/paged.js";
-export declare type GraphInit = string | IGraphQueryable | [IGraphQueryable, string];
-export interface IGraphQueryableConstructor<T> {
+export type GraphInit = string | IGraphQueryable | [IGraphQueryable, string];
+export interface IGraphConstructor<T> {
     new (base: GraphInit, path?: string): T;
 }
-export declare type IGraphInvokableFactory<R extends IGraphQueryable> = (base: GraphInit, path?: string) => R & IInvokable;
+export type IGraphInvokableFactory<R extends IGraphQueryable> = (base: GraphInit, path?: string) => R & IInvokable;
 export declare const graphInvokableFactory: <R extends IGraphQueryable<any>>(f: any) => IGraphInvokableFactory<R>;
 /**
  * Queryable Base Class
@@ -37,7 +36,7 @@ export declare class _GraphQueryable<GetType = any> extends Queryable<GetType> {
      *
      * @param factory The contructor for the class to create
      */
-    protected getParent<T extends _GraphQueryable>(factory: IGraphQueryableConstructor<T>, base?: GraphInit, path?: string): T;
+    protected getParent<T extends _GraphQueryable>(factory: IGraphConstructor<T>, base?: GraphInit, path?: string): T;
 }
 export interface IGraphQueryable<GetType = any> extends _GraphQueryable<GetType> {
 }
@@ -46,7 +45,7 @@ export declare const GraphQueryable: IGraphInvokableFactory<IGraphQueryable<any>
  * Represents a REST collection which can be filtered, paged, and selected
  *
  */
-export declare class _GraphQueryableCollection<GetType = any[]> extends _GraphQueryable<GetType> {
+export declare class _GraphCollection<GetType = any[]> extends _GraphQueryable<GetType> {
     /**
      *
      * @param filter The string representing the filter query
@@ -81,28 +80,23 @@ export declare class _GraphQueryableCollection<GetType = any[]> extends _GraphQu
      * 	To request second and subsequent pages of Graph data
      */
     skipToken(token: string): this;
-    /**
-     * 	Retrieves the total count of matching resources
-     *  If the resource doesn't support count, this value will always be zero
-     */
-    count(): Promise<number>;
-    /**
-     * Allows reading through a collection as pages of information whose size is determined by top or the api method's default
-     *
-     * @returns an object containing results, the ability to determine if there are more results, and request the next page of results
-     */
-    paged(): Promise<IPagedResult>;
+    [Symbol.asyncIterator](): AsyncIterator<GetType, any, undefined>;
 }
-export interface IGraphQueryableCollection<GetType = any[]> extends _GraphQueryableCollection<GetType> {
+export interface IGraphCollection<GetType = any[]> extends _GraphCollection<GetType> {
 }
-export declare const GraphQueryableCollection: IGraphInvokableFactory<IGraphQueryableCollection<any[]>>;
+export declare const GraphCollection: IGraphInvokableFactory<IGraphCollection<any[]>>;
 /**
  * Represents an instance that can be selected
  *
  */
-export declare class _GraphQueryableInstance<GetType = any> extends _GraphQueryable<GetType> {
+export declare class _GraphInstance<GetType = any> extends _GraphQueryable<GetType> {
 }
-export interface IGraphQueryableInstance<GetType = any> extends IInvokable, IGraphQueryable<GetType> {
+export interface IGraphInstance<GetType = any> extends IInvokable, IGraphQueryable<GetType> {
 }
-export declare const GraphQueryableInstance: IGraphInvokableFactory<IGraphQueryableInstance<any>>;
+export declare const GraphInstance: IGraphInvokableFactory<IGraphInstance<any>>;
+export declare const graphGet: <T = any>(o: IGraphQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const graphPost: <T = any>(o: IGraphQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const graphDelete: <T = any>(o: IGraphQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const graphPatch: <T = any>(o: IGraphQueryable<any>, init?: RequestInit) => Promise<T>;
+export declare const graphPut: <T = any>(o: IGraphQueryable<any>, init?: RequestInit) => Promise<T>;
 //# sourceMappingURL=graphqueryable.d.ts.map

@@ -21,6 +21,7 @@ export declare const schemas: {
             users: string;
             usersQuery: string;
             userFilters: string;
+            cardState: string;
         };
         version: number;
     };

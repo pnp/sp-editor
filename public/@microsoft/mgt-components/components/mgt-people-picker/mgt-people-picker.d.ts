@@ -8,18 +8,19 @@ import { TemplateResult } from 'lit';
 import { GroupType } from '../../graph/graph.groups';
 import { PersonType, UserType } from '../../graph/graph.people';
 import { IDynamicPerson } from '../../graph/types';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
-import '../sub-components/mgt-spinner/mgt-spinner';
 import { MgtFlyout } from '../sub-components/mgt-flyout/mgt-flyout';
+import { type PersonCardInteraction } from './../PersonCardInteraction';
 export { GroupType } from '../../graph/graph.groups';
 export { PersonType, UserType } from '../../graph/graph.people';
+export declare const registerMgtPeoplePickerComponent: () => void;
 /**
  * Web component used to search for people from the Microsoft Graph
  *
  * @export
  * @class MgtPicker
- * @extends {MgtTemplatedComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @fires {CustomEvent<IDynamicPerson[]>} selectionChanged - Fired when set of selected people changes
  *
@@ -41,8 +42,11 @@ export { PersonType, UserType } from '../../graph/graph.people';
  * @cssprop --people-picker-input-placeholder-text-color - {Color} the placeholder text color.
  * @cssprop --people-picker-search-icon-color - {Color} the search icon color
  * @cssprop --people-picker-remove-selected-close-icon-color - {Color} the remove selected person close icon color.
+ * @cssprop --people-picker-result-person-avatar-size - {Length} the avatar size of the person in the result. Default is 40px.
+ * @cssprop --people-picker-selected-person-avatar-size - {Length} the avatar size of the selected person. Default is 24px.
+ * @cssprop --people-picker-font-size - {Length} the font size of the text in the people picker input. Default is 14px.
  */
-export declare class MgtPeoplePicker extends MgtTemplatedComponent {
+export declare class MgtPeoplePicker extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
@@ -87,60 +91,55 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      *
      * @type {string}
      */
-    get groupId(): string;
-    set groupId(value: string);
+    groupId: string;
     /**
      * array of groups for search to be filtered by.
      *
      * @type {string[]}
      */
-    get groupIds(): string[];
-    set groupIds(value: string[]);
+    groupIds: string[];
     /**
-     * value determining if search is filtered to a group.
+     * Value determining if search is filtered to a group.
+     * Valid options are 'any', 'person', 'group'
      *
      * @type {PersonType}
      */
-    get type(): PersonType;
-    set type(value: PersonType);
+    type: PersonType;
     /**
-     * type of group to search for - requires personType to be
-     * set to "Group" or "All"
+     * Type of groups to search for - requires personType to be set to "Group" or "All"
+     * Valid values are 'any', 'unified', 'security', 'mailenabledsecurity', 'distribution'
+     * Default is ['any'].
      *
      * @type {GroupType}
      */
-    get groupType(): GroupType;
-    set groupType(value: GroupType);
+    groupType: GroupType[];
     /**
-     * The type of user to search for. Default is any.
+     * The type of user to search for.
+     * Valid options are 'any', 'user', 'contact'
+     * Default is any.
      *
-     * @readonly
      * @type {UserType}
      * @memberof MgtPeoplePicker
      */
-    get userType(): UserType;
-    set userType(value: UserType);
+    userType: UserType;
     /**
      * whether the return should contain a flat list of all nested members
      *
      * @type {boolean}
      */
-    get transitiveSearch(): boolean;
-    set transitiveSearch(value: boolean);
+    transitiveSearch: boolean;
     /**
      * containing object of IDynamicPerson.
      *
      * @type {IDynamicPerson[]}
      */
-    get people(): IDynamicPerson[];
-    set people(value: IDynamicPerson[]);
+    people: IDynamicPerson[] | null;
     /**
      * determining how many people to show in list.
      *
      * @type {number}
      */
-    get showMax(): number;
-    set showMax(value: number);
+    showMax: number;
     /**
      * Sets whether the person image should be fetched
      * from the Microsoft Graph
@@ -149,6 +148,15 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPerson
      */
     disableImages: boolean;
+    showPresence: boolean;
+    /**
+     * Sets how the person-card is invoked
+     * Set to PersonCardInteraction.none to not show the card
+     *
+     * @type {PersonCardInteraction}
+     * @memberof MgtPerson
+     */
+    personCardInteraction: PersonCardInteraction;
     /**
      * array of user picked people.
      *
@@ -162,16 +170,14 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @type {string[]}
      * @memberof MgtPeoplePicker
      */
-    get defaultSelectedUserIds(): string[];
-    set defaultSelectedUserIds(value: string[]);
+    defaultSelectedUserIds: string[];
     /**
      * array of groups to be selected upon initialization
      *
      * @type {string[]}
      * @memberof MgtPeoplePicker
      */
-    get defaultSelectedGroupIds(): string[];
-    set defaultSelectedGroupIds(value: string[]);
+    defaultSelectedGroupIds: string[];
     /**
      * Placeholder text.
      *
@@ -206,28 +212,31 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @type {string[]}
      * @memberof MgtPeoplePicker
      */
-    get userIds(): string[];
-    set userIds(value: string[]);
+    userIds: string[];
     /**
      * Filters that can be set on the user properties query.
      */
-    get userFilters(): string;
-    set userFilters(value: string);
+    userFilters: string;
     /**
      * Filters that can be set on the people query properties.
      */
-    get peopleFilters(): string;
-    set peopleFilters(value: string);
+    peopleFilters: string;
     /**
      * Filters that can be set on the group query properties.
      */
-    get groupFilters(): string;
-    set groupFilters(value: string);
+    groupFilters: string;
     /**
      * Label that can be set on the people picker input to provide context to
      * assistive technologies
      */
     ariaLabel: string;
+    /**
+     * Sets whether the people suggestions should apper on the suggestion list
+     *
+     * @type {boolean}
+     * @memberof MgtPerson
+     */
+    disableSuggestions: boolean;
     /**
      * Get the scopes required for people picker
      *
@@ -244,22 +253,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPeoplePicker
      */
     protected userInput: string;
-    private _showLoading;
-    private _userIds;
-    private _groupId;
-    private _groupIds;
-    private _type;
-    private _groupType;
-    private _userType;
-    private _userFilters;
-    private _groupFilters;
-    private _peopleFilters;
-    private _defaultSelectedGroupIds;
-    private _defaultSelectedUserIds;
     private _selectedPeople;
-    private _showMax;
-    private _people;
-    private _transitiveSearch;
     private defaultPeople;
     private _arrowSelectionCount;
     private _groupPeople;
@@ -281,6 +275,18 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      */
     private _foundPeople;
     constructor();
+    /**
+     * Disable the inner input of the fluent-text-field.
+     */
+    private disableTextInput;
+    /**
+     * Enable the inner input of the fluent-text-field.
+     */
+    private enableTextInput;
+    /**
+     * Clears the disabled property on the people picker when used in single mode.
+     */
+    private readonly handleSelectionChanged;
     private get hasMaxSelections();
     /**
      * Focuses the input element when focus is called
@@ -313,6 +319,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPeoplePicker
      */
     render(): TemplateResult;
+    protected args(): unknown[];
     /**
      * Clears state of the component
      *
@@ -320,14 +327,6 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @memberof MgtPeoplePicker
      */
     protected clearState(): void;
-    /**
-     * Request to reload the state.
-     * Use reload instead of load to ensure loading events are fired.
-     *
-     * @protected
-     * @memberof MgtBaseComponent
-     */
-    protected requestStateUpdate(force?: boolean): Promise<unknown>;
     /**
      * Render the input text box.
      *
@@ -367,7 +366,7 @@ export declare class MgtPeoplePicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtPeoplePicker
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoading: () => TemplateResult;
     /**
      * Render the state when no results are found for the search query.
      *

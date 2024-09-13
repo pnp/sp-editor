@@ -7,52 +7,33 @@
 import { IGraph } from '@microsoft/mgt-element';
 import { Contact, Person } from '@microsoft/microsoft-graph-types';
 import { IDynamicPerson } from './types';
+declare const personTypes: readonly ["any", "person", "group"];
 /**
  * Person Type enum
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
-export declare enum PersonType {
-    /**
-     * Any type
-     */
-    any = 0,
-    /**
-     * A Person such as User or Contact
-     */
-    person = "person",
-    /**
-     * A group
-     */
-    group = "group"
-}
+export type PersonType = (typeof personTypes)[number];
+export declare const isPersonType: (value: unknown) => value is "any" | "person" | "group";
+export declare const personTypeConverter: (value: string, defaultValue?: PersonType) => PersonType;
+declare const userTypes: readonly ["any", "user", "contact"];
 /**
  * User Type enum
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
-export declare enum UserType {
-    /**
-     * Any user or contact
-     */
-    any = "any",
-    /**
-     * An organization User
-     */
-    user = "user",
-    /**
-     * An implicit or personal contact
-     */
-    contact = "contact"
-}
+export type UserType = (typeof userTypes)[number];
+export declare const isUserType: (value: unknown) => value is "any" | "user" | "contact";
+export declare const userTypeConverter: (value: string, defaultValue?: UserType) => UserType;
 /**
  * async promise, returns all Graph people who are most relevant contacts to the signed in user.
  *
+ * @param {IGraph} graph
  * @param {string} query
  * @param {number} [top=10] - number of people to return
- * @param {PersonType} [personType=PersonType.person] - the type of person to search for
+ * @param {UserType} [personType='any'] - the type of person to search for
  * @returns {(Promise<Person[]>)}
  */
 export declare const findPeople: (graph: IGraph, query: string, top?: number, userType?: UserType, filters?: string) => Promise<Person[]>;
@@ -81,9 +62,15 @@ export declare const findContactsByEmail: (graph: IGraph, email: string) => Prom
  * async promise, returns Graph people matching the Graph query specified
  * in the resource param
  *
- * @param {string} resource
+ * @param {IGraph} graph - the graph instance to use for making requests
+ * @param {string} version - the graph version url segment to use when making requests
+ * @param {string} resource - the resource segment of the graph url to be requested
+ * @param {string[]} scopes - an array of scopes that are required to make the underlying graph request,
+ *  if any scope provided is not currently consented then the user will be prompted for consent prior to
+ *  making the graph request to load data.
  * @returns {(Promise<Person[]>)}
  * @memberof Graph
  */
 export declare const getPeopleFromResource: (graph: IGraph, version: string, resource: string, scopes: string[]) => Promise<Person[]>;
+export {};
 //# sourceMappingURL=graph.people.d.ts.map

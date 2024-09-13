@@ -1,10 +1,10 @@
-import { _GraphQueryableInstance, _GraphQueryableCollection } from "../graphqueryable.js";
+import { _GraphInstance, _GraphCollection } from "../graphqueryable.js";
 import { IUpdateable, IGetById, IDeleteable } from "../decorators.js";
 import { Team as ITeamType, TeamsAsyncOperation as ITeamsAsyncOperation, TeamsTab as ITeamsTabType, TeamsAppInstallation as ITeamsAppInstallation, ChatMessage as IChatMessage } from "@microsoft/microsoft-graph-types";
 /**
  * Represents a Microsoft Team
  */
-export declare class _Team extends _GraphQueryableInstance<ITeamType> {
+export declare class _Team extends _GraphInstance<ITeamType> {
     get primaryChannel(): IChannel;
     get channels(): IChannels;
     get installedApps(): IInstalledApps;
@@ -34,7 +34,7 @@ export declare const Team: import("../graphqueryable.js").IGraphInvokableFactory
 /**
  * Teams
  */
-export declare class _Teams extends _GraphQueryableCollection<ITeamType[]> {
+export declare class _Teams extends _GraphCollection<ITeamType[]> {
     create(team: ITeamType): Promise<ITeamCreateResultAsync>;
 }
 export interface ITeams extends _Teams, IGetById<ITeam> {
@@ -43,7 +43,7 @@ export declare const Teams: import("../graphqueryable.js").IGraphInvokableFactor
 /**
  * Channel
  */
-export declare class _Channel extends _GraphQueryableInstance<IChannel> {
+export declare class _Channel extends _GraphInstance<IChannel> {
     get tabs(): ITabs;
     get messages(): IMessages;
 }
@@ -53,7 +53,7 @@ export declare const Channel: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Channels
  */
-export declare class _Channels extends _GraphQueryableCollection<IChannel[]> {
+export declare class _Channels extends _GraphCollection<IChannel[]> {
     /**
      * Creates a new Channel in the Team
      * @param displayName The display name of the new channel
@@ -68,7 +68,7 @@ export declare const Channels: import("../graphqueryable.js").IGraphInvokableFac
 /**
  * Message
  */
-export declare class _Message extends _GraphQueryableInstance<IChatMessage> {
+export declare class _Message extends _GraphInstance<IChatMessage> {
 }
 export interface IMessage extends _Message {
 }
@@ -76,7 +76,7 @@ export declare const Message: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Messages
  */
-export declare class _Messages extends _GraphQueryableCollection<IChatMessage[]> {
+export declare class _Messages extends _GraphCollection<IChatMessage[]> {
     /**
      * Adds a message
      * @param message ChatMessage object that defines the message
@@ -90,7 +90,7 @@ export declare const Messages: import("../graphqueryable.js").IGraphInvokableFac
 /**
  * Tab
  */
-export declare class _Tab extends _GraphQueryableInstance {
+export declare class _Tab extends _GraphInstance {
 }
 export interface ITab extends _Tab, IUpdateable, IDeleteable {
 }
@@ -98,7 +98,7 @@ export declare const Tab: import("../graphqueryable.js").IGraphInvokableFactory<
 /**
  * Tabs
  */
-export declare class _Tabs extends _GraphQueryableCollection {
+export declare class _Tabs extends _GraphCollection {
     /**
      * Adds a tab to the channel
      * @param name The name of the new Tab
@@ -141,7 +141,7 @@ export interface ITeamCreateResult {
 /**
  * InstalledApp
  */
-export declare class _InstalledApp extends _GraphQueryableInstance<ITeamsAppInstallation> {
+export declare class _InstalledApp extends _GraphInstance<ITeamsAppInstallation> {
     upgrade(): Promise<void>;
 }
 export interface IInstalledApp extends _InstalledApp, IDeleteable {
@@ -150,7 +150,7 @@ export declare const InstalledApp: import("../graphqueryable.js").IGraphInvokabl
 /**
  * InstalledApps
  */
-export declare class _InstalledApps extends _GraphQueryableCollection<ITeamsAppInstallation[]> {
+export declare class _InstalledApps extends _GraphCollection<ITeamsAppInstallation[]> {
     /**
      * Adds an installed app to the collection
      * @param teamsAppId The id of the app to add.

@@ -1,10 +1,10 @@
 import { ColumnDefinition as IColumnDefinition } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableCollection, _GraphQueryableInstance } from "../graphqueryable.js";
+import { _GraphCollection, _GraphInstance } from "../graphqueryable.js";
 import { IDeleteable, IGetById, IUpdateable } from "../decorators.js";
 /**
  * Represents a columns entity
  */
-export declare class _Column extends _GraphQueryableInstance<IColumnDefinition> {
+export declare class _Column extends _GraphInstance<IColumnDefinition> {
 }
 export interface IColumn extends _Column, IDeleteable, IUpdateable<IColumnDefinition> {
 }
@@ -12,7 +12,7 @@ export declare const Column: import("../graphqueryable.js").IGraphInvokableFacto
 /**
  * Describes a collection of column objects
  */
-export declare class _Columns extends _GraphQueryableCollection<IColumnDefinition[]> {
+export declare class _Columns extends _GraphCollection<IColumnDefinition[]> {
 }
 export interface IColumns extends _Columns, IGetById<IColumn> {
 }

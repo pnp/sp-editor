@@ -14,10 +14,13 @@ export declare const strings: {
     cancelNewTaskSubtitle: string;
     newTaskPlaceholder: string;
     newTaskLabel: string;
+    editTaskLabel: string;
     addTaskButtonSubtitle: string;
-    deleteTaskLabel: string;
+    deleteTaskOption: string;
+    editTaskOption: string;
     dueDate: string;
     newTaskDateInputLabel: string;
+    changeTaskDateInputLabel: string;
     newTaskNameInputLabel: string;
     cancelAddingTask: string;
 };

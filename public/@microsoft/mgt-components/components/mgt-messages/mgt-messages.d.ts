@@ -7,6 +7,7 @@
 import { Message } from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
 import { BasePersonCardSection } from '../BasePersonCardSection';
+export declare const registerMgtMessagesComponent: () => void;
 /**
  * The email messages subsection of the person card
  *

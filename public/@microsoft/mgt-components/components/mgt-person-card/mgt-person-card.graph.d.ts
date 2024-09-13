@@ -7,7 +7,8 @@
 import { IGraph } from '@microsoft/mgt-element';
 import { Chat, ChatMessage } from '@microsoft/microsoft-graph-types';
 import { IDynamicPerson } from '../../graph/types';
-import { MgtPersonCardConfig, MgtPersonCardState } from './mgt-person-card.types';
+import { MgtPersonCardState } from './mgt-person-card.types';
+export declare const getCardStateInvalidationTime: () => number;
 /**
  * Get data to populate the person card
  *
@@ -18,7 +19,7 @@ import { MgtPersonCardConfig, MgtPersonCardState } from './mgt-person-card.types
  * @param {MgtPersonCardConfig} config
  * @return {*}  {Promise<MgtPersonCardState>}
  */
-export declare const getPersonCardGraphData: (graph: IGraph, personDetails: IDynamicPerson, isMe: boolean, config: MgtPersonCardConfig) => Promise<MgtPersonCardState>;
+export declare const getPersonCardGraphData: (graph: IGraph, personDetails: IDynamicPerson, isMe: boolean) => Promise<MgtPersonCardState>;
 /**
  * Initiate a chat to a user
  *

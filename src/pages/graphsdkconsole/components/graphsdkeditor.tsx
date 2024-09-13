@@ -23,6 +23,7 @@ import * as rootActions from '../../../store/home/actions'
 import { loginRequest } from '../../..'
 import { setScopes, setUser } from '../../../store/graphsdkconsole/actions'
 import { GraphClient } from '../../../services/graph-client/graph-client'
+import { SPEditorUser } from '../../../store/graphsdkconsole/types'
 
 const GraphSDKEditor = () => {
   const dispatch = useDispatch()
@@ -279,7 +280,7 @@ const GraphSDKEditor = () => {
             } catch (e) {
             }
 
-            var payload = {
+            var payload: SPEditorUser = {
               Name: user.names[0].displayName,
               Initials: '',
               TenantName: org.value[0].displayName,

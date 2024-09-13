@@ -8,7 +8,7 @@ import { AuthenticationProvider, AuthenticationProviderOptions } from '@microsof
 import { GraphEndpoint, IGraph } from '../IGraph';
 import { EventHandler } from '../utils/EventDispatcher';
 /**
- * Provider Type to be extended for implmenting new providers
+ * Provider Type to be extended for implementing new providers
  *
  * @export
  * @abstract
@@ -43,6 +43,18 @@ export declare abstract class IProvider implements AuthenticationProvider {
     private readonly _loginChangedDispatcher;
     private readonly _activeAccountChangedDispatcher;
     private _baseURL;
+    private _approvedScopes;
+    get approvedScopes(): string[];
+    set approvedScopes(value: string[]);
+    hasAtLeastOneApprovedScope(requiredScopeSet: string[]): boolean;
+    hasAllOneApprovedScope(requiredScopeSet: string[]): boolean;
+    /**
+     * Examines the currently consented scopes for any match in the requiredScopeSet to determine what, if any, scopes need to be consented to
+     *
+     * @param {string[]} requiredScopeSet an array of scopes to be checked
+     * @returns {string[]} if any matches in requiredScopeSet exist then an empty array is returns, otherwise an array containing the first element in the requiredScopeSet is returned
+     */
+    needsAdditionalScopes(requiredScopeSet: string[]): string[];
     /**
      * The base URL to be used in the graph client config.
      */

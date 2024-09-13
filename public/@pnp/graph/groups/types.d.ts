@@ -65,16 +65,9 @@ export declare class _Groups extends _DirectoryObjects<IGroupType[]> {
      * @param groupType Type of group being created
      * @param additionalProperties A plain object collection of additional properties you want to set on the new group
      */
-    add(name: string, mailNickname: string, groupType: GroupType, additionalProperties?: Record<string, any>): Promise<IGroupAddResult>;
+    add(name: string, mailNickname: string, groupType: GroupType, additionalProperties?: Record<string, any>): Promise<IGroupType>;
 }
 export interface IGroups extends _Groups, IGetById<IGroup> {
 }
 export declare const Groups: import("../graphqueryable.js").IGraphInvokableFactory<IGroups>;
-/**
- * IGroupAddResult
- */
-export interface IGroupAddResult {
-    group: IGroup;
-    data: any;
-}
 //# sourceMappingURL=types.d.ts.map

@@ -13,9 +13,9 @@ export const shoot = (payload: any, extPath: string) => {
 
     /*** custom httpHandler ***/
     const rawFetchHandler = () => {
-      return instance => {
-        instance.using(pnpsp.DefaultHeaders(), pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
-        instance.on.pre.prepend((url, init, result) => {
+      return (instance: Queryable.Queryable) => {
+        instance.using(pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
+        instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('###') > -1) {
             return [url.substring(url.indexOf("###") + 3), init, result];
           }
@@ -26,9 +26,7 @@ export const shoot = (payload: any, extPath: string) => {
     }
 
     /***  init pnpjs ***/
-    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({
-      baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl
-    })).using(rawFetchHandler()).using(pnpqueryable.InjectHeaders({
+    const sp = pnpsp.spfi().using(rawFetchHandler()).using(pnpqueryable.InjectHeaders({
       "Accept": "application/json; odata=verbose",
       "Cache-Control": "no-cache",
       "X-ClientService-ClientTag": "SPEDITOR"
@@ -39,7 +37,7 @@ export const shoot = (payload: any, extPath: string) => {
 
     /*** setup log listener ***/
     const listener = pnplogging.FunctionListener(entry => {
-      entry.data.response.clone().json().then(error => {
+      entry.data.response.clone().json().then((error: any) => {
         return {
           success: false,
           result: null,
@@ -62,9 +60,18 @@ export const shoot = (payload: any, extPath: string) => {
       }
     }
 
+    const headers = JSON.parse(payload.headers);
+
+    // Capitalize the first letter of each header key
+    const capitalizedHeaders = Object.keys(headers).reduce((acc, key) => {
+      const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+      acc[capitalizedKey] = headers[key];
+      return acc;
+    }, {} as { [key: string]: string });
+
     /*** execute request, add ### to trigger custom httpHandler ***/
     return pnpsp.spPost(pnpsp.Web(sp.web, "###" + payload.path), {
-      headers: JSON.parse(payload.headers),
+      headers: capitalizedHeaders,
       method: payload.method,
       body: payload.method === 'GET' ? null : payload.body
     }).then(json => {
@@ -87,7 +94,7 @@ export const shoot = (payload: any, extPath: string) => {
       var errorMessage = error.message;
       if (error !== null && error !== void 0 && error.isHttpRequestError) {
         // we can read the json from the response
-        error.response.json().then(json => {
+        error.response.json().then((json: any) => {
           // if we have a value property we can show it
           errorMessage = typeof json["odata.error"] === "object" ? json["odata.error"].message.value : error.message;
         });
@@ -117,8 +124,17 @@ export const shoot = (payload: any, extPath: string) => {
         Promise.all<libTypes>([
           (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
           (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
-          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js')]).then((modules) => {
-            resolve(modules);
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js')])
+          .then((modules) => {
+            // if we are in a modern page we need to get the _spPageContextInfo from the module loader
+            if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+              (window as any).moduleLoaderPromise.then((e: any) => {
+                (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+                resolve(modules);
+              });
+            } else {
+              resolve(modules);
+            }
           });
     });
   }

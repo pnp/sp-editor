@@ -4,88 +4,17 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 import { TemplateResult } from 'lit';
-import { MgtTemplatedComponent } from '@microsoft/mgt-element';
+import { MgtTemplatedTaskComponent } from '@microsoft/mgt-element';
 import '../../styles/style-helper';
-import '../sub-components/mgt-spinner/mgt-spinner';
-/**
- * Team with displayName
- *
- * @export
- * @interface SelectedChannel
- */
-export type Team = MicrosoftGraph.Team & {
-    /**
-     * Display name Of Team
-     *
-     * @type {string}
-     */
-    displayName?: string;
-};
-/**
- * Selected Channel item
- *
- * @export
- * @interface SelectedChannel
- */
-export interface SelectedChannel {
-    /**
-     * Channel
-     *
-     * @type {MicrosoftGraph.Channel}
-     * @memberof SelectedChannel
-     */
-    channel: MicrosoftGraph.Channel;
-    /**
-     * Team
-     *
-     * @type {MicrosoftGraph.Team}
-     * @memberof SelectedChannel
-     */
-    team: Team;
-}
-/**
- * Drop down menu item state
- *
- * @interface DropdownItemState
- */
-interface ChannelPickerItemState {
-    /**
-     * Microsoft Graph Channel or Team
-     *
-     * @type {(MicrosoftGraph.Channel | MicrosoftGraph.Team)}
-     * @memberof ChannelPickerItemState
-     */
-    item: MicrosoftGraph.Channel | Team;
-    /**
-     * if dropdown item shows expanded state
-     *
-     * @type {boolean}
-     * @memberof DropdownItemState
-     */
-    isExpanded?: boolean;
-    /**
-     * If item contains channels
-     *
-     * @type {ChannelPickerItemState[]}
-     * @memberof DropdownItemState
-     */
-    channels?: ChannelPickerItemState[];
-    /**
-     * if Item has parent item (team)
-     *
-     * @type {ChannelPickerItemState}
-     * @memberof DropdownItemState
-     */
-    parent: ChannelPickerItemState;
-}
+import { SelectedChannel, ChannelPickerItemState } from './teams-channel-picker-types';
+export declare const registerMgtTeamsChannelPickerComponent: () => void;
 /**
  * Web component used to select channels from a User's Microsoft Teams profile
  *
  *
  * @class MgtTeamsChannelPicker
- * @extends {MgtTemplatedComponent}
+ * @extends {MgtTemplatedTaskComponent}
  *
  * @fires {CustomEvent<SelectedChannel | null>} selectionChanged - Fired when the selection changes
  *
@@ -110,7 +39,7 @@ interface ChannelPickerItemState {
  * @cssprop --channel-picker-close-icon-color - {Color} the close icon color.
  *
  */
-export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
+export declare class MgtTeamsChannelPicker extends MgtTemplatedTaskComponent {
     /**
      * Array of styles to apply to the element. The styles should be defined
      * user the `css` tag function.
@@ -130,6 +59,8 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
         photoFor: string;
         teamsChannels: string;
         closeButtonAriaLabel: string;
+        downChevronButtonAriaLabel: string;
+        upChevronButtonAriaLabel: string;
     };
     private teamsPhotos;
     /**
@@ -172,6 +103,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @memberof MgtTeamsChannelPicker
      */
     disconnectedCallback(): void;
+    protected args(): unknown[];
     /**
      * selects a channel by looking up the id in the Graph
      *
@@ -188,13 +120,19 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      */
     private markSelectedChannelInDropdown;
     /**
-     * Invoked on each update to perform rendering tasks. This method must return a lit-html TemplateResult.
-     * Setting properties inside this method will not trigger the element to update.
+     * Called from the base class while the _task is in a pending state
+     * This calls to the renderContent method as the loading indicator is nested inside the dropdown
+     * This ensures that the component shows a control immediately and only shows a loading indicator
+     * if the user interacts with the component while the _task is pending.
+     */
+    protected renderLoading: () => TemplateResult;
+    /**
+     * Invoked by the render method when the _task has been completed
      *
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    render(): TemplateResult;
+    renderContent: () => TemplateResult;
     /**
      * Handles clicks on the input section.
      *
@@ -300,7 +238,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderError(): TemplateResult;
+    protected renderError: () => TemplateResult;
     /**
      * Renders loading spinner while channels are fetched from the Graph
      *
@@ -308,7 +246,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @returns
      * @memberof MgtTeamsChannelPicker
      */
-    protected renderLoading(): TemplateResult;
+    protected renderLoadingIndicator: () => TemplateResult;
     /**
      * Queries Microsoft Graph for Teams & respective channels then sets to items list
      *
@@ -316,6 +254,12 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      * @memberof MgtTeamsChannelPicker
      */
     protected loadState(): Promise<void>;
+    /**
+     * Clears the selectedItem state.
+     *
+     * @memberof MgtTeamsChannelPicker
+     */
+    clearSelectedItem(): void;
     /**
      * Handles operations that are performed on the DOM when you remove a
      * channel. For example on clicking the X button.
@@ -332,7 +276,7 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
     private generateTreeViewState;
     private generateFocusList;
     private resetFocusState;
-    private loadTeamsIfNotLoaded;
+    private readonly loadTeamsIfNotLoaded;
     private readonly handleWindowClick;
     private readonly gainedFocus;
     private readonly lostFocus;
@@ -348,6 +292,8 @@ export declare class MgtTeamsChannelPicker extends MgtTemplatedComponent {
      */
     private toggleChevron;
     handleUpChevronClick: (e: Event) => void;
+    handleChevronKeydown: (e: KeyboardEvent) => void;
+    handleStartSlotKeydown: (e: KeyboardEvent) => void;
+    blurPicker: () => void;
 }
-export {};
 //# sourceMappingURL=mgt-teams-channel-picker.d.ts.map

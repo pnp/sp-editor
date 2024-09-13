@@ -1,10 +1,10 @@
 import { OfficeGraphInsights as IOfficeGraphInsightsType, Trending as ITrendingInsightType, UsedInsight as IUsedInsightType, SharedInsight as ISharedInsightType, Entity as IEntityType } from "@microsoft/microsoft-graph-types";
-import { _GraphQueryableInstance, _GraphQueryableCollection } from "../graphqueryable.js";
+import { _GraphInstance, _GraphCollection } from "../graphqueryable.js";
 import { IGetById } from "../decorators.js";
 /**
  * Represents a insights entity
  */
-export declare class _Insights extends _GraphQueryableInstance<IOfficeGraphInsightsType> {
+export declare class _Insights extends _GraphInstance<IOfficeGraphInsightsType> {
     get trending(): ITrendingInsights;
     get used(): IUsedInsights;
     get shared(): ISharedInsights;
@@ -15,7 +15,7 @@ export declare const Insights: import("../graphqueryable.js").IGraphInvokableFac
 /**
  * Describes a Trending Insight instance
  */
-export declare class _TrendingInsight extends _GraphQueryableInstance<ITrendingInsightType> {
+export declare class _TrendingInsight extends _GraphInstance<ITrendingInsightType> {
     get resource(): IResource;
 }
 export interface ITrendingInsight extends _TrendingInsight {
@@ -25,7 +25,7 @@ export declare const TrendingInsight: import("../graphqueryable.js").IGraphInvok
  * Describes a collection of Trending Insight objects
  *
  */
-export declare class _TrendingInsights extends _GraphQueryableCollection<ITrendingInsightType[]> {
+export declare class _TrendingInsights extends _GraphCollection<ITrendingInsightType[]> {
 }
 export interface ITrendingInsights extends _TrendingInsights, IGetById<ITrendingInsight> {
 }
@@ -33,7 +33,7 @@ export declare const TrendingInsights: import("../graphqueryable.js").IGraphInvo
 /**
  * Describes a Used Insight instance
  */
-export declare class _UsedInsight extends _GraphQueryableInstance<IUsedInsightType> {
+export declare class _UsedInsight extends _GraphInstance<IUsedInsightType> {
     get resource(): IResource;
 }
 export interface IUsedInsight extends _UsedInsight {
@@ -43,7 +43,7 @@ export declare const UsedInsight: import("../graphqueryable.js").IGraphInvokable
  * Describes a collection of Used Insight objects
  *
  */
-export declare class _UsedInsights extends _GraphQueryableCollection<IUsedInsightType[]> {
+export declare class _UsedInsights extends _GraphCollection<IUsedInsightType[]> {
 }
 export interface IUsedInsights extends _UsedInsights, IGetById<IUsedInsight> {
 }
@@ -51,7 +51,7 @@ export declare const UsedInsights: import("../graphqueryable.js").IGraphInvokabl
 /**
  * Describes a Shared Insight instance
  */
-export declare class _SharedInsight extends _GraphQueryableInstance<ISharedInsightType> {
+export declare class _SharedInsight extends _GraphInstance<ISharedInsightType> {
     get resource(): IResource;
 }
 export interface ISharedInsight extends _SharedInsight {
@@ -61,7 +61,7 @@ export declare const SharedInsight: import("../graphqueryable.js").IGraphInvokab
  * Describes a collection of Shared Insight objects
  *
  */
-export declare class _SharedInsights extends _GraphQueryableCollection<ISharedInsightType[]> {
+export declare class _SharedInsights extends _GraphCollection<ISharedInsightType[]> {
 }
 export interface ISharedInsights extends _SharedInsights, IGetById<ISharedInsight> {
 }
@@ -69,7 +69,7 @@ export declare const SharedInsights: import("../graphqueryable.js").IGraphInvoka
 /**
  * Describes a Resource Entity instance
  */
-export declare class _Resource extends _GraphQueryableInstance<IEntityType> {
+export declare class _Resource extends _GraphInstance<IEntityType> {
 }
 export interface IResource extends _Resource {
 }

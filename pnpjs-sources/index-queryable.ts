@@ -1,1 +1,1 @@
-export * from '../node_modules/@pnp/queryable';
+export * from '@pnp/queryable';

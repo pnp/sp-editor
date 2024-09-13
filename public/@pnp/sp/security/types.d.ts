@@ -1,6 +1,6 @@
 import { _SPInstance, _SPCollection, ISPCollection, IDeleteable } from "../spqueryable.js";
 import { ISiteGroups } from "../site-groups/types.js";
-export declare type SecurableQueryable = _SPInstance & ISecurableMethods;
+export type SecurableQueryable = _SPInstance & ISecurableMethods;
 /**
  * Describes a set of role assignments for the current scope
  *
@@ -151,7 +151,7 @@ export interface IRoleDefinitionInfo {
     Order: number;
     RoleTypeKind: RoleTypeKind;
 }
-export declare type RoleTypeKind = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type RoleTypeKind = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export declare enum PermissionKind {
     /**
      * Has no permissions on the Site. Not available through the user interface.

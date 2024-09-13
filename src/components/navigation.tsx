@@ -11,12 +11,15 @@ import {
 import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RouteComponentProps, withRouter } from 'react-router'
+import { useNavigate } from 'react-router-dom';
+
 import { IRootState } from '../store'
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions'
 
-export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
+export const FabricNav = () => {
+  const navigate = useNavigate();
 
+  
   const dispatch = useDispatch()
 
   const navLinks = [
@@ -76,50 +79,50 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       disabled: false,
     },
     {
-      name: 'File Explorer',
+      name: 'File Explorer (working on it...)',
       url: '/FileExplorer',
       key: 'key9',
       disabled: true,
     },
     {
-      name: 'Page editor',
+      name: 'Page editor (working on it...)',
       url: '/pageeditor',
       key: 'key11',
       disabled: true,
     },
     {
-      name: 'File editor',
+      name: 'File editor (working on it...)',
       url: '/fileeditor',
       key: 'key12',
       disabled: true,
     },
     {
-      name: 'Modern properties',
+      name: 'Modern properties (working on it...)',
       url: '/modernproperties',
       key: 'key13',
       disabled: true,
     },
     {
-      name: 'Site designs',
+      name: 'Site designs (working on it...)',
       url: '/sitedesigns',
       key: 'key14',
       disabled: true,
     },
     {
-      name: 'Site scripts',
+      name: 'Site scripts (working on it...)',
       url: '/sitescripts',
       key: 'key15',
       disabled: true,
     },
     {
-      name: 'App catalog',
+      name: 'App catalog (working on it...)',
       url: '/appcatalog',
       key: 'key16',
       disabled: true,
     },
   ]
 
-  const currentLink = navLinks.find(x => x.url === history.location.pathname)
+  const currentLink = navLinks.find(x => x.url === document.location.pathname)
   const [selectedKey, setSelectedKey] = useState(currentLink?.key ?? 'key1')
   const { isDark } = useSelector((state: IRootState) => state.home)
 
@@ -145,10 +148,10 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent class='no-scroll' no-bounce>
+      <IonContent no-bounce>
       <ScrollablePane>
         <Nav
-          selectedKey={selectedKey}
+         selectedKey={selectedKey}
           onLinkClick={(event, element) => {
             if (event && element) {
               const menu = document.querySelector('ion-menu') as any
@@ -156,7 +159,7 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
               event.preventDefault()
               if (element.key && selectedKey !== element.key) {
                 dispatch(setLoading(false))
-                history.push(element.url)
+                navigate(element.url);
                 setSelectedKey(element.key)
               }
             }
@@ -171,4 +174,4 @@ export const FabricNav = withRouter(({ history }: RouteComponentProps) => {
       </IonContent>
     </IonMenu>
   )
-})
+};

@@ -7,7 +7,7 @@ export declare class _Views extends _SPCollection<IViewInfo[]> {
      * @param personalView True if this is a personal view, otherwise false, default = false
      * @param additionalSettings Will be passed as part of the view creation body
      */
-    add(Title: string, PersonalView?: boolean, additionalSettings?: Record<string, any>): Promise<IViewAddResult>;
+    add(Title: string, PersonalView?: boolean, additionalSettings?: Record<string, any>): Promise<IViewInfo>;
     /**
      * Gets a view by guid id
      *
@@ -32,7 +32,7 @@ export declare class _View extends _SPInstance<IViewInfo> {
      *
      * @param properties A plain object hash of values to update for the view
      */
-    update(props: Partial<IViewInfo>): Promise<IViewUpdateResult>;
+    update(props: Partial<IViewInfo>): Promise<IViewInfo>;
     /**
      * Returns the list view as HTML.
      *
@@ -83,14 +83,6 @@ export declare class _ViewFields extends _SPCollection<{
 export interface IViewFields extends _ViewFields {
 }
 export declare const ViewFields: import("../spqueryable.js").ISPInvokableFactory<IViewFields>;
-export interface IViewAddResult {
-    view: IView;
-    data: IViewInfo;
-}
-export interface IViewUpdateResult {
-    view: IView;
-    data: IViewInfo;
-}
 export declare enum ViewScope {
     DefaultValue = 0,
     Recursive = 1,

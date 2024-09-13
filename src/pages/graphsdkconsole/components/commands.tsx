@@ -54,24 +54,28 @@ const GraphSDKCommands = () => {
               const org = await client.api('organization').get()
               const user = await client.api('me/profile').version('beta').get()
   
-              var image: string;
+              let image: string = ''; // Initialize with a default value
               try {
-                const photo = await client.api('me/photo/$value').version('beta').get()
+                const photo = await client.api('me/photo/$value').version('beta').get();
                 const buffer = await photo.arrayBuffer();
                 const blob = new Blob([buffer], { type: 'image/jpeg' });
-                image = URL.createObjectURL(blob)
+                image = URL.createObjectURL(blob);
               } catch (e) {
-              }          
-  
-              var payload = {
-                Name: user.names[0].displayName,
-                Initials: '',
-                TenantName: org.value[0].displayName,
-                TenantId: org.value[0].id,
-                userId: user.account[0].userPrincipalName,
-                imageUrl: image
+                console.error("Failed to load image:", e); // Log the error
               }
-              dispatch(setUser(payload))
+              
+              // Ensure that the objects and properties you're accessing exist to avoid runtime errors
+              const payload = {
+                Name: user.names && user.names[0] ? user.names[0].displayName : '',
+                Initials: '',
+                TenantName: org.value && org.value[0] ? org.value[0].displayName : '',
+                TenantId: org.value && org.value[0] ? org.value[0].id : '',
+                userId: user.account && user.account[0] ? user.account[0].userPrincipalName : '',
+                imageUrl: image
+              };
+              
+              // Assuming dispatch is properly defined and accessible in this context
+              dispatch(setUser(payload));
 
             })();
           }
