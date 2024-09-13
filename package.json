@@ -62,7 +62,8 @@
     "build": "react-scripts build && cd iframe-sandbox-app && BUILD_PATH='../build/build' react-scripts build && cd ..",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cracostart": "GENERATE_SOURCEMAP=false craco start"
+    "cracostart": "GENERATE_SOURCEMAP=false craco start",
+    "updatedeps": "node_modules/.bin/webpack && gulp"
   },
   "eslintConfig": {
     "extends": [
