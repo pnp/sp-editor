@@ -16,3 +16,9 @@ export function setSearchQuery(searchQuery: ISearchQuery) {
     searchQuery,
   });
 }
+
+export function setOptionsPanel(optionsPanel: boolean) {
+  return action(Constants.S_SET_OPTIONSPANEL, {
+    optionsPanel,
+  });
+}

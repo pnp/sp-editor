@@ -27,8 +27,9 @@ import { useRef, useState } from 'react';
 import { setSearchResults } from '../../../store/search/actions';
 
 const SearchResults = () => {
-  const { items, groups, searchResults, searchQuery } = useSelector((state: IRootState) => state.search);
+  const { items, groups, searchResults } = useSelector((state: IRootState) => state.search);
   const dispatch = useDispatch();
+  const { isDark } = useSelector((state: IRootState) => state.home)
 
   const root = useRef<IDetailsList>(null);
 
@@ -64,9 +65,12 @@ const SearchResults = () => {
     return (
       <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={false}>
         {searchResults && (
-          <Text
-            variant={'medium'}
-          >{`Results, ${searchResults.TotalRows} hits in ${searchResults.ElapsedTime}ms. Total rows with dublicates ${searchResults.TotalRowsIncludingDuplicates}`}</Text>
+          <div style={{ width: '100%', height: '100%', backgroundColor: isDark ? 'black' : 'white' 
+          }}>
+            <Text variant={'medium'}>
+              {`Results, ${searchResults.TotalRows} hits in ${searchResults.ElapsedTime}ms. Total rows with duplicates ${searchResults.TotalRowsIncludingDuplicates}`}
+            </Text>
+          </div>
         )}
         {defaultRender(headerProps)}
       </Sticky>
@@ -80,12 +84,6 @@ const SearchResults = () => {
     },
   };
 
-  // Non-mutating styles definition
-  const previewStackStyles: IStackItemStyles = {
-    root: {
-      width: 400,
-    },
-  };
 
   const nonShrinkingStackItemStyles: IStackItemStyles = {
     root: {
@@ -103,8 +101,8 @@ const SearchResults = () => {
   const scrollablePaneStyles: IScrollablePaneStyles = {
     root: {
       marginTop: 50,
-      marginRight: 410,
-      marginLeft: 510,
+      marginRight: 20,
+      marginLeft: 310,
     },
     stickyAbove: undefined,
     stickyBelow: undefined,
@@ -153,8 +151,8 @@ const SearchResults = () => {
                           <Text variant={'large'}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
                           <ActionButton
                             //hidden={props?.group?.isCollapsed}
-                            iconProps={{ iconName: 'OpenInNewTab' }}
-                            text={'open in new tab'}
+                            iconProps={{ iconName: 'OpenInNewTab',  }}
+                            title={'open in new tab'}
                             style={{
                               marginLeft: 'auto',
                               backgroundColor: 'transparent',
@@ -171,7 +169,7 @@ const SearchResults = () => {
                           <ActionButton
                             //hidden={props?.group?.isCollapsed}
                             iconProps={{ iconName: 'AllApps' }}
-                            text={'Load all properties'}
+                            title={'Load all properties'}
                             style={{
                               backgroundColor: 'transparent',
                             }}
@@ -247,10 +245,6 @@ const SearchResults = () => {
             }}
           />
         </ScrollablePane>
-      </Stack.Item>
-      <Stack.Item disableShrink styles={previewStackStyles}>
-        <Text variant={'medium'}>Payload preview</Text>
-        <pre spellCheck="false">{JSON.stringify(searchQuery, null, 2)}</pre>
       </Stack.Item>
     </Stack>
   );

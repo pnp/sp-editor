@@ -2,7 +2,7 @@ import { CommandBar, PrimaryButton } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { runsearch } from '../chrome/runsearch';
-import { setSearchResults } from '../../../store/search/actions';
+import { setOptionsPanel, setSearchResults } from '../../../store/search/actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
 import { currentpageallprops } from '../chrome/currentpageallprops';
@@ -11,7 +11,7 @@ import { reindexweb } from '../chrome/reindexweb';
 const SearchCommands = () => {
   const dispatch = useDispatch();
 
-  const { searchQuery } = useSelector((state: IRootState) => state.search);
+  const { searchQuery, optionsPanel } = useSelector((state: IRootState) => state.search);
 
   const indexWebOnClick = () => {
     dispatch(rootActions.setLoading(true));
@@ -71,6 +71,14 @@ const SearchCommands = () => {
             />
           ),
         },
+        {
+          key: 'Options',
+          text: 'Options',
+          iconProps: { iconName: 'CheckList' },
+          onClick: () => {
+            dispatch(setOptionsPanel(!optionsPanel));
+          },
+        },
       ]}
       farItems={[
         {
@@ -93,7 +101,7 @@ const SearchCommands = () => {
           key: 'IndexWeb',
           text: 'Reindex Current Web',
           iconProps: { iconName: 'SiteScan' },
-          onClick: () => indexWebOnClick()
+          onClick: () => indexWebOnClick(),
         },
       ]}
     />

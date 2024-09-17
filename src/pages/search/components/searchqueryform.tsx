@@ -1,5 +1,16 @@
-import { Checkbox, ComboBox, IStackStyles, ScrollablePane, ScrollbarVisibility, Stack, TextField } from '@fluentui/react';
-import { setSearchQuery } from '../../../store/search/actions';
+import {
+  Checkbox,
+  ComboBox,
+  IStackStyles,
+  Panel,
+  PanelType,
+  ScrollablePane,
+  ScrollbarVisibility,
+  Stack,
+  TextField,
+  Text,
+} from '@fluentui/react';
+import { setOptionsPanel, setSearchQuery } from '../../../store/search/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { ISort, SortDirection } from '@pnp/sp/search';
@@ -7,7 +18,8 @@ import { ISort, SortDirection } from '@pnp/sp/search';
 const SearchQueryForm = () => {
   const dispatch = useDispatch();
 
-  const { searchQuery } = useSelector((state: IRootState) => state.search);
+  const { searchQuery, optionsPanel } = useSelector((state: IRootState) => state.search);
+  const { isDark } = useSelector((state: IRootState) => state.home);
 
   const sourceIds = [
     {
@@ -110,146 +122,163 @@ const SearchQueryForm = () => {
   }
 
   return (
-    <ScrollablePane
-      scrollbarVisibility={ScrollbarVisibility.always}
-      style={{
-        width: '500px',
-        marginLeft: '5px',
-        marginTop: '50px',
-        marginBottom: '25px',
-        backgroundColor: 'transparent',
-      }}
-    >
-    <Stack enableScopedSelectors horizontal>
-      <Stack.Item disableShrink style={{width: '300px', marginRight: '25px'}}>
-
-      <TextField
-        spellCheck={false}
-        label="Queryt"
-        placeholder="eg. contentClass:STS_List_*"
-        multiline
-        value={searchQuery.Querytext}
-        autoAdjustHeight
-        onChange={(event, newValue?: string) =>
-          dispatch(
-            setSearchQuery({
-              ...searchQuery,
-              Querytext: newValue ? newValue : '',
-            })
-          )
-        }
-      />
-      <TextField
-        spellCheck={false}
-        label="RowLimit"
-        value={searchQuery.RowLimit ? searchQuery.RowLimit.toString() : ''}
-        onChange={(event, newValue?: string) => {
-          const parsedValue = parseInt(newValue || '');
-          const rowLimit = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
-          dispatch(setSearchQuery({ ...searchQuery, RowLimit: rowLimit }));
+    <>
+      <ScrollablePane
+        scrollbarVisibility={ScrollbarVisibility.always}
+        style={{
+          width: '500px',
+          marginLeft: '5px',
+          marginTop: '50px',
+          marginBottom: '25px',
+          backgroundColor: 'transparent',
         }}
-      />
-      <TextField
-        spellCheck={false}
-        label="StartRow"
-        value={searchQuery.StartRow ? searchQuery.StartRow.toString() : ''}
-        onChange={(event, newValue?: string) => {
-          const parsedValue = parseInt(newValue || '');
-          const startRow = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
-          dispatch(setSearchQuery({ ...searchQuery, StartRow: startRow }));
-        }}
-      />
-      <TextField
-        autoAdjustHeight
-        multiline
-        spellCheck={false}
-        value={searchQuery.SelectProperties?.join(',')}
-        label="SelectedProperties"
-        placeholder="eg. Title,contentclass"
-        onChange={(event, newValue?: string) => {
-          dispatch(setSearchQuery({ ...searchQuery, SelectProperties: newValue ? [newValue] : [] }));
-        }}
-      />
-      <TextField
-        autoAdjustHeight
-        multiline
-        spellCheck={false}
-        label="SortList"
-        defaultValue={
-          searchQuery.SortList
-            ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
-            : undefined
-        }
-        placeholder="eg. firstName:0,LastName:1"
-        onChange={(event, newValue?: string) => {
-          const newSortList = convertToSortList(newValue || ''); // fix this not to allow empty strings
-          if (newSortList && newSortList.length > 0)
-            dispatch(setSearchQuery({ ...searchQuery, SortList: newSortList }));
-          else dispatch(setSearchQuery({ ...searchQuery, SortList: [] }));
-        }}
-      />
-      <TextField
-        autoAdjustHeight
-        multiline
-        spellCheck={false}
-        defaultValue={searchQuery.RefinementFilters ? searchQuery.RefinementFilters.join(',') : ''}
-        label="RefinementFilters"
-        placeholder='eg. and(lastname:equals("burr"),firstname:equals("bill"))'
-        onChange={(event, newValue?: string) => {
-          dispatch(setSearchQuery({ ...searchQuery, RefinementFilters: newValue ? [newValue] : [] }));
-        }}
-      />
-      <ComboBox
-        spellCheck={false}
-        label="SourceId"
-        placeholder="eg. b09a7990-05ea-4af9-81ef-edfab16c4e31"
-        options={sourceIds}
-        defaultSelectedKey={sourceIds.find((item) => item.key === searchQuery.SourceId)?.key ?? null}
-        allowFreeform
-        onChange={(event, option?: any, index?: any, value?: any) => {
-          console.log(option, index, value);
-          dispatch(
-            setSearchQuery({
-              ...searchQuery,
-              SourceId: option?.key ?? value ?? null,
-            })
-          );
-        }}
-      />
-
-      </Stack.Item>
-      <Stack.Item disableShrink style={{width: '200px', marginTop: '20px'}}>
-      {options.map((key) => {
-        return (
-          <Checkbox
-            key={key}
-            styles={checkBoxStyles}
-            label={key}
-            // @ts-ignore
-            indeterminate={searchQuery[key] === undefined }
-            // @ts-ignore
-            checked={searchQuery[key] === undefined ? true : searchQuery[key]}
-            // @ts-ignore
-            defaultChecked={searchQuery[key]}
-            onChange={(ev?: React.FormEvent<HTMLElement | HTMLInputElement>, newChecked?: boolean) => {
-              // @ts-ignore
-              if (searchQuery[key] !== undefined && newChecked) {
-                const newItems = { ...searchQuery };
-                // @ts-ignore
-                delete newItems[key];
-                dispatch(setSearchQuery(newItems));
-              } else {
-                dispatch(setSearchQuery({ ...searchQuery, [key]: newChecked }));
+      >
+        <Stack enableScopedSelectors horizontal>
+          <Stack.Item disableShrink style={{ width: '300px', marginRight: '25px' }}>
+            <TextField
+              spellCheck={false}
+              label="Queryt"
+              placeholder="eg. contentClass:STS_List_*"
+              multiline
+              value={searchQuery.Querytext}
+              autoAdjustHeight
+              onChange={(event, newValue?: string) =>
+                dispatch(
+                  setSearchQuery({
+                    ...searchQuery,
+                    Querytext: newValue ? newValue : '',
+                  })
+                )
               }
-            }}
-          />
-        );
-      })}
-      </Stack.Item>
-      </Stack>
-
-
-    </ScrollablePane>
+            />
+            <TextField
+              spellCheck={false}
+              label="RowLimit"
+              value={searchQuery.RowLimit ? searchQuery.RowLimit.toString() : ''}
+              onChange={(event, newValue?: string) => {
+                const parsedValue = parseInt(newValue || '');
+                const rowLimit = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
+                dispatch(setSearchQuery({ ...searchQuery, RowLimit: rowLimit }));
+              }}
+            />
+            <TextField
+              spellCheck={false}
+              label="StartRow"
+              value={searchQuery.StartRow ? searchQuery.StartRow.toString() : ''}
+              onChange={(event, newValue?: string) => {
+                const parsedValue = parseInt(newValue || '');
+                const startRow = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
+                dispatch(setSearchQuery({ ...searchQuery, StartRow: startRow }));
+              }}
+            />
+            <TextField
+              autoAdjustHeight
+              multiline
+              spellCheck={false}
+              value={searchQuery.SelectProperties?.join(',')}
+              label="SelectedProperties"
+              placeholder="eg. Title,contentclass"
+              onChange={(event, newValue?: string) => {
+                dispatch(setSearchQuery({ ...searchQuery, SelectProperties: newValue ? [newValue] : [] }));
+              }}
+            />
+            <TextField
+              autoAdjustHeight
+              multiline
+              spellCheck={false}
+              label="SortList"
+              defaultValue={
+                searchQuery.SortList
+                  ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
+                  : undefined
+              }
+              placeholder="eg. firstName:0,LastName:1"
+              onChange={(event, newValue?: string) => {
+                const newSortList = convertToSortList(newValue || ''); // fix this not to allow empty strings
+                if (newSortList && newSortList.length > 0)
+                  dispatch(setSearchQuery({ ...searchQuery, SortList: newSortList }));
+                else dispatch(setSearchQuery({ ...searchQuery, SortList: [] }));
+              }}
+            />
+            <TextField
+              autoAdjustHeight
+              multiline
+              spellCheck={false}
+              defaultValue={searchQuery.RefinementFilters ? searchQuery.RefinementFilters.join(',') : ''}
+              label="RefinementFilters"
+              placeholder='eg. and(lastname:equals("burr"),firstname:equals("bill"))'
+              onChange={(event, newValue?: string) => {
+                dispatch(setSearchQuery({ ...searchQuery, RefinementFilters: newValue ? [newValue] : [] }));
+              }}
+            />
+            <ComboBox
+              spellCheck={false}
+              label="SourceId"
+              placeholder="eg. b09a7990-05ea-4af9-81ef-edfab16c4e31"
+              options={sourceIds}
+              defaultSelectedKey={sourceIds.find((item) => item.key === searchQuery.SourceId)?.key ?? null}
+              allowFreeform
+              onChange={(event, option?: any, index?: any, value?: any) => {
+                console.log(option, index, value);
+                dispatch(
+                  setSearchQuery({
+                    ...searchQuery,
+                    SourceId: option?.key ?? value ?? null,
+                  })
+                );
+              }}
+            />
+          </Stack.Item>
+        </Stack>
+      </ScrollablePane>
+      <Panel
+        isOpen={optionsPanel}
+        onDismiss={() => {
+          dispatch(setOptionsPanel(false));
+        }}
+        type={PanelType.medium}
+        headerText="Options"
+        isBlocking={false}
+        closeButtonAriaLabel="Close"
+      >
+        <Stack horizontal tokens={{ childrenGap: 20 }}>
+          <Stack.Item grow>
+            {options.map((key) => {
+              return (
+                <Checkbox
+                  key={key}
+                  styles={checkBoxStyles}
+                  label={key}
+                  // @ts-ignore
+                  indeterminate={searchQuery[key] === undefined}
+                  // @ts-ignore
+                  checked={searchQuery[key] === undefined ? true : searchQuery[key]}
+                  // @ts-ignore
+                  defaultChecked={searchQuery[key]}
+                  onChange={(ev?: React.FormEvent<HTMLElement | HTMLInputElement>, newChecked?: boolean) => {
+                    // @ts-ignore
+                    if (searchQuery[key] !== undefined && newChecked) {
+                      const newItems = { ...searchQuery };
+                      // @ts-ignore
+                      delete newItems[key];
+                      dispatch(setSearchQuery(newItems));
+                    } else {
+                      dispatch(setSearchQuery({ ...searchQuery, [key]: newChecked }));
+                    }
+                  }}
+                />
+              );
+            })}
+          </Stack.Item>
+          <Stack.Item grow>
+            <Text variant={'medium'}>Payload preview</Text>
+            <pre spellCheck="false" style={{ color: isDark ? 'white' : 'black' }}>
+              {JSON.stringify(searchQuery, null, 2)}
+            </pre>{' '}
+          </Stack.Item>
+        </Stack>
+      </Panel>
+    </>
   );
 };
 
