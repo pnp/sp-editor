@@ -14,6 +14,7 @@ const init: ISearchState = {
     SelectProperties: [],
     SortList: [],
   },
+  optionsPanel: false,
 };
 
 export function searchReducer(state: ISearchState = init, action: SearchActions): ISearchState {
@@ -30,6 +31,8 @@ export function searchReducer(state: ISearchState = init, action: SearchActions)
         ...state,
         searchQuery: action.payload.searchQuery,
       };
+    case Constants.S_SET_OPTIONSPANEL:
+        return { ...state, ...action.payload }
     default:
       return state;
   }

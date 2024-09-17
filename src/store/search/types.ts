@@ -27,9 +27,11 @@ export interface ISearchState {
   searchQuery: ISearchQuery;
   searchResults?: SearchResult;
   loading: boolean;
+  optionsPanel: boolean;
 }
 
 export enum Constants {
   S_GET_ITEMS = "S_GET_ITEMS",
   S_SET_QUERY = "S_SET_QUERY",
+  S_SET_OPTIONSPANEL = "S_SET_OPTIONSPANEL",
 }
