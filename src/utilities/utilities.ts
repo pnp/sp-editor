@@ -50,25 +50,40 @@ export const resolveFiles = (files: string[], definitions: IDefinitions[]) => {
 }
 
 export const getDirectory = (dirEntry: DirectoryEntry, path: string): Promise<DirectoryEntry> => {
-  return new Promise(resolve => dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry)))
-}
+  return new Promise((resolve, reject) => {
+    try {
+      dirEntry.getDirectory(path, {}, (entry: DirectoryEntry) => resolve(entry), (error) => {
+        console.error(`Error getting directory: ${path}`, error);
+        reject(error);
+      });
+    } catch (error) {
+      console.error(`Error in getDirectory: ${path}`, error);
+      reject(error);
+    }
+  });
+};
 
 export const readDirRecursive = async (
   entry: DirectoryEntry,
   files: DirectoryEntry[] = [],
-) => {
-  const entries = await readEntries(entry)
+): Promise<DirectoryEntry[]> => {
+  try {
+    const entries = await readEntries(entry);
 
-  for (const key in entries) {
-    if (entries[key].isDirectory) {
-      await readDirRecursive(entries[key] as DirectoryEntry, files)
-    } else {
-      files.push(entries[key])
+    for (const key in entries) {
+      if (entries[key].isDirectory) {
+        await readDirRecursive(entries[key] as DirectoryEntry, files);
+      } else {
+        files.push(entries[key]);
+      }
     }
-  }
 
-  return files
-}
+    return files;
+  } catch (error) {
+    console.error(`Error in readDirRecursive at path: ${entry.fullPath}`, error);
+    throw error;
+  }
+};
 
 export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
   return new Promise(resolve => {

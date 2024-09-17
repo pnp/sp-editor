@@ -7,7 +7,7 @@ import { loadDefinitions } from '../components/utils'
 
 export async function fetchDefinitions(dispatch: Dispatch<MGTConsoleActions | HomeActions>) {
   const directoryEntry = await getExtensionDirectory()
-  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@microsoft', 'react', 'msal'])
+  const definitions: IDefinitions[] = await loadDefinitions(directoryEntry, ['@microsoft', 'react'])
   dispatch(setDefinitions(definitions))
   return
 }
