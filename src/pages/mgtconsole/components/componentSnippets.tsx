@@ -335,7 +335,7 @@ import { Login, PersonCard, ThemeToggle } from '@microsoft/mgt-react'
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { PeoplePicker, People, Login, ThemeToggle } from '@microsoft/mgt-react';
+import { PeoplePicker, Login, ThemeToggle } from '@microsoft/mgt-react';
 
 () => {
 
@@ -457,22 +457,22 @@ import { Login, Agenda, ThemeToggle } from '@microsoft/mgt-react'
 
   {
     option: {
-      key: 'header-tasks',
-      text: 'MGT Tasks component samples',
+      key: 'header-planner',
+      text: 'MGT Planner component samples',
       itemType: SelectableOptionMenuItemType.Header,
     },
   },
   {
     option: {
-      key: 'tasks-basic',
-      text: 'Tasks component',
+      key: 'planner-basic',
+      text: 'Planner component',
       itemType: SelectableOptionMenuItemType.Normal,
     },
     snippet: `
 /* Hit 'ctrl + d' or 'cmd + d' to run the code */
 
 import React from 'react'
-import { Login, Tasks, ThemeToggle } from '@microsoft/mgt-react'
+import { Login, Planner, ThemeToggle } from '@microsoft/mgt-react'
 
 () => {
 
@@ -480,7 +480,7 @@ import { Login, Tasks, ThemeToggle } from '@microsoft/mgt-react'
     <>
       <ThemeToggle />
       <Login />
-      <Tasks />
+      <Planner />
     </>
   )
 }`.trim(),

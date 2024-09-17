@@ -63,8 +63,7 @@ export const initCode = () => {
   /* Hit 'ctrl + d' or 'cmd + d' to run the code */
   /* Check output from browser console */
 
-import { spfi, SPBrowser } from "@pnp/sp";
-import "@pnp/sp/webs";
+import { spfi, SPBrowser } from "@pnp/sp/presets/all";
 
 const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }));
 

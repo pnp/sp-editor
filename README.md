@@ -10,12 +10,10 @@ If you want to chip in by porting features or even creating new ones, here is a 
 ```powershell
 git clone https://github.com/pnp/sp-editor.git # clone the project
 cd sp-editor # go to the folder
-npm i # install dependencies
-cd iframe-sandbox-app # go to the iframe app folder
-npm i # install dependencies
-cd .. # got back to root
-npm run watch # build and start watch mode
 code . # open vscode
+npm i # install dependencies
+npm run build # to build everything before starting to developing
+npm start # build and start watch mode
 ```
 When Watch is running, open Microsoft Edge and select Extensions from the menu
 
@@ -33,7 +31,7 @@ If all good, the local build extension will show up
 
 ![](repo-images/edgeextensionloaded.png)
 
-Now you can open a SharePoint site, open devtools and select SharePoint tab. Press the reload button to reload extension after making code changes.
+Now you can open a SharePoint site, open devtools and select SharePoint tab. The extension updates it self on file changes. If it does not, press the reload button to reload extension after making code changes.
 
 ![](repo-images/edgewatchrefresh.png)
 
