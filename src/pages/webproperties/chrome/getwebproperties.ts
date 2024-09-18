@@ -77,7 +77,7 @@ export const getWebProperties = (extPath: string) => {
         });
       } else {
         // not an HttpRequestError so we just log message
-        console.log(error);
+        //console.log(error);
       }
       return {
         success: false,

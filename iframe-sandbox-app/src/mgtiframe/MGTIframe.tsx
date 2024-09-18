@@ -25,19 +25,21 @@ const MGTIframe = () => {
     if (data.code) {
       setCode(data.code);
     }
-    console.log('onMessageReceivedFromIframe', event.data);
+    //console.log('onMessageReceivedFromIframe', event.data);
   }, []);
 
   useEffect(() => {
     window.addEventListener('message', onMessageReceivedFromIframe);
-    console.log('registered listener');
-    return () => console.log('removing listener, but not');
-    // window.removeEventListener("message", onMessageReceivedFromIframe);
+    //console.log('registered listener');
+    return () => {
+      //console.log('removing listener, but not');
+      // window.removeEventListener("message", onMessageReceivedFromIframe);
+    };
   }, [onMessageReceivedFromIframe]);
 
   React.useEffect(function setupListener() {
     function handleResize(x: any) {
-      console.log('theme changed', x.detail);
+      //console.log('theme changed', x.detail);
       if (x.detail) {
         document.body.style.backgroundColor = 'black';
       } else {
@@ -47,7 +49,7 @@ const MGTIframe = () => {
     window.addEventListener('darkmodechanged', handleResize);
 
     return function cleanupListener() {
-      console.log('removing listener');
+      //console.log('removing listener');
       window.removeEventListener('darkmodechanged', handleResize);
     };
     
@@ -57,7 +59,7 @@ const MGTIframe = () => {
 
   var getAccessToken = async (scopes: any[]): Promise<string> => {
     return new Promise(function (resolve) {
-      console.log('getting token for scopes', scopes);
+      //console.log('getting token for scopes', scopes);
 
         window.parent.postMessage(
           JSON.stringify({
@@ -68,7 +70,7 @@ const MGTIframe = () => {
 
         window.addEventListener('message', function dataReady(event) {
           let data = JSON.parse(event.data);
-          console.log('got token from parent', data);
+          //console.log('got token from parent', data);
           if (data.token) {
             Providers.globalProvider.setState(ProviderState.SignedIn);
             resolve(data.token);

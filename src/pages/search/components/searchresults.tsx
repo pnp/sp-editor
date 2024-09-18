@@ -230,7 +230,7 @@ const SearchResults = () => {
                                     dispatch(setSearchResults(newItems2, newGroups, searchResults));
                                     dispatch(rootActions.setLoading(false));
                                   } else {
-                                    console.log('Injection failed: ', injectionResults);
+                                    //console.log('Injection failed: ', injectionResults);
                                     dispatch(rootActions.setLoading(false));
                                   }
                                 });

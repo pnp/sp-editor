@@ -26,7 +26,7 @@ const LoadTeamsDebug = ({ tabId }: any) => {
             func: loadTeamsDebugScript,
           })
           .then((injectionResults) => {
-            console.log(injectionResults);
+            //console.log(injectionResults);
           })
       }
     />

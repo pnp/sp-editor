@@ -219,7 +219,7 @@ const SearchQueryForm = () => {
               defaultSelectedKey={sourceIds.find((item) => item.key === searchQuery.SourceId)?.key ?? null}
               allowFreeform
               onChange={(event, option?: any, index?: any, value?: any) => {
-                console.log(option, index, value);
+                //console.log(option, index, value);
                 dispatch(
                   setSearchQuery({
                     ...searchQuery,

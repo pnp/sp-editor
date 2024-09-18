@@ -158,7 +158,7 @@ const SearchCommands = () => {
         dispatch(setSearchResults(items, groups, res));
       }
     } else {
-      console.log('Injection failed: ', injectionResults);
+      //console.log('Injection failed: ', injectionResults);
     }
     dispatch(rootActions.setLoading(false));
   }

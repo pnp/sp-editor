@@ -101,7 +101,7 @@ const ChangePageLayout = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
           args: [ctx.webAbsoluteUrl, ctx.serverRequestPath, selected],
           func: updatePageLayout,
         }).then(injectionResults => {
-          console.log(injectionResults);
+          //console.log(injectionResults);
           setShowSuccess(true);
         })}
           text="Save"
