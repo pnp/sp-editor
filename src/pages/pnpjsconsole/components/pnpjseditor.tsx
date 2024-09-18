@@ -160,7 +160,7 @@ const PnPjsEditor = () => {
             setTimeout(() => { dispatch(setLoading(false)) }, 1200)
 
           } catch (e) {
-            console.log(e)
+            //console.log(e)
           }
 
         })

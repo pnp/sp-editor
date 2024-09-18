@@ -103,6 +103,22 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         }
       />
       <QuickLinkButton
+        text={'API access'}
+        iconName={'AzureAPIManagement'}
+        disabled={!ctx || !ctx.portalUrl}
+        url={
+          ctx.isSPO &&
+          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+            '/_layouts/15/online/AdminHome.aspx#/webApiPermissionManagement'
+        }
+      />
+      <QuickLinkButton
+        text={'Teams admin'}
+        iconName={'TeamsLogo'}
+        disabled={false}
+        url={'https://admin.teams.microsoft.com/dashboard'}
+      />
+      <QuickLinkButton
         text={'App catalog'}
         iconName={'AppIconDefaultList'}
         disabled={!appCatalogUrl}
@@ -122,6 +138,21 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         iconName={'Settings'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
         url={ctx.webAbsoluteUrl + '/_layouts/15/settings.aspx'}
+      />
+      <QuickLinkButton
+        text={'Tenant site settings'}
+        iconName={'Settings'}
+        disabled={!ctx || !ctx.webAbsoluteUrl}
+        url={
+          ctx.isSPO
+            ? ctx.portalUrl &&
+              ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+                `/_layouts/15/online/AdminHome.aspx#/siteManagement/:/SiteDetails/${ctx.siteId.replace(
+                  /[{}]/g,
+                  ''
+                )}/Settings`
+            : null
+        }
       />
       <QuickLinkButton
         text={'Site contents'}

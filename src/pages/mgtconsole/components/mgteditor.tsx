@@ -101,7 +101,7 @@ const MGTEditor = () => {
         );
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   }, [dispatch]);
 

@@ -19,7 +19,7 @@ export class GraphClient {
                         return response.accessToken;
                     }
                     catch {
-                        console.log('Something went wrong getting accesstoken')
+                        //console.log('Something went wrong getting accesstoken')
                     }
                 },
             },

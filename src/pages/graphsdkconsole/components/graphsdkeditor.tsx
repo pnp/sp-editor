@@ -252,7 +252,7 @@ const GraphSDKEditor = () => {
                   chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
                 }
               } catch (e) {
-                console.log(e)
+                //console.log(e)
               }
             }
           },
