@@ -64,6 +64,9 @@ setupIonicReact();
 
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
+document.body.style.minWidth = 100 + '%';
+document.body.style.minHeight = 100 + '%';
+
 const App = () => {
   const { theme } = useSelector((state: IRootState) => state.home);
 
