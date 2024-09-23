@@ -6,6 +6,7 @@ import {
   GroupHeader,
   IColumn,
   IDetailsList,
+  IGroup,
   IGroupHeaderProps,
   IScrollablePaneStyles,
   IStackItemStyles,
@@ -23,15 +24,38 @@ import * as rootActions from '../../../store/home/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import SearchQueryForm from './searchqueryform';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setSearchResults } from '../../../store/search/actions';
+import { MessageBarColors } from '../../../store/home/types';
 
 const SearchResults = () => {
-  const { items, groups, searchResults } = useSelector((state: IRootState) => state.search);
+  const { items, groups: rootGroups, searchResults } = useSelector((state: IRootState) => state.search);
+  const [groups, setGroups] = useState(rootGroups);
+
+  useEffect(() => {
+    setGroups(rootGroups);
+  }, [rootGroups]);
+  
   const dispatch = useDispatch();
   const { isDark } = useSelector((state: IRootState) => state.home)
 
   const root = useRef<IDetailsList>(null);
+
+  const copyToClipboard = (value: string, message: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    dispatch(rootActions.setAppMessage({
+      showMessage: true,
+      message: message,
+      color: MessageBarColors.success,
+    }))
+    
+  };
 
   const [columns] = useState<IColumn[]>([
     {
@@ -51,12 +75,61 @@ const SearchResults = () => {
       isResizable: true,
     },
     {
+      key: 'copyproperty',
+      name: '',
+      minWidth: 16,
+      maxWidth: 16,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <ActionButton
+          iconProps={{
+            iconName: 'Copy',
+            style: { width: '16px', height: '16px' },
+            title: 'Copy property to clipboard',
+          }}
+          onClick={() => copyToClipboard(item.property, 'Property copied to clipboard')}
+          styles={{
+            root: {
+              marginLeft: 'auto',
+              backgroundColor: 'transparent',
+              height: '6px', // Set a fixed height
+              verticalAlign: 'middle', // Align the button to the center
+              minWidth: 'auto', // Ensure the button width is minimal
+            },
+          }}
+        ></ActionButton>
+      ),
+    },
+    {
       key: 'value',
       name: 'Value',
       fieldName: 'value',
       minWidth: 100,
-      maxWidth: 200,
       isMultiline: true,
+    },
+    {
+      key: 'copyvalue',
+      name: '',
+      minWidth: 16,
+      maxWidth: 16,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <ActionButton
+          iconProps={{ iconName: 'Copy', style: { width: '16px', height: '16px' }, title: 'Copy value to clipboard' }}
+          onClick={() => copyToClipboard(item.value, 'Value copied to clipboard')}
+          styles={{
+            root: {
+              marginLeft: 'auto',
+              backgroundColor: 'transparent',
+              height: '6px', // Set a fixed height
+              verticalAlign: 'middle', // Align the button to the center
+              minWidth: 'auto', // Ensure the button width is minimal
+            },
+          }}
+        ></ActionButton>
+      ),
     },
   ]);
 
@@ -109,7 +182,19 @@ const SearchResults = () => {
     stickyBelowItems: undefined,
     contentContainer: undefined,
   };
-
+  const onToggleCollapse = (group?: IGroup) => {
+    if (!group) return;
+  
+    const newGroups = groups.map(g => {
+      if (g.key === group.key) {
+        return { ...g, isCollapsed: !g.isCollapsed };
+      }
+      return g;
+    });
+  
+    setGroups(newGroups); // Update the local groups state
+    //dispatch(rootActions.setSearchQuery({ groups: newGroups })); // Dispatch the updated groups to the root state
+  };
   return (
     <Stack enableScopedSelectors horizontal styles={stackStyles}>
       <Stack.Item disableShrink styles={queryEditorStackStyles}>
@@ -148,10 +233,16 @@ const SearchResults = () => {
                     onRenderTitle={() => {
                       return (
                         <>
-                          <Text variant={'large'}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
+                          <Text
+                            onClick={() => onToggleCollapse(props?.group!)}
+                            variant={'large'}
+                          >{`${props?.group?.name} (${props?.group?.count})`}</Text>
+                          <div
+                            style={{ flexGrow: 1, height: '100%' }}
+                            onClick={() => onToggleCollapse(props?.group!)}
+                          ></div>
                           <ActionButton
-                            //hidden={props?.group?.isCollapsed}
-                            iconProps={{ iconName: 'OpenInNewTab',  }}
+                            iconProps={{ iconName: 'OpenInNewTab' }}
                             title={'open in new tab'}
                             style={{
                               marginLeft: 'auto',
@@ -162,12 +253,10 @@ const SearchResults = () => {
                               const link = properties.selection._items.find(
                                 (o: any) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
                               ).value;
-                              // let obj = props?.group?.data.find((o) => o.key === "OriginalPath");
                               chrome.tabs.create({ url: link });
                             }}
                           />
                           <ActionButton
-                            //hidden={props?.group?.isCollapsed}
                             iconProps={{ iconName: 'AllApps' }}
                             title={'Load all properties'}
                             style={{
