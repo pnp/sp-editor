@@ -1,4 +1,4 @@
-import { IPerformanceMeasurement, SubMeasurement } from "@azure/msal-common";
+import { IPerformanceMeasurement, SubMeasurement } from "@azure/msal-common/browser";
 export declare class BrowserPerformanceMeasurement implements IPerformanceMeasurement {
     private readonly measureName;
     private readonly correlationId;

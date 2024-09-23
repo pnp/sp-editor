@@ -1,5 +1,5 @@
-import { INavigationClient } from "./INavigationClient";
-import { NavigationOptions } from "./NavigationOptions";
+import { INavigationClient } from "./INavigationClient.js";
+import { NavigationOptions } from "./NavigationOptions.js";
 export declare class NavigationClient implements INavigationClient {
     /**
      * Navigates to other pages within the same web application

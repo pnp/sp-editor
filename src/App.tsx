@@ -59,6 +59,7 @@ import { setDarkMode, setTheme } from "./store/home/actions";
 import Search from "./pages/search";
 import { menuController } from "@ionic/core";
 import "./index.css";
+import FileExplorer from "./pages/fileexplorer";
 
 setupIonicReact();
 
@@ -119,6 +120,7 @@ const App = () => {
                 <Route path="/graphsdkconsole" element={<GraphSDKConsole />} />
                 <Route path="/mgtconsole" element={<MGTConsole />} />
                 <Route path="/search" element={<Search />} />
+                <Route path="/fileexplorer" element={<FileExplorer />} />
               </Routes>
             </IonRouterOutlet>
             <MessageBar />

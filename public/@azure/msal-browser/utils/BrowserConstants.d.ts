@@ -1,5 +1,5 @@
-import { PopupRequest } from "../request/PopupRequest";
-import { RedirectRequest } from "../request/RedirectRequest";
+import { PopupRequest } from "../request/PopupRequest.js";
+import { RedirectRequest } from "../request/RedirectRequest.js";
 /**
  * Constants
  */

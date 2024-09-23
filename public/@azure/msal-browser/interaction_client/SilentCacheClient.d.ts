@@ -1,7 +1,7 @@
-import { StandardInteractionClient } from "./StandardInteractionClient";
-import { CommonSilentFlowRequest } from "@azure/msal-common";
-import { AuthenticationResult } from "../response/AuthenticationResult";
-import { ClearCacheRequest } from "../request/ClearCacheRequest";
+import { StandardInteractionClient } from "./StandardInteractionClient.js";
+import { CommonSilentFlowRequest } from "@azure/msal-common/browser";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
+import { ClearCacheRequest } from "../request/ClearCacheRequest.js";
 export declare class SilentCacheClient extends StandardInteractionClient {
     /**
      * Returns unexpired tokens from the cache, if available

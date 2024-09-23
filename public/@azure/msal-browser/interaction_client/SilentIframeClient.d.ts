@@ -1,14 +1,14 @@
-import { ICrypto, Logger, AuthorizationCodeClient, IPerformanceClient } from "@azure/msal-common";
-import { StandardInteractionClient } from "./StandardInteractionClient";
-import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest";
-import { BrowserConfiguration } from "../config/Configuration";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { EventHandler } from "../event/EventHandler";
-import { INavigationClient } from "../navigation/INavigationClient";
-import { ApiId } from "../utils/BrowserConstants";
-import { SsoSilentRequest } from "../request/SsoSilentRequest";
-import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { ICrypto, Logger, AuthorizationCodeClient, IPerformanceClient } from "@azure/msal-common/browser";
+import { StandardInteractionClient } from "./StandardInteractionClient.js";
+import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest.js";
+import { BrowserConfiguration } from "../config/Configuration.js";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
+import { EventHandler } from "../event/EventHandler.js";
+import { INavigationClient } from "../navigation/INavigationClient.js";
+import { ApiId } from "../utils/BrowserConstants.js";
+import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export declare class SilentIframeClient extends StandardInteractionClient {
     protected apiId: ApiId;
     protected nativeStorage: BrowserCacheManager;

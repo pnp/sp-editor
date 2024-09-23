@@ -1,4 +1,4 @@
-import { BridgeStatusCode } from "./BridgeStatusCode";
+import { BridgeStatusCode } from "./BridgeStatusCode.js";
 export type BridgeError = {
     status: BridgeStatusCode;
     code?: string;

@@ -1,5 +1,5 @@
-import { BridgeCapabilities } from "./BridgeCapabilities";
-import { AccountContext } from "./BridgeAccountContext";
+import { BridgeCapabilities } from "./BridgeCapabilities.js";
+import { AccountContext } from "./BridgeAccountContext.js";
 export interface InitContext {
     capabilities?: BridgeCapabilities;
     sdkName: string;

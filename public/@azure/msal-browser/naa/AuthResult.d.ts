@@ -1,5 +1,5 @@
-import { AccountInfo } from "./AccountInfo";
-import { TokenResponse } from "./TokenResponse";
+import { AccountInfo } from "./AccountInfo.js";
+import { TokenResponse } from "./TokenResponse.js";
 export type AuthResult = {
     token: TokenResponse;
     account: AccountInfo;

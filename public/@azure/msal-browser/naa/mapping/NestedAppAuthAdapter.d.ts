@@ -1,12 +1,12 @@
-import { TokenRequest } from "../TokenRequest";
-import { AccountInfo as NaaAccountInfo } from "../AccountInfo";
-import { RedirectRequest } from "../../request/RedirectRequest";
-import { PopupRequest } from "../../request/PopupRequest";
-import { AccountInfo as MsalAccountInfo, AuthError, ClientAuthError, ClientConfigurationError, InteractionRequiredAuthError, ServerError, ICrypto, Logger, TokenClaims, AccountInfo, IdTokenEntity, AccessTokenEntity } from "@azure/msal-common";
-import { AuthenticationResult } from "../../response/AuthenticationResult";
-import { AuthResult } from "../AuthResult";
-import { SsoSilentRequest } from "../../request/SsoSilentRequest";
-import { SilentRequest } from "../../request/SilentRequest";
+import { TokenRequest } from "../TokenRequest.js";
+import { AccountInfo as NaaAccountInfo } from "../AccountInfo.js";
+import { RedirectRequest } from "../../request/RedirectRequest.js";
+import { PopupRequest } from "../../request/PopupRequest.js";
+import { AccountInfo as MsalAccountInfo, AuthError, ClientAuthError, ClientConfigurationError, InteractionRequiredAuthError, ServerError, ICrypto, Logger, TokenClaims, AccountInfo, IdTokenEntity, AccessTokenEntity } from "@azure/msal-common/browser";
+import { AuthenticationResult } from "../../response/AuthenticationResult.js";
+import { AuthResult } from "../AuthResult.js";
+import { SsoSilentRequest } from "../../request/SsoSilentRequest.js";
+import { SilentRequest } from "../../request/SilentRequest.js";
 export declare class NestedAppAuthAdapter {
     protected crypto: ICrypto;
     protected logger: Logger;

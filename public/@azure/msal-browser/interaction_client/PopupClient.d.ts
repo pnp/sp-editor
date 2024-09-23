@@ -1,18 +1,19 @@
-import { CommonEndSessionRequest, IPerformanceClient, Logger, ICrypto } from "@azure/msal-common";
-import { StandardInteractionClient } from "./StandardInteractionClient";
-import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest";
-import { PopupRequest } from "../request/PopupRequest";
-import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
-import { INavigationClient } from "../navigation/INavigationClient";
-import { EventHandler } from "../event/EventHandler";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { BrowserConfiguration } from "../config/Configuration";
-import { PopupWindowAttributes } from "../request/PopupWindowAttributes";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { CommonEndSessionRequest, IPerformanceClient, Logger, ICrypto } from "@azure/msal-common/browser";
+import { StandardInteractionClient } from "./StandardInteractionClient.js";
+import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest.js";
+import { PopupRequest } from "../request/PopupRequest.js";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler.js";
+import { INavigationClient } from "../navigation/INavigationClient.js";
+import { EventHandler } from "../event/EventHandler.js";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
+import { BrowserConfiguration } from "../config/Configuration.js";
+import { PopupWindowAttributes } from "../request/PopupWindowAttributes.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export type PopupParams = {
     popup?: Window | null;
     popupName: string;
     popupWindowAttributes: PopupWindowAttributes;
+    popupWindowParent: Window;
 };
 export declare class PopupClient extends StandardInteractionClient {
     private currentWindow;
@@ -37,7 +38,7 @@ export declare class PopupClient extends StandardInteractionClient {
      *
      * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
      */
-    protected acquireTokenPopupAsync(request: PopupRequest, popupName: string, popupWindowAttributes: PopupWindowAttributes, popup?: Window | null): Promise<AuthenticationResult>;
+    protected acquireTokenPopupAsync(request: PopupRequest, popupParams: PopupParams): Promise<AuthenticationResult>;
     /**
      *
      * @param validRequest
@@ -47,7 +48,7 @@ export declare class PopupClient extends StandardInteractionClient {
      * @param mainWindowRedirectUri
      * @param popupWindowAttributes
      */
-    protected logoutPopupAsync(validRequest: CommonEndSessionRequest, popupName: string, popupWindowAttributes: PopupWindowAttributes, requestAuthority?: string, popup?: Window | null, mainWindowRedirectUri?: string): Promise<void>;
+    protected logoutPopupAsync(validRequest: CommonEndSessionRequest, popupParams: PopupParams, requestAuthority?: string, mainWindowRedirectUri?: string): Promise<void>;
     /**
      * Opens a popup window with given request Url.
      * @param requestUrl
@@ -58,7 +59,7 @@ export declare class PopupClient extends StandardInteractionClient {
      * @param popupWindow - window that is being monitored
      * @param timeout - timeout for processing hash once popup is redirected back to application
      */
-    monitorPopupForHash(popupWindow: Window): Promise<string>;
+    monitorPopupForHash(popupWindow: Window, popupWindowParent: Window): Promise<string>;
     /**
      * @hidden
      *
@@ -80,7 +81,7 @@ export declare class PopupClient extends StandardInteractionClient {
      * @param popupWindowAttributes
      * @returns
      */
-    openSizedPopup(urlNavigate: string, popupName: string, popupWindowAttributes: PopupWindowAttributes): Window | null;
+    openSizedPopup(urlNavigate: string, { popupName, popupWindowAttributes, popupWindowParent }: PopupParams): Window | null;
     /**
      * Event callback to unload main window.
      */
@@ -89,7 +90,7 @@ export declare class PopupClient extends StandardInteractionClient {
      * Closes popup, removes any state vars created during popup calls.
      * @param popupWindow
      */
-    cleanPopup(popupWindow?: Window): void;
+    cleanPopup(popupWindow: Window, popupWindowParent: Window): void;
     /**
      * Generates the name for the popup based on the client id and request
      * @param clientId

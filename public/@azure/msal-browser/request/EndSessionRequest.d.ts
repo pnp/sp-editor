@@ -1,4 +1,4 @@
-import { CommonEndSessionRequest } from "@azure/msal-common";
+import { CommonEndSessionRequest } from "@azure/msal-common/browser";
 /**
  * EndSessionRequest
  * - account                - Account object that will be logged out of. All tokens tied to this account will be cleared.

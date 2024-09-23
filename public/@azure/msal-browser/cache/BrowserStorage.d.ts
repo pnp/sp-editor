@@ -1,4 +1,4 @@
-import { IWindowStorage } from "./IWindowStorage";
+import { IWindowStorage } from "./IWindowStorage.js";
 export declare class BrowserStorage implements IWindowStorage<string> {
     private windowStorage;
     constructor(cacheLocation: string);

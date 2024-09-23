@@ -1,11 +1,11 @@
-import { ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions } from "@azure/msal-common";
-import { BaseInteractionClient } from "./BaseInteractionClient";
-import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest";
-import { InteractionType } from "../utils/BrowserConstants";
-import { EndSessionRequest } from "../request/EndSessionRequest";
-import { RedirectRequest } from "../request/RedirectRequest";
-import { PopupRequest } from "../request/PopupRequest";
-import { SsoSilentRequest } from "../request/SsoSilentRequest";
+import { ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions, StringDict } from "@azure/msal-common/browser";
+import { BaseInteractionClient } from "./BaseInteractionClient.js";
+import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest.js";
+import { InteractionType } from "../utils/BrowserConstants.js";
+import { EndSessionRequest } from "../request/EndSessionRequest.js";
+import { RedirectRequest } from "../request/RedirectRequest.js";
+import { PopupRequest } from "../request/PopupRequest.js";
+import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
 /**
  * Defines the class structure and helper functions used by the "standard", non-brokered auth flows (popup, redirect, silent (RT), silent (iframe))
  */
@@ -28,17 +28,38 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
     protected getLogoutHintFromIdTokenClaims(account: AccountInfo): string | null;
     /**
      * Creates an Authorization Code Client with the given authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param authorityUrl
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         authorityUrl?: string;
+     *         requestAzureCloudOptions?: AzureCloudOptions;
+     *         requestExtraQueryParameters?: StringDict;
+     *         account?: AccountInfo;
+     *        }
      */
-    protected createAuthCodeClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string, requestAzureCloudOptions?: AzureCloudOptions, account?: AccountInfo): Promise<AuthorizationCodeClient>;
+    protected createAuthCodeClient(params: {
+        serverTelemetryManager: ServerTelemetryManager;
+        requestAuthority?: string;
+        requestAzureCloudOptions?: AzureCloudOptions;
+        requestExtraQueryParameters?: StringDict;
+        account?: AccountInfo;
+    }): Promise<AuthorizationCodeClient>;
     /**
      * Creates a Client Configuration object with the given request authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param requestAuthority
-     * @param requestCorrelationId
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         requestAuthority?: string;
+     *         requestAzureCloudOptions?: AzureCloudOptions;
+     *         requestExtraQueryParameters?: boolean;
+     *         account?: AccountInfo;
+     *        }
      */
-    protected getClientConfiguration(serverTelemetryManager: ServerTelemetryManager, requestAuthority?: string, requestAzureCloudOptions?: AzureCloudOptions, account?: AccountInfo): Promise<ClientConfiguration>;
+    protected getClientConfiguration(params: {
+        serverTelemetryManager: ServerTelemetryManager;
+        requestAuthority?: string;
+        requestAzureCloudOptions?: AzureCloudOptions;
+        requestExtraQueryParameters?: StringDict;
+        account?: AccountInfo;
+    }): Promise<ClientConfiguration>;
     /**
      * Helper to initialize required request parameters for interactive APIs and ssoSilent()
      * @param request

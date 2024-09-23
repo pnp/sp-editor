@@ -1,4 +1,4 @@
-import { CommonAuthorizationUrlRequest, StringDict } from "@azure/msal-common";
+import { CommonAuthorizationUrlRequest, StringDict } from "@azure/msal-common/browser";
 /**
  * RedirectRequest: Request object passed by user to retrieve a Code from the
  * server (first leg of authorization code grant flow) with a full page redirect.

@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+/*! @azure/msal-browser v3.24.0 2024-09-20 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -315,7 +315,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -332,7 +332,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -381,7 +381,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -479,7 +479,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -731,7 +731,262 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const DEFAULT_CRYPTO_IMPLEMENTATION = {
+        createNewGuid: () => {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        base64Decode: () => {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        base64Encode: () => {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        base64UrlEncode: () => {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        encodeKid: () => {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async getPublicKeyThumbprint() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async removeTokenBindingKey() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async clearKeystore() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async signJwt() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async hashString() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Log message level.
+     */
+    exports.LogLevel = void 0;
+    (function (LogLevel) {
+        LogLevel[LogLevel["Error"] = 0] = "Error";
+        LogLevel[LogLevel["Warning"] = 1] = "Warning";
+        LogLevel[LogLevel["Info"] = 2] = "Info";
+        LogLevel[LogLevel["Verbose"] = 3] = "Verbose";
+        LogLevel[LogLevel["Trace"] = 4] = "Trace";
+    })(exports.LogLevel || (exports.LogLevel = {}));
+    /**
+     * Class which facilitates logging of messages to a specific place.
+     */
+    class Logger {
+        constructor(loggerOptions, packageName, packageVersion) {
+            // Current log level, defaults to info.
+            this.level = exports.LogLevel.Info;
+            const defaultLoggerCallback = () => {
+                return;
+            };
+            const setLoggerOptions = loggerOptions || Logger.createDefaultLoggerOptions();
+            this.localCallback =
+                setLoggerOptions.loggerCallback || defaultLoggerCallback;
+            this.piiLoggingEnabled = setLoggerOptions.piiLoggingEnabled || false;
+            this.level =
+                typeof setLoggerOptions.logLevel === "number"
+                    ? setLoggerOptions.logLevel
+                    : exports.LogLevel.Info;
+            this.correlationId =
+                setLoggerOptions.correlationId || Constants.EMPTY_STRING;
+            this.packageName = packageName || Constants.EMPTY_STRING;
+            this.packageVersion = packageVersion || Constants.EMPTY_STRING;
+        }
+        static createDefaultLoggerOptions() {
+            return {
+                loggerCallback: () => {
+                    // allow users to not set loggerCallback
+                },
+                piiLoggingEnabled: false,
+                logLevel: exports.LogLevel.Info,
+            };
+        }
+        /**
+         * Create new Logger with existing configurations.
+         */
+        clone(packageName, packageVersion, correlationId) {
+            return new Logger({
+                loggerCallback: this.localCallback,
+                piiLoggingEnabled: this.piiLoggingEnabled,
+                logLevel: this.level,
+                correlationId: correlationId || this.correlationId,
+            }, packageName, packageVersion);
+        }
+        /**
+         * Log message with required options.
+         */
+        logMessage(logMessage, options) {
+            if (options.logLevel > this.level ||
+                (!this.piiLoggingEnabled && options.containsPii)) {
+                return;
+            }
+            const timestamp = new Date().toUTCString();
+            // Add correlationId to logs if set, correlationId provided on log messages take precedence
+            const logHeader = `[${timestamp}] : [${options.correlationId || this.correlationId || ""}]`;
+            const log = `${logHeader} : ${this.packageName}@${this.packageVersion} : ${exports.LogLevel[options.logLevel]} - ${logMessage}`;
+            // debug(`msal:${LogLevel[options.logLevel]}${options.containsPii ? "-Pii": Constants.EMPTY_STRING}${options.context ? `:${options.context}` : Constants.EMPTY_STRING}`)(logMessage);
+            this.executeCallback(options.logLevel, log, options.containsPii || false);
+        }
+        /**
+         * Execute callback with message.
+         */
+        executeCallback(level, message, containsPii) {
+            if (this.localCallback) {
+                this.localCallback(level, message, containsPii);
+            }
+        }
+        /**
+         * Logs error messages.
+         */
+        error(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Error,
+                containsPii: false,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs error messages with PII.
+         */
+        errorPii(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Error,
+                containsPii: true,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs warning messages.
+         */
+        warning(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Warning,
+                containsPii: false,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs warning messages with PII.
+         */
+        warningPii(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Warning,
+                containsPii: true,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs info messages.
+         */
+        info(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Info,
+                containsPii: false,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs info messages with PII.
+         */
+        infoPii(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Info,
+                containsPii: true,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs verbose messages.
+         */
+        verbose(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Verbose,
+                containsPii: false,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs verbose messages with PII.
+         */
+        verbosePii(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Verbose,
+                containsPii: true,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs trace messages.
+         */
+        trace(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Trace,
+                containsPii: false,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Logs trace messages with PII.
+         */
+        tracePii(message, correlationId) {
+            this.logMessage(message, {
+                logLevel: exports.LogLevel.Trace,
+                containsPii: true,
+                correlationId: correlationId || Constants.EMPTY_STRING,
+            });
+        }
+        /**
+         * Returns whether PII Logging is enabled or not.
+         */
+        isPiiLoggingEnabled() {
+            return this.piiLoggingEnabled || false;
+        }
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /* eslint-disable header/header */
+    const name$1 = "@azure/msal-common";
+    const version$1 = "14.15.0";
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const AzureCloudInstance = {
+        // AzureCloudInstance is not specified.
+        None: "none",
+        // Microsoft Azure public cloud
+        AzurePublic: "https://login.microsoftonline.com",
+        // Microsoft PPE
+        AzurePpe: "https://login.windows-ppe.net",
+        // Microsoft Chinese national/regional cloud
+        AzureChina: "https://login.chinacloudapi.cn",
+        // Microsoft German national/regional cloud ("Black Forest")
+        AzureGermany: "https://login.microsoftonline.de",
+        // US Government cloud
+        AzureUsGovernment: "https://login.microsoftonline.us",
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -792,1414 +1047,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Authority types supported by MSAL.
-     */
-    const AuthorityType = {
-        Default: 0,
-        Adfs: 1,
-        Dsts: 2,
-        Ciam: 3,
-    };
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isOpenIdConfigResponse(response) {
-        return (response.hasOwnProperty("authorization_endpoint") &&
-            response.hasOwnProperty("token_endpoint") &&
-            response.hasOwnProperty("issuer") &&
-            response.hasOwnProperty("jwks_uri"));
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const redirectUriEmpty = "redirect_uri_empty";
-    const claimsRequestParsingError = "claims_request_parsing_error";
-    const authorityUriInsecure = "authority_uri_insecure";
-    const urlParseError = "url_parse_error";
-    const urlEmptyError = "empty_url_error";
-    const emptyInputScopesError = "empty_input_scopes_error";
-    const invalidPromptValue = "invalid_prompt_value";
-    const invalidClaims = "invalid_claims";
-    const tokenRequestEmpty = "token_request_empty";
-    const logoutRequestEmpty = "logout_request_empty";
-    const invalidCodeChallengeMethod = "invalid_code_challenge_method";
-    const pkceParamsMissing = "pkce_params_missing";
-    const invalidCloudDiscoveryMetadata = "invalid_cloud_discovery_metadata";
-    const invalidAuthorityMetadata = "invalid_authority_metadata";
-    const untrustedAuthority = "untrusted_authority";
-    const missingSshJwk = "missing_ssh_jwk";
-    const missingSshKid = "missing_ssh_kid";
-    const missingNonceAuthenticationHeader = "missing_nonce_authentication_header";
-    const invalidAuthenticationHeader = "invalid_authentication_header";
-    const cannotSetOIDCOptions = "cannot_set_OIDCOptions";
-    const cannotAllowNativeBroker = "cannot_allow_native_broker";
-    const authorityMismatch = "authority_mismatch";
-
-    var ClientConfigurationErrorCodes = /*#__PURE__*/Object.freeze({
-        __proto__: null,
-        authorityMismatch: authorityMismatch,
-        authorityUriInsecure: authorityUriInsecure,
-        cannotAllowNativeBroker: cannotAllowNativeBroker,
-        cannotSetOIDCOptions: cannotSetOIDCOptions,
-        claimsRequestParsingError: claimsRequestParsingError,
-        emptyInputScopesError: emptyInputScopesError,
-        invalidAuthenticationHeader: invalidAuthenticationHeader,
-        invalidAuthorityMetadata: invalidAuthorityMetadata,
-        invalidClaims: invalidClaims,
-        invalidCloudDiscoveryMetadata: invalidCloudDiscoveryMetadata,
-        invalidCodeChallengeMethod: invalidCodeChallengeMethod,
-        invalidPromptValue: invalidPromptValue,
-        logoutRequestEmpty: logoutRequestEmpty,
-        missingNonceAuthenticationHeader: missingNonceAuthenticationHeader,
-        missingSshJwk: missingSshJwk,
-        missingSshKid: missingSshKid,
-        pkceParamsMissing: pkceParamsMissing,
-        redirectUriEmpty: redirectUriEmpty,
-        tokenRequestEmpty: tokenRequestEmpty,
-        untrustedAuthority: untrustedAuthority,
-        urlEmptyError: urlEmptyError,
-        urlParseError: urlParseError
-    });
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const ClientConfigurationErrorMessages = {
-        [redirectUriEmpty]: "A redirect URI is required for all calls, and none has been set.",
-        [claimsRequestParsingError]: "Could not parse the given claims request object.",
-        [authorityUriInsecure]: "Authority URIs must use https.  Please see here for valid authority configuration options: https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-js-initializing-client-applications#configuration-options",
-        [urlParseError]: "URL could not be parsed into appropriate segments.",
-        [urlEmptyError]: "URL was empty or null.",
-        [emptyInputScopesError]: "Scopes cannot be passed as null, undefined or empty array because they are required to obtain an access token.",
-        [invalidPromptValue]: "Please see here for valid configuration options: https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_common.html#commonauthorizationurlrequest",
-        [invalidClaims]: "Given claims parameter must be a stringified JSON object.",
-        [tokenRequestEmpty]: "Token request was empty and not found in cache.",
-        [logoutRequestEmpty]: "The logout request was null or undefined.",
-        [invalidCodeChallengeMethod]: 'code_challenge_method passed is invalid. Valid values are "plain" and "S256".',
-        [pkceParamsMissing]: "Both params: code_challenge and code_challenge_method are to be passed if to be sent in the request",
-        [invalidCloudDiscoveryMetadata]: "Invalid cloudDiscoveryMetadata provided. Must be a stringified JSON object containing tenant_discovery_endpoint and metadata fields",
-        [invalidAuthorityMetadata]: "Invalid authorityMetadata provided. Must by a stringified JSON object containing authorization_endpoint, token_endpoint, issuer fields.",
-        [untrustedAuthority]: "The provided authority is not a trusted authority. Please include this authority in the knownAuthorities config parameter.",
-        [missingSshJwk]: "Missing sshJwk in SSH certificate request. A stringified JSON Web Key is required when using the SSH authentication scheme.",
-        [missingSshKid]: "Missing sshKid in SSH certificate request. A string that uniquely identifies the public SSH key is required when using the SSH authentication scheme.",
-        [missingNonceAuthenticationHeader]: "Unable to find an authentication header containing server nonce. Either the Authentication-Info or WWW-Authenticate headers must be present in order to obtain a server nonce.",
-        [invalidAuthenticationHeader]: "Invalid authentication header provided",
-        [cannotSetOIDCOptions]: "Cannot set OIDCOptions parameter. Please change the protocol mode to OIDC or use a non-Microsoft authority.",
-        [cannotAllowNativeBroker]: "Cannot set allowNativeBroker parameter to true when not in AAD protocol mode.",
-        [authorityMismatch]: "Authority mismatch error. Authority provided in login request or PublicClientApplication config does not match the environment of the provided account. Please use a matching account or make an interactive request to login to this authority.",
-    };
-    /**
-     * ClientConfigurationErrorMessage class containing string constants used by error codes and messages.
-     * @deprecated Use ClientConfigurationErrorCodes instead
-     */
-    const ClientConfigurationErrorMessage = {
-        redirectUriNotSet: {
-            code: redirectUriEmpty,
-            desc: ClientConfigurationErrorMessages[redirectUriEmpty],
-        },
-        claimsRequestParsingError: {
-            code: claimsRequestParsingError,
-            desc: ClientConfigurationErrorMessages[claimsRequestParsingError],
-        },
-        authorityUriInsecure: {
-            code: authorityUriInsecure,
-            desc: ClientConfigurationErrorMessages[authorityUriInsecure],
-        },
-        urlParseError: {
-            code: urlParseError,
-            desc: ClientConfigurationErrorMessages[urlParseError],
-        },
-        urlEmptyError: {
-            code: urlEmptyError,
-            desc: ClientConfigurationErrorMessages[urlEmptyError],
-        },
-        emptyScopesError: {
-            code: emptyInputScopesError,
-            desc: ClientConfigurationErrorMessages[emptyInputScopesError],
-        },
-        invalidPrompt: {
-            code: invalidPromptValue,
-            desc: ClientConfigurationErrorMessages[invalidPromptValue],
-        },
-        invalidClaimsRequest: {
-            code: invalidClaims,
-            desc: ClientConfigurationErrorMessages[invalidClaims],
-        },
-        tokenRequestEmptyError: {
-            code: tokenRequestEmpty,
-            desc: ClientConfigurationErrorMessages[tokenRequestEmpty],
-        },
-        logoutRequestEmptyError: {
-            code: logoutRequestEmpty,
-            desc: ClientConfigurationErrorMessages[logoutRequestEmpty],
-        },
-        invalidCodeChallengeMethod: {
-            code: invalidCodeChallengeMethod,
-            desc: ClientConfigurationErrorMessages[invalidCodeChallengeMethod],
-        },
-        invalidCodeChallengeParams: {
-            code: pkceParamsMissing,
-            desc: ClientConfigurationErrorMessages[pkceParamsMissing],
-        },
-        invalidCloudDiscoveryMetadata: {
-            code: invalidCloudDiscoveryMetadata,
-            desc: ClientConfigurationErrorMessages[invalidCloudDiscoveryMetadata],
-        },
-        invalidAuthorityMetadata: {
-            code: invalidAuthorityMetadata,
-            desc: ClientConfigurationErrorMessages[invalidAuthorityMetadata],
-        },
-        untrustedAuthority: {
-            code: untrustedAuthority,
-            desc: ClientConfigurationErrorMessages[untrustedAuthority],
-        },
-        missingSshJwk: {
-            code: missingSshJwk,
-            desc: ClientConfigurationErrorMessages[missingSshJwk],
-        },
-        missingSshKid: {
-            code: missingSshKid,
-            desc: ClientConfigurationErrorMessages[missingSshKid],
-        },
-        missingNonceAuthenticationHeader: {
-            code: missingNonceAuthenticationHeader,
-            desc: ClientConfigurationErrorMessages[missingNonceAuthenticationHeader],
-        },
-        invalidAuthenticationHeader: {
-            code: invalidAuthenticationHeader,
-            desc: ClientConfigurationErrorMessages[invalidAuthenticationHeader],
-        },
-        cannotSetOIDCOptions: {
-            code: cannotSetOIDCOptions,
-            desc: ClientConfigurationErrorMessages[cannotSetOIDCOptions],
-        },
-        cannotAllowNativeBroker: {
-            code: cannotAllowNativeBroker,
-            desc: ClientConfigurationErrorMessages[cannotAllowNativeBroker],
-        },
-        authorityMismatch: {
-            code: authorityMismatch,
-            desc: ClientConfigurationErrorMessages[authorityMismatch],
-        },
-    };
-    /**
-     * Error thrown when there is an error in configuration of the MSAL.js library.
-     */
-    class ClientConfigurationError extends AuthError {
-        constructor(errorCode) {
-            super(errorCode, ClientConfigurationErrorMessages[errorCode]);
-            this.name = "ClientConfigurationError";
-            Object.setPrototypeOf(this, ClientConfigurationError.prototype);
-        }
-    }
-    function createClientConfigurationError(errorCode) {
-        return new ClientConfigurationError(errorCode);
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * @hidden
-     */
-    class StringUtils {
-        /**
-         * Check if stringified object is empty
-         * @param strObj
-         */
-        static isEmptyObj(strObj) {
-            if (strObj) {
-                try {
-                    const obj = JSON.parse(strObj);
-                    return Object.keys(obj).length === 0;
-                }
-                catch (e) { }
-            }
-            return true;
-        }
-        static startsWith(str, search) {
-            return str.indexOf(search) === 0;
-        }
-        static endsWith(str, search) {
-            return (str.length >= search.length &&
-                str.lastIndexOf(search) === str.length - search.length);
-        }
-        /**
-         * Parses string into an object.
-         *
-         * @param query
-         */
-        static queryStringToObject(query) {
-            const obj = {};
-            const params = query.split("&");
-            const decode = (s) => decodeURIComponent(s.replace(/\+/g, " "));
-            params.forEach((pair) => {
-                if (pair.trim()) {
-                    const [key, value] = pair.split(/=(.+)/g, 2); // Split on the first occurence of the '=' character
-                    if (key && value) {
-                        obj[decode(key)] = decode(value);
-                    }
-                }
-            });
-            return obj;
-        }
-        /**
-         * Trims entries in an array.
-         *
-         * @param arr
-         */
-        static trimArrayEntries(arr) {
-            return arr.map((entry) => entry.trim());
-        }
-        /**
-         * Removes empty strings from array
-         * @param arr
-         */
-        static removeEmptyStringsFromArray(arr) {
-            return arr.filter((entry) => {
-                return !!entry;
-            });
-        }
-        /**
-         * Attempts to parse a string into JSON
-         * @param str
-         */
-        static jsonParseHelper(str) {
-            try {
-                return JSON.parse(str);
-            }
-            catch (e) {
-                return null;
-            }
-        }
-        /**
-         * Tests if a given string matches a given pattern, with support for wildcards and queries.
-         * @param pattern Wildcard pattern to string match. Supports "*" for wildcards and "?" for queries
-         * @param input String to match against
-         */
-        static matchPattern(pattern, input) {
-            /**
-             * Wildcard support: https://stackoverflow.com/a/3117248/4888559
-             * Queries: replaces "?" in string with escaped "\?" for regex test
-             */
-            // eslint-disable-next-line security/detect-non-literal-regexp
-            const regex = new RegExp(pattern
-                .replace(/\\/g, "\\\\")
-                .replace(/\*/g, "[^ ]*")
-                .replace(/\?/g, "\\?"));
-            return regex.test(input);
-        }
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Parses hash string from given string. Returns empty string if no hash symbol is found.
-     * @param hashString
-     */
-    function stripLeadingHashOrQuery(responseString) {
-        if (responseString.startsWith("#/")) {
-            return responseString.substring(2);
-        }
-        else if (responseString.startsWith("#") ||
-            responseString.startsWith("?")) {
-            return responseString.substring(1);
-        }
-        return responseString;
-    }
-    /**
-     * Returns URL hash as server auth code response object.
-     */
-    function getDeserializedResponse(responseString) {
-        // Check if given hash is empty
-        if (!responseString || responseString.indexOf("=") < 0) {
-            return null;
-        }
-        try {
-            // Strip the # or ? symbol if present
-            const normalizedResponse = stripLeadingHashOrQuery(responseString);
-            // If # symbol was not present, above will return empty string, so give original hash value
-            const deserializedHash = Object.fromEntries(new URLSearchParams(normalizedResponse));
-            // Check for known response properties
-            if (deserializedHash.code ||
-                deserializedHash.error ||
-                deserializedHash.error_description ||
-                deserializedHash.state) {
-                return deserializedHash;
-            }
-        }
-        catch (e) {
-            throw createClientAuthError(hashNotDeserialized);
-        }
-        return null;
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Url object class which can perform various transformations on url strings.
-     */
-    class UrlString {
-        get urlString() {
-            return this._urlString;
-        }
-        constructor(url) {
-            this._urlString = url;
-            if (!this._urlString) {
-                // Throws error if url is empty
-                throw createClientConfigurationError(urlEmptyError);
-            }
-            if (!url.includes("#")) {
-                this._urlString = UrlString.canonicalizeUri(url);
-            }
-        }
-        /**
-         * Ensure urls are lower case and end with a / character.
-         * @param url
-         */
-        static canonicalizeUri(url) {
-            if (url) {
-                let lowerCaseUrl = url.toLowerCase();
-                if (StringUtils.endsWith(lowerCaseUrl, "?")) {
-                    lowerCaseUrl = lowerCaseUrl.slice(0, -1);
-                }
-                else if (StringUtils.endsWith(lowerCaseUrl, "?/")) {
-                    lowerCaseUrl = lowerCaseUrl.slice(0, -2);
-                }
-                if (!StringUtils.endsWith(lowerCaseUrl, "/")) {
-                    lowerCaseUrl += "/";
-                }
-                return lowerCaseUrl;
-            }
-            return url;
-        }
-        /**
-         * Throws if urlString passed is not a valid authority URI string.
-         */
-        validateAsUri() {
-            // Attempts to parse url for uri components
-            let components;
-            try {
-                components = this.getUrlComponents();
-            }
-            catch (e) {
-                throw createClientConfigurationError(urlParseError);
-            }
-            // Throw error if URI or path segments are not parseable.
-            if (!components.HostNameAndPort || !components.PathSegments) {
-                throw createClientConfigurationError(urlParseError);
-            }
-            // Throw error if uri is insecure.
-            if (!components.Protocol ||
-                components.Protocol.toLowerCase() !== "https:") {
-                throw createClientConfigurationError(authorityUriInsecure);
-            }
-        }
-        /**
-         * Given a url and a query string return the url with provided query string appended
-         * @param url
-         * @param queryString
-         */
-        static appendQueryString(url, queryString) {
-            if (!queryString) {
-                return url;
-            }
-            return url.indexOf("?") < 0
-                ? `${url}?${queryString}`
-                : `${url}&${queryString}`;
-        }
-        /**
-         * Returns a url with the hash removed
-         * @param url
-         */
-        static removeHashFromUrl(url) {
-            return UrlString.canonicalizeUri(url.split("#")[0]);
-        }
-        /**
-         * Given a url like https://a:b/common/d?e=f#g, and a tenantId, returns https://a:b/tenantId/d
-         * @param href The url
-         * @param tenantId The tenant id to replace
-         */
-        replaceTenantPath(tenantId) {
-            const urlObject = this.getUrlComponents();
-            const pathArray = urlObject.PathSegments;
-            if (tenantId &&
-                pathArray.length !== 0 &&
-                (pathArray[0] === AADAuthorityConstants.COMMON ||
-                    pathArray[0] === AADAuthorityConstants.ORGANIZATIONS)) {
-                pathArray[0] = tenantId;
-            }
-            return UrlString.constructAuthorityUriFromObject(urlObject);
-        }
-        /**
-         * Parses out the components from a url string.
-         * @returns An object with the various components. Please cache this value insted of calling this multiple times on the same url.
-         */
-        getUrlComponents() {
-            // https://gist.github.com/curtisz/11139b2cfcaef4a261e0
-            const regEx = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
-            // If url string does not match regEx, we throw an error
-            const match = this.urlString.match(regEx);
-            if (!match) {
-                throw createClientConfigurationError(urlParseError);
-            }
-            // Url component object
-            const urlComponents = {
-                Protocol: match[1],
-                HostNameAndPort: match[4],
-                AbsolutePath: match[5],
-                QueryString: match[7],
-            };
-            let pathSegments = urlComponents.AbsolutePath.split("/");
-            pathSegments = pathSegments.filter((val) => val && val.length > 0); // remove empty elements
-            urlComponents.PathSegments = pathSegments;
-            if (urlComponents.QueryString &&
-                urlComponents.QueryString.endsWith("/")) {
-                urlComponents.QueryString = urlComponents.QueryString.substring(0, urlComponents.QueryString.length - 1);
-            }
-            return urlComponents;
-        }
-        static getDomainFromUrl(url) {
-            const regEx = RegExp("^([^:/?#]+://)?([^/?#]*)");
-            const match = url.match(regEx);
-            if (!match) {
-                throw createClientConfigurationError(urlParseError);
-            }
-            return match[2];
-        }
-        static getAbsoluteUrl(relativeUrl, baseUrl) {
-            if (relativeUrl[0] === Constants.FORWARD_SLASH) {
-                const url = new UrlString(baseUrl);
-                const baseComponents = url.getUrlComponents();
-                return (baseComponents.Protocol +
-                    "//" +
-                    baseComponents.HostNameAndPort +
-                    relativeUrl);
-            }
-            return relativeUrl;
-        }
-        static constructAuthorityUriFromObject(urlObject) {
-            return new UrlString(urlObject.Protocol +
-                "//" +
-                urlObject.HostNameAndPort +
-                "/" +
-                urlObject.PathSegments.join("/"));
-        }
-        /**
-         * Check if the hash of the URL string contains known properties
-         * @deprecated This API will be removed in a future version
-         */
-        static hashContainsKnownProperties(response) {
-            return !!getDeserializedResponse(response);
-        }
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const rawMetdataJSON = {
-        endpointMetadata: {
-            "login.microsoftonline.com": {
-                token_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/token",
-                jwks_uri: "https://login.microsoftonline.com/{tenantid}/discovery/v2.0/keys",
-                issuer: "https://login.microsoftonline.com/{tenantid}/v2.0",
-                authorization_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/authorize",
-                end_session_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/logout",
-            },
-            "login.chinacloudapi.cn": {
-                token_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/token",
-                jwks_uri: "https://login.chinacloudapi.cn/{tenantid}/discovery/v2.0/keys",
-                issuer: "https://login.partner.microsoftonline.cn/{tenantid}/v2.0",
-                authorization_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/authorize",
-                end_session_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/logout",
-            },
-            "login.microsoftonline.us": {
-                token_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/token",
-                jwks_uri: "https://login.microsoftonline.us/{tenantid}/discovery/v2.0/keys",
-                issuer: "https://login.microsoftonline.us/{tenantid}/v2.0",
-                authorization_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/authorize",
-                end_session_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/logout",
-            },
-        },
-        instanceDiscoveryMetadata: {
-            tenant_discovery_endpoint: "https://{canonicalAuthority}/v2.0/.well-known/openid-configuration",
-            metadata: [
-                {
-                    preferred_network: "login.microsoftonline.com",
-                    preferred_cache: "login.windows.net",
-                    aliases: [
-                        "login.microsoftonline.com",
-                        "login.windows.net",
-                        "login.microsoft.com",
-                        "sts.windows.net",
-                    ],
-                },
-                {
-                    preferred_network: "login.partner.microsoftonline.cn",
-                    preferred_cache: "login.partner.microsoftonline.cn",
-                    aliases: [
-                        "login.partner.microsoftonline.cn",
-                        "login.chinacloudapi.cn",
-                    ],
-                },
-                {
-                    preferred_network: "login.microsoftonline.de",
-                    preferred_cache: "login.microsoftonline.de",
-                    aliases: ["login.microsoftonline.de"],
-                },
-                {
-                    preferred_network: "login.microsoftonline.us",
-                    preferred_cache: "login.microsoftonline.us",
-                    aliases: [
-                        "login.microsoftonline.us",
-                        "login.usgovcloudapi.net",
-                    ],
-                },
-                {
-                    preferred_network: "login-us.microsoftonline.com",
-                    preferred_cache: "login-us.microsoftonline.com",
-                    aliases: ["login-us.microsoftonline.com"],
-                },
-            ],
-        },
-    };
-    const EndpointMetadata = rawMetdataJSON.endpointMetadata;
-    const InstanceDiscoveryMetadata = rawMetdataJSON.instanceDiscoveryMetadata;
-    const InstanceDiscoveryMetadataAliases = new Set();
-    InstanceDiscoveryMetadata.metadata.forEach((metadataEntry) => {
-        metadataEntry.aliases.forEach((alias) => {
-            InstanceDiscoveryMetadataAliases.add(alias);
-        });
-    });
-    /**
-     * Attempts to get an aliases array from the static authority metadata sources based on the canonical authority host
-     * @param staticAuthorityOptions
-     * @param logger
-     * @returns
-     */
-    function getAliasesFromStaticSources(staticAuthorityOptions, logger) {
-        let staticAliases;
-        const canonicalAuthority = staticAuthorityOptions.canonicalAuthority;
-        if (canonicalAuthority) {
-            const authorityHost = new UrlString(canonicalAuthority).getUrlComponents().HostNameAndPort;
-            staticAliases =
-                getAliasesFromMetadata(authorityHost, staticAuthorityOptions.cloudDiscoveryMetadata?.metadata, AuthorityMetadataSource.CONFIG, logger) ||
-                    getAliasesFromMetadata(authorityHost, InstanceDiscoveryMetadata.metadata, AuthorityMetadataSource.HARDCODED_VALUES, logger) ||
-                    staticAuthorityOptions.knownAuthorities;
-        }
-        return staticAliases || [];
-    }
-    /**
-     * Returns aliases for from the raw cloud discovery metadata passed in
-     * @param authorityHost
-     * @param rawCloudDiscoveryMetadata
-     * @returns
-     */
-    function getAliasesFromMetadata(authorityHost, cloudDiscoveryMetadata, source, logger) {
-        logger?.trace(`getAliasesFromMetadata called with source: ${source}`);
-        if (authorityHost && cloudDiscoveryMetadata) {
-            const metadata = getCloudDiscoveryMetadataFromNetworkResponse(cloudDiscoveryMetadata, authorityHost);
-            if (metadata) {
-                logger?.trace(`getAliasesFromMetadata: found cloud discovery metadata in ${source}, returning aliases`);
-                return metadata.aliases;
-            }
-            else {
-                logger?.trace(`getAliasesFromMetadata: did not find cloud discovery metadata in ${source}`);
-            }
-        }
-        return null;
-    }
-    /**
-     * Get cloud discovery metadata for common authorities
-     */
-    function getCloudDiscoveryMetadataFromHardcodedValues(authorityHost) {
-        const metadata = getCloudDiscoveryMetadataFromNetworkResponse(InstanceDiscoveryMetadata.metadata, authorityHost);
-        return metadata;
-    }
-    /**
-     * Searches instance discovery network response for the entry that contains the host in the aliases list
-     * @param response
-     * @param authority
-     */
-    function getCloudDiscoveryMetadataFromNetworkResponse(response, authorityHost) {
-        for (let i = 0; i < response.length; i++) {
-            const metadata = response[i];
-            if (metadata.aliases.includes(authorityHost)) {
-                return metadata;
-            }
-        }
-        return null;
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Protocol modes supported by MSAL.
-     */
-    const ProtocolMode = {
-        AAD: "AAD",
-        OIDC: "OIDC",
-    };
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const AzureCloudInstance = {
-        // AzureCloudInstance is not specified.
-        None: "none",
-        // Microsoft Azure public cloud
-        AzurePublic: "https://login.microsoftonline.com",
-        // Microsoft PPE
-        AzurePpe: "https://login.windows-ppe.net",
-        // Microsoft Chinese national/regional cloud
-        AzureChina: "https://login.chinacloudapi.cn",
-        // Microsoft German national/regional cloud ("Black Forest")
-        AzureGermany: "https://login.microsoftonline.de",
-        // US Government cloud
-        AzureUsGovernment: "https://login.microsoftonline.us",
-    };
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isCloudInstanceDiscoveryResponse(response) {
-        return (response.hasOwnProperty("tenant_discovery_endpoint") &&
-            response.hasOwnProperty("metadata"));
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isCloudInstanceDiscoveryErrorResponse(response) {
-        return (response.hasOwnProperty("error") &&
-            response.hasOwnProperty("error_description"));
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Enumeration of operations that are instrumented by have their performance measured by the PerformanceClient.
-     *
-     * @export
-     * @enum {number}
-     */
-    const PerformanceEvents = {
-        /**
-         * acquireTokenByCode API (msal-browser and msal-node).
-         * Used to acquire tokens by trading an authorization code against the token endpoint.
-         */
-        AcquireTokenByCode: "acquireTokenByCode",
-        /**
-         * acquireTokenByRefreshToken API (msal-browser and msal-node).
-         * Used to renew an access token using a refresh token against the token endpoint.
-         */
-        AcquireTokenByRefreshToken: "acquireTokenByRefreshToken",
-        /**
-         * acquireTokenSilent API (msal-browser and msal-node).
-         * Used to silently acquire a new access token (from the cache or the network).
-         */
-        AcquireTokenSilent: "acquireTokenSilent",
-        /**
-         * acquireTokenSilentAsync (msal-browser).
-         * Internal API for acquireTokenSilent.
-         */
-        AcquireTokenSilentAsync: "acquireTokenSilentAsync",
-        /**
-         * acquireTokenPopup (msal-browser).
-         * Used to acquire a new access token interactively through pop ups
-         */
-        AcquireTokenPopup: "acquireTokenPopup",
-        /**
-         * acquireTokenPreRedirect (msal-browser).
-         * First part of the redirect flow.
-         * Used to acquire a new access token interactively through redirects.
-         */
-        AcquireTokenPreRedirect: "acquireTokenPreRedirect",
-        /**
-         * acquireTokenRedirect (msal-browser).
-         * Second part of the redirect flow.
-         * Used to acquire a new access token interactively through redirects.
-         */
-        AcquireTokenRedirect: "acquireTokenRedirect",
-        /**
-         * getPublicKeyThumbprint API in CryptoOpts class (msal-browser).
-         * Used to generate a public/private keypair and generate a public key thumbprint for pop requests.
-         */
-        CryptoOptsGetPublicKeyThumbprint: "cryptoOptsGetPublicKeyThumbprint",
-        /**
-         * signJwt API in CryptoOpts class (msal-browser).
-         * Used to signed a pop token.
-         */
-        CryptoOptsSignJwt: "cryptoOptsSignJwt",
-        /**
-         * acquireToken API in the SilentCacheClient class (msal-browser).
-         * Used to read access tokens from the cache.
-         */
-        SilentCacheClientAcquireToken: "silentCacheClientAcquireToken",
-        /**
-         * acquireToken API in the SilentIframeClient class (msal-browser).
-         * Used to acquire a new set of tokens from the authorize endpoint in a hidden iframe.
-         */
-        SilentIframeClientAcquireToken: "silentIframeClientAcquireToken",
-        AwaitConcurrentIframe: "awaitConcurrentIframe",
-        /**
-         * acquireToken API in SilentRereshClient (msal-browser).
-         * Used to acquire a new set of tokens from the token endpoint using a refresh token.
-         */
-        SilentRefreshClientAcquireToken: "silentRefreshClientAcquireToken",
-        /**
-         * ssoSilent API (msal-browser).
-         * Used to silently acquire an authorization code and set of tokens using a hidden iframe.
-         */
-        SsoSilent: "ssoSilent",
-        /**
-         * getDiscoveredAuthority API in StandardInteractionClient class (msal-browser).
-         * Used to load authority metadata for a request.
-         */
-        StandardInteractionClientGetDiscoveredAuthority: "standardInteractionClientGetDiscoveredAuthority",
-        /**
-         * acquireToken APIs in msal-browser.
-         * Used to make an /authorize endpoint call with native brokering enabled.
-         */
-        FetchAccountIdWithNativeBroker: "fetchAccountIdWithNativeBroker",
-        /**
-         * acquireToken API in NativeInteractionClient class (msal-browser).
-         * Used to acquire a token from Native component when native brokering is enabled.
-         */
-        NativeInteractionClientAcquireToken: "nativeInteractionClientAcquireToken",
-        /**
-         * Time spent creating default headers for requests to token endpoint
-         */
-        BaseClientCreateTokenRequestHeaders: "baseClientCreateTokenRequestHeaders",
-        /**
-         * Time spent sending/waiting for the response of a request to the token endpoint
-         */
-        RefreshTokenClientExecutePostToTokenEndpoint: "refreshTokenClientExecutePostToTokenEndpoint",
-        AuthorizationCodeClientExecutePostToTokenEndpoint: "authorizationCodeClientExecutePostToTokenEndpoint",
-        /**
-         * Used to measure the time taken for completing embedded-broker handshake (PW-Broker).
-         */
-        BrokerHandhshake: "brokerHandshake",
-        /**
-         * acquireTokenByRefreshToken API in BrokerClientApplication (PW-Broker) .
-         */
-        AcquireTokenByRefreshTokenInBroker: "acquireTokenByRefreshTokenInBroker",
-        /**
-         * Time taken for token acquisition by broker
-         */
-        AcquireTokenByBroker: "acquireTokenByBroker",
-        /**
-         * Time spent on the network for refresh token acquisition
-         */
-        RefreshTokenClientExecuteTokenRequest: "refreshTokenClientExecuteTokenRequest",
-        /**
-         * Time taken for acquiring refresh token , records RT size
-         */
-        RefreshTokenClientAcquireToken: "refreshTokenClientAcquireToken",
-        /**
-         * Time taken for acquiring cached refresh token
-         */
-        RefreshTokenClientAcquireTokenWithCachedRefreshToken: "refreshTokenClientAcquireTokenWithCachedRefreshToken",
-        /**
-         * acquireTokenByRefreshToken API in RefreshTokenClient (msal-common).
-         */
-        RefreshTokenClientAcquireTokenByRefreshToken: "refreshTokenClientAcquireTokenByRefreshToken",
-        /**
-         * Helper function to create token request body in RefreshTokenClient (msal-common).
-         */
-        RefreshTokenClientCreateTokenRequestBody: "refreshTokenClientCreateTokenRequestBody",
-        /**
-         * acquireTokenFromCache (msal-browser).
-         * Internal API for acquiring token from cache
-         */
-        AcquireTokenFromCache: "acquireTokenFromCache",
-        SilentFlowClientAcquireCachedToken: "silentFlowClientAcquireCachedToken",
-        SilentFlowClientGenerateResultFromCacheRecord: "silentFlowClientGenerateResultFromCacheRecord",
-        /**
-         * acquireTokenBySilentIframe (msal-browser).
-         * Internal API for acquiring token by silent Iframe
-         */
-        AcquireTokenBySilentIframe: "acquireTokenBySilentIframe",
-        /**
-         * Internal API for initializing base request in BaseInteractionClient (msal-browser)
-         */
-        InitializeBaseRequest: "initializeBaseRequest",
-        /**
-         * Internal API for initializing silent request in SilentCacheClient (msal-browser)
-         */
-        InitializeSilentRequest: "initializeSilentRequest",
-        InitializeClientApplication: "initializeClientApplication",
-        /**
-         * Helper function in SilentIframeClient class (msal-browser).
-         */
-        SilentIframeClientTokenHelper: "silentIframeClientTokenHelper",
-        /**
-         * SilentHandler
-         */
-        SilentHandlerInitiateAuthRequest: "silentHandlerInitiateAuthRequest",
-        SilentHandlerMonitorIframeForHash: "silentHandlerMonitorIframeForHash",
-        SilentHandlerLoadFrame: "silentHandlerLoadFrame",
-        SilentHandlerLoadFrameSync: "silentHandlerLoadFrameSync",
-        /**
-         * Helper functions in StandardInteractionClient class (msal-browser)
-         */
-        StandardInteractionClientCreateAuthCodeClient: "standardInteractionClientCreateAuthCodeClient",
-        StandardInteractionClientGetClientConfiguration: "standardInteractionClientGetClientConfiguration",
-        StandardInteractionClientInitializeAuthorizationRequest: "standardInteractionClientInitializeAuthorizationRequest",
-        StandardInteractionClientInitializeAuthorizationCodeRequest: "standardInteractionClientInitializeAuthorizationCodeRequest",
-        /**
-         * getAuthCodeUrl API (msal-browser and msal-node).
-         */
-        GetAuthCodeUrl: "getAuthCodeUrl",
-        /**
-         * Functions from InteractionHandler (msal-browser)
-         */
-        HandleCodeResponseFromServer: "handleCodeResponseFromServer",
-        HandleCodeResponse: "handleCodeResponse",
-        UpdateTokenEndpointAuthority: "updateTokenEndpointAuthority",
-        /**
-         * APIs in Authorization Code Client (msal-common)
-         */
-        AuthClientAcquireToken: "authClientAcquireToken",
-        AuthClientExecuteTokenRequest: "authClientExecuteTokenRequest",
-        AuthClientCreateTokenRequestBody: "authClientCreateTokenRequestBody",
-        AuthClientCreateQueryString: "authClientCreateQueryString",
-        /**
-         * Generate functions in PopTokenGenerator (msal-common)
-         */
-        PopTokenGenerateCnf: "popTokenGenerateCnf",
-        PopTokenGenerateKid: "popTokenGenerateKid",
-        /**
-         * handleServerTokenResponse API in ResponseHandler (msal-common)
-         */
-        HandleServerTokenResponse: "handleServerTokenResponse",
-        DeserializeResponse: "deserializeResponse",
-        /**
-         * Authority functions
-         */
-        AuthorityFactoryCreateDiscoveredInstance: "authorityFactoryCreateDiscoveredInstance",
-        AuthorityResolveEndpointsAsync: "authorityResolveEndpointsAsync",
-        AuthorityResolveEndpointsFromLocalSources: "authorityResolveEndpointsFromLocalSources",
-        AuthorityGetCloudDiscoveryMetadataFromNetwork: "authorityGetCloudDiscoveryMetadataFromNetwork",
-        AuthorityUpdateCloudDiscoveryMetadata: "authorityUpdateCloudDiscoveryMetadata",
-        AuthorityGetEndpointMetadataFromNetwork: "authorityGetEndpointMetadataFromNetwork",
-        AuthorityUpdateEndpointMetadata: "authorityUpdateEndpointMetadata",
-        AuthorityUpdateMetadataWithRegionalInformation: "authorityUpdateMetadataWithRegionalInformation",
-        /**
-         * Region Discovery functions
-         */
-        RegionDiscoveryDetectRegion: "regionDiscoveryDetectRegion",
-        RegionDiscoveryGetRegionFromIMDS: "regionDiscoveryGetRegionFromIMDS",
-        RegionDiscoveryGetCurrentVersion: "regionDiscoveryGetCurrentVersion",
-        AcquireTokenByCodeAsync: "acquireTokenByCodeAsync",
-        GetEndpointMetadataFromNetwork: "getEndpointMetadataFromNetwork",
-        GetCloudDiscoveryMetadataFromNetworkMeasurement: "getCloudDiscoveryMetadataFromNetworkMeasurement",
-        HandleRedirectPromiseMeasurement: "handleRedirectPromise",
-        HandleNativeRedirectPromiseMeasurement: "handleNativeRedirectPromise",
-        UpdateCloudDiscoveryMetadataMeasurement: "updateCloudDiscoveryMetadataMeasurement",
-        UsernamePasswordClientAcquireToken: "usernamePasswordClientAcquireToken",
-        NativeMessageHandlerHandshake: "nativeMessageHandlerHandshake",
-        NativeGenerateAuthResult: "nativeGenerateAuthResult",
-        RemoveHiddenIframe: "removeHiddenIframe",
-        /**
-         * Cache operations
-         */
-        ClearTokensAndKeysWithClaims: "clearTokensAndKeysWithClaims",
-        CacheManagerGetRefreshToken: "cacheManagerGetRefreshToken",
-        /**
-         * Crypto Operations
-         */
-        GeneratePkceCodes: "generatePkceCodes",
-        GenerateCodeVerifier: "generateCodeVerifier",
-        GenerateCodeChallengeFromVerifier: "generateCodeChallengeFromVerifier",
-        Sha256Digest: "sha256Digest",
-        GetRandomValues: "getRandomValues",
-    };
-    const PerformanceEventAbbreviations = new Map([
-        [PerformanceEvents.AcquireTokenByCode, "ATByCode"],
-        [PerformanceEvents.AcquireTokenByRefreshToken, "ATByRT"],
-        [PerformanceEvents.AcquireTokenSilent, "ATS"],
-        [PerformanceEvents.AcquireTokenSilentAsync, "ATSAsync"],
-        [PerformanceEvents.AcquireTokenPopup, "ATPopup"],
-        [PerformanceEvents.AcquireTokenRedirect, "ATRedirect"],
-        [
-            PerformanceEvents.CryptoOptsGetPublicKeyThumbprint,
-            "CryptoGetPKThumb",
-        ],
-        [PerformanceEvents.CryptoOptsSignJwt, "CryptoSignJwt"],
-        [PerformanceEvents.SilentCacheClientAcquireToken, "SltCacheClientAT"],
-        [PerformanceEvents.SilentIframeClientAcquireToken, "SltIframeClientAT"],
-        [PerformanceEvents.SilentRefreshClientAcquireToken, "SltRClientAT"],
-        [PerformanceEvents.SsoSilent, "SsoSlt"],
-        [
-            PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority,
-            "StdIntClientGetDiscAuth",
-        ],
-        [
-            PerformanceEvents.FetchAccountIdWithNativeBroker,
-            "FetchAccIdWithNtvBroker",
-        ],
-        [
-            PerformanceEvents.NativeInteractionClientAcquireToken,
-            "NtvIntClientAT",
-        ],
-        [
-            PerformanceEvents.BaseClientCreateTokenRequestHeaders,
-            "BaseClientCreateTReqHead",
-        ],
-        [
-            PerformanceEvents.RefreshTokenClientExecutePostToTokenEndpoint,
-            "RTClientExecPost",
-        ],
-        [
-            PerformanceEvents.AuthorizationCodeClientExecutePostToTokenEndpoint,
-            "AuthCodeClientExecPost",
-        ],
-        [PerformanceEvents.BrokerHandhshake, "BrokerHandshake"],
-        [
-            PerformanceEvents.AcquireTokenByRefreshTokenInBroker,
-            "ATByRTInBroker",
-        ],
-        [PerformanceEvents.AcquireTokenByBroker, "ATByBroker"],
-        [
-            PerformanceEvents.RefreshTokenClientExecuteTokenRequest,
-            "RTClientExecTReq",
-        ],
-        [PerformanceEvents.RefreshTokenClientAcquireToken, "RTClientAT"],
-        [
-            PerformanceEvents.RefreshTokenClientAcquireTokenWithCachedRefreshToken,
-            "RTClientATWithCachedRT",
-        ],
-        [
-            PerformanceEvents.RefreshTokenClientAcquireTokenByRefreshToken,
-            "RTClientATByRT",
-        ],
-        [
-            PerformanceEvents.RefreshTokenClientCreateTokenRequestBody,
-            "RTClientCreateTReqBody",
-        ],
-        [PerformanceEvents.AcquireTokenFromCache, "ATFromCache"],
-        [
-            PerformanceEvents.SilentFlowClientAcquireCachedToken,
-            "SltFlowClientATCached",
-        ],
-        [
-            PerformanceEvents.SilentFlowClientGenerateResultFromCacheRecord,
-            "SltFlowClientGenResFromCache",
-        ],
-        [PerformanceEvents.AcquireTokenBySilentIframe, "ATBySltIframe"],
-        [PerformanceEvents.InitializeBaseRequest, "InitBaseReq"],
-        [PerformanceEvents.InitializeSilentRequest, "InitSltReq"],
-        [
-            PerformanceEvents.InitializeClientApplication,
-            "InitClientApplication",
-        ],
-        [PerformanceEvents.SilentIframeClientTokenHelper, "SIClientTHelper"],
-        [
-            PerformanceEvents.SilentHandlerInitiateAuthRequest,
-            "SHandlerInitAuthReq",
-        ],
-        [
-            PerformanceEvents.SilentHandlerMonitorIframeForHash,
-            "SltHandlerMonitorIframeForHash",
-        ],
-        [PerformanceEvents.SilentHandlerLoadFrame, "SHandlerLoadFrame"],
-        [PerformanceEvents.SilentHandlerLoadFrameSync, "SHandlerLoadFrameSync"],
-        [
-            PerformanceEvents.StandardInteractionClientCreateAuthCodeClient,
-            "StdIntClientCreateAuthCodeClient",
-        ],
-        [
-            PerformanceEvents.StandardInteractionClientGetClientConfiguration,
-            "StdIntClientGetClientConf",
-        ],
-        [
-            PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest,
-            "StdIntClientInitAuthReq",
-        ],
-        [
-            PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest,
-            "StdIntClientInitAuthCodeReq",
-        ],
-        [PerformanceEvents.GetAuthCodeUrl, "GetAuthCodeUrl"],
-        [
-            PerformanceEvents.HandleCodeResponseFromServer,
-            "HandleCodeResFromServer",
-        ],
-        [PerformanceEvents.HandleCodeResponse, "HandleCodeResp"],
-        [PerformanceEvents.UpdateTokenEndpointAuthority, "UpdTEndpointAuth"],
-        [PerformanceEvents.AuthClientAcquireToken, "AuthClientAT"],
-        [PerformanceEvents.AuthClientExecuteTokenRequest, "AuthClientExecTReq"],
-        [
-            PerformanceEvents.AuthClientCreateTokenRequestBody,
-            "AuthClientCreateTReqBody",
-        ],
-        [
-            PerformanceEvents.AuthClientCreateQueryString,
-            "AuthClientCreateQueryStr",
-        ],
-        [PerformanceEvents.PopTokenGenerateCnf, "PopTGenCnf"],
-        [PerformanceEvents.PopTokenGenerateKid, "PopTGenKid"],
-        [PerformanceEvents.HandleServerTokenResponse, "HandleServerTRes"],
-        [PerformanceEvents.DeserializeResponse, "DeserializeRes"],
-        [
-            PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance,
-            "AuthFactCreateDiscInst",
-        ],
-        [
-            PerformanceEvents.AuthorityResolveEndpointsAsync,
-            "AuthResolveEndpointsAsync",
-        ],
-        [
-            PerformanceEvents.AuthorityResolveEndpointsFromLocalSources,
-            "AuthResolveEndpointsFromLocal",
-        ],
-        [
-            PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork,
-            "AuthGetCDMetaFromNet",
-        ],
-        [
-            PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata,
-            "AuthUpdCDMeta",
-        ],
-        [
-            PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork,
-            "AuthUpdCDMetaFromNet",
-        ],
-        [
-            PerformanceEvents.AuthorityUpdateEndpointMetadata,
-            "AuthUpdEndpointMeta",
-        ],
-        [
-            PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation,
-            "AuthUpdMetaWithRegInfo",
-        ],
-        [PerformanceEvents.RegionDiscoveryDetectRegion, "RegDiscDetectReg"],
-        [
-            PerformanceEvents.RegionDiscoveryGetRegionFromIMDS,
-            "RegDiscGetRegFromIMDS",
-        ],
-        [
-            PerformanceEvents.RegionDiscoveryGetCurrentVersion,
-            "RegDiscGetCurrentVer",
-        ],
-        [PerformanceEvents.AcquireTokenByCodeAsync, "ATByCodeAsync"],
-        [
-            PerformanceEvents.GetEndpointMetadataFromNetwork,
-            "GetEndpointMetaFromNet",
-        ],
-        [
-            PerformanceEvents.GetCloudDiscoveryMetadataFromNetworkMeasurement,
-            "GetCDMetaFromNet",
-        ],
-        [
-            PerformanceEvents.HandleRedirectPromiseMeasurement,
-            "HandleRedirectPromise",
-        ],
-        [
-            PerformanceEvents.HandleNativeRedirectPromiseMeasurement,
-            "HandleNtvRedirectPromise",
-        ],
-        [
-            PerformanceEvents.UpdateCloudDiscoveryMetadataMeasurement,
-            "UpdateCDMeta",
-        ],
-        [
-            PerformanceEvents.UsernamePasswordClientAcquireToken,
-            "UserPassClientAT",
-        ],
-        [
-            PerformanceEvents.NativeMessageHandlerHandshake,
-            "NtvMsgHandlerHandshake",
-        ],
-        [PerformanceEvents.NativeGenerateAuthResult, "NtvGenAuthRes"],
-        [PerformanceEvents.RemoveHiddenIframe, "RemoveHiddenIframe"],
-        [
-            PerformanceEvents.ClearTokensAndKeysWithClaims,
-            "ClearTAndKeysWithClaims",
-        ],
-        [PerformanceEvents.CacheManagerGetRefreshToken, "CacheManagerGetRT"],
-        [PerformanceEvents.GeneratePkceCodes, "GenPkceCodes"],
-        [PerformanceEvents.GenerateCodeVerifier, "GenCodeVerifier"],
-        [
-            PerformanceEvents.GenerateCodeChallengeFromVerifier,
-            "GenCodeChallengeFromVerifier",
-        ],
-        [PerformanceEvents.Sha256Digest, "Sha256Digest"],
-        [PerformanceEvents.GetRandomValues, "GetRandomValues"],
-    ]);
-    /**
-     * State of the performance event.
-     *
-     * @export
-     * @enum {number}
-     */
-    const PerformanceEventStatus = {
-        NotStarted: 0,
-        InProgress: 1,
-        Completed: 2,
-    };
-    const IntFields = new Set([
-        "accessTokenSize",
-        "durationMs",
-        "idTokenSize",
-        "matsSilentStatus",
-        "matsHttpStatus",
-        "refreshTokenSize",
-        "queuedTimeMs",
-        "startTimeMs",
-        "status",
-        "multiMatchedAT",
-        "multiMatchedID",
-        "multiMatchedRT",
-    ]);
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Wraps a function with a performance measurement.
-     * Usage: invoke(functionToCall, performanceClient, "EventName", "correlationId")(...argsToPassToFunction)
-     * @param callback
-     * @param eventName
-     * @param logger
-     * @param telemetryClient
-     * @param correlationId
-     * @returns
-     * @internal
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const invoke = (callback, eventName, logger, telemetryClient, correlationId) => {
-        return (...args) => {
-            logger.trace(`Executing function ${eventName}`);
-            const inProgressEvent = telemetryClient?.startMeasurement(eventName, correlationId);
-            if (correlationId) {
-                // Track number of times this API is called in a single request
-                const eventCount = eventName + "CallCount";
-                telemetryClient?.incrementFields({ [eventCount]: 1 }, correlationId);
-            }
-            try {
-                const result = callback(...args);
-                inProgressEvent?.end({
-                    success: true,
-                });
-                logger.trace(`Returning result from ${eventName}`);
-                return result;
-            }
-            catch (e) {
-                logger.trace(`Error occurred in ${eventName}`);
-                try {
-                    logger.trace(JSON.stringify(e));
-                }
-                catch (e) {
-                    logger.trace("Unable to print error message.");
-                }
-                inProgressEvent?.end({
-                    success: false,
-                }, e);
-                throw e;
-            }
-        };
-    };
-    /**
-     * Wraps an async function with a performance measurement.
-     * Usage: invokeAsync(functionToCall, performanceClient, "EventName", "correlationId")(...argsToPassToFunction)
-     * @param callback
-     * @param eventName
-     * @param logger
-     * @param telemetryClient
-     * @param correlationId
-     * @returns
-     * @internal
-     *
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const invokeAsync = (callback, eventName, logger, telemetryClient, correlationId) => {
-        return (...args) => {
-            logger.trace(`Executing function ${eventName}`);
-            const inProgressEvent = telemetryClient?.startMeasurement(eventName, correlationId);
-            if (correlationId) {
-                // Track number of times this API is called in a single request
-                const eventCount = eventName + "CallCount";
-                telemetryClient?.incrementFields({ [eventCount]: 1 }, correlationId);
-            }
-            telemetryClient?.setPreQueueTime(eventName, correlationId);
-            return callback(...args)
-                .then((response) => {
-                logger.trace(`Returning result from ${eventName}`);
-                inProgressEvent?.end({
-                    success: true,
-                });
-                return response;
-            })
-                .catch((e) => {
-                logger.trace(`Error occurred in ${eventName}`);
-                try {
-                    logger.trace(JSON.stringify(e));
-                }
-                catch (e) {
-                    logger.trace("Unable to print error message.");
-                }
-                inProgressEvent?.end({
-                    success: false,
-                }, e);
-                throw e;
-            });
-        };
-    };
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    class RegionDiscovery {
-        constructor(networkInterface, logger, performanceClient, correlationId) {
-            this.networkInterface = networkInterface;
-            this.logger = logger;
-            this.performanceClient = performanceClient;
-            this.correlationId = correlationId;
-        }
-        /**
-         * Detect the region from the application's environment.
-         *
-         * @returns Promise<string | null>
-         */
-        async detectRegion(environmentRegion, regionDiscoveryMetadata) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryDetectRegion, this.correlationId);
-            // Initialize auto detected region with the region from the envrionment
-            let autodetectedRegionName = environmentRegion;
-            // Check if a region was detected from the environment, if not, attempt to get the region from IMDS
-            if (!autodetectedRegionName) {
-                const options = RegionDiscovery.IMDS_OPTIONS;
-                try {
-                    const localIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(Constants.IMDS_VERSION, options);
-                    if (localIMDSVersionResponse.status ===
-                        ResponseCodes.httpSuccess) {
-                        autodetectedRegionName = localIMDSVersionResponse.body;
-                        regionDiscoveryMetadata.region_source =
-                            RegionDiscoverySources.IMDS;
-                    }
-                    // If the response using the local IMDS version failed, try to fetch the current version of IMDS and retry.
-                    if (localIMDSVersionResponse.status ===
-                        ResponseCodes.httpBadRequest) {
-                        const currentIMDSVersion = await invokeAsync(this.getCurrentVersion.bind(this), PerformanceEvents.RegionDiscoveryGetCurrentVersion, this.logger, this.performanceClient, this.correlationId)(options);
-                        if (!currentIMDSVersion) {
-                            regionDiscoveryMetadata.region_source =
-                                RegionDiscoverySources.FAILED_AUTO_DETECTION;
-                            return null;
-                        }
-                        const currentIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(currentIMDSVersion, options);
-                        if (currentIMDSVersionResponse.status ===
-                            ResponseCodes.httpSuccess) {
-                            autodetectedRegionName =
-                                currentIMDSVersionResponse.body;
-                            regionDiscoveryMetadata.region_source =
-                                RegionDiscoverySources.IMDS;
-                        }
-                    }
-                }
-                catch (e) {
-                    regionDiscoveryMetadata.region_source =
-                        RegionDiscoverySources.FAILED_AUTO_DETECTION;
-                    return null;
-                }
-            }
-            else {
-                regionDiscoveryMetadata.region_source =
-                    RegionDiscoverySources.ENVIRONMENT_VARIABLE;
-            }
-            // If no region was auto detected from the environment or from the IMDS endpoint, mark the attempt as a FAILED_AUTO_DETECTION
-            if (!autodetectedRegionName) {
-                regionDiscoveryMetadata.region_source =
-                    RegionDiscoverySources.FAILED_AUTO_DETECTION;
-            }
-            return autodetectedRegionName || null;
-        }
-        /**
-         * Make the call to the IMDS endpoint
-         *
-         * @param imdsEndpointUrl
-         * @returns Promise<NetworkResponse<string>>
-         */
-        async getRegionFromIMDS(version, options) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.correlationId);
-            return this.networkInterface.sendGetRequestAsync(`${Constants.IMDS_ENDPOINT}?api-version=${version}&format=text`, options, Constants.IMDS_TIMEOUT);
-        }
-        /**
-         * Get the most recent version of the IMDS endpoint available
-         *
-         * @returns Promise<string | null>
-         */
-        async getCurrentVersion(options) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryGetCurrentVersion, this.correlationId);
-            try {
-                const response = await this.networkInterface.sendGetRequestAsync(`${Constants.IMDS_ENDPOINT}?format=json`, options);
-                // When IMDS endpoint is called without the api version query param, bad request response comes back with latest version.
-                if (response.status === ResponseCodes.httpBadRequest &&
-                    response.body &&
-                    response.body["newest-versions"] &&
-                    response.body["newest-versions"].length > 0) {
-                    return response.body["newest-versions"][0];
-                }
-                return null;
-            }
-            catch (e) {
-                return null;
-            }
-        }
-    }
-    // Options for the IMDS endpoint request
-    RegionDiscovery.IMDS_OPTIONS = {
-        headers: {
-            Metadata: "true",
-        },
-    };
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2236,7 +1084,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2563,1178 +1411,296 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const redirectUriEmpty = "redirect_uri_empty";
+    const claimsRequestParsingError = "claims_request_parsing_error";
+    const authorityUriInsecure = "authority_uri_insecure";
+    const urlParseError = "url_parse_error";
+    const urlEmptyError = "empty_url_error";
+    const emptyInputScopesError = "empty_input_scopes_error";
+    const invalidPromptValue = "invalid_prompt_value";
+    const invalidClaims = "invalid_claims";
+    const tokenRequestEmpty = "token_request_empty";
+    const logoutRequestEmpty = "logout_request_empty";
+    const invalidCodeChallengeMethod = "invalid_code_challenge_method";
+    const pkceParamsMissing = "pkce_params_missing";
+    const invalidCloudDiscoveryMetadata = "invalid_cloud_discovery_metadata";
+    const invalidAuthorityMetadata = "invalid_authority_metadata";
+    const untrustedAuthority = "untrusted_authority";
+    const missingSshJwk = "missing_ssh_jwk";
+    const missingSshKid = "missing_ssh_kid";
+    const missingNonceAuthenticationHeader = "missing_nonce_authentication_header";
+    const invalidAuthenticationHeader = "invalid_authentication_header";
+    const cannotSetOIDCOptions = "cannot_set_OIDCOptions";
+    const cannotAllowNativeBroker = "cannot_allow_native_broker";
+    const authorityMismatch = "authority_mismatch";
+
+    var ClientConfigurationErrorCodes = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        authorityMismatch: authorityMismatch,
+        authorityUriInsecure: authorityUriInsecure,
+        cannotAllowNativeBroker: cannotAllowNativeBroker,
+        cannotSetOIDCOptions: cannotSetOIDCOptions,
+        claimsRequestParsingError: claimsRequestParsingError,
+        emptyInputScopesError: emptyInputScopesError,
+        invalidAuthenticationHeader: invalidAuthenticationHeader,
+        invalidAuthorityMetadata: invalidAuthorityMetadata,
+        invalidClaims: invalidClaims,
+        invalidCloudDiscoveryMetadata: invalidCloudDiscoveryMetadata,
+        invalidCodeChallengeMethod: invalidCodeChallengeMethod,
+        invalidPromptValue: invalidPromptValue,
+        logoutRequestEmpty: logoutRequestEmpty,
+        missingNonceAuthenticationHeader: missingNonceAuthenticationHeader,
+        missingSshJwk: missingSshJwk,
+        missingSshKid: missingSshKid,
+        pkceParamsMissing: pkceParamsMissing,
+        redirectUriEmpty: redirectUriEmpty,
+        tokenRequestEmpty: tokenRequestEmpty,
+        untrustedAuthority: untrustedAuthority,
+        urlEmptyError: urlEmptyError,
+        urlParseError: urlParseError
+    });
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    const ClientConfigurationErrorMessages = {
+        [redirectUriEmpty]: "A redirect URI is required for all calls, and none has been set.",
+        [claimsRequestParsingError]: "Could not parse the given claims request object.",
+        [authorityUriInsecure]: "Authority URIs must use https.  Please see here for valid authority configuration options: https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-js-initializing-client-applications#configuration-options",
+        [urlParseError]: "URL could not be parsed into appropriate segments.",
+        [urlEmptyError]: "URL was empty or null.",
+        [emptyInputScopesError]: "Scopes cannot be passed as null, undefined or empty array because they are required to obtain an access token.",
+        [invalidPromptValue]: "Please see here for valid configuration options: https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_common.html#commonauthorizationurlrequest",
+        [invalidClaims]: "Given claims parameter must be a stringified JSON object.",
+        [tokenRequestEmpty]: "Token request was empty and not found in cache.",
+        [logoutRequestEmpty]: "The logout request was null or undefined.",
+        [invalidCodeChallengeMethod]: 'code_challenge_method passed is invalid. Valid values are "plain" and "S256".',
+        [pkceParamsMissing]: "Both params: code_challenge and code_challenge_method are to be passed if to be sent in the request",
+        [invalidCloudDiscoveryMetadata]: "Invalid cloudDiscoveryMetadata provided. Must be a stringified JSON object containing tenant_discovery_endpoint and metadata fields",
+        [invalidAuthorityMetadata]: "Invalid authorityMetadata provided. Must by a stringified JSON object containing authorization_endpoint, token_endpoint, issuer fields.",
+        [untrustedAuthority]: "The provided authority is not a trusted authority. Please include this authority in the knownAuthorities config parameter.",
+        [missingSshJwk]: "Missing sshJwk in SSH certificate request. A stringified JSON Web Key is required when using the SSH authentication scheme.",
+        [missingSshKid]: "Missing sshKid in SSH certificate request. A string that uniquely identifies the public SSH key is required when using the SSH authentication scheme.",
+        [missingNonceAuthenticationHeader]: "Unable to find an authentication header containing server nonce. Either the Authentication-Info or WWW-Authenticate headers must be present in order to obtain a server nonce.",
+        [invalidAuthenticationHeader]: "Invalid authentication header provided",
+        [cannotSetOIDCOptions]: "Cannot set OIDCOptions parameter. Please change the protocol mode to OIDC or use a non-Microsoft authority.",
+        [cannotAllowNativeBroker]: "Cannot set allowNativeBroker parameter to true when not in AAD protocol mode.",
+        [authorityMismatch]: "Authority mismatch error. Authority provided in login request or PublicClientApplication config does not match the environment of the provided account. Please use a matching account or make an interactive request to login to this authority.",
+    };
     /**
-     * The authority class validates the authority URIs used by the user, and retrieves the OpenID Configuration Data from the
-     * endpoint. It will store the pertinent config data in this object for use during token calls.
-     * @internal
+     * ClientConfigurationErrorMessage class containing string constants used by error codes and messages.
+     * @deprecated Use ClientConfigurationErrorCodes instead
      */
-    class Authority {
-        constructor(authority, networkInterface, cacheManager, authorityOptions, logger, correlationId, performanceClient, managedIdentity) {
-            this.canonicalAuthority = authority;
-            this._canonicalAuthority.validateAsUri();
-            this.networkInterface = networkInterface;
-            this.cacheManager = cacheManager;
-            this.authorityOptions = authorityOptions;
-            this.regionDiscoveryMetadata = {
-                region_used: undefined,
-                region_source: undefined,
-                region_outcome: undefined,
-            };
-            this.logger = logger;
-            this.performanceClient = performanceClient;
-            this.correlationId = correlationId;
-            this.managedIdentity = managedIdentity || false;
-            this.regionDiscovery = new RegionDiscovery(networkInterface, this.logger, this.performanceClient, this.correlationId);
-        }
-        /**
-         * Get {@link AuthorityType}
-         * @param authorityUri {@link IUri}
-         * @private
-         */
-        getAuthorityType(authorityUri) {
-            // CIAM auth url pattern is being standardized as: <tenant>.ciamlogin.com
-            if (authorityUri.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
-                return AuthorityType.Ciam;
-            }
-            const pathSegments = authorityUri.PathSegments;
-            if (pathSegments.length) {
-                switch (pathSegments[0].toLowerCase()) {
-                    case Constants.ADFS:
-                        return AuthorityType.Adfs;
-                    case Constants.DSTS:
-                        return AuthorityType.Dsts;
-                }
-            }
-            return AuthorityType.Default;
-        }
-        // See above for AuthorityType
-        get authorityType() {
-            return this.getAuthorityType(this.canonicalAuthorityUrlComponents);
-        }
-        /**
-         * ProtocolMode enum representing the way endpoints are constructed.
-         */
-        get protocolMode() {
-            return this.authorityOptions.protocolMode;
-        }
-        /**
-         * Returns authorityOptions which can be used to reinstantiate a new authority instance
-         */
-        get options() {
-            return this.authorityOptions;
-        }
-        /**
-         * A URL that is the authority set by the developer
-         */
-        get canonicalAuthority() {
-            return this._canonicalAuthority.urlString;
-        }
-        /**
-         * Sets canonical authority.
-         */
-        set canonicalAuthority(url) {
-            this._canonicalAuthority = new UrlString(url);
-            this._canonicalAuthority.validateAsUri();
-            this._canonicalAuthorityUrlComponents = null;
-        }
-        /**
-         * Get authority components.
-         */
-        get canonicalAuthorityUrlComponents() {
-            if (!this._canonicalAuthorityUrlComponents) {
-                this._canonicalAuthorityUrlComponents =
-                    this._canonicalAuthority.getUrlComponents();
-            }
-            return this._canonicalAuthorityUrlComponents;
-        }
-        /**
-         * Get hostname and port i.e. login.microsoftonline.com
-         */
-        get hostnameAndPort() {
-            return this.canonicalAuthorityUrlComponents.HostNameAndPort.toLowerCase();
-        }
-        /**
-         * Get tenant for authority.
-         */
-        get tenant() {
-            return this.canonicalAuthorityUrlComponents.PathSegments[0];
-        }
-        /**
-         * OAuth /authorize endpoint for requests
-         */
-        get authorizationEndpoint() {
-            if (this.discoveryComplete()) {
-                return this.replacePath(this.metadata.authorization_endpoint);
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * OAuth /token endpoint for requests
-         */
-        get tokenEndpoint() {
-            if (this.discoveryComplete()) {
-                return this.replacePath(this.metadata.token_endpoint);
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        get deviceCodeEndpoint() {
-            if (this.discoveryComplete()) {
-                return this.replacePath(this.metadata.token_endpoint.replace("/token", "/devicecode"));
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * OAuth logout endpoint for requests
-         */
-        get endSessionEndpoint() {
-            if (this.discoveryComplete()) {
-                // ROPC policies may not have end_session_endpoint set
-                if (!this.metadata.end_session_endpoint) {
-                    throw createClientAuthError(endSessionEndpointNotSupported);
-                }
-                return this.replacePath(this.metadata.end_session_endpoint);
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * OAuth issuer for requests
-         */
-        get selfSignedJwtAudience() {
-            if (this.discoveryComplete()) {
-                return this.replacePath(this.metadata.issuer);
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * Jwks_uri for token signing keys
-         */
-        get jwksUri() {
-            if (this.discoveryComplete()) {
-                return this.replacePath(this.metadata.jwks_uri);
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * Returns a flag indicating that tenant name can be replaced in authority {@link IUri}
-         * @param authorityUri {@link IUri}
-         * @private
-         */
-        canReplaceTenant(authorityUri) {
-            return (authorityUri.PathSegments.length === 1 &&
-                !Authority.reservedTenantDomains.has(authorityUri.PathSegments[0]) &&
-                this.getAuthorityType(authorityUri) === AuthorityType.Default &&
-                this.protocolMode === ProtocolMode.AAD);
-        }
-        /**
-         * Replaces tenant in url path with current tenant. Defaults to common.
-         * @param urlString
-         */
-        replaceTenant(urlString) {
-            return urlString.replace(/{tenant}|{tenantid}/g, this.tenant);
-        }
-        /**
-         * Replaces path such as tenant or policy with the current tenant or policy.
-         * @param urlString
-         */
-        replacePath(urlString) {
-            let endpoint = urlString;
-            const cachedAuthorityUrl = new UrlString(this.metadata.canonical_authority);
-            const cachedAuthorityUrlComponents = cachedAuthorityUrl.getUrlComponents();
-            const cachedAuthorityParts = cachedAuthorityUrlComponents.PathSegments;
-            const currentAuthorityParts = this.canonicalAuthorityUrlComponents.PathSegments;
-            currentAuthorityParts.forEach((currentPart, index) => {
-                let cachedPart = cachedAuthorityParts[index];
-                if (index === 0 &&
-                    this.canReplaceTenant(cachedAuthorityUrlComponents)) {
-                    const tenantId = new UrlString(this.metadata.authorization_endpoint).getUrlComponents().PathSegments[0];
-                    /**
-                     * Check if AAD canonical authority contains tenant domain name, for example "testdomain.onmicrosoft.com",
-                     * by comparing its first path segment to the corresponding authorization endpoint path segment, which is
-                     * always resolved with tenant id by OIDC.
-                     */
-                    if (cachedPart !== tenantId) {
-                        this.logger.verbose(`Replacing tenant domain name ${cachedPart} with id ${tenantId}`);
-                        cachedPart = tenantId;
-                    }
-                }
-                if (currentPart !== cachedPart) {
-                    endpoint = endpoint.replace(`/${cachedPart}/`, `/${currentPart}/`);
-                }
-            });
-            return this.replaceTenant(endpoint);
-        }
-        /**
-         * The default open id configuration endpoint for any canonical authority.
-         */
-        get defaultOpenIdConfigurationEndpoint() {
-            const canonicalAuthorityHost = this.hostnameAndPort;
-            if (this.canonicalAuthority.endsWith("v2.0/") ||
-                this.authorityType === AuthorityType.Adfs ||
-                (this.protocolMode !== ProtocolMode.AAD &&
-                    !this.isAliasOfKnownMicrosoftAuthority(canonicalAuthorityHost))) {
-                return `${this.canonicalAuthority}.well-known/openid-configuration`;
-            }
-            return `${this.canonicalAuthority}v2.0/.well-known/openid-configuration`;
-        }
-        /**
-         * Boolean that returns whether or not tenant discovery has been completed.
-         */
-        discoveryComplete() {
-            return !!this.metadata;
-        }
-        /**
-         * Perform endpoint discovery to discover aliases, preferred_cache, preferred_network
-         * and the /authorize, /token and logout endpoints.
-         */
-        async resolveEndpointsAsync() {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityResolveEndpointsAsync, this.correlationId);
-            const metadataEntity = this.getCurrentMetadataEntity();
-            const cloudDiscoverySource = await invokeAsync(this.updateCloudDiscoveryMetadata.bind(this), PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata, this.logger, this.performanceClient, this.correlationId)(metadataEntity);
-            this.canonicalAuthority = this.canonicalAuthority.replace(this.hostnameAndPort, metadataEntity.preferred_network);
-            const endpointSource = await invokeAsync(this.updateEndpointMetadata.bind(this), PerformanceEvents.AuthorityUpdateEndpointMetadata, this.logger, this.performanceClient, this.correlationId)(metadataEntity);
-            this.updateCachedMetadata(metadataEntity, cloudDiscoverySource, {
-                source: endpointSource,
-            });
-            this.performanceClient?.addFields({
-                cloudDiscoverySource: cloudDiscoverySource,
-                authorityEndpointSource: endpointSource,
-            }, this.correlationId);
-        }
-        /**
-         * Returns metadata entity from cache if it exists, otherwiser returns a new metadata entity built
-         * from the configured canonical authority
-         * @returns
-         */
-        getCurrentMetadataEntity() {
-            let metadataEntity = this.cacheManager.getAuthorityMetadataByAlias(this.hostnameAndPort);
-            if (!metadataEntity) {
-                metadataEntity = {
-                    aliases: [],
-                    preferred_cache: this.hostnameAndPort,
-                    preferred_network: this.hostnameAndPort,
-                    canonical_authority: this.canonicalAuthority,
-                    authorization_endpoint: "",
-                    token_endpoint: "",
-                    end_session_endpoint: "",
-                    issuer: "",
-                    aliasesFromNetwork: false,
-                    endpointsFromNetwork: false,
-                    expiresAt: generateAuthorityMetadataExpiresAt(),
-                    jwks_uri: "",
-                };
-            }
-            return metadataEntity;
-        }
-        /**
-         * Updates cached metadata based on metadata source and sets the instance's metadata
-         * property to the same value
-         * @param metadataEntity
-         * @param cloudDiscoverySource
-         * @param endpointMetadataResult
-         */
-        updateCachedMetadata(metadataEntity, cloudDiscoverySource, endpointMetadataResult) {
-            if (cloudDiscoverySource !== AuthorityMetadataSource.CACHE &&
-                endpointMetadataResult?.source !== AuthorityMetadataSource.CACHE) {
-                // Reset the expiration time unless both values came from a successful cache lookup
-                metadataEntity.expiresAt =
-                    generateAuthorityMetadataExpiresAt();
-                metadataEntity.canonical_authority = this.canonicalAuthority;
-            }
-            const cacheKey = this.cacheManager.generateAuthorityMetadataCacheKey(metadataEntity.preferred_cache);
-            this.cacheManager.setAuthorityMetadata(cacheKey, metadataEntity);
-            this.metadata = metadataEntity;
-        }
-        /**
-         * Update AuthorityMetadataEntity with new endpoints and return where the information came from
-         * @param metadataEntity
-         */
-        async updateEndpointMetadata(metadataEntity) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateEndpointMetadata, this.correlationId);
-            const localMetadata = this.updateEndpointMetadataFromLocalSources(metadataEntity);
-            // Further update may be required for hardcoded metadata if regional metadata is preferred
-            if (localMetadata) {
-                if (localMetadata.source ===
-                    AuthorityMetadataSource.HARDCODED_VALUES) {
-                    // If the user prefers to use an azure region replace the global endpoints with regional information.
-                    if (this.authorityOptions.azureRegionConfiguration?.azureRegion) {
-                        if (localMetadata.metadata) {
-                            const hardcodedMetadata = await invokeAsync(this.updateMetadataWithRegionalInformation.bind(this), PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.logger, this.performanceClient, this.correlationId)(localMetadata.metadata);
-                            updateAuthorityEndpointMetadata(metadataEntity, hardcodedMetadata, false);
-                            metadataEntity.canonical_authority =
-                                this.canonicalAuthority;
-                        }
-                    }
-                }
-                return localMetadata.source;
-            }
-            // Get metadata from network if local sources aren't available
-            let metadata = await invokeAsync(this.getEndpointMetadataFromNetwork.bind(this), PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork, this.logger, this.performanceClient, this.correlationId)();
-            if (metadata) {
-                // If the user prefers to use an azure region replace the global endpoints with regional information.
-                if (this.authorityOptions.azureRegionConfiguration?.azureRegion) {
-                    metadata = await invokeAsync(this.updateMetadataWithRegionalInformation.bind(this), PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.logger, this.performanceClient, this.correlationId)(metadata);
-                }
-                updateAuthorityEndpointMetadata(metadataEntity, metadata, true);
-                return AuthorityMetadataSource.NETWORK;
-            }
-            else {
-                // Metadata could not be obtained from the config, cache, network or hardcoded values
-                throw createClientAuthError(openIdConfigError, this.defaultOpenIdConfigurationEndpoint);
-            }
-        }
-        /**
-         * Updates endpoint metadata from local sources and returns where the information was retrieved from and the metadata config
-         * response if the source is hardcoded metadata
-         * @param metadataEntity
-         * @returns
-         */
-        updateEndpointMetadataFromLocalSources(metadataEntity) {
-            this.logger.verbose("Attempting to get endpoint metadata from authority configuration");
-            const configMetadata = this.getEndpointMetadataFromConfig();
-            if (configMetadata) {
-                this.logger.verbose("Found endpoint metadata in authority configuration");
-                updateAuthorityEndpointMetadata(metadataEntity, configMetadata, false);
-                return {
-                    source: AuthorityMetadataSource.CONFIG,
-                };
-            }
-            this.logger.verbose("Did not find endpoint metadata in the config... Attempting to get endpoint metadata from the hardcoded values.");
-            // skipAuthorityMetadataCache is used to bypass hardcoded authority metadata and force a network metadata cache lookup and network metadata request if no cached response is available.
-            if (this.authorityOptions.skipAuthorityMetadataCache) {
-                this.logger.verbose("Skipping hardcoded metadata cache since skipAuthorityMetadataCache is set to true. Attempting to get endpoint metadata from the network metadata cache.");
-            }
-            else {
-                const hardcodedMetadata = this.getEndpointMetadataFromHardcodedValues();
-                if (hardcodedMetadata) {
-                    updateAuthorityEndpointMetadata(metadataEntity, hardcodedMetadata, false);
-                    return {
-                        source: AuthorityMetadataSource.HARDCODED_VALUES,
-                        metadata: hardcodedMetadata,
-                    };
-                }
-                else {
-                    this.logger.verbose("Did not find endpoint metadata in hardcoded values... Attempting to get endpoint metadata from the network metadata cache.");
-                }
-            }
-            // Check cached metadata entity expiration status
-            const metadataEntityExpired = isAuthorityMetadataExpired(metadataEntity);
-            if (this.isAuthoritySameType(metadataEntity) &&
-                metadataEntity.endpointsFromNetwork &&
-                !metadataEntityExpired) {
-                // No need to update
-                this.logger.verbose("Found endpoint metadata in the cache.");
-                return { source: AuthorityMetadataSource.CACHE };
-            }
-            else if (metadataEntityExpired) {
-                this.logger.verbose("The metadata entity is expired.");
-            }
-            return null;
-        }
-        /**
-         * Compares the number of url components after the domain to determine if the cached
-         * authority metadata can be used for the requested authority. Protects against same domain different
-         * authority such as login.microsoftonline.com/tenant and login.microsoftonline.com/tfp/tenant/policy
-         * @param metadataEntity
-         */
-        isAuthoritySameType(metadataEntity) {
-            const cachedAuthorityUrl = new UrlString(metadataEntity.canonical_authority);
-            const cachedParts = cachedAuthorityUrl.getUrlComponents().PathSegments;
-            return (cachedParts.length ===
-                this.canonicalAuthorityUrlComponents.PathSegments.length);
-        }
-        /**
-         * Parse authorityMetadata config option
-         */
-        getEndpointMetadataFromConfig() {
-            if (this.authorityOptions.authorityMetadata) {
-                try {
-                    return JSON.parse(this.authorityOptions.authorityMetadata);
-                }
-                catch (e) {
-                    throw createClientConfigurationError(invalidAuthorityMetadata);
-                }
-            }
-            return null;
-        }
-        /**
-         * Gets OAuth endpoints from the given OpenID configuration endpoint.
-         *
-         * @param hasHardcodedMetadata boolean
-         */
-        async getEndpointMetadataFromNetwork() {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork, this.correlationId);
-            const options = {};
-            /*
-             * TODO: Add a timeout if the authority exists in our library's
-             * hardcoded list of metadata
-             */
-            const openIdConfigurationEndpoint = this.defaultOpenIdConfigurationEndpoint;
-            this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: attempting to retrieve OAuth endpoints from ${openIdConfigurationEndpoint}`);
-            try {
-                const response = await this.networkInterface.sendGetRequestAsync(openIdConfigurationEndpoint, options);
-                const isValidResponse = isOpenIdConfigResponse(response.body);
-                if (isValidResponse) {
-                    return response.body;
-                }
-                else {
-                    this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: could not parse response as OpenID configuration`);
-                    return null;
-                }
-            }
-            catch (e) {
-                this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: ${e}`);
-                return null;
-            }
-        }
-        /**
-         * Get OAuth endpoints for common authorities.
-         */
-        getEndpointMetadataFromHardcodedValues() {
-            if (this.hostnameAndPort in EndpointMetadata) {
-                return EndpointMetadata[this.hostnameAndPort];
-            }
-            return null;
-        }
-        /**
-         * Update the retrieved metadata with regional information.
-         * User selected Azure region will be used if configured.
-         */
-        async updateMetadataWithRegionalInformation(metadata) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.correlationId);
-            const userConfiguredAzureRegion = this.authorityOptions.azureRegionConfiguration?.azureRegion;
-            if (userConfiguredAzureRegion) {
-                if (userConfiguredAzureRegion !==
-                    Constants.AZURE_REGION_AUTO_DISCOVER_FLAG) {
-                    this.regionDiscoveryMetadata.region_outcome =
-                        RegionDiscoveryOutcomes.CONFIGURED_NO_AUTO_DETECTION;
-                    this.regionDiscoveryMetadata.region_used =
-                        userConfiguredAzureRegion;
-                    return Authority.replaceWithRegionalInformation(metadata, userConfiguredAzureRegion);
-                }
-                const autodetectedRegionName = await invokeAsync(this.regionDiscovery.detectRegion.bind(this.regionDiscovery), PerformanceEvents.RegionDiscoveryDetectRegion, this.logger, this.performanceClient, this.correlationId)(this.authorityOptions.azureRegionConfiguration
-                    ?.environmentRegion, this.regionDiscoveryMetadata);
-                if (autodetectedRegionName) {
-                    this.regionDiscoveryMetadata.region_outcome =
-                        RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_SUCCESSFUL;
-                    this.regionDiscoveryMetadata.region_used =
-                        autodetectedRegionName;
-                    return Authority.replaceWithRegionalInformation(metadata, autodetectedRegionName);
-                }
-                this.regionDiscoveryMetadata.region_outcome =
-                    RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_FAILED;
-            }
-            return metadata;
-        }
-        /**
-         * Updates the AuthorityMetadataEntity with new aliases, preferred_network and preferred_cache
-         * and returns where the information was retrieved from
-         * @param metadataEntity
-         * @returns AuthorityMetadataSource
-         */
-        async updateCloudDiscoveryMetadata(metadataEntity) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata, this.correlationId);
-            const localMetadataSource = this.updateCloudDiscoveryMetadataFromLocalSources(metadataEntity);
-            if (localMetadataSource) {
-                return localMetadataSource;
-            }
-            // Fallback to network as metadata source
-            const metadata = await invokeAsync(this.getCloudDiscoveryMetadataFromNetwork.bind(this), PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork, this.logger, this.performanceClient, this.correlationId)();
-            if (metadata) {
-                updateCloudDiscoveryMetadata(metadataEntity, metadata, true);
-                return AuthorityMetadataSource.NETWORK;
-            }
-            // Metadata could not be obtained from the config, cache, network or hardcoded values
-            throw createClientConfigurationError(untrustedAuthority);
-        }
-        updateCloudDiscoveryMetadataFromLocalSources(metadataEntity) {
-            this.logger.verbose("Attempting to get cloud discovery metadata  from authority configuration");
-            this.logger.verbosePii(`Known Authorities: ${this.authorityOptions.knownAuthorities ||
-            Constants.NOT_APPLICABLE}`);
-            this.logger.verbosePii(`Authority Metadata: ${this.authorityOptions.authorityMetadata ||
-            Constants.NOT_APPLICABLE}`);
-            this.logger.verbosePii(`Canonical Authority: ${metadataEntity.canonical_authority || Constants.NOT_APPLICABLE}`);
-            const metadata = this.getCloudDiscoveryMetadataFromConfig();
-            if (metadata) {
-                this.logger.verbose("Found cloud discovery metadata in authority configuration");
-                updateCloudDiscoveryMetadata(metadataEntity, metadata, false);
-                return AuthorityMetadataSource.CONFIG;
-            }
-            // If the cached metadata came from config but that config was not passed to this instance, we must go to hardcoded values
-            this.logger.verbose("Did not find cloud discovery metadata in the config... Attempting to get cloud discovery metadata from the hardcoded values.");
-            if (this.options.skipAuthorityMetadataCache) {
-                this.logger.verbose("Skipping hardcoded cloud discovery metadata cache since skipAuthorityMetadataCache is set to true. Attempting to get cloud discovery metadata from the network metadata cache.");
-            }
-            else {
-                const hardcodedMetadata = getCloudDiscoveryMetadataFromHardcodedValues(this.hostnameAndPort);
-                if (hardcodedMetadata) {
-                    this.logger.verbose("Found cloud discovery metadata from hardcoded values.");
-                    updateCloudDiscoveryMetadata(metadataEntity, hardcodedMetadata, false);
-                    return AuthorityMetadataSource.HARDCODED_VALUES;
-                }
-                this.logger.verbose("Did not find cloud discovery metadata in hardcoded values... Attempting to get cloud discovery metadata from the network metadata cache.");
-            }
-            const metadataEntityExpired = isAuthorityMetadataExpired(metadataEntity);
-            if (this.isAuthoritySameType(metadataEntity) &&
-                metadataEntity.aliasesFromNetwork &&
-                !metadataEntityExpired) {
-                this.logger.verbose("Found cloud discovery metadata in the cache.");
-                // No need to update
-                return AuthorityMetadataSource.CACHE;
-            }
-            else if (metadataEntityExpired) {
-                this.logger.verbose("The metadata entity is expired.");
-            }
-            return null;
-        }
-        /**
-         * Parse cloudDiscoveryMetadata config or check knownAuthorities
-         */
-        getCloudDiscoveryMetadataFromConfig() {
-            // CIAM does not support cloud discovery metadata
-            if (this.authorityType === AuthorityType.Ciam) {
-                this.logger.verbose("CIAM authorities do not support cloud discovery metadata, generate the aliases from authority host.");
-                return Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
-            }
-            // Check if network response was provided in config
-            if (this.authorityOptions.cloudDiscoveryMetadata) {
-                this.logger.verbose("The cloud discovery metadata has been provided as a network response, in the config.");
-                try {
-                    this.logger.verbose("Attempting to parse the cloud discovery metadata.");
-                    const parsedResponse = JSON.parse(this.authorityOptions.cloudDiscoveryMetadata);
-                    const metadata = getCloudDiscoveryMetadataFromNetworkResponse(parsedResponse.metadata, this.hostnameAndPort);
-                    this.logger.verbose("Parsed the cloud discovery metadata.");
-                    if (metadata) {
-                        this.logger.verbose("There is returnable metadata attached to the parsed cloud discovery metadata.");
-                        return metadata;
-                    }
-                    else {
-                        this.logger.verbose("There is no metadata attached to the parsed cloud discovery metadata.");
-                    }
-                }
-                catch (e) {
-                    this.logger.verbose("Unable to parse the cloud discovery metadata. Throwing Invalid Cloud Discovery Metadata Error.");
-                    throw createClientConfigurationError(invalidCloudDiscoveryMetadata);
-                }
-            }
-            // If cloudDiscoveryMetadata is empty or does not contain the host, check knownAuthorities
-            if (this.isInKnownAuthorities()) {
-                this.logger.verbose("The host is included in knownAuthorities. Creating new cloud discovery metadata from the host.");
-                return Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
-            }
-            return null;
-        }
-        /**
-         * Called to get metadata from network if CloudDiscoveryMetadata was not populated by config
-         *
-         * @param hasHardcodedMetadata boolean
-         */
-        async getCloudDiscoveryMetadataFromNetwork() {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork, this.correlationId);
-            const instanceDiscoveryEndpoint = `${Constants.AAD_INSTANCE_DISCOVERY_ENDPT}${this.canonicalAuthority}oauth2/v2.0/authorize`;
-            const options = {};
-            /*
-             * TODO: Add a timeout if the authority exists in our library's
-             * hardcoded list of metadata
-             */
-            let match = null;
-            try {
-                const response = await this.networkInterface.sendGetRequestAsync(instanceDiscoveryEndpoint, options);
-                let typedResponseBody;
-                let metadata;
-                if (isCloudInstanceDiscoveryResponse(response.body)) {
-                    typedResponseBody =
-                        response.body;
-                    metadata = typedResponseBody.metadata;
-                    this.logger.verbosePii(`tenant_discovery_endpoint is: ${typedResponseBody.tenant_discovery_endpoint}`);
-                }
-                else if (isCloudInstanceDiscoveryErrorResponse(response.body)) {
-                    this.logger.warning(`A CloudInstanceDiscoveryErrorResponse was returned. The cloud instance discovery network request's status code is: ${response.status}`);
-                    typedResponseBody =
-                        response.body;
-                    if (typedResponseBody.error === Constants.INVALID_INSTANCE) {
-                        this.logger.error("The CloudInstanceDiscoveryErrorResponse error is invalid_instance.");
-                        return null;
-                    }
-                    this.logger.warning(`The CloudInstanceDiscoveryErrorResponse error is ${typedResponseBody.error}`);
-                    this.logger.warning(`The CloudInstanceDiscoveryErrorResponse error description is ${typedResponseBody.error_description}`);
-                    this.logger.warning("Setting the value of the CloudInstanceDiscoveryMetadata (returned from the network) to []");
-                    metadata = [];
-                }
-                else {
-                    this.logger.error("AAD did not return a CloudInstanceDiscoveryResponse or CloudInstanceDiscoveryErrorResponse");
-                    return null;
-                }
-                this.logger.verbose("Attempting to find a match between the developer's authority and the CloudInstanceDiscoveryMetadata returned from the network request.");
-                match = getCloudDiscoveryMetadataFromNetworkResponse(metadata, this.hostnameAndPort);
-            }
-            catch (error) {
-                if (error instanceof AuthError) {
-                    this.logger.error(`There was a network error while attempting to get the cloud discovery instance metadata.\nError: ${error.errorCode}\nError Description: ${error.errorMessage}`);
-                }
-                else {
-                    const typedError = error;
-                    this.logger.error(`A non-MSALJS error was thrown while attempting to get the cloud instance discovery metadata.\nError: ${typedError.name}\nError Description: ${typedError.message}`);
-                }
-                return null;
-            }
-            // Custom Domain scenario, host is trusted because Instance Discovery call succeeded
-            if (!match) {
-                this.logger.warning("The developer's authority was not found within the CloudInstanceDiscoveryMetadata returned from the network request.");
-                this.logger.verbose("Creating custom Authority for custom domain scenario.");
-                match = Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
-            }
-            return match;
-        }
-        /**
-         * Helper function to determine if this host is included in the knownAuthorities config option
-         */
-        isInKnownAuthorities() {
-            const matches = this.authorityOptions.knownAuthorities.filter((authority) => {
-                return (authority &&
-                    UrlString.getDomainFromUrl(authority).toLowerCase() ===
-                        this.hostnameAndPort);
-            });
-            return matches.length > 0;
-        }
-        /**
-         * helper function to populate the authority based on azureCloudOptions
-         * @param authorityString
-         * @param azureCloudOptions
-         */
-        static generateAuthority(authorityString, azureCloudOptions) {
-            let authorityAzureCloudInstance;
-            if (azureCloudOptions &&
-                azureCloudOptions.azureCloudInstance !== AzureCloudInstance.None) {
-                const tenant = azureCloudOptions.tenant
-                    ? azureCloudOptions.tenant
-                    : Constants.DEFAULT_COMMON_TENANT;
-                authorityAzureCloudInstance = `${azureCloudOptions.azureCloudInstance}/${tenant}/`;
-            }
-            return authorityAzureCloudInstance
-                ? authorityAzureCloudInstance
-                : authorityString;
-        }
-        /**
-         * Creates cloud discovery metadata object from a given host
-         * @param host
-         */
-        static createCloudDiscoveryMetadataFromHost(host) {
-            return {
-                preferred_network: host,
-                preferred_cache: host,
-                aliases: [host],
-            };
-        }
-        /**
-         * helper function to generate environment from authority object
-         */
-        getPreferredCache() {
-            if (this.managedIdentity) {
-                return Constants.DEFAULT_AUTHORITY_HOST;
-            }
-            else if (this.discoveryComplete()) {
-                return this.metadata.preferred_cache;
-            }
-            else {
-                throw createClientAuthError(endpointResolutionError);
-            }
-        }
-        /**
-         * Returns whether or not the provided host is an alias of this authority instance
-         * @param host
-         */
-        isAlias(host) {
-            return this.metadata.aliases.indexOf(host) > -1;
-        }
-        /**
-         * Returns whether or not the provided host is an alias of a known Microsoft authority for purposes of endpoint discovery
-         * @param host
-         */
-        isAliasOfKnownMicrosoftAuthority(host) {
-            return InstanceDiscoveryMetadataAliases.has(host);
-        }
-        /**
-         * Checks whether the provided host is that of a public cloud authority
-         *
-         * @param authority string
-         * @returns bool
-         */
-        static isPublicCloudAuthority(host) {
-            return Constants.KNOWN_PUBLIC_CLOUDS.indexOf(host) >= 0;
-        }
-        /**
-         * Rebuild the authority string with the region
-         *
-         * @param host string
-         * @param region string
-         */
-        static buildRegionalAuthorityString(host, region, queryString) {
-            // Create and validate a Url string object with the initial authority string
-            const authorityUrlInstance = new UrlString(host);
-            authorityUrlInstance.validateAsUri();
-            const authorityUrlParts = authorityUrlInstance.getUrlComponents();
-            let hostNameAndPort = `${region}.${authorityUrlParts.HostNameAndPort}`;
-            if (this.isPublicCloudAuthority(authorityUrlParts.HostNameAndPort)) {
-                hostNameAndPort = `${region}.${Constants.REGIONAL_AUTH_PUBLIC_CLOUD_SUFFIX}`;
-            }
-            // Include the query string portion of the url
-            const url = UrlString.constructAuthorityUriFromObject({
-                ...authorityUrlInstance.getUrlComponents(),
-                HostNameAndPort: hostNameAndPort,
-            }).urlString;
-            // Add the query string if a query string was provided
-            if (queryString)
-                return `${url}?${queryString}`;
-            return url;
-        }
-        /**
-         * Replace the endpoints in the metadata object with their regional equivalents.
-         *
-         * @param metadata OpenIdConfigResponse
-         * @param azureRegion string
-         */
-        static replaceWithRegionalInformation(metadata, azureRegion) {
-            const regionalMetadata = { ...metadata };
-            regionalMetadata.authorization_endpoint =
-                Authority.buildRegionalAuthorityString(regionalMetadata.authorization_endpoint, azureRegion);
-            regionalMetadata.token_endpoint =
-                Authority.buildRegionalAuthorityString(regionalMetadata.token_endpoint, azureRegion);
-            if (regionalMetadata.end_session_endpoint) {
-                regionalMetadata.end_session_endpoint =
-                    Authority.buildRegionalAuthorityString(regionalMetadata.end_session_endpoint, azureRegion);
-            }
-            return regionalMetadata;
-        }
-        /**
-         * Transform CIAM_AUTHORIY as per the below rules:
-         * If no path segments found and it is a CIAM authority (hostname ends with .ciamlogin.com), then transform it
-         *
-         * NOTE: The transformation path should go away once STS supports CIAM with the format: `tenantIdorDomain.ciamlogin.com`
-         * `ciamlogin.com` can also change in the future and we should accommodate the same
-         *
-         * @param authority
-         */
-        static transformCIAMAuthority(authority) {
-            let ciamAuthority = authority;
-            const authorityUrl = new UrlString(authority);
-            const authorityUrlComponents = authorityUrl.getUrlComponents();
-            // check if transformation is needed
-            if (authorityUrlComponents.PathSegments.length === 0 &&
-                authorityUrlComponents.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
-                const tenantIdOrDomain = authorityUrlComponents.HostNameAndPort.split(".")[0];
-                ciamAuthority = `${ciamAuthority}${tenantIdOrDomain}${Constants.AAD_TENANT_DOMAIN_SUFFIX}`;
-            }
-            return ciamAuthority;
-        }
-    }
-    // Reserved tenant domain names that will not be replaced with tenant id
-    Authority.reservedTenantDomains = new Set([
-        "{tenant}",
-        "{tenantid}",
-        AADAuthorityConstants.COMMON,
-        AADAuthorityConstants.CONSUMERS,
-        AADAuthorityConstants.ORGANIZATIONS,
-    ]);
-    /**
-     * Extract tenantId from authority
-     */
-    function getTenantFromAuthorityString(authority) {
-        const authorityUrl = new UrlString(authority);
-        const authorityUrlComponents = authorityUrl.getUrlComponents();
-        /**
-         * For credential matching purposes, tenantId is the last path segment of the authority URL:
-         *  AAD Authority - domain/tenantId -> Credentials are cached with realm = tenantId
-         *  B2C Authority - domain/{tenantId}?/.../policy -> Credentials are cached with realm = policy
-         *  tenantId is downcased because B2C policies can have mixed case but tfp claim is downcased
-         *
-         * Note that we may not have any path segments in certain OIDC scenarios.
-         */
-        const tenantId = authorityUrlComponents.PathSegments.slice(-1)[0]?.toLowerCase();
-        switch (tenantId) {
-            case AADAuthorityConstants.COMMON:
-            case AADAuthorityConstants.ORGANIZATIONS:
-            case AADAuthorityConstants.CONSUMERS:
-                return undefined;
-            default:
-                return tenantId;
-        }
-    }
-    function formatAuthorityUri(authorityUri) {
-        return authorityUri.endsWith(Constants.FORWARD_SLASH)
-            ? authorityUri
-            : `${authorityUri}${Constants.FORWARD_SLASH}`;
-    }
-    function buildStaticAuthorityOptions(authOptions) {
-        const rawCloudDiscoveryMetadata = authOptions.cloudDiscoveryMetadata;
-        let cloudDiscoveryMetadata = undefined;
-        if (rawCloudDiscoveryMetadata) {
-            try {
-                cloudDiscoveryMetadata = JSON.parse(rawCloudDiscoveryMetadata);
-            }
-            catch (e) {
-                throw createClientConfigurationError(invalidCloudDiscoveryMetadata);
-            }
-        }
-        return {
-            canonicalAuthority: authOptions.authority
-                ? formatAuthorityUri(authOptions.authority)
-                : undefined,
-            knownAuthorities: authOptions.knownAuthorities,
-            cloudDiscoveryMetadata: cloudDiscoveryMetadata,
-        };
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Create an authority object of the correct type based on the url
-     * Performs basic authority validation - checks to see if the authority is of a valid type (i.e. aad, b2c, adfs)
-     *
-     * Also performs endpoint discovery.
-     *
-     * @param authorityUri
-     * @param networkClient
-     * @param protocolMode
-     * @internal
-     */
-    async function createDiscoveredInstance(authorityUri, networkClient, cacheManager, authorityOptions, logger, correlationId, performanceClient) {
-        performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance, correlationId);
-        const authorityUriFinal = Authority.transformCIAMAuthority(formatAuthorityUri(authorityUri));
-        // Initialize authority and perform discovery endpoint check.
-        const acquireTokenAuthority = new Authority(authorityUriFinal, networkClient, cacheManager, authorityOptions, logger, correlationId, performanceClient);
-        try {
-            await invokeAsync(acquireTokenAuthority.resolveEndpointsAsync.bind(acquireTokenAuthority), PerformanceEvents.AuthorityResolveEndpointsAsync, logger, performanceClient, correlationId)();
-            return acquireTokenAuthority;
-        }
-        catch (e) {
-            throw createClientAuthError(endpointResolutionError);
-        }
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    async function getClientAssertion(clientAssertion, clientId, tokenEndpoint) {
-        if (typeof clientAssertion === "string") {
-            return clientAssertion;
-        }
-        else {
-            const config = {
-                clientId: clientId,
-                tokenEndpoint: tokenEndpoint,
-            };
-            return clientAssertion(config);
-        }
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const CLIENT_ID = "client_id";
-    const REDIRECT_URI = "redirect_uri";
-    const RESPONSE_TYPE = "response_type";
-    const RESPONSE_MODE = "response_mode";
-    const GRANT_TYPE = "grant_type";
-    const CLAIMS = "claims";
-    const SCOPE = "scope";
-    const REFRESH_TOKEN = "refresh_token";
-    const STATE = "state";
-    const NONCE = "nonce";
-    const PROMPT = "prompt";
-    const CODE = "code";
-    const CODE_CHALLENGE = "code_challenge";
-    const CODE_CHALLENGE_METHOD = "code_challenge_method";
-    const CODE_VERIFIER = "code_verifier";
-    const CLIENT_REQUEST_ID = "client-request-id";
-    const X_CLIENT_SKU = "x-client-SKU";
-    const X_CLIENT_VER = "x-client-VER";
-    const X_CLIENT_OS = "x-client-OS";
-    const X_CLIENT_CPU = "x-client-CPU";
-    const X_CLIENT_CURR_TELEM = "x-client-current-telemetry";
-    const X_CLIENT_LAST_TELEM = "x-client-last-telemetry";
-    const X_MS_LIB_CAPABILITY = "x-ms-lib-capability";
-    const X_APP_NAME = "x-app-name";
-    const X_APP_VER = "x-app-ver";
-    const POST_LOGOUT_URI = "post_logout_redirect_uri";
-    const ID_TOKEN_HINT = "id_token_hint";
-    const DEVICE_CODE = "device_code";
-    const CLIENT_SECRET = "client_secret";
-    const CLIENT_ASSERTION = "client_assertion";
-    const CLIENT_ASSERTION_TYPE = "client_assertion_type";
-    const TOKEN_TYPE = "token_type";
-    const REQ_CNF = "req_cnf";
-    const OBO_ASSERTION = "assertion";
-    const REQUESTED_TOKEN_USE = "requested_token_use";
-    const RETURN_SPA_CODE = "return_spa_code";
-    const NATIVE_BROKER = "nativebroker";
-    const LOGOUT_HINT = "logout_hint";
-    const SID = "sid";
-    const LOGIN_HINT = "login_hint";
-    const DOMAIN_HINT = "domain_hint";
-    const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const DEFAULT_CRYPTO_IMPLEMENTATION = {
-        createNewGuid: () => {
-            throw createClientAuthError(methodNotImplemented);
+    const ClientConfigurationErrorMessage = {
+        redirectUriNotSet: {
+            code: redirectUriEmpty,
+            desc: ClientConfigurationErrorMessages[redirectUriEmpty],
         },
-        base64Decode: () => {
-            throw createClientAuthError(methodNotImplemented);
+        claimsRequestParsingError: {
+            code: claimsRequestParsingError,
+            desc: ClientConfigurationErrorMessages[claimsRequestParsingError],
         },
-        base64Encode: () => {
-            throw createClientAuthError(methodNotImplemented);
+        authorityUriInsecure: {
+            code: authorityUriInsecure,
+            desc: ClientConfigurationErrorMessages[authorityUriInsecure],
         },
-        base64UrlEncode: () => {
-            throw createClientAuthError(methodNotImplemented);
+        urlParseError: {
+            code: urlParseError,
+            desc: ClientConfigurationErrorMessages[urlParseError],
         },
-        encodeKid: () => {
-            throw createClientAuthError(methodNotImplemented);
+        urlEmptyError: {
+            code: urlEmptyError,
+            desc: ClientConfigurationErrorMessages[urlEmptyError],
         },
-        async getPublicKeyThumbprint() {
-            throw createClientAuthError(methodNotImplemented);
+        emptyScopesError: {
+            code: emptyInputScopesError,
+            desc: ClientConfigurationErrorMessages[emptyInputScopesError],
         },
-        async removeTokenBindingKey() {
-            throw createClientAuthError(methodNotImplemented);
+        invalidPrompt: {
+            code: invalidPromptValue,
+            desc: ClientConfigurationErrorMessages[invalidPromptValue],
         },
-        async clearKeystore() {
-            throw createClientAuthError(methodNotImplemented);
+        invalidClaimsRequest: {
+            code: invalidClaims,
+            desc: ClientConfigurationErrorMessages[invalidClaims],
         },
-        async signJwt() {
-            throw createClientAuthError(methodNotImplemented);
+        tokenRequestEmptyError: {
+            code: tokenRequestEmpty,
+            desc: ClientConfigurationErrorMessages[tokenRequestEmpty],
         },
-        async hashString() {
-            throw createClientAuthError(methodNotImplemented);
+        logoutRequestEmptyError: {
+            code: logoutRequestEmpty,
+            desc: ClientConfigurationErrorMessages[logoutRequestEmpty],
+        },
+        invalidCodeChallengeMethod: {
+            code: invalidCodeChallengeMethod,
+            desc: ClientConfigurationErrorMessages[invalidCodeChallengeMethod],
+        },
+        invalidCodeChallengeParams: {
+            code: pkceParamsMissing,
+            desc: ClientConfigurationErrorMessages[pkceParamsMissing],
+        },
+        invalidCloudDiscoveryMetadata: {
+            code: invalidCloudDiscoveryMetadata,
+            desc: ClientConfigurationErrorMessages[invalidCloudDiscoveryMetadata],
+        },
+        invalidAuthorityMetadata: {
+            code: invalidAuthorityMetadata,
+            desc: ClientConfigurationErrorMessages[invalidAuthorityMetadata],
+        },
+        untrustedAuthority: {
+            code: untrustedAuthority,
+            desc: ClientConfigurationErrorMessages[untrustedAuthority],
+        },
+        missingSshJwk: {
+            code: missingSshJwk,
+            desc: ClientConfigurationErrorMessages[missingSshJwk],
+        },
+        missingSshKid: {
+            code: missingSshKid,
+            desc: ClientConfigurationErrorMessages[missingSshKid],
+        },
+        missingNonceAuthenticationHeader: {
+            code: missingNonceAuthenticationHeader,
+            desc: ClientConfigurationErrorMessages[missingNonceAuthenticationHeader],
+        },
+        invalidAuthenticationHeader: {
+            code: invalidAuthenticationHeader,
+            desc: ClientConfigurationErrorMessages[invalidAuthenticationHeader],
+        },
+        cannotSetOIDCOptions: {
+            code: cannotSetOIDCOptions,
+            desc: ClientConfigurationErrorMessages[cannotSetOIDCOptions],
+        },
+        cannotAllowNativeBroker: {
+            code: cannotAllowNativeBroker,
+            desc: ClientConfigurationErrorMessages[cannotAllowNativeBroker],
+        },
+        authorityMismatch: {
+            code: authorityMismatch,
+            desc: ClientConfigurationErrorMessages[authorityMismatch],
         },
     };
+    /**
+     * Error thrown when there is an error in configuration of the MSAL.js library.
+     */
+    class ClientConfigurationError extends AuthError {
+        constructor(errorCode) {
+            super(errorCode, ClientConfigurationErrorMessages[errorCode]);
+            this.name = "ClientConfigurationError";
+            Object.setPrototypeOf(this, ClientConfigurationError.prototype);
+        }
+    }
+    function createClientConfigurationError(errorCode) {
+        return new ClientConfigurationError(errorCode);
+    }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
     /**
-     * Log message level.
+     * @hidden
      */
-    exports.LogLevel = void 0;
-    (function (LogLevel) {
-        LogLevel[LogLevel["Error"] = 0] = "Error";
-        LogLevel[LogLevel["Warning"] = 1] = "Warning";
-        LogLevel[LogLevel["Info"] = 2] = "Info";
-        LogLevel[LogLevel["Verbose"] = 3] = "Verbose";
-        LogLevel[LogLevel["Trace"] = 4] = "Trace";
-    })(exports.LogLevel || (exports.LogLevel = {}));
-    /**
-     * Class which facilitates logging of messages to a specific place.
-     */
-    class Logger {
-        constructor(loggerOptions, packageName, packageVersion) {
-            // Current log level, defaults to info.
-            this.level = exports.LogLevel.Info;
-            const defaultLoggerCallback = () => {
-                return;
-            };
-            const setLoggerOptions = loggerOptions || Logger.createDefaultLoggerOptions();
-            this.localCallback =
-                setLoggerOptions.loggerCallback || defaultLoggerCallback;
-            this.piiLoggingEnabled = setLoggerOptions.piiLoggingEnabled || false;
-            this.level =
-                typeof setLoggerOptions.logLevel === "number"
-                    ? setLoggerOptions.logLevel
-                    : exports.LogLevel.Info;
-            this.correlationId =
-                setLoggerOptions.correlationId || Constants.EMPTY_STRING;
-            this.packageName = packageName || Constants.EMPTY_STRING;
-            this.packageVersion = packageVersion || Constants.EMPTY_STRING;
-        }
-        static createDefaultLoggerOptions() {
-            return {
-                loggerCallback: () => {
-                    // allow users to not set loggerCallback
-                },
-                piiLoggingEnabled: false,
-                logLevel: exports.LogLevel.Info,
-            };
-        }
+    class StringUtils {
         /**
-         * Create new Logger with existing configurations.
+         * Check if stringified object is empty
+         * @param strObj
          */
-        clone(packageName, packageVersion, correlationId) {
-            return new Logger({
-                loggerCallback: this.localCallback,
-                piiLoggingEnabled: this.piiLoggingEnabled,
-                logLevel: this.level,
-                correlationId: correlationId || this.correlationId,
-            }, packageName, packageVersion);
-        }
-        /**
-         * Log message with required options.
-         */
-        logMessage(logMessage, options) {
-            if (options.logLevel > this.level ||
-                (!this.piiLoggingEnabled && options.containsPii)) {
-                return;
+        static isEmptyObj(strObj) {
+            if (strObj) {
+                try {
+                    const obj = JSON.parse(strObj);
+                    return Object.keys(obj).length === 0;
+                }
+                catch (e) { }
             }
-            const timestamp = new Date().toUTCString();
-            // Add correlationId to logs if set, correlationId provided on log messages take precedence
-            const logHeader = `[${timestamp}] : [${options.correlationId || this.correlationId || ""}]`;
-            const log = `${logHeader} : ${this.packageName}@${this.packageVersion} : ${exports.LogLevel[options.logLevel]} - ${logMessage}`;
-            // debug(`msal:${LogLevel[options.logLevel]}${options.containsPii ? "-Pii": Constants.EMPTY_STRING}${options.context ? `:${options.context}` : Constants.EMPTY_STRING}`)(logMessage);
-            this.executeCallback(options.logLevel, log, options.containsPii || false);
+            return true;
+        }
+        static startsWith(str, search) {
+            return str.indexOf(search) === 0;
+        }
+        static endsWith(str, search) {
+            return (str.length >= search.length &&
+                str.lastIndexOf(search) === str.length - search.length);
         }
         /**
-         * Execute callback with message.
+         * Parses string into an object.
+         *
+         * @param query
          */
-        executeCallback(level, message, containsPii) {
-            if (this.localCallback) {
-                this.localCallback(level, message, containsPii);
+        static queryStringToObject(query) {
+            const obj = {};
+            const params = query.split("&");
+            const decode = (s) => decodeURIComponent(s.replace(/\+/g, " "));
+            params.forEach((pair) => {
+                if (pair.trim()) {
+                    const [key, value] = pair.split(/=(.+)/g, 2); // Split on the first occurence of the '=' character
+                    if (key && value) {
+                        obj[decode(key)] = decode(value);
+                    }
+                }
+            });
+            return obj;
+        }
+        /**
+         * Trims entries in an array.
+         *
+         * @param arr
+         */
+        static trimArrayEntries(arr) {
+            return arr.map((entry) => entry.trim());
+        }
+        /**
+         * Removes empty strings from array
+         * @param arr
+         */
+        static removeEmptyStringsFromArray(arr) {
+            return arr.filter((entry) => {
+                return !!entry;
+            });
+        }
+        /**
+         * Attempts to parse a string into JSON
+         * @param str
+         */
+        static jsonParseHelper(str) {
+            try {
+                return JSON.parse(str);
+            }
+            catch (e) {
+                return null;
             }
         }
         /**
-         * Logs error messages.
+         * Tests if a given string matches a given pattern, with support for wildcards and queries.
+         * @param pattern Wildcard pattern to string match. Supports "*" for wildcards and "?" for queries
+         * @param input String to match against
          */
-        error(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Error,
-                containsPii: false,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs error messages with PII.
-         */
-        errorPii(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Error,
-                containsPii: true,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs warning messages.
-         */
-        warning(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Warning,
-                containsPii: false,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs warning messages with PII.
-         */
-        warningPii(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Warning,
-                containsPii: true,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs info messages.
-         */
-        info(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Info,
-                containsPii: false,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs info messages with PII.
-         */
-        infoPii(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Info,
-                containsPii: true,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs verbose messages.
-         */
-        verbose(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Verbose,
-                containsPii: false,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs verbose messages with PII.
-         */
-        verbosePii(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Verbose,
-                containsPii: true,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs trace messages.
-         */
-        trace(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Trace,
-                containsPii: false,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Logs trace messages with PII.
-         */
-        tracePii(message, correlationId) {
-            this.logMessage(message, {
-                logLevel: exports.LogLevel.Trace,
-                containsPii: true,
-                correlationId: correlationId || Constants.EMPTY_STRING,
-            });
-        }
-        /**
-         * Returns whether PII Logging is enabled or not.
-         */
-        isPiiLoggingEnabled() {
-            return this.piiLoggingEnabled || false;
+        static matchPattern(pattern, input) {
+            /**
+             * Wildcard support: https://stackoverflow.com/a/3117248/4888559
+             * Queries: replaces "?" in string with escaped "\?" for regex test
+             */
+            // eslint-disable-next-line security/detect-non-literal-regexp
+            const regex = new RegExp(pattern
+                .replace(/\\/g, "\\\\")
+                .replace(/\*/g, "[^ ]*")
+                .replace(/\?/g, "\\?"));
+            return regex.test(input);
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /* eslint-disable header/header */
-    const name$1 = "@azure/msal-common";
-    const version$1 = "14.14.2";
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3934,7 +1900,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3974,7 +1940,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4053,7 +2019,22 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Authority types supported by MSAL.
+     */
+    const AuthorityType = {
+        Default: 0,
+        Adfs: 1,
+        Dsts: 2,
+        Ciam: 3,
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4075,7 +2056,20 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Protocol modes supported by MSAL.
+     */
+    const ProtocolMode = {
+        AAD: "AAD",
+        OIDC: "OIDC",
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4318,7 +2312,358 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Parses hash string from given string. Returns empty string if no hash symbol is found.
+     * @param hashString
+     */
+    function stripLeadingHashOrQuery(responseString) {
+        if (responseString.startsWith("#/")) {
+            return responseString.substring(2);
+        }
+        else if (responseString.startsWith("#") ||
+            responseString.startsWith("?")) {
+            return responseString.substring(1);
+        }
+        return responseString;
+    }
+    /**
+     * Returns URL hash as server auth code response object.
+     */
+    function getDeserializedResponse(responseString) {
+        // Check if given hash is empty
+        if (!responseString || responseString.indexOf("=") < 0) {
+            return null;
+        }
+        try {
+            // Strip the # or ? symbol if present
+            const normalizedResponse = stripLeadingHashOrQuery(responseString);
+            // If # symbol was not present, above will return empty string, so give original hash value
+            const deserializedHash = Object.fromEntries(new URLSearchParams(normalizedResponse));
+            // Check for known response properties
+            if (deserializedHash.code ||
+                deserializedHash.error ||
+                deserializedHash.error_description ||
+                deserializedHash.state) {
+                return deserializedHash;
+            }
+        }
+        catch (e) {
+            throw createClientAuthError(hashNotDeserialized);
+        }
+        return null;
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Url object class which can perform various transformations on url strings.
+     */
+    class UrlString {
+        get urlString() {
+            return this._urlString;
+        }
+        constructor(url) {
+            this._urlString = url;
+            if (!this._urlString) {
+                // Throws error if url is empty
+                throw createClientConfigurationError(urlEmptyError);
+            }
+            if (!url.includes("#")) {
+                this._urlString = UrlString.canonicalizeUri(url);
+            }
+        }
+        /**
+         * Ensure urls are lower case and end with a / character.
+         * @param url
+         */
+        static canonicalizeUri(url) {
+            if (url) {
+                let lowerCaseUrl = url.toLowerCase();
+                if (StringUtils.endsWith(lowerCaseUrl, "?")) {
+                    lowerCaseUrl = lowerCaseUrl.slice(0, -1);
+                }
+                else if (StringUtils.endsWith(lowerCaseUrl, "?/")) {
+                    lowerCaseUrl = lowerCaseUrl.slice(0, -2);
+                }
+                if (!StringUtils.endsWith(lowerCaseUrl, "/")) {
+                    lowerCaseUrl += "/";
+                }
+                return lowerCaseUrl;
+            }
+            return url;
+        }
+        /**
+         * Throws if urlString passed is not a valid authority URI string.
+         */
+        validateAsUri() {
+            // Attempts to parse url for uri components
+            let components;
+            try {
+                components = this.getUrlComponents();
+            }
+            catch (e) {
+                throw createClientConfigurationError(urlParseError);
+            }
+            // Throw error if URI or path segments are not parseable.
+            if (!components.HostNameAndPort || !components.PathSegments) {
+                throw createClientConfigurationError(urlParseError);
+            }
+            // Throw error if uri is insecure.
+            if (!components.Protocol ||
+                components.Protocol.toLowerCase() !== "https:") {
+                throw createClientConfigurationError(authorityUriInsecure);
+            }
+        }
+        /**
+         * Given a url and a query string return the url with provided query string appended
+         * @param url
+         * @param queryString
+         */
+        static appendQueryString(url, queryString) {
+            if (!queryString) {
+                return url;
+            }
+            return url.indexOf("?") < 0
+                ? `${url}?${queryString}`
+                : `${url}&${queryString}`;
+        }
+        /**
+         * Returns a url with the hash removed
+         * @param url
+         */
+        static removeHashFromUrl(url) {
+            return UrlString.canonicalizeUri(url.split("#")[0]);
+        }
+        /**
+         * Given a url like https://a:b/common/d?e=f#g, and a tenantId, returns https://a:b/tenantId/d
+         * @param href The url
+         * @param tenantId The tenant id to replace
+         */
+        replaceTenantPath(tenantId) {
+            const urlObject = this.getUrlComponents();
+            const pathArray = urlObject.PathSegments;
+            if (tenantId &&
+                pathArray.length !== 0 &&
+                (pathArray[0] === AADAuthorityConstants.COMMON ||
+                    pathArray[0] === AADAuthorityConstants.ORGANIZATIONS)) {
+                pathArray[0] = tenantId;
+            }
+            return UrlString.constructAuthorityUriFromObject(urlObject);
+        }
+        /**
+         * Parses out the components from a url string.
+         * @returns An object with the various components. Please cache this value insted of calling this multiple times on the same url.
+         */
+        getUrlComponents() {
+            // https://gist.github.com/curtisz/11139b2cfcaef4a261e0
+            const regEx = RegExp("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?");
+            // If url string does not match regEx, we throw an error
+            const match = this.urlString.match(regEx);
+            if (!match) {
+                throw createClientConfigurationError(urlParseError);
+            }
+            // Url component object
+            const urlComponents = {
+                Protocol: match[1],
+                HostNameAndPort: match[4],
+                AbsolutePath: match[5],
+                QueryString: match[7],
+            };
+            let pathSegments = urlComponents.AbsolutePath.split("/");
+            pathSegments = pathSegments.filter((val) => val && val.length > 0); // remove empty elements
+            urlComponents.PathSegments = pathSegments;
+            if (urlComponents.QueryString &&
+                urlComponents.QueryString.endsWith("/")) {
+                urlComponents.QueryString = urlComponents.QueryString.substring(0, urlComponents.QueryString.length - 1);
+            }
+            return urlComponents;
+        }
+        static getDomainFromUrl(url) {
+            const regEx = RegExp("^([^:/?#]+://)?([^/?#]*)");
+            const match = url.match(regEx);
+            if (!match) {
+                throw createClientConfigurationError(urlParseError);
+            }
+            return match[2];
+        }
+        static getAbsoluteUrl(relativeUrl, baseUrl) {
+            if (relativeUrl[0] === Constants.FORWARD_SLASH) {
+                const url = new UrlString(baseUrl);
+                const baseComponents = url.getUrlComponents();
+                return (baseComponents.Protocol +
+                    "//" +
+                    baseComponents.HostNameAndPort +
+                    relativeUrl);
+            }
+            return relativeUrl;
+        }
+        static constructAuthorityUriFromObject(urlObject) {
+            return new UrlString(urlObject.Protocol +
+                "//" +
+                urlObject.HostNameAndPort +
+                "/" +
+                urlObject.PathSegments.join("/"));
+        }
+        /**
+         * Check if the hash of the URL string contains known properties
+         * @deprecated This API will be removed in a future version
+         */
+        static hashContainsKnownProperties(response) {
+            return !!getDeserializedResponse(response);
+        }
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const rawMetdataJSON = {
+        endpointMetadata: {
+            "login.microsoftonline.com": {
+                token_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/token",
+                jwks_uri: "https://login.microsoftonline.com/{tenantid}/discovery/v2.0/keys",
+                issuer: "https://login.microsoftonline.com/{tenantid}/v2.0",
+                authorization_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/authorize",
+                end_session_endpoint: "https://login.microsoftonline.com/{tenantid}/oauth2/v2.0/logout",
+            },
+            "login.chinacloudapi.cn": {
+                token_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/token",
+                jwks_uri: "https://login.chinacloudapi.cn/{tenantid}/discovery/v2.0/keys",
+                issuer: "https://login.partner.microsoftonline.cn/{tenantid}/v2.0",
+                authorization_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/authorize",
+                end_session_endpoint: "https://login.chinacloudapi.cn/{tenantid}/oauth2/v2.0/logout",
+            },
+            "login.microsoftonline.us": {
+                token_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/token",
+                jwks_uri: "https://login.microsoftonline.us/{tenantid}/discovery/v2.0/keys",
+                issuer: "https://login.microsoftonline.us/{tenantid}/v2.0",
+                authorization_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/authorize",
+                end_session_endpoint: "https://login.microsoftonline.us/{tenantid}/oauth2/v2.0/logout",
+            },
+        },
+        instanceDiscoveryMetadata: {
+            tenant_discovery_endpoint: "https://{canonicalAuthority}/v2.0/.well-known/openid-configuration",
+            metadata: [
+                {
+                    preferred_network: "login.microsoftonline.com",
+                    preferred_cache: "login.windows.net",
+                    aliases: [
+                        "login.microsoftonline.com",
+                        "login.windows.net",
+                        "login.microsoft.com",
+                        "sts.windows.net",
+                    ],
+                },
+                {
+                    preferred_network: "login.partner.microsoftonline.cn",
+                    preferred_cache: "login.partner.microsoftonline.cn",
+                    aliases: [
+                        "login.partner.microsoftonline.cn",
+                        "login.chinacloudapi.cn",
+                    ],
+                },
+                {
+                    preferred_network: "login.microsoftonline.de",
+                    preferred_cache: "login.microsoftonline.de",
+                    aliases: ["login.microsoftonline.de"],
+                },
+                {
+                    preferred_network: "login.microsoftonline.us",
+                    preferred_cache: "login.microsoftonline.us",
+                    aliases: [
+                        "login.microsoftonline.us",
+                        "login.usgovcloudapi.net",
+                    ],
+                },
+                {
+                    preferred_network: "login-us.microsoftonline.com",
+                    preferred_cache: "login-us.microsoftonline.com",
+                    aliases: ["login-us.microsoftonline.com"],
+                },
+            ],
+        },
+    };
+    const EndpointMetadata = rawMetdataJSON.endpointMetadata;
+    const InstanceDiscoveryMetadata = rawMetdataJSON.instanceDiscoveryMetadata;
+    const InstanceDiscoveryMetadataAliases = new Set();
+    InstanceDiscoveryMetadata.metadata.forEach((metadataEntry) => {
+        metadataEntry.aliases.forEach((alias) => {
+            InstanceDiscoveryMetadataAliases.add(alias);
+        });
+    });
+    /**
+     * Attempts to get an aliases array from the static authority metadata sources based on the canonical authority host
+     * @param staticAuthorityOptions
+     * @param logger
+     * @returns
+     */
+    function getAliasesFromStaticSources(staticAuthorityOptions, logger) {
+        let staticAliases;
+        const canonicalAuthority = staticAuthorityOptions.canonicalAuthority;
+        if (canonicalAuthority) {
+            const authorityHost = new UrlString(canonicalAuthority).getUrlComponents().HostNameAndPort;
+            staticAliases =
+                getAliasesFromMetadata(authorityHost, staticAuthorityOptions.cloudDiscoveryMetadata?.metadata, AuthorityMetadataSource.CONFIG, logger) ||
+                    getAliasesFromMetadata(authorityHost, InstanceDiscoveryMetadata.metadata, AuthorityMetadataSource.HARDCODED_VALUES, logger) ||
+                    staticAuthorityOptions.knownAuthorities;
+        }
+        return staticAliases || [];
+    }
+    /**
+     * Returns aliases for from the raw cloud discovery metadata passed in
+     * @param authorityHost
+     * @param rawCloudDiscoveryMetadata
+     * @returns
+     */
+    function getAliasesFromMetadata(authorityHost, cloudDiscoveryMetadata, source, logger) {
+        logger?.trace(`getAliasesFromMetadata called with source: ${source}`);
+        if (authorityHost && cloudDiscoveryMetadata) {
+            const metadata = getCloudDiscoveryMetadataFromNetworkResponse(cloudDiscoveryMetadata, authorityHost);
+            if (metadata) {
+                logger?.trace(`getAliasesFromMetadata: found cloud discovery metadata in ${source}, returning aliases`);
+                return metadata.aliases;
+            }
+            else {
+                logger?.trace(`getAliasesFromMetadata: did not find cloud discovery metadata in ${source}`);
+            }
+        }
+        return null;
+    }
+    /**
+     * Get cloud discovery metadata for common authorities
+     */
+    function getCloudDiscoveryMetadataFromHardcodedValues(authorityHost) {
+        const metadata = getCloudDiscoveryMetadataFromNetworkResponse(InstanceDiscoveryMetadata.metadata, authorityHost);
+        return metadata;
+    }
+    /**
+     * Searches instance discovery network response for the entry that contains the host in the aliases list
+     * @param response
+     * @param authority
+     */
+    function getCloudDiscoveryMetadataFromNetworkResponse(response, authorityHost) {
+        for (let i = 0; i < response.length; i++) {
+            const metadata = response[i];
+            if (metadata.aliases.includes(authorityHost)) {
+                return metadata;
+            }
+        }
+        return null;
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4326,7 +2671,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4353,7 +2698,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5605,7 +3950,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5692,6 +4037,7 @@
             clientCapabilities: [],
             azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS,
             skipAuthorityMetadataCache: false,
+            instanceAware: false,
             ...authOptions,
         };
     }
@@ -5703,7 +4049,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5722,7 +4068,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5820,7 +4166,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5857,7 +4203,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5867,7 +4213,55 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const CLIENT_ID = "client_id";
+    const REDIRECT_URI = "redirect_uri";
+    const RESPONSE_TYPE = "response_type";
+    const RESPONSE_MODE = "response_mode";
+    const GRANT_TYPE = "grant_type";
+    const CLAIMS = "claims";
+    const SCOPE = "scope";
+    const REFRESH_TOKEN = "refresh_token";
+    const STATE = "state";
+    const NONCE = "nonce";
+    const PROMPT = "prompt";
+    const CODE = "code";
+    const CODE_CHALLENGE = "code_challenge";
+    const CODE_CHALLENGE_METHOD = "code_challenge_method";
+    const CODE_VERIFIER = "code_verifier";
+    const CLIENT_REQUEST_ID = "client-request-id";
+    const X_CLIENT_SKU = "x-client-SKU";
+    const X_CLIENT_VER = "x-client-VER";
+    const X_CLIENT_OS = "x-client-OS";
+    const X_CLIENT_CPU = "x-client-CPU";
+    const X_CLIENT_CURR_TELEM = "x-client-current-telemetry";
+    const X_CLIENT_LAST_TELEM = "x-client-last-telemetry";
+    const X_MS_LIB_CAPABILITY = "x-ms-lib-capability";
+    const X_APP_NAME = "x-app-name";
+    const X_APP_VER = "x-app-ver";
+    const POST_LOGOUT_URI = "post_logout_redirect_uri";
+    const ID_TOKEN_HINT = "id_token_hint";
+    const DEVICE_CODE = "device_code";
+    const CLIENT_SECRET = "client_secret";
+    const CLIENT_ASSERTION = "client_assertion";
+    const CLIENT_ASSERTION_TYPE = "client_assertion_type";
+    const TOKEN_TYPE = "token_type";
+    const REQ_CNF = "req_cnf";
+    const OBO_ASSERTION = "assertion";
+    const REQUESTED_TOKEN_USE = "requested_token_use";
+    const RETURN_SPA_CODE = "return_spa_code";
+    const NATIVE_BROKER = "nativebroker";
+    const LOGOUT_HINT = "logout_hint";
+    const SID = "sid";
+    const LOGIN_HINT = "login_hint";
+    const DOMAIN_HINT = "domain_hint";
+    const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5934,7 +4328,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6319,7 +4713,1596 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isOpenIdConfigResponse(response) {
+        return (response.hasOwnProperty("authorization_endpoint") &&
+            response.hasOwnProperty("token_endpoint") &&
+            response.hasOwnProperty("issuer") &&
+            response.hasOwnProperty("jwks_uri"));
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isCloudInstanceDiscoveryResponse(response) {
+        return (response.hasOwnProperty("tenant_discovery_endpoint") &&
+            response.hasOwnProperty("metadata"));
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isCloudInstanceDiscoveryErrorResponse(response) {
+        return (response.hasOwnProperty("error") &&
+            response.hasOwnProperty("error_description"));
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Enumeration of operations that are instrumented by have their performance measured by the PerformanceClient.
+     *
+     * @export
+     * @enum {number}
+     */
+    const PerformanceEvents = {
+        /**
+         * acquireTokenByCode API (msal-browser and msal-node).
+         * Used to acquire tokens by trading an authorization code against the token endpoint.
+         */
+        AcquireTokenByCode: "acquireTokenByCode",
+        /**
+         * acquireTokenByRefreshToken API (msal-browser and msal-node).
+         * Used to renew an access token using a refresh token against the token endpoint.
+         */
+        AcquireTokenByRefreshToken: "acquireTokenByRefreshToken",
+        /**
+         * acquireTokenSilent API (msal-browser and msal-node).
+         * Used to silently acquire a new access token (from the cache or the network).
+         */
+        AcquireTokenSilent: "acquireTokenSilent",
+        /**
+         * acquireTokenSilentAsync (msal-browser).
+         * Internal API for acquireTokenSilent.
+         */
+        AcquireTokenSilentAsync: "acquireTokenSilentAsync",
+        /**
+         * acquireTokenPopup (msal-browser).
+         * Used to acquire a new access token interactively through pop ups
+         */
+        AcquireTokenPopup: "acquireTokenPopup",
+        /**
+         * acquireTokenPreRedirect (msal-browser).
+         * First part of the redirect flow.
+         * Used to acquire a new access token interactively through redirects.
+         */
+        AcquireTokenPreRedirect: "acquireTokenPreRedirect",
+        /**
+         * acquireTokenRedirect (msal-browser).
+         * Second part of the redirect flow.
+         * Used to acquire a new access token interactively through redirects.
+         */
+        AcquireTokenRedirect: "acquireTokenRedirect",
+        /**
+         * getPublicKeyThumbprint API in CryptoOpts class (msal-browser).
+         * Used to generate a public/private keypair and generate a public key thumbprint for pop requests.
+         */
+        CryptoOptsGetPublicKeyThumbprint: "cryptoOptsGetPublicKeyThumbprint",
+        /**
+         * signJwt API in CryptoOpts class (msal-browser).
+         * Used to signed a pop token.
+         */
+        CryptoOptsSignJwt: "cryptoOptsSignJwt",
+        /**
+         * acquireToken API in the SilentCacheClient class (msal-browser).
+         * Used to read access tokens from the cache.
+         */
+        SilentCacheClientAcquireToken: "silentCacheClientAcquireToken",
+        /**
+         * acquireToken API in the SilentIframeClient class (msal-browser).
+         * Used to acquire a new set of tokens from the authorize endpoint in a hidden iframe.
+         */
+        SilentIframeClientAcquireToken: "silentIframeClientAcquireToken",
+        AwaitConcurrentIframe: "awaitConcurrentIframe",
+        /**
+         * acquireToken API in SilentRereshClient (msal-browser).
+         * Used to acquire a new set of tokens from the token endpoint using a refresh token.
+         */
+        SilentRefreshClientAcquireToken: "silentRefreshClientAcquireToken",
+        /**
+         * ssoSilent API (msal-browser).
+         * Used to silently acquire an authorization code and set of tokens using a hidden iframe.
+         */
+        SsoSilent: "ssoSilent",
+        /**
+         * getDiscoveredAuthority API in StandardInteractionClient class (msal-browser).
+         * Used to load authority metadata for a request.
+         */
+        StandardInteractionClientGetDiscoveredAuthority: "standardInteractionClientGetDiscoveredAuthority",
+        /**
+         * acquireToken APIs in msal-browser.
+         * Used to make an /authorize endpoint call with native brokering enabled.
+         */
+        FetchAccountIdWithNativeBroker: "fetchAccountIdWithNativeBroker",
+        /**
+         * acquireToken API in NativeInteractionClient class (msal-browser).
+         * Used to acquire a token from Native component when native brokering is enabled.
+         */
+        NativeInteractionClientAcquireToken: "nativeInteractionClientAcquireToken",
+        /**
+         * Time spent creating default headers for requests to token endpoint
+         */
+        BaseClientCreateTokenRequestHeaders: "baseClientCreateTokenRequestHeaders",
+        /**
+         * Time spent sending/waiting for the response of a request to the token endpoint
+         */
+        RefreshTokenClientExecutePostToTokenEndpoint: "refreshTokenClientExecutePostToTokenEndpoint",
+        AuthorizationCodeClientExecutePostToTokenEndpoint: "authorizationCodeClientExecutePostToTokenEndpoint",
+        /**
+         * Used to measure the time taken for completing embedded-broker handshake (PW-Broker).
+         */
+        BrokerHandhshake: "brokerHandshake",
+        /**
+         * acquireTokenByRefreshToken API in BrokerClientApplication (PW-Broker) .
+         */
+        AcquireTokenByRefreshTokenInBroker: "acquireTokenByRefreshTokenInBroker",
+        /**
+         * Time taken for token acquisition by broker
+         */
+        AcquireTokenByBroker: "acquireTokenByBroker",
+        /**
+         * Time spent on the network for refresh token acquisition
+         */
+        RefreshTokenClientExecuteTokenRequest: "refreshTokenClientExecuteTokenRequest",
+        /**
+         * Time taken for acquiring refresh token , records RT size
+         */
+        RefreshTokenClientAcquireToken: "refreshTokenClientAcquireToken",
+        /**
+         * Time taken for acquiring cached refresh token
+         */
+        RefreshTokenClientAcquireTokenWithCachedRefreshToken: "refreshTokenClientAcquireTokenWithCachedRefreshToken",
+        /**
+         * acquireTokenByRefreshToken API in RefreshTokenClient (msal-common).
+         */
+        RefreshTokenClientAcquireTokenByRefreshToken: "refreshTokenClientAcquireTokenByRefreshToken",
+        /**
+         * Helper function to create token request body in RefreshTokenClient (msal-common).
+         */
+        RefreshTokenClientCreateTokenRequestBody: "refreshTokenClientCreateTokenRequestBody",
+        /**
+         * acquireTokenFromCache (msal-browser).
+         * Internal API for acquiring token from cache
+         */
+        AcquireTokenFromCache: "acquireTokenFromCache",
+        SilentFlowClientAcquireCachedToken: "silentFlowClientAcquireCachedToken",
+        SilentFlowClientGenerateResultFromCacheRecord: "silentFlowClientGenerateResultFromCacheRecord",
+        /**
+         * acquireTokenBySilentIframe (msal-browser).
+         * Internal API for acquiring token by silent Iframe
+         */
+        AcquireTokenBySilentIframe: "acquireTokenBySilentIframe",
+        /**
+         * Internal API for initializing base request in BaseInteractionClient (msal-browser)
+         */
+        InitializeBaseRequest: "initializeBaseRequest",
+        /**
+         * Internal API for initializing silent request in SilentCacheClient (msal-browser)
+         */
+        InitializeSilentRequest: "initializeSilentRequest",
+        InitializeClientApplication: "initializeClientApplication",
+        /**
+         * Helper function in SilentIframeClient class (msal-browser).
+         */
+        SilentIframeClientTokenHelper: "silentIframeClientTokenHelper",
+        /**
+         * SilentHandler
+         */
+        SilentHandlerInitiateAuthRequest: "silentHandlerInitiateAuthRequest",
+        SilentHandlerMonitorIframeForHash: "silentHandlerMonitorIframeForHash",
+        SilentHandlerLoadFrame: "silentHandlerLoadFrame",
+        SilentHandlerLoadFrameSync: "silentHandlerLoadFrameSync",
+        /**
+         * Helper functions in StandardInteractionClient class (msal-browser)
+         */
+        StandardInteractionClientCreateAuthCodeClient: "standardInteractionClientCreateAuthCodeClient",
+        StandardInteractionClientGetClientConfiguration: "standardInteractionClientGetClientConfiguration",
+        StandardInteractionClientInitializeAuthorizationRequest: "standardInteractionClientInitializeAuthorizationRequest",
+        StandardInteractionClientInitializeAuthorizationCodeRequest: "standardInteractionClientInitializeAuthorizationCodeRequest",
+        /**
+         * getAuthCodeUrl API (msal-browser and msal-node).
+         */
+        GetAuthCodeUrl: "getAuthCodeUrl",
+        /**
+         * Functions from InteractionHandler (msal-browser)
+         */
+        HandleCodeResponseFromServer: "handleCodeResponseFromServer",
+        HandleCodeResponse: "handleCodeResponse",
+        UpdateTokenEndpointAuthority: "updateTokenEndpointAuthority",
+        /**
+         * APIs in Authorization Code Client (msal-common)
+         */
+        AuthClientAcquireToken: "authClientAcquireToken",
+        AuthClientExecuteTokenRequest: "authClientExecuteTokenRequest",
+        AuthClientCreateTokenRequestBody: "authClientCreateTokenRequestBody",
+        AuthClientCreateQueryString: "authClientCreateQueryString",
+        /**
+         * Generate functions in PopTokenGenerator (msal-common)
+         */
+        PopTokenGenerateCnf: "popTokenGenerateCnf",
+        PopTokenGenerateKid: "popTokenGenerateKid",
+        /**
+         * handleServerTokenResponse API in ResponseHandler (msal-common)
+         */
+        HandleServerTokenResponse: "handleServerTokenResponse",
+        DeserializeResponse: "deserializeResponse",
+        /**
+         * Authority functions
+         */
+        AuthorityFactoryCreateDiscoveredInstance: "authorityFactoryCreateDiscoveredInstance",
+        AuthorityResolveEndpointsAsync: "authorityResolveEndpointsAsync",
+        AuthorityResolveEndpointsFromLocalSources: "authorityResolveEndpointsFromLocalSources",
+        AuthorityGetCloudDiscoveryMetadataFromNetwork: "authorityGetCloudDiscoveryMetadataFromNetwork",
+        AuthorityUpdateCloudDiscoveryMetadata: "authorityUpdateCloudDiscoveryMetadata",
+        AuthorityGetEndpointMetadataFromNetwork: "authorityGetEndpointMetadataFromNetwork",
+        AuthorityUpdateEndpointMetadata: "authorityUpdateEndpointMetadata",
+        AuthorityUpdateMetadataWithRegionalInformation: "authorityUpdateMetadataWithRegionalInformation",
+        /**
+         * Region Discovery functions
+         */
+        RegionDiscoveryDetectRegion: "regionDiscoveryDetectRegion",
+        RegionDiscoveryGetRegionFromIMDS: "regionDiscoveryGetRegionFromIMDS",
+        RegionDiscoveryGetCurrentVersion: "regionDiscoveryGetCurrentVersion",
+        AcquireTokenByCodeAsync: "acquireTokenByCodeAsync",
+        GetEndpointMetadataFromNetwork: "getEndpointMetadataFromNetwork",
+        GetCloudDiscoveryMetadataFromNetworkMeasurement: "getCloudDiscoveryMetadataFromNetworkMeasurement",
+        HandleRedirectPromiseMeasurement: "handleRedirectPromise",
+        HandleNativeRedirectPromiseMeasurement: "handleNativeRedirectPromise",
+        UpdateCloudDiscoveryMetadataMeasurement: "updateCloudDiscoveryMetadataMeasurement",
+        UsernamePasswordClientAcquireToken: "usernamePasswordClientAcquireToken",
+        NativeMessageHandlerHandshake: "nativeMessageHandlerHandshake",
+        NativeGenerateAuthResult: "nativeGenerateAuthResult",
+        RemoveHiddenIframe: "removeHiddenIframe",
+        /**
+         * Cache operations
+         */
+        ClearTokensAndKeysWithClaims: "clearTokensAndKeysWithClaims",
+        CacheManagerGetRefreshToken: "cacheManagerGetRefreshToken",
+        /**
+         * Crypto Operations
+         */
+        GeneratePkceCodes: "generatePkceCodes",
+        GenerateCodeVerifier: "generateCodeVerifier",
+        GenerateCodeChallengeFromVerifier: "generateCodeChallengeFromVerifier",
+        Sha256Digest: "sha256Digest",
+        GetRandomValues: "getRandomValues",
+    };
+    const PerformanceEventAbbreviations = new Map([
+        [PerformanceEvents.AcquireTokenByCode, "ATByCode"],
+        [PerformanceEvents.AcquireTokenByRefreshToken, "ATByRT"],
+        [PerformanceEvents.AcquireTokenSilent, "ATS"],
+        [PerformanceEvents.AcquireTokenSilentAsync, "ATSAsync"],
+        [PerformanceEvents.AcquireTokenPopup, "ATPopup"],
+        [PerformanceEvents.AcquireTokenRedirect, "ATRedirect"],
+        [
+            PerformanceEvents.CryptoOptsGetPublicKeyThumbprint,
+            "CryptoGetPKThumb",
+        ],
+        [PerformanceEvents.CryptoOptsSignJwt, "CryptoSignJwt"],
+        [PerformanceEvents.SilentCacheClientAcquireToken, "SltCacheClientAT"],
+        [PerformanceEvents.SilentIframeClientAcquireToken, "SltIframeClientAT"],
+        [PerformanceEvents.SilentRefreshClientAcquireToken, "SltRClientAT"],
+        [PerformanceEvents.SsoSilent, "SsoSlt"],
+        [
+            PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority,
+            "StdIntClientGetDiscAuth",
+        ],
+        [
+            PerformanceEvents.FetchAccountIdWithNativeBroker,
+            "FetchAccIdWithNtvBroker",
+        ],
+        [
+            PerformanceEvents.NativeInteractionClientAcquireToken,
+            "NtvIntClientAT",
+        ],
+        [
+            PerformanceEvents.BaseClientCreateTokenRequestHeaders,
+            "BaseClientCreateTReqHead",
+        ],
+        [
+            PerformanceEvents.RefreshTokenClientExecutePostToTokenEndpoint,
+            "RTClientExecPost",
+        ],
+        [
+            PerformanceEvents.AuthorizationCodeClientExecutePostToTokenEndpoint,
+            "AuthCodeClientExecPost",
+        ],
+        [PerformanceEvents.BrokerHandhshake, "BrokerHandshake"],
+        [
+            PerformanceEvents.AcquireTokenByRefreshTokenInBroker,
+            "ATByRTInBroker",
+        ],
+        [PerformanceEvents.AcquireTokenByBroker, "ATByBroker"],
+        [
+            PerformanceEvents.RefreshTokenClientExecuteTokenRequest,
+            "RTClientExecTReq",
+        ],
+        [PerformanceEvents.RefreshTokenClientAcquireToken, "RTClientAT"],
+        [
+            PerformanceEvents.RefreshTokenClientAcquireTokenWithCachedRefreshToken,
+            "RTClientATWithCachedRT",
+        ],
+        [
+            PerformanceEvents.RefreshTokenClientAcquireTokenByRefreshToken,
+            "RTClientATByRT",
+        ],
+        [
+            PerformanceEvents.RefreshTokenClientCreateTokenRequestBody,
+            "RTClientCreateTReqBody",
+        ],
+        [PerformanceEvents.AcquireTokenFromCache, "ATFromCache"],
+        [
+            PerformanceEvents.SilentFlowClientAcquireCachedToken,
+            "SltFlowClientATCached",
+        ],
+        [
+            PerformanceEvents.SilentFlowClientGenerateResultFromCacheRecord,
+            "SltFlowClientGenResFromCache",
+        ],
+        [PerformanceEvents.AcquireTokenBySilentIframe, "ATBySltIframe"],
+        [PerformanceEvents.InitializeBaseRequest, "InitBaseReq"],
+        [PerformanceEvents.InitializeSilentRequest, "InitSltReq"],
+        [
+            PerformanceEvents.InitializeClientApplication,
+            "InitClientApplication",
+        ],
+        [PerformanceEvents.SilentIframeClientTokenHelper, "SIClientTHelper"],
+        [
+            PerformanceEvents.SilentHandlerInitiateAuthRequest,
+            "SHandlerInitAuthReq",
+        ],
+        [
+            PerformanceEvents.SilentHandlerMonitorIframeForHash,
+            "SltHandlerMonitorIframeForHash",
+        ],
+        [PerformanceEvents.SilentHandlerLoadFrame, "SHandlerLoadFrame"],
+        [PerformanceEvents.SilentHandlerLoadFrameSync, "SHandlerLoadFrameSync"],
+        [
+            PerformanceEvents.StandardInteractionClientCreateAuthCodeClient,
+            "StdIntClientCreateAuthCodeClient",
+        ],
+        [
+            PerformanceEvents.StandardInteractionClientGetClientConfiguration,
+            "StdIntClientGetClientConf",
+        ],
+        [
+            PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest,
+            "StdIntClientInitAuthReq",
+        ],
+        [
+            PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest,
+            "StdIntClientInitAuthCodeReq",
+        ],
+        [PerformanceEvents.GetAuthCodeUrl, "GetAuthCodeUrl"],
+        [
+            PerformanceEvents.HandleCodeResponseFromServer,
+            "HandleCodeResFromServer",
+        ],
+        [PerformanceEvents.HandleCodeResponse, "HandleCodeResp"],
+        [PerformanceEvents.UpdateTokenEndpointAuthority, "UpdTEndpointAuth"],
+        [PerformanceEvents.AuthClientAcquireToken, "AuthClientAT"],
+        [PerformanceEvents.AuthClientExecuteTokenRequest, "AuthClientExecTReq"],
+        [
+            PerformanceEvents.AuthClientCreateTokenRequestBody,
+            "AuthClientCreateTReqBody",
+        ],
+        [
+            PerformanceEvents.AuthClientCreateQueryString,
+            "AuthClientCreateQueryStr",
+        ],
+        [PerformanceEvents.PopTokenGenerateCnf, "PopTGenCnf"],
+        [PerformanceEvents.PopTokenGenerateKid, "PopTGenKid"],
+        [PerformanceEvents.HandleServerTokenResponse, "HandleServerTRes"],
+        [PerformanceEvents.DeserializeResponse, "DeserializeRes"],
+        [
+            PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance,
+            "AuthFactCreateDiscInst",
+        ],
+        [
+            PerformanceEvents.AuthorityResolveEndpointsAsync,
+            "AuthResolveEndpointsAsync",
+        ],
+        [
+            PerformanceEvents.AuthorityResolveEndpointsFromLocalSources,
+            "AuthResolveEndpointsFromLocal",
+        ],
+        [
+            PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork,
+            "AuthGetCDMetaFromNet",
+        ],
+        [
+            PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata,
+            "AuthUpdCDMeta",
+        ],
+        [
+            PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork,
+            "AuthUpdCDMetaFromNet",
+        ],
+        [
+            PerformanceEvents.AuthorityUpdateEndpointMetadata,
+            "AuthUpdEndpointMeta",
+        ],
+        [
+            PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation,
+            "AuthUpdMetaWithRegInfo",
+        ],
+        [PerformanceEvents.RegionDiscoveryDetectRegion, "RegDiscDetectReg"],
+        [
+            PerformanceEvents.RegionDiscoveryGetRegionFromIMDS,
+            "RegDiscGetRegFromIMDS",
+        ],
+        [
+            PerformanceEvents.RegionDiscoveryGetCurrentVersion,
+            "RegDiscGetCurrentVer",
+        ],
+        [PerformanceEvents.AcquireTokenByCodeAsync, "ATByCodeAsync"],
+        [
+            PerformanceEvents.GetEndpointMetadataFromNetwork,
+            "GetEndpointMetaFromNet",
+        ],
+        [
+            PerformanceEvents.GetCloudDiscoveryMetadataFromNetworkMeasurement,
+            "GetCDMetaFromNet",
+        ],
+        [
+            PerformanceEvents.HandleRedirectPromiseMeasurement,
+            "HandleRedirectPromise",
+        ],
+        [
+            PerformanceEvents.HandleNativeRedirectPromiseMeasurement,
+            "HandleNtvRedirectPromise",
+        ],
+        [
+            PerformanceEvents.UpdateCloudDiscoveryMetadataMeasurement,
+            "UpdateCDMeta",
+        ],
+        [
+            PerformanceEvents.UsernamePasswordClientAcquireToken,
+            "UserPassClientAT",
+        ],
+        [
+            PerformanceEvents.NativeMessageHandlerHandshake,
+            "NtvMsgHandlerHandshake",
+        ],
+        [PerformanceEvents.NativeGenerateAuthResult, "NtvGenAuthRes"],
+        [PerformanceEvents.RemoveHiddenIframe, "RemoveHiddenIframe"],
+        [
+            PerformanceEvents.ClearTokensAndKeysWithClaims,
+            "ClearTAndKeysWithClaims",
+        ],
+        [PerformanceEvents.CacheManagerGetRefreshToken, "CacheManagerGetRT"],
+        [PerformanceEvents.GeneratePkceCodes, "GenPkceCodes"],
+        [PerformanceEvents.GenerateCodeVerifier, "GenCodeVerifier"],
+        [
+            PerformanceEvents.GenerateCodeChallengeFromVerifier,
+            "GenCodeChallengeFromVerifier",
+        ],
+        [PerformanceEvents.Sha256Digest, "Sha256Digest"],
+        [PerformanceEvents.GetRandomValues, "GetRandomValues"],
+    ]);
+    /**
+     * State of the performance event.
+     *
+     * @export
+     * @enum {number}
+     */
+    const PerformanceEventStatus = {
+        NotStarted: 0,
+        InProgress: 1,
+        Completed: 2,
+    };
+    const IntFields = new Set([
+        "accessTokenSize",
+        "durationMs",
+        "idTokenSize",
+        "matsSilentStatus",
+        "matsHttpStatus",
+        "refreshTokenSize",
+        "queuedTimeMs",
+        "startTimeMs",
+        "status",
+        "multiMatchedAT",
+        "multiMatchedID",
+        "multiMatchedRT",
+    ]);
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Wraps a function with a performance measurement.
+     * Usage: invoke(functionToCall, performanceClient, "EventName", "correlationId")(...argsToPassToFunction)
+     * @param callback
+     * @param eventName
+     * @param logger
+     * @param telemetryClient
+     * @param correlationId
+     * @returns
+     * @internal
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invoke = (callback, eventName, logger, telemetryClient, correlationId) => {
+        return (...args) => {
+            logger.trace(`Executing function ${eventName}`);
+            const inProgressEvent = telemetryClient?.startMeasurement(eventName, correlationId);
+            if (correlationId) {
+                // Track number of times this API is called in a single request
+                const eventCount = eventName + "CallCount";
+                telemetryClient?.incrementFields({ [eventCount]: 1 }, correlationId);
+            }
+            try {
+                const result = callback(...args);
+                inProgressEvent?.end({
+                    success: true,
+                });
+                logger.trace(`Returning result from ${eventName}`);
+                return result;
+            }
+            catch (e) {
+                logger.trace(`Error occurred in ${eventName}`);
+                try {
+                    logger.trace(JSON.stringify(e));
+                }
+                catch (e) {
+                    logger.trace("Unable to print error message.");
+                }
+                inProgressEvent?.end({
+                    success: false,
+                }, e);
+                throw e;
+            }
+        };
+    };
+    /**
+     * Wraps an async function with a performance measurement.
+     * Usage: invokeAsync(functionToCall, performanceClient, "EventName", "correlationId")(...argsToPassToFunction)
+     * @param callback
+     * @param eventName
+     * @param logger
+     * @param telemetryClient
+     * @param correlationId
+     * @returns
+     * @internal
+     *
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const invokeAsync = (callback, eventName, logger, telemetryClient, correlationId) => {
+        return (...args) => {
+            logger.trace(`Executing function ${eventName}`);
+            const inProgressEvent = telemetryClient?.startMeasurement(eventName, correlationId);
+            if (correlationId) {
+                // Track number of times this API is called in a single request
+                const eventCount = eventName + "CallCount";
+                telemetryClient?.incrementFields({ [eventCount]: 1 }, correlationId);
+            }
+            telemetryClient?.setPreQueueTime(eventName, correlationId);
+            return callback(...args)
+                .then((response) => {
+                logger.trace(`Returning result from ${eventName}`);
+                inProgressEvent?.end({
+                    success: true,
+                });
+                return response;
+            })
+                .catch((e) => {
+                logger.trace(`Error occurred in ${eventName}`);
+                try {
+                    logger.trace(JSON.stringify(e));
+                }
+                catch (e) {
+                    logger.trace("Unable to print error message.");
+                }
+                inProgressEvent?.end({
+                    success: false,
+                }, e);
+                throw e;
+            });
+        };
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class RegionDiscovery {
+        constructor(networkInterface, logger, performanceClient, correlationId) {
+            this.networkInterface = networkInterface;
+            this.logger = logger;
+            this.performanceClient = performanceClient;
+            this.correlationId = correlationId;
+        }
+        /**
+         * Detect the region from the application's environment.
+         *
+         * @returns Promise<string | null>
+         */
+        async detectRegion(environmentRegion, regionDiscoveryMetadata) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryDetectRegion, this.correlationId);
+            // Initialize auto detected region with the region from the envrionment
+            let autodetectedRegionName = environmentRegion;
+            // Check if a region was detected from the environment, if not, attempt to get the region from IMDS
+            if (!autodetectedRegionName) {
+                const options = RegionDiscovery.IMDS_OPTIONS;
+                try {
+                    const localIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(Constants.IMDS_VERSION, options);
+                    if (localIMDSVersionResponse.status ===
+                        ResponseCodes.httpSuccess) {
+                        autodetectedRegionName = localIMDSVersionResponse.body;
+                        regionDiscoveryMetadata.region_source =
+                            RegionDiscoverySources.IMDS;
+                    }
+                    // If the response using the local IMDS version failed, try to fetch the current version of IMDS and retry.
+                    if (localIMDSVersionResponse.status ===
+                        ResponseCodes.httpBadRequest) {
+                        const currentIMDSVersion = await invokeAsync(this.getCurrentVersion.bind(this), PerformanceEvents.RegionDiscoveryGetCurrentVersion, this.logger, this.performanceClient, this.correlationId)(options);
+                        if (!currentIMDSVersion) {
+                            regionDiscoveryMetadata.region_source =
+                                RegionDiscoverySources.FAILED_AUTO_DETECTION;
+                            return null;
+                        }
+                        const currentIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(currentIMDSVersion, options);
+                        if (currentIMDSVersionResponse.status ===
+                            ResponseCodes.httpSuccess) {
+                            autodetectedRegionName =
+                                currentIMDSVersionResponse.body;
+                            regionDiscoveryMetadata.region_source =
+                                RegionDiscoverySources.IMDS;
+                        }
+                    }
+                }
+                catch (e) {
+                    regionDiscoveryMetadata.region_source =
+                        RegionDiscoverySources.FAILED_AUTO_DETECTION;
+                    return null;
+                }
+            }
+            else {
+                regionDiscoveryMetadata.region_source =
+                    RegionDiscoverySources.ENVIRONMENT_VARIABLE;
+            }
+            // If no region was auto detected from the environment or from the IMDS endpoint, mark the attempt as a FAILED_AUTO_DETECTION
+            if (!autodetectedRegionName) {
+                regionDiscoveryMetadata.region_source =
+                    RegionDiscoverySources.FAILED_AUTO_DETECTION;
+            }
+            return autodetectedRegionName || null;
+        }
+        /**
+         * Make the call to the IMDS endpoint
+         *
+         * @param imdsEndpointUrl
+         * @returns Promise<NetworkResponse<string>>
+         */
+        async getRegionFromIMDS(version, options) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.correlationId);
+            return this.networkInterface.sendGetRequestAsync(`${Constants.IMDS_ENDPOINT}?api-version=${version}&format=text`, options, Constants.IMDS_TIMEOUT);
+        }
+        /**
+         * Get the most recent version of the IMDS endpoint available
+         *
+         * @returns Promise<string | null>
+         */
+        async getCurrentVersion(options) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.RegionDiscoveryGetCurrentVersion, this.correlationId);
+            try {
+                const response = await this.networkInterface.sendGetRequestAsync(`${Constants.IMDS_ENDPOINT}?format=json`, options);
+                // When IMDS endpoint is called without the api version query param, bad request response comes back with latest version.
+                if (response.status === ResponseCodes.httpBadRequest &&
+                    response.body &&
+                    response.body["newest-versions"] &&
+                    response.body["newest-versions"].length > 0) {
+                    return response.body["newest-versions"][0];
+                }
+                return null;
+            }
+            catch (e) {
+                return null;
+            }
+        }
+    }
+    // Options for the IMDS endpoint request
+    RegionDiscovery.IMDS_OPTIONS = {
+        headers: {
+            Metadata: "true",
+        },
+    };
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * The authority class validates the authority URIs used by the user, and retrieves the OpenID Configuration Data from the
+     * endpoint. It will store the pertinent config data in this object for use during token calls.
+     * @internal
+     */
+    class Authority {
+        constructor(authority, networkInterface, cacheManager, authorityOptions, logger, correlationId, performanceClient, managedIdentity) {
+            this.canonicalAuthority = authority;
+            this._canonicalAuthority.validateAsUri();
+            this.networkInterface = networkInterface;
+            this.cacheManager = cacheManager;
+            this.authorityOptions = authorityOptions;
+            this.regionDiscoveryMetadata = {
+                region_used: undefined,
+                region_source: undefined,
+                region_outcome: undefined,
+            };
+            this.logger = logger;
+            this.performanceClient = performanceClient;
+            this.correlationId = correlationId;
+            this.managedIdentity = managedIdentity || false;
+            this.regionDiscovery = new RegionDiscovery(networkInterface, this.logger, this.performanceClient, this.correlationId);
+        }
+        /**
+         * Get {@link AuthorityType}
+         * @param authorityUri {@link IUri}
+         * @private
+         */
+        getAuthorityType(authorityUri) {
+            // CIAM auth url pattern is being standardized as: <tenant>.ciamlogin.com
+            if (authorityUri.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
+                return AuthorityType.Ciam;
+            }
+            const pathSegments = authorityUri.PathSegments;
+            if (pathSegments.length) {
+                switch (pathSegments[0].toLowerCase()) {
+                    case Constants.ADFS:
+                        return AuthorityType.Adfs;
+                    case Constants.DSTS:
+                        return AuthorityType.Dsts;
+                }
+            }
+            return AuthorityType.Default;
+        }
+        // See above for AuthorityType
+        get authorityType() {
+            return this.getAuthorityType(this.canonicalAuthorityUrlComponents);
+        }
+        /**
+         * ProtocolMode enum representing the way endpoints are constructed.
+         */
+        get protocolMode() {
+            return this.authorityOptions.protocolMode;
+        }
+        /**
+         * Returns authorityOptions which can be used to reinstantiate a new authority instance
+         */
+        get options() {
+            return this.authorityOptions;
+        }
+        /**
+         * A URL that is the authority set by the developer
+         */
+        get canonicalAuthority() {
+            return this._canonicalAuthority.urlString;
+        }
+        /**
+         * Sets canonical authority.
+         */
+        set canonicalAuthority(url) {
+            this._canonicalAuthority = new UrlString(url);
+            this._canonicalAuthority.validateAsUri();
+            this._canonicalAuthorityUrlComponents = null;
+        }
+        /**
+         * Get authority components.
+         */
+        get canonicalAuthorityUrlComponents() {
+            if (!this._canonicalAuthorityUrlComponents) {
+                this._canonicalAuthorityUrlComponents =
+                    this._canonicalAuthority.getUrlComponents();
+            }
+            return this._canonicalAuthorityUrlComponents;
+        }
+        /**
+         * Get hostname and port i.e. login.microsoftonline.com
+         */
+        get hostnameAndPort() {
+            return this.canonicalAuthorityUrlComponents.HostNameAndPort.toLowerCase();
+        }
+        /**
+         * Get tenant for authority.
+         */
+        get tenant() {
+            return this.canonicalAuthorityUrlComponents.PathSegments[0];
+        }
+        /**
+         * OAuth /authorize endpoint for requests
+         */
+        get authorizationEndpoint() {
+            if (this.discoveryComplete()) {
+                return this.replacePath(this.metadata.authorization_endpoint);
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * OAuth /token endpoint for requests
+         */
+        get tokenEndpoint() {
+            if (this.discoveryComplete()) {
+                return this.replacePath(this.metadata.token_endpoint);
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        get deviceCodeEndpoint() {
+            if (this.discoveryComplete()) {
+                return this.replacePath(this.metadata.token_endpoint.replace("/token", "/devicecode"));
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * OAuth logout endpoint for requests
+         */
+        get endSessionEndpoint() {
+            if (this.discoveryComplete()) {
+                // ROPC policies may not have end_session_endpoint set
+                if (!this.metadata.end_session_endpoint) {
+                    throw createClientAuthError(endSessionEndpointNotSupported);
+                }
+                return this.replacePath(this.metadata.end_session_endpoint);
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * OAuth issuer for requests
+         */
+        get selfSignedJwtAudience() {
+            if (this.discoveryComplete()) {
+                return this.replacePath(this.metadata.issuer);
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * Jwks_uri for token signing keys
+         */
+        get jwksUri() {
+            if (this.discoveryComplete()) {
+                return this.replacePath(this.metadata.jwks_uri);
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * Returns a flag indicating that tenant name can be replaced in authority {@link IUri}
+         * @param authorityUri {@link IUri}
+         * @private
+         */
+        canReplaceTenant(authorityUri) {
+            return (authorityUri.PathSegments.length === 1 &&
+                !Authority.reservedTenantDomains.has(authorityUri.PathSegments[0]) &&
+                this.getAuthorityType(authorityUri) === AuthorityType.Default &&
+                this.protocolMode === ProtocolMode.AAD);
+        }
+        /**
+         * Replaces tenant in url path with current tenant. Defaults to common.
+         * @param urlString
+         */
+        replaceTenant(urlString) {
+            return urlString.replace(/{tenant}|{tenantid}/g, this.tenant);
+        }
+        /**
+         * Replaces path such as tenant or policy with the current tenant or policy.
+         * @param urlString
+         */
+        replacePath(urlString) {
+            let endpoint = urlString;
+            const cachedAuthorityUrl = new UrlString(this.metadata.canonical_authority);
+            const cachedAuthorityUrlComponents = cachedAuthorityUrl.getUrlComponents();
+            const cachedAuthorityParts = cachedAuthorityUrlComponents.PathSegments;
+            const currentAuthorityParts = this.canonicalAuthorityUrlComponents.PathSegments;
+            currentAuthorityParts.forEach((currentPart, index) => {
+                let cachedPart = cachedAuthorityParts[index];
+                if (index === 0 &&
+                    this.canReplaceTenant(cachedAuthorityUrlComponents)) {
+                    const tenantId = new UrlString(this.metadata.authorization_endpoint).getUrlComponents().PathSegments[0];
+                    /**
+                     * Check if AAD canonical authority contains tenant domain name, for example "testdomain.onmicrosoft.com",
+                     * by comparing its first path segment to the corresponding authorization endpoint path segment, which is
+                     * always resolved with tenant id by OIDC.
+                     */
+                    if (cachedPart !== tenantId) {
+                        this.logger.verbose(`Replacing tenant domain name ${cachedPart} with id ${tenantId}`);
+                        cachedPart = tenantId;
+                    }
+                }
+                if (currentPart !== cachedPart) {
+                    endpoint = endpoint.replace(`/${cachedPart}/`, `/${currentPart}/`);
+                }
+            });
+            return this.replaceTenant(endpoint);
+        }
+        /**
+         * The default open id configuration endpoint for any canonical authority.
+         */
+        get defaultOpenIdConfigurationEndpoint() {
+            const canonicalAuthorityHost = this.hostnameAndPort;
+            if (this.canonicalAuthority.endsWith("v2.0/") ||
+                this.authorityType === AuthorityType.Adfs ||
+                (this.protocolMode !== ProtocolMode.AAD &&
+                    !this.isAliasOfKnownMicrosoftAuthority(canonicalAuthorityHost))) {
+                return `${this.canonicalAuthority}.well-known/openid-configuration`;
+            }
+            return `${this.canonicalAuthority}v2.0/.well-known/openid-configuration`;
+        }
+        /**
+         * Boolean that returns whether or not tenant discovery has been completed.
+         */
+        discoveryComplete() {
+            return !!this.metadata;
+        }
+        /**
+         * Perform endpoint discovery to discover aliases, preferred_cache, preferred_network
+         * and the /authorize, /token and logout endpoints.
+         */
+        async resolveEndpointsAsync() {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityResolveEndpointsAsync, this.correlationId);
+            const metadataEntity = this.getCurrentMetadataEntity();
+            const cloudDiscoverySource = await invokeAsync(this.updateCloudDiscoveryMetadata.bind(this), PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata, this.logger, this.performanceClient, this.correlationId)(metadataEntity);
+            this.canonicalAuthority = this.canonicalAuthority.replace(this.hostnameAndPort, metadataEntity.preferred_network);
+            const endpointSource = await invokeAsync(this.updateEndpointMetadata.bind(this), PerformanceEvents.AuthorityUpdateEndpointMetadata, this.logger, this.performanceClient, this.correlationId)(metadataEntity);
+            this.updateCachedMetadata(metadataEntity, cloudDiscoverySource, {
+                source: endpointSource,
+            });
+            this.performanceClient?.addFields({
+                cloudDiscoverySource: cloudDiscoverySource,
+                authorityEndpointSource: endpointSource,
+            }, this.correlationId);
+        }
+        /**
+         * Returns metadata entity from cache if it exists, otherwiser returns a new metadata entity built
+         * from the configured canonical authority
+         * @returns
+         */
+        getCurrentMetadataEntity() {
+            let metadataEntity = this.cacheManager.getAuthorityMetadataByAlias(this.hostnameAndPort);
+            if (!metadataEntity) {
+                metadataEntity = {
+                    aliases: [],
+                    preferred_cache: this.hostnameAndPort,
+                    preferred_network: this.hostnameAndPort,
+                    canonical_authority: this.canonicalAuthority,
+                    authorization_endpoint: "",
+                    token_endpoint: "",
+                    end_session_endpoint: "",
+                    issuer: "",
+                    aliasesFromNetwork: false,
+                    endpointsFromNetwork: false,
+                    expiresAt: generateAuthorityMetadataExpiresAt(),
+                    jwks_uri: "",
+                };
+            }
+            return metadataEntity;
+        }
+        /**
+         * Updates cached metadata based on metadata source and sets the instance's metadata
+         * property to the same value
+         * @param metadataEntity
+         * @param cloudDiscoverySource
+         * @param endpointMetadataResult
+         */
+        updateCachedMetadata(metadataEntity, cloudDiscoverySource, endpointMetadataResult) {
+            if (cloudDiscoverySource !== AuthorityMetadataSource.CACHE &&
+                endpointMetadataResult?.source !== AuthorityMetadataSource.CACHE) {
+                // Reset the expiration time unless both values came from a successful cache lookup
+                metadataEntity.expiresAt =
+                    generateAuthorityMetadataExpiresAt();
+                metadataEntity.canonical_authority = this.canonicalAuthority;
+            }
+            const cacheKey = this.cacheManager.generateAuthorityMetadataCacheKey(metadataEntity.preferred_cache);
+            this.cacheManager.setAuthorityMetadata(cacheKey, metadataEntity);
+            this.metadata = metadataEntity;
+        }
+        /**
+         * Update AuthorityMetadataEntity with new endpoints and return where the information came from
+         * @param metadataEntity
+         */
+        async updateEndpointMetadata(metadataEntity) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateEndpointMetadata, this.correlationId);
+            const localMetadata = this.updateEndpointMetadataFromLocalSources(metadataEntity);
+            // Further update may be required for hardcoded metadata if regional metadata is preferred
+            if (localMetadata) {
+                if (localMetadata.source ===
+                    AuthorityMetadataSource.HARDCODED_VALUES) {
+                    // If the user prefers to use an azure region replace the global endpoints with regional information.
+                    if (this.authorityOptions.azureRegionConfiguration?.azureRegion) {
+                        if (localMetadata.metadata) {
+                            const hardcodedMetadata = await invokeAsync(this.updateMetadataWithRegionalInformation.bind(this), PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.logger, this.performanceClient, this.correlationId)(localMetadata.metadata);
+                            updateAuthorityEndpointMetadata(metadataEntity, hardcodedMetadata, false);
+                            metadataEntity.canonical_authority =
+                                this.canonicalAuthority;
+                        }
+                    }
+                }
+                return localMetadata.source;
+            }
+            // Get metadata from network if local sources aren't available
+            let metadata = await invokeAsync(this.getEndpointMetadataFromNetwork.bind(this), PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork, this.logger, this.performanceClient, this.correlationId)();
+            if (metadata) {
+                // If the user prefers to use an azure region replace the global endpoints with regional information.
+                if (this.authorityOptions.azureRegionConfiguration?.azureRegion) {
+                    metadata = await invokeAsync(this.updateMetadataWithRegionalInformation.bind(this), PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.logger, this.performanceClient, this.correlationId)(metadata);
+                }
+                updateAuthorityEndpointMetadata(metadataEntity, metadata, true);
+                return AuthorityMetadataSource.NETWORK;
+            }
+            else {
+                // Metadata could not be obtained from the config, cache, network or hardcoded values
+                throw createClientAuthError(openIdConfigError, this.defaultOpenIdConfigurationEndpoint);
+            }
+        }
+        /**
+         * Updates endpoint metadata from local sources and returns where the information was retrieved from and the metadata config
+         * response if the source is hardcoded metadata
+         * @param metadataEntity
+         * @returns
+         */
+        updateEndpointMetadataFromLocalSources(metadataEntity) {
+            this.logger.verbose("Attempting to get endpoint metadata from authority configuration");
+            const configMetadata = this.getEndpointMetadataFromConfig();
+            if (configMetadata) {
+                this.logger.verbose("Found endpoint metadata in authority configuration");
+                updateAuthorityEndpointMetadata(metadataEntity, configMetadata, false);
+                return {
+                    source: AuthorityMetadataSource.CONFIG,
+                };
+            }
+            this.logger.verbose("Did not find endpoint metadata in the config... Attempting to get endpoint metadata from the hardcoded values.");
+            // skipAuthorityMetadataCache is used to bypass hardcoded authority metadata and force a network metadata cache lookup and network metadata request if no cached response is available.
+            if (this.authorityOptions.skipAuthorityMetadataCache) {
+                this.logger.verbose("Skipping hardcoded metadata cache since skipAuthorityMetadataCache is set to true. Attempting to get endpoint metadata from the network metadata cache.");
+            }
+            else {
+                const hardcodedMetadata = this.getEndpointMetadataFromHardcodedValues();
+                if (hardcodedMetadata) {
+                    updateAuthorityEndpointMetadata(metadataEntity, hardcodedMetadata, false);
+                    return {
+                        source: AuthorityMetadataSource.HARDCODED_VALUES,
+                        metadata: hardcodedMetadata,
+                    };
+                }
+                else {
+                    this.logger.verbose("Did not find endpoint metadata in hardcoded values... Attempting to get endpoint metadata from the network metadata cache.");
+                }
+            }
+            // Check cached metadata entity expiration status
+            const metadataEntityExpired = isAuthorityMetadataExpired(metadataEntity);
+            if (this.isAuthoritySameType(metadataEntity) &&
+                metadataEntity.endpointsFromNetwork &&
+                !metadataEntityExpired) {
+                // No need to update
+                this.logger.verbose("Found endpoint metadata in the cache.");
+                return { source: AuthorityMetadataSource.CACHE };
+            }
+            else if (metadataEntityExpired) {
+                this.logger.verbose("The metadata entity is expired.");
+            }
+            return null;
+        }
+        /**
+         * Compares the number of url components after the domain to determine if the cached
+         * authority metadata can be used for the requested authority. Protects against same domain different
+         * authority such as login.microsoftonline.com/tenant and login.microsoftonline.com/tfp/tenant/policy
+         * @param metadataEntity
+         */
+        isAuthoritySameType(metadataEntity) {
+            const cachedAuthorityUrl = new UrlString(metadataEntity.canonical_authority);
+            const cachedParts = cachedAuthorityUrl.getUrlComponents().PathSegments;
+            return (cachedParts.length ===
+                this.canonicalAuthorityUrlComponents.PathSegments.length);
+        }
+        /**
+         * Parse authorityMetadata config option
+         */
+        getEndpointMetadataFromConfig() {
+            if (this.authorityOptions.authorityMetadata) {
+                try {
+                    return JSON.parse(this.authorityOptions.authorityMetadata);
+                }
+                catch (e) {
+                    throw createClientConfigurationError(invalidAuthorityMetadata);
+                }
+            }
+            return null;
+        }
+        /**
+         * Gets OAuth endpoints from the given OpenID configuration endpoint.
+         *
+         * @param hasHardcodedMetadata boolean
+         */
+        async getEndpointMetadataFromNetwork() {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityGetEndpointMetadataFromNetwork, this.correlationId);
+            const options = {};
+            /*
+             * TODO: Add a timeout if the authority exists in our library's
+             * hardcoded list of metadata
+             */
+            const openIdConfigurationEndpoint = this.defaultOpenIdConfigurationEndpoint;
+            this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: attempting to retrieve OAuth endpoints from ${openIdConfigurationEndpoint}`);
+            try {
+                const response = await this.networkInterface.sendGetRequestAsync(openIdConfigurationEndpoint, options);
+                const isValidResponse = isOpenIdConfigResponse(response.body);
+                if (isValidResponse) {
+                    return response.body;
+                }
+                else {
+                    this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: could not parse response as OpenID configuration`);
+                    return null;
+                }
+            }
+            catch (e) {
+                this.logger.verbose(`Authority.getEndpointMetadataFromNetwork: ${e}`);
+                return null;
+            }
+        }
+        /**
+         * Get OAuth endpoints for common authorities.
+         */
+        getEndpointMetadataFromHardcodedValues() {
+            if (this.hostnameAndPort in EndpointMetadata) {
+                return EndpointMetadata[this.hostnameAndPort];
+            }
+            return null;
+        }
+        /**
+         * Update the retrieved metadata with regional information.
+         * User selected Azure region will be used if configured.
+         */
+        async updateMetadataWithRegionalInformation(metadata) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateMetadataWithRegionalInformation, this.correlationId);
+            const userConfiguredAzureRegion = this.authorityOptions.azureRegionConfiguration?.azureRegion;
+            if (userConfiguredAzureRegion) {
+                if (userConfiguredAzureRegion !==
+                    Constants.AZURE_REGION_AUTO_DISCOVER_FLAG) {
+                    this.regionDiscoveryMetadata.region_outcome =
+                        RegionDiscoveryOutcomes.CONFIGURED_NO_AUTO_DETECTION;
+                    this.regionDiscoveryMetadata.region_used =
+                        userConfiguredAzureRegion;
+                    return Authority.replaceWithRegionalInformation(metadata, userConfiguredAzureRegion);
+                }
+                const autodetectedRegionName = await invokeAsync(this.regionDiscovery.detectRegion.bind(this.regionDiscovery), PerformanceEvents.RegionDiscoveryDetectRegion, this.logger, this.performanceClient, this.correlationId)(this.authorityOptions.azureRegionConfiguration
+                    ?.environmentRegion, this.regionDiscoveryMetadata);
+                if (autodetectedRegionName) {
+                    this.regionDiscoveryMetadata.region_outcome =
+                        RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_SUCCESSFUL;
+                    this.regionDiscoveryMetadata.region_used =
+                        autodetectedRegionName;
+                    return Authority.replaceWithRegionalInformation(metadata, autodetectedRegionName);
+                }
+                this.regionDiscoveryMetadata.region_outcome =
+                    RegionDiscoveryOutcomes.AUTO_DETECTION_REQUESTED_FAILED;
+            }
+            return metadata;
+        }
+        /**
+         * Updates the AuthorityMetadataEntity with new aliases, preferred_network and preferred_cache
+         * and returns where the information was retrieved from
+         * @param metadataEntity
+         * @returns AuthorityMetadataSource
+         */
+        async updateCloudDiscoveryMetadata(metadataEntity) {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityUpdateCloudDiscoveryMetadata, this.correlationId);
+            const localMetadataSource = this.updateCloudDiscoveryMetadataFromLocalSources(metadataEntity);
+            if (localMetadataSource) {
+                return localMetadataSource;
+            }
+            // Fallback to network as metadata source
+            const metadata = await invokeAsync(this.getCloudDiscoveryMetadataFromNetwork.bind(this), PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork, this.logger, this.performanceClient, this.correlationId)();
+            if (metadata) {
+                updateCloudDiscoveryMetadata(metadataEntity, metadata, true);
+                return AuthorityMetadataSource.NETWORK;
+            }
+            // Metadata could not be obtained from the config, cache, network or hardcoded values
+            throw createClientConfigurationError(untrustedAuthority);
+        }
+        updateCloudDiscoveryMetadataFromLocalSources(metadataEntity) {
+            this.logger.verbose("Attempting to get cloud discovery metadata  from authority configuration");
+            this.logger.verbosePii(`Known Authorities: ${this.authorityOptions.knownAuthorities ||
+            Constants.NOT_APPLICABLE}`);
+            this.logger.verbosePii(`Authority Metadata: ${this.authorityOptions.authorityMetadata ||
+            Constants.NOT_APPLICABLE}`);
+            this.logger.verbosePii(`Canonical Authority: ${metadataEntity.canonical_authority || Constants.NOT_APPLICABLE}`);
+            const metadata = this.getCloudDiscoveryMetadataFromConfig();
+            if (metadata) {
+                this.logger.verbose("Found cloud discovery metadata in authority configuration");
+                updateCloudDiscoveryMetadata(metadataEntity, metadata, false);
+                return AuthorityMetadataSource.CONFIG;
+            }
+            // If the cached metadata came from config but that config was not passed to this instance, we must go to hardcoded values
+            this.logger.verbose("Did not find cloud discovery metadata in the config... Attempting to get cloud discovery metadata from the hardcoded values.");
+            if (this.options.skipAuthorityMetadataCache) {
+                this.logger.verbose("Skipping hardcoded cloud discovery metadata cache since skipAuthorityMetadataCache is set to true. Attempting to get cloud discovery metadata from the network metadata cache.");
+            }
+            else {
+                const hardcodedMetadata = getCloudDiscoveryMetadataFromHardcodedValues(this.hostnameAndPort);
+                if (hardcodedMetadata) {
+                    this.logger.verbose("Found cloud discovery metadata from hardcoded values.");
+                    updateCloudDiscoveryMetadata(metadataEntity, hardcodedMetadata, false);
+                    return AuthorityMetadataSource.HARDCODED_VALUES;
+                }
+                this.logger.verbose("Did not find cloud discovery metadata in hardcoded values... Attempting to get cloud discovery metadata from the network metadata cache.");
+            }
+            const metadataEntityExpired = isAuthorityMetadataExpired(metadataEntity);
+            if (this.isAuthoritySameType(metadataEntity) &&
+                metadataEntity.aliasesFromNetwork &&
+                !metadataEntityExpired) {
+                this.logger.verbose("Found cloud discovery metadata in the cache.");
+                // No need to update
+                return AuthorityMetadataSource.CACHE;
+            }
+            else if (metadataEntityExpired) {
+                this.logger.verbose("The metadata entity is expired.");
+            }
+            return null;
+        }
+        /**
+         * Parse cloudDiscoveryMetadata config or check knownAuthorities
+         */
+        getCloudDiscoveryMetadataFromConfig() {
+            // CIAM does not support cloud discovery metadata
+            if (this.authorityType === AuthorityType.Ciam) {
+                this.logger.verbose("CIAM authorities do not support cloud discovery metadata, generate the aliases from authority host.");
+                return Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
+            }
+            // Check if network response was provided in config
+            if (this.authorityOptions.cloudDiscoveryMetadata) {
+                this.logger.verbose("The cloud discovery metadata has been provided as a network response, in the config.");
+                try {
+                    this.logger.verbose("Attempting to parse the cloud discovery metadata.");
+                    const parsedResponse = JSON.parse(this.authorityOptions.cloudDiscoveryMetadata);
+                    const metadata = getCloudDiscoveryMetadataFromNetworkResponse(parsedResponse.metadata, this.hostnameAndPort);
+                    this.logger.verbose("Parsed the cloud discovery metadata.");
+                    if (metadata) {
+                        this.logger.verbose("There is returnable metadata attached to the parsed cloud discovery metadata.");
+                        return metadata;
+                    }
+                    else {
+                        this.logger.verbose("There is no metadata attached to the parsed cloud discovery metadata.");
+                    }
+                }
+                catch (e) {
+                    this.logger.verbose("Unable to parse the cloud discovery metadata. Throwing Invalid Cloud Discovery Metadata Error.");
+                    throw createClientConfigurationError(invalidCloudDiscoveryMetadata);
+                }
+            }
+            // If cloudDiscoveryMetadata is empty or does not contain the host, check knownAuthorities
+            if (this.isInKnownAuthorities()) {
+                this.logger.verbose("The host is included in knownAuthorities. Creating new cloud discovery metadata from the host.");
+                return Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
+            }
+            return null;
+        }
+        /**
+         * Called to get metadata from network if CloudDiscoveryMetadata was not populated by config
+         *
+         * @param hasHardcodedMetadata boolean
+         */
+        async getCloudDiscoveryMetadataFromNetwork() {
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityGetCloudDiscoveryMetadataFromNetwork, this.correlationId);
+            const instanceDiscoveryEndpoint = `${Constants.AAD_INSTANCE_DISCOVERY_ENDPT}${this.canonicalAuthority}oauth2/v2.0/authorize`;
+            const options = {};
+            /*
+             * TODO: Add a timeout if the authority exists in our library's
+             * hardcoded list of metadata
+             */
+            let match = null;
+            try {
+                const response = await this.networkInterface.sendGetRequestAsync(instanceDiscoveryEndpoint, options);
+                let typedResponseBody;
+                let metadata;
+                if (isCloudInstanceDiscoveryResponse(response.body)) {
+                    typedResponseBody =
+                        response.body;
+                    metadata = typedResponseBody.metadata;
+                    this.logger.verbosePii(`tenant_discovery_endpoint is: ${typedResponseBody.tenant_discovery_endpoint}`);
+                }
+                else if (isCloudInstanceDiscoveryErrorResponse(response.body)) {
+                    this.logger.warning(`A CloudInstanceDiscoveryErrorResponse was returned. The cloud instance discovery network request's status code is: ${response.status}`);
+                    typedResponseBody =
+                        response.body;
+                    if (typedResponseBody.error === Constants.INVALID_INSTANCE) {
+                        this.logger.error("The CloudInstanceDiscoveryErrorResponse error is invalid_instance.");
+                        return null;
+                    }
+                    this.logger.warning(`The CloudInstanceDiscoveryErrorResponse error is ${typedResponseBody.error}`);
+                    this.logger.warning(`The CloudInstanceDiscoveryErrorResponse error description is ${typedResponseBody.error_description}`);
+                    this.logger.warning("Setting the value of the CloudInstanceDiscoveryMetadata (returned from the network) to []");
+                    metadata = [];
+                }
+                else {
+                    this.logger.error("AAD did not return a CloudInstanceDiscoveryResponse or CloudInstanceDiscoveryErrorResponse");
+                    return null;
+                }
+                this.logger.verbose("Attempting to find a match between the developer's authority and the CloudInstanceDiscoveryMetadata returned from the network request.");
+                match = getCloudDiscoveryMetadataFromNetworkResponse(metadata, this.hostnameAndPort);
+            }
+            catch (error) {
+                if (error instanceof AuthError) {
+                    this.logger.error(`There was a network error while attempting to get the cloud discovery instance metadata.\nError: ${error.errorCode}\nError Description: ${error.errorMessage}`);
+                }
+                else {
+                    const typedError = error;
+                    this.logger.error(`A non-MSALJS error was thrown while attempting to get the cloud instance discovery metadata.\nError: ${typedError.name}\nError Description: ${typedError.message}`);
+                }
+                return null;
+            }
+            // Custom Domain scenario, host is trusted because Instance Discovery call succeeded
+            if (!match) {
+                this.logger.warning("The developer's authority was not found within the CloudInstanceDiscoveryMetadata returned from the network request.");
+                this.logger.verbose("Creating custom Authority for custom domain scenario.");
+                match = Authority.createCloudDiscoveryMetadataFromHost(this.hostnameAndPort);
+            }
+            return match;
+        }
+        /**
+         * Helper function to determine if this host is included in the knownAuthorities config option
+         */
+        isInKnownAuthorities() {
+            const matches = this.authorityOptions.knownAuthorities.filter((authority) => {
+                return (authority &&
+                    UrlString.getDomainFromUrl(authority).toLowerCase() ===
+                        this.hostnameAndPort);
+            });
+            return matches.length > 0;
+        }
+        /**
+         * helper function to populate the authority based on azureCloudOptions
+         * @param authorityString
+         * @param azureCloudOptions
+         */
+        static generateAuthority(authorityString, azureCloudOptions) {
+            let authorityAzureCloudInstance;
+            if (azureCloudOptions &&
+                azureCloudOptions.azureCloudInstance !== AzureCloudInstance.None) {
+                const tenant = azureCloudOptions.tenant
+                    ? azureCloudOptions.tenant
+                    : Constants.DEFAULT_COMMON_TENANT;
+                authorityAzureCloudInstance = `${azureCloudOptions.azureCloudInstance}/${tenant}/`;
+            }
+            return authorityAzureCloudInstance
+                ? authorityAzureCloudInstance
+                : authorityString;
+        }
+        /**
+         * Creates cloud discovery metadata object from a given host
+         * @param host
+         */
+        static createCloudDiscoveryMetadataFromHost(host) {
+            return {
+                preferred_network: host,
+                preferred_cache: host,
+                aliases: [host],
+            };
+        }
+        /**
+         * helper function to generate environment from authority object
+         */
+        getPreferredCache() {
+            if (this.managedIdentity) {
+                return Constants.DEFAULT_AUTHORITY_HOST;
+            }
+            else if (this.discoveryComplete()) {
+                return this.metadata.preferred_cache;
+            }
+            else {
+                throw createClientAuthError(endpointResolutionError);
+            }
+        }
+        /**
+         * Returns whether or not the provided host is an alias of this authority instance
+         * @param host
+         */
+        isAlias(host) {
+            return this.metadata.aliases.indexOf(host) > -1;
+        }
+        /**
+         * Returns whether or not the provided host is an alias of a known Microsoft authority for purposes of endpoint discovery
+         * @param host
+         */
+        isAliasOfKnownMicrosoftAuthority(host) {
+            return InstanceDiscoveryMetadataAliases.has(host);
+        }
+        /**
+         * Checks whether the provided host is that of a public cloud authority
+         *
+         * @param authority string
+         * @returns bool
+         */
+        static isPublicCloudAuthority(host) {
+            return Constants.KNOWN_PUBLIC_CLOUDS.indexOf(host) >= 0;
+        }
+        /**
+         * Rebuild the authority string with the region
+         *
+         * @param host string
+         * @param region string
+         */
+        static buildRegionalAuthorityString(host, region, queryString) {
+            // Create and validate a Url string object with the initial authority string
+            const authorityUrlInstance = new UrlString(host);
+            authorityUrlInstance.validateAsUri();
+            const authorityUrlParts = authorityUrlInstance.getUrlComponents();
+            let hostNameAndPort = `${region}.${authorityUrlParts.HostNameAndPort}`;
+            if (this.isPublicCloudAuthority(authorityUrlParts.HostNameAndPort)) {
+                hostNameAndPort = `${region}.${Constants.REGIONAL_AUTH_PUBLIC_CLOUD_SUFFIX}`;
+            }
+            // Include the query string portion of the url
+            const url = UrlString.constructAuthorityUriFromObject({
+                ...authorityUrlInstance.getUrlComponents(),
+                HostNameAndPort: hostNameAndPort,
+            }).urlString;
+            // Add the query string if a query string was provided
+            if (queryString)
+                return `${url}?${queryString}`;
+            return url;
+        }
+        /**
+         * Replace the endpoints in the metadata object with their regional equivalents.
+         *
+         * @param metadata OpenIdConfigResponse
+         * @param azureRegion string
+         */
+        static replaceWithRegionalInformation(metadata, azureRegion) {
+            const regionalMetadata = { ...metadata };
+            regionalMetadata.authorization_endpoint =
+                Authority.buildRegionalAuthorityString(regionalMetadata.authorization_endpoint, azureRegion);
+            regionalMetadata.token_endpoint =
+                Authority.buildRegionalAuthorityString(regionalMetadata.token_endpoint, azureRegion);
+            if (regionalMetadata.end_session_endpoint) {
+                regionalMetadata.end_session_endpoint =
+                    Authority.buildRegionalAuthorityString(regionalMetadata.end_session_endpoint, azureRegion);
+            }
+            return regionalMetadata;
+        }
+        /**
+         * Transform CIAM_AUTHORIY as per the below rules:
+         * If no path segments found and it is a CIAM authority (hostname ends with .ciamlogin.com), then transform it
+         *
+         * NOTE: The transformation path should go away once STS supports CIAM with the format: `tenantIdorDomain.ciamlogin.com`
+         * `ciamlogin.com` can also change in the future and we should accommodate the same
+         *
+         * @param authority
+         */
+        static transformCIAMAuthority(authority) {
+            let ciamAuthority = authority;
+            const authorityUrl = new UrlString(authority);
+            const authorityUrlComponents = authorityUrl.getUrlComponents();
+            // check if transformation is needed
+            if (authorityUrlComponents.PathSegments.length === 0 &&
+                authorityUrlComponents.HostNameAndPort.endsWith(Constants.CIAM_AUTH_URL)) {
+                const tenantIdOrDomain = authorityUrlComponents.HostNameAndPort.split(".")[0];
+                ciamAuthority = `${ciamAuthority}${tenantIdOrDomain}${Constants.AAD_TENANT_DOMAIN_SUFFIX}`;
+            }
+            return ciamAuthority;
+        }
+    }
+    // Reserved tenant domain names that will not be replaced with tenant id
+    Authority.reservedTenantDomains = new Set([
+        "{tenant}",
+        "{tenantid}",
+        AADAuthorityConstants.COMMON,
+        AADAuthorityConstants.CONSUMERS,
+        AADAuthorityConstants.ORGANIZATIONS,
+    ]);
+    /**
+     * Extract tenantId from authority
+     */
+    function getTenantFromAuthorityString(authority) {
+        const authorityUrl = new UrlString(authority);
+        const authorityUrlComponents = authorityUrl.getUrlComponents();
+        /**
+         * For credential matching purposes, tenantId is the last path segment of the authority URL:
+         *  AAD Authority - domain/tenantId -> Credentials are cached with realm = tenantId
+         *  B2C Authority - domain/{tenantId}?/.../policy -> Credentials are cached with realm = policy
+         *  tenantId is downcased because B2C policies can have mixed case but tfp claim is downcased
+         *
+         * Note that we may not have any path segments in certain OIDC scenarios.
+         */
+        const tenantId = authorityUrlComponents.PathSegments.slice(-1)[0]?.toLowerCase();
+        switch (tenantId) {
+            case AADAuthorityConstants.COMMON:
+            case AADAuthorityConstants.ORGANIZATIONS:
+            case AADAuthorityConstants.CONSUMERS:
+                return undefined;
+            default:
+                return tenantId;
+        }
+    }
+    function formatAuthorityUri(authorityUri) {
+        return authorityUri.endsWith(Constants.FORWARD_SLASH)
+            ? authorityUri
+            : `${authorityUri}${Constants.FORWARD_SLASH}`;
+    }
+    function buildStaticAuthorityOptions(authOptions) {
+        const rawCloudDiscoveryMetadata = authOptions.cloudDiscoveryMetadata;
+        let cloudDiscoveryMetadata = undefined;
+        if (rawCloudDiscoveryMetadata) {
+            try {
+                cloudDiscoveryMetadata = JSON.parse(rawCloudDiscoveryMetadata);
+            }
+            catch (e) {
+                throw createClientConfigurationError(invalidCloudDiscoveryMetadata);
+            }
+        }
+        return {
+            canonicalAuthority: authOptions.authority
+                ? formatAuthorityUri(authOptions.authority)
+                : undefined,
+            knownAuthorities: authOptions.knownAuthorities,
+            cloudDiscoveryMetadata: cloudDiscoveryMetadata,
+        };
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Create an authority object of the correct type based on the url
+     * Performs basic authority validation - checks to see if the authority is of a valid type (i.e. aad, b2c, adfs)
+     *
+     * Also performs endpoint discovery.
+     *
+     * @param authorityUri
+     * @param networkClient
+     * @param protocolMode
+     * @internal
+     */
+    async function createDiscoveredInstance(authorityUri, networkClient, cacheManager, authorityOptions, logger, correlationId, performanceClient) {
+        performanceClient?.addQueueMeasurement(PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance, correlationId);
+        const authorityUriFinal = Authority.transformCIAMAuthority(formatAuthorityUri(authorityUri));
+        // Initialize authority and perform discovery endpoint check.
+        const acquireTokenAuthority = new Authority(authorityUriFinal, networkClient, cacheManager, authorityOptions, logger, correlationId, performanceClient);
+        try {
+            await invokeAsync(acquireTokenAuthority.resolveEndpointsAsync.bind(acquireTokenAuthority), PerformanceEvents.AuthorityResolveEndpointsAsync, logger, performanceClient, correlationId)();
+            return acquireTokenAuthority;
+        }
+        catch (e) {
+            throw createClientAuthError(endpointResolutionError);
+        }
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6422,7 +6405,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6448,7 +6431,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6536,7 +6519,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6608,7 +6591,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6692,7 +6675,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6719,7 +6702,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7096,7 +7079,25 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    async function getClientAssertion(clientAssertion, clientId, tokenEndpoint) {
+        if (typeof clientAssertion === "string") {
+            return clientAssertion;
+        }
+        else {
+            const config = {
+                clientId: clientId,
+                tokenEndpoint: tokenEndpoint,
+            };
+            return clientAssertion(config);
+        }
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7458,9 +7459,7 @@
                     this.config.authOptions.clientCapabilities.length > 0)) {
                 parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
             }
-            if (request.extraQueryParameters) {
-                parameterBuilder.addExtraQueryParameters(request.extraQueryParameters);
-            }
+            this.addExtraQueryParams(request, parameterBuilder);
             if (request.nativeBroker) {
                 // signal ests that this is a WAM call
                 parameterBuilder.addNativeBroker();
@@ -7502,10 +7501,20 @@
             if (request.logoutHint) {
                 parameterBuilder.addLogoutHint(request.logoutHint);
             }
+            this.addExtraQueryParams(request, parameterBuilder);
+            return parameterBuilder.createQueryString();
+        }
+        addExtraQueryParams(request, parameterBuilder) {
+            const hasRequestInstanceAware = request.extraQueryParameters &&
+                request.extraQueryParameters.hasOwnProperty("instance_aware");
+            // Set instance_aware flag if config auth param is set
+            if (!hasRequestInstanceAware && this.config.authOptions.instanceAware) {
+                request.extraQueryParameters = request.extraQueryParameters || {};
+                request.extraQueryParameters["instance_aware"] = "true";
+            }
             if (request.extraQueryParameters) {
                 parameterBuilder.addExtraQueryParameters(request.extraQueryParameters);
             }
-            return parameterBuilder.createQueryString();
         }
         /**
          * Helper to get sid from account. Returns null if idTokenClaims are not present or sid is not present.
@@ -7519,7 +7528,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7733,7 +7742,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7869,7 +7878,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7884,80 +7893,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const missingKidError = "missing_kid_error";
-    const missingAlgError = "missing_alg_error";
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const JoseHeaderErrorMessages = {
-        [missingKidError]: "The JOSE Header for the requested JWT, JWS or JWK object requires a keyId to be configured as the 'kid' header claim. No 'kid' value was provided.",
-        [missingAlgError]: "The JOSE Header for the requested JWT, JWS or JWK object requires an algorithm to be specified as the 'alg' header claim. No 'alg' value was provided.",
-    };
-    /**
-     * Error thrown when there is an error in the client code running on the browser.
-     */
-    class JoseHeaderError extends AuthError {
-        constructor(errorCode, errorMessage) {
-            super(errorCode, errorMessage);
-            this.name = "JoseHeaderError";
-            Object.setPrototypeOf(this, JoseHeaderError.prototype);
-        }
-    }
-    /** Returns JoseHeaderError object */
-    function createJoseHeaderError(code) {
-        return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /** @internal */
-    class JoseHeader {
-        constructor(options) {
-            this.typ = options.typ;
-            this.alg = options.alg;
-            this.kid = options.kid;
-        }
-        /**
-         * Builds SignedHttpRequest formatted JOSE Header from the
-         * JOSE Header options provided or previously set on the object and returns
-         * the stringified header object.
-         * Throws if keyId or algorithm aren't provided since they are required for Access Token Binding.
-         * @param shrHeaderOptions
-         * @returns
-         */
-        static getShrHeaderString(shrHeaderOptions) {
-            // KeyID is required on the SHR header
-            if (!shrHeaderOptions.kid) {
-                throw createJoseHeaderError(missingKidError);
-            }
-            // Alg is required on the SHR header
-            if (!shrHeaderOptions.alg) {
-                throw createJoseHeaderError(missingAlgError);
-            }
-            const shrHeader = new JoseHeader({
-                // Access Token PoP headers must have type pop, but the type header can be overriden for special cases
-                typ: shrHeaderOptions.typ || JsonWebTokenTypes.Pop,
-                kid: shrHeaderOptions.kid,
-                alg: shrHeaderOptions.alg,
-            });
-            return JSON.stringify(shrHeader);
-        }
-    }
-
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8015,7 +7951,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8278,7 +8214,80 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const missingKidError = "missing_kid_error";
+    const missingAlgError = "missing_alg_error";
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const JoseHeaderErrorMessages = {
+        [missingKidError]: "The JOSE Header for the requested JWT, JWS or JWK object requires a keyId to be configured as the 'kid' header claim. No 'kid' value was provided.",
+        [missingAlgError]: "The JOSE Header for the requested JWT, JWS or JWK object requires an algorithm to be specified as the 'alg' header claim. No 'alg' value was provided.",
+    };
+    /**
+     * Error thrown when there is an error in the client code running on the browser.
+     */
+    class JoseHeaderError extends AuthError {
+        constructor(errorCode, errorMessage) {
+            super(errorCode, errorMessage);
+            this.name = "JoseHeaderError";
+            Object.setPrototypeOf(this, JoseHeaderError.prototype);
+        }
+    }
+    /** Returns JoseHeaderError object */
+    function createJoseHeaderError(code) {
+        return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /** @internal */
+    class JoseHeader {
+        constructor(options) {
+            this.typ = options.typ;
+            this.alg = options.alg;
+            this.kid = options.kid;
+        }
+        /**
+         * Builds SignedHttpRequest formatted JOSE Header from the
+         * JOSE Header options provided or previously set on the object and returns
+         * the stringified header object.
+         * Throws if keyId or algorithm aren't provided since they are required for Access Token Binding.
+         * @param shrHeaderOptions
+         * @returns
+         */
+        static getShrHeaderString(shrHeaderOptions) {
+            // KeyID is required on the SHR header
+            if (!shrHeaderOptions.kid) {
+                throw createJoseHeaderError(missingKidError);
+            }
+            // Alg is required on the SHR header
+            if (!shrHeaderOptions.alg) {
+                throw createJoseHeaderError(missingAlgError);
+            }
+            const shrHeader = new JoseHeader({
+                // Access Token PoP headers must have type pop, but the type header can be overriden for special cases
+                typ: shrHeaderOptions.typ || JsonWebTokenTypes.Pop,
+                kid: shrHeaderOptions.kid,
+                alg: shrHeaderOptions.alg,
+            });
+            return JSON.stringify(shrHeader);
+        }
+    }
+
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8357,7 +8366,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.14.2 2024-09-03 */
+    /*! @azure/msal-common v14.15.0 2024-09-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10142,6 +10151,7 @@
             },
             skipAuthorityMetadataCache: false,
             supportsNestedAppAuth: false,
+            instanceAware: false,
         };
         // Default cache options for browser
         const DEFAULT_CACHE_OPTIONS = {
@@ -10228,7 +10238,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "3.23.0";
+    const version = "3.24.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10379,12 +10389,7 @@
                     }
                 });
                 const bridgeResponse = await new Promise((resolve, reject) => {
-                    const message = {
-                        messageType: "NestedAppAuthRequest",
-                        method: "GetInitContext",
-                        requestId: createNewGuid(),
-                        sendTime: Date.now(),
-                    };
+                    const message = BridgeProxy.buildRequest("GetInitContext");
                     const request = {
                         requestId: message.requestId,
                         method: message.method,
@@ -10432,19 +10437,24 @@
         getAccountContext() {
             return this.accountContext ? this.accountContext : null;
         }
+        static buildRequest(method, requestParams) {
+            return {
+                messageType: "NestedAppAuthRequest",
+                method: method,
+                requestId: createNewGuid(),
+                sendTime: Date.now(),
+                clientLibrary: BrowserConstants.MSAL_SKU,
+                clientLibraryVersion: version,
+                ...requestParams,
+            };
+        }
         /**
          * A method used to send a request to the bridge
          * @param request A token request
          * @returns a promise that resolves to a response of provided type or rejects with a BridgeError
          */
         sendRequest(method, requestParams) {
-            const message = {
-                messageType: "NestedAppAuthRequest",
-                method: method,
-                requestId: createNewGuid(),
-                sendTime: Date.now(),
-                ...requestParams,
-            };
+            const message = BridgeProxy.buildRequest(method, requestParams);
             const promise = new Promise((resolve, reject) => {
                 const request = {
                     requestId: message.requestId,
@@ -10527,12 +10537,11 @@
          * @returns Promise<boolean> indicating whether this operating context is currently available.
          */
         async initialize() {
-            /*
-             * TODO: Add implementation to check for presence of inject Nested App Auth Bridge JavaScript interface
-             *
-             */
             try {
                 if (typeof window !== "undefined") {
+                    if (typeof window.__initializeNestedAppAuth === "function") {
+                        await window.__initializeNestedAppAuth();
+                    }
                     const bridgeProxy = await BridgeProxy.create();
                     /*
                      * Because we want single sign on we expect the host app to provide the account context
@@ -12900,11 +12909,19 @@
         }
         /**
          * Used to get a discovered version of the default authority.
-         * @param requestAuthority
-         * @param requestAzureCloudOptions
-         * @param account
+         * @param params {
+         *         requestAuthority?: string;
+         *         requestAzureCloudOptions?: AzureCloudOptions;
+         *         requestExtraQueryParameters?: StringDict;
+         *         account?: AccountInfo;
+         *        }
          */
-        async getDiscoveredAuthority(requestAuthority, requestAzureCloudOptions, account) {
+        async getDiscoveredAuthority(params) {
+            const { account } = params;
+            const instanceAwareEQ = params.requestExtraQueryParameters &&
+                params.requestExtraQueryParameters.hasOwnProperty("instance_aware")
+                ? params.requestExtraQueryParameters["instance_aware"]
+                : undefined;
             this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.correlationId);
             const authorityOptions = {
                 protocolMode: this.config.auth.protocolMode,
@@ -12915,11 +12932,16 @@
                 skipAuthorityMetadataCache: this.config.auth.skipAuthorityMetadataCache,
             };
             // build authority string based on auth params, precedence - azureCloudInstance + tenant >> authority
-            const userAuthority = requestAuthority
-                ? requestAuthority
-                : this.config.auth.authority;
+            const resolvedAuthority = params.requestAuthority || this.config.auth.authority;
+            const resolvedInstanceAware = instanceAwareEQ?.length
+                ? instanceAwareEQ === "true"
+                : this.config.auth.instanceAware;
+            const userAuthority = account && resolvedInstanceAware
+                ? this.config.auth.authority.replace(UrlString.getDomainFromUrl(resolvedAuthority), account.environment)
+                : resolvedAuthority;
             // fall back to the authority from config
-            const builtAuthority = Authority.generateAuthority(userAuthority, requestAzureCloudOptions || this.config.auth.azureCloudOptions);
+            const builtAuthority = Authority.generateAuthority(userAuthority, params.requestAzureCloudOptions ||
+                this.config.auth.azureCloudOptions);
             const discoveredAuthority = await invokeAsync(createDiscoveredInstance, PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance, this.logger, this.performanceClient, this.correlationId)(builtAuthority, this.config.system.networkClient, this.browserStorage, authorityOptions, this.logger, this.correlationId, this.performanceClient);
             if (account && !discoveredAuthority.isAlias(account.environment)) {
                 throw createClientConfigurationError(authorityMismatch);
@@ -13148,24 +13170,39 @@
         }
         /**
          * Creates an Authorization Code Client with the given authority, or the default authority.
-         * @param serverTelemetryManager
-         * @param authorityUrl
+         * @param params {
+         *         serverTelemetryManager: ServerTelemetryManager;
+         *         authorityUrl?: string;
+         *         requestAzureCloudOptions?: AzureCloudOptions;
+         *         requestExtraQueryParameters?: StringDict;
+         *         account?: AccountInfo;
+         *        }
          */
-        async createAuthCodeClient(serverTelemetryManager, authorityUrl, requestAzureCloudOptions, account) {
+        async createAuthCodeClient(params) {
             this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.correlationId);
             // Create auth module.
-            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, authorityUrl, requestAzureCloudOptions, account);
+            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(params);
             return new AuthorizationCodeClient(clientConfig, this.performanceClient);
         }
         /**
          * Creates a Client Configuration object with the given request authority, or the default authority.
-         * @param serverTelemetryManager
-         * @param requestAuthority
-         * @param requestCorrelationId
+         * @param params {
+         *         serverTelemetryManager: ServerTelemetryManager;
+         *         requestAuthority?: string;
+         *         requestAzureCloudOptions?: AzureCloudOptions;
+         *         requestExtraQueryParameters?: boolean;
+         *         account?: AccountInfo;
+         *        }
          */
-        async getClientConfiguration(serverTelemetryManager, requestAuthority, requestAzureCloudOptions, account) {
+        async getClientConfiguration(params) {
+            const { serverTelemetryManager, requestAuthority, requestAzureCloudOptions, requestExtraQueryParameters, account, } = params;
             this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.correlationId);
-            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, this.correlationId)(requestAuthority, requestAzureCloudOptions, account);
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, this.correlationId)({
+                requestAuthority,
+                requestAzureCloudOptions,
+                requestExtraQueryParameters,
+                account,
+            });
             const logger = this.config.system.loggerOptions;
             return {
                 authOptions: {
@@ -13330,7 +13367,12 @@
             this.performanceClient.addQueueMeasurement(PerformanceEvents.SilentCacheClientAcquireToken, silentRequest.correlationId);
             // Telemetry manager only used to increment cacheHits here
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
-            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: silentRequest.authority,
+                requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                account: silentRequest.account,
+            });
             const silentAuthClient = new SilentFlowClient(clientConfig, this.performanceClient);
             this.logger.verbose("Silent auth client created");
             try {
@@ -13626,7 +13668,9 @@
                 throw createNativeAuthError(userSwitch);
             }
             // Get the preferred_cache domain for the given authority
-            const authority = await this.getDiscoveredAuthority(request.authority);
+            const authority = await this.getDiscoveredAuthority({
+                requestAuthority: request.authority,
+            });
             const baseAccount = buildAccountToCache(this.browserStorage, authority, homeAccountIdentifier, base64Decode, idTokenClaims, response.client_info, undefined, // environment
             idTokenClaims.tid, undefined, // auth code payload
             response.account.id, this.logger);
@@ -13868,12 +13912,16 @@
          */
         async initializeNativeRequest(request) {
             this.logger.trace("NativeInteractionClient - initializeNativeRequest called");
-            const authority = request.authority || this.config.auth.authority;
+            const requestAuthority = request.authority || this.config.auth.authority;
             if (request.account) {
                 // validate authority
-                await this.getDiscoveredAuthority(authority, request.azureCloudOptions, request.account);
+                await this.getDiscoveredAuthority({
+                    requestAuthority,
+                    requestAzureCloudOptions: request.azureCloudOptions,
+                    account: request.account,
+                });
             }
-            const canonicalAuthority = new UrlString(authority);
+            const canonicalAuthority = new UrlString(requestAuthority);
             canonicalAuthority.validateAsUri();
             // scopes are expected to be received by the native broker as "scope" and will be added to the request below. Other properties that should be dropped from the request to the native broker can be included in the object destructuring here.
             const { scopes, ...remainingProperties } = request;
@@ -14386,18 +14434,22 @@
         acquireToken(request) {
             try {
                 const popupName = this.generatePopupName(request.scopes || OIDC_DEFAULT_SCOPES, request.authority || this.config.auth.authority);
-                const popupWindowAttributes = request.popupWindowAttributes || {};
+                const popupParams = {
+                    popupName,
+                    popupWindowAttributes: request.popupWindowAttributes || {},
+                    popupWindowParent: request.popupWindowParent ?? window,
+                };
                 // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
                 if (this.config.system.asyncPopups) {
                     this.logger.verbose("asyncPopups set to true, acquiring token");
                     // Passes on popup position and dimensions if in request
-                    return this.acquireTokenPopupAsync(request, popupName, popupWindowAttributes);
+                    return this.acquireTokenPopupAsync(request, popupParams);
                 }
                 else {
                     // asyncPopups flag is set to false. Opens popup before acquiring token.
                     this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
-                    const popup = this.openSizedPopup("about:blank", popupName, popupWindowAttributes);
-                    return this.acquireTokenPopupAsync(request, popupName, popupWindowAttributes, popup);
+                    popupParams.popup = this.openSizedPopup("about:blank", popupParams);
+                    return this.acquireTokenPopupAsync(request, popupParams);
                 }
             }
             catch (e) {
@@ -14412,21 +14464,24 @@
             try {
                 this.logger.verbose("logoutPopup called");
                 const validLogoutRequest = this.initializeLogoutRequest(logoutRequest);
-                const popupName = this.generateLogoutPopupName(validLogoutRequest);
+                const popupParams = {
+                    popupName: this.generateLogoutPopupName(validLogoutRequest),
+                    popupWindowAttributes: logoutRequest?.popupWindowAttributes || {},
+                    popupWindowParent: logoutRequest?.popupWindowParent ?? window,
+                };
                 const authority = logoutRequest && logoutRequest.authority;
                 const mainWindowRedirectUri = logoutRequest && logoutRequest.mainWindowRedirectUri;
-                const popupWindowAttributes = logoutRequest?.popupWindowAttributes || {};
                 // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
                 if (this.config.system.asyncPopups) {
                     this.logger.verbose("asyncPopups set to true");
                     // Passes on popup position and dimensions if in request
-                    return this.logoutPopupAsync(validLogoutRequest, popupName, popupWindowAttributes, authority, undefined, mainWindowRedirectUri);
+                    return this.logoutPopupAsync(validLogoutRequest, popupParams, authority, mainWindowRedirectUri);
                 }
                 else {
                     // asyncPopups flag is set to false. Opens popup before logging out.
                     this.logger.verbose("asyncPopup set to false, opening popup");
-                    const popup = this.openSizedPopup("about:blank", popupName, popupWindowAttributes);
-                    return this.logoutPopupAsync(validLogoutRequest, popupName, popupWindowAttributes, authority, popup, mainWindowRedirectUri);
+                    popupParams.popup = this.openSizedPopup("about:blank", popupParams);
+                    return this.logoutPopupAsync(validLogoutRequest, popupParams, authority, mainWindowRedirectUri);
                 }
             }
             catch (e) {
@@ -14443,7 +14498,7 @@
          *
          * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
          */
-        async acquireTokenPopupAsync(request, popupName, popupWindowAttributes, popup) {
+        async acquireTokenPopupAsync(request, popupParams) {
             this.logger.verbose("acquireTokenPopupAsync called");
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenPopup);
             const validRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, this.correlationId)(request, exports.InteractionType.Popup);
@@ -14452,7 +14507,13 @@
                 // Create auth code request and generate PKCE params
                 const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
                 // Initialize the client
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, validRequest.authority, validRequest.azureCloudOptions, validRequest.account);
+                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: validRequest.authority,
+                    requestAzureCloudOptions: validRequest.azureCloudOptions,
+                    requestExtraQueryParameters: validRequest.extraQueryParameters,
+                    account: validRequest.account,
+                });
                 const isNativeBroker = NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme);
                 // Start measurement for server calls with native brokering enabled
                 let fetchNativeAccountIdMeasurement;
@@ -14468,15 +14529,10 @@
                 // Create popup interaction handler.
                 const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
                 // Show the UI once the url has been created. Get the window handle for the popup.
-                const popupParameters = {
-                    popup,
-                    popupName,
-                    popupWindowAttributes,
-                };
-                const popupWindow = this.initiateAuthRequest(navigateUrl, popupParameters);
+                const popupWindow = this.initiateAuthRequest(navigateUrl, popupParams);
                 this.eventHandler.emitEvent(EventType.POPUP_OPENED, exports.InteractionType.Popup, { popupWindow }, null);
                 // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
-                const responseString = await this.monitorPopupForHash(popupWindow);
+                const responseString = await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent);
                 const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
                 // Remove throttle if it exists
                 ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, authCodeRequest);
@@ -14505,10 +14561,8 @@
                 return result;
             }
             catch (e) {
-                if (popup) {
-                    // Close the synchronous popup if an error is thrown before the window unload event is registered
-                    popup.close();
-                }
+                // Close the synchronous popup if an error is thrown before the window unload event is registered
+                popupParams.popup?.close();
                 if (e instanceof AuthError) {
                     e.setCorrelationId(this.correlationId);
                     serverTelemetryManager.cacheFailedRequest(e);
@@ -14525,7 +14579,7 @@
          * @param mainWindowRedirectUri
          * @param popupWindowAttributes
          */
-        async logoutPopupAsync(validRequest, popupName, popupWindowAttributes, requestAuthority, popup, mainWindowRedirectUri) {
+        async logoutPopupAsync(validRequest, popupParams, requestAuthority, mainWindowRedirectUri) {
             this.logger.verbose("logoutPopupAsync called");
             this.eventHandler.emitEvent(EventType.LOGOUT_START, exports.InteractionType.Popup, validRequest);
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.logoutPopup);
@@ -14533,8 +14587,11 @@
                 // Clear cache on logout
                 await this.clearCacheOnLogout(validRequest.account);
                 // Initialize the client
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, requestAuthority, undefined, // AzureCloudOptions
-                validRequest.account || undefined);
+                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: requestAuthority,
+                    account: validRequest.account || undefined,
+                });
                 try {
                     authClient.authority.endSessionEndpoint;
                 }
@@ -14553,9 +14610,7 @@
                             const absoluteUrl = UrlString.getAbsoluteUrl(mainWindowRedirectUri, getCurrentUri());
                             await this.navigationClient.navigateInternal(absoluteUrl, navigationOptions);
                         }
-                        if (popup) {
-                            popup.close();
-                        }
+                        popupParams.popup?.close();
                         return;
                     }
                 }
@@ -14563,13 +14618,9 @@
                 const logoutUri = authClient.getLogoutUri(validRequest);
                 this.eventHandler.emitEvent(EventType.LOGOUT_SUCCESS, exports.InteractionType.Popup, validRequest);
                 // Open the popup window to requestUrl.
-                const popupWindow = this.openPopup(logoutUri, {
-                    popupName,
-                    popupWindowAttributes,
-                    popup,
-                });
+                const popupWindow = this.openPopup(logoutUri, popupParams);
                 this.eventHandler.emitEvent(EventType.POPUP_OPENED, exports.InteractionType.Popup, { popupWindow }, null);
-                await this.monitorPopupForHash(popupWindow).catch(() => {
+                await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent).catch(() => {
                     // Swallow any errors related to monitoring the window. Server logout is best effort
                 });
                 if (mainWindowRedirectUri) {
@@ -14588,10 +14639,8 @@
                 }
             }
             catch (e) {
-                if (popup) {
-                    // Close the synchronous popup if an error is thrown before the window unload event is registered
-                    popup.close();
-                }
+                // Close the synchronous popup if an error is thrown before the window unload event is registered
+                popupParams.popup?.close();
                 if (e instanceof AuthError) {
                     e.setCorrelationId(this.correlationId);
                     serverTelemetryManager.cacheFailedRequest(e);
@@ -14625,7 +14674,7 @@
          * @param popupWindow - window that is being monitored
          * @param timeout - timeout for processing hash once popup is redirected back to application
          */
-        monitorPopupForHash(popupWindow) {
+        monitorPopupForHash(popupWindow, popupWindowParent) {
             return new Promise((resolve, reject) => {
                 this.logger.verbose("PopupHandler.monitorPopupForHash - polling started");
                 const intervalId = setInterval(() => {
@@ -14665,7 +14714,7 @@
                     resolve(responseString);
                 }, this.config.system.pollIntervalMilliseconds);
             }).finally(() => {
-                this.cleanPopup(popupWindow);
+                this.cleanPopup(popupWindow, popupWindowParent);
             });
         }
         /**
@@ -14693,7 +14742,7 @@
                 else if (typeof popupParams.popup === "undefined") {
                     // Popup will be undefined if it was not passed in
                     this.logger.verbosePii(`Opening popup window to: ${urlNavigate}`);
-                    popupWindow = this.openSizedPopup(urlNavigate, popupParams.popupName, popupParams.popupWindowAttributes);
+                    popupWindow = this.openSizedPopup(urlNavigate, popupParams);
                 }
                 // Popup will be null if popups are blocked
                 if (!popupWindow) {
@@ -14703,7 +14752,7 @@
                     popupWindow.focus();
                 }
                 this.currentWindow = popupWindow;
-                window.addEventListener("beforeunload", this.unloadWindow);
+                popupParams.popupWindowParent.addEventListener("beforeunload", this.unloadWindow);
                 return popupWindow;
             }
             catch (e) {
@@ -14719,21 +14768,25 @@
          * @param popupWindowAttributes
          * @returns
          */
-        openSizedPopup(urlNavigate, popupName, popupWindowAttributes) {
+        openSizedPopup(urlNavigate, { popupName, popupWindowAttributes, popupWindowParent }) {
             /**
              * adding winLeft and winTop to account for dual monitor
              * using screenLeft and screenTop for IE8 and earlier
              */
-            const winLeft = window.screenLeft ? window.screenLeft : window.screenX;
-            const winTop = window.screenTop ? window.screenTop : window.screenY;
+            const winLeft = popupWindowParent.screenLeft
+                ? popupWindowParent.screenLeft
+                : popupWindowParent.screenX;
+            const winTop = popupWindowParent.screenTop
+                ? popupWindowParent.screenTop
+                : popupWindowParent.screenY;
             /**
              * window.innerWidth displays browser window"s height and width excluding toolbars
              * using document.documentElement.clientWidth for IE8 and earlier
              */
-            const winWidth = window.innerWidth ||
+            const winWidth = popupWindowParent.innerWidth ||
                 document.documentElement.clientWidth ||
                 document.body.clientWidth;
-            const winHeight = window.innerHeight ||
+            const winHeight = popupWindowParent.innerHeight ||
                 document.documentElement.clientHeight ||
                 document.body.clientHeight;
             let width = popupWindowAttributes.popupSize?.width;
@@ -14756,7 +14809,7 @@
                 this.logger.verbose("Default popup window left position used. Window left not configured or invalid.");
                 left = Math.max(0, winWidth / 2 - BrowserConstants.POPUP_WIDTH / 2 + winLeft);
             }
-            return window.open(urlNavigate, popupName, `width=${width}, height=${height}, top=${top}, left=${left}, scrollbars=yes`);
+            return popupWindowParent.open(urlNavigate, popupName, `width=${width}, height=${height}, top=${top}, left=${left}, scrollbars=yes`);
         }
         /**
          * Event callback to unload main window.
@@ -14773,13 +14826,11 @@
          * Closes popup, removes any state vars created during popup calls.
          * @param popupWindow
          */
-        cleanPopup(popupWindow) {
-            if (popupWindow) {
-                // Close window.
-                popupWindow.close();
-            }
+        cleanPopup(popupWindow, popupWindowParent) {
+            // Close window.
+            popupWindow.close();
             // Remove window unload function
-            window.removeEventListener("beforeunload", this.unloadWindow);
+            popupWindowParent.removeEventListener("beforeunload", this.unloadWindow);
             // Interaction is completed - remove interaction status.
             this.browserStorage.setInteractionInProgress(false);
         }
@@ -14966,7 +15017,13 @@
                 // Create auth code request and generate PKCE params
                 const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
                 // Initialize the client
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, validRequest.authority, validRequest.azureCloudOptions, validRequest.account);
+                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: validRequest.authority,
+                    requestAzureCloudOptions: validRequest.azureCloudOptions,
+                    requestExtraQueryParameters: validRequest.extraQueryParameters,
+                    account: validRequest.account,
+                });
                 // Create redirect interaction handler.
                 const interactionHandler = new RedirectHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
                 // Create acquire token url.
@@ -15164,7 +15221,7 @@
             if (!currentAuthority) {
                 throw createBrowserAuthError(noCachedAuthorityError);
             }
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, currentAuthority);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({ serverTelemetryManager, requestAuthority: currentAuthority });
             ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, cachedRequest);
             const interactionHandler = new RedirectHandler(authClient, this.browserStorage, cachedRequest, this.logger, this.performanceClient);
             return interactionHandler.handleCodeResponse(serverParams, state);
@@ -15187,8 +15244,12 @@
                     timeout: this.config.system.redirectNavigationTimeout,
                     noHistory: false,
                 };
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, logoutRequest && logoutRequest.authority, undefined, // AzureCloudOptions
-                (logoutRequest && logoutRequest.account) || undefined);
+                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: logoutRequest && logoutRequest.authority,
+                    requestExtraQueryParameters: logoutRequest?.extraQueryParameters,
+                    account: (logoutRequest && logoutRequest.account) || undefined,
+                });
                 if (authClient.authority.protocolMode === ProtocolMode.OIDC) {
                     try {
                         authClient.authority.endSessionEndpoint;
@@ -15429,7 +15490,13 @@
             let authClient;
             try {
                 // Initialize the client
-                authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, request.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+                authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, request.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: silentRequest.authority,
+                    requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                    requestExtraQueryParameters: silentRequest.extraQueryParameters,
+                    account: silentRequest.account,
+                });
                 return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, request.correlationId)(authClient, silentRequest);
             }
             catch (e) {
@@ -15519,7 +15586,12 @@
                 silentRequest.redirectUri = this.getRedirectUri(request.redirectUri);
             }
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
-            const refreshTokenClient = await this.createRefreshTokenClient(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+            const refreshTokenClient = await this.createRefreshTokenClient({
+                serverTelemetryManager,
+                authorityUrl: silentRequest.authority,
+                azureCloudOptions: silentRequest.azureCloudOptions,
+                account: silentRequest.account,
+            });
             // Send request to renew token. Auth module will throw errors if token cannot be renewed.
             return invokeAsync(refreshTokenClient.acquireTokenByRefreshToken.bind(refreshTokenClient), PerformanceEvents.RefreshTokenClientAcquireTokenByRefreshToken, this.logger, this.performanceClient, request.correlationId)(silentRequest).catch((e) => {
                 e.setCorrelationId(this.correlationId);
@@ -15536,12 +15608,23 @@
         }
         /**
          * Creates a Refresh Client with the given authority, or the default authority.
-         * @param serverTelemetryManager
-         * @param authorityUrl
+         * @param params {
+         *         serverTelemetryManager: ServerTelemetryManager;
+         *         authorityUrl?: string;
+         *         azureCloudOptions?: AzureCloudOptions;
+         *         extraQueryParams?: StringDict;
+         *         account?: AccountInfo;
+         *        }
          */
-        async createRefreshTokenClient(serverTelemetryManager, authorityUrl, azureCloudOptions, account) {
+        async createRefreshTokenClient(params) {
             // Create auth module.
-            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, authorityUrl, azureCloudOptions, account);
+            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager: params.serverTelemetryManager,
+                requestAuthority: params.authorityUrl,
+                requestAzureCloudOptions: params.azureCloudOptions,
+                requestExtraQueryParameters: params.extraQueryParameters,
+                account: params.account,
+            });
             return new RefreshTokenClient(clientConfig, this.performanceClient);
         }
     }
@@ -15781,7 +15864,13 @@
                     code: request.code,
                 };
                 // Initialize the client
-                const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, request.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+                const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, request.correlationId)({
+                    serverTelemetryManager,
+                    requestAuthority: silentRequest.authority,
+                    requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                    requestExtraQueryParameters: silentRequest.extraQueryParameters,
+                    account: silentRequest.account,
+                });
                 const authClient = new HybridSpaAuthorizationCodeClient(clientConfig);
                 this.logger.verbose("Auth code client created");
                 // Create silent handler

@@ -1,4 +1,4 @@
-import { CommonAuthorizationCodeRequest } from "@azure/msal-common";
+import { CommonAuthorizationCodeRequest } from "@azure/msal-common/browser";
 export type AuthorizationCodeRequest = Partial<Omit<CommonAuthorizationCodeRequest, "code" | "enableSpaAuthorizationCode" | "requestedClaimsHash">> & {
     code?: string;
     nativeAccountId?: string;

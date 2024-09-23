@@ -1,5 +1,5 @@
-import { AuthError } from "@azure/msal-common";
-import * as NativeAuthErrorCodes from "./NativeAuthErrorCodes";
+import { AuthError } from "@azure/msal-common/browser";
+import * as NativeAuthErrorCodes from "./NativeAuthErrorCodes.js";
 export { NativeAuthErrorCodes };
 export type OSError = {
     error?: number;

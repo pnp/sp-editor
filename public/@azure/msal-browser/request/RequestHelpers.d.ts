@@ -1,6 +1,6 @@
-import { AccountInfo, BaseAuthRequest, CommonSilentFlowRequest, IPerformanceClient, Logger } from "@azure/msal-common";
-import { BrowserConfiguration } from "../config/Configuration";
-import { SilentRequest } from "./SilentRequest";
+import { AccountInfo, BaseAuthRequest, CommonSilentFlowRequest, IPerformanceClient, Logger } from "@azure/msal-common/browser";
+import { BrowserConfiguration } from "../config/Configuration.js";
+import { SilentRequest } from "./SilentRequest.js";
 /**
  * Initializer function for all request APIs
  * @param request

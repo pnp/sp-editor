@@ -1,4 +1,4 @@
-import { NavigationOptions } from "./NavigationOptions";
+import { NavigationOptions } from "./NavigationOptions.js";
 export interface INavigationClient {
     /**
      * Navigates to other pages within the same web application

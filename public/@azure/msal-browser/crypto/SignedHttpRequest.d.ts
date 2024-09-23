@@ -1,4 +1,4 @@
-import { LoggerOptions, SignedHttpRequestParameters } from "@azure/msal-common";
+import { LoggerOptions, SignedHttpRequestParameters } from "@azure/msal-common/browser";
 export type SignedHttpRequestOptions = {
     loggerOptions: LoggerOptions;
 };
