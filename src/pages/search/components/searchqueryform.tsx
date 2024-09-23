@@ -137,7 +137,7 @@ const SearchQueryForm = () => {
           <Stack.Item disableShrink style={{ width: '300px', marginRight: '25px' }}>
             <TextField
               spellCheck={false}
-              label="Queryt"
+              label="Querytext"
               placeholder="eg. contentClass:STS_List_*"
               multiline
               value={searchQuery.Querytext}

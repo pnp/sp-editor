@@ -33,6 +33,15 @@ const SearchResults = () => {
 
   const root = useRef<IDetailsList>(null);
 
+  const copyToClipboard = (value: string, message: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  };
+
   const [columns] = useState<IColumn[]>([
     {
       key: 'row',
@@ -51,12 +60,61 @@ const SearchResults = () => {
       isResizable: true,
     },
     {
+      key: 'copyproperty',
+      name: '',
+      minWidth: 16,
+      maxWidth: 16,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <ActionButton
+          iconProps={{
+            iconName: 'Copy',
+            style: { width: '16px', height: '16px' },
+            title: 'Copy property to clipboard',
+          }}
+          onClick={() => copyToClipboard(item.property, 'Property copied to clipboard')}
+          styles={{
+            root: {
+              marginLeft: 'auto',
+              backgroundColor: 'transparent',
+              height: '6px', // Set a fixed height
+              verticalAlign: 'middle', // Align the button to the center
+              minWidth: 'auto', // Ensure the button width is minimal
+            },
+          }}
+        ></ActionButton>
+      ),
+    },
+    {
       key: 'value',
       name: 'Value',
       fieldName: 'value',
       minWidth: 100,
-      maxWidth: 200,
       isMultiline: true,
+    },
+    {
+      key: 'copyvalue',
+      name: '',
+      minWidth: 16,
+      maxWidth: 16,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <ActionButton
+          iconProps={{ iconName: 'Copy', style: { width: '16px', height: '16px' }, title: 'Copy value to clipboard' }}
+          onClick={() => copyToClipboard(item.value, 'Value copied to clipboard')}
+          styles={{
+            root: {
+              marginLeft: 'auto',
+              backgroundColor: 'transparent',
+              height: '6px', // Set a fixed height
+              verticalAlign: 'middle', // Align the button to the center
+              minWidth: 'auto', // Ensure the button width is minimal
+            },
+          }}
+        ></ActionButton>
+      ),
     },
   ]);
 
@@ -148,9 +206,9 @@ const SearchResults = () => {
                     onRenderTitle={() => {
                       return (
                         <>
-                          <Text variant={'large'}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
+                          <Text onClick={() => props?.onToggleCollapse!(props?.group!)} variant={'large'}>{`${props?.group?.name} (${props?.group?.count})`}</Text>
+                          <div style={{ flexGrow: 1, height: '100%' }} onClick={() => props?.onToggleCollapse!(props?.group!)}></div>
                           <ActionButton
-                            //hidden={props?.group?.isCollapsed}
                             iconProps={{ iconName: 'OpenInNewTab',  }}
                             title={'open in new tab'}
                             style={{
@@ -162,12 +220,10 @@ const SearchResults = () => {
                               const link = properties.selection._items.find(
                                 (o: any) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
                               ).value;
-                              // let obj = props?.group?.data.find((o) => o.key === "OriginalPath");
                               chrome.tabs.create({ url: link });
                             }}
                           />
                           <ActionButton
-                            //hidden={props?.group?.isCollapsed}
                             iconProps={{ iconName: 'AllApps' }}
                             title={'Load all properties'}
                             style={{
