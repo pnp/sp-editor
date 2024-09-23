@@ -92,6 +92,14 @@ const App = () => {
     );
   }, [dispatch]);
 
+
+  useEffect(() => {
+    const menu = document.querySelector('ion-menu') as any;
+    if (menu) {
+      menu.open();
+    }
+  }, []); 
+
   return (
     <IonApp>
       <Fabric>
