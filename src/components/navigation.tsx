@@ -79,7 +79,7 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
-      name: 'File Explorer',
+      name: 'File Editor',
       url: '/fileexplorer',
       key: 'key9',
       disabled: false,
@@ -88,12 +88,6 @@ export const FabricNav = () => {
       name: 'Page editor (working on it...)',
       url: '/pageeditor',
       key: 'key11',
-      disabled: true,
-    },
-    {
-      name: 'File editor (working on it...)',
-      url: '/fileeditor',
-      key: 'key12',
       disabled: true,
     },
     {
