@@ -5,6 +5,7 @@ import * as rootActions from '../../../store/home/actions';
 import { HomeActions, MessageBarColors } from '../../../store/home/types';
 import { getFiles } from './getfiles';
 import { getFileContent } from './getFileContent';
+import { updateFile } from './updateFile';
 
 export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeActions>, id: string = '', webId: string = '', type: string = '', relativeUrl: string = '') {
 
@@ -90,6 +91,43 @@ export async function getFile(dispatch: Dispatch<FileExplorerActions | HomeActio
         } else {
           dispatch(actions.setSelectedFile(file));
           dispatch(actions.setSelectedFileContent(res));
+        }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      }
+    });
+}
+
+export async function updateFileContent(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, content: string) {
+
+  dispatch(rootActions.setLoading(true));
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+      world: 'MAIN',
+      args: [chrome.runtime.getURL(''), file.ServerRelativeUrl, file.webId, content],
+      func: updateFile,
+    })
+    .then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any;
+        if (res.success === false) {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: res.errorMessage,
+              color: MessageBarColors.danger,
+            })
+          );
+        } else {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: 'File updated successfully!',
+              color: MessageBarColors.success,
+            })
+          );
         }
         // hide loading component
         dispatch(rootActions.setLoading(false));

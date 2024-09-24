@@ -3,7 +3,7 @@ import '@vscode/codicons/dist/codicon.css';
 import { ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { getAllFiles, getFile } from '../chrome/chrome-actions';
+import { getAllFiles, getFile, updateFileContent } from '../chrome/chrome-actions';
 import { IFile } from '../../../store/fileexplorer/types';
 import * as actions from '../../../store/fileexplorer/actions';
 
@@ -19,6 +19,13 @@ const FolderTree: React.FC = () => {
   // load initial data
   useEffect(() => {
     getAllFiles(dispatch);
+    const model = fileEditorRef.current?.getModel();
+    if (model && selectedFile) {
+      monaco.editor.setModelLanguage(model, 'plaintext');
+      fileEditorRef.current?.setValue(selectedFile.content || '');
+      fileEditorRef?.current?.setScrollTop(0);
+      fileEditorRef?.current?.setScrollLeft(0);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -160,6 +167,12 @@ const FolderTree: React.FC = () => {
     monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
   }, [isDark]);
 
+  const selectedFileRef = useRef<IFile | undefined>(selectedFile);
+
+  useEffect(() => {
+    selectedFileRef.current = selectedFile;
+  }, [selectedFile]);
+
   const initFileEditor = useCallback(() => {
     if (fileEditorDiv.current) {
       fileEditorRef.current = monaco.editor.create(fileEditorDiv.current, {
@@ -178,6 +191,11 @@ const FolderTree: React.FC = () => {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
       }, 1);
+
+      fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        updateFileContent(dispatch, selectedFileRef.current as IFile, fileEditorRef.current?.getValue() || '');
+      })
+
     }
   }, []);
 
