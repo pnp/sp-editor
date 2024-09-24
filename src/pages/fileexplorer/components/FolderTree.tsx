@@ -110,6 +110,12 @@ const FolderTree: React.FC = () => {
                   overflow: 'visible',
                   fontWeight: 'normal', // Highlight if selected
                 }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.fontWeight = 'bold';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.fontWeight = 'normal';
+                }}
               >
                 {node.name}
               </span>
@@ -128,6 +134,12 @@ const FolderTree: React.FC = () => {
             alignItems: 'center',
             marginBottom: '4px',
             fontWeight: selectedFile && node.id === selectedFile.id ? 'bold' : 'normal', // Highlight if selected
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.fontWeight = 'bold';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.fontWeight = selectedFile && node.id === selectedFile.id ? 'bold' : 'normal';
           }}
         >
           <i className="codicon codicon-file" style={{ marginRight: '5px' }}></i>
