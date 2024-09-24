@@ -6,6 +6,7 @@ import {
   Separator,
 } from '@fluentui/react';
 import ChangePageLayout from './ChangePageLayout';
+import UpdateTranslations from './UpdateTranslations';
 
 export interface IQuickLinkListProps {
   ctx: any;
@@ -36,6 +37,7 @@ const Actions = ({ ctx, plo, tabId }: IQuickLinkListProps) => {
         Page actions
       </Separator>
       <ChangePageLayout ctx={ctx} plo={plo} tabId={tabId} />
+      <UpdateTranslations ctx={ctx} plo={plo} tabId={tabId} />
     </ScrollablePane>
   ) : (
     <></>
