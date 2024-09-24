@@ -10,6 +10,36 @@ import LoadTeamsDebug from './Components/LoadTeamsDebug';
 
 //initializeIcons();
 
+async function getTenantSettings(ctx: any) {
+  const tenantSettings = await fetch(ctx.webAbsoluteUrl + '/_api/SP_TenantSettings_Current', {
+    headers: {
+      Accept: 'application/json;odata=nometadata',
+      'Content-Type': 'application/json',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    },
+  })
+    .then((response) => response.json());
+    return tenantSettings;
+}
+
+async function getPlo(ctx: any) {
+  const plo = await fetch(
+    ctx.webAbsoluteUrl +
+      "/_api/web/getFileByServerRelativeUrl('" +
+      ctx.serverRequestPath +
+      "')/listItemAllFields?$select=PageLayoutType,PromotedState,Id",
+    {
+      method: 'get',
+      headers: {
+        Accept: 'application/json;odata=nometadata',
+        'Content-Type': 'application/json',
+        'X-ClientService-ClientTag': 'SPEDITOR',
+      },
+    }
+  ).then((response) => response.json());
+  return plo;
+}
+
 interface NoContextProps {
   message: string;
 }
@@ -74,38 +104,28 @@ const PopUp = () => {
               .sort((a, b) => a.property.localeCompare(b.property));
 
             setProperties(props);
-
-            fetch(ctx.webAbsoluteUrl + '/_api/SP_TenantSettings_Current', {
-              headers: {
-                Accept: 'application/json;odata=nometadata',
-                'Content-Type': 'application/json',
-                'X-ClientService-ClientTag': 'SPEDITOR',
-              },
-            })
-              .then((response) => response.json())
-              .then((r) => {
-                setAppCatalogUrl(r.CorporateCatalogUrl);
-              });
+            chrome.scripting.executeScript({
+              target: { tabId: tabs[0].id },
+              world: 'MAIN',
+              func: getTenantSettings,
+              args: [ctx]
+            }).then((r) => {
+              if (r[0].result) {
+                setAppCatalogUrl(r[0].result.CorporateCatalogUrl);
+              }
+            });
 
             if (ctx.webAbsoluteUrl && ctx.serverRequestPath && ctx.pageListId && ctx.pageItemId > -1) {
-              fetch(
-                ctx.webAbsoluteUrl +
-                  "/_api/web/getFileByServerRelativeUrl('" +
-                  ctx.serverRequestPath +
-                  "')/listItemAllFields?$select=PageLayoutType,PromotedState",
-                {
-                  method: 'get',
-                  headers: {
-                    Accept: 'application/json;odata=nometadata',
-                    'Content-Type': 'application/json',
-                    'X-ClientService-ClientTag': 'SPEDITOR',
-                  },
+              chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                world: 'MAIN',
+                func: getPlo,
+                args: [ctx]
+              }).then((r) => {
+                if (r[0].result) {
+                  setPlo(r[0].result);
                 }
-              )
-                .then((response) => response.json())
-                .then((r) => {
-                  setPlo(r);
-                });
+              });
             }
           }
         });
