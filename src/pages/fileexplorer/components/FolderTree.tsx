@@ -1,122 +1,144 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import '@vscode/codicons/dist/codicon.css';
 import { ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-
-type Node = {
-  name: string;
-  type: 'folder' | 'file';
-  toggled?: boolean;
-  children?: Node[];
-};
-
-const initialData: Node[] = [
-  {
-    name: 'Documents',
-    type: 'folder',
-    children: [
-      {
-        name: 'Policies',
-        type: 'folder',
-        children: [
-          { name: 'HR_Policy.aspx', type: 'file' },
-          { name: 'IT_Policy.js', type: 'file' },
-          { name: 'Finance_Policy.json', type: 'file' },
-        ],
-      },
-      {
-        name: 'Reports',
-        type: 'folder',
-        children: [
-          { name: 'Annual_Report_2021.aspx', type: 'file' },
-          { name: 'Quarterly_Report_Q1.js', type: 'file' },
-          { name: 'Monthly_Report_Jan.json', type: 'file' },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'Projects',
-    type: 'folder',
-    children: [
-      {
-        name: 'Project_A',
-        type: 'folder',
-        children: [
-          { name: 'Project_Plan.aspx', type: 'file' },
-          { name: 'Budget.js', type: 'file' },
-          { name: 'Timeline.json', type: 'file' },
-        ],
-      },
-    ],
-  },
-  { name: 'Company_sdfsdf_sdfsdfsdf_sdfsdfsdf_sdfsdf_Overview.aspx', type: 'file' },
-  { name: 'Employee_Handbook.js', type: 'file' },
-  { name: 'Contact_List.json', type: 'file' },
-];
+import { getAllFiles, getFile } from '../chrome/chrome-actions';
+import { IFile } from '../../../store/fileexplorer/types';
+import * as actions from '../../../store/fileexplorer/actions';
 
 const FolderTree: React.FC = () => {
-  const [data, setData] = useState<Node[]>(initialData);
   const { isDark } = useSelector((state: IRootState) => state.home);
+  const dispatch = useDispatch();
+
+  const { files, selectedFile } = useSelector((state: IRootState) => state.fileexplorer);
 
   const fileEditorDiv = useRef<null | HTMLDivElement>(null);
   const fileEditorRef = useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
 
-  const toggleFolder = (path: number[]) => {
-    const updateNode = (nodes: Node[], path: number[]): Node[] => {
-      if (path.length === 0) return nodes;
+  // load initial data
+  useEffect(() => {
+    getAllFiles(dispatch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      const [currentIndex, ...restPath] = path;
-      return nodes.map((node, index) => {
-        if (index === currentIndex) {
-          if (restPath.length === 0) {
-            return { ...node, toggled: !node.toggled };
-          } else if (node.children) {
-            return { ...node, children: updateNode(node.children, restPath) };
-          }
-        }
-        return node;
-      });
-    };
-
-    setData((prevData) => updateNode(prevData, path));
+  const toggleFolder = (selected: IFile) => {
+    if (!selected.toggled) {
+      getAllFiles(dispatch, selected.id, selected.webId, selected.type, selected.ServerRelativeUrl);
+    } else {
+      dispatch(actions.updateToggle(selected.id));
+    }
   };
 
-  const renderTree = (nodes: Node[], path: number[] = []): JSX.Element[] => {
-    return nodes.map((node, index) => {
-      const currentPath = [...path, index];
-      const isRoot = path.length === 0;
-      if (node.type === 'folder') {
+  useEffect(() => {
+    let language = 'plaintext';
+    switch (selectedFile?.ServerRelativeUrl?.split('.').pop()) {
+      case "js":
+        language = "javascript";
+        break;
+      case "themedcss":
+      case "preview":
+      case "css":
+        language = "css";
+        break;
+      case "html":
+      case "master":
+      case "aspx":
+        language = "html";
+        break;
+      case "xoml":
+      case "rules":
+      case "spfont":
+      case "spcolor":
+      case "xsl":
+      case "xml":
+      case "xaml":
+      case "svg":
+      case "webpart":
+      case "dwp":
+        language = "xml";
+        break;
+      case "json":
+        language = "json";
+        break;
+      default: language = "plainText";
+        break;
+    }
+    const model = fileEditorRef.current?.getModel();
+    if (model && selectedFile) {
+      monaco.editor.setModelLanguage(model, language);
+      fileEditorRef.current?.setValue(selectedFile.content || '');
+      fileEditorRef?.current?.setScrollTop(0);
+      fileEditorRef?.current?.setScrollLeft(0);
+    }
+  }, [selectedFile]);
+
+  const renderTree = (nodes: IFile[]): JSX.Element[] => {
+    return nodes.map((node) => {
+      if (node.type === 'folder' || node.type === 'web') {
         return (
-          <div key={node.name} style={{ paddingLeft: `${path.length * 20}px` }}>
+          <div key={node.id} style={{ paddingLeft: '20px' }}>
             <div
-              onClick={() => toggleFolder(currentPath)}
+              onClick={() => toggleFolder(node)}
               style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', marginBottom: '4px' }}
             >
               <i
-                className={`codicon ${node.toggled ? 'codicon-chevron-down' : 'codicon-chevron-right'}`}
+                className={`codicon ${
+                  node.loading
+                    ? 'codicon-loading codicon-modifier-spin'
+                    : node.toggled
+                    ? 'codicon-chevron-down'
+                    : 'codicon-chevron-right'
+                }`}
                 style={{ marginRight: '5px' }}
               ></i>
-              <span className="folder-file-name">{node.name}</span>
+              <i
+                className={`codicon ${node.type === 'folder' ? 'codicon-folder' : 'codicon-globe'}`}
+                style={{ marginRight: '5px' }}
+              ></i>
+              <span
+                style={{
+                  display: 'inline',
+                  whiteSpace: 'nowrap',
+                  overflow: 'visible',
+                  fontWeight: 'normal', // Highlight if selected
+                }}
+              >
+                {node.name}
+              </span>
             </div>
-            {node.toggled && node.children && renderTree(node.children, currentPath)}
+            {node.toggled && node.children && renderTree(node.children)}
           </div>
         );
       }
       return (
         <div
-          key={node.name}
+          key={node.id}
           style={{
             cursor: 'pointer',
-            paddingLeft: `${path.length * 20}px`,
+            paddingLeft: '41px',
             display: 'flex',
             alignItems: 'center',
             marginBottom: '4px',
+            fontWeight: selectedFile && node.id === selectedFile.id ? 'bold' : 'normal', // Highlight if selected
           }}
         >
-          <i className="codicon codicon-file" style={{ marginRight: '5px', marginLeft: isRoot ? '19px' : '0' }}></i>
-          <span>{node.name}</span>
+          <i className="codicon codicon-file" style={{ marginRight: '5px' }}></i>
+          <span
+            style={{
+              display: 'inline',
+              whiteSpace: 'nowrap',
+              overflow: 'visible',
+            }}
+            onClick={() => { 
+              fileEditorRef.current?.setValue('');
+              fileEditorRef?.current?.setScrollTop(0);
+              fileEditorRef?.current?.setScrollLeft(0);
+              getFile(dispatch, node);
+            }}
+          >
+            {node.name}
+          </span>
         </div>
       );
     });
@@ -161,6 +183,7 @@ const FolderTree: React.FC = () => {
 
   useEffect(() => {
     initFileEditor();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -178,7 +201,7 @@ const FolderTree: React.FC = () => {
             userSelect: 'none',
           }}
         >
-          {renderTree(data)}
+          {renderTree(files)}
         </ScrollablePane>
       </Stack>
       <Stack
