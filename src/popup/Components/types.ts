@@ -13,6 +13,7 @@ export type TranslationsAPIResponse = {
 };
 
 export type TranslationsItemAPIResponse = {
+  OData__SPIsTranslation: boolean;
   OData__SPTranslatedLanguages: string[];
   UniqueId: string;
 };

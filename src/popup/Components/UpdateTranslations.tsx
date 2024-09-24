@@ -19,51 +19,56 @@ import {
   TranslationsResponses,
 } from './types';
 
-async function getTranslations(siteUrl: string, pageId: number, pageListId: string): Promise<TranslationsResponses> {
-  //return "This is broken";
-  const DEFAULTHEADERS = {
-    accept: 'application/json;odata=nometadata',
-    'content-type': 'application/json;odata=nometadata',
-    'X-ClientService-ClientTag': 'SPEDITOR',
-  };
+async function getTranslations(
+  siteUrl: string,
+  pageId: number,
+  pageListId: string
+): Promise<TranslationsResponses | any> {
+  try {
+    const DEFAULTHEADERS = {
+      accept: 'application/json;odata=nometadata',
+      'content-type': 'application/json;odata=nometadata',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    };
 
-  const translationsAPI: TranslationsAPIResponse = await fetch(
-    siteUrl + `/_api/sitepages/pages(${pageId})/translations`,
-    {
-      method: 'GET',
-      headers: DEFAULTHEADERS,
-    }
-  ).then((response) => response.json());
+    const translationsAPI: TranslationsAPIResponse = await fetch(
+      siteUrl + `/_api/sitepages/pages(${pageId})/translations`,
+      {
+        method: 'GET',
+        headers: DEFAULTHEADERS,
+      }
+    ).then((response) => response.json());
 
-  const itemAPI: TranslationsItemAPIResponse = await fetch(
-    siteUrl + `/_api/web/lists('${pageListId}')/items(${pageId})?$select=OData__SPTranslatedLanguages,UniqueId`,
-    {
-      method: 'GET',
-      headers: DEFAULTHEADERS,
-    }
-  ).then((response) => response.json());
+    const itemAPI: TranslationsItemAPIResponse = await fetch(
+      siteUrl + `/_api/web/lists('${pageListId}')/items(${pageId})?$select=OData__SPTranslatedLanguages,OData__SPIsTranslation,UniqueId`,
+      {
+        method: 'GET',
+        headers: DEFAULTHEADERS,
+      }
+    ).then((response) => response.json());
+  
+    const searchAPI: TranslationsSearchAPIResponse = await fetch(
+      siteUrl +
+        `/_api/search/query?querytext='NormUniqueID:${itemAPI.UniqueId}'&selectproperties='SPTranslatedLanguages'`,
+      {
+        method: 'GET',
+        headers: DEFAULTHEADERS,
+      }
+    ).then((response) => response.json());
 
-  const searchAPI: TranslationsSearchAPIResponse = await fetch(
-    siteUrl +
-      `/_api/search/query?querytext='NormUniqueID:${itemAPI.UniqueId}'&selectproperties='SPTranslatedLanguages'`,
-    {
-      method: 'GET',
-      headers: DEFAULTHEADERS,
-    }
-  ).then((response) => response.json());
+    const languagesFromSearch =
+      searchAPI.PrimaryQueryResult.RelevantResults.Table.Rows[0].Cells.filter(
+        (c) => c.Key === 'SPTranslatedLanguages'
+      )[0]?.Value?.split(/\r?\n/).filter(e => e) || [];
 
-  const languagesFromSearch = searchAPI.PrimaryQueryResult.RelevantResults.Table.Rows[0].Cells.filter(
-    (c) => c.Key === 'SPTranslatedLanguages'
-  )[0].Value.split(' ');
-
-  return {
-    translationsAPI: translationsAPI.Items.map((i) => i.Culture),
-    itemAPI: itemAPI.OData__SPTranslatedLanguages,
-    searchAPI: languagesFromSearch,
-  } as any;
-  // const pagesAPI = await fetch(siteUrl + `_api/sitepages/pages(${pageId})?$select=`, { method: 'GET', headers: DEFAULTHEADERS })
-
-  // return "Miksi et toimi" as any;
+    return {
+      isTranslationMasterPage: itemAPI.OData__SPIsTranslation ? false : true,
+      translationsAPI: translationsAPI.Items.map((i) => i.Culture),
+      itemAPI: itemAPI.OData__SPTranslatedLanguages || [],
+      searchAPI: languagesFromSearch,
+    };
+  } catch (ex) {}
+  return undefined;
 }
 
 async function updateTranslationValues(siteUrl: string, pageId: number) {
@@ -101,6 +106,7 @@ const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
   const [hideDialog, setHideDialog] = useState(true);
   const [pending, setPending] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [translations, setTranslations] = useState<TranslationsResponses | undefined>(undefined);
 
   useEffect(() => {
@@ -120,20 +126,21 @@ const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
           setHideDialog(false);
           setPending(true);
           chrome.scripting
-          .executeScript({
-            target: { tabId },
-            world: 'MAIN',
-            func: getTranslations,
-            args: [ctx.webAbsoluteUrl, plo.Id, ctx.pageListId],
-          })
-          .then((ir) => {
-            setPending(false);
-            if (ir[0].result) {
-              setTranslations(ir[0].result);
-            }
-          });
-          }
-        }
+            .executeScript({
+              target: { tabId },
+              world: 'MAIN',
+              func: getTranslations,
+              args: [ctx.webAbsoluteUrl, plo.Id, ctx.pageListId],
+            })
+            .then((ir) => {
+              if (ir[0].result && ir[0].result.isTranslationMasterPage) {
+                setPending(false);
+                setTranslations(ir[0].result);
+              } else {
+                setShowError(true);
+              }
+            });
+        }}
       />
       <Dialog
         hidden={hideDialog}
@@ -145,10 +152,17 @@ const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
         <TextField label="Item API - _SPTranslatedLanguages" readOnly value={translations?.itemAPI?.join(', ')} />
         <TextField label="Search API - SPTranslatedLanguages" readOnly value={translations?.searchAPI?.join(', ')} />
         {showSuccess ? (
-          <MessageBar messageBarType={MessageBarType.success}>Called updateTranslationLanguages API successfully.</MessageBar>
+          <MessageBar messageBarType={MessageBarType.success}>
+            Called updateTranslationLanguages API successfully.
+          </MessageBar>
         ) : (
           <div style={{ height: 32 }}></div>
         )}
+        {showError ? (
+          <MessageBar messageBarType={MessageBarType.error}>
+            This functionality can only be used when translations are enabled and on the original page.
+          </MessageBar>
+        ) : undefined}
         <DialogFooter>
           <PrimaryButton
             onClick={() => {
