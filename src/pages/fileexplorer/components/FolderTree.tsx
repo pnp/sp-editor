@@ -6,6 +6,8 @@ import { IRootState } from '../../../store';
 import { getAllFiles, getFile, updateFileContent } from '../chrome/chrome-actions';
 import { IFile } from '../../../store/fileexplorer/types';
 import * as actions from '../../../store/fileexplorer/actions';
+import * as rootActions from '../../../store/home/actions';
+import { MessageBarColors } from '../../../store/home/types';
 
 const FolderTree: React.FC = () => {
   const { isDark } = useSelector((state: IRootState) => state.home);
@@ -207,20 +209,38 @@ const FolderTree: React.FC = () => {
       // Save file on Ctrl+S
       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         updateFileContent(dispatch, selectedFileRef.current as IFile, fileEditorRef.current?.getValue() || '');
-      })
+      });
 
-       // Save file on Ctrl+S
-       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
+      // Save file on Ctrl+S
+      fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
         const filename = selectedFileRef.current?.ServerRelativeUrl.split('/').pop();
         const extension = filename!.split('.').pop();
         const url = `data:text/${extension};base64, ${btoa(fileEditorRef?.current?.getValue() || '')}`;
 
-        chrome.downloads.download({
+        chrome.downloads
+          .download({
             url: url,
             filename: filename,
-        });
-      })
-
+          })
+          .then(() => {
+            dispatch(
+              rootActions.setAppMessage({
+                showMessage: true,
+                message: 'File downloaded successfully!',
+                color: MessageBarColors.success,
+              })
+            );
+          })
+          .catch((error) => {
+            dispatch(
+              rootActions.setAppMessage({
+                showMessage: true,
+                message: 'File download failed!',
+                color: MessageBarColors.danger,
+              })
+            );
+          });
+      });
     }
   }, []);
 
