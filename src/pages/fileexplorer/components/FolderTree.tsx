@@ -204,8 +204,21 @@ const FolderTree: React.FC = () => {
         window.dispatchEvent(new Event('resize'));
       }, 1);
 
+      // Save file on Ctrl+S
       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         updateFileContent(dispatch, selectedFileRef.current as IFile, fileEditorRef.current?.getValue() || '');
+      })
+
+       // Save file on Ctrl+S
+       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
+        const filename = selectedFileRef.current?.ServerRelativeUrl.split('/').pop();
+        const extension = filename!.split('.').pop();
+        const url = `data:text/${extension};base64, ${btoa(fileEditorRef?.current?.getValue() || '')}`;
+
+        chrome.downloads.download({
+            url: url,
+            filename: filename,
+        });
       })
 
     }

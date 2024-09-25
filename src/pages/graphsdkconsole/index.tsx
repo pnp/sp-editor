@@ -9,7 +9,7 @@ import GraphMSALPanel from './components/graphmsalpanel'
 const GraphSDKConsole = () => {
   return (
     <IonPage>
-      <Header title={'Graph SDK Console'} />
+      <Header title={'Graph SDK Console'} showOnLoad={false} headline='Header here' content='instructions here'/>
       <GraphSDKCommands />
       <IonContent>
         <LoadingSpinner />

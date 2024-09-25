@@ -5,7 +5,7 @@
   "description": "Create and update SharePoint Online/SP2013/SP2016/SP2019 css/js files, inject files to web, manage web/list properties, list Webhook",
   "manifest_version": 3,
   "devtools_page": "devtools.html",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "downloads"],
   "host_permissions": [
     "<all_urls>"
   ],

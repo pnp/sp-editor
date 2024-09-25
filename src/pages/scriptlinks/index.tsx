@@ -10,7 +10,7 @@ import ScriptLinkList from './components/scriptlinklist'
 const ScriptLinks = () => {
   return (
     <IonPage>
-      <Header title={'ScriptLinks'} />
+      <Header title={'ScriptLinks'} showOnLoad={false} headline='Header here' content='instructions here'/>
       {/* Actions menu */}
       <ScriptLinkCommands />
       <IonContent>
