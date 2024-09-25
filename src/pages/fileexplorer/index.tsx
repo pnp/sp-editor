@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/loadingSpinner';
 const FileExplorer = () => {
   return (
     <IonPage>
-      <Header title={'File Explorer'} showOnLoad={false} headline='Header here' content='instructions here'/>
+      <Header title={'File Editor'} showOnLoad={false} headline='Header here' content='instructions here'/>
       <IonContent>
         <LoadingSpinner />
         <FolderTree />
