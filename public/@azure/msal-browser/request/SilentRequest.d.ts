@@ -1,5 +1,5 @@
-import { AccountInfo, CommonSilentFlowRequest, StringDict } from "@azure/msal-common";
-import { CacheLookupPolicy } from "../utils/BrowserConstants";
+import { AccountInfo, CommonSilentFlowRequest, StringDict } from "@azure/msal-common/browser";
+import { CacheLookupPolicy } from "../utils/BrowserConstants.js";
 /**
  * SilentRequest: Request object passed by user to retrieve tokens from the
  * cache, renew an expired token with a refresh token, or retrieve a code (first leg of authorization code grant flow)

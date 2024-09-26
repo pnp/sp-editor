@@ -1,7 +1,7 @@
-import { AuthorizationCodeClient, CommonAuthorizationCodeRequest, Logger, IPerformanceClient, CcsCredential, ServerAuthorizationCodeResponse } from "@azure/msal-common";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { INavigationClient } from "../navigation/INavigationClient";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { AuthorizationCodeClient, CommonAuthorizationCodeRequest, Logger, IPerformanceClient, CcsCredential, ServerAuthorizationCodeResponse } from "@azure/msal-common/browser";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
+import { INavigationClient } from "../navigation/INavigationClient.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export type RedirectParams = {
     navigationClient: INavigationClient;
     redirectTimeout: number;

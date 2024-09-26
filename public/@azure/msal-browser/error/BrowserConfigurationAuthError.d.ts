@@ -1,5 +1,5 @@
-import { AuthError } from "@azure/msal-common";
-import * as BrowserConfigurationAuthErrorCodes from "./BrowserConfigurationAuthErrorCodes";
+import { AuthError } from "@azure/msal-common/browser";
+import * as BrowserConfigurationAuthErrorCodes from "./BrowserConfigurationAuthErrorCodes.js";
 export { BrowserConfigurationAuthErrorCodes };
 export declare const BrowserConfigurationAuthErrorMessages: {
     storage_not_supported: string;

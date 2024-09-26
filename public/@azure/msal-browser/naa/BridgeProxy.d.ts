@@ -1,11 +1,11 @@
-import { AuthBridge } from "./AuthBridge";
-import { AuthResult } from "./AuthResult";
-import { BridgeCapabilities } from "./BridgeCapabilities";
-import { AccountContext } from "./BridgeAccountContext";
-import { BridgeRequest } from "./BridgeRequest";
-import { IBridgeProxy } from "./IBridgeProxy";
-import { InitContext } from "./InitContext";
-import { TokenRequest } from "./TokenRequest";
+import { AuthBridge } from "./AuthBridge.js";
+import { AuthResult } from "./AuthResult.js";
+import { BridgeCapabilities } from "./BridgeCapabilities.js";
+import { AccountContext } from "./BridgeAccountContext.js";
+import { BridgeRequest } from "./BridgeRequest.js";
+import { IBridgeProxy } from "./IBridgeProxy.js";
+import { InitContext } from "./InitContext.js";
+import { TokenRequest } from "./TokenRequest.js";
 declare global {
     interface Window {
         nestedAppAuthBridge: AuthBridge;
@@ -44,6 +44,7 @@ export declare class BridgeProxy implements IBridgeProxy {
     private getToken;
     getHostCapabilities(): BridgeCapabilities | null;
     getAccountContext(): AccountContext | null;
+    private static buildRequest;
     /**
      * A method used to send a request to the bridge
      * @param request A token request

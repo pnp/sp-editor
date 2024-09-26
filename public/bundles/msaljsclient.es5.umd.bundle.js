@@ -53,7 +53,7 @@ __webpack_require__.d(__webpack_exports__, {
   getMSAL: () => (/* reexport */ getMSAL)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/Constants.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/Constants.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -382,7 +382,7 @@ const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
 //# sourceMappingURL=Constants.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/logger/Logger.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/logger/Logger.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -579,7 +579,7 @@ class Logger {
 
 //# sourceMappingURL=Logger.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/ProtocolMode.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/ProtocolMode.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -597,7 +597,7 @@ const ProtocolMode = {
 
 //# sourceMappingURL=ProtocolMode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityOptions.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityOptions.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -622,7 +622,7 @@ const AzureCloudInstance = {
 
 //# sourceMappingURL=AuthorityOptions.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/AuthErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -638,7 +638,7 @@ const postRequestFailed = "post_request_failed";
 
 //# sourceMappingURL=AuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/AuthError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -696,7 +696,7 @@ function createAuthError(code, additionalMessage) {
 
 //# sourceMappingURL=AuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientAuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientAuthErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -751,7 +751,7 @@ const nestedAppAuthBridgeDisabled = "nested_app_auth_bridge_disabled";
 
 //# sourceMappingURL=ClientAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientAuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientAuthError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -1012,7 +1012,7 @@ function createClientAuthError(errorCode, additionalMessage) {
 
 //# sourceMappingURL=ClientAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/ICrypto.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/ICrypto.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -1058,7 +1058,7 @@ const DEFAULT_CRYPTO_IMPLEMENTATION = {
 
 //# sourceMappingURL=ICrypto.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/packageMetadata.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/packageMetadata.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /* eslint-disable header/header */
@@ -1068,7 +1068,7 @@ const version = "14.14.2";
 
 //# sourceMappingURL=packageMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/AuthToken.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/AuthToken.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -1136,7 +1136,7 @@ function checkMaxAge(authTime, maxAge) {
 
 //# sourceMappingURL=AuthToken.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/TimeUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/TimeUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -1186,7 +1186,7 @@ function delay(t, value) {
 
 //# sourceMappingURL=TimeUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/utils/CacheHelpers.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/utils/CacheHelpers.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -1523,7 +1523,7 @@ function isAuthorityMetadataExpired(metadata) {
 
 //# sourceMappingURL=CacheHelpers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientConfigurationErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientConfigurationErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -1556,7 +1556,7 @@ const authorityMismatch = "authority_mismatch";
 
 //# sourceMappingURL=ClientConfigurationErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientConfigurationError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientConfigurationError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -1703,7 +1703,7 @@ function createClientConfigurationError(errorCode) {
 
 //# sourceMappingURL=ClientConfigurationError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/StringUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/StringUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -1805,7 +1805,7 @@ class StringUtils {
 
 //# sourceMappingURL=StringUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/ScopeSet.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/ScopeSet.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2016,7 +2016,7 @@ class ScopeSet {
 
 //# sourceMappingURL=ScopeSet.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/ClientInfo.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/ClientInfo.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2064,7 +2064,7 @@ function buildClientInfoFromHomeAccountId(homeAccountId) {
 
 //# sourceMappingURL=ClientInfo.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/AccountInfo.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/AccountInfo.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -2148,7 +2148,7 @@ function updateAccountTenantProfileData(baseAccountInfo, tenantProfile, idTokenC
 
 //# sourceMappingURL=AccountInfo.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityType.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityType.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -2168,7 +2168,7 @@ const AuthorityType = {
 
 //# sourceMappingURL=AuthorityType.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/TokenClaims.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/TokenClaims.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -2195,7 +2195,7 @@ function getTenantIdFromIdTokenClaims(idTokenClaims) {
 
 //# sourceMappingURL=TokenClaims.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/entities/AccountEntity.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/entities/AccountEntity.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2451,7 +2451,7 @@ class AccountEntity {
 
 //# sourceMappingURL=AccountEntity.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/UrlUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/UrlUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2505,7 +2505,7 @@ function getDeserializedResponse(responseString) {
 
 //# sourceMappingURL=UrlUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/url/UrlString.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/url/UrlString.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2679,7 +2679,7 @@ class UrlString {
 
 //# sourceMappingURL=UrlString.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityMetadata.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityMetadata.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2826,7 +2826,7 @@ function getCloudDiscoveryMetadataFromNetworkResponse(response, authorityHost) {
 
 //# sourceMappingURL=AuthorityMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/CacheErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/CacheErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -2839,7 +2839,7 @@ const cacheUnknownErrorCode = "cache_error_unknown";
 
 //# sourceMappingURL=CacheErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/CacheError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/CacheError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -2874,7 +2874,7 @@ class CacheError extends Error {
 
 //# sourceMappingURL=CacheError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/CacheManager.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/CacheManager.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -4143,7 +4143,7 @@ class DefaultStorageClass extends CacheManager {
 
 //# sourceMappingURL=CacheManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/config/ClientConfiguration.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/config/ClientConfiguration.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -4255,7 +4255,7 @@ function isOidcProtocolMode(config) {
 
 //# sourceMappingURL=ClientConfiguration.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/INetworkModule.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/INetworkModule.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -4277,7 +4277,7 @@ const StubbedNetworkModule = {
 
 //# sourceMappingURL=INetworkModule.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/performance/PerformanceEvent.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/performance/PerformanceEvent.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -4764,7 +4764,7 @@ const IntFields = new Set([
 
 //# sourceMappingURL=PerformanceEvent.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/performance/StubPerformanceClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/performance/StubPerformanceClient.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -4849,7 +4849,7 @@ class StubPerformanceClient {
 
 //# sourceMappingURL=StubPerformanceClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserConstants.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserConstants.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5070,7 +5070,7 @@ const BROWSER_PERF_ENABLED_KEY = "msal.browser.performance.enabled";
 
 //# sourceMappingURL=BrowserConstants.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/navigation/NavigationClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/navigation/NavigationClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -5117,7 +5117,7 @@ class NavigationClient {
 
 //# sourceMappingURL=NavigationClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserAuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserAuthErrorCodes.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -5174,7 +5174,7 @@ const invalidPopTokenRequest = "invalid_pop_token_request";
 
 //# sourceMappingURL=BrowserAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserAuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserAuthError.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5449,7 +5449,7 @@ function createBrowserAuthError(errorCode) {
 
 //# sourceMappingURL=BrowserAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/network/FetchClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/network/FetchClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5560,7 +5560,7 @@ class FetchClient {
 
 //# sourceMappingURL=FetchClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/config/Configuration.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/config/Configuration.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5700,7 +5700,7 @@ function buildConfiguration({ auth: userInputAuth, cache: userInputCache, system
 
 //# sourceMappingURL=Configuration.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/packageMetadata.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/packageMetadata.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /* eslint-disable header/header */
@@ -5710,7 +5710,7 @@ const packageMetadata_version = "3.23.0";
 
 //# sourceMappingURL=packageMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/operatingcontext/BaseOperatingContext.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/operatingcontext/BaseOperatingContext.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5816,7 +5816,7 @@ class BaseOperatingContext {
 
 //# sourceMappingURL=BaseOperatingContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/operatingcontext/StandardOperatingContext.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/operatingcontext/StandardOperatingContext.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -5868,7 +5868,7 @@ StandardOperatingContext_StandardOperatingContext.ID = "StandardOperatingContext
 
 //# sourceMappingURL=StandardOperatingContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/JoseHeaderErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/JoseHeaderErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -5881,7 +5881,7 @@ const missingAlgError = "missing_alg_error";
 
 //# sourceMappingURL=JoseHeaderErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/JoseHeaderError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/JoseHeaderError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -5913,7 +5913,7 @@ function createJoseHeaderError(code) {
 
 //# sourceMappingURL=JoseHeaderError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/JoseHeader.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/JoseHeader.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -5961,7 +5961,7 @@ class JoseHeader {
 
 //# sourceMappingURL=JoseHeader.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/encode/Base64Encode.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/encode/Base64Encode.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -6011,7 +6011,7 @@ function base64EncArr(aBytes) {
 
 //# sourceMappingURL=Base64Encode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/encode/Base64Decode.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/encode/Base64Decode.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -6057,7 +6057,7 @@ function base64DecToArr(base64String) {
 
 //# sourceMappingURL=Base64Decode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/BrowserCrypto.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/BrowserCrypto.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -6221,7 +6221,7 @@ async function hashString(plainText) {
 
 //# sourceMappingURL=BrowserCrypto.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/DatabaseStorage.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/DatabaseStorage.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -6432,7 +6432,7 @@ class DatabaseStorage {
 
 //# sourceMappingURL=DatabaseStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/MemoryStorage.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/MemoryStorage.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -6470,7 +6470,7 @@ class MemoryStorage {
 
 //# sourceMappingURL=MemoryStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/AsyncMemoryStorage.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/AsyncMemoryStorage.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -6613,7 +6613,7 @@ class AsyncMemoryStorage {
 
 //# sourceMappingURL=AsyncMemoryStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/CryptoOps.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/CryptoOps.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -6804,7 +6804,7 @@ function getSortedObjectString(obj) {
 
 //# sourceMappingURL=CryptoOps.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/OpenIdConfigResponse.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/OpenIdConfigResponse.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -6821,7 +6821,7 @@ function isOpenIdConfigResponse(response) {
 
 //# sourceMappingURL=OpenIdConfigResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryResponse.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryResponse.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -6836,7 +6836,7 @@ function isCloudInstanceDiscoveryResponse(response) {
 
 //# sourceMappingURL=CloudInstanceDiscoveryResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryErrorResponse.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryErrorResponse.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -6851,7 +6851,7 @@ function isCloudInstanceDiscoveryErrorResponse(response) {
 
 //# sourceMappingURL=CloudInstanceDiscoveryErrorResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/FunctionWrappers.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/FunctionWrappers.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -6952,7 +6952,7 @@ const invokeAsync = (callback, eventName, logger, telemetryClient, correlationId
 
 //# sourceMappingURL=FunctionWrappers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/RegionDiscovery.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/RegionDiscovery.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -7069,7 +7069,7 @@ RegionDiscovery.IMDS_OPTIONS = {
 
 //# sourceMappingURL=RegionDiscovery.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/Authority.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/Authority.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -7931,7 +7931,7 @@ function buildStaticAuthorityOptions(authOptions) {
 
 //# sourceMappingURL=Authority.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthErrorCodes.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -7951,7 +7951,7 @@ const badToken = "bad_token";
 
 //# sourceMappingURL=InteractionRequiredAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -8049,7 +8049,7 @@ function createInteractionRequiredAuthError(errorCode) {
 
 //# sourceMappingURL=InteractionRequiredAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/ProtocolUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/ProtocolUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -8129,7 +8129,7 @@ class ProtocolUtils {
 
 //# sourceMappingURL=ProtocolUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/CcsCredential.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/CcsCredential.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -8144,7 +8144,7 @@ const CcsCredentialType = {
 
 //# sourceMappingURL=CcsCredential.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthErrorCodes.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -8158,7 +8158,7 @@ const inMemRedirectUnavailable = "in_mem_redirect_unavailable";
 
 //# sourceMappingURL=BrowserConfigurationAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthError.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -8210,7 +8210,7 @@ function createBrowserConfigurationAuthError(errorCode) {
 
 //# sourceMappingURL=BrowserConfigurationAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/BrowserStorage.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/BrowserStorage.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -8253,7 +8253,7 @@ class BrowserStorage {
 
 //# sourceMappingURL=BrowserStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserProtocolUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserProtocolUtils.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -8283,7 +8283,7 @@ function extractBrowserRequestState(browserCrypto, state) {
 
 //# sourceMappingURL=BrowserProtocolUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/BrowserCacheManager.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/BrowserCacheManager.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -9594,7 +9594,7 @@ const DEFAULT_BROWSER_CACHE_MANAGER = (clientId, logger) => {
 
 //# sourceMappingURL=BrowserCacheManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/AccountManager.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/AccountManager.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -9727,7 +9727,7 @@ function getActiveAccount(browserStorage) {
 
 //# sourceMappingURL=AccountManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserUtils.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -9900,7 +9900,7 @@ function createGuid() {
 
 //# sourceMappingURL=BrowserUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/event/EventType.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/event/EventType.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -9939,7 +9939,7 @@ const EventType = {
 
 //# sourceMappingURL=EventType.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/event/EventHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/event/EventHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -10075,7 +10075,7 @@ class EventHandler {
 
 //# sourceMappingURL=EventHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ServerError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ServerError.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10100,7 +10100,7 @@ class ServerError extends AuthError {
 
 //# sourceMappingURL=ServerError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/ThrottlingUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/ThrottlingUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10205,7 +10205,7 @@ class ThrottlingUtils {
 
 //# sourceMappingURL=ThrottlingUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/NetworkManager.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/NetworkManager.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10251,7 +10251,7 @@ class NetworkManager {
 
 //# sourceMappingURL=NetworkManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/constants/AADServerParamKeys.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/constants/AADServerParamKeys.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -10315,7 +10315,7 @@ const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
 
 //# sourceMappingURL=AADServerParamKeys.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/RequestValidator.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/RequestValidator.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10390,7 +10390,7 @@ class RequestValidator {
 
 //# sourceMappingURL=RequestValidator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/RequestParameterBuilder.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/RequestParameterBuilder.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10786,7 +10786,7 @@ class RequestParameterBuilder {
 
 //# sourceMappingURL=RequestParameterBuilder.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityFactory.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityFactory.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10827,7 +10827,7 @@ async function createDiscoveredInstance(authorityUri, networkClient, cacheManage
 
 //# sourceMappingURL=AuthorityFactory.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/BaseClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/BaseClient.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -10945,7 +10945,7 @@ class BaseClient {
 
 //# sourceMappingURL=BaseClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/PopTokenGenerator.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/PopTokenGenerator.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -11038,7 +11038,7 @@ class PopTokenGenerator {
 
 //# sourceMappingURL=PopTokenGenerator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/persistence/TokenCacheContext.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/persistence/TokenCacheContext.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -11070,7 +11070,7 @@ class PopTokenGenerator {
 
 //# sourceMappingURL=TokenCacheContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/response/ResponseHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/response/ResponseHandler.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -11467,7 +11467,7 @@ function buildAccountToCache(cacheStorage, authority, homeAccountId, base64Decod
 
 //# sourceMappingURL=ResponseHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/ClientAssertionUtils.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/ClientAssertionUtils.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 /*
@@ -11490,7 +11490,7 @@ async function getClientAssertion(clientAssertion, clientId, tokenEndpoint) {
 
 //# sourceMappingURL=ClientAssertionUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/AuthorizationCodeClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/AuthorizationCodeClient.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -11938,7 +11938,7 @@ class AuthorizationCodeClient extends BaseClient {
 
 //# sourceMappingURL=AuthorizationCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/server/ServerTelemetryManager.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/server/ServerTelemetryManager.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -12208,7 +12208,7 @@ class ServerTelemetryManager {
 
 //# sourceMappingURL=ServerTelemetryManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/BaseInteractionClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/BaseInteractionClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -12327,7 +12327,7 @@ class BaseInteractionClient {
 
 //# sourceMappingURL=BaseInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/PkceGenerator.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/PkceGenerator.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -12394,7 +12394,7 @@ async function generateCodeChallengeFromVerifier(pkceCodeVerifier, performanceCl
 
 //# sourceMappingURL=PkceGenerator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/request/RequestHelpers.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/request/RequestHelpers.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -12457,7 +12457,7 @@ async function initializeSilentRequest(request, account, config, performanceClie
 
 //# sourceMappingURL=RequestHelpers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/StandardInteractionClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/StandardInteractionClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -12672,7 +12672,7 @@ class StandardInteractionClient extends BaseInteractionClient {
 
 //# sourceMappingURL=StandardInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/NativeAuthErrorCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/NativeAuthErrorCodes.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -12685,7 +12685,7 @@ const userSwitch = "user_switch";
 
 //# sourceMappingURL=NativeAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeStatusCodes.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeStatusCodes.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 /*
@@ -12703,7 +12703,7 @@ const ACCOUNT_UNAVAILABLE = "ACCOUNT_UNAVAILABLE";
 
 //# sourceMappingURL=NativeStatusCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/NativeAuthError.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/NativeAuthError.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -12776,7 +12776,7 @@ function createNativeAuthError(code, description, ext) {
 
 //# sourceMappingURL=NativeAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/RefreshTokenClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/RefreshTokenClient.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -13018,7 +13018,7 @@ class RefreshTokenClient extends BaseClient {
 
 //# sourceMappingURL=RefreshTokenClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/SilentFlowClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/SilentFlowClient.mjs
 /*! @azure/msal-common v14.14.2 2024-08-28 */
 
 
@@ -13171,7 +13171,7 @@ class SilentFlowClient extends BaseClient {
 
 //# sourceMappingURL=SilentFlowClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentCacheClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentCacheClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -13226,7 +13226,7 @@ class SilentCacheClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentCacheClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/NativeInteractionClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/NativeInteractionClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -13865,7 +13865,7 @@ class NativeInteractionClient extends BaseInteractionClient {
 
 //# sourceMappingURL=NativeInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeMessageHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeMessageHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -14133,7 +14133,7 @@ class NativeMessageHandler {
 
 //# sourceMappingURL=NativeMessageHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/InteractionHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/InteractionHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -14237,7 +14237,7 @@ class InteractionHandler {
 
 //# sourceMappingURL=InteractionHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/response/ResponseHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/response/ResponseHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -14285,7 +14285,7 @@ function validateInteractionType(response, browserCrypto, interactionType) {
 
 //# sourceMappingURL=ResponseHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/PopupClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/PopupClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -14737,7 +14737,7 @@ class PopupClient extends StandardInteractionClient {
 
 //# sourceMappingURL=PopupClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/RedirectHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/RedirectHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -14883,7 +14883,7 @@ class RedirectHandler {
 
 //# sourceMappingURL=RedirectHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/RedirectClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/RedirectClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15217,7 +15217,7 @@ class RedirectClient extends StandardInteractionClient {
 
 //# sourceMappingURL=RedirectClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/SilentHandler.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/SilentHandler.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15363,7 +15363,7 @@ function removeHiddenIframe(iframe) {
 
 //# sourceMappingURL=SilentHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentIframeClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentIframeClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15491,7 +15491,7 @@ class SilentIframeClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentIframeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentRefreshClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentRefreshClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15552,7 +15552,7 @@ class SilentRefreshClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentRefreshClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/TokenCache.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/TokenCache.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15760,7 +15760,7 @@ class TokenCache {
 
 //# sourceMappingURL=TokenCache.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/HybridSpaAuthorizationCodeClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/HybridSpaAuthorizationCodeClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15779,7 +15779,7 @@ class HybridSpaAuthorizationCodeClient extends AuthorizationCodeClient {
 
 //# sourceMappingURL=HybridSpaAuthorizationCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentAuthCodeClient.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentAuthCodeClient.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -15851,7 +15851,7 @@ class SilentAuthCodeClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentAuthCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/controllers/StandardController.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/controllers/StandardController.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -17215,7 +17215,7 @@ function checkIfRefreshTokenErrorCanBeResolvedSilently(refreshTokenError, cacheL
 
 //# sourceMappingURL=StandardController.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/controllers/ControllerFactory.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/controllers/ControllerFactory.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 
@@ -17252,7 +17252,7 @@ async function createController(config) {
 
 //# sourceMappingURL=ControllerFactory.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/app/PublicClientApplication.mjs
+;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/app/PublicClientApplication.mjs
 /*! @azure/msal-browser v3.23.0 2024-09-03 */
 
 

@@ -1,5 +1,5 @@
-import { Logger, LogLevel } from "@azure/msal-common";
-import { BrowserConfiguration, Configuration } from "../config/Configuration";
+import { Logger, LogLevel } from "@azure/msal-common/browser";
+import { BrowserConfiguration, Configuration } from "../config/Configuration.js";
 /**
  * Base class for operating context
  * Operating contexts are contexts in which MSAL.js is being run

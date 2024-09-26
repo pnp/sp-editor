@@ -1,5 +1,5 @@
-import { invoke, invokeAsync } from "@azure/msal-common";
-import { BrowserConfiguration } from "../config/Configuration";
+import { invoke, invokeAsync } from "@azure/msal-common/browser";
+import { BrowserConfiguration } from "../config/Configuration.js";
 /**
  * Clears hash from window url.
  */

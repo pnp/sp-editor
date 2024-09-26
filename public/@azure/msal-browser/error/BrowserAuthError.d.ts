@@ -1,5 +1,5 @@
-import { AuthError } from "@azure/msal-common";
-import * as BrowserAuthErrorCodes from "./BrowserAuthErrorCodes";
+import { AuthError } from "@azure/msal-common/browser";
+import * as BrowserAuthErrorCodes from "./BrowserAuthErrorCodes.js";
 export { BrowserAuthErrorCodes };
 /**
  * BrowserAuthErrorMessage class containing string constants used by error codes and messages.

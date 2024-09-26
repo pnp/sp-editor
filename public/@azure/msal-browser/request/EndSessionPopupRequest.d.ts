@@ -1,5 +1,5 @@
-import { CommonEndSessionRequest } from "@azure/msal-common";
-import { PopupWindowAttributes } from "./PopupWindowAttributes";
+import { CommonEndSessionRequest } from "@azure/msal-common/browser";
+import { PopupWindowAttributes } from "./PopupWindowAttributes.js";
 /**
  * EndSessionPopupRequest
  * - account                - Account object that will be logged out of. All tokens tied to this account will be cleared.
@@ -10,10 +10,12 @@ import { PopupWindowAttributes } from "./PopupWindowAttributes";
  * - mainWindowRedirectUri  - URI to navigate the main window to after logout is complete
  * - popupWindowAttributes  - Optional popup window attributes. popupSize with height and width, and popupPosition with top and left can be set.
  * - logoutHint             - A string that specifies the account that is being logged out in order to skip the server account picker on logout
+ * - popupWindowParent      - Optional window object to use as the parent when opening popup windows. Uses global `window` if not given.
  */
 export type EndSessionPopupRequest = Partial<Omit<CommonEndSessionRequest, "tokenQueryParameters">> & {
     authority?: string;
     mainWindowRedirectUri?: string;
     popupWindowAttributes?: PopupWindowAttributes;
+    popupWindowParent?: Window;
 };
 //# sourceMappingURL=EndSessionPopupRequest.d.ts.map

@@ -1,14 +1,14 @@
-import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType, TokenKeys, CredentialType, CacheRecord, IPerformanceClient, StaticAuthorityOptions, StoreInCache } from "@azure/msal-common";
-import { CacheOptions } from "../config/Configuration";
-import { BrowserCacheLocation, InteractionType } from "../utils/BrowserConstants";
-import { MemoryStorage } from "./MemoryStorage";
-import { IWindowStorage } from "./IWindowStorage";
-import { NativeTokenRequest } from "../broker/nativeBroker/NativeRequest";
-import { AuthenticationResult } from "../response/AuthenticationResult";
-import { SilentRequest } from "../request/SilentRequest";
-import { SsoSilentRequest } from "../request/SsoSilentRequest";
-import { RedirectRequest } from "../request/RedirectRequest";
-import { PopupRequest } from "../request/PopupRequest";
+import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType, TokenKeys, CredentialType, CacheRecord, IPerformanceClient, StaticAuthorityOptions, StoreInCache } from "@azure/msal-common/browser";
+import { CacheOptions } from "../config/Configuration.js";
+import { BrowserCacheLocation, InteractionType } from "../utils/BrowserConstants.js";
+import { MemoryStorage } from "./MemoryStorage.js";
+import { IWindowStorage } from "./IWindowStorage.js";
+import { NativeTokenRequest } from "../broker/nativeBroker/NativeRequest.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
+import { SilentRequest } from "../request/SilentRequest.js";
+import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
+import { RedirectRequest } from "../request/RedirectRequest.js";
+import { PopupRequest } from "../request/PopupRequest.js";
 /**
  * This class implements the cache storage interface for MSAL through browser local or session storage.
  * Cookies are only used if storeAuthStateInCookie is true, and are only used for

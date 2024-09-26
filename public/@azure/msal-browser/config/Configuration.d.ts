@@ -1,6 +1,6 @@
-import { SystemOptions, LoggerOptions, INetworkModule, ProtocolMode, OIDCOptions, AzureCloudOptions, ApplicationTelemetry, IPerformanceClient } from "@azure/msal-common";
-import { BrowserCacheLocation } from "../utils/BrowserConstants";
-import { INavigationClient } from "../navigation/INavigationClient";
+import { SystemOptions, LoggerOptions, INetworkModule, ProtocolMode, OIDCOptions, AzureCloudOptions, ApplicationTelemetry, IPerformanceClient } from "@azure/msal-common/browser";
+import { BrowserCacheLocation } from "../utils/BrowserConstants.js";
+import { INavigationClient } from "../navigation/INavigationClient.js";
 export declare const DEFAULT_POPUP_TIMEOUT_MS = 60000;
 export declare const DEFAULT_IFRAME_TIMEOUT_MS = 10000;
 export declare const DEFAULT_REDIRECT_TIMEOUT_MS = 30000;
@@ -71,6 +71,10 @@ export type BrowserAuthOptions = {
      * Callback that will be passed the url that MSAL will navigate to in redirect flows. Returning false in the callback will stop navigation.
      */
     onRedirectNavigate?: (url: string) => boolean | void;
+    /**
+     * Flag of whether the STS will send back additional parameters to specify where the tokens should be retrieved from.
+     */
+    instanceAware?: boolean;
 };
 /** @internal */
 export type InternalAuthOptions = Omit<Required<BrowserAuthOptions>, "onRedirectNavigate"> & {

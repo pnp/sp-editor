@@ -1,4 +1,4 @@
-import { ApiId } from "../utils/BrowserConstants";
+import { ApiId } from "../utils/BrowserConstants.js";
 /**
  * Additional information passed to the navigateInternal and navigateExternal functions
  */

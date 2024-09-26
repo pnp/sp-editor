@@ -38,18 +38,13 @@ export const getCustomActions = (extPath: string) => {
 
       // get site custom actions
     return sp.site.userCustomActions
-      .filter("Location ne 'ClientSideExtension.ApplicationCustomizer'")
-      .select('Sequence, Name, ScriptSrc, ScriptBlock, Scope, Id, Title').orderBy('Sequence', true)()
+      .orderBy('Sequence', true)()
       .then(siteactions => {
         // get web custom actions
         return sp.web.userCustomActions
-          .filter("Location ne 'ClientSideExtension.ApplicationCustomizer'")
-          .select('Sequence, Name, ScriptSrc, ScriptBlock, Scope, Id, Title').orderBy('Sequence', true)()
+          .orderBy('Sequence', true)()
           .then(webactions => {
-            // join customactions
-            // TODO: add order ??
             const actions = siteactions.concat(webactions).sort((a, b) => a.Sequence - b.Sequence)
-            // post results back to extension
             return {
               success: true,
               result: actions,

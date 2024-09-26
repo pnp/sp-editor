@@ -10,7 +10,7 @@ import WebPropertiesList from './components/webpropertieslist'
 const WebProperties = () => {
   return (
     <IonPage>
-      <Header title={'Web Properties'} />
+      <Header title={'Web Properties'} showOnLoad={false} headline='' content=''/>
       {/* Actions menu */}
       <WebPropertiesCommands />
       <IonContent>

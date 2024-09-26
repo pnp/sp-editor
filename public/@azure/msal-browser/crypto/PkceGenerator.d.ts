@@ -1,4 +1,4 @@
-import { IPerformanceClient, Logger, PkceCodes } from "@azure/msal-common";
+import { IPerformanceClient, Logger, PkceCodes } from "@azure/msal-common/browser";
 /**
  * This file defines APIs to generate PKCE codes and code verifiers.
  */

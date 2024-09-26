@@ -1,6 +1,11 @@
-import { BaseOperatingContext } from "./BaseOperatingContext";
-import { IBridgeProxy } from "../naa/IBridgeProxy";
-import { AccountContext } from "../naa/BridgeAccountContext";
+import { BaseOperatingContext } from "./BaseOperatingContext.js";
+import { IBridgeProxy } from "../naa/IBridgeProxy.js";
+import { AccountContext } from "../naa/BridgeAccountContext.js";
+declare global {
+    interface Window {
+        __initializeNestedAppAuth?(): Promise<void>;
+    }
+}
 export declare class NestedAppOperatingContext extends BaseOperatingContext {
     protected bridgeProxy: IBridgeProxy | undefined;
     protected accountContext: AccountContext | null;

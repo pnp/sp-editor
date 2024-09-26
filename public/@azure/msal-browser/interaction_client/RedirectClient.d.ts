@@ -1,13 +1,13 @@
-import { ServerTelemetryManager, ServerAuthorizationCodeResponse, ICrypto, Logger, IPerformanceClient, InProgressPerformanceEvent } from "@azure/msal-common";
-import { StandardInteractionClient } from "./StandardInteractionClient";
-import { EndSessionRequest } from "../request/EndSessionRequest";
-import { RedirectRequest } from "../request/RedirectRequest";
-import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler";
-import { BrowserConfiguration } from "../config/Configuration";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { EventHandler } from "../event/EventHandler";
-import { INavigationClient } from "../navigation/INavigationClient";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { ServerTelemetryManager, ServerAuthorizationCodeResponse, ICrypto, Logger, IPerformanceClient, InProgressPerformanceEvent } from "@azure/msal-common/browser";
+import { StandardInteractionClient } from "./StandardInteractionClient.js";
+import { EndSessionRequest } from "../request/EndSessionRequest.js";
+import { RedirectRequest } from "../request/RedirectRequest.js";
+import { NativeMessageHandler } from "../broker/nativeBroker/NativeMessageHandler.js";
+import { BrowserConfiguration } from "../config/Configuration.js";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
+import { EventHandler } from "../event/EventHandler.js";
+import { INavigationClient } from "../navigation/INavigationClient.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export declare class RedirectClient extends StandardInteractionClient {
     protected nativeStorage: BrowserCacheManager;
     constructor(config: BrowserConfiguration, storageImpl: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, performanceClient: IPerformanceClient, nativeStorageImpl: BrowserCacheManager, nativeMessageHandler?: NativeMessageHandler, correlationId?: string);

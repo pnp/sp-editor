@@ -1,5 +1,5 @@
-import { NativeExtensionMethod } from "../../utils/BrowserConstants";
-import { StoreInCache, StringDict } from "@azure/msal-common";
+import { NativeExtensionMethod } from "../../utils/BrowserConstants.js";
+import { StoreInCache, StringDict } from "@azure/msal-common/browser";
 /**
  * Token request which native broker will use to acquire tokens
  */
