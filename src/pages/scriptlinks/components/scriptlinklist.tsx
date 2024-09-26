@@ -29,6 +29,8 @@ import {
 } from '../../../store/scriptlinks/actions'
 import { IScriptLink } from '../../../store/scriptlinks/types'
 import { cacheScriptLinks, deleteScriptLinks, getAllScriptLinks } from '../chrome/chrome-actions'
+import * as rootActions from '../../../store/home/actions'
+import { MessageBarColors } from '../../../store/home/types'
 
 const ScriptLinkList = () => {
 
@@ -122,7 +124,7 @@ const ScriptLinkList = () => {
       isSortedDescending: scopeAsc,
       key: 'Scope',
       maxWidth: 350,
-      minWidth: 100,
+      minWidth: 200,
       name: 'Scope',
       onColumnClick,
     },
@@ -152,15 +154,20 @@ const ScriptLinkList = () => {
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}
             selectionMode={SelectionMode.multiple}
-/*             getKey={(item: IScriptLink) => {
-              return item.Id
-            }} */
-            setKey='scriptlinkslist'
+            setKey="scriptlinkslist"
             isHeaderVisible={true}
             enterModalSelectionOnTouch={true}
             onItemInvoked={(item: IScriptLink) => {
-              dispatch(setSelectedItem(item))
-              dispatch(setEditPanel(true))
+              if (item.Scope === 3) {
+                dispatch(rootActions.setAppMessage({
+                  showMessage: true,
+                  message: 'Application Customizer cannot be edited! You can delete it though.',
+                  color: MessageBarColors.warning,
+                }))
+              } else {
+                dispatch(setSelectedItem(item));
+                dispatch(setEditPanel(true));
+              }
             }}
             onRenderDetailsHeader={renderHeader}
           />
@@ -175,17 +182,18 @@ const ScriptLinkList = () => {
           type: DialogType.normal,
           title: 'Remove ScriptLinks',
           closeButtonAriaLabel: 'Cancel',
-          subText: selectedItems.length > 1
-            ? `Sure you want to remove these ${selectedItems.length} selected scriptlinks?`
-            : `Sure you want to remove the selected scriptlink?`,
+          subText:
+            selectedItems.length > 1
+              ? `Sure you want to remove these ${selectedItems.length} selected scriptlinks?`
+              : `Sure you want to remove the selected scriptlink?`,
         }}
         modalProps={{
           isDarkOverlay: isDark,
         }}
       >
         <DialogFooter>
-          <PrimaryButton onClick={() => deleteScriptLinks(dispatch, selectedItems)} text='Remove' />
-          <DefaultButton onClick={() => dispatch(setConfirmRemoveDialog(true))} text='Cancel' />
+          <PrimaryButton onClick={() => deleteScriptLinks(dispatch, selectedItems)} text="Remove" />
+          <DefaultButton onClick={() => dispatch(setConfirmRemoveDialog(true))} text="Cancel" />
         </DialogFooter>
       </Dialog>
 
@@ -197,21 +205,22 @@ const ScriptLinkList = () => {
           type: DialogType.normal,
           title: 'Refresh cache',
           closeButtonAriaLabel: 'Cancel',
-          subText: selectedItems.length > 1
-            ? `Sure you want to refresh the cache for these ${selectedItems.length} selected scriptlinks?`
-            : `Sure you want to refresh the cache for the selected scriptlink?`,
+          subText:
+            selectedItems.length > 1
+              ? `Sure you want to refresh the cache for these ${selectedItems.length} selected scriptlinks?`
+              : `Sure you want to refresh the cache for the selected scriptlink?`,
         }}
         modalProps={{
           isDarkOverlay: isDark,
         }}
       >
         <DialogFooter>
-          <PrimaryButton onClick={() => cacheScriptLinks(dispatch, selectedItems)} text='Refresh cache' />
-          <DefaultButton onClick={() => dispatch(setConfirmCacheDialog(true))} text='Cancel' />
+          <PrimaryButton onClick={() => cacheScriptLinks(dispatch, selectedItems)} text="Refresh cache" />
+          <DefaultButton onClick={() => dispatch(setConfirmCacheDialog(true))} text="Cancel" />
         </DialogFooter>
       </Dialog>
     </>
-  )
+  );
 }
 
 export default ScriptLinkList
