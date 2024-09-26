@@ -20,29 +20,31 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
             <IonMenuButton />
           </IonMenuToggle>{' '}
           <IonTitle>{title}</IonTitle>
-          <div style={{ marginRight: '20px', display: 'flex', alignItems: 'center' }}>
-            <FontIcon
-              id={'buttonId'}
-              iconName="Info"
-              className={iconClass}
-              onClick={() => {
-                setShowInfo(!showInfo);
-              }}
-            />
-
-            {showInfo && (
-              <TeachingBubble
-                target={`#buttonId`}
-                calloutProps={CalloutProps}
-                onDismiss={() => {
-                  setShowInfo(false);
+          {headline && content && (
+            <div style={{ marginRight: '20px', display: 'flex', alignItems: 'center' }}>
+              <FontIcon
+                id={'buttonId'}
+                iconName="Info"
+                className={iconClass}
+                onClick={() => {
+                  setShowInfo(!showInfo);
                 }}
-                headline={headline}
-              >
-                {content}
-              </TeachingBubble>
-            )}
-          </div>
+              />
+
+              {showInfo && (
+                <TeachingBubble
+                  target={`#buttonId`}
+                  calloutProps={CalloutProps}
+                  onDismiss={() => {
+                    setShowInfo(false);
+                  }}
+                  headline={headline}
+                >
+                  {content}
+                </TeachingBubble>
+              )}
+            </div>
+          )}
         </IonButtons>
       </IonToolbar>
     </IonHeader>
@@ -50,7 +52,7 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
 };
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   showOnLoad?: boolean;
   headline?: string;
   content?: string;
