@@ -1,12 +1,12 @@
 import { IonContent, IonPage } from '@ionic/react';
 import Header from '../../components/header';
-import FolderTree from './components/FolderTree';
 import LoadingSpinner from '../../components/loadingSpinner';
+import FolderTree from './components/foldertree';
 
 const FileExplorer = () => {
   return (
     <IonPage>
-      <Header title={'File Editor'} showOnLoad={false} headline='Header here' content='instructions here'/>
+      <Header title={'File Editor'} showOnLoad={false} headline='' content=''/>
       <IonContent>
         <LoadingSpinner />
         <FolderTree />

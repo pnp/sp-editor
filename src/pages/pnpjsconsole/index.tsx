@@ -8,7 +8,7 @@ import PnPjsEditor from './components/pnpjseditor'
 const PnPjsConsole = () => {
   return (
     <IonPage>
-      <Header title={'PnPjs Console'} showOnLoad={false} headline='Header here' content='instructions here'/>
+      <Header title={'PnPjs Console'} showOnLoad={false} headline='' content=''/>
       <IonContent>
         <LoadingSpinner />
         <PnPjsEditor />

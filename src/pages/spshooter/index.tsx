@@ -8,7 +8,7 @@ import SPShooterResults from './components/spshooterresults'
 const SPShooter = () => {
   return (
     <IonPage>
-      <Header title={'SP Shooter'} showOnLoad={false} headline='Header here' content='instructions here'/>
+      <Header title={'SP Shooter'} showOnLoad={false} headline='' content=''/>
       <IonContent>
         <LoadingSpinner />
         <SPShootCommands />

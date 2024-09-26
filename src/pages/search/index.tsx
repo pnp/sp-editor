@@ -8,7 +8,7 @@ import SearchResults from "./components/searchresults";
 const Search = () => {
   return (
     <IonPage>
-      <Header title={"Search"} showOnLoad={false} headline='Header here' content='instructions here'/>
+      <Header title={"Search"} showOnLoad={false} headline='' content=''/>
       <IonContent>
         <LoadingSpinner />
         <SearchCommands />
