@@ -41,22 +41,24 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         iconName={'Code'}
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
         url={
-          tabUrl +
-          (tabUrl && tabUrl.indexOf('?') > -1 ? '&' : '?') +
-          'loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js'
+          tabUrl
+            ? tabUrl +
+              (tabUrl.indexOf('?') > -1 ? '&' : '?') +
+              'loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/manifests.js'
+            : ''
         }
         newWTab={false}
       />
       <QuickLinkButton
         text={'Remote workbench'}
         iconName={'Code'}
-        disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/workbench.aspx'}
+        disabled={!ctx || !ctx.webAbsoluteUrl}
+        url={ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/workbench.aspx' : ''}
       />
       <QuickLinkButton
         text={'Local workbench'}
         iconName={'Code'}
-        disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
+        disabled={!ctx || !ctx.webAbsoluteUrl}
         url={'https://localhost:4321/workbench'}
       />
       <Separator alignContent="start" styles={separatorStyles}>
@@ -65,51 +67,56 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
       <QuickLinkButton
         text={'Admin center'}
         iconName={'Admin'}
-        disabled={!ctx || !ctx.portalUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO &&
-          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-            '/_layouts/15/online/AdminHome.aspx#/home'
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '/_layouts/15/online/AdminHome.aspx#/home'
+            : ''
         }
       />
       <QuickLinkButton
         text={'User profiles'}
         iconName={'People'}
-        disabled={!ctx || !ctx.portalUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO &&
-          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-            '/_layouts/15/tenantprofileadmin/manageuserprofileserviceapplication.aspx'
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '/_layouts/15/tenantprofileadmin/manageuserprofileserviceapplication.aspx'
+            : ''
         }
       />
       <QuickLinkButton
         text={'Term store'}
         iconName={'Tag'}
-        disabled={!ctx || !ctx.portalUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO &&
-          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-            '/_layouts/15/online/AdminHome.aspx#/termStoreAdminCenter'
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '/_layouts/15/online/AdminHome.aspx#/termStoreAdminCenter'
+            : ''
         }
       />
       <QuickLinkButton
         text={'Search administration'}
         iconName={'Search'}
-        disabled={!ctx || !ctx.portalUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO &&
-          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-            '/_layouts/15/searchadmin/TA_SearchAdministration.aspx'
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '/_layouts/15/searchadmin/TA_SearchAdministration.aspx'
+            : ''
         }
       />
       <QuickLinkButton
         text={'API access'}
         iconName={'AzureAPIManagement'}
-        disabled={!ctx || !ctx.portalUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO &&
-          ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-            '/_layouts/15/online/AdminHome.aspx#/webApiPermissionManagement'
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '/_layouts/15/online/AdminHome.aspx#/webApiPermissionManagement'
+            : ''
         }
       />
       <QuickLinkButton
@@ -122,13 +129,13 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         text={'App catalog'}
         iconName={'AppIconDefaultList'}
         disabled={!appCatalogUrl}
-        url={appCatalogUrl + '/_layouts/15/tenantAppCatalog.aspx/manageApps'}
+        url={appCatalogUrl ? appCatalogUrl + '/_layouts/15/tenantAppCatalog.aspx/manageApps' : ''}
       />
       <QuickLinkButton
         text={'Classic app catalog'}
         iconName={'AppIconDefaultList'}
         disabled={!appCatalogUrl}
-        url={appCatalogUrl + '/AppCatalog/Forms/AllItems.aspx'}
+        url={appCatalogUrl ? appCatalogUrl + '/AppCatalog/Forms/AllItems.aspx' : ''}
       />
       <Separator alignContent="start" styles={separatorStyles}>
         Current site
@@ -137,46 +144,45 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         text={'Site settings'}
         iconName={'Settings'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/15/settings.aspx'}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/settings.aspx' : ''}
       />
       <QuickLinkButton
         text={'Tenant site settings'}
         iconName={'Settings'}
-        disabled={!ctx || !ctx.webAbsoluteUrl}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl || !ctx.siteId}
         url={
-          ctx.isSPO
-            ? ctx.portalUrl &&
-              ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
-                `/_layouts/15/online/AdminHome.aspx#/siteManagement/:/SiteDetails/${ctx.siteId.replace(
-                  /[{}]/g,
-                  ''
-                )}/Settings`
-            : null
+          ctx && ctx.isSPO && ctx.portalUrl && ctx.siteId
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              `/_layouts/15/online/AdminHome.aspx#/siteManagement/:/SiteDetails/${ctx.siteId.replace(
+                /[{}]/g,
+                ''
+              )}/Settings`
+            : ''
         }
       />
       <QuickLinkButton
         text={'Site contents'}
         iconName={'ThumbnailView'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/15/viewlsts.aspx'}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/viewlsts.aspx' : ''}
       />
       <QuickLinkButton
         text={'Recycle bin'}
         iconName={'RecycleBin'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/15/AdminRecycleBin.aspx?view=5'}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/AdminRecycleBin.aspx?view=5' : ''}
       />
       <QuickLinkButton
         text={'All People'}
         iconName={'People'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/people.aspx?MembershipGroupId=0'}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/people.aspx?MembershipGroupId=0' : ''}
       />
       <QuickLinkButton
         text={'Storage metrics'}
         iconName={'StackedBarChart'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
-        url={ctx.webAbsoluteUrl + '/_layouts/15/storman.aspx'}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/storman.aspx' : ''}
       />
       <Separator alignContent="start" styles={separatorStyles}>
         Current user
@@ -184,13 +190,12 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
       <QuickLinkButton
         text={'Edit user profile'}
         iconName={'EditContact'}
-        disabled={!ctx}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
         url={
-          ctx.isSPO
-            ? ctx.portalUrl &&
-              ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-my.sharepoint.') +
-                '_layouts/15/editprofile.aspx?UserSettingsProvider=dfb95e82-8132-404b-b693-25418fdac9b6'
-            : ctx.ProfileUrl
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-my.sharepoint.') +
+              '_layouts/15/editprofile.aspx?UserSettingsProvider=dfb95e82-8132-404b-b693-25418fdac9b6'
+            : ctx?.ProfileUrl || ''
         }
       />
       <QuickLinkButton
@@ -198,9 +203,11 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         iconName={'Signin'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
         url={
-          ctx.webAbsoluteUrl +
-          '/_layouts/closeConnection.aspx?loginasanotheruser=true&source=' +
-          encodeURIComponent(ctx.webAbsoluteUrl)
+          ctx && ctx.webAbsoluteUrl
+            ? ctx.webAbsoluteUrl +
+              '/_layouts/closeConnection.aspx?loginasanotheruser=true&source=' +
+              encodeURIComponent(ctx.webAbsoluteUrl)
+            : ''
         }
         newWTab={false}
       />
@@ -211,25 +218,25 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         text={'?MaintenanceMode=true'}
         iconName={'Repair'}
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={tabUrl + (tabUrl && tabUrl.indexOf('?') > -1 ? '&' : '?') + 'maintenancemode=true'}
+        url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'maintenancemode=true' : ''}
       />
       <QuickLinkButton
         text={'?env=WebView'}
         iconName={'Repair'}
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={tabUrl + (tabUrl && tabUrl.indexOf('?') > -1 ? '&' : '?') + 'env=WebView'}
+        url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'env=WebView' : ''}
       />
       <QuickLinkButton
         text={'?env=WebViewList'}
         iconName={'Repair'}
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={tabUrl + (tabUrl && tabUrl.indexOf('?') > -1 ? '&' : '?') + 'env=WebViewList'}
+        url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'env=WebViewList' : ''}
       />
       <QuickLinkButton
         text={'?disable3PCode=1'}
         iconName={'Repair'}
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={tabUrl + (tabUrl && tabUrl.indexOf('?') > -1 ? '&' : '?') + 'disable3PCode=1'}
+        url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'disable3PCode=1' : ''}
       />
     </ScrollablePane>
   ) : (
