@@ -1,7 +1,7 @@
 import { IonContent, IonPage } from '@ionic/react';
 import Header from '../../components/header';
 import LoadingSpinner from '../../components/loadingSpinner';
-import FolderTree from './components/foldertree';
+import FolderTree from './components/tree';
 
 const FileExplorer = () => {
   return (
