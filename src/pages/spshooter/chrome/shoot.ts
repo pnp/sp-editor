@@ -14,7 +14,7 @@ export const shoot = (payload: any, extPath: string) => {
     /*** custom httpHandler ***/
     const rawFetchHandler = () => {
       return (instance: Queryable.Queryable) => {
-        instance.using(pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
+        instance.using(pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.JSONParse(), pnpsp.RequestDigest());
         instance.on.pre.prepend(async (url, init, result) => {
           if (url.indexOf('###') > -1) {
             return [url.substring(url.indexOf("###") + 3), init, result];

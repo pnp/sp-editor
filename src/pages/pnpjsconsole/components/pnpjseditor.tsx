@@ -27,6 +27,7 @@ import {
   pnpjsMonacoConfigs,
   sj,
 } from './utils'
+import { CommandBar } from '@fluentui/react'
 
 const PnPjsEditor = () => {
   const dispatch = useDispatch()
@@ -122,46 +123,14 @@ const PnPjsEditor = () => {
           }
         })
 
+        editor.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        });
+
         // tslint:disable-next-line:no-bitwise
         editor.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
-          try {
-            const model = editor.current!.getModel()!.getValue()
-            const compilerOptions: CompilerOptions = getDefaultCompilerOptions()
-            const js = transpileModule(model, {
-              compilerOptions,
-            })
+          runCode()
 
-            const lines = js.outputText.split('\n')
-            const ecode: string[] = []
-            const prepnp: string[] = fixImports(lines, ecode)
 
-            ecode.pop() // remove the last empty line
-
-            const script = `
-            ${mod_graph}
-            ${mod_logging}
-            ${mod_sp}
-            ${mod_spadmin}
-            ${mod_spadmin}
-            ${mod_queryable}
-            ${mod_core}
-            ${mod_msaljsclient}
-            ${sj}
-            ${exescript}
-            ${execme(prepnp, ecode)}
-            ${exescript.name}(execme);`
-
-            // console.log(script)
-
-            // execute the code
-            chrome.devtools.inspectedWindow.eval(script)
-            // show loading for a sec to make user know the code is being executed
-            dispatch(setLoading(true))
-            setTimeout(() => { dispatch(setLoading(false)) }, 1200)
-
-          } catch (e) {
-            //console.log(e)
-          }
 
         })
         // trigget resize to make editor visible (bug in monaco 0.20.0?)
@@ -169,6 +138,47 @@ const PnPjsEditor = () => {
       }
     }
   }, [COMMON_CONFIG, definitions, dispatch, stateCode])
+
+  function runCode() {
+    try {
+      const model = editor.current!.getModel()!.getValue();
+      const compilerOptions: CompilerOptions = getDefaultCompilerOptions();
+      const js = transpileModule(model, {
+        compilerOptions,
+      });
+
+      const lines = js.outputText.split('\n');
+      const ecode: string[] = [];
+      const prepnp: string[] = fixImports(lines, ecode);
+
+      ecode.pop(); // remove the last empty line
+
+      const script = `
+    ${mod_graph}
+    ${mod_logging}
+    ${mod_sp}
+    ${mod_spadmin}
+    ${mod_spadmin}
+    ${mod_queryable}
+    ${mod_core}
+    ${mod_msaljsclient}
+    ${sj}
+    ${exescript}
+    ${execme(prepnp, ecode)}
+    ${exescript.name}(execme);`;
+
+      // console.log(script)
+      // execute the code
+      chrome.devtools.inspectedWindow.eval(script);
+      // show loading for a sec to make user know the code is being executed
+      dispatch(setLoading(true));
+      setTimeout(() => {
+        dispatch(setLoading(false));
+      }, 1200);
+    } catch (e) {
+      //console.log(e)
+    }
+  }
 
   // this will run always when the isDark changes
   useEffect(() => {
@@ -197,8 +207,20 @@ const PnPjsEditor = () => {
   }, [definitions, dispatch, initEditor, initialized])
 
   return (
-    <div ref={outputDiv} style={{ width: '100%', height: '100%' }} />
-  )
+    <>
+      <CommandBar
+        items={[
+          {
+            key: 'run',
+            text: 'Run code',
+            iconProps: { iconName: 'SetAction' },
+            onClick: () => runCode(),
+          },
+        ]}
+      />
+      <div ref={outputDiv} style={{ width: '100%', height: '100%' }} />
+    </>
+  );
 }
 
 export default PnPjsEditor

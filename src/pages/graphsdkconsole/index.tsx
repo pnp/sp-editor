@@ -10,7 +10,6 @@ const GraphSDKConsole = () => {
   return (
     <IonPage>
       <Header title={'Graph SDK Console'} showOnLoad={false} headline='' content=''/>
-      <GraphSDKCommands />
       <IonContent>
         <LoadingSpinner />
         <GraphSDKEditor />

@@ -32,8 +32,21 @@ export function setSelectedFile(file: IFile | undefined) {
   })
 }
 
-export function setSelectedFileContent(content: string) {
+export function setSelectedFolder(folder: IFile | undefined) {
+  return action(Constants.FE_SET_SELECTED_FOLDER, {
+    folder,
+  })
+}
+
+export function setWebServerRelativeUrl(webServerRelativeUrl: string) {
+  return action(Constants.FE_SET_SITESERVER_RELATIVE_URL, {
+    webServerRelativeUrl,
+  })
+}
+
+export function setSelectedFileContent(content: string, loadedContent?: string) {
   return action(Constants.FE_SET_SELECTED_FILE_CONTENT, {
     content,
+    loadedContent
   })
 }

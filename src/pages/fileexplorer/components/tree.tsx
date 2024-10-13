@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@vscode/codicons/dist/codicon.css';
-import { ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
+import { DefaultButton, Dialog, DialogFooter, Pivot, PivotItem, PrimaryButton, ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { getAllFiles, getFile, updateFileContent } from '../chrome/chrome-actions';
@@ -8,6 +8,7 @@ import { IFile } from '../../../store/fileexplorer/types';
 import * as actions from '../../../store/fileexplorer/actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
+import { setSelectedFileContent, setSelectedFolder } from '../../../store/fileexplorer/actions';
 
 const FolderTree: React.FC = () => {
   const { isDark } = useSelector((state: IRootState) => state.home);
@@ -32,11 +33,16 @@ const FolderTree: React.FC = () => {
   }, []);
 
   const toggleFolder = (selected: IFile) => {
-    if (!selected.toggled) {
-      getAllFiles(dispatch, selected.id, selected.webId, selected.type, selected.ServerRelativeUrl);
+    if (selected.id === 'root') {
+      //dispatch(actions.updateToggle(selected.id));
     } else {
-      dispatch(actions.updateToggle(selected.id));
+      if (!selected.toggled) {
+        getAllFiles(dispatch, selected.id, selected.webId, selected.type, selected.ServerRelativeUrl);
+      } else {
+        dispatch(actions.updateToggle(selected.id));
+      }
     }
+    dispatch(actions.setSelectedFolder(selected));
   };
 
   useEffect(() => {
@@ -80,13 +86,13 @@ const FolderTree: React.FC = () => {
       fileEditorRef?.current?.setScrollTop(0);
       fileEditorRef?.current?.setScrollLeft(0);
     }
-  }, [selectedFile]);
+  }, [selectedFile?.id]);
 
   const renderTree = (nodes: IFile[]): JSX.Element[] => {
-    return nodes.map((node) => {
+    return nodes.map((node, index) => {
       if (node.type === 'folder' || node.type === 'web') {
         return (
-          <div key={node.id} style={{ paddingLeft: '20px' }}>
+          <div key={`${node.id}-${index}`} style={{ paddingLeft: '20px' }}>
             <div
               onClick={() => toggleFolder(node)}
               style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', marginBottom: '4px' }}
@@ -102,11 +108,16 @@ const FolderTree: React.FC = () => {
                 style={{ marginRight: '5px' }}
               ></i>
               <i
-                className={`codicon ${node.type === 'folder' ? 'codicon-folder' : 'codicon-globe'}`}
+                className={`codicon ${
+                  node.id === 'root' ? 'codicon-globe' : node.type === 'folder' ? node.toggled ? 'codicon-folder-opened' : 'codicon-folder' : 'codicon-globe'
+                }`}
                 style={{ marginRight: '5px' }}
               ></i>
               <span
+                title={node.ServerRelativeUrl}
                 style={{
+                  marginLeft: '5px',
+                  fontSize: '16px',
                   display: 'inline',
                   whiteSpace: 'nowrap',
                   overflow: 'visible',
@@ -119,7 +130,7 @@ const FolderTree: React.FC = () => {
                   (e.currentTarget as HTMLElement).style.fontWeight = 'normal';
                 }}
               >
-                {node.name}
+                {node.name.replace(/^\//, '')}
               </span>
             </div>
             {node.toggled && node.children && renderTree(node.children)}
@@ -128,6 +139,7 @@ const FolderTree: React.FC = () => {
       }
       return (
         <div
+          title={node.ServerRelativeUrl}
           key={node.id}
           style={{
             cursor: 'pointer',
@@ -141,17 +153,30 @@ const FolderTree: React.FC = () => {
             (e.currentTarget as HTMLElement).style.fontWeight = 'bold';
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.fontWeight = selectedFile && node.id === selectedFile.id ? 'bold' : 'normal';
+            (e.currentTarget as HTMLElement).style.fontWeight =
+              selectedFile && node.id === selectedFile.id ? 'bold' : 'normal';
           }}
         >
-          <i className="codicon codicon-file" style={{ marginRight: '5px' }}></i>
+          <i
+            className="codicon codicon-file"
+            style={{
+              marginRight: '5px',
+              color:
+                node.fileInfo?.CustomizedPageStatus === 1
+                  ? 'red'
+                  : node.fileInfo?.CustomizedPageStatus === 2
+                  ? 'yellow'
+                  : undefined,
+            }}
+          ></i>
           <span
             style={{
+              marginLeft: '5px',
               display: 'inline',
               whiteSpace: 'nowrap',
               overflow: 'visible',
             }}
-            onClick={() => { 
+            onClick={() => {
               fileEditorRef.current?.setValue('');
               fileEditorRef?.current?.setScrollTop(0);
               fileEditorRef?.current?.setScrollLeft(0);
@@ -206,40 +231,21 @@ const FolderTree: React.FC = () => {
         window.dispatchEvent(new Event('resize'));
       }, 1);
 
+      fileEditorRef.current.onDidChangeModelContent(() => {
+        const content = fileEditorRef.current!.getValue();
+        if (content !== selectedFileRef.current?.content) {
+          dispatch(setSelectedFileContent(content));
+        }
+      });
+
       // Save file on Ctrl+S
       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         updateFileContent(dispatch, selectedFileRef.current as IFile, fileEditorRef.current?.getValue() || '');
       });
 
-      // Save file on Ctrl+S
       fileEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD, () => {
-        const filename = selectedFileRef.current?.ServerRelativeUrl.split('/').pop();
-        const extension = filename!.split('.').pop();
-        const url = `data:text/${extension};base64, ${btoa(fileEditorRef?.current?.getValue() || '')}`;
+        downloadFile();
 
-        chrome.downloads
-          .download({
-            url: url,
-            filename: filename,
-          })
-          .then(() => {
-            dispatch(
-              rootActions.setAppMessage({
-                showMessage: true,
-                message: 'File downloaded successfully!',
-                color: MessageBarColors.success,
-              })
-            );
-          })
-          .catch((error) => {
-            dispatch(
-              rootActions.setAppMessage({
-                showMessage: true,
-                message: 'File download failed!',
-                color: MessageBarColors.danger,
-              })
-            );
-          });
       });
     }
   }, []);
@@ -249,8 +255,38 @@ const FolderTree: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function downloadFile() {
+    const filename = selectedFileRef.current?.ServerRelativeUrl.split('/').pop();
+    const extension = filename!.split('.').pop();
+    const url = `data:text/${extension};base64, ${btoa(fileEditorRef?.current?.getValue() || '')}`;
+
+    chrome.downloads
+      .download({
+        url: url,
+        filename: filename,
+      })
+      .then(() => {
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: 'File downloaded successfully!',
+            color: MessageBarColors.success,
+          })
+        );
+      })
+      .catch((error) => {
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: 'File download failed!',
+            color: MessageBarColors.danger,
+          })
+        );
+      });
+  }
+
   return (
-    <Stack grow horizontal style={{ height: '100%', marginTop: '10px' }}>
+    <Stack grow horizontal style={{ height: '100%' }}>
       <Stack style={{ minWidth: '350px' }}>
         <ScrollablePane
           scrollbarVisibility={ScrollbarVisibility.always}
@@ -276,7 +312,14 @@ const FolderTree: React.FC = () => {
           minWidth: 'calc(100% - 350px)',
         }}
       >
-        <div ref={fileEditorDiv} style={{ flexGrow: 1, flexShrink: 1, width: '100%', height: 'calc(100vh - 90px)' }} />
+        <Pivot>
+          <PivotItem headerText={selectedFile?.ServerRelativeUrl}>
+            <div
+              ref={fileEditorDiv}
+              style={{ flexGrow: 1, flexShrink: 1, width: '100%', height: 'calc(100vh - 200px)' }}
+            />
+          </PivotItem>
+        </Pivot>
       </Stack>
     </Stack>
   );

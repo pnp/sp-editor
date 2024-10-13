@@ -158,7 +158,7 @@ const ScriptLinkList = () => {
             isHeaderVisible={true}
             enterModalSelectionOnTouch={true}
             onItemInvoked={(item: IScriptLink) => {
-              if (item.Scope === 3) {
+              if (item.Location === 'ClientSideExtension.ApplicationCustomizer') {
                 dispatch(rootActions.setAppMessage({
                   showMessage: true,
                   message: 'Application Customizer cannot be edited! You can delete it though.',

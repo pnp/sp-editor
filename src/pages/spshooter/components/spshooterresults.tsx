@@ -78,6 +78,9 @@ const SPShooterResults = () => {
         ...COMMON_CONFIG,
       })
 
+      editor.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      });
+
       if (editor && editor.current) {
         // trigget resize to make editor visible (bug in monaco 0.20.0?)
         setTimeout(() => { window.dispatchEvent(new Event('resize')) }, 1)
@@ -96,6 +99,10 @@ const SPShooterResults = () => {
         ),
         ...COMMON_CONFIG,
       })
+
+      editorBody.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      });
+
       editorBody.current.onDidChangeModelContent(() => {
         dispatch(setBody(editorBody.current!.getValue()))
         // alert(editorBody.current?.getValue())
@@ -118,6 +125,10 @@ const SPShooterResults = () => {
         ),
         ...COMMON_CONFIG,
       })
+
+      editorHeaders.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      });
+
       editorHeaders.current.onDidChangeModelContent(() => {
         dispatch(setHeaders(editorHeaders.current!.getValue()))
         // alert(editorBody.current?.getValue())

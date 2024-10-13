@@ -6,6 +6,8 @@ import { HomeActions, MessageBarColors } from '../../../store/home/types';
 import { getFiles } from './getfiles';
 import { getFileContent } from './getFileContent';
 import { updateFile } from './updateFile';
+import { createFolder } from './createFolder';
+import { deleteFolder } from './deleteFolder';
 
 export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeActions>, id: string = '', webId: string = '', type: string = '', relativeUrl: string = '') {
 
@@ -34,7 +36,7 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
           dispatch(actions.setAllFiles([]));
         } else {
           // here, conver res to IFile[]
-          const files: IFile[] = res as IFile[]
+          const files: IFile[] = res as IFile[];
           const typeOrder = ['folder', 'web', 'file'];
 
           // Sort the files array
@@ -44,8 +46,11 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
             if (typeComparison !== 0) return typeComparison;
             // If types are the same, sort alphabetically by name
             return a.name.localeCompare(b.name);
-          });   
-          
+          });
+
+          if (sortedFiles.length > 0) {
+            dispatch(actions.setWebServerRelativeUrl(sortedFiles[0].webServerRelativeUrl));
+          }
           if (webId) {
             // add scriptlinks to state
             dispatch(actions.addItemsToChildren(id, sortedFiles));
@@ -54,8 +59,27 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
 
             //dispatch(actions.updateLoading(id));
           } else {
-            // add webproperties to state
-            dispatch(actions.setAllFiles(sortedFiles));
+            const rootItem: IFile = {
+              id: 'root',
+              name: sortedFiles[0].webServerRelativeUrl === '/' ? 'root' : sortedFiles[0].webServerRelativeUrl,
+              type: 'folder',
+              children: sortedFiles,
+              ServerRelativeUrl: '',
+              webId: '',
+              webUrl: '',
+              parent: 0,
+              droppable: false,
+              text: '',
+              toggled: true,
+              loading: false,
+              content: '',
+              loadedContent: '',
+              portalUrl: '',
+              webServerRelativeUrl: '',
+              fileInfo: undefined,
+            };
+            dispatch(actions.setSelectedFolder(rootItem));
+            dispatch(actions.setAllFiles([rootItem]));
           }
         }
         // hide loading component
@@ -67,6 +91,7 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
 export async function getFile(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile) {
 
   dispatch(rootActions.setLoading(true));
+  dispatch(actions.setSelectedFile(undefined));
 
   chrome.scripting
     .executeScript({
@@ -86,12 +111,18 @@ export async function getFile(dispatch: Dispatch<FileExplorerActions | HomeActio
               color: MessageBarColors.danger,
             })
           );
-          dispatch(actions.setSelectedFile(undefined));
-          dispatch(actions.setSelectedFileContent(''));
         } else {
           dispatch(actions.setSelectedFile(file));
-          dispatch(actions.setSelectedFileContent(res));
+          dispatch(actions.setSelectedFileContent(res, res));
         }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      } else {
+        // file content was empty
+        const res = injectionResults[0].result as any;
+        dispatch(actions.setSelectedFile(file));
+        dispatch(actions.setSelectedFileContent(res, res));
+
         // hide loading component
         dispatch(rootActions.setLoading(false));
       }
@@ -128,6 +159,106 @@ export async function updateFileContent(dispatch: Dispatch<FileExplorerActions |
               color: MessageBarColors.success,
             })
           );
+        }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      }
+    });
+}
+
+export async function addFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, name: string) {
+
+  dispatch(rootActions.setLoading(true));
+  const sanitizedServerRelativeUrl = file.ServerRelativeUrl
+    ? file.ServerRelativeUrl.replace(/\/+$/, '')
+    : file.name === 'root'
+    ? '/'
+    : file.name.replace(/\/+$/, '');
+  const fullUrl = sanitizedServerRelativeUrl + '/' + name;
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+      world: 'MAIN',
+      args: [chrome.runtime.getURL(''), fullUrl, file.webId],
+      func: createFolder,
+    })
+    .then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any;
+        if (res.success === false) {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: res.errorMessage,
+              color: MessageBarColors.danger,
+            })
+          );
+        } else {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: 'Folder added successfully!',
+              color: MessageBarColors.success,
+            })
+          );
+          if (file.id !== 'root') {
+            dispatch(actions.updateToggle(file.id));
+            getAllFiles(dispatch, file.id, file.webId, file.type, file.ServerRelativeUrl);
+          } else {
+            getAllFiles(dispatch);
+          }
+
+        }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      }
+    });
+}
+
+export async function removeFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile,) {
+
+  dispatch(rootActions.setLoading(true));
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+      world: 'MAIN',
+      args: [chrome.runtime.getURL(''), file.ServerRelativeUrl, file.webId],
+      func: deleteFolder,
+    })
+    .then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any;
+        if (res.success === false) {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: res.errorMessage,
+              color: MessageBarColors.danger,
+            })
+          );
+        } else {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: 'Folder deleted successfully!',
+              color: MessageBarColors.success,
+            })
+          );
+          if (file.parentFile && file.parentFile?.id !== 'root') {
+            dispatch(actions.updateToggle(file.parentFile.id));
+            dispatch(actions.setSelectedFolder(file.parentFile));
+            getAllFiles(
+              dispatch,
+              file.parentFile?.id,
+              file.parentFile?.webId,
+              file.parentFile?.type,
+              file.parentFile?.ServerRelativeUrl
+            );
+          } else {
+            getAllFiles(dispatch);
+          }
         }
         // hide loading component
         dispatch(rootActions.setLoading(false));
