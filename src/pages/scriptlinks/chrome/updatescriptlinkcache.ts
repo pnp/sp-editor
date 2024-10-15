@@ -51,6 +51,9 @@ export const updateCacheCustomAction = (values: any, extPath: string) => {
       }
 
       ucas.forEach((uc: IScriptLink) => {
+        if(uc.Location === 'ClientSideExtension.ApplicationCustomizer'){
+          return;
+        }
         const scope = uc.Scope
         let url = uc.Url
         const id = uc.Id

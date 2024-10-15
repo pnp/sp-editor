@@ -1,4 +1,4 @@
-import { AccountInfo } from "@azure/msal-common";
+import { AccountInfo } from "@azure/msal-common/browser";
 /**
  * ClearCacheRequest
  * - correlationId          - Unique GUID set per request to trace a request end-to-end for telemetry purposes.

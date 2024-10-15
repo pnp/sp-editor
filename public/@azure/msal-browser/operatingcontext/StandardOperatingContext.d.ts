@@ -1,4 +1,4 @@
-import { BaseOperatingContext } from "./BaseOperatingContext";
+import { BaseOperatingContext } from "./BaseOperatingContext.js";
 export declare class StandardOperatingContext extends BaseOperatingContext {
     static readonly MODULE_NAME: string;
     /**

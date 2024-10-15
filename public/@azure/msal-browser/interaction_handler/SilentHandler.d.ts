@@ -1,4 +1,4 @@
-import { Logger, IPerformanceClient, ServerResponseType } from "@azure/msal-common";
+import { Logger, IPerformanceClient, ServerResponseType } from "@azure/msal-common/browser";
 /**
  * Creates a hidden iframe to given URL using user-requested scopes as an id.
  * @param urlNavigate

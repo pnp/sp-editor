@@ -1,4 +1,4 @@
-import { IAsyncStorage } from "./IAsyncStorage";
+import { IAsyncStorage } from "./IAsyncStorage.js";
 /**
  * Storage wrapper for IndexedDB storage in browsers: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
  */

@@ -1,7 +1,7 @@
-import { ICrypto, Logger } from "@azure/msal-common";
-import { InteractionType } from "../utils/BrowserConstants";
-import { EventCallbackFunction, EventError, EventPayload } from "./EventMessage";
-import { EventType } from "./EventType";
+import { ICrypto, Logger } from "@azure/msal-common/browser";
+import { InteractionType } from "../utils/BrowserConstants.js";
+import { EventCallbackFunction, EventError, EventPayload } from "./EventMessage.js";
+import { EventType } from "./EventType.js";
 export declare class EventHandler {
     private eventCallbacks;
     private logger;

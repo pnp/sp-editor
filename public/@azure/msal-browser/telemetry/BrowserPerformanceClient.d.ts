@@ -1,5 +1,5 @@
-import { InProgressPerformanceEvent, IPerformanceClient, PerformanceClient, PerformanceEvents } from "@azure/msal-common";
-import { Configuration } from "../config/Configuration";
+import { InProgressPerformanceEvent, IPerformanceClient, PerformanceClient, PerformanceEvents } from "@azure/msal-common/browser";
+import { Configuration } from "../config/Configuration.js";
 export declare class BrowserPerformanceClient extends PerformanceClient implements IPerformanceClient {
     constructor(configuration: Configuration, intFields?: Set<string>, abbreviations?: Map<string, string>);
     generateId(): string;

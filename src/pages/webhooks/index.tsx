@@ -10,7 +10,7 @@ import WebHooksList from './components/webhookslist'
 const Webhooks = () => {
   return (
     <IonPage>
-      <Header title={"Webhooks"} />
+      <Header title={"Webhooks"} showOnLoad={false} headline='' content=''/>
       {/* Actions menu */}
       <WebhooksCommands />
       <IonContent>

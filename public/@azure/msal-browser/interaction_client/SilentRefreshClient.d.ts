@@ -1,6 +1,6 @@
-import { StandardInteractionClient } from "./StandardInteractionClient";
-import { CommonSilentFlowRequest, ServerTelemetryManager, RefreshTokenClient, AzureCloudOptions, AccountInfo } from "@azure/msal-common";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { StandardInteractionClient } from "./StandardInteractionClient.js";
+import { CommonSilentFlowRequest, ServerTelemetryManager, RefreshTokenClient, AzureCloudOptions, AccountInfo, StringDict } from "@azure/msal-common/browser";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export declare class SilentRefreshClient extends StandardInteractionClient {
     /**
      * Exchanges the refresh token for new tokens
@@ -13,9 +13,20 @@ export declare class SilentRefreshClient extends StandardInteractionClient {
     logout(): Promise<void>;
     /**
      * Creates a Refresh Client with the given authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param authorityUrl
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         authorityUrl?: string;
+     *         azureCloudOptions?: AzureCloudOptions;
+     *         extraQueryParams?: StringDict;
+     *         account?: AccountInfo;
+     *        }
      */
-    protected createRefreshTokenClient(serverTelemetryManager: ServerTelemetryManager, authorityUrl?: string, azureCloudOptions?: AzureCloudOptions, account?: AccountInfo): Promise<RefreshTokenClient>;
+    protected createRefreshTokenClient(params: {
+        serverTelemetryManager: ServerTelemetryManager;
+        authorityUrl?: string;
+        azureCloudOptions?: AzureCloudOptions;
+        extraQueryParameters?: StringDict;
+        account?: AccountInfo;
+    }): Promise<RefreshTokenClient>;
 }
 //# sourceMappingURL=SilentRefreshClient.d.ts.map

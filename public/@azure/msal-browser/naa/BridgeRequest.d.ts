@@ -1,4 +1,4 @@
-import { BridgeResponseEnvelope } from "./BridgeResponseEnvelope";
+import { BridgeResponseEnvelope } from "./BridgeResponseEnvelope.js";
 export type BridgeRequest = {
     requestId: string;
     method: string;

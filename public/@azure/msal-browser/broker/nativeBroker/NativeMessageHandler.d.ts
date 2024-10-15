@@ -1,6 +1,6 @@
-import { Logger, AuthenticationScheme, IPerformanceClient } from "@azure/msal-common";
-import { NativeExtensionRequestBody } from "./NativeRequest";
-import { BrowserConfiguration } from "../../config/Configuration";
+import { Logger, AuthenticationScheme, IPerformanceClient } from "@azure/msal-common/browser";
+import { NativeExtensionRequestBody } from "./NativeRequest.js";
+import { BrowserConfiguration } from "../../config/Configuration.js";
 export declare class NativeMessageHandler {
     private extensionId;
     private extensionVersion;

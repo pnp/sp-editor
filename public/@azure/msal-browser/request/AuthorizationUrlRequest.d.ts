@@ -1,4 +1,4 @@
-import { CommonAuthorizationUrlRequest } from "@azure/msal-common";
+import { CommonAuthorizationUrlRequest } from "@azure/msal-common/browser";
 /**
  * This type is deprecated and will be removed on the next major version update
  */

@@ -1,4 +1,4 @@
-import { ICrypto, IPerformanceClient, Logger, ShrOptions, SignedHttpRequest, SignedHttpRequestParameters } from "@azure/msal-common";
+import { ICrypto, IPerformanceClient, Logger, ShrOptions, SignedHttpRequest, SignedHttpRequestParameters } from "@azure/msal-common/browser";
 export type CachedKeyPair = {
     publicKey: CryptoKey;
     privateKey: CryptoKey;

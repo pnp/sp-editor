@@ -27,18 +27,21 @@ export async function getAllScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
       if (res.success) {
         /* on success */
         const scriptLinks: IScriptLink[] = res.result.map((uca: IScriptLink) => {
-          if (uca && uca.ScriptBlock && uca.ScriptBlock.toLocaleLowerCase().indexOf('href="') > -1) {
-            let url = uca.ScriptBlock.substring(uca.ScriptBlock.toLocaleLowerCase().indexOf('href="'))
-            url = url.substring(url.indexOf('"') + 1)
-            url = url.substring(0, url.indexOf('"'))
-            uca.Url = url
+          if (uca.Location === 'ClientSideExtension.ApplicationCustomizer') {
+            uca.Url = uca.Title;
+          } else if (uca && uca.ScriptBlock && uca.ScriptBlock.toLocaleLowerCase().indexOf('href="') > -1) {
+            let url = uca.ScriptBlock.substring(uca.ScriptBlock.toLocaleLowerCase().indexOf('href="'));
+            url = url.substring(url.indexOf('"') + 1);
+            url = url.substring(0, url.indexOf('"'));
+            uca.Url = url;
           } else {
-            uca.Url = uca.ScriptSrc
+            uca.Url = uca.ScriptSrc;
           }
-          uca.ScopeName = uca.Scope === 2 ? 'Site Collection' : 'Current Web'
+          uca.ScopeName =
+            uca.Scope === 2 ? 'Site Collection' : uca.Scope === 3 && uca.Location === 'ClientSideExtension.ApplicationCustomizer' ? 'Application Customizer' : 'Current Web';
           // TODO: what to do with other custom actions?
-          return uca
-        })
+          return uca;
+        });
         // add scriptlinks to state
         dispatch(actions.setAllScriptLinks(scriptLinks))
         // hide loading component

@@ -1,5 +1,5 @@
-import { InteractionType } from "./BrowserConstants";
-import { ICrypto } from "@azure/msal-common";
+import { InteractionType } from "./BrowserConstants.js";
+import { ICrypto } from "@azure/msal-common/browser";
 export type BrowserStateObject = {
     interactionType: InteractionType;
 };

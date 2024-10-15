@@ -1,9 +1,9 @@
-import { ICrypto, Logger, ExternalTokenResponse } from "@azure/msal-common";
-import { BrowserConfiguration } from "../config/Configuration";
-import { SilentRequest } from "../request/SilentRequest";
-import { BrowserCacheManager } from "./BrowserCacheManager";
-import { ITokenCache } from "./ITokenCache";
-import { AuthenticationResult } from "../response/AuthenticationResult";
+import { ICrypto, Logger, ExternalTokenResponse } from "@azure/msal-common/browser";
+import { BrowserConfiguration } from "../config/Configuration.js";
+import { SilentRequest } from "../request/SilentRequest.js";
+import { BrowserCacheManager } from "./BrowserCacheManager.js";
+import { ITokenCache } from "./ITokenCache.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
 export type LoadTokenOptions = {
     clientInfo?: string;
     expiresOn?: number;

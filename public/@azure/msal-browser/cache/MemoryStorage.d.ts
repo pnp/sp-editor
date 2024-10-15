@@ -1,4 +1,4 @@
-import { IWindowStorage } from "./IWindowStorage";
+import { IWindowStorage } from "./IWindowStorage.js";
 export declare class MemoryStorage<T> implements IWindowStorage<T> {
     private cache;
     constructor();

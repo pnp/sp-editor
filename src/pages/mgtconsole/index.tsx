@@ -8,7 +8,7 @@ import MGTEditor from './components/mgteditor'
 const MGTConsole = () => {
   return (
     <IonPage>
-      <Header title={'MGT React Playground'} />
+      <Header title={'MGT React Playground'} showOnLoad={false} headline='' content=''/>
       <IonContent>
         <LoadingSpinner />
         <MGTEditor />

@@ -1,5 +1,5 @@
-import { Logger } from "@azure/msal-common";
-import { IAsyncStorage } from "./IAsyncStorage";
+import { Logger } from "@azure/msal-common/browser";
+import { IAsyncStorage } from "./IAsyncStorage.js";
 /**
  * This class allows MSAL to store artifacts asynchronously using the DatabaseStorage IndexedDB wrapper,
  * backed up with the more volatile MemoryStorage object for cases in which IndexedDB may be unavailable.

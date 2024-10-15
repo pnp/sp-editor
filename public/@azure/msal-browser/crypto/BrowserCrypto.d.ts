@@ -1,4 +1,4 @@
-import { IPerformanceClient, Logger } from "@azure/msal-common";
+import { IPerformanceClient, Logger } from "@azure/msal-common/browser";
 /**
  * Check whether browser crypto is available.
  */

@@ -1,5 +1,5 @@
-import { AccountInfo, AccountFilter, Logger } from "@azure/msal-common";
-import { BrowserCacheManager } from "./BrowserCacheManager";
+import { AccountInfo, AccountFilter, Logger } from "@azure/msal-common/browser";
+import { BrowserCacheManager } from "./BrowserCacheManager.js";
 /**
  * Returns all the accounts in the cache that match the optional filter. If no filter is provided, all accounts are returned.
  * @param accountFilter - (Optional) filter to narrow down the accounts returned

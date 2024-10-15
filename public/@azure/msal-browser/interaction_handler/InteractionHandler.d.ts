@@ -1,7 +1,7 @@
-import { AuthorizationCodePayload, CommonAuthorizationCodeRequest, AuthorizationCodeClient, CcsCredential, Logger, IPerformanceClient, ServerAuthorizationCodeResponse } from "@azure/msal-common";
-import { BrowserCacheManager } from "../cache/BrowserCacheManager";
-import { AuthenticationResult } from "../response/AuthenticationResult";
-import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest";
+import { AuthorizationCodePayload, CommonAuthorizationCodeRequest, AuthorizationCodeClient, CcsCredential, Logger, IPerformanceClient, ServerAuthorizationCodeResponse } from "@azure/msal-common/browser";
+import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
+import { AuthenticationResult } from "../response/AuthenticationResult.js";
+import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest.js";
 /**
  * Abstract class which defines operations for a browser interaction handling class.
  */
