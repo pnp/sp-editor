@@ -4,92 +4,21 @@ import {
   Dialog,
   DialogFooter,
   DialogType,
+  Link,
   MessageBar,
   MessageBarType,
   PrimaryButton,
   TextField,
 } from '@fluentui/react';
 import { useEffect, useState } from 'react';
-import { IQuickLinkListProps } from './Actions';
-import { buttonStyles } from './QuickLinkButton';
+import { IQuickLinkListProps } from '../Actions';
+import { buttonStyles } from '../QuickLinkButton';
 import {
-  TranslationsSearchAPIResponse,
-  TranslationsItemAPIResponse,
-  TranslationsAPIResponse,
   TranslationsResponses,
 } from './types';
+import { getTranslations, updateTranslationValues } from './services';
 
-async function getTranslations(
-  siteUrl: string,
-  pageId: number,
-  pageListId: string
-): Promise<TranslationsResponses | any> {
-  try {
-    const DEFAULTHEADERS = {
-      accept: 'application/json;odata=nometadata',
-      'content-type': 'application/json;odata=nometadata',
-      'X-ClientService-ClientTag': 'SPEDITOR',
-    };
-
-    const translationsAPI: TranslationsAPIResponse = await fetch(
-      siteUrl + `/_api/sitepages/pages(${pageId})/translations`,
-      {
-        method: 'GET',
-        headers: DEFAULTHEADERS,
-      }
-    ).then((response) => response.json());
-
-    const itemAPI: TranslationsItemAPIResponse = await fetch(
-      siteUrl + `/_api/web/lists('${pageListId}')/items(${pageId})?$select=OData__SPTranslatedLanguages,OData__SPIsTranslation,UniqueId`,
-      {
-        method: 'GET',
-        headers: DEFAULTHEADERS,
-      }
-    ).then((response) => response.json());
-  
-    const searchAPI: TranslationsSearchAPIResponse = await fetch(
-      siteUrl +
-        `/_api/search/query?querytext='NormUniqueID:${itemAPI.UniqueId}'&selectproperties='SPTranslatedLanguages'`,
-      {
-        method: 'GET',
-        headers: DEFAULTHEADERS,
-      }
-    ).then((response) => response.json());
-
-    const languagesFromSearch =
-      searchAPI.PrimaryQueryResult.RelevantResults.Table.Rows[0].Cells.filter(
-        (c) => c.Key === 'SPTranslatedLanguages'
-      )[0]?.Value?.split(/\r?\n/).filter(e => e) || [];
-
-    return {
-      isTranslationMasterPage: itemAPI.OData__SPIsTranslation ? false : true,
-      translationsAPI: translationsAPI.Items.map((i) => i.Culture),
-      itemAPI: itemAPI.OData__SPTranslatedLanguages || [],
-      searchAPI: languagesFromSearch,
-    };
-  } catch (ex) {}
-  return undefined;
-}
-
-async function updateTranslationValues(siteUrl: string, pageId: number) {
-  const DEFAULTHEADERS = {
-    accept: 'application/json;odata=nometadata',
-    'content-type': 'application/json;odata=nometadata',
-    'X-ClientService-ClientTag': 'SPEDITOR',
-  };
-
-  const ctxInfo = await fetch(siteUrl + '/_api/contextinfo', {
-    method: 'POST',
-    headers: DEFAULTHEADERS,
-  }).then((response) => response.json());
-  const requestDigest = ctxInfo.FormDigestValue;
-
-  await fetch(siteUrl + `/_api/sitepages/pages(${pageId})/translations/updateTranslationLanguages`, {
-    method: 'POST',
-    headers: { 'X-RequestDigest': requestDigest, ...DEFAULTHEADERS },
-  }).then((response) => response.json());
-  return true;
-}
+const CommonIssuesLink = "https://support.microsoft.com/en-gb/office/create-multilingual-sharepoint-sites-pages-and-news-2bb7d610-5453-41c6-a0e8-6f40b3ed750c#bkmk_commonissues_1";
 
 const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
   const modelProps = {
@@ -100,7 +29,7 @@ const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
     type: DialogType.largeHeader,
     title: 'Update translations',
     subText:
-      'Translation data can get out of sync. You can use this action to call updateTranslationLanguages API to remedy this issue.',
+      'Translation pages can be displayed incorrectly in the News web part and Highlighted content web parts. You can use this action to call updateTranslationLanguages API to remedy this common issue.',
   };
 
   const [hideDialog, setHideDialog] = useState(true);
@@ -148,6 +77,7 @@ const UpdateTranslations = ({ plo, tabId, ctx }: IQuickLinkListProps) => {
         dialogContentProps={dialogContentProps}
         modalProps={modelProps}
       >
+        <Link href={CommonIssuesLink}>See documentation about common issues</Link>
         <TextField label="Translations API" readOnly value={translations?.translationsAPI?.join(', ')} />
         <TextField label="Item API - _SPTranslatedLanguages" readOnly value={translations?.itemAPI?.join(', ')} />
         <TextField label="Search API - SPTranslatedLanguages" readOnly value={translations?.searchAPI?.join(', ')} />

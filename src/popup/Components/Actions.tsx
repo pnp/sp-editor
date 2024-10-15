@@ -6,7 +6,7 @@ import {
   Separator,
 } from '@fluentui/react';
 import ChangePageLayout from './ChangePageLayout';
-import UpdateTranslations from './UpdateTranslations';
+import UpdateTranslations from './UpdateTranslations/UpdateTranslations';
 
 export interface IQuickLinkListProps {
   ctx: any;
