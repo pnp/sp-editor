@@ -111,8 +111,6 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
       }
     };
 
-    /*** execute request, add ### to trigger custom httpHandler ***/
-
     // if we opening a folder
     if (type === 'folder') {
       return sp.site
@@ -123,32 +121,27 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
             .expand('Folders, Files, Folders/ParentFolder')()
             .then((r: any) => {
               const joined: any[] = [];
-              r.Folders.results.forEach(function (folder: any) {
-                joined.push({
-                  id: folder.UniqueId,
-                  portalUrl: (window as any)._spPageContextInfo.portalUrl,
-                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                  webId: w.data.Id,
-                  webUrl: w.data.Url,
-                  name: folder.Name,
-                  ServerRelativeUrl: folder.ServerRelativeUrl,
-                  type: 'folder',
-                  expanded: false,
-                });
+              
+              const createItem = (item: any, type: string, additionalProps: object = {}) => ({
+                id: item.UniqueId,
+                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                webId: w.data.Id,
+                webUrl: w.data.Url,
+                name: item.Name,
+                ServerRelativeUrl: item.ServerRelativeUrl,
+                type,
+                ...additionalProps,
               });
-              r.Files.results.forEach(function (file: any) {
-                joined.push({
-                  id: file.UniqueId,
-                  portalUrl: (window as any)._spPageContextInfo.portalUrl,
-                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                  webId: w.data.Id,
-                  webUrl: w.data.Url,
-                  name: file.Name,
-                  ServerRelativeUrl: file.ServerRelativeUrl,
-                  type: 'file',
-                  CustomizedPageStatus: file.CustomizedPageStatus,
-                  fileInfo: file,
-                });
+              
+              r.Folders.results.forEach((folder: any) => {
+                joined.push(createItem(folder, 'folder', { expanded: false }));
+              });
+              
+              r.Files.results.forEach((file: any) => {
+                joined.push(createItem(file, 'file', { CustomizedPageStatus: file.CustomizedPageStatus, fileInfo: file }));
               });
               return joined;
             })
@@ -167,48 +160,31 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
             )()
             .then((r: any) => {
               const joined: any[] = [];
-
-              r.Folders.results.forEach(function (folder: any) {
-                joined.push({
-                  id: folder.UniqueId,
-                  portalUrl: (window as any)._spPageContextInfo.portalUrl,
-                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                  webId: r.Id,
-                  webUrl: r.Url,
-                  name: folder.Name,
-                  ServerRelativeUrl: folder.ServerRelativeUrl,
-                  type: 'folder',
-                  toggled: false,
-                  children: [],
-                });
+              
+              const createItem = (item: any, type: string, additionalProps: object = {}) => ({
+                id: item.UniqueId || item.Id,
+                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                webId: item.Id || r.Id,
+                webUrl: r.Url,
+                name: item.Name || item.Title,
+                ServerRelativeUrl: item.ServerRelativeUrl,
+                type,
+                ...additionalProps,
               });
-              r.RootFolder.Files.results.forEach(function (file: any) {
-                joined.push({
-                  id: file.UniqueId,
-                  portalUrl: (window as any)._spPageContextInfo.portalUrl,
-                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                  webId: r.Id,
-                  webUrl: r.Url,
-                  name: file.Name,
-                  ServerRelativeUrl: file.ServerRelativeUrl,
-                  type: 'file',
-                  CustomizedPageStatus: file.CustomizedPageStatus,
-                  fileInfo: file,
-                });
+              
+              r.Folders.results.forEach((folder: any) => {
+                joined.push(createItem(folder, 'folder', { toggled: false, children: [] }));
               });
-              r.Webs.results.forEach(function (web: any) {
-                joined.push({
-                  id: web.Id,
-                  portalUrl: (window as any)._spPageContextInfo.portalUrl,
-                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                  webId: web.Id,
-                  webUrl: r.Url,
-                  name: web.Title,
-                  ServerRelativeUrl: web.ServerRelativeUrl,
-                  type: 'web',
-                  toggled: false,
-                  children: [],
-                });
+              
+              r.RootFolder.Files.results.forEach((file: any) => {
+                joined.push(createItem(file, 'file', { CustomizedPageStatus: file.CustomizedPageStatus, fileInfo: file }));
+              });
+              
+              r.Webs.results.forEach((web: any) => {
+                joined.push(createItem(web, 'web', { toggled: false, children: [] }));
               });
               return joined;
             })
@@ -218,55 +194,24 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
       // initial load
     } else {
       return sp.web
-        .expand('Webs, Folders, RootFolder, RootFolder/Files')
+        .expand('RootFolder')
         .select(
-          'Id, Url, Webs/Id, Webs/Title, Webs/ServerRelativeUrl, Folders/Name, Folders/UniqueId, Folders/ServerRelativeUrl, Folders/ParentFolder/ServerRelativeUrl, RootFolder/Files, RootFolder'
+          'Id, Url, RootFolder/UniqueId, RootFolder/Name, RootFolder/ServerRelativeUrl'
         )()
         .then((r: any) => {
           const joined: any[] = [];
-
-          r.Folders.results.forEach(function (folder: any) {
-            joined.push({
-              id: folder.UniqueId,
-              portalUrl: (window as any)._spPageContextInfo.portalUrl,
-              webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-              webId: r.Id,
-              webUrl: r.Url,
-              name: folder.Name,
-              ServerRelativeUrl: folder.ServerRelativeUrl,
-              type: 'folder',
-              toggled: false,
-              children: [],
-            });
-          });
-          r.RootFolder.Files.results.forEach(function (file: any) {
-            joined.push({
-              id: file.UniqueId,
-              portalUrl: (window as any)._spPageContextInfo.portalUrl,
-              webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-              webId: r.Id,
-              webUrl: r.Url,
-              name: file.Name,
-              ServerRelativeUrl: file.ServerRelativeUrl,
-              type: 'file',
-              CustomizedPageStatus: file.CustomizedPageStatus,
-              fileInfo: file,
-            });
-          });
-          r.Webs.results.forEach(function (web: any) {
-            joined.push({
-              id: web.Id,
-              portalUrl: (window as any)._spPageContextInfo.portalUrl,
-              webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-              webId: web.Id,
-              webUrl: r.Url,
-              name: web.Title,
-              ServerRelativeUrl: web.ServerRelativeUrl,
-              type: 'web',
-              toggled: false,
-              children: [],
-            });
-          });
+          joined.push({
+            id: r.RootFolder.UniqueId,
+            portalUrl: (window as any)._spPageContextInfo.portalUrl,
+            webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+            webId: r.Id,
+            webUrl: r.Url,
+            name: r.RootFolder.Name || r.RootFolder.ServerRelativeUrl,
+            ServerRelativeUrl: r.RootFolder.ServerRelativeUrl,
+            type: 'web',
+            toggled: false,
+            children: [],
+          });    
           return joined;
         })
         .catch(handleError);

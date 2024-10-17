@@ -1,18 +1,6 @@
-import { AuthenticationResult, BrowserUtils } from '@azure/msal-browser';
-import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import {
-  CommandBar,
   ContextualMenuItemType,
-  Icon,
-  IIconStyles,
-  Text,
-  ITextProps,
-  Persona,
-  PersonaSize,
-  Toggle,
-  TooltipDelay,
-  TooltipHost,
-  VerticalDivider,
+
   Breadcrumb,
   CommandButton,
   IContextualMenuProps,
@@ -23,15 +11,11 @@ import {
   PrimaryButton,
 } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginRequest } from '../../..';
 import { IRootState } from '../../../store';
-import { setEditPanel, setScopes, setUser } from '../../../store/graphsdkconsole/actions';
-import { GraphClient } from '../../../services/graph-client/graph-client';
-import { IonToggle } from '@ionic/react';
 import { MessageBarColors } from '../../../store/home/types';
 import * as rootActions from '../../../store/home/actions';
 import { useState } from 'react';
-import { addFolder, removeFolder, updateFileContent } from '../chrome/chrome-actions';
+import { addFolder, removeFolder } from '../chrome/chrome-actions';
 import { IFile } from '../../../store/fileexplorer/types';
 
 const FileEditorCommands = () => {
@@ -45,16 +29,12 @@ const FileEditorCommands = () => {
   const [showUploadFileDialog, setShowUploadFileDialog] = useState(false);
   const [showDeleteFileDialog, setShowDeleteFileDialog] = useState(false);
 
-  const iconStyles: Partial<IIconStyles> = { root: { marginRight: 5 } };
-  /*const processedUrl = selectedFolder?.ServerRelativeUrl.startsWith('/sites')
-  ? selectedFolder.ServerRelativeUrl.split('/').slice(3).join('/')
-  : selectedFolder?.ServerRelativeUrl;*/
   const relativeUrl = selectedFolder?.ServerRelativeUrl
     ? selectedFolder.ServerRelativeUrl.split('/')
     : webServerRelativeUrl.split('/');
 
   if (webServerRelativeUrl === '/') {
-    relativeUrl.unshift('root');
+    relativeUrl.unshift('rootSite');
   }
 
   function downloadFile() {
@@ -94,13 +74,23 @@ const FileEditorCommands = () => {
         text: 'Create File',
         iconProps: { iconName: 'PageAdd' },
         onClick: () => setShowCreateFileDialog(true),
-        //'data-automation-id': 'newEmailButton', // optional
       },
       {
         key: 'newfolder',
         text: 'Create Folder',
         iconProps: { iconName: 'FabricNewFolder' },
         onClick: () => addFolder(dispatch, selectedFolder as IFile, 'NewFolder'),
+      },
+      {
+        key: 'openfolder',
+        text: 'Open in SharePoint',
+        iconProps: { iconName: 'OpenInNewTab' },
+        onClick: () => {
+          if (selectedFolder?.portalUrl && selectedFolder?.ServerRelativeUrl) {
+            const url = `${selectedFolder.portalUrl}${selectedFolder.ServerRelativeUrl.replace(/^\//, '')}`;
+            chrome.tabs.create({ url: url });
+          }
+        },
       },
       { key: 'divider_1', itemType: ContextualMenuItemType.Divider },
       {
@@ -114,88 +104,11 @@ const FileEditorCommands = () => {
         },
         disabled: !selectedFolder || !selectedFolder.parentFile,
       },
-      // {
-      //   key: 'upload',
-      //   text: 'Upload file',
-      //   iconProps: { iconName: 'Upload' },
-      //   onClick: () => setShowUploadFileDialog(true),
-      // },
     ],
-    // By default, the menu will be focused when it opens. Uncomment the next line to prevent this.
-    // shouldFocusOnMount: false
   };
   
   return (
     <>
-      <CommandBar
-        items={[
-          {
-            key: 'save',
-            text: 'Save',
-            iconProps: { iconName: 'Save' },
-            onClick: () => updateFileContent(dispatch, selectedFile as IFile, selectedFile?.content || ''),
-            disabled: !selectedFile || selectedFile?.content === selectedFile?.loadedContent,
-          },
-          {
-            key: 'delete',
-            text: 'Delete',
-            iconProps: { iconName: 'Delete' },
-            onClick: () => setShowDeleteFileDialog(true),
-            disabled: !selectedFile,
-          },
-          // { key: 'divider1', itemType: ContextualMenuItemType.Divider, onRender: () => <VerticalDivider /> },
-          // {
-          //   key: 'checkout',
-          //   text: 'Check out',
-          //   iconProps: { iconName: 'PageCheckedOut' },
-          //   onClick: () => {},
-          //   disabled: !selectedFile,
-          // },
-          // {
-          //   key: 'checkin',
-          //   text: 'Check in',
-          //   iconProps: { iconName: 'PageCheckedIn' },
-          //   onClick: () => {},
-          //   disabled: !selectedFile,
-          // },
-        ]}
-        farItems={[
-          {
-            key: 'download',
-            text: 'Download file',
-            iconProps: { iconName: 'Download' },
-            onClick: () => downloadFile(),
-            disabled: !selectedFile,
-          },
-          // {
-          //   key: 'showpanel',
-          //   onRender: () => (
-          //     <TooltipHost content={'Show details panel'} delay={TooltipDelay.zero}>
-          //       <IonToggle color="success" style={{ marginTop: '16px', marginLeft: '6px' }}/>
-          //     </TooltipHost>
-          //   ),
-          // },
-
-          /* {
-          key: 'app2',
-          commandBarButtonAs: () => (<Persona
-            imageInitials={spuoser?.Name?.split(" ").map((n) => n[0]).join("")}
-            text={spuoser?.Name}
-            optionalText={'kukkuu'}
-            secondaryText={spuoser?.TenantName}
-            imageUrl={spuoser?.imageUrl}
-            size={PersonaSize.size40}
-            imageAlt="Annie Lindqvist, status is away"
-            onRenderSecondaryText={(props) => (
-              <div>
-                <Icon iconName="Globe" styles={iconStyles} />
-                {props?.secondaryText}
-              </div>
-            )}
-          />)
-        },*/
-        ]}
-      />
       <Breadcrumb
         styles={{ root: { marginLeft: '28px', marginTop: '0px', marginBottom: '5px' } }}
         items={[
@@ -204,31 +117,30 @@ const FileEditorCommands = () => {
             .map((part, index, arr) => {
               const isLastItem = index === arr.length - 1;
               return {
-                target: '_blank',
+                onRender: isLastItem
+                  ? () => (
+                      <span>
+                        <CommandButton
+                          text={part}
+                          menuProps={menuProps}
+                          styles={{
+                            root: {
+                              fontSize: '18px', // Adjust the font size as needed
+                            },
+                          }}
+                        />
+                      </span>
+                    )
+                  : undefined,
                 text: part, // Use part directly since empty parts are filtered out
                 key: part + index, // Unique key for each breadcrumb item
-                href:
-                  selectedFolder && isLastItem && index !== 0
-                    ? `${selectedFolder.portalUrl}/${selectedFolder.ServerRelativeUrl}`
-                    : undefined, // Only add href for the last item
+
               } as IBreadcrumbItem;
             }),
-          {
-            key: 'commandButton',
-            text: 'New', // Add the text property to conform to IBreadcrumbItem
-            onRender: () => (
-              <span>
-                <CommandButton iconProps={{ iconName: 'Add' }} text="New" menuProps={menuProps} />
-              </span>
-            ),
-          } as IBreadcrumbItem,
         ]}
       />
       <Dialog
         hidden={!showCreateFileDialog}
-        // onDismiss={toggleHideDialog}
-        // dialogContentProps={dialogContentProps}
-        // modalProps={modalProps}
       >
         <DialogFooter>
           <PrimaryButton /*onClick={toggleHideDialog}*/ text="Create" />
@@ -237,9 +149,6 @@ const FileEditorCommands = () => {
       </Dialog>
       <Dialog
         hidden={!showCreateFolderDialog}
-        // onDismiss={toggleHideDialog}
-        // dialogContentProps={dialogContentProps}
-        // modalProps={modalProps}
       >
         <DialogFooter>
           <PrimaryButton /*onClick={toggleHideDialog}*/ text="Create" />
@@ -248,9 +157,6 @@ const FileEditorCommands = () => {
       </Dialog>
       <Dialog
         hidden={!showUploadFileDialog}
-        // onDismiss={toggleHideDialog}
-        // dialogContentProps={dialogContentProps}
-        // modalProps={modalProps}
       >
         <DialogFooter>
           <PrimaryButton /*onClick={toggleHideDialog}*/ text="Upload" />
@@ -259,9 +165,6 @@ const FileEditorCommands = () => {
       </Dialog>
       <Dialog
         hidden={!showDeleteFileDialog}
-        // onDismiss={toggleHideDialog}
-        // dialogContentProps={dialogContentProps}
-        // modalProps={modalProps}
       >
         <DialogFooter>
           <PrimaryButton /*onClick={toggleHideDialog}*/ text="Delete" />

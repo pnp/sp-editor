@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@vscode/codicons/dist/codicon.css';
-import { DefaultButton, Dialog, DialogFooter, Pivot, PivotItem, PrimaryButton, ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
+import { ActionButton, CommandBar, DefaultButton, Dialog, DialogFooter, IPivotItemProps, Pivot, PivotItem, PrimaryButton, ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { getAllFiles, getFile, updateFileContent } from '../chrome/chrome-actions';
@@ -48,44 +48,47 @@ const FolderTree: React.FC = () => {
   useEffect(() => {
     let language = 'plaintext';
     switch (selectedFile?.ServerRelativeUrl?.split('.').pop()) {
-      case "js":
-        language = "javascript";
+      case 'js':
+        language = 'javascript';
         break;
-      case "themedcss":
-      case "preview":
-      case "css":
-        language = "css";
+      case 'themedcss':
+      case 'preview':
+      case 'css':
+        language = 'css';
         break;
-      case "html":
-      case "master":
-      case "aspx":
-        language = "html";
+      case 'html':
+      case 'master':
+      case 'aspx':
+        language = 'html';
         break;
-      case "xoml":
-      case "rules":
-      case "spfont":
-      case "spcolor":
-      case "xsl":
-      case "xml":
-      case "xaml":
-      case "svg":
-      case "webpart":
-      case "dwp":
-        language = "xml";
+      case 'xoml':
+      case 'rules':
+      case 'spfont':
+      case 'spcolor':
+      case 'xsl':
+      case 'xml':
+      case 'xaml':
+      case 'svg':
+      case 'webpart':
+      case 'dwp':
+        language = 'xml';
         break;
-      case "json":
-        language = "json";
+      case 'json':
+        language = 'json';
         break;
-      default: language = "plainText";
+      default:
+        language = 'plainText';
         break;
     }
     const model = fileEditorRef.current?.getModel();
-    if (model && selectedFile) {
+    if (!selectedFile) {
+      fileEditorRef.current?.setValue('');
+    } else if (model && selectedFile) {
       monaco.editor.setModelLanguage(model, language);
       fileEditorRef.current?.setValue(selectedFile.content || '');
-      fileEditorRef?.current?.setScrollTop(0);
-      fileEditorRef?.current?.setScrollLeft(0);
     }
+    fileEditorRef?.current?.setScrollTop(0);
+    fileEditorRef?.current?.setScrollLeft(0);
   }, [selectedFile?.id]);
 
   const renderTree = (nodes: IFile[]): JSX.Element[] => {
@@ -130,7 +133,7 @@ const FolderTree: React.FC = () => {
                   (e.currentTarget as HTMLElement).style.fontWeight = 'normal';
                 }}
               >
-                {node.name.replace(/^\//, '')}
+                {node.name}
               </span>
             </div>
             {node.toggled && node.children && renderTree(node.children)}
@@ -223,6 +226,7 @@ const FolderTree: React.FC = () => {
         fontSize: 16,
         suggestOnTriggerCharacters: true,
         colorDecorators: true,
+        automaticLayout: true,
         minimap: {
           enabled: true,
         },
@@ -312,14 +316,44 @@ const FolderTree: React.FC = () => {
           minWidth: 'calc(100% - 350px)',
         }}
       >
-        <Pivot>
-          <PivotItem headerText={selectedFile?.ServerRelativeUrl}>
-            <div
-              ref={fileEditorDiv}
-              style={{ flexGrow: 1, flexShrink: 1, width: '100%', height: 'calc(100vh - 200px)' }}
-            />
-          </PivotItem>
-        </Pivot>
+        <CommandBar
+          items={[
+            {
+              key: 'save',
+              text: 'Close',
+              iconProps: { iconName: 'ChromeClose' },
+              disabled: !selectedFile,
+              onClick: () => {
+                dispatch(actions.setSelectedFile(undefined));
+                dispatch(actions.setSelectedFileContent('', ''));
+              },
+            },
+            {
+              key: 'save',
+              text: 'Save',
+              iconProps: { iconName: 'Save' },
+              onClick: () => updateFileContent(dispatch, selectedFile as IFile, selectedFile?.content || ''),
+              disabled: !selectedFile || selectedFile?.content === selectedFile?.loadedContent,
+            },
+          ]}
+          farItems={[
+            {
+              key: 'delete',
+              text: 'Delete',
+              iconProps: { iconName: 'Delete' },
+              //onClick: () => setShowDeleteFileDialog(true),
+              disabled: !selectedFile,
+            },
+            {
+              key: 'download',
+              text: 'Download file',
+              iconProps: { iconName: 'Download' },
+              onClick: () => downloadFile(),
+              disabled: !selectedFile,
+            },
+          ]}
+        />
+        <div ref={fileEditorDiv} style={{ width: '100%', height: 'calc(100% - 44px)' }} />
       </Stack>
     </Stack>
   );

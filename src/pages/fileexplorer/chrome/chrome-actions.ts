@@ -9,7 +9,7 @@ import { updateFile } from './updateFile';
 import { createFolder } from './createFolder';
 import { deleteFolder } from './deleteFolder';
 
-export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeActions>, id: string = '', webId: string = '', type: string = '', relativeUrl: string = '') {
+export function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeActions>, id: string = '', webId: string = '', type: string = '', relativeUrl: string = '') {
 
   if (id) {
     dispatch(actions.updateLoading(id));
@@ -59,27 +59,10 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
 
             //dispatch(actions.updateLoading(id));
           } else {
-            const rootItem: IFile = {
-              id: 'root',
-              name: sortedFiles[0].webServerRelativeUrl === '/' ? 'root' : sortedFiles[0].webServerRelativeUrl,
-              type: 'folder',
-              children: sortedFiles,
-              ServerRelativeUrl: '',
-              webId: '',
-              webUrl: '',
-              parent: 0,
-              droppable: false,
-              text: '',
-              toggled: true,
-              loading: false,
-              content: '',
-              loadedContent: '',
-              portalUrl: '',
-              webServerRelativeUrl: '',
-              fileInfo: undefined,
-            };
-            dispatch(actions.setSelectedFolder(rootItem));
-            dispatch(actions.setAllFiles([rootItem]));
+            const root = sortedFiles[0]
+            dispatch(actions.setSelectedFolder(sortedFiles[0]));
+            dispatch(actions.setAllFiles(sortedFiles));
+            getAllFiles(dispatch, root.id, root.webId, root.type, root.ServerRelativeUrl);
           }
         }
         // hide loading component
@@ -88,7 +71,7 @@ export async function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeA
     });
 }
 
-export async function getFile(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile) {
+export function getFile(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile) {
 
   dispatch(rootActions.setLoading(true));
   dispatch(actions.setSelectedFile(undefined));
@@ -129,7 +112,7 @@ export async function getFile(dispatch: Dispatch<FileExplorerActions | HomeActio
     });
 }
 
-export async function updateFileContent(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, content: string) {
+export function updateFileContent(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, content: string) {
 
   dispatch(rootActions.setLoading(true));
 
@@ -166,7 +149,7 @@ export async function updateFileContent(dispatch: Dispatch<FileExplorerActions |
     });
 }
 
-export async function addFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, name: string) {
+export function addFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, name: string) {
 
   dispatch(rootActions.setLoading(true));
   const sanitizedServerRelativeUrl = file.ServerRelativeUrl
@@ -216,7 +199,7 @@ export async function addFolder(dispatch: Dispatch<FileExplorerActions | HomeAct
     });
 }
 
-export async function removeFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile,) {
+export function removeFolder(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile,) {
 
   dispatch(rootActions.setLoading(true));
 
@@ -246,7 +229,7 @@ export async function removeFolder(dispatch: Dispatch<FileExplorerActions | Home
               color: MessageBarColors.success,
             })
           );
-          if (file.parentFile && file.parentFile?.id !== 'root') {
+          if (file.parentFile/* && file.parentFile?.id !== 'root'*/) {
             dispatch(actions.updateToggle(file.parentFile.id));
             dispatch(actions.setSelectedFolder(file.parentFile));
             getAllFiles(
