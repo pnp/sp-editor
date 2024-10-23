@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const deleteFolder = (extPath: string, relativeUrl: string, webId: string) => {
+export const createFile = (extPath: string, relativeUrl: string, webId: string, filename: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -94,16 +94,28 @@ export const deleteFolder = (extPath: string, relativeUrl: string, webId: string
       }
     };
 
-    /*** execute request, add ### to trigger custom httpHandler ***/
     if (webId !== '') {
       return sp.site
         .openWebById(webId)
         .then((w) => {
           return w.web
             .getFolderByServerRelativePath(relativeUrl)
-            .delete()
+            .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
             .then((r) => {
-              return r;
+              const file = {
+                id: r.UniqueId,
+                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                webId: webId,
+                name: r.Name || r.Title,
+                ServerRelativeUrl: r.ServerRelativeUrl,
+                type: 'file',
+                CustomizedPageStatus: r.CustomizedPageStatus, 
+                fileInfo: r
+              }
+              return file;
             })
             .catch(handleError);
         })
@@ -111,9 +123,22 @@ export const deleteFolder = (extPath: string, relativeUrl: string, webId: string
     } else {
       return sp.web
         .getFolderByServerRelativePath(relativeUrl)
-        .delete()
+        .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
         .then((r) => {
-          return r;
+          const file = {
+            id: r.UniqueId,
+            portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                       (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                       (window as any)._spPageContextInfo.siteServerRelativeUrl,
+            webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+            webId: webId,
+            name: r.Name || r.Title,
+            ServerRelativeUrl: r.ServerRelativeUrl,
+            type: 'file',
+            CustomizedPageStatus: r.CustomizedPageStatus, 
+            fileInfo: r
+          }
+          return file;
         })
         .catch(handleError);
     }

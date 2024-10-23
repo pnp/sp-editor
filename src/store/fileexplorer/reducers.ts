@@ -106,11 +106,13 @@ export function fileExplorerReducer(state: IFileExplorerState = init, action: Fi
     case Constants.FE_SET_SELECTED_FILE_CONTENT:
       return {
         ...state,
-        selectedFile: {
-          ...state.selectedFile!,
-          content: action.payload.content,
-          loadedContent: action.payload.loadedContent || state.selectedFile!.loadedContent,
-        },
+        selectedFile: state.selectedFile
+          ? {
+              ...state.selectedFile,
+              content: action.payload.content,
+              loadedContent: action.payload.loadedContent || state.selectedFile.loadedContent || '',
+            }
+          : undefined,
       };
 
     case Constants.FE_SET_SITESERVER_RELATIVE_URL:

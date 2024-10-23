@@ -6,6 +6,7 @@ import {
   Separator,
 } from '@fluentui/react';
 import QuickLinkButton from './QuickLinkButton';
+import coffee from '../../components/default-yellow.png';
 
 export interface IQuickLinkListProps {
   ctx: any;
@@ -232,12 +233,14 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
         url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'env=WebViewList' : ''}
       />
-      <QuickLinkButton
-        text={'?disable3PCode=1'}
-        iconName={'Repair'}
-        disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
-        url={tabUrl ? tabUrl + (tabUrl.indexOf('?') > -1 ? '&' : '?') + 'disable3PCode=1' : ''}
-      />
+      <Separator alignContent="center" styles={separatorStyles}>
+        Thanks!
+      </Separator>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <a href="https://buymeacoffee.com/speditor" target="_blank" rel="noopener noreferrer">
+          <img src={coffee} alt="coffee" style={{ marginRight: '10px', height: '40px' }} />
+        </a>
+      </div>
     </ScrollablePane>
   ) : (
     <></>

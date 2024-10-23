@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const deleteFolder = (extPath: string, relativeUrl: string, webId: string) => {
+export const deleteFile = (extPath: string, relativeUrl: string, webId: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -100,7 +100,7 @@ export const deleteFolder = (extPath: string, relativeUrl: string, webId: string
         .openWebById(webId)
         .then((w) => {
           return w.web
-            .getFolderByServerRelativePath(relativeUrl)
+            .getFileByServerRelativePath(relativeUrl)
             .delete()
             .then((r) => {
               return r;
@@ -110,7 +110,7 @@ export const deleteFolder = (extPath: string, relativeUrl: string, webId: string
         .catch(handleError);
     } else {
       return sp.web
-        .getFolderByServerRelativePath(relativeUrl)
+        .getFileByServerRelativePath(relativeUrl)
         .delete()
         .then((r) => {
           return r;

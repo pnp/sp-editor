@@ -1,51 +1,27 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import '@vscode/codicons/dist/codicon.css';
-import { ActionButton, CommandBar, DefaultButton, Dialog, DialogFooter, IPivotItemProps, Pivot, PivotItem, PrimaryButton, ScrollablePane, ScrollbarVisibility, Stack } from '@fluentui/react';
+import { Text, CommandBar, DefaultButton, Dialog, DialogFooter, PrimaryButton, ScrollablePane, ScrollbarVisibility, Stack, DialogType } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { getAllFiles, getFile, updateFileContent } from '../chrome/chrome-actions';
+import { getAllFiles, getFile, removeFile, updateFileContent } from '../chrome/chrome-actions';
 import { IFile } from '../../../store/fileexplorer/types';
 import * as actions from '../../../store/fileexplorer/actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
-import { setSelectedFileContent, setSelectedFolder } from '../../../store/fileexplorer/actions';
+import { setSelectedFileContent } from '../../../store/fileexplorer/actions';
 
 const FolderTree: React.FC = () => {
   const { isDark } = useSelector((state: IRootState) => state.home);
   const dispatch = useDispatch();
 
-  const { files, selectedFile } = useSelector((state: IRootState) => state.fileexplorer);
+  const { files, selectedFile, selectedFolder } = useSelector((state: IRootState) => state.fileexplorer);
 
   const fileEditorDiv = useRef<null | HTMLDivElement>(null);
   const fileEditorRef = useRef<null | monaco.editor.IStandaloneCodeEditor>(null);
 
-  // load initial data
-  useEffect(() => {
-    getAllFiles(dispatch);
-    const model = fileEditorRef.current?.getModel();
-    if (model && selectedFile) {
-      monaco.editor.setModelLanguage(model, 'plaintext');
-      fileEditorRef.current?.setValue(selectedFile.content || '');
-      fileEditorRef?.current?.setScrollTop(0);
-      fileEditorRef?.current?.setScrollLeft(0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [showDeleteFileDialog, setShowDeleteFileDialog] = useState(false);
 
-  const toggleFolder = (selected: IFile) => {
-    if (selected.id === 'root') {
-      //dispatch(actions.updateToggle(selected.id));
-    } else {
-      if (!selected.toggled) {
-        getAllFiles(dispatch, selected.id, selected.webId, selected.type, selected.ServerRelativeUrl);
-      } else {
-        dispatch(actions.updateToggle(selected.id));
-      }
-    }
-    dispatch(actions.setSelectedFolder(selected));
-  };
-
-  useEffect(() => {
+  function getLanguageFromExtension(selectedFile: IFile | undefined) {
     let language = 'plaintext';
     switch (selectedFile?.ServerRelativeUrl?.split('.').pop()) {
       case 'js':
@@ -80,6 +56,39 @@ const FolderTree: React.FC = () => {
         language = 'plainText';
         break;
     }
+    return language;
+  }
+
+  // load initial data
+  useEffect(() => {
+    if (files.length === 0) {
+      getAllFiles(dispatch);
+    }
+    const model = fileEditorRef.current?.getModel();
+    if (model && selectedFile) {
+      monaco.editor.setModelLanguage(model, 'plaintext');
+      fileEditorRef.current?.setValue(selectedFile.content || '');
+      fileEditorRef?.current?.setScrollTop(0);
+      fileEditorRef?.current?.setScrollLeft(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toggleFolder = (selected: IFile) => {
+    if (selected.id === 'root') {
+      //dispatch(actions.updateToggle(selected.id));
+    } else {
+      if (!selected.toggled) {
+        getAllFiles(dispatch, selected.id, selected.webId, selected.type, selected.ServerRelativeUrl);
+      } else {
+        dispatch(actions.updateToggle(selected.id));
+      }
+    }
+    dispatch(actions.setSelectedFolder(selected));
+  };
+
+  useEffect(() => {
+    let language = getLanguageFromExtension(selectedFile);
     const model = fileEditorRef.current?.getModel();
     if (!selectedFile) {
       fileEditorRef.current?.setValue('');
@@ -231,6 +240,14 @@ const FolderTree: React.FC = () => {
           enabled: true,
         },
       });
+      if (fileEditorRef.current && selectedFile) {
+        fileEditorRef.current.setValue(selectedFile.content || '');
+        let language = getLanguageFromExtension(selectedFile);
+        const model = fileEditorRef.current?.getModel();
+        if (model) {
+          monaco.editor.setModelLanguage(model, language);
+        }
+      }
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
       }, 1);
@@ -288,7 +305,6 @@ const FolderTree: React.FC = () => {
         );
       });
   }
-
   return (
     <Stack grow horizontal style={{ height: '100%' }}>
       <Stack style={{ minWidth: '350px' }}>
@@ -319,7 +335,7 @@ const FolderTree: React.FC = () => {
         <CommandBar
           items={[
             {
-              key: 'save',
+              key: 'close',
               text: 'Close',
               iconProps: { iconName: 'ChromeClose' },
               disabled: !selectedFile,
@@ -335,13 +351,33 @@ const FolderTree: React.FC = () => {
               onClick: () => updateFileContent(dispatch, selectedFile as IFile, selectedFile?.content || ''),
               disabled: !selectedFile || selectedFile?.content === selectedFile?.loadedContent,
             },
+            {
+              key: 'filename',
+              onRender: () => (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: '8px',
+                    paddingBottom: '3px',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Text block={true} nowrap={false} variant="large" title={selectedFile?.ServerRelativeUrl}>{selectedFile?.name}</Text>
+                </div>
+              ),
+            },
           ]}
           farItems={[
             {
               key: 'delete',
               text: 'Delete',
               iconProps: { iconName: 'Delete' },
-              //onClick: () => setShowDeleteFileDialog(true),
+              onClick: () => {
+                setShowDeleteFileDialog(true);
+              },
               disabled: !selectedFile,
             },
             {
@@ -353,8 +389,33 @@ const FolderTree: React.FC = () => {
             },
           ]}
         />
-        <div ref={fileEditorDiv} style={{ width: '100%', height: 'calc(100% - 44px)' }} />
+        <div
+          ref={fileEditorDiv}
+          style={{ display: selectedFile ? 'block' : 'none', width: '100%', height: 'calc(100% - 44px)' }}
+        />
       </Stack>
+      <Dialog
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Delete file',
+          closeButtonAriaLabel: 'Close',
+          subText: 'Are you sure you want to delete this file?',
+        }}
+        hidden={!showDeleteFileDialog}
+      >
+        <Text>{selectedFile?.ServerRelativeUrl}</Text>
+
+        <DialogFooter>
+          <PrimaryButton
+            onClick={() => {
+              removeFile(dispatch, selectedFile as IFile, selectedFolder as IFile);
+              setShowDeleteFileDialog(false);
+            }}
+            text="Delete"
+          />
+          <DefaultButton onClick={() => setShowDeleteFileDialog(false)} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
     </Stack>
   );
 };

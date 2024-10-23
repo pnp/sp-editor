@@ -1,6 +1,5 @@
 import {
   ContextualMenuItemType,
-
   Breadcrumb,
   CommandButton,
   IContextualMenuProps,
@@ -9,25 +8,28 @@ import {
   Dialog,
   DialogFooter,
   PrimaryButton,
+  TextField,
+  DialogType,
+  Text
 } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { MessageBarColors } from '../../../store/home/types';
-import * as rootActions from '../../../store/home/actions';
 import { useState } from 'react';
-import { addFolder, removeFolder } from '../chrome/chrome-actions';
+import { addFile, addFolder, removeFolder } from '../chrome/chrome-actions';
 import { IFile } from '../../../store/fileexplorer/types';
 
 const FileEditorCommands = () => {
   const dispatch = useDispatch();
-  const { selectedFile, selectedFolder, webServerRelativeUrl } = useSelector(
+  const { selectedFolder, webServerRelativeUrl } = useSelector(
     (state: IRootState) => state.fileexplorer
   );
 
   const [showCreateFileDialog, setShowCreateFileDialog] = useState(false);
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
-  const [showUploadFileDialog, setShowUploadFileDialog] = useState(false);
-  const [showDeleteFileDialog, setShowDeleteFileDialog] = useState(false);
+  const [showDeleteFolderDialog, setShowDeleteFolderDialog] = useState(false);
+
+  const [folderName, setFolderName] = useState('');
+  const [fileName, setFileName] = useState('');
 
   const relativeUrl = selectedFolder?.ServerRelativeUrl
     ? selectedFolder.ServerRelativeUrl.split('/')
@@ -35,36 +37,6 @@ const FileEditorCommands = () => {
 
   if (webServerRelativeUrl === '/') {
     relativeUrl.unshift('rootSite');
-  }
-
-  function downloadFile() {
-    const filename = selectedFile?.ServerRelativeUrl.split('/').pop();
-    const extension = filename!.split('.').pop();
-    const url = `data:text/${extension};base64, ${btoa(selectedFile?.content || '')}`;
-
-    chrome.downloads
-      .download({
-        url: url,
-        filename: filename,
-      })
-      .then(() => {
-        dispatch(
-          rootActions.setAppMessage({
-            showMessage: true,
-            message: 'File downloaded successfully!',
-            color: MessageBarColors.success,
-          })
-        );
-      })
-      .catch((error) => {
-        dispatch(
-          rootActions.setAppMessage({
-            showMessage: true,
-            message: 'File download failed!',
-            color: MessageBarColors.danger,
-          })
-        );
-      });
   }
 
   const menuProps: IContextualMenuProps = {
@@ -79,7 +51,7 @@ const FileEditorCommands = () => {
         key: 'newfolder',
         text: 'Create Folder',
         iconProps: { iconName: 'FabricNewFolder' },
-        onClick: () => addFolder(dispatch, selectedFolder as IFile, 'NewFolder'),
+        onClick: () => setShowCreateFolderDialog(true)
       },
       {
         key: 'openfolder',
@@ -99,7 +71,7 @@ const FileEditorCommands = () => {
         iconProps: { iconName: 'Delete' },
         onClick: () => {
           if (selectedFolder && selectedFolder.parentFile) {
-            removeFolder(dispatch, selectedFolder as IFile);
+            setShowDeleteFolderDialog(true)
           }
         },
         disabled: !selectedFolder || !selectedFolder.parentFile,
@@ -134,41 +106,86 @@ const FileEditorCommands = () => {
                   : undefined,
                 text: part, // Use part directly since empty parts are filtered out
                 key: part + index, // Unique key for each breadcrumb item
-
               } as IBreadcrumbItem;
             }),
         ]}
       />
       <Dialog
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Create new file',
+          closeButtonAriaLabel: 'Close',
+        }}
         hidden={!showCreateFileDialog}
       >
+        <TextField label="File name" value={fileName} onChange={(e, newValue) => setFileName(newValue || '')} />
         <DialogFooter>
-          <PrimaryButton /*onClick={toggleHideDialog}*/ text="Create" />
-          <DefaultButton onClick={() => setShowCreateFileDialog(false)} text="Cancel" />
+          <PrimaryButton
+            onClick={() => {
+              addFile(dispatch, selectedFolder as IFile, fileName);
+              setFileName('');
+              setShowCreateFileDialog(false);
+            }}
+            text="Create"
+            disabled={!fileName}
+          />{' '}
+          <DefaultButton
+            onClick={() => {
+              setShowCreateFileDialog(false);
+              setFileName('');
+            }}
+            text="Cancel"
+          />
         </DialogFooter>
       </Dialog>
       <Dialog
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Create folder',
+          closeButtonAriaLabel: 'Close',
+        }}
         hidden={!showCreateFolderDialog}
       >
+        <TextField label="Folder name" value={folderName} onChange={(e, newValue) => setFolderName(newValue || '')} />
         <DialogFooter>
-          <PrimaryButton /*onClick={toggleHideDialog}*/ text="Create" />
-          <DefaultButton onClick={() => setShowCreateFolderDialog(false)} text="Cancel" />
+          <PrimaryButton
+            onClick={() => {
+              addFolder(dispatch, selectedFolder as IFile, folderName);
+              setFolderName('');
+              setShowCreateFolderDialog(false);
+            }}
+            text="Create"
+            disabled={!folderName}
+          />
+          <DefaultButton
+            onClick={() => {
+              setFolderName('');
+              setShowCreateFolderDialog(false);
+            }}
+            text="Cancel"
+          />
         </DialogFooter>
       </Dialog>
       <Dialog
-        hidden={!showUploadFileDialog}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Delete folder',
+          closeButtonAriaLabel: 'Close',
+          subText: 'Are you sure you want to delete this folder?',
+        }}
+        hidden={!showDeleteFolderDialog}
       >
+        <Text>{selectedFolder?.ServerRelativeUrl}</Text>
+
         <DialogFooter>
-          <PrimaryButton /*onClick={toggleHideDialog}*/ text="Upload" />
-          <DefaultButton onClick={() => setShowUploadFileDialog(false)} text="Cancel" />
-        </DialogFooter>
-      </Dialog>
-      <Dialog
-        hidden={!showDeleteFileDialog}
-      >
-        <DialogFooter>
-          <PrimaryButton /*onClick={toggleHideDialog}*/ text="Delete" />
-          <DefaultButton onClick={() => setShowDeleteFileDialog(false)} text="Cancel" />
+          <PrimaryButton
+            onClick={() => {
+              removeFolder(dispatch, selectedFolder as IFile);
+              setShowDeleteFolderDialog(false);
+            }}
+            text="Delete"
+          />
+          <DefaultButton onClick={() => setShowDeleteFolderDialog(false)} text="Cancel" />
         </DialogFooter>
       </Dialog>
     </>

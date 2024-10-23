@@ -8,6 +8,8 @@ import { getFileContent } from './getFileContent';
 import { updateFile } from './updateFile';
 import { createFolder } from './createFolder';
 import { deleteFolder } from './deleteFolder';
+import { createFile } from './createFile';
+import { deleteFile } from './deleteFile';
 
 export function getAllFiles(dispatch: Dispatch<FileExplorerActions | HomeActions>, id: string = '', webId: string = '', type: string = '', relativeUrl: string = '') {
 
@@ -242,6 +244,102 @@ export function removeFolder(dispatch: Dispatch<FileExplorerActions | HomeAction
           } else {
             getAllFiles(dispatch);
           }
+        }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      }
+    });
+}
+
+export function addFile(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, name: string) {
+
+  dispatch(rootActions.setLoading(true));
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+      world: 'MAIN',
+      args: [chrome.runtime.getURL(''), file.ServerRelativeUrl, file.webId, name],
+      func: createFile,
+    })
+    .then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any;
+        if (res.success === false) {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: res.errorMessage,
+              color: MessageBarColors.danger,
+            })
+          );
+        } else {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: 'File added successfully!',
+              color: MessageBarColors.success,
+            })
+          );
+
+          if (file.id !== 'root') {
+            dispatch(actions.updateToggle(file.id));
+            getAllFiles(dispatch, file.id, file.webId, file.type, file.ServerRelativeUrl);
+          } else {
+            getAllFiles(dispatch);
+          }
+          getFile(dispatch, res);
+
+        }
+        // hide loading component
+        dispatch(rootActions.setLoading(false));
+      }
+    });
+}
+
+export function removeFile(dispatch: Dispatch<FileExplorerActions | HomeActions>, file: IFile, selectedFolder: IFile) {
+
+  dispatch(rootActions.setLoading(true));
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+      world: 'MAIN',
+      args: [chrome.runtime.getURL(''), file.ServerRelativeUrl, file.webId],
+      func: deleteFile,
+    })
+    .then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any;
+        if (res.success === false) {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: res.errorMessage,
+              color: MessageBarColors.danger,
+            })
+          );
+        } else {
+          dispatch(
+            rootActions.setAppMessage({
+              showMessage: true,
+              message: 'File deleted successfully!',
+              color: MessageBarColors.success,
+            })
+          );
+          dispatch(actions.setSelectedFile(undefined));
+          dispatch(actions.setSelectedFileContent('', ''));
+
+          dispatch(actions.updateToggle(selectedFolder.id));
+          dispatch(actions.setSelectedFolder(selectedFolder));
+
+          getAllFiles(
+            dispatch,
+            selectedFolder.id,
+            selectedFolder.webId,
+            selectedFolder.type,
+            selectedFolder.ServerRelativeUrl
+          );
         }
         // hide loading component
         dispatch(rootActions.setLoading(false));
