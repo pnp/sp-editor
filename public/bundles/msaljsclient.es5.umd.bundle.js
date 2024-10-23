@@ -53,8 +53,8 @@ __webpack_require__.d(__webpack_exports__, {
   getMSAL: () => (/* reexport */ getMSAL)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/Constants.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/Constants.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -382,8 +382,8 @@ const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
 //# sourceMappingURL=Constants.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/logger/Logger.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/logger/Logger.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -579,8 +579,8 @@ class Logger {
 
 //# sourceMappingURL=Logger.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/ProtocolMode.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/ProtocolMode.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -597,8 +597,8 @@ const ProtocolMode = {
 
 //# sourceMappingURL=ProtocolMode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityOptions.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityOptions.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -622,8 +622,8 @@ const AzureCloudInstance = {
 
 //# sourceMappingURL=AuthorityOptions.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/AuthErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -638,8 +638,8 @@ const postRequestFailed = "post_request_failed";
 
 //# sourceMappingURL=AuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/AuthError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/AuthError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -696,8 +696,8 @@ function createAuthError(code, additionalMessage) {
 
 //# sourceMappingURL=AuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientAuthErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientAuthErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -751,8 +751,8 @@ const nestedAppAuthBridgeDisabled = "nested_app_auth_bridge_disabled";
 
 //# sourceMappingURL=ClientAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientAuthError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientAuthError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -1012,8 +1012,8 @@ function createClientAuthError(errorCode, additionalMessage) {
 
 //# sourceMappingURL=ClientAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/ICrypto.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/ICrypto.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -1058,18 +1058,18 @@ const DEFAULT_CRYPTO_IMPLEMENTATION = {
 
 //# sourceMappingURL=ICrypto.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/packageMetadata.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/packageMetadata.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /* eslint-disable header/header */
 const packageMetadata_name = "@azure/msal-common";
-const version = "14.14.2";
+const version = "14.15.0";
 
 
 //# sourceMappingURL=packageMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/AuthToken.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/AuthToken.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -1136,8 +1136,8 @@ function checkMaxAge(authTime, maxAge) {
 
 //# sourceMappingURL=AuthToken.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/TimeUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/TimeUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1186,8 +1186,8 @@ function delay(t, value) {
 
 //# sourceMappingURL=TimeUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/utils/CacheHelpers.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/utils/CacheHelpers.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -1523,8 +1523,8 @@ function isAuthorityMetadataExpired(metadata) {
 
 //# sourceMappingURL=CacheHelpers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientConfigurationErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientConfigurationErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1556,8 +1556,8 @@ const authorityMismatch = "authority_mismatch";
 
 //# sourceMappingURL=ClientConfigurationErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ClientConfigurationError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ClientConfigurationError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -1703,8 +1703,8 @@ function createClientConfigurationError(errorCode) {
 
 //# sourceMappingURL=ClientConfigurationError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/StringUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/StringUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1805,8 +1805,8 @@ class StringUtils {
 
 //# sourceMappingURL=StringUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/ScopeSet.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/ScopeSet.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2016,8 +2016,8 @@ class ScopeSet {
 
 //# sourceMappingURL=ScopeSet.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/ClientInfo.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/ClientInfo.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2064,8 +2064,8 @@ function buildClientInfoFromHomeAccountId(homeAccountId) {
 
 //# sourceMappingURL=ClientInfo.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/AccountInfo.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/AccountInfo.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2148,8 +2148,8 @@ function updateAccountTenantProfileData(baseAccountInfo, tenantProfile, idTokenC
 
 //# sourceMappingURL=AccountInfo.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityType.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityType.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2168,8 +2168,8 @@ const AuthorityType = {
 
 //# sourceMappingURL=AuthorityType.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/TokenClaims.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/TokenClaims.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2195,8 +2195,8 @@ function getTenantIdFromIdTokenClaims(idTokenClaims) {
 
 //# sourceMappingURL=TokenClaims.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/entities/AccountEntity.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/entities/AccountEntity.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2451,8 +2451,8 @@ class AccountEntity {
 
 //# sourceMappingURL=AccountEntity.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/UrlUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/UrlUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2505,8 +2505,8 @@ function getDeserializedResponse(responseString) {
 
 //# sourceMappingURL=UrlUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/url/UrlString.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/url/UrlString.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2679,8 +2679,8 @@ class UrlString {
 
 //# sourceMappingURL=UrlString.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityMetadata.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityMetadata.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2826,8 +2826,8 @@ function getCloudDiscoveryMetadataFromNetworkResponse(response, authorityHost) {
 
 //# sourceMappingURL=AuthorityMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/CacheErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/CacheErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2839,8 +2839,8 @@ const cacheUnknownErrorCode = "cache_error_unknown";
 
 //# sourceMappingURL=CacheErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/CacheError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/CacheError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -2874,8 +2874,8 @@ class CacheError extends Error {
 
 //# sourceMappingURL=CacheError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/CacheManager.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/CacheManager.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -4143,8 +4143,8 @@ class DefaultStorageClass extends CacheManager {
 
 //# sourceMappingURL=CacheManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/config/ClientConfiguration.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/config/ClientConfiguration.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -4241,6 +4241,7 @@ function buildAuthOptions(authOptions) {
         clientCapabilities: [],
         azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS,
         skipAuthorityMetadataCache: false,
+        instanceAware: false,
         ...authOptions,
     };
 }
@@ -4255,8 +4256,8 @@ function isOidcProtocolMode(config) {
 
 //# sourceMappingURL=ClientConfiguration.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/INetworkModule.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/INetworkModule.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -4277,8 +4278,8 @@ const StubbedNetworkModule = {
 
 //# sourceMappingURL=INetworkModule.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/performance/PerformanceEvent.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/performance/PerformanceEvent.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4764,8 +4765,8 @@ const IntFields = new Set([
 
 //# sourceMappingURL=PerformanceEvent.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/performance/StubPerformanceClient.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/performance/StubPerformanceClient.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -4849,8 +4850,8 @@ class StubPerformanceClient {
 
 //# sourceMappingURL=StubPerformanceClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserConstants.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserConstants.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5070,8 +5071,8 @@ const BROWSER_PERF_ENABLED_KEY = "msal.browser.performance.enabled";
 
 //# sourceMappingURL=BrowserConstants.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/navigation/NavigationClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/navigation/NavigationClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5117,8 +5118,8 @@ class NavigationClient {
 
 //# sourceMappingURL=NavigationClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserAuthErrorCodes.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserAuthErrorCodes.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5174,8 +5175,8 @@ const invalidPopTokenRequest = "invalid_pop_token_request";
 
 //# sourceMappingURL=BrowserAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserAuthError.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserAuthError.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5449,8 +5450,8 @@ function createBrowserAuthError(errorCode) {
 
 //# sourceMappingURL=BrowserAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/network/FetchClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/network/FetchClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5560,8 +5561,8 @@ class FetchClient {
 
 //# sourceMappingURL=FetchClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/config/Configuration.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/config/Configuration.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5613,6 +5614,7 @@ function buildConfiguration({ auth: userInputAuth, cache: userInputCache, system
         },
         skipAuthorityMetadataCache: false,
         supportsNestedAppAuth: false,
+        instanceAware: false,
     };
     // Default cache options for browser
     const DEFAULT_CACHE_OPTIONS = {
@@ -5700,18 +5702,18 @@ function buildConfiguration({ auth: userInputAuth, cache: userInputCache, system
 
 //# sourceMappingURL=Configuration.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/packageMetadata.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/packageMetadata.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /* eslint-disable header/header */
 const dist_packageMetadata_name = "@azure/msal-browser";
-const packageMetadata_version = "3.23.0";
+const packageMetadata_version = "3.26.1";
 
 
 //# sourceMappingURL=packageMetadata.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/operatingcontext/BaseOperatingContext.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/operatingcontext/BaseOperatingContext.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5816,8 +5818,8 @@ class BaseOperatingContext {
 
 //# sourceMappingURL=BaseOperatingContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/operatingcontext/StandardOperatingContext.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/operatingcontext/StandardOperatingContext.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -5868,8 +5870,8 @@ StandardOperatingContext_StandardOperatingContext.ID = "StandardOperatingContext
 
 //# sourceMappingURL=StandardOperatingContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/JoseHeaderErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/JoseHeaderErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5881,8 +5883,8 @@ const missingAlgError = "missing_alg_error";
 
 //# sourceMappingURL=JoseHeaderErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/JoseHeaderError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/JoseHeaderError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -5913,8 +5915,8 @@ function createJoseHeaderError(code) {
 
 //# sourceMappingURL=JoseHeaderError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/JoseHeader.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/JoseHeader.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -5961,8 +5963,8 @@ class JoseHeader {
 
 //# sourceMappingURL=JoseHeader.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/encode/Base64Encode.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/encode/Base64Encode.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6011,8 +6013,8 @@ function base64EncArr(aBytes) {
 
 //# sourceMappingURL=Base64Encode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/encode/Base64Decode.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/encode/Base64Decode.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -6057,8 +6059,8 @@ function base64DecToArr(base64String) {
 
 //# sourceMappingURL=Base64Decode.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/BrowserCrypto.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/BrowserCrypto.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -6139,7 +6141,7 @@ function getRandomUint32() {
  * Implementation relies on the system clock to guarantee increasing order of generated identifiers.
  * @returns {number}
  */
-function BrowserCrypto_createNewGuid() {
+function createNewGuid() {
     const currentTimestamp = Date.now();
     const baseRand = getRandomUint32() * 0x400 + (getRandomUint32() & 0x3ff);
     // Result byte array
@@ -6221,8 +6223,8 @@ async function hashString(plainText) {
 
 //# sourceMappingURL=BrowserCrypto.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/DatabaseStorage.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/DatabaseStorage.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -6432,8 +6434,8 @@ class DatabaseStorage {
 
 //# sourceMappingURL=DatabaseStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/MemoryStorage.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/MemoryStorage.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6470,8 +6472,8 @@ class MemoryStorage {
 
 //# sourceMappingURL=MemoryStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/AsyncMemoryStorage.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/AsyncMemoryStorage.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -6613,8 +6615,8 @@ class AsyncMemoryStorage {
 
 //# sourceMappingURL=AsyncMemoryStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/CryptoOps.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/CryptoOps.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -6645,7 +6647,7 @@ class CryptoOps {
      * @returns string (GUID)
      */
     createNewGuid() {
-        return BrowserCrypto_createNewGuid();
+        return createNewGuid();
     }
     /**
      * Encodes input string to base64.
@@ -6804,8 +6806,8 @@ function getSortedObjectString(obj) {
 
 //# sourceMappingURL=CryptoOps.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/OpenIdConfigResponse.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/OpenIdConfigResponse.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6821,8 +6823,8 @@ function isOpenIdConfigResponse(response) {
 
 //# sourceMappingURL=OpenIdConfigResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryResponse.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryResponse.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6836,8 +6838,8 @@ function isCloudInstanceDiscoveryResponse(response) {
 
 //# sourceMappingURL=CloudInstanceDiscoveryResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryErrorResponse.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/CloudInstanceDiscoveryErrorResponse.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6851,8 +6853,8 @@ function isCloudInstanceDiscoveryErrorResponse(response) {
 
 //# sourceMappingURL=CloudInstanceDiscoveryErrorResponse.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/FunctionWrappers.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/FunctionWrappers.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6952,8 +6954,8 @@ const invokeAsync = (callback, eventName, logger, telemetryClient, correlationId
 
 //# sourceMappingURL=FunctionWrappers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/RegionDiscovery.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/RegionDiscovery.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -7069,8 +7071,8 @@ RegionDiscovery.IMDS_OPTIONS = {
 
 //# sourceMappingURL=RegionDiscovery.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/Authority.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/Authority.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -7931,8 +7933,8 @@ function buildStaticAuthorityOptions(authOptions) {
 
 //# sourceMappingURL=Authority.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthErrorCodes.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthErrorCodes.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7951,8 +7953,8 @@ const badToken = "bad_token";
 
 //# sourceMappingURL=InteractionRequiredAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/InteractionRequiredAuthError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -8049,8 +8051,8 @@ function createInteractionRequiredAuthError(errorCode) {
 
 //# sourceMappingURL=InteractionRequiredAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/ProtocolUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/ProtocolUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -8129,8 +8131,8 @@ class ProtocolUtils {
 
 //# sourceMappingURL=ProtocolUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/account/CcsCredential.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/account/CcsCredential.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8144,8 +8146,8 @@ const CcsCredentialType = {
 
 //# sourceMappingURL=CcsCredential.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthErrorCodes.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthErrorCodes.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8158,8 +8160,8 @@ const inMemRedirectUnavailable = "in_mem_redirect_unavailable";
 
 //# sourceMappingURL=BrowserConfigurationAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthError.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/BrowserConfigurationAuthError.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -8210,8 +8212,8 @@ function createBrowserConfigurationAuthError(errorCode) {
 
 //# sourceMappingURL=BrowserConfigurationAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/BrowserStorage.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/BrowserStorage.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -8253,8 +8255,8 @@ class BrowserStorage {
 
 //# sourceMappingURL=BrowserStorage.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserProtocolUtils.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserProtocolUtils.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -8283,8 +8285,8 @@ function extractBrowserRequestState(browserCrypto, state) {
 
 //# sourceMappingURL=BrowserProtocolUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/BrowserCacheManager.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/BrowserCacheManager.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -9594,8 +9596,8 @@ const DEFAULT_BROWSER_CACHE_MANAGER = (clientId, logger) => {
 
 //# sourceMappingURL=BrowserCacheManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/AccountManager.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/AccountManager.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9727,8 +9729,8 @@ function getActiveAccount(browserStorage) {
 
 //# sourceMappingURL=AccountManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/utils/BrowserUtils.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/utils/BrowserUtils.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -9900,8 +9902,8 @@ function createGuid() {
 
 //# sourceMappingURL=BrowserUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/event/EventType.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/event/EventType.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9939,9 +9941,8 @@ const EventType = {
 
 //# sourceMappingURL=EventType.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/event/EventHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
-
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/event/EventHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -9951,24 +9952,26 @@ const EventType = {
  * Licensed under the MIT License.
  */
 class EventHandler {
-    constructor(logger, browserCrypto) {
+    constructor(logger) {
         this.eventCallbacks = new Map();
-        this.logger = logger;
-        this.browserCrypto = browserCrypto;
-        this.listeningToStorageEvents = false;
-        this.handleAccountCacheChange =
-            this.handleAccountCacheChange.bind(this);
+        this.logger = logger || new Logger({});
     }
     /**
      * Adds event callbacks to array
-     * @param callback
+     * @param callback - callback to be invoked when an event is raised
+     * @param eventTypes - list of events that this callback will be invoked for, if not provided callback will be invoked for all events
+     * @param callbackId - Identifier for the callback, used to locate and remove the callback when no longer required
      */
-    addEventCallback(callback) {
+    addEventCallback(callback, eventTypes, callbackId) {
         if (typeof window !== "undefined") {
-            const callbackId = BrowserCrypto_createNewGuid();
-            this.eventCallbacks.set(callbackId, callback);
-            this.logger.verbose(`Event callback registered with id: ${callbackId}`);
-            return callbackId;
+            const id = callbackId || createGuid();
+            if (this.eventCallbacks.has(id)) {
+                this.logger.error(`Event callback with id: ${id} is already registered. Please provide a unique id or remove the existing callback and try again.`);
+                return null;
+            }
+            this.eventCallbacks.set(id, [callback, eventTypes || []]);
+            this.logger.verbose(`Event callback registered with id: ${id}`);
+            return id;
         }
         return null;
     }
@@ -9979,38 +9982,6 @@ class EventHandler {
     removeEventCallback(callbackId) {
         this.eventCallbacks.delete(callbackId);
         this.logger.verbose(`Event callback ${callbackId} removed.`);
-    }
-    /**
-     * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-     */
-    enableAccountStorageEvents() {
-        if (typeof window === "undefined") {
-            return;
-        }
-        if (!this.listeningToStorageEvents) {
-            this.logger.verbose("Adding account storage listener.");
-            this.listeningToStorageEvents = true;
-            window.addEventListener("storage", this.handleAccountCacheChange);
-        }
-        else {
-            this.logger.verbose("Account storage listener already registered.");
-        }
-    }
-    /**
-     * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-     */
-    disableAccountStorageEvents() {
-        if (typeof window === "undefined") {
-            return;
-        }
-        if (this.listeningToStorageEvents) {
-            this.logger.verbose("Removing account storage listener.");
-            window.removeEventListener("storage", this.handleAccountCacheChange);
-            this.listeningToStorageEvents = false;
-        }
-        else {
-            this.logger.verbose("No account storage listener registered.");
-        }
     }
     /**
      * Emits events by calling callback with event message
@@ -10028,46 +9999,13 @@ class EventHandler {
                 error: error || null,
                 timestamp: Date.now(),
             };
-            this.logger.info(`Emitting event: ${eventType}`);
-            this.eventCallbacks.forEach((callback, callbackId) => {
-                this.logger.verbose(`Emitting event to callback ${callbackId}: ${eventType}`);
-                callback.apply(null, [message]);
+            this.eventCallbacks.forEach(([callback, eventTypes], callbackId) => {
+                if (eventTypes.length === 0 ||
+                    eventTypes.includes(eventType)) {
+                    this.logger.verbose(`Emitting event to callback ${callbackId}: ${eventType}`);
+                    callback.apply(null, [message]);
+                }
             });
-        }
-    }
-    /**
-     * Emit account added/removed events when cached accounts are changed in a different tab or frame
-     */
-    handleAccountCacheChange(e) {
-        try {
-            // Handle active account filter change
-            if (e.key?.includes(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS)) {
-                // This event has no payload, it only signals cross-tab app instances that the results of calling getActiveAccount() will have changed
-                this.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
-            }
-            // Handle account object change
-            const cacheValue = e.newValue || e.oldValue;
-            if (!cacheValue) {
-                return;
-            }
-            const parsedValue = JSON.parse(cacheValue);
-            if (typeof parsedValue !== "object" ||
-                !AccountEntity.isAccountEntity(parsedValue)) {
-                return;
-            }
-            const accountEntity = CacheManager.toObject(new AccountEntity(), parsedValue);
-            const accountInfo = accountEntity.getAccountInfo();
-            if (!e.oldValue && e.newValue) {
-                this.logger.info("Account was added to cache in a different window");
-                this.emitEvent(EventType.ACCOUNT_ADDED, undefined, accountInfo);
-            }
-            else if (!e.newValue && e.oldValue) {
-                this.logger.info("Account was removed from cache in a different window");
-                this.emitEvent(EventType.ACCOUNT_REMOVED, undefined, accountInfo);
-            }
-        }
-        catch (e) {
-            return;
         }
     }
 }
@@ -10075,8 +10013,8 @@ class EventHandler {
 
 //# sourceMappingURL=EventHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/error/ServerError.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/error/ServerError.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10100,8 +10038,8 @@ class ServerError extends AuthError {
 
 //# sourceMappingURL=ServerError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/ThrottlingUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/ThrottlingUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10205,8 +10143,8 @@ class ThrottlingUtils {
 
 //# sourceMappingURL=ThrottlingUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/network/NetworkManager.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/network/NetworkManager.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10251,8 +10189,8 @@ class NetworkManager {
 
 //# sourceMappingURL=NetworkManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/constants/AADServerParamKeys.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/constants/AADServerParamKeys.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10315,8 +10253,8 @@ const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
 
 //# sourceMappingURL=AADServerParamKeys.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/RequestValidator.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/RequestValidator.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10390,8 +10328,8 @@ class RequestValidator {
 
 //# sourceMappingURL=RequestValidator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/request/RequestParameterBuilder.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/request/RequestParameterBuilder.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10786,8 +10724,8 @@ class RequestParameterBuilder {
 
 //# sourceMappingURL=RequestParameterBuilder.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/authority/AuthorityFactory.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/authority/AuthorityFactory.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10827,8 +10765,8 @@ async function createDiscoveredInstance(authorityUri, networkClient, cacheManage
 
 //# sourceMappingURL=AuthorityFactory.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/BaseClient.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/BaseClient.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -10945,8 +10883,8 @@ class BaseClient {
 
 //# sourceMappingURL=BaseClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/crypto/PopTokenGenerator.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/crypto/PopTokenGenerator.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -11038,8 +10976,8 @@ class PopTokenGenerator {
 
 //# sourceMappingURL=PopTokenGenerator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/cache/persistence/TokenCacheContext.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/cache/persistence/TokenCacheContext.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11070,8 +11008,8 @@ class PopTokenGenerator {
 
 //# sourceMappingURL=TokenCacheContext.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/response/ResponseHandler.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/response/ResponseHandler.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -11467,8 +11405,8 @@ function buildAccountToCache(cacheStorage, authority, homeAccountId, base64Decod
 
 //# sourceMappingURL=ResponseHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/utils/ClientAssertionUtils.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/utils/ClientAssertionUtils.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11490,8 +11428,8 @@ async function getClientAssertion(clientAssertion, clientId, tokenEndpoint) {
 
 //# sourceMappingURL=ClientAssertionUtils.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/AuthorizationCodeClient.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/AuthorizationCodeClient.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -11874,9 +11812,7 @@ class AuthorizationCodeClient extends BaseClient {
                 this.config.authOptions.clientCapabilities.length > 0)) {
             parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
         }
-        if (request.extraQueryParameters) {
-            parameterBuilder.addExtraQueryParameters(request.extraQueryParameters);
-        }
+        this.addExtraQueryParams(request, parameterBuilder);
         if (request.nativeBroker) {
             // signal ests that this is a WAM call
             parameterBuilder.addNativeBroker();
@@ -11918,10 +11854,20 @@ class AuthorizationCodeClient extends BaseClient {
         if (request.logoutHint) {
             parameterBuilder.addLogoutHint(request.logoutHint);
         }
+        this.addExtraQueryParams(request, parameterBuilder);
+        return parameterBuilder.createQueryString();
+    }
+    addExtraQueryParams(request, parameterBuilder) {
+        const hasRequestInstanceAware = request.extraQueryParameters &&
+            request.extraQueryParameters.hasOwnProperty("instance_aware");
+        // Set instance_aware flag if config auth param is set
+        if (!hasRequestInstanceAware && this.config.authOptions.instanceAware) {
+            request.extraQueryParameters = request.extraQueryParameters || {};
+            request.extraQueryParameters["instance_aware"] = "true";
+        }
         if (request.extraQueryParameters) {
             parameterBuilder.addExtraQueryParameters(request.extraQueryParameters);
         }
-        return parameterBuilder.createQueryString();
     }
     /**
      * Helper to get sid from account. Returns null if idTokenClaims are not present or sid is not present.
@@ -11938,8 +11884,8 @@ class AuthorizationCodeClient extends BaseClient {
 
 //# sourceMappingURL=AuthorizationCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/telemetry/server/ServerTelemetryManager.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/telemetry/server/ServerTelemetryManager.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -12208,8 +12154,8 @@ class ServerTelemetryManager {
 
 //# sourceMappingURL=ServerTelemetryManager.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/BaseInteractionClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/BaseInteractionClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -12230,7 +12176,7 @@ class BaseInteractionClient {
         this.eventHandler = eventHandler;
         this.navigationClient = navigationClient;
         this.nativeMessageHandler = nativeMessageHandler;
-        this.correlationId = correlationId || BrowserCrypto_createNewGuid();
+        this.correlationId = correlationId || createNewGuid();
         this.logger = logger.clone(BrowserConstants.MSAL_SKU, packageMetadata_version, this.correlationId);
         this.performanceClient = performanceClient;
     }
@@ -12296,11 +12242,19 @@ class BaseInteractionClient {
     }
     /**
      * Used to get a discovered version of the default authority.
-     * @param requestAuthority
-     * @param requestAzureCloudOptions
-     * @param account
+     * @param params {
+     *         requestAuthority?: string;
+     *         requestAzureCloudOptions?: AzureCloudOptions;
+     *         requestExtraQueryParameters?: StringDict;
+     *         account?: AccountInfo;
+     *        }
      */
-    async getDiscoveredAuthority(requestAuthority, requestAzureCloudOptions, account) {
+    async getDiscoveredAuthority(params) {
+        const { account } = params;
+        const instanceAwareEQ = params.requestExtraQueryParameters &&
+            params.requestExtraQueryParameters.hasOwnProperty("instance_aware")
+            ? params.requestExtraQueryParameters["instance_aware"]
+            : undefined;
         this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.correlationId);
         const authorityOptions = {
             protocolMode: this.config.auth.protocolMode,
@@ -12311,11 +12265,16 @@ class BaseInteractionClient {
             skipAuthorityMetadataCache: this.config.auth.skipAuthorityMetadataCache,
         };
         // build authority string based on auth params, precedence - azureCloudInstance + tenant >> authority
-        const userAuthority = requestAuthority
-            ? requestAuthority
-            : this.config.auth.authority;
+        const resolvedAuthority = params.requestAuthority || this.config.auth.authority;
+        const resolvedInstanceAware = instanceAwareEQ?.length
+            ? instanceAwareEQ === "true"
+            : this.config.auth.instanceAware;
+        const userAuthority = account && resolvedInstanceAware
+            ? this.config.auth.authority.replace(UrlString.getDomainFromUrl(resolvedAuthority), account.environment)
+            : resolvedAuthority;
         // fall back to the authority from config
-        const builtAuthority = Authority.generateAuthority(userAuthority, requestAzureCloudOptions || this.config.auth.azureCloudOptions);
+        const builtAuthority = Authority.generateAuthority(userAuthority, params.requestAzureCloudOptions ||
+            this.config.auth.azureCloudOptions);
         const discoveredAuthority = await invokeAsync(createDiscoveredInstance, PerformanceEvents.AuthorityFactoryCreateDiscoveredInstance, this.logger, this.performanceClient, this.correlationId)(builtAuthority, this.config.system.networkClient, this.browserStorage, authorityOptions, this.logger, this.correlationId, this.performanceClient);
         if (account && !discoveredAuthority.isAlias(account.environment)) {
             throw createClientConfigurationError(authorityMismatch);
@@ -12327,8 +12286,8 @@ class BaseInteractionClient {
 
 //# sourceMappingURL=BaseInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/crypto/PkceGenerator.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/crypto/PkceGenerator.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -12394,8 +12353,8 @@ async function generateCodeChallengeFromVerifier(pkceCodeVerifier, performanceCl
 
 //# sourceMappingURL=PkceGenerator.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/request/RequestHelpers.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/request/RequestHelpers.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -12457,8 +12416,8 @@ async function initializeSilentRequest(request, account, config, performanceClie
 
 //# sourceMappingURL=RequestHelpers.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/StandardInteractionClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/StandardInteractionClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -12501,7 +12460,7 @@ class StandardInteractionClient extends BaseInteractionClient {
     initializeLogoutRequest(logoutRequest) {
         this.logger.verbose("initializeLogoutRequest called", logoutRequest?.correlationId);
         const validLogoutRequest = {
-            correlationId: this.correlationId || BrowserCrypto_createNewGuid(),
+            correlationId: this.correlationId || createNewGuid(),
             ...logoutRequest,
         };
         /**
@@ -12580,24 +12539,39 @@ class StandardInteractionClient extends BaseInteractionClient {
     }
     /**
      * Creates an Authorization Code Client with the given authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param authorityUrl
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         authorityUrl?: string;
+     *         requestAzureCloudOptions?: AzureCloudOptions;
+     *         requestExtraQueryParameters?: StringDict;
+     *         account?: AccountInfo;
+     *        }
      */
-    async createAuthCodeClient(serverTelemetryManager, authorityUrl, requestAzureCloudOptions, account) {
+    async createAuthCodeClient(params) {
         this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.correlationId);
         // Create auth module.
-        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, authorityUrl, requestAzureCloudOptions, account);
+        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(params);
         return new AuthorizationCodeClient(clientConfig, this.performanceClient);
     }
     /**
      * Creates a Client Configuration object with the given request authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param requestAuthority
-     * @param requestCorrelationId
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         requestAuthority?: string;
+     *         requestAzureCloudOptions?: AzureCloudOptions;
+     *         requestExtraQueryParameters?: boolean;
+     *         account?: AccountInfo;
+     *        }
      */
-    async getClientConfiguration(serverTelemetryManager, requestAuthority, requestAzureCloudOptions, account) {
+    async getClientConfiguration(params) {
+        const { serverTelemetryManager, requestAuthority, requestAzureCloudOptions, requestExtraQueryParameters, account, } = params;
         this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.correlationId);
-        const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, this.correlationId)(requestAuthority, requestAzureCloudOptions, account);
+        const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, this.correlationId)({
+            requestAuthority,
+            requestAzureCloudOptions,
+            requestExtraQueryParameters,
+            account,
+        });
         const logger = this.config.system.loggerOptions;
         return {
             authOptions: {
@@ -12648,7 +12622,7 @@ class StandardInteractionClient extends BaseInteractionClient {
             ...baseRequest,
             redirectUri: redirectUri,
             state: state,
-            nonce: request.nonce || BrowserCrypto_createNewGuid(),
+            nonce: request.nonce || createNewGuid(),
             responseMode: this.config.auth.OIDCOptions
                 .serverResponseType,
         };
@@ -12672,8 +12646,8 @@ class StandardInteractionClient extends BaseInteractionClient {
 
 //# sourceMappingURL=StandardInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/NativeAuthErrorCodes.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/NativeAuthErrorCodes.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -12685,8 +12659,8 @@ const userSwitch = "user_switch";
 
 //# sourceMappingURL=NativeAuthErrorCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeStatusCodes.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeStatusCodes.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -12703,8 +12677,8 @@ const ACCOUNT_UNAVAILABLE = "ACCOUNT_UNAVAILABLE";
 
 //# sourceMappingURL=NativeStatusCodes.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/error/NativeAuthError.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/error/NativeAuthError.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -12776,8 +12750,8 @@ function createNativeAuthError(code, description, ext) {
 
 //# sourceMappingURL=NativeAuthError.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/RefreshTokenClient.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/RefreshTokenClient.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -13018,8 +12992,8 @@ class RefreshTokenClient extends BaseClient {
 
 //# sourceMappingURL=RefreshTokenClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-common/dist/client/SilentFlowClient.mjs
-/*! @azure/msal-common v14.14.2 2024-08-28 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-common/dist/client/SilentFlowClient.mjs
+/*! @azure/msal-common v14.15.0 2024-09-20 */
 
 
 
@@ -13171,8 +13145,8 @@ class SilentFlowClient extends BaseClient {
 
 //# sourceMappingURL=SilentFlowClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentCacheClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentCacheClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -13193,7 +13167,12 @@ class SilentCacheClient extends StandardInteractionClient {
         this.performanceClient.addQueueMeasurement(PerformanceEvents.SilentCacheClientAcquireToken, silentRequest.correlationId);
         // Telemetry manager only used to increment cacheHits here
         const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
-        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
+            serverTelemetryManager,
+            requestAuthority: silentRequest.authority,
+            requestAzureCloudOptions: silentRequest.azureCloudOptions,
+            account: silentRequest.account,
+        });
         const silentAuthClient = new SilentFlowClient(clientConfig, this.performanceClient);
         this.logger.verbose("Silent auth client created");
         try {
@@ -13226,8 +13205,8 @@ class SilentCacheClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentCacheClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/NativeInteractionClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/NativeInteractionClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -13506,7 +13485,9 @@ class NativeInteractionClient extends BaseInteractionClient {
             throw createNativeAuthError(userSwitch);
         }
         // Get the preferred_cache domain for the given authority
-        const authority = await this.getDiscoveredAuthority(request.authority);
+        const authority = await this.getDiscoveredAuthority({
+            requestAuthority: request.authority,
+        });
         const baseAccount = buildAccountToCache(this.browserStorage, authority, homeAccountIdentifier, base64Decode, idTokenClaims, response.client_info, undefined, // environment
         idTokenClaims.tid, undefined, // auth code payload
         response.account.id, this.logger);
@@ -13748,12 +13729,16 @@ class NativeInteractionClient extends BaseInteractionClient {
      */
     async initializeNativeRequest(request) {
         this.logger.trace("NativeInteractionClient - initializeNativeRequest called");
-        const authority = request.authority || this.config.auth.authority;
+        const requestAuthority = request.authority || this.config.auth.authority;
         if (request.account) {
             // validate authority
-            await this.getDiscoveredAuthority(authority, request.azureCloudOptions, request.account);
+            await this.getDiscoveredAuthority({
+                requestAuthority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                account: request.account,
+            });
         }
-        const canonicalAuthority = new UrlString(authority);
+        const canonicalAuthority = new UrlString(requestAuthority);
         canonicalAuthority.validateAsUri();
         // scopes are expected to be received by the native broker as "scope" and will be added to the request below. Other properties that should be dropped from the request to the native broker can be included in the object destructuring here.
         const { scopes, ...remainingProperties } = request;
@@ -13865,8 +13850,8 @@ class NativeInteractionClient extends BaseInteractionClient {
 
 //# sourceMappingURL=NativeInteractionClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeMessageHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/broker/nativeBroker/NativeMessageHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -13900,7 +13885,7 @@ class NativeMessageHandler {
         const req = {
             channel: NativeConstants.CHANNEL_ID,
             extensionId: this.extensionId,
-            responseId: BrowserCrypto_createNewGuid(),
+            responseId: createNewGuid(),
             body: body,
         };
         this.logger.trace("NativeMessageHandler - Sending request to browser extension");
@@ -13941,7 +13926,7 @@ class NativeMessageHandler {
         const req = {
             channel: NativeConstants.CHANNEL_ID,
             extensionId: this.extensionId,
-            responseId: BrowserCrypto_createNewGuid(),
+            responseId: createNewGuid(),
             body: {
                 method: NativeExtensionMethod.HandshakeRequest,
             },
@@ -14133,8 +14118,8 @@ class NativeMessageHandler {
 
 //# sourceMappingURL=NativeMessageHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/InteractionHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/InteractionHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -14237,8 +14222,8 @@ class InteractionHandler {
 
 //# sourceMappingURL=InteractionHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/response/ResponseHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/response/ResponseHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -14285,8 +14270,8 @@ function validateInteractionType(response, browserCrypto, interactionType) {
 
 //# sourceMappingURL=ResponseHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/PopupClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/PopupClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -14318,18 +14303,22 @@ class PopupClient extends StandardInteractionClient {
     acquireToken(request) {
         try {
             const popupName = this.generatePopupName(request.scopes || OIDC_DEFAULT_SCOPES, request.authority || this.config.auth.authority);
-            const popupWindowAttributes = request.popupWindowAttributes || {};
+            const popupParams = {
+                popupName,
+                popupWindowAttributes: request.popupWindowAttributes || {},
+                popupWindowParent: request.popupWindowParent ?? window,
+            };
             // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
             if (this.config.system.asyncPopups) {
                 this.logger.verbose("asyncPopups set to true, acquiring token");
                 // Passes on popup position and dimensions if in request
-                return this.acquireTokenPopupAsync(request, popupName, popupWindowAttributes);
+                return this.acquireTokenPopupAsync(request, popupParams);
             }
             else {
                 // asyncPopups flag is set to false. Opens popup before acquiring token.
                 this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
-                const popup = this.openSizedPopup("about:blank", popupName, popupWindowAttributes);
-                return this.acquireTokenPopupAsync(request, popupName, popupWindowAttributes, popup);
+                popupParams.popup = this.openSizedPopup("about:blank", popupParams);
+                return this.acquireTokenPopupAsync(request, popupParams);
             }
         }
         catch (e) {
@@ -14344,21 +14333,24 @@ class PopupClient extends StandardInteractionClient {
         try {
             this.logger.verbose("logoutPopup called");
             const validLogoutRequest = this.initializeLogoutRequest(logoutRequest);
-            const popupName = this.generateLogoutPopupName(validLogoutRequest);
+            const popupParams = {
+                popupName: this.generateLogoutPopupName(validLogoutRequest),
+                popupWindowAttributes: logoutRequest?.popupWindowAttributes || {},
+                popupWindowParent: logoutRequest?.popupWindowParent ?? window,
+            };
             const authority = logoutRequest && logoutRequest.authority;
             const mainWindowRedirectUri = logoutRequest && logoutRequest.mainWindowRedirectUri;
-            const popupWindowAttributes = logoutRequest?.popupWindowAttributes || {};
             // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
             if (this.config.system.asyncPopups) {
                 this.logger.verbose("asyncPopups set to true");
                 // Passes on popup position and dimensions if in request
-                return this.logoutPopupAsync(validLogoutRequest, popupName, popupWindowAttributes, authority, undefined, mainWindowRedirectUri);
+                return this.logoutPopupAsync(validLogoutRequest, popupParams, authority, mainWindowRedirectUri);
             }
             else {
                 // asyncPopups flag is set to false. Opens popup before logging out.
                 this.logger.verbose("asyncPopup set to false, opening popup");
-                const popup = this.openSizedPopup("about:blank", popupName, popupWindowAttributes);
-                return this.logoutPopupAsync(validLogoutRequest, popupName, popupWindowAttributes, authority, popup, mainWindowRedirectUri);
+                popupParams.popup = this.openSizedPopup("about:blank", popupParams);
+                return this.logoutPopupAsync(validLogoutRequest, popupParams, authority, mainWindowRedirectUri);
             }
         }
         catch (e) {
@@ -14375,7 +14367,7 @@ class PopupClient extends StandardInteractionClient {
      *
      * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
      */
-    async acquireTokenPopupAsync(request, popupName, popupWindowAttributes, popup) {
+    async acquireTokenPopupAsync(request, popupParams) {
         this.logger.verbose("acquireTokenPopupAsync called");
         const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenPopup);
         const validRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, this.correlationId)(request, InteractionType.Popup);
@@ -14384,7 +14376,13 @@ class PopupClient extends StandardInteractionClient {
             // Create auth code request and generate PKCE params
             const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
             // Initialize the client
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, validRequest.authority, validRequest.azureCloudOptions, validRequest.account);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: validRequest.authority,
+                requestAzureCloudOptions: validRequest.azureCloudOptions,
+                requestExtraQueryParameters: validRequest.extraQueryParameters,
+                account: validRequest.account,
+            });
             const isNativeBroker = NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme);
             // Start measurement for server calls with native brokering enabled
             let fetchNativeAccountIdMeasurement;
@@ -14400,15 +14398,10 @@ class PopupClient extends StandardInteractionClient {
             // Create popup interaction handler.
             const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
             // Show the UI once the url has been created. Get the window handle for the popup.
-            const popupParameters = {
-                popup,
-                popupName,
-                popupWindowAttributes,
-            };
-            const popupWindow = this.initiateAuthRequest(navigateUrl, popupParameters);
+            const popupWindow = this.initiateAuthRequest(navigateUrl, popupParams);
             this.eventHandler.emitEvent(EventType.POPUP_OPENED, InteractionType.Popup, { popupWindow }, null);
             // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
-            const responseString = await this.monitorPopupForHash(popupWindow);
+            const responseString = await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent);
             const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
             // Remove throttle if it exists
             ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, authCodeRequest);
@@ -14437,10 +14430,8 @@ class PopupClient extends StandardInteractionClient {
             return result;
         }
         catch (e) {
-            if (popup) {
-                // Close the synchronous popup if an error is thrown before the window unload event is registered
-                popup.close();
-            }
+            // Close the synchronous popup if an error is thrown before the window unload event is registered
+            popupParams.popup?.close();
             if (e instanceof AuthError) {
                 e.setCorrelationId(this.correlationId);
                 serverTelemetryManager.cacheFailedRequest(e);
@@ -14457,7 +14448,7 @@ class PopupClient extends StandardInteractionClient {
      * @param mainWindowRedirectUri
      * @param popupWindowAttributes
      */
-    async logoutPopupAsync(validRequest, popupName, popupWindowAttributes, requestAuthority, popup, mainWindowRedirectUri) {
+    async logoutPopupAsync(validRequest, popupParams, requestAuthority, mainWindowRedirectUri) {
         this.logger.verbose("logoutPopupAsync called");
         this.eventHandler.emitEvent(EventType.LOGOUT_START, InteractionType.Popup, validRequest);
         const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.logoutPopup);
@@ -14465,8 +14456,11 @@ class PopupClient extends StandardInteractionClient {
             // Clear cache on logout
             await this.clearCacheOnLogout(validRequest.account);
             // Initialize the client
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, requestAuthority, undefined, // AzureCloudOptions
-            validRequest.account || undefined);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: requestAuthority,
+                account: validRequest.account || undefined,
+            });
             try {
                 authClient.authority.endSessionEndpoint;
             }
@@ -14485,9 +14479,7 @@ class PopupClient extends StandardInteractionClient {
                         const absoluteUrl = UrlString.getAbsoluteUrl(mainWindowRedirectUri, getCurrentUri());
                         await this.navigationClient.navigateInternal(absoluteUrl, navigationOptions);
                     }
-                    if (popup) {
-                        popup.close();
-                    }
+                    popupParams.popup?.close();
                     return;
                 }
             }
@@ -14495,13 +14487,9 @@ class PopupClient extends StandardInteractionClient {
             const logoutUri = authClient.getLogoutUri(validRequest);
             this.eventHandler.emitEvent(EventType.LOGOUT_SUCCESS, InteractionType.Popup, validRequest);
             // Open the popup window to requestUrl.
-            const popupWindow = this.openPopup(logoutUri, {
-                popupName,
-                popupWindowAttributes,
-                popup,
-            });
+            const popupWindow = this.openPopup(logoutUri, popupParams);
             this.eventHandler.emitEvent(EventType.POPUP_OPENED, InteractionType.Popup, { popupWindow }, null);
-            await this.monitorPopupForHash(popupWindow).catch(() => {
+            await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent).catch(() => {
                 // Swallow any errors related to monitoring the window. Server logout is best effort
             });
             if (mainWindowRedirectUri) {
@@ -14520,10 +14508,8 @@ class PopupClient extends StandardInteractionClient {
             }
         }
         catch (e) {
-            if (popup) {
-                // Close the synchronous popup if an error is thrown before the window unload event is registered
-                popup.close();
-            }
+            // Close the synchronous popup if an error is thrown before the window unload event is registered
+            popupParams.popup?.close();
             if (e instanceof AuthError) {
                 e.setCorrelationId(this.correlationId);
                 serverTelemetryManager.cacheFailedRequest(e);
@@ -14557,7 +14543,7 @@ class PopupClient extends StandardInteractionClient {
      * @param popupWindow - window that is being monitored
      * @param timeout - timeout for processing hash once popup is redirected back to application
      */
-    monitorPopupForHash(popupWindow) {
+    monitorPopupForHash(popupWindow, popupWindowParent) {
         return new Promise((resolve, reject) => {
             this.logger.verbose("PopupHandler.monitorPopupForHash - polling started");
             const intervalId = setInterval(() => {
@@ -14597,7 +14583,7 @@ class PopupClient extends StandardInteractionClient {
                 resolve(responseString);
             }, this.config.system.pollIntervalMilliseconds);
         }).finally(() => {
-            this.cleanPopup(popupWindow);
+            this.cleanPopup(popupWindow, popupWindowParent);
         });
     }
     /**
@@ -14625,7 +14611,7 @@ class PopupClient extends StandardInteractionClient {
             else if (typeof popupParams.popup === "undefined") {
                 // Popup will be undefined if it was not passed in
                 this.logger.verbosePii(`Opening popup window to: ${urlNavigate}`);
-                popupWindow = this.openSizedPopup(urlNavigate, popupParams.popupName, popupParams.popupWindowAttributes);
+                popupWindow = this.openSizedPopup(urlNavigate, popupParams);
             }
             // Popup will be null if popups are blocked
             if (!popupWindow) {
@@ -14635,7 +14621,7 @@ class PopupClient extends StandardInteractionClient {
                 popupWindow.focus();
             }
             this.currentWindow = popupWindow;
-            window.addEventListener("beforeunload", this.unloadWindow);
+            popupParams.popupWindowParent.addEventListener("beforeunload", this.unloadWindow);
             return popupWindow;
         }
         catch (e) {
@@ -14651,21 +14637,25 @@ class PopupClient extends StandardInteractionClient {
      * @param popupWindowAttributes
      * @returns
      */
-    openSizedPopup(urlNavigate, popupName, popupWindowAttributes) {
+    openSizedPopup(urlNavigate, { popupName, popupWindowAttributes, popupWindowParent }) {
         /**
          * adding winLeft and winTop to account for dual monitor
          * using screenLeft and screenTop for IE8 and earlier
          */
-        const winLeft = window.screenLeft ? window.screenLeft : window.screenX;
-        const winTop = window.screenTop ? window.screenTop : window.screenY;
+        const winLeft = popupWindowParent.screenLeft
+            ? popupWindowParent.screenLeft
+            : popupWindowParent.screenX;
+        const winTop = popupWindowParent.screenTop
+            ? popupWindowParent.screenTop
+            : popupWindowParent.screenY;
         /**
          * window.innerWidth displays browser window"s height and width excluding toolbars
          * using document.documentElement.clientWidth for IE8 and earlier
          */
-        const winWidth = window.innerWidth ||
+        const winWidth = popupWindowParent.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
-        const winHeight = window.innerHeight ||
+        const winHeight = popupWindowParent.innerHeight ||
             document.documentElement.clientHeight ||
             document.body.clientHeight;
         let width = popupWindowAttributes.popupSize?.width;
@@ -14688,7 +14678,7 @@ class PopupClient extends StandardInteractionClient {
             this.logger.verbose("Default popup window left position used. Window left not configured or invalid.");
             left = Math.max(0, winWidth / 2 - BrowserConstants.POPUP_WIDTH / 2 + winLeft);
         }
-        return window.open(urlNavigate, popupName, `width=${width}, height=${height}, top=${top}, left=${left}, scrollbars=yes`);
+        return popupWindowParent.open(urlNavigate, popupName, `width=${width}, height=${height}, top=${top}, left=${left}, scrollbars=yes`);
     }
     /**
      * Event callback to unload main window.
@@ -14705,13 +14695,11 @@ class PopupClient extends StandardInteractionClient {
      * Closes popup, removes any state vars created during popup calls.
      * @param popupWindow
      */
-    cleanPopup(popupWindow) {
-        if (popupWindow) {
-            // Close window.
-            popupWindow.close();
-        }
+    cleanPopup(popupWindow, popupWindowParent) {
+        // Close window.
+        popupWindow.close();
         // Remove window unload function
-        window.removeEventListener("beforeunload", this.unloadWindow);
+        popupWindowParent.removeEventListener("beforeunload", this.unloadWindow);
         // Interaction is completed - remove interaction status.
         this.browserStorage.setInteractionInProgress(false);
     }
@@ -14737,8 +14725,8 @@ class PopupClient extends StandardInteractionClient {
 
 //# sourceMappingURL=PopupClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/RedirectHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/RedirectHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -14883,8 +14871,8 @@ class RedirectHandler {
 
 //# sourceMappingURL=RedirectHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/RedirectClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/RedirectClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -14902,6 +14890,18 @@ class RedirectHandler {
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+function getNavigationType() {
+    if (typeof window === "undefined" ||
+        typeof window.performance === "undefined" ||
+        typeof window.performance.getEntriesByType !== "function") {
+        return undefined;
+    }
+    const navigationEntries = window.performance.getEntriesByType("navigation");
+    const navigation = navigationEntries.length
+        ? navigationEntries[0]
+        : undefined;
+    return navigation?.type;
+}
 class RedirectClient extends StandardInteractionClient {
     constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, nativeMessageHandler, correlationId) {
         super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
@@ -14927,7 +14927,13 @@ class RedirectClient extends StandardInteractionClient {
             // Create auth code request and generate PKCE params
             const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
             // Initialize the client
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, validRequest.authority, validRequest.azureCloudOptions, validRequest.account);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: validRequest.authority,
+                requestAzureCloudOptions: validRequest.azureCloudOptions,
+                requestExtraQueryParameters: validRequest.extraQueryParameters,
+                account: validRequest.account,
+            });
             // Create redirect interaction handler.
             const interactionHandler = new RedirectHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
             // Create acquire token url.
@@ -14977,7 +14983,13 @@ class RedirectClient extends StandardInteractionClient {
                 // Not a recognized server response hash or hash not associated with a redirect request
                 this.logger.info("handleRedirectPromise did not detect a response as a result of a redirect. Cleaning temporary cache.");
                 this.browserStorage.cleanRequestByInteractionType(InteractionType.Redirect);
-                parentMeasurement.event.errorCode = "no_server_response";
+                // Do not instrument "no_server_response" if user clicked back button
+                if (getNavigationType() !== "back_forward") {
+                    parentMeasurement.event.errorCode = "no_server_response";
+                }
+                else {
+                    this.logger.verbose("Back navigation event detected. Muting no_server_response error");
+                }
                 return null;
             }
             // If navigateToLoginRequestUrl is true, get the url where the redirect request was initiated
@@ -15125,7 +15137,7 @@ class RedirectClient extends StandardInteractionClient {
         if (!currentAuthority) {
             throw createBrowserAuthError(noCachedAuthorityError);
         }
-        const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, currentAuthority);
+        const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({ serverTelemetryManager, requestAuthority: currentAuthority });
         ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, cachedRequest);
         const interactionHandler = new RedirectHandler(authClient, this.browserStorage, cachedRequest, this.logger, this.performanceClient);
         return interactionHandler.handleCodeResponse(serverParams, state);
@@ -15148,8 +15160,12 @@ class RedirectClient extends StandardInteractionClient {
                 timeout: this.config.system.redirectNavigationTimeout,
                 noHistory: false,
             };
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, logoutRequest && logoutRequest.authority, undefined, // AzureCloudOptions
-            (logoutRequest && logoutRequest.account) || undefined);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: logoutRequest && logoutRequest.authority,
+                requestExtraQueryParameters: logoutRequest?.extraQueryParameters,
+                account: (logoutRequest && logoutRequest.account) || undefined,
+            });
             if (authClient.authority.protocolMode === ProtocolMode.OIDC) {
                 try {
                     authClient.authority.endSessionEndpoint;
@@ -15217,8 +15233,8 @@ class RedirectClient extends StandardInteractionClient {
 
 //# sourceMappingURL=RedirectClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_handler/SilentHandler.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_handler/SilentHandler.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15363,8 +15379,8 @@ function removeHiddenIframe(iframe) {
 
 //# sourceMappingURL=SilentHandler.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentIframeClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentIframeClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15419,7 +15435,13 @@ class SilentIframeClient extends StandardInteractionClient {
         let authClient;
         try {
             // Initialize the client
-            authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, request.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+            authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, request.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: silentRequest.authority,
+                requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                requestExtraQueryParameters: silentRequest.extraQueryParameters,
+                account: silentRequest.account,
+            });
             return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, request.correlationId)(authClient, silentRequest);
         }
         catch (e) {
@@ -15491,8 +15513,8 @@ class SilentIframeClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentIframeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentRefreshClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentRefreshClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15522,7 +15544,12 @@ class SilentRefreshClient extends StandardInteractionClient {
             silentRequest.redirectUri = this.getRedirectUri(request.redirectUri);
         }
         const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
-        const refreshTokenClient = await this.createRefreshTokenClient(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+        const refreshTokenClient = await this.createRefreshTokenClient({
+            serverTelemetryManager,
+            authorityUrl: silentRequest.authority,
+            azureCloudOptions: silentRequest.azureCloudOptions,
+            account: silentRequest.account,
+        });
         // Send request to renew token. Auth module will throw errors if token cannot be renewed.
         return invokeAsync(refreshTokenClient.acquireTokenByRefreshToken.bind(refreshTokenClient), PerformanceEvents.RefreshTokenClientAcquireTokenByRefreshToken, this.logger, this.performanceClient, request.correlationId)(silentRequest).catch((e) => {
             e.setCorrelationId(this.correlationId);
@@ -15539,12 +15566,23 @@ class SilentRefreshClient extends StandardInteractionClient {
     }
     /**
      * Creates a Refresh Client with the given authority, or the default authority.
-     * @param serverTelemetryManager
-     * @param authorityUrl
+     * @param params {
+     *         serverTelemetryManager: ServerTelemetryManager;
+     *         authorityUrl?: string;
+     *         azureCloudOptions?: AzureCloudOptions;
+     *         extraQueryParams?: StringDict;
+     *         account?: AccountInfo;
+     *        }
      */
-    async createRefreshTokenClient(serverTelemetryManager, authorityUrl, azureCloudOptions, account) {
+    async createRefreshTokenClient(params) {
         // Create auth module.
-        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)(serverTelemetryManager, authorityUrl, azureCloudOptions, account);
+        const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
+            serverTelemetryManager: params.serverTelemetryManager,
+            requestAuthority: params.authorityUrl,
+            requestAzureCloudOptions: params.azureCloudOptions,
+            requestExtraQueryParameters: params.extraQueryParameters,
+            account: params.account,
+        });
         return new RefreshTokenClient(clientConfig, this.performanceClient);
     }
 }
@@ -15552,8 +15590,8 @@ class SilentRefreshClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentRefreshClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/cache/TokenCache.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/cache/TokenCache.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15599,7 +15637,7 @@ class TokenCache {
             skipAuthorityMetadataCache: this.config.auth.skipAuthorityMetadataCache,
         };
         const authority = request.authority
-            ? new Authority(Authority.generateAuthority(request.authority, request.azureCloudOptions), this.config.system.networkClient, this.storage, authorityOptions, this.logger, request.correlationId || BrowserCrypto_createNewGuid())
+            ? new Authority(Authority.generateAuthority(request.authority, request.azureCloudOptions), this.config.system.networkClient, this.storage, authorityOptions, this.logger, request.correlationId || createNewGuid())
             : undefined;
         const cacheRecordAccount = this.loadAccount(request, options.clientInfo || response.client_info || "", idTokenClaims, authority);
         const idToken = this.loadIdToken(response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, cacheRecordAccount.realm);
@@ -15760,8 +15798,8 @@ class TokenCache {
 
 //# sourceMappingURL=TokenCache.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/HybridSpaAuthorizationCodeClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/HybridSpaAuthorizationCodeClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15779,8 +15817,8 @@ class HybridSpaAuthorizationCodeClient extends AuthorizationCodeClient {
 
 //# sourceMappingURL=HybridSpaAuthorizationCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/interaction_client/SilentAuthCodeClient.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/interaction_client/SilentAuthCodeClient.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15818,7 +15856,13 @@ class SilentAuthCodeClient extends StandardInteractionClient {
                 code: request.code,
             };
             // Initialize the client
-            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, request.correlationId)(serverTelemetryManager, silentRequest.authority, silentRequest.azureCloudOptions, silentRequest.account);
+            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, request.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: silentRequest.authority,
+                requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                requestExtraQueryParameters: silentRequest.extraQueryParameters,
+                account: silentRequest.account,
+            });
             const authClient = new HybridSpaAuthorizationCodeClient(clientConfig);
             this.logger.verbose("Auth code client created");
             // Create silent handler
@@ -15851,8 +15895,8 @@ class SilentAuthCodeClient extends StandardInteractionClient {
 
 //# sourceMappingURL=SilentAuthCodeClient.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/controllers/StandardController.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/controllers/StandardController.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -15948,7 +15992,7 @@ class StandardController_StandardController {
         this.browserCrypto = this.isBrowserEnvironment
             ? new CryptoOps(this.logger, this.performanceClient)
             : DEFAULT_CRYPTO_IMPLEMENTATION;
-        this.eventHandler = new EventHandler(this.logger, this.browserCrypto);
+        this.eventHandler = new EventHandler(this.logger);
         // Initialize the browser storage class.
         this.browserStorage = this.isBrowserEnvironment
             ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, buildStaticAuthorityOptions(this.config.auth), this.performanceClient)
@@ -15971,6 +16015,10 @@ class StandardController_StandardController {
         // Register listener functions
         this.trackPageVisibilityWithMeasurement =
             this.trackPageVisibilityWithMeasurement.bind(this);
+        // account storage events
+        this.listeningToStorageEvents = false;
+        this.handleAccountCacheChange =
+            this.handleAccountCacheChange.bind(this);
     }
     static async createController(operatingContext, request) {
         const controller = new StandardController_StandardController(operatingContext);
@@ -15992,6 +16040,12 @@ class StandardController_StandardController {
         this.logger.trace("initialize called");
         if (this.initialized) {
             this.logger.info("initialize has already been called, exiting early.");
+            return;
+        }
+        if (!this.isBrowserEnvironment) {
+            this.logger.info("in non-browser environment, exiting early.");
+            this.initialized = true;
+            this.eventHandler.emitEvent(EventType.INITIALIZE_END);
             return;
         }
         const initCorrelationId = request?.correlationId || this.getRequestCorrelationId();
@@ -16643,6 +16697,10 @@ class StandardController_StandardController {
      * @param logoutRequest
      */
     async clearCache(logoutRequest) {
+        if (!this.isBrowserEnvironment) {
+            this.logger.info("in non-browser environment, returning early.");
+            return;
+        }
         const correlationId = this.getRequestCorrelationId(logoutRequest);
         const cacheClient = this.createSilentCacheClient(correlationId);
         return cacheClient.logout(logoutRequest);
@@ -16828,8 +16886,8 @@ class StandardController_StandardController {
      * Adds event callbacks to array
      * @param callback
      */
-    addEventCallback(callback) {
-        return this.eventHandler.addEventCallback(callback);
+    addEventCallback(callback, eventTypes) {
+        return this.eventHandler.addEventCallback(callback, eventTypes);
     }
     /**
      * Removes callback with provided id from callback array
@@ -16845,6 +16903,7 @@ class StandardController_StandardController {
      * @returns {string}
      */
     addPerformanceCallback(callback) {
+        blockNonBrowserEnvironment();
         return this.performanceClient.addPerformanceCallback(callback);
     }
     /**
@@ -16860,13 +16919,68 @@ class StandardController_StandardController {
      * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
      */
     enableAccountStorageEvents() {
-        this.eventHandler.enableAccountStorageEvents();
+        if (typeof window === "undefined") {
+            return;
+        }
+        if (!this.listeningToStorageEvents) {
+            this.logger.verbose("Adding account storage listener.");
+            this.listeningToStorageEvents = true;
+            window.addEventListener("storage", this.handleAccountCacheChange);
+        }
+        else {
+            this.logger.verbose("Account storage listener already registered.");
+        }
     }
     /**
      * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
      */
     disableAccountStorageEvents() {
-        this.eventHandler.disableAccountStorageEvents();
+        if (typeof window === "undefined") {
+            return;
+        }
+        if (this.listeningToStorageEvents) {
+            this.logger.verbose("Removing account storage listener.");
+            window.removeEventListener("storage", this.handleAccountCacheChange);
+            this.listeningToStorageEvents = false;
+        }
+        else {
+            this.logger.verbose("No account storage listener registered.");
+        }
+    }
+    /**
+     * Emit account added/removed events when cached accounts are changed in a different tab or frame
+     */
+    handleAccountCacheChange(e) {
+        try {
+            // Handle active account filter change
+            if (e.key?.includes(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS)) {
+                // This event has no payload, it only signals cross-tab app instances that the results of calling getActiveAccount() will have changed
+                this.eventHandler.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
+            }
+            // Handle account object change
+            const cacheValue = e.newValue || e.oldValue;
+            if (!cacheValue) {
+                return;
+            }
+            const parsedValue = JSON.parse(cacheValue);
+            if (typeof parsedValue !== "object" ||
+                !AccountEntity.isAccountEntity(parsedValue)) {
+                return;
+            }
+            const accountEntity = CacheManager.toObject(new AccountEntity(), parsedValue);
+            const accountInfo = accountEntity.getAccountInfo();
+            if (!e.oldValue && e.newValue) {
+                this.logger.info("Account was added to cache in a different window");
+                this.eventHandler.emitEvent(EventType.ACCOUNT_ADDED, undefined, accountInfo);
+            }
+            else if (!e.newValue && e.oldValue) {
+                this.logger.info("Account was removed from cache in a different window");
+                this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, accountInfo);
+            }
+        }
+        catch (e) {
+            return;
+        }
     }
     /**
      * Gets the token cache for the application.
@@ -16922,12 +17036,6 @@ class StandardController_StandardController {
         return this.isBrowserEnvironment;
     }
     /**
-     * Returns the event handler
-     */
-    getEventHandler() {
-        return this.eventHandler;
-    }
-    /**
      * Generates a correlation id for a request if none is provided.
      *
      * @protected
@@ -16939,7 +17047,7 @@ class StandardController_StandardController {
             return request.correlationId;
         }
         if (this.isBrowserEnvironment) {
-            return BrowserCrypto_createNewGuid();
+            return createNewGuid();
         }
         /*
          * Included for fallback for non-browser environments,
@@ -17215,8 +17323,8 @@ function checkIfRefreshTokenErrorCanBeResolvedSilently(refreshTokenError, cacheL
 
 //# sourceMappingURL=StandardController.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/controllers/ControllerFactory.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/controllers/ControllerFactory.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -17252,8 +17360,8 @@ async function createController(config) {
 
 //# sourceMappingURL=ControllerFactory.mjs.map
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/msaljsclient/node_modules/@azure/msal-browser/dist/app/PublicClientApplication.mjs
-/*! @azure/msal-browser v3.23.0 2024-09-03 */
+;// CONCATENATED MODULE: ./node_modules/@azure/msal-browser/dist/app/PublicClientApplication.mjs
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 
 
 
@@ -17361,9 +17469,10 @@ class PublicClientApplication {
     /**
      * Adds event callbacks to array
      * @param callback
+     * @param eventTypes
      */
-    addEventCallback(callback) {
-        return this.controller.addEventCallback(callback);
+    addEventCallback(callback, eventTypes) {
+        return this.controller.addEventCallback(callback, eventTypes);
     }
     /**
      * Removes callback with provided id from callback array

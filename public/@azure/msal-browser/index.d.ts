@@ -32,6 +32,7 @@ export { MemoryStorage } from "./cache/MemoryStorage.js";
 export { BrowserStorage } from "./cache/BrowserStorage.js";
 export { EventMessage, EventPayload, EventError, EventCallbackFunction, EventMessageUtils, PopupEvent, } from "./event/EventMessage.js";
 export { EventType } from "./event/EventType.js";
+export { EventHandler } from "./event/EventHandler.js";
 export { SignedHttpRequest, SignedHttpRequestOptions, } from "./crypto/SignedHttpRequest.js";
 export { PopupWindowAttributes, PopupSize, PopupPosition, } from "./request/PopupWindowAttributes.js";
 export { BrowserPerformanceClient } from "./telemetry/BrowserPerformanceClient.js";

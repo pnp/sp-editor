@@ -1,31 +1,23 @@
-import { ICrypto, Logger } from "@azure/msal-common/browser";
+import { Logger } from "@azure/msal-common/browser";
 import { InteractionType } from "../utils/BrowserConstants.js";
 import { EventCallbackFunction, EventError, EventPayload } from "./EventMessage.js";
 import { EventType } from "./EventType.js";
 export declare class EventHandler {
     private eventCallbacks;
     private logger;
-    private browserCrypto;
-    private listeningToStorageEvents;
-    constructor(logger: Logger, browserCrypto: ICrypto);
+    constructor(logger?: Logger);
     /**
      * Adds event callbacks to array
-     * @param callback
+     * @param callback - callback to be invoked when an event is raised
+     * @param eventTypes - list of events that this callback will be invoked for, if not provided callback will be invoked for all events
+     * @param callbackId - Identifier for the callback, used to locate and remove the callback when no longer required
      */
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>, callbackId?: string): string | null;
     /**
      * Removes callback with provided id from callback array
      * @param callbackId
      */
     removeEventCallback(callbackId: string): void;
-    /**
-     * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-     */
-    enableAccountStorageEvents(): void;
-    /**
-     * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-     */
-    disableAccountStorageEvents(): void;
     /**
      * Emits events by calling callback with event message
      * @param eventType
@@ -34,9 +26,5 @@ export declare class EventHandler {
      * @param error
      */
     emitEvent(eventType: EventType, interactionType?: InteractionType, payload?: EventPayload, error?: EventError): void;
-    /**
-     * Emit account added/removed events when cached accounts are changed in a different tab or frame
-     */
-    private handleAccountCacheChange;
 }
 //# sourceMappingURL=EventHandler.d.ts.map

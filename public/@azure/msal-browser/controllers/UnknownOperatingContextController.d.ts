@@ -14,9 +14,9 @@ import { AuthenticationResult } from "../response/AuthenticationResult.js";
 import { ApiId, WrapperSKU } from "../utils/BrowserConstants.js";
 import { IController } from "./IController.js";
 import { UnknownOperatingContext } from "../operatingcontext/UnknownOperatingContext.js";
-import { EventHandler } from "../event/EventHandler.js";
 import { EventCallbackFunction } from "../event/EventMessage.js";
 import { ClearCacheRequest } from "../request/ClearCacheRequest.js";
+import { EventType } from "../event/EventType.js";
 /**
  * UnknownOperatingContextController class
  *
@@ -40,10 +40,8 @@ export declare class UnknownOperatingContextController implements IController {
     protected readonly browserCrypto: ICrypto;
     protected isBrowserEnvironment: boolean;
     protected initialized: boolean;
-    protected readonly eventHandler: EventHandler;
     constructor(operatingContext: UnknownOperatingContext);
     getBrowserStorage(): BrowserCacheManager;
-    getEventHandler(): EventHandler;
     getAccount(accountFilter: AccountFilter): AccountInfo | null;
     getAccountByHomeId(homeAccountId: string): AccountInfo | null;
     getAccountByLocalId(localAccountId: string): AccountInfo | null;
@@ -56,7 +54,7 @@ export declare class UnknownOperatingContextController implements IController {
     acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult>;
     acquireTokenNative(request: PopupRequest | SilentRequest | Partial<Omit<CommonAuthorizationUrlRequest, "responseMode" | "codeChallenge" | "codeChallengeMethod" | "requestedClaimsHash" | "nativeBroker">>, apiId: ApiId, accountId?: string | undefined): Promise<AuthenticationResult>;
     acquireTokenByRefreshToken(commonRequest: CommonSilentFlowRequest, silentRequest: SilentRequest): Promise<AuthenticationResult>;
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     removeEventCallback(callbackId: string): void;
     addPerformanceCallback(callback: PerformanceCallbackFunction): string;
     removePerformanceCallback(callbackId: string): boolean;

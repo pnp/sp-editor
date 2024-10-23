@@ -6,6 +6,7 @@ import { RedirectRequest } from "../request/RedirectRequest.js";
 import { PopupRequest } from "../request/PopupRequest.js";
 import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
 import { EventCallbackFunction } from "../event/EventMessage.js";
+import { EventType } from "../event/EventType.js";
 import { EndSessionRequest } from "../request/EndSessionRequest.js";
 import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest.js";
 import { INavigationClient } from "../navigation/INavigationClient.js";
@@ -47,6 +48,7 @@ export declare class StandardController implements IController {
     private activeIframeRequest;
     private ssoSilentMeasurement?;
     private acquireTokenByCodeAsyncMeasurement?;
+    private listeningToStorageEvents;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -285,7 +287,7 @@ export declare class StandardController implements IController {
      * Adds event callbacks to array
      * @param callback
      */
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     /**
      * Removes callback with provided id from callback array
      * @param callbackId
@@ -313,6 +315,10 @@ export declare class StandardController implements IController {
      * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
      */
     disableAccountStorageEvents(): void;
+    /**
+     * Emit account added/removed events when cached accounts are changed in a different tab or frame
+     */
+    protected handleAccountCacheChange(e: StorageEvent): void;
     /**
      * Gets the token cache for the application.
      */
@@ -349,10 +355,6 @@ export declare class StandardController implements IController {
      * Returns the browser env indicator
      */
     isBrowserEnv(): boolean;
-    /**
-     * Returns the event handler
-     */
-    getEventHandler(): EventHandler;
     /**
      * Generates a correlation id for a request if none is provided.
      *

@@ -14,13 +14,14 @@ import { AuthenticationResult } from "../response/AuthenticationResult.js";
 import { EventCallbackFunction } from "../event/EventMessage.js";
 import { ClearCacheRequest } from "../request/ClearCacheRequest.js";
 import { InitializeApplicationRequest } from "../request/InitializeApplicationRequest.js";
+import { EventType } from "../event/EventType.js";
 export interface IPublicClientApplication {
     initialize(request?: InitializeApplicationRequest): Promise<void>;
     acquireTokenPopup(request: PopupRequest): Promise<AuthenticationResult>;
     acquireTokenRedirect(request: RedirectRequest): Promise<void>;
     acquireTokenSilent(silentRequest: SilentRequest): Promise<AuthenticationResult>;
     acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult>;
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     removeEventCallback(callbackId: string): void;
     addPerformanceCallback(callback: PerformanceCallbackFunction): string;
     removePerformanceCallback(callbackId: string): boolean;
