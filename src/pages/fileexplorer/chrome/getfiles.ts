@@ -123,7 +123,7 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
               const joined: any[] = [];
               
               const createItem = (item: any, type: string, additionalProps: object = {}) => ({
-                id: item.UniqueId,
+                id: item.ServerRelativeUrl,
                 portalUrl: (window as any)._spPageContextInfo.portalUrl || 
                            (window as any)._spPageContextInfo.siteAbsoluteUrl + 
                            (window as any)._spPageContextInfo.siteServerRelativeUrl,
@@ -162,7 +162,7 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
               const joined: any[] = [];
               
               const createItem = (item: any, type: string, additionalProps: object = {}) => ({
-                id: item.UniqueId || item.Id,
+                id: item.ServerRelativeUrl,
                 portalUrl: (window as any)._spPageContextInfo.portalUrl || 
                            (window as any)._spPageContextInfo.siteAbsoluteUrl + 
                            (window as any)._spPageContextInfo.siteServerRelativeUrl,
@@ -201,7 +201,7 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
         .then((r: any) => {
           const joined: any[] = [];
           joined.push({
-            id: r.RootFolder.UniqueId,
+            id: r.RootFolder.ServerRelativeUrl,
             portalUrl: (window as any)._spPageContextInfo.portalUrl,
             webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
             webId: r.Id,

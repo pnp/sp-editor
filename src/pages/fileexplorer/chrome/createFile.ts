@@ -104,7 +104,7 @@ export const createFile = (extPath: string, relativeUrl: string, webId: string, 
             .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
             .then((r) => {
               const file = {
-                id: r.UniqueId,
+                id: r.ServerRelativeUrl,
                 portalUrl: (window as any)._spPageContextInfo.portalUrl || 
                            (window as any)._spPageContextInfo.siteAbsoluteUrl + 
                            (window as any)._spPageContextInfo.siteServerRelativeUrl,
@@ -127,7 +127,7 @@ export const createFile = (extPath: string, relativeUrl: string, webId: string, 
         .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
         .then((r) => {
           const file = {
-            id: r.UniqueId,
+            id: r.ServerRelativeUrl,
             portalUrl: (window as any)._spPageContextInfo.portalUrl || 
                        (window as any)._spPageContextInfo.siteAbsoluteUrl + 
                        (window as any)._spPageContextInfo.siteServerRelativeUrl,
