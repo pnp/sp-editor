@@ -14,6 +14,7 @@ export const buttonStyles: IButtonStyles = {
     paddingTop: 10,
     width: '100%',
     textAlign: 'left',
+    justifyContent: 'flex-start',
   },
 };
 

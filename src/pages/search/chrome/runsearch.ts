@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const runsearch = (payload: any, extPath: string) => {
+export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -16,20 +16,38 @@ export const runsearch = (payload: any, extPath: string) => {
       });
     }
 
+    const removeEmptyArraysAndWrap = (obj: any) => {
+      const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
+    
+      for (const key in obj) {
+        if (Array.isArray(obj[key])) {
+          if (obj[key].length === 0) {
+            delete obj[key];
+          } else if (isNotSPO) {
+            obj[key] = { results: obj[key] };
+          }
+        }
+      }
+      return obj;
+    };
+    
+    removeEmptyArraysAndWrap(payload);
+    
     let digest: string = '';
 
     const SPEditor = (props?: SP.ISPBrowserProps) => {
-
       return (instance: Queryable.Queryable) => {
         instance.using(
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
           pnpqueryable.BrowserFetchWithRetry(),
-          pnpqueryable.DefaultParse(),
+          pnpqueryable.DefaultParse()
         );
 
         instance.on.pre.prepend(async (url, init, result) => {
-          url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+          url = props?.baseUrl
+            ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
+            : url;
 
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
@@ -44,7 +62,7 @@ export const runsearch = (payload: any, extPath: string) => {
               const data = await response.json();
               digest = data.d.GetContextWebInformation.FormDigestValue;
             }
-          
+
             init.headers = {
               'X-RequestDigest': digest,
               ...init.headers,
@@ -63,17 +81,21 @@ export const runsearch = (payload: any, extPath: string) => {
       };
     };
 
+    const headers: { [key: string]: string } = {
+      'Accept': 'application/json;odata=verbose',
+      'Cache-Control': 'no-cache',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    };
+
+    if (!(window as any)._spPageContextInfo.isSPO) {
+      headers['Content-Type'] = 'application/json;odata=verbose';
+    }
+
     /***  init pnpjs ***/
     const sp = pnpsp
       .spfi()
       .using(SPEditor({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
-      .using(
-        pnpqueryable.InjectHeaders({
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        })
-      );
+      .using(pnpqueryable.InjectHeaders(headers));
 
     /*** clear previous log listeners ***/
     pnplogging.Logger.clearSubscribers();
@@ -95,16 +117,41 @@ export const runsearch = (payload: any, extPath: string) => {
 
     pnplogging.Logger.subscribe(listener);
 
-    return sp
-      .search(payload)
+    const formatSearchResults = (rawResults: any): SP.ISearchResult[] => {
+
+      const results = new Array<SP.ISearchResult>();
+
+      if (typeof (rawResults) === "undefined" || rawResults == null) {
+          return [];
+      }
+
+      const tempResults = rawResults.results ? rawResults.results : rawResults;
+
+      for (const tempResult of tempResults) {
+
+          const cells: { Key: string; Value: any }[] = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
+
+          results.push(cells.reduce((res, cell) => {
+              // @ts-ignore
+              res[cell.Key] = cell.Value;
+
+              return res;
+
+          }, {}));
+      }
+
+      return results;
+  }
+
+    return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({request: payload }) })
       .then((r) => {
+        const parsedResults = formatSearchResults(r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows);
         var result = {
-          ElapsedTime: r.ElapsedTime,
-          PrimarySearchResults: r.PrimarySearchResults,
-          RawSearchResults: r.RawSearchResults,
-          RowCount: r.RowCount,
-          TotalRows: r.TotalRows,
-          TotalRowsIncludingDuplicates: r.TotalRowsIncludingDuplicates,
+          ElapsedTime: r.postquery.ElapsedTime,
+          PrimarySearchResults: parsedResults,
+          RowCount: r.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
+          TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
+          TotalRowsIncludingDuplicates: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
         };
         return result;
       })

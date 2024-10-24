@@ -62,19 +62,21 @@ export const currentpageallprops = (extPath: string) => {
       };
     };
 
+    const headers: { [key: string]: string } = {
+      'Accept': 'application/json;odata=verbose',
+      'Cache-Control': 'no-cache',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    };
+
+    if (!(window as any)._spPageContextInfo.isSPO) {
+      headers['Content-Type'] = 'application/json;odata=verbose';
+    }
+
     /***  init pnpjs ***/
     const sp = pnpsp
       .spfi()
       .using(SPEditor({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
-      .using(
-        pnpqueryable.InjectHeaders(
-          {
-            Accept: 'application/json; odata=verbose',
-            'Cache-Control': 'no-cache',
-            'X-ClientService-ClientTag': 'SPEDITOR',
-          }
-        )
-      );
+      .using(pnpqueryable.InjectHeaders(headers));
 
     /*** clear previous log listeners ***/
     pnplogging.Logger.clearSubscribers();
@@ -98,57 +100,96 @@ export const currentpageallprops = (extPath: string) => {
 
     let page = { UniqueId: '' };
 
+    const formatSearchResults = (rawResults: any): SP.ISearchResult[] => {
+
+      const results = new Array<SP.ISearchResult>();
+
+      if (typeof (rawResults) === "undefined" || rawResults == null) {
+          return [];
+      }
+
+      const tempResults = rawResults.results ? rawResults.results : rawResults;
+
+      for (const tempResult of tempResults) {
+
+          const cells: { Key: string; Value: any }[] = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
+
+          results.push(cells.reduce((res, cell) => {
+              // @ts-ignore
+              res[cell.Key] = cell.Value;
+
+              return res;
+
+          }, {}));
+      }
+
+      return results;
+  }
+    const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
+
     return sp.web
       .getFileByServerRelativePath((window as any)._spPageContextInfo.serverRequestPath)
-      .select('UniqueId')()
+      .select('UniqueId,ContentTag')()
       .then((r) => {
-          page.UniqueId = r.UniqueId;
+          page.UniqueId = r.UniqueId || r.ContentTag.match(/{([^}]+)}/)?.[1] || '';
         
         var opts = {
           Querytext: `NormUniqueID:${page.UniqueId}`,
           RowLimit: 1,
           Refiners: 'managedproperties(filter=600/0/*)',
-          SelectProperties: ['WorkId'],
+          SelectProperties: isNotSPO ? { results: ['WorkId'] } : ['WorkId'],
         };
-        return sp.search(opts).then((r1: any) => {
-          if (r1.RowCount > 0) {
-            const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
-            const allProps = entries.map((entry: any) => entry.RefinementName);
+        return pnpsp
+          .spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({ request: opts }) })
+          .then((r1: any) => {
+            if (r1.postquery.PrimaryQueryResult?.RelevantResults?.RowCount > 0) {
+              const entries = r1.postquery.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
+              const allProps = entries.map((entry: any) => entry.RefinementName);
 
-            const filteredProps = allProps.filter(
-              (value: any) =>
-                value !== 'ClassificationLastScan' &&
-                value !== 'ClassificationCount' &&
-                value !== 'ClassificationConfidence'
-            );
+              const filteredProps = allProps.filter(
+                (value: any) =>
+                  value !== 'ClassificationLastScan' &&
+                  value !== 'ClassificationCount' &&
+                  value !== 'ClassificationConfidence'
+              );
 
-            return sp
-              .search({
-                Querytext: `NormUniqueID:${page.UniqueId}`,
-                RowLimit: 1,
-                SelectProperties: filteredProps,
-              })
-              .then((r: any) => {
-                return {
-                  ElapsedTime: r.ElapsedTime,
-                  PrimarySearchResults: r.PrimarySearchResults,
-                  RawSearchResults: r.RawSearchResults,
-                  RowCount: r.RowCount,
-                  TotalRows: r.TotalRows,
-                  TotalRowsIncludingDuplicates: r.TotalRowsIncludingDuplicates,
-                };
-              });
-          } else {
-            return {
-              ElapsedTime: r1.ElapsedTime,
-              PrimarySearchResults: r1.PrimarySearchResults,
-              RawSearchResults: r1.RawSearchResults,
-              RowCount: r1.RowCount,
-              TotalRows: r1.TotalRows,
-              TotalRowsIncludingDuplicates: r1.TotalRowsIncludingDuplicates,
-            };
-          }
-        });
+              return pnpsp
+                .spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), {
+                  body: JSON.stringify({
+                    request: {
+                      Querytext: `NormUniqueID:${page.UniqueId}`,
+                      RowLimit: 1,
+                      SelectProperties: isNotSPO ? { results: filteredProps } : filteredProps,
+                    },
+                  }),
+                })
+                .then((r: any) => {
+                  const parsedResults = formatSearchResults(
+                    r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows
+                  );
+                  var result = {
+                    ElapsedTime: r.postquery.ElapsedTime,
+                    PrimarySearchResults: parsedResults,
+                    RowCount: r.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
+                    TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
+                    TotalRowsIncludingDuplicates:
+                      r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
+                  };
+                  return result;
+                });
+            } else {
+              const parsedResults = formatSearchResults(r1.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows);
+              var result = {
+                ElapsedTime: r1.postquery.ElapsedTime,
+                PrimarySearchResults: parsedResults,
+                RowCount: r1.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
+                TotalRows: r1.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
+                TotalRowsIncludingDuplicates:
+                  r1.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
+              };
+              return result;
+            }
+          });
       })
       .catch((error) => {
         return {

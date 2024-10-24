@@ -3,7 +3,7 @@ import { Constants, ISPShootState, SPShootActions } from './types'
 const init: ISPShootState = {
   path: '_api/web/',
   method: 'GET',
-  headers: '{"accept": "application/json; odata=nometadata","content-type": "application/json; odata=nometadata; charset=utf-8"}',
+  headers: '{"Accept": "application/json; odata=verbose","Content-Type": "application/json; odata=verbose; charset=utf-8"}',
   body: '',
   results: '',
   showHeaders: false,

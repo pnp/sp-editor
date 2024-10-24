@@ -47,7 +47,8 @@ export const createFile = (extPath: string, relativeUrl: string, webId: string, 
           return [
             url
               .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
-              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
+              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl(')
+              .replace(/addUsingPath\(DecodedUrl='([^']+)'[^)]*\)/i, "add(overwrite=false,url='$1')"),
             init,
             result,
           ];
