@@ -16,21 +16,34 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
       });
     }
 
-    const removeEmptyArraysAndWrap = (obj: any) => {
+    const removeEmptyArraysAndWrap = (payload: any) => {
       const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
     
-      for (const key in obj) {
-        if (Array.isArray(obj[key])) {
-          if (obj[key].length === 0) {
-            delete obj[key];
+      for (const key in payload) {
+        if (Array.isArray(payload[key])) {
+          if (payload[key].length === 0) {
+            delete payload[key];
           } else if (isNotSPO) {
-            obj[key] = { results: obj[key] };
+            payload[key] = { results: payload[key] };
           }
         }
       }
-      return obj;
+      return payload;
     };
     
+    const ensureSelectProperties = (payload: any) => {
+      if (Array.isArray(payload.SelectProperties)) {
+        const requiredProperties = ['Title', 'OriginalPath', 'DocId'];
+        requiredProperties.forEach((prop) => {
+          if (!payload.SelectProperties.includes(prop)) {
+            payload.SelectProperties.push(prop);
+          }
+        });
+      }
+      return payload;
+    };
+    
+    ensureSelectProperties(payload);
     removeEmptyArraysAndWrap(payload);
     
     let digest: string = '';

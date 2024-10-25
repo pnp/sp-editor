@@ -5,7 +5,7 @@ const init: ISearchState = {
   groups: [],
   loading: false,
   searchQuery: {
-    Querytext: "contentclass:STS_Web",
+    Querytext: "contentclass:STS_*",
     RowLimit: 10,
     StartRow: 0,
     ClientType: "ContentSearchRegular",

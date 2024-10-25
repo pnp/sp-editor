@@ -309,7 +309,7 @@ const FolderTree: React.FC = () => {
     <Stack grow horizontal style={{ height: '100%' }}>
       <Stack style={{ minWidth: '350px' }}>
         <ScrollablePane
-          scrollbarVisibility={ScrollbarVisibility.always}
+          scrollbarVisibility={ScrollbarVisibility.auto}
           style={{
             width: '350px',
             marginLeft: '5px',
