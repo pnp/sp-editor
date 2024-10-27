@@ -20,7 +20,7 @@ export const shoot = (payload: any, extPath: string) => {
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
           pnpqueryable.BrowserFetchWithRetry(),
-          pnpqueryable.DefaultParse()
+          pnpqueryable.JSONParse()
         );
 
         instance.on.pre.prepend(async (url, init, result) => {
