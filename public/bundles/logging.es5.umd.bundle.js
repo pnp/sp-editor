@@ -56,7 +56,7 @@ __webpack_require__.d(__webpack_exports__, {
   PnPLogging: () => (/* reexport */ PnPLogging)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/logging/listeners.js
+;// ./node_modules/@pnp/logging/listeners.js
 /* eslint-disable no-console */
 
 function ConsoleListener(prefix, colors) {
@@ -161,7 +161,7 @@ class _FunctionListener {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/logging/index.js
+;// ./node_modules/@pnp/logging/index.js
 
 /**
  * A set of logging levels
@@ -260,7 +260,7 @@ function PnPLogging(activeLevel) {
     };
 }
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-logging.ts
+;// ./pnpjs-sources/index-logging.ts
 
 
 /******/ 	return __webpack_exports__;

@@ -207,7 +207,7 @@ __webpack_require__.d(__webpack_exports__, {
   toResourcePath: () => (/* reexport */ toResourcePath)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -395,7 +395,7 @@ function delay(ms) {
     });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -581,7 +581,7 @@ class PnPClientStorage {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -669,7 +669,7 @@ function lifecycle() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// ./node_modules/@pnp/core/timeline.js
 
 
 /**
@@ -912,7 +912,7 @@ function cloneObserverCollection(source) {
     }, {});
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+;// ./node_modules/@pnp/core/behaviors/assign-from.js
 /**
  * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
  *
@@ -926,7 +926,7 @@ function AssignFrom(source) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -971,7 +971,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
+;// ./node_modules/@pnp/core/index.js
 
 
 
@@ -982,7 +982,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1362,7 +1362,7 @@ function __disposeResources(env) {
   __disposeResources,
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
+;// ./node_modules/@pnp/queryable/queryable.js
 
 
 const DefaultMoments = {
@@ -1573,7 +1573,7 @@ function invokable(invokeableAction) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
+;// ./node_modules/@pnp/queryable/behaviors/parsers.js
 
 
 function DefaultParse() {
@@ -1672,7 +1672,7 @@ class HttpRequestError extends Error {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
+;// ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
 
 
 function BrowserFetch(props) {
@@ -1761,7 +1761,7 @@ function BrowserFetchWithRetry(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
+;// ./node_modules/@pnp/queryable/behaviors/caching.js
 
 /**
  * Behavior that forces caching for the request regardless of "method"
@@ -1865,7 +1865,7 @@ function caching_bindCachingCore(url, init, props) {
     ];
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
+;// ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
 
 
 
@@ -1915,7 +1915,7 @@ function CachingPessimisticRefresh(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
+;// ./node_modules/@pnp/queryable/behaviors/cancelable.js
 
 /**
  * Cancelable is a fairly complex behavior as there is a lot to consider through multiple timelines. We have
@@ -2109,7 +2109,7 @@ function CancelAction(action) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/inject-headers.js
+;// ./node_modules/@pnp/queryable/behaviors/inject-headers.js
 function InjectHeaders(headers, prepend = false) {
     return (instance) => {
         const f = async function (url, init, result) {
@@ -2126,7 +2126,7 @@ function InjectHeaders(headers, prepend = false) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/resolvers.js
+;// ./node_modules/@pnp/queryable/behaviors/resolvers.js
 function ResolveOnData() {
     return (instance) => {
         instance.on.data(function (data) {
@@ -2144,7 +2144,7 @@ function RejectOnError() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
+;// ./node_modules/@pnp/queryable/index.js
 
 
 /**
@@ -2194,7 +2194,7 @@ function headers(o, previous) {
     return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/spqueryable.js
+;// ./node_modules/@pnp/sp/spqueryable.js
 
 
 const spInvokableFactory = (f) => {
@@ -2383,7 +2383,7 @@ const spPostDeleteETag = (o, init, eTag = "*") => {
 const spDelete = (o, init) => op(o, del, init);
 const spPatch = (o, init) => op(o, patch, init);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fi.js
+;// ./node_modules/@pnp/sp/fi.js
 
 class SPFI {
     /**
@@ -2419,7 +2419,387 @@ function spfi(root = "") {
     return new SPFI(root);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/decorators.js
+;// ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+var tslib_es6_extendStatics = function(d, b) {
+  tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_es6_extendStatics(d, b);
+};
+
+function tslib_es6_extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_es6_assign = function() {
+  tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_es6_rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
+}
+
+function tslib_es6_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_es6_param(paramIndex, decorator) {
+  return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
+function tslib_es6_metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+}
+
+function tslib_es6_generator(thisArg, body) {
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
+}
+
+var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+function tslib_es6_exportStar(m, o) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_es6_values(o) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_es6_read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_es6_read(arguments[i]));
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spreadArrays() {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
+}
+
+function tslib_es6_spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_es6_await(v) {
+  return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
+}
+
+function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_es6_asyncDelegator(o) {
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
+}
+
+function tslib_es6_asyncValues(o) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_es6_makeTemplateObject(cooked, raw) {
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
+};
+
+var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
+};
+
+function tslib_es6_importStar(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
+  tslib_es6_setModuleDefault(result, mod);
+  return result;
+}
+
+function tslib_es6_importDefault(mod) {
+  return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_es6_classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  var r, s = 0;
+  function next() {
+    while (r = env.stack.pop()) {
+      try {
+        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+        if (r.dispose) {
+          var result = r.dispose.call(r.value);
+          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+        }
+        else s |= 1;
+      }
+      catch (e) {
+        fail(e);
+      }
+    }
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const tslib_tslib_es6 = ({
+  __extends: tslib_es6_extends,
+  __assign: tslib_es6_assign,
+  __rest: tslib_es6_rest,
+  __decorate: tslib_es6_decorate,
+  __param: tslib_es6_param,
+  __metadata: tslib_es6_metadata,
+  __awaiter: tslib_es6_awaiter,
+  __generator: tslib_es6_generator,
+  __createBinding: tslib_es6_createBinding,
+  __exportStar: tslib_es6_exportStar,
+  __values: tslib_es6_values,
+  __read: tslib_es6_read,
+  __spread: tslib_es6_spread,
+  __spreadArrays: tslib_es6_spreadArrays,
+  __spreadArray: tslib_es6_spreadArray,
+  __await: tslib_es6_await,
+  __asyncGenerator: tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_es6_asyncDelegator,
+  __asyncValues: tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_es6_makeTemplateObject,
+  __importStar: tslib_es6_importStar,
+  __importDefault: tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_es6_addDisposableResource,
+  __disposeResources: tslib_es6_disposeResources,
+});
+
+;// ./node_modules/@pnp/sp/decorators.js
 /**
  * Decorator used to specify the default path for SPQueryable objects
  *
@@ -2436,7 +2816,7 @@ function defaultPath(path) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extract-web-url.js
+;// ./node_modules/@pnp/sp/utils/extract-web-url.js
 
 function extractWebUrl(candidateUrl) {
     if (stringIsNullOrEmpty(candidateUrl)) {
@@ -2453,7 +2833,7 @@ function extractWebUrl(candidateUrl) {
     return candidateUrl;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/encode-path-str.js
+;// ./node_modules/@pnp/sp/utils/encode-path-str.js
 
 /**
  * Encodes path portions of SharePoint urls such as decodedUrl=`encodePath(pathStr)`
@@ -2479,7 +2859,7 @@ function encodePath(value) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
+;// ./node_modules/@pnp/sp/webs/types.js
 
 
 
@@ -2512,7 +2892,7 @@ let _Webs = class _Webs extends _SPCollection {
         return spPost(Webs(this, "add"), postBody);
     }
 };
-_Webs = __decorate([
+_Webs = tslib_es6_decorate([
     defaultPath("webs")
 ], _Webs);
 
@@ -2693,13 +3073,13 @@ let _Web = class _Web extends _SPInstance {
         return SPCollection(this, `getavailablewebtemplates(lcid=${language},doincludecrosslanguage=${includeCrossLanugage})`);
     }
 };
-_Web = __decorate([
+_Web = tslib_es6_decorate([
     defaultPath("_api/web")
 ], _Web);
 
 const Web = spInvokableFactory(_Web);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/types.js
+;// ./node_modules/@pnp/sp/appcatalog/types.js
 
 
 
@@ -2770,7 +3150,7 @@ let _AppCatalog = class _AppCatalog extends _SPCollection {
         });
     }
 };
-_AppCatalog = __decorate([
+_AppCatalog = tslib_es6_decorate([
     defaultPath("_api/web/tenantappcatalog/AvailableApps")
 ], _AppCatalog);
 
@@ -2824,7 +3204,7 @@ class _App extends _SPInstance {
 }
 const App = spInvokableFactory(_App);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/web.js
+;// ./node_modules/@pnp/sp/appcatalog/web.js
 
 
 
@@ -2832,7 +3212,7 @@ const App = spInvokableFactory(_App);
 // will pass and use the defaultPath defined for AppCatalog
 addProp(_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/appcatalog/index.js
+;// ./node_modules/@pnp/sp/appcatalog/index.js
 
 
 
@@ -2850,7 +3230,7 @@ SPFI.prototype.getTenantAppCatalogWeb = async function () {
     return Web([this._root, data.CorporateCatalogUrl]);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
+;// ./node_modules/@pnp/sp/types.js
 // reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
 const emptyGuid = "00000000-0000-0000-0000-000000000000";
 /**
@@ -2932,7 +3312,7 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/file-names.js
+;// ./node_modules/@pnp/sp/utils/file-names.js
 // eslint-disable-next-line no-control-regex
 const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
 // eslint-disable-next-line no-control-regex
@@ -2969,7 +3349,7 @@ function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/odata-url-from.js
+;// ./node_modules/@pnp/sp/utils/odata-url-from.js
 
 
 function odataUrlFrom(candidate) {
@@ -3007,14 +3387,14 @@ function odataUrlFrom(candidate) {
     return combine(...parts);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/to-resource-path.js
+;// ./node_modules/@pnp/sp/utils/to-resource-path.js
 function toResourcePath(url) {
     return {
         DecodedUrl: url,
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
+;// ./node_modules/@pnp/sp/behaviors/telemetry.js
 
 function Telemetry() {
     return (instance) => {
@@ -3039,7 +3419,7 @@ function Telemetry() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
+;// ./node_modules/@pnp/sp/behaviors/defaults.js
 
 
 function DefaultInit() {
@@ -3064,7 +3444,7 @@ function DefaultHeaders() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
+;// ./node_modules/@pnp/sp/batching.js
 
 
 
@@ -3415,7 +3795,7 @@ function parseResponse(body) {
     return responses;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
+;// ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
 
@@ -3472,7 +3852,7 @@ function RequestDigest(hook) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
+;// ./node_modules/@pnp/sp/behaviors/spbrowser.js
 
 
 
@@ -3496,7 +3876,7 @@ function SPBrowser(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
+;// ./node_modules/@pnp/sp/behaviors/spfx.js
 
 
 
@@ -3554,7 +3934,7 @@ function SPFx(context) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
+;// ./node_modules/@pnp/sp/index.js
 
 
 
@@ -3570,7 +3950,7 @@ function SPFx(context) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/types.js
+;// ./node_modules/@pnp/sp/lists/types.js
 
 
 
@@ -3653,7 +4033,7 @@ let _Lists = class _Lists extends _SPCollection {
         return List([this, odataUrlFrom(json)]);
     }
 };
-_Lists = __decorate([
+_Lists = tslib_es6_decorate([
     defaultPath("lists")
 ], _Lists);
 
@@ -3919,7 +4299,7 @@ var ControlMode;
     ControlMode[ControlMode["New"] = 3] = "New";
 })(ControlMode || (ControlMode = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/types.js
+;// ./node_modules/@pnp/sp/items/types.js
 
 
 
@@ -4009,7 +4389,7 @@ let _Items = class _Items extends _SPCollection {
         return spPost(this, body(properties));
     }
 };
-_Items = __decorate([
+_Items = tslib_es6_decorate([
     defaultPath("items")
 ], _Items);
 
@@ -4181,7 +4561,7 @@ let _ItemVersions = class _ItemVersions extends _SPCollection {
         return ItemVersion(this).concat(`(${versionId})`);
     }
 };
-_ItemVersions = __decorate([
+_ItemVersions = tslib_es6_decorate([
     defaultPath("versions")
 ], _ItemVersions);
 
@@ -4203,7 +4583,7 @@ function ItemUpdatedParser() {
     }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/readable-file.js
+;// ./node_modules/@pnp/sp/files/readable-file.js
 
 
 function StreamParse() {
@@ -4248,7 +4628,7 @@ class ReadableFile extends _SPInstance {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/types.js
+;// ./node_modules/@pnp/sp/attachments/types.js
 
 
 
@@ -4280,7 +4660,7 @@ let _Attachments = class _Attachments extends _SPCollection {
         };
     }
 };
-_Attachments = __decorate([
+_Attachments = tslib_es6_decorate([
     defaultPath("AttachmentFiles")
 ], _Attachments);
 
@@ -4313,17 +4693,17 @@ class _Attachment extends ReadableFile {
 }
 const Attachment = spInvokableFactory(_Attachment);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/item.js
+;// ./node_modules/@pnp/sp/attachments/item.js
 
 
 
 addProp(_Item, "attachmentFiles", Attachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/attachments/index.js
+;// ./node_modules/@pnp/sp/attachments/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/types.js
+;// ./node_modules/@pnp/sp/sites/types.js
 
 
 
@@ -4552,7 +4932,7 @@ let _Site = class _Site extends _SPInstance {
         return spPost(SPQueryable([this, extractWebUrl(this.toUrl())], "_api/siteiconmanager/setsitelogo"), body(logoProperties));
     }
 };
-_Site = __decorate([
+_Site = tslib_es6_decorate([
     defaultPath("_api/site")
 ], _Site);
 
@@ -4582,7 +4962,7 @@ var SiteLogoAspect;
     SiteLogoAspect[SiteLogoAspect["Rectangular"] = 1] = "Rectangular";
 })(SiteLogoAspect || (SiteLogoAspect = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/funcs.js
+;// ./node_modules/@pnp/sp/clientside-pages/funcs.js
 
 /**
  * Gets the next order value 1 based for the provided collection
@@ -4609,17 +4989,17 @@ function reindex(collection) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/list.js
+;// ./node_modules/@pnp/sp/items/list.js
 
 
 
 addProp(_List, "items", Items);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/items/index.js
+;// ./node_modules/@pnp/sp/items/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/context-info/index.js
+;// ./node_modules/@pnp/sp/context-info/index.js
 
 
 
@@ -4635,7 +5015,7 @@ _SPQueryable.prototype.getContextInfo = async function (path = this.parentUrl) {
     }
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/types.js
+;// ./node_modules/@pnp/sp/files/types.js
 
 
 
@@ -4719,16 +5099,16 @@ let _Files = class _Files extends _SPCollection {
         return spPost(Files(this, `addTemplateFile(urloffile='${encodePath(fileUrl)}',templatefiletype=${templateFileType})`));
     }
 };
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _Files.prototype, "addUsingPath", null);
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _Files.prototype, "addChunked", null);
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _Files.prototype, "addTemplateFile", null);
-_Files = __decorate([
+_Files = tslib_es6_decorate([
     defaultPath("files")
 ], _Files);
 
@@ -4996,13 +5376,13 @@ class _File extends ReadableFile {
         return spPost(poster).then(() => fileFromPath(this, destUrl));
     }
 }
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _File.prototype, "copyByPath", null);
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _File.prototype, "moveByPath", null);
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _File.prototype, "setContentChunked", null);
 const File = spInvokableFactory(_File);
@@ -5099,7 +5479,7 @@ let _Versions = class _Versions extends _SPCollection {
         return spPost(Versions(this, `restoreByLabel(versionlabel='${encodePath(label)}')`));
     }
 };
-_Versions = __decorate([
+_Versions = tslib_es6_decorate([
     defaultPath("versions")
 ], _Versions);
 
@@ -5220,7 +5600,7 @@ function isTransform(object) {
     return typeof object === "object" && typeof object.readable === "object";
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/web.js
+;// ./node_modules/@pnp/sp/files/web.js
 
 
 
@@ -5234,7 +5614,7 @@ _Web.prototype.getFileByUrl = function (fileUrl) {
     return File(this, `getFileByUrl('${encodePath("!@p1::" + fileUrl)}')`);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/types.js
+;// ./node_modules/@pnp/sp/comments/types.js
 
 
 
@@ -5268,7 +5648,7 @@ let _Comments = class _Comments extends _SPCollection {
         return spPost(Comments(this, "DeleteAll"));
     }
 };
-_Comments = __decorate([
+_Comments = tslib_es6_decorate([
     defaultPath("comments")
 ], _Comments);
 
@@ -5314,13 +5694,13 @@ let _Replies = class _Replies extends _SPCollection {
         return Object.assign(Comment([this, odataUrlFrom(d)]), d);
     }
 };
-_Replies = __decorate([
+_Replies = tslib_es6_decorate([
     defaultPath("replies")
 ], _Replies);
 
 const Replies = spInvokableFactory(_Replies);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/item.js
+;// ./node_modules/@pnp/sp/comments/item.js
 
 
 
@@ -5356,7 +5736,7 @@ _Item.prototype.rate = async function (value) {
     return spPost(SPQueryable([this, rateUrl]));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/types.js
+;// ./node_modules/@pnp/sp/clientside-pages/types.js
 
 
 
@@ -6501,7 +6881,7 @@ ClientsideWebpart.Default = {
     webPartId: null,
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/web.js
+;// ./node_modules/@pnp/sp/clientside-pages/web.js
 
 
 
@@ -6533,11 +6913,11 @@ _Web.prototype.addFullPageApp = async function (pageName, title = pageName.repla
     return page;
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/clientside-pages/index.js
+;// ./node_modules/@pnp/sp/clientside-pages/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/types.js
+;// ./node_modules/@pnp/sp/folders/types.js
 
 
 
@@ -6569,7 +6949,7 @@ let _Folders = class _Folders extends _SPCollection {
         return spPost(Folders(this, `addUsingPath(DecodedUrl='${encodePath(serverRelativeUrl)}',overwrite=${overwrite})`));
     }
 };
-_Folders = __decorate([
+_Folders = tslib_es6_decorate([
     defaultPath("folders")
 ], _Folders);
 
@@ -6736,10 +7116,10 @@ class _Folder extends _SPInstance {
         return spPost(poster).then(() => folderFromPath(this, destUrl));
     }
 }
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _Folder.prototype, "moveByPath", null);
-__decorate([
+tslib_es6_decorate([
     cancelableScope
 ], _Folder.prototype, "copyByPath", null);
 const Folder = spInvokableFactory(_Folder);
@@ -6776,7 +7156,7 @@ async function folderFromPath(base, path) {
     return (isUrlAbsolute(path) ? folderFromAbsolutePath : folderFromServerRelativePath)(base, path);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/list.js
+;// ./node_modules/@pnp/sp/column-defaults/list.js
 
 
 
@@ -6946,7 +7326,7 @@ _List.prototype.setDefaultColumnValues = async function (defaults) {
     }
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/web.js
+;// ./node_modules/@pnp/sp/lists/web.js
 
 
 
@@ -6965,7 +7345,7 @@ _Web.prototype.getCatalog = async function (type) {
     return List([this, odataUrlFrom(data)]);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/folder.js
+;// ./node_modules/@pnp/sp/column-defaults/folder.js
 
 
 
@@ -7014,15 +7394,15 @@ _Folder.prototype.clearDefaultColumnValues = async function () {
     await this.setDefaultColumnValues([], false);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/column-defaults/index.js
+;// ./node_modules/@pnp/sp/column-defaults/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/comments/index.js
+;// ./node_modules/@pnp/sp/comments/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/types.js
+;// ./node_modules/@pnp/sp/content-types/types.js
 
 
 
@@ -7070,7 +7450,7 @@ let _ContentTypes = class _ContentTypes extends _SPCollection {
         return { contentType: this.getById(data.id), data };
     }
 };
-_ContentTypes = __decorate([
+_ContentTypes = tslib_es6_decorate([
     defaultPath("contenttypes")
 ], _ContentTypes);
 
@@ -7124,7 +7504,7 @@ let _FieldLinks = class _FieldLinks extends _SPCollection {
         return FieldLink(this).concat(`(guid'${id}')`);
     }
 };
-_FieldLinks = __decorate([
+_FieldLinks = tslib_es6_decorate([
     defaultPath("fieldlinks")
 ], _FieldLinks);
 
@@ -7133,31 +7513,31 @@ class _FieldLink extends _SPInstance {
 }
 const FieldLink = spInvokableFactory(_FieldLink);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/web.js
+;// ./node_modules/@pnp/sp/content-types/web.js
 
 
 
 addProp(_Web, "contentTypes", ContentTypes);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/item.js
+;// ./node_modules/@pnp/sp/content-types/item.js
 
 
 
 addProp(_Item, "contentType", ContentType);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/list.js
+;// ./node_modules/@pnp/sp/content-types/list.js
 
 
 
 addProp(_List, "contentTypes", ContentTypes);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/content-types/index.js
+;// ./node_modules/@pnp/sp/content-types/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/types.js
+;// ./node_modules/@pnp/sp/features/types.js
 
 
 
@@ -7201,7 +7581,7 @@ let _Features = class _Features extends _SPCollection {
         }));
     }
 };
-_Features = __decorate([
+_Features = tslib_es6_decorate([
     defaultPath("features")
 ], _Features);
 
@@ -7210,31 +7590,31 @@ class _Feature extends _SPInstance {
 }
 const Feature = spInvokableFactory(_Feature);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/site.js
+;// ./node_modules/@pnp/sp/features/site.js
 
 
 
 addProp(_Site, "features", Features);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/web.js
+;// ./node_modules/@pnp/sp/features/web.js
 
 
 
 addProp(_Web, "features", Features);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/features/index.js
+;// ./node_modules/@pnp/sp/features/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/metadata.js
+;// ./node_modules/@pnp/sp/utils/metadata.js
 function metadata(type) {
     return {
         "__metadata": { "type": type },
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/types.js
+;// ./node_modules/@pnp/sp/fields/types.js
 
 
 
@@ -7483,7 +7863,7 @@ let _Fields = class _Fields extends _SPCollection {
         return this.add(title, 34, properties);
     }
 };
-_Fields = __decorate([
+_Fields = tslib_es6_decorate([
     defaultPath("fields")
 ], _Fields);
 
@@ -7670,55 +8050,55 @@ var ChoiceFieldFormatType;
     ChoiceFieldFormatType[ChoiceFieldFormatType["RadioButtons"] = 1] = "RadioButtons";
 })(ChoiceFieldFormatType || (ChoiceFieldFormatType = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/web.js
+;// ./node_modules/@pnp/sp/fields/web.js
 
 
 
 addProp(_Web, "fields", Fields);
 addProp(_Web, "availablefields", Fields);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/list.js
+;// ./node_modules/@pnp/sp/fields/list.js
 
 
 
 addProp(_List, "fields", Fields);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fields/index.js
+;// ./node_modules/@pnp/sp/fields/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/folder.js
+;// ./node_modules/@pnp/sp/files/folder.js
 
 
 
 addProp(_Folder, "files", Files);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/item.js
+;// ./node_modules/@pnp/sp/files/item.js
 
 
 
 addProp(_Item, "file", File, "file");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/files/index.js
+;// ./node_modules/@pnp/sp/files/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/item.js
+;// ./node_modules/@pnp/sp/folders/item.js
 
 
 
 addProp(_Item, "folder", Folder);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/list.js
+;// ./node_modules/@pnp/sp/folders/list.js
 
 
 
 addProp(_List, "rootFolder", Folder);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/web.js
+;// ./node_modules/@pnp/sp/folders/web.js
 
 
 
@@ -7731,13 +8111,13 @@ _Web.prototype.getFolderById = function (uniqueId) {
     return Folder(this, `getFolderById('${uniqueId}')`);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/folders/index.js
+;// ./node_modules/@pnp/sp/folders/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/types.js
+;// ./node_modules/@pnp/sp/forms/types.js
 
 
 
@@ -7755,7 +8135,7 @@ let _Forms = class _Forms extends _SPCollection {
         return Form(this).concat(`('${id}')`);
     }
 };
-_Forms = __decorate([
+_Forms = tslib_es6_decorate([
     defaultPath("forms")
 ], _Forms);
 
@@ -7768,17 +8148,17 @@ class _Form extends _SPInstance {
 }
 const Form = spInvokableFactory(_Form);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/list.js
+;// ./node_modules/@pnp/sp/forms/list.js
 
 
 
 addProp(_List, "forms", Forms);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/forms/index.js
+;// ./node_modules/@pnp/sp/forms/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/types.js
+;// ./node_modules/@pnp/sp/hubsites/types.js
 
 
 
@@ -7793,7 +8173,7 @@ let _HubSites = class _HubSites extends _SPCollection {
         return HubSite(this, `GetById?hubSiteId='${id}'`);
     }
 };
-_HubSites = __decorate([
+_HubSites = tslib_es6_decorate([
     defaultPath("_api/hubsites")
 ], _HubSites);
 
@@ -7809,7 +8189,7 @@ class _HubSite extends _SPInstance {
 }
 const HubSite = spInvokableFactory(_HubSite);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/site.js
+;// ./node_modules/@pnp/sp/hubsites/site.js
 
 
 _Site.prototype.joinHubSite = async function (siteId) {
@@ -7822,7 +8202,7 @@ _Site.prototype.unRegisterHubSite = async function () {
     await spPost(Site(this, "unRegisterHubSite"));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/web.js
+;// ./node_modules/@pnp/sp/hubsites/web.js
 
 
 _Web.prototype.hubSiteData = async function (forceRefresh = false) {
@@ -7836,7 +8216,7 @@ _Web.prototype.syncHubSiteTheme = function () {
     return spPost(Web(this, "syncHubSiteTheme"));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/hubsites/index.js
+;// ./node_modules/@pnp/sp/hubsites/index.js
 
 
 
@@ -7850,11 +8230,11 @@ Reflect.defineProperty(SPFI.prototype, "hubSites", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/lists/index.js
+;// ./node_modules/@pnp/sp/lists/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/types.js
+;// ./node_modules/@pnp/sp/navigation/types.js
 
 
 
@@ -7953,7 +8333,7 @@ let _Navigation = class _Navigation extends _SPQueryable {
         return NavigationNodes(this, "topnavigationbar");
     }
 };
-_Navigation = __decorate([
+_Navigation = tslib_es6_decorate([
     defaultPath("navigation")
 ], _Navigation);
 
@@ -7997,13 +8377,13 @@ class _NavigationService extends _SPQueryable {
 }
 const NavigationService = (base, path) => new _NavigationService(base, path);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/web.js
+;// ./node_modules/@pnp/sp/navigation/web.js
 
 
 
 addProp(_Web, "navigation", Navigation);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/navigation/index.js
+;// ./node_modules/@pnp/sp/navigation/index.js
 
 
 
@@ -8016,7 +8396,7 @@ Reflect.defineProperty(SPFI.prototype, "navigation", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/types.js
+;// ./node_modules/@pnp/sp/profiles/types.js
 
 
 
@@ -8304,7 +8684,7 @@ let ProfileLoader = class ProfileLoader extends _SPQueryable {
         return spPost(ProfileLoaderFactory(this, `getuserprofile/shareallsocialdata(${share})`));
     }
 };
-ProfileLoader = __decorate([
+ProfileLoader = tslib_es6_decorate([
     defaultPath("_api/sp.userprofiles.profileloader.getprofileloader")
 ], ProfileLoader);
 const ProfileLoaderFactory = (baseUrl, path) => {
@@ -8342,7 +8722,7 @@ let ClientPeoplePickerQuery = class ClientPeoplePickerQuery extends _SPQueryable
         return body({ queryParams });
     }
 };
-ClientPeoplePickerQuery = __decorate([
+ClientPeoplePickerQuery = tslib_es6_decorate([
     defaultPath("_api/sp.ui.applicationpages.clientpeoplepickerwebserviceinterface")
 ], ClientPeoplePickerQuery);
 const ClientPeoplePickerFactory = (baseUrl, path) => {
@@ -8375,7 +8755,7 @@ var UrlZone;
     UrlZone[UrlZone["Extranet"] = 4] = "Extranet";
 })(UrlZone || (UrlZone = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/profiles/index.js
+;// ./node_modules/@pnp/sp/profiles/index.js
 
 
 
@@ -8387,7 +8767,7 @@ Reflect.defineProperty(SPFI.prototype, "profiles", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/types.js
+;// ./node_modules/@pnp/sp/publishing-sitepageservice/types.js
 
 class _SitePageService extends _SPInstance {
     constructor(baseUrl, path = "_api/SP.Publishing.SitePageService") {
@@ -8404,7 +8784,7 @@ class _SitePageService extends _SPInstance {
 }
 const SitePageService = spInvokableFactory(_SitePageService);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/publishing-sitepageservice/index.js
+;// ./node_modules/@pnp/sp/publishing-sitepageservice/index.js
 
 
 
@@ -8414,7 +8794,7 @@ Reflect.defineProperty(SPFI.prototype, "publishingSitePageService", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/types.js
+;// ./node_modules/@pnp/sp/regional-settings/types.js
 
 
 
@@ -8440,7 +8820,7 @@ let _RegionalSettings = class _RegionalSettings extends _SPInstance {
         return results.Items;
     }
 };
-_RegionalSettings = __decorate([
+_RegionalSettings = tslib_es6_decorate([
     defaultPath("regionalsettings")
 ], _RegionalSettings);
 
@@ -8479,7 +8859,7 @@ let _TimeZone = class _TimeZone extends _SPInstance {
         return hOP(res, "LocalTimeToUTC") ? res.LocalTimeToUTC : res;
     }
 };
-_TimeZone = __decorate([
+_TimeZone = tslib_es6_decorate([
     defaultPath("timezone")
 ], _TimeZone);
 
@@ -8494,13 +8874,13 @@ let _TimeZones = class _TimeZones extends _SPCollection {
         return spPost(TimeZones(this, `GetById(${id})`));
     }
 };
-_TimeZones = __decorate([
+_TimeZones = tslib_es6_decorate([
     defaultPath("timezones")
 ], _TimeZones);
 
 const TimeZones = spInvokableFactory(_TimeZones);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/funcs.js
+;// ./node_modules/@pnp/sp/regional-settings/funcs.js
 
 
 function getValueForUICultureBinder(propName) {
@@ -8509,7 +8889,7 @@ function getValueForUICultureBinder(propName) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/web.js
+;// ./node_modules/@pnp/sp/regional-settings/web.js
 
 
 
@@ -8518,7 +8898,7 @@ addProp(_Web, "regionalSettings", RegionalSettings);
 _Web.prototype.titleResource = getValueForUICultureBinder("titleResource");
 _Web.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/types.js
+;// ./node_modules/@pnp/sp/user-custom-actions/types.js
 
 
 
@@ -8551,7 +8931,7 @@ let _UserCustomActions = class _UserCustomActions extends _SPCollection {
         return spPost(UserCustomActions(this, "clear"));
     }
 };
-_UserCustomActions = __decorate([
+_UserCustomActions = tslib_es6_decorate([
     defaultPath("usercustomactions")
 ], _UserCustomActions);
 
@@ -8591,31 +8971,31 @@ var UserCustomActionScope;
     UserCustomActionScope[UserCustomActionScope["List"] = 4] = "List";
 })(UserCustomActionScope || (UserCustomActionScope = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/user-custom-actions.js
+;// ./node_modules/@pnp/sp/regional-settings/user-custom-actions.js
 
 
 _UserCustomAction.prototype.titleResource = getValueForUICultureBinder("titleResource");
 _UserCustomAction.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/list.js
+;// ./node_modules/@pnp/sp/regional-settings/list.js
 
 
 _List.prototype.titleResource = getValueForUICultureBinder("titleResource");
 _List.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/field.js
+;// ./node_modules/@pnp/sp/regional-settings/field.js
 
 
 _Field.prototype.titleResource = getValueForUICultureBinder("titleResource");
 _Field.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/content-type.js
+;// ./node_modules/@pnp/sp/regional-settings/content-type.js
 
 
 _ContentType.prototype.titleResource = getValueForUICultureBinder("nameResource");
 _ContentType.prototype.descriptionResource = getValueForUICultureBinder("descriptionResource");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/regional-settings/index.js
+;// ./node_modules/@pnp/sp/regional-settings/index.js
 
 
 
@@ -8623,7 +9003,7 @@ _ContentType.prototype.descriptionResource = getValueForUICultureBinder("descrip
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/types.js
+;// ./node_modules/@pnp/sp/related-items/types.js
 
 
 
@@ -8693,7 +9073,7 @@ let _RelatedItemManager = class _RelatedItemManager extends _SPQueryable {
         }));
     }
 };
-_RelatedItemManager = __decorate([
+_RelatedItemManager = tslib_es6_decorate([
     defaultPath("_api/SP.RelatedItemManager")
 ], _RelatedItemManager);
 
@@ -8704,7 +9084,7 @@ const RelatedItemManager = (base) => {
     return new _RelatedItemManager([base, extractWebUrl(base.toUrl())]);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/web.js
+;// ./node_modules/@pnp/sp/related-items/web.js
 
 
 Reflect.defineProperty(_Web.prototype, "relatedItems", {
@@ -8715,11 +9095,11 @@ Reflect.defineProperty(_Web.prototype, "relatedItems", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/related-items/index.js
+;// ./node_modules/@pnp/sp/related-items/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/query.js
+;// ./node_modules/@pnp/sp/search/query.js
 var _Search_1;
 
 
@@ -8846,7 +9226,7 @@ let _Search = _Search_1 = class _Search extends _SPInstance {
         return finalQuery;
     }
 };
-_Search = _Search_1 = __decorate([
+_Search = _Search_1 = tslib_es6_decorate([
     defaultPath("_api/search/postquery"),
     invokable(function (init) {
         return this.run(init);
@@ -8935,7 +9315,7 @@ class SearchResults {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/suggest.js
+;// ./node_modules/@pnp/sp/search/suggest.js
 
 
 
@@ -8971,13 +9351,13 @@ let _Suggest = class _Suggest extends _SPInstance {
         querySetter("prefixMatch")("fprefixmatchallterms");
     }
 };
-_Suggest = __decorate([
+_Suggest = tslib_es6_decorate([
     defaultPath("_api/search/suggest")
 ], _Suggest);
 
 const Suggest = spInvokableFactory(_Suggest);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/types.js
+;// ./node_modules/@pnp/sp/search/types.js
 /**
  * defines the SortDirection enum
  */
@@ -9032,7 +9412,7 @@ SearchBuiltInSourceId.RecentlyChangedItems = "ba63bbae-fa9c-42c0-b027-9a878f1655
 SearchBuiltInSourceId.RecommendedItems = "ec675252-14fa-4fbe-84dd-8d098ed74181";
 SearchBuiltInSourceId.Wiki = "9479bf85-e257-4318-b5a8-81a180f5faa1";
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/search/index.js
+;// ./node_modules/@pnp/sp/search/index.js
 
 
 
@@ -9046,7 +9426,7 @@ SPFI.prototype.searchSuggest = function (query) {
     return (new _Suggest(this._root)).run(typeof query === "string" ? { querytext: query } : query);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/types.js
+;// ./node_modules/@pnp/sp/site-users/types.js
 
 
 
@@ -9107,7 +9487,7 @@ let _SiteUsers = class _SiteUsers extends _SPCollection {
         return this.getByLoginName(loginName);
     }
 };
-_SiteUsers = __decorate([
+_SiteUsers = tslib_es6_decorate([
     defaultPath("siteusers")
 ], _SiteUsers);
 
@@ -9139,7 +9519,7 @@ class _SiteUser extends _SPInstance {
 }
 const SiteUser = spInvokableFactory(_SiteUser);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/types.js
+;// ./node_modules/@pnp/sp/site-groups/types.js
 
 
 
@@ -9187,7 +9567,7 @@ let _SiteGroups = class _SiteGroups extends _SPCollection {
         return spPost(SiteGroups(this, `removeByLoginName('${loginName}')`));
     }
 };
-_SiteGroups = __decorate([
+_SiteGroups = tslib_es6_decorate([
     defaultPath("sitegroups")
 ], _SiteGroups);
 
@@ -9216,7 +9596,7 @@ class _SiteGroup extends _SPInstance {
 }
 const SiteGroup = spInvokableFactory(_SiteGroup);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/types.js
+;// ./node_modules/@pnp/sp/security/types.js
 
 
 
@@ -9257,7 +9637,7 @@ let _RoleAssignments = class _RoleAssignments extends _SPCollection {
         await spPost(RoleAssignments(this, `removeroleassignment(principalid=${principalId}, roledefid=${roleDefId})`));
     }
 };
-_RoleAssignments = __decorate([
+_RoleAssignments = tslib_es6_decorate([
     defaultPath("roleassignments")
 ], _RoleAssignments);
 
@@ -9343,7 +9723,7 @@ let _RoleDefinitions = class _RoleDefinitions extends _SPCollection {
         };
     }
 };
-_RoleDefinitions = __decorate([
+_RoleDefinitions = tslib_es6_decorate([
     defaultPath("roledefinitions")
 ], _RoleDefinitions);
 
@@ -9548,7 +9928,7 @@ var PermissionKind;
     PermissionKind[PermissionKind["FullMask"] = 65] = "FullMask";
 })(PermissionKind || (PermissionKind = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/funcs.js
+;// ./node_modules/@pnp/sp/security/funcs.js
 
 
 /**
@@ -9630,7 +10010,7 @@ function hasPermissions(value, perm) {
 }
 /* eslint-enable no-bitwise */
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/item.js
+;// ./node_modules/@pnp/sp/security/item.js
 
 
 
@@ -9646,7 +10026,7 @@ _Item.prototype.userHasPermissions = userHasPermissions;
 _Item.prototype.currentUserHasPermissions = currentUserHasPermissions;
 _Item.prototype.hasPermissions = hasPermissions;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/list.js
+;// ./node_modules/@pnp/sp/security/list.js
 
 
 
@@ -9662,7 +10042,7 @@ _List.prototype.userHasPermissions = userHasPermissions;
 _List.prototype.currentUserHasPermissions = currentUserHasPermissions;
 _List.prototype.hasPermissions = hasPermissions;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/web.js
+;// ./node_modules/@pnp/sp/security/web.js
 
 
 
@@ -9679,13 +10059,13 @@ _Web.prototype.userHasPermissions = userHasPermissions;
 _Web.prototype.currentUserHasPermissions = currentUserHasPermissions;
 _Web.prototype.hasPermissions = hasPermissions;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/security/index.js
+;// ./node_modules/@pnp/sp/security/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/types.js
+;// ./node_modules/@pnp/sp/sharing/types.js
 /**
  * Indicates the role of the sharing link
  */
@@ -9800,7 +10180,7 @@ var RoleType;
     RoleType[RoleType["Administrator"] = 5] = "Administrator";
 })(RoleType || (RoleType = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/file.js
+;// ./node_modules/@pnp/sp/sharing/file.js
 
 
 
@@ -9839,7 +10219,7 @@ _File.prototype.unshareLink = async function unshareLink(linkKind, shareId = emp
     return item.unshareLink(linkKind, shareId);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/folder.js
+;// ./node_modules/@pnp/sp/sharing/folder.js
 
 
 const field = "odata.id";
@@ -9876,7 +10256,7 @@ _Folder.prototype.unshareLink = async function (kind, shareId) {
     return shareable.unshareLink(kind, shareId);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/funcs.js
+;// ./node_modules/@pnp/sp/sharing/funcs.js
 
 
 
@@ -10076,7 +10456,7 @@ async function getRoleValue(role, group) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/item.js
+;// ./node_modules/@pnp/sp/sharing/item.js
 
 
 
@@ -10091,7 +10471,7 @@ _Item.prototype.unshare = unshareObject;
 _Item.prototype.deleteSharingLinkByKind = deleteLinkByKind;
 _Item.prototype.unshareLink = unshareLink;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/web.js
+;// ./node_modules/@pnp/sp/sharing/web.js
 
 
 
@@ -10149,14 +10529,14 @@ _Web.prototype.unshareObject = function (url) {
     return spPost(Web(this, "unshareObject"), body({ url }));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sharing/index.js
+;// ./node_modules/@pnp/sp/sharing/index.js
 
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/types.js
+;// ./node_modules/@pnp/sp/site-designs/types.js
 
 
 
@@ -10331,7 +10711,7 @@ var ListDesignIcon;
     ListDesignIcon[ListDesignIcon["Savings"] = 11] = "Savings";
 })(ListDesignIcon || (ListDesignIcon = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/web.js
+;// ./node_modules/@pnp/sp/site-designs/web.js
 
 
 _Web.prototype.getSiteDesignRuns = function (siteDesignId) {
@@ -10344,7 +10724,7 @@ _Web.prototype.getSiteDesignRunStatus = function (runId) {
     return SiteDesigns(this, "").getSiteDesignRunStatus(undefined, runId);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-designs/index.js
+;// ./node_modules/@pnp/sp/site-designs/index.js
 
 
 
@@ -10357,7 +10737,7 @@ Reflect.defineProperty(SPFI.prototype, "siteDesigns", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/web.js
+;// ./node_modules/@pnp/sp/site-groups/web.js
 
 
 
@@ -10376,11 +10756,11 @@ _Web.prototype.createDefaultAssociatedGroups = async function (groupNameSeed, si
     return spPost(q);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-groups/index.js
+;// ./node_modules/@pnp/sp/site-groups/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/types.js
+;// ./node_modules/@pnp/sp/site-scripts/types.js
 
 
 
@@ -10488,7 +10868,7 @@ var SiteScriptActionOutcome;
     SiteScriptActionOutcome[SiteScriptActionOutcome["SucceededWithException"] = 3] = "SucceededWithException";
 })(SiteScriptActionOutcome || (SiteScriptActionOutcome = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/web.js
+;// ./node_modules/@pnp/sp/site-scripts/web.js
 
 
 
@@ -10497,7 +10877,7 @@ _Web.prototype.getSiteScript = async function (extractInfo) {
     return SiteScripts(this.toUrl(), "").using(AssignFrom(this)).getSiteScriptFromWeb(info.Url, extractInfo);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/list.js
+;// ./node_modules/@pnp/sp/site-scripts/list.js
 
 
 
@@ -10511,7 +10891,7 @@ _List.prototype.getSiteScript = async function () {
     return SiteScripts(this, "").getSiteScriptFromList(absoluteListUrl);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-scripts/index.js
+;// ./node_modules/@pnp/sp/site-scripts/index.js
 
 
 
@@ -10525,7 +10905,7 @@ Reflect.defineProperty(SPFI.prototype, "siteScripts", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/web.js
+;// ./node_modules/@pnp/sp/site-users/web.js
 
 
 
@@ -10539,11 +10919,11 @@ _Web.prototype.getUserById = function (id) {
     return SiteUser(this, `getUserById(${id})`);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/site-users/index.js
+;// ./node_modules/@pnp/sp/site-users/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sites/index.js
+;// ./node_modules/@pnp/sp/sites/index.js
 
 
 
@@ -10555,7 +10935,7 @@ Reflect.defineProperty(SPFI.prototype, "site", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/types.js
+;// ./node_modules/@pnp/sp/social/types.js
 
 
 
@@ -10591,7 +10971,7 @@ let _Social = class _Social extends _SPInstance {
         });
     }
 };
-_Social = __decorate([
+_Social = tslib_es6_decorate([
     defaultPath("_api/social.following")
 ], _Social);
 
@@ -10621,7 +11001,7 @@ let _MySocial = class _MySocial extends _SPInstance {
         return hOP(r, "Suggestions") ? r.Suggestions.results : r;
     }
 };
-_MySocial = __decorate([
+_MySocial = tslib_es6_decorate([
     defaultPath("my")
 ], _MySocial);
 
@@ -10761,7 +11141,7 @@ var SocialStatusCode;
     SocialStatusCode[SocialStatusCode["DatabaseError"] = 18] = "DatabaseError";
 })(SocialStatusCode || (SocialStatusCode = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/social/index.js
+;// ./node_modules/@pnp/sp/social/index.js
 
 
 
@@ -10773,7 +11153,7 @@ Reflect.defineProperty(SPFI.prototype, "social", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/types.js
+;// ./node_modules/@pnp/sp/sputilities/types.js
 
 
 
@@ -10839,7 +11219,7 @@ class _Utilities extends _SPQueryable {
 const Utilities = spInvokableFactory(_Utilities);
 const UtilitiesCloneFactory = (base, path) => Utilities(base, path);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/sputilities/index.js
+;// ./node_modules/@pnp/sp/sputilities/index.js
 
 
 
@@ -10851,7 +11231,7 @@ Reflect.defineProperty(SPFI.prototype, "utility", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/types.js
+;// ./node_modules/@pnp/sp/subscriptions/types.js
 
 
 
@@ -10884,7 +11264,7 @@ let _Subscriptions = class _Subscriptions extends _SPCollection {
         return spPost(this, body(postBody));
     }
 };
-_Subscriptions = __decorate([
+_Subscriptions = tslib_es6_decorate([
     defaultPath("subscriptions")
 ], _Subscriptions);
 
@@ -10920,41 +11300,41 @@ class _Subscription extends _SPInstance {
 }
 const Subscription = spInvokableFactory(_Subscription);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/list.js
+;// ./node_modules/@pnp/sp/subscriptions/list.js
 
 
 
 addProp(_List, "subscriptions", Subscriptions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/subscriptions/index.js
+;// ./node_modules/@pnp/sp/subscriptions/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/list.js
+;// ./node_modules/@pnp/sp/user-custom-actions/list.js
 
 
 
 addProp(_List, "userCustomActions", UserCustomActions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/web.js
+;// ./node_modules/@pnp/sp/user-custom-actions/web.js
 
 
 
 addProp(_Web, "userCustomActions", UserCustomActions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/site.js
+;// ./node_modules/@pnp/sp/user-custom-actions/site.js
 
 
 
 addProp(_Site, "userCustomActions", UserCustomActions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/user-custom-actions/index.js
+;// ./node_modules/@pnp/sp/user-custom-actions/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/types.js
+;// ./node_modules/@pnp/sp/views/types.js
 
 
 
@@ -10992,7 +11372,7 @@ let _Views = class _Views extends _SPCollection {
         return View(this, `getByTitle('${encodePath(title)}')`);
     }
 };
-_Views = __decorate([
+_Views = tslib_es6_decorate([
     defaultPath("views")
 ], _Views);
 
@@ -11070,7 +11450,7 @@ let _ViewFields = class _ViewFields extends _SPCollection {
         return spPost(ViewFields(this, `removeviewfield('${encodePath(fieldInternalName)}')`));
     }
 };
-_ViewFields = __decorate([
+_ViewFields = tslib_es6_decorate([
     defaultPath("viewfields")
 ], _ViewFields);
 
@@ -11083,7 +11463,7 @@ var ViewScope;
     ViewScope[ViewScope["FilesOnly"] = 3] = "FilesOnly";
 })(ViewScope || (ViewScope = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/list.js
+;// ./node_modules/@pnp/sp/views/list.js
 
 
 
@@ -11093,11 +11473,11 @@ _List.prototype.getView = function (viewId) {
     return View(this, `getView('${viewId}')`);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/views/index.js
+;// ./node_modules/@pnp/sp/views/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/types.js
+;// ./node_modules/@pnp/sp/webparts/types.js
 
 
 class _LimitedWebPartManager extends _SPQueryable {
@@ -11183,18 +11563,18 @@ var WebPartsPersonalizationScope;
     WebPartsPersonalizationScope[WebPartsPersonalizationScope["Shared"] = 1] = "Shared";
 })(WebPartsPersonalizationScope || (WebPartsPersonalizationScope = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/file.js
+;// ./node_modules/@pnp/sp/webparts/file.js
 
 
 _File.prototype.getLimitedWebPartManager = function (scope = WebPartsPersonalizationScope.Shared) {
     return LimitedWebPartManager(this, `getLimitedWebPartManager(scope=${scope})`);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webparts/index.js
+;// ./node_modules/@pnp/sp/webparts/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/index.js
+;// ./node_modules/@pnp/sp/webs/index.js
 
 
 
@@ -11206,7 +11586,7 @@ Reflect.defineProperty(SPFI.prototype, "web", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/presets/all.js
+;// ./node_modules/@pnp/sp/presets/all.js
 
 
 
@@ -11278,7 +11658,7 @@ Reflect.defineProperty(SPFI.prototype, "web", {
 
 
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-sp.ts
+;// ./pnpjs-sources/index-sp.ts
 
 
 /******/ 	return __webpack_exports__;

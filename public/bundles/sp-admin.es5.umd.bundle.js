@@ -90,7 +90,7 @@ __webpack_require__.d(__webpack_exports__, {
   Workflows2013State: () => (/* reexport */ Workflows2013State)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -278,7 +278,7 @@ function util_delay(ms) {
     });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -464,7 +464,7 @@ class PnPClientStorage {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -552,7 +552,7 @@ function lifecycle() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// ./node_modules/@pnp/core/timeline.js
 
 
 /**
@@ -795,7 +795,7 @@ function cloneObserverCollection(source) {
     }, {});
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -840,7 +840,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
+;// ./node_modules/@pnp/core/index.js
 
 
 
@@ -851,7 +851,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1231,7 +1231,7 @@ function __disposeResources(env) {
   __disposeResources,
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
+;// ./node_modules/@pnp/queryable/queryable.js
 
 
 const DefaultMoments = {
@@ -1442,7 +1442,7 @@ function invokable(invokeableAction) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
+;// ./node_modules/@pnp/queryable/behaviors/parsers.js
 
 
 function parsers_DefaultParse() {
@@ -1541,7 +1541,7 @@ class parsers_HttpRequestError extends Error {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
+;// ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
 
 
 function BrowserFetch(props) {
@@ -1630,7 +1630,7 @@ function browser_fetch_BrowserFetchWithRetry(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
+;// ./node_modules/@pnp/queryable/behaviors/caching.js
 
 /**
  * Behavior that forces caching for the request regardless of "method"
@@ -1734,7 +1734,7 @@ function caching_bindCachingCore(url, init, props) {
     ];
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
+;// ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
 
 
 
@@ -1784,7 +1784,7 @@ function CachingPessimisticRefresh(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
+;// ./node_modules/@pnp/queryable/behaviors/cancelable.js
 
 /**
  * Cancelable is a fairly complex behavior as there is a lot to consider through multiple timelines. We have
@@ -1978,7 +1978,7 @@ function CancelAction(action) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
+;// ./node_modules/@pnp/queryable/index.js
 
 
 /**
@@ -2028,7 +2028,7 @@ function headers(o, previous) {
     return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/spqueryable.js
+;// ./node_modules/@pnp/sp/spqueryable.js
 
 
 const spInvokableFactory = (f) => {
@@ -2217,7 +2217,7 @@ const spPostDeleteETag = (o, init, eTag = "*") => {
 const spDelete = (o, init) => op(o, del, init);
 const spPatch = (o, init) => op(o, patch, init);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/decorators.js
+;// ./node_modules/@pnp/sp/decorators.js
 /**
  * Decorator used to specify the default path for SPQueryable objects
  *
@@ -2234,7 +2234,7 @@ function defaultPath(path) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/fi.js
+;// ./node_modules/@pnp/sp/fi.js
 
 class SPFI {
     /**
@@ -2270,7 +2270,7 @@ function spfi(root = "") {
     return new SPFI(root);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/types.js
+;// ./node_modules/@pnp/sp/types.js
 // reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
 const emptyGuid = "00000000-0000-0000-0000-000000000000";
 /**
@@ -2352,7 +2352,7 @@ var PageType;
     PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
 })(PageType || (PageType = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/extract-web-url.js
+;// ./node_modules/@pnp/sp/utils/extract-web-url.js
 
 function extract_web_url_extractWebUrl(candidateUrl) {
     if (util_stringIsNullOrEmpty(candidateUrl)) {
@@ -2369,7 +2369,7 @@ function extract_web_url_extractWebUrl(candidateUrl) {
     return candidateUrl;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/odata-url-from.js
+;// ./node_modules/@pnp/sp/utils/odata-url-from.js
 
 
 function odataUrlFrom(candidate) {
@@ -2407,7 +2407,7 @@ function odataUrlFrom(candidate) {
     return combine(...parts);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/utils/encode-path-str.js
+;// ./node_modules/@pnp/sp/utils/encode-path-str.js
 
 /**
  * Encodes path portions of SharePoint urls such as decodedUrl=`encodePath(pathStr)`
@@ -2433,7 +2433,7 @@ function encodePath(value) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/telemetry.js
+;// ./node_modules/@pnp/sp/behaviors/telemetry.js
 
 function telemetry_Telemetry() {
     return (instance) => {
@@ -2458,7 +2458,7 @@ function telemetry_Telemetry() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/defaults.js
+;// ./node_modules/@pnp/sp/behaviors/defaults.js
 
 
 function defaults_DefaultInit() {
@@ -2483,7 +2483,387 @@ function defaults_DefaultHeaders() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/webs/types.js
+;// ./node_modules/@pnp/sp/node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+var tslib_es6_extendStatics = function(d, b) {
+  tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_es6_extendStatics(d, b);
+};
+
+function tslib_es6_extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_es6_assign = function() {
+  tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_es6_rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
+}
+
+function tslib_es6_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_es6_param(paramIndex, decorator) {
+  return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
+function tslib_es6_metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+}
+
+function tslib_es6_generator(thisArg, body) {
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
+}
+
+var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+function tslib_es6_exportStar(m, o) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_es6_values(o) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_es6_read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_es6_read(arguments[i]));
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spreadArrays() {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
+}
+
+function tslib_es6_spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_es6_await(v) {
+  return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
+}
+
+function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_es6_asyncDelegator(o) {
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
+}
+
+function tslib_es6_asyncValues(o) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_es6_makeTemplateObject(cooked, raw) {
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
+};
+
+var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
+};
+
+function tslib_es6_importStar(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
+  tslib_es6_setModuleDefault(result, mod);
+  return result;
+}
+
+function tslib_es6_importDefault(mod) {
+  return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_es6_classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  var r, s = 0;
+  function next() {
+    while (r = env.stack.pop()) {
+      try {
+        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+        if (r.dispose) {
+          var result = r.dispose.call(r.value);
+          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+        }
+        else s |= 1;
+      }
+      catch (e) {
+        fail(e);
+      }
+    }
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const tslib_tslib_es6 = ({
+  __extends: tslib_es6_extends,
+  __assign: tslib_es6_assign,
+  __rest: tslib_es6_rest,
+  __decorate: tslib_es6_decorate,
+  __param: tslib_es6_param,
+  __metadata: tslib_es6_metadata,
+  __awaiter: tslib_es6_awaiter,
+  __generator: tslib_es6_generator,
+  __createBinding: tslib_es6_createBinding,
+  __exportStar: tslib_es6_exportStar,
+  __values: tslib_es6_values,
+  __read: tslib_es6_read,
+  __spread: tslib_es6_spread,
+  __spreadArrays: tslib_es6_spreadArrays,
+  __spreadArray: tslib_es6_spreadArray,
+  __await: tslib_es6_await,
+  __asyncGenerator: tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_es6_asyncDelegator,
+  __asyncValues: tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_es6_makeTemplateObject,
+  __importStar: tslib_es6_importStar,
+  __importDefault: tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_es6_addDisposableResource,
+  __disposeResources: tslib_es6_disposeResources,
+});
+
+;// ./node_modules/@pnp/sp/webs/types.js
 
 
 
@@ -2516,7 +2896,7 @@ let _Webs = class _Webs extends _SPCollection {
         return spqueryable_spPost(Webs(this, "add"), postBody);
     }
 };
-_Webs = __decorate([
+_Webs = tslib_es6_decorate([
     defaultPath("webs")
 ], _Webs);
 
@@ -2697,13 +3077,13 @@ let _Web = class _Web extends _SPInstance {
         return SPCollection(this, `getavailablewebtemplates(lcid=${language},doincludecrosslanguage=${includeCrossLanugage})`);
     }
 };
-_Web = __decorate([
+_Web = tslib_es6_decorate([
     defaultPath("_api/web")
 ], _Web);
 
 const Web = spInvokableFactory(_Web);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/batching.js
+;// ./node_modules/@pnp/sp/batching.js
 
 
 
@@ -3054,7 +3434,7 @@ function parseResponse(body) {
     return responses;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/request-digest.js
+;// ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
 
@@ -3111,7 +3491,7 @@ function request_digest_RequestDigest(hook) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spbrowser.js
+;// ./node_modules/@pnp/sp/behaviors/spbrowser.js
 
 
 
@@ -3135,7 +3515,7 @@ function SPBrowser(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/behaviors/spfx.js
+;// ./node_modules/@pnp/sp/behaviors/spfx.js
 
 
 
@@ -3193,7 +3573,7 @@ function SPFx(context) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp/index.js
+;// ./node_modules/@pnp/sp/index.js
 
 
 
@@ -3209,7 +3589,387 @@ function SPFx(context) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/types.js
+;// ./node_modules/@pnp/sp-admin/node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+var tslib_tslib_es6_extendStatics = function(d, b) {
+  tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_tslib_es6_extendStatics(d, b);
+};
+
+function tslib_tslib_es6_extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_tslib_es6_assign = function() {
+  tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_tslib_es6_rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
+}
+
+function tslib_tslib_es6_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_tslib_es6_param(paramIndex, decorator) {
+  return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
+function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+}
+
+function tslib_tslib_es6_generator(thisArg, body) {
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
+}
+
+var tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+function tslib_tslib_es6_exportStar(m, o) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_tslib_es6_values(o) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_tslib_es6_read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
+  return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spreadArrays() {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
+}
+
+function tslib_tslib_es6_spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_tslib_es6_await(v) {
+  return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
+}
+
+function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_tslib_es6_asyncDelegator(o) {
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
+}
+
+function tslib_tslib_es6_asyncValues(o) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
+};
+
+var tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
+};
+
+function tslib_tslib_es6_importStar(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_tslib_es6_createBinding(result, mod, k);
+  tslib_tslib_es6_setModuleDefault(result, mod);
+  return result;
+}
+
+function tslib_tslib_es6_importDefault(mod) {
+  return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_tslib_es6_classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function tslib_tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  var r, s = 0;
+  function next() {
+    while (r = env.stack.pop()) {
+      try {
+        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+        if (r.dispose) {
+          var result = r.dispose.call(r.value);
+          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+        }
+        else s |= 1;
+      }
+      catch (e) {
+        fail(e);
+      }
+    }
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const node_modules_tslib_tslib_es6 = ({
+  __extends: tslib_tslib_es6_extends,
+  __assign: tslib_tslib_es6_assign,
+  __rest: tslib_tslib_es6_rest,
+  __decorate: tslib_tslib_es6_decorate,
+  __param: tslib_tslib_es6_param,
+  __metadata: tslib_tslib_es6_metadata,
+  __awaiter: tslib_tslib_es6_awaiter,
+  __generator: tslib_tslib_es6_generator,
+  __createBinding: tslib_tslib_es6_createBinding,
+  __exportStar: tslib_tslib_es6_exportStar,
+  __values: tslib_tslib_es6_values,
+  __read: tslib_tslib_es6_read,
+  __spread: tslib_tslib_es6_spread,
+  __spreadArrays: tslib_tslib_es6_spreadArrays,
+  __spreadArray: tslib_tslib_es6_spreadArray,
+  __await: tslib_tslib_es6_await,
+  __asyncGenerator: tslib_tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_tslib_es6_asyncDelegator,
+  __asyncValues: tslib_tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_tslib_es6_makeTemplateObject,
+  __importStar: tslib_tslib_es6_importStar,
+  __importDefault: tslib_tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_tslib_es6_addDisposableResource,
+  __disposeResources: tslib_tslib_es6_disposeResources,
+});
+
+;// ./node_modules/@pnp/sp-admin/types.js
 var SharingCapabilities;
 (function (SharingCapabilities) {
     /**
@@ -3476,7 +4236,7 @@ var SPOHubSiteUserRights;
     SPOHubSiteUserRights[SPOHubSiteUserRights["Join"] = 1] = "Join";
 })(SPOHubSiteUserRights || (SPOHubSiteUserRights = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/office-tenant.js
+;// ./node_modules/@pnp/sp-admin/office-tenant.js
 
 
 
@@ -3984,12 +4744,12 @@ let _Office365Tenant = class _Office365Tenant extends _SPInstance {
         }
     }
 };
-_Office365Tenant = __decorate([
+_Office365Tenant = tslib_tslib_es6_decorate([
     defaultPath("_api/Microsoft.Online.SharePoint.TenantManagement.Office365Tenant")
 ], _Office365Tenant);
 const Office365Tenant = spInvokableFactory(_Office365Tenant);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/site-properties.js
+;// ./node_modules/@pnp/sp-admin/site-properties.js
 
 
 
@@ -4029,12 +4789,12 @@ let _TenantSiteProperties = class _TenantSiteProperties extends _SPInstance {
         }
     }
 };
-_TenantSiteProperties = __decorate([
+_TenantSiteProperties = tslib_tslib_es6_decorate([
     defaultPath("_api/Microsoft.Online.SharePoint.TenantAdministration.SiteProperties")
 ], _TenantSiteProperties);
 const TenantSiteProperties = spInvokableFactory(_TenantSiteProperties);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/tenant.js
+;// ./node_modules/@pnp/sp-admin/tenant.js
 
 
 
@@ -4557,12 +5317,12 @@ let _Tenant = class _Tenant extends _SPInstance {
         }
     }
 };
-_Tenant = __decorate([
+_Tenant = tslib_tslib_es6_decorate([
     defaultPath("_api/SPO.Tenant")
 ], _Tenant);
 const Tenant = spInvokableFactory(_Tenant);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/sp-admin/index.js
+;// ./node_modules/@pnp/sp-admin/index.js
 
 
 
@@ -4589,7 +5349,7 @@ class _Admin extends _SPQueryable {
 }
 const Admin = spInvokableFactory(_Admin);
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-sp-admin.ts
+;// ./pnpjs-sources/index-sp-admin.ts
 
 
 /******/ 	return __webpack_exports__;
