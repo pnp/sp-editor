@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const updateFile = (extPath: string, relativeUrl: string, webId: string, content: string) => {
+export const createFile = (extPath: string, relativeUrl: string, webId: string, filename: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -11,17 +11,18 @@ export const updateFile = (extPath: string, relativeUrl: string, webId: string, 
     let digest: string = '';
 
     const SPEditor = (props?: SP.ISPBrowserProps) => {
-
       return (instance: Queryable.Queryable) => {
         instance.using(
           pnpsp.DefaultHeaders(),
           pnpsp.DefaultInit(),
           pnpqueryable.BrowserFetchWithRetry(),
-          pnpqueryable.DefaultParse(),
+          pnpqueryable.DefaultParse()
         );
 
         instance.on.pre.prepend(async (url, init, result) => {
-          url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+          url = props?.baseUrl
+            ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
+            : url;
 
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
@@ -36,7 +37,7 @@ export const updateFile = (extPath: string, relativeUrl: string, webId: string, 
               const data = await response.json();
               digest = data.d.GetContextWebInformation.FormDigestValue;
             }
-          
+
             init.headers = {
               'X-RequestDigest': digest,
               ...init.headers,
@@ -46,7 +47,8 @@ export const updateFile = (extPath: string, relativeUrl: string, webId: string, 
           return [
             url
               .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
-              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
+              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl(')
+              .replace(/addUsingPath\(DecodedUrl='([^']+)'[^)]*\)/i, "add(overwrite=false,url='$1')"),
             init,
             result,
           ];
@@ -93,61 +95,53 @@ export const updateFile = (extPath: string, relativeUrl: string, webId: string, 
       }
     };
 
-    /*** execute request, add ### to trigger custom httpHandler ***/
-    if (webId) {
-      return sp.site.openWebById(webId).then((w) => {
-        return w.web
-          .getFileByServerRelativePath(relativeUrl)()
-          .then((r) => {
-           // if (r.CustomizedPageStatus > 0 || relativeUrl.toLowerCase().indexOf('/forms/') > 0) {
-              return w.web
-                .getFileByServerRelativePath(relativeUrl)
-                .setContent(content)
-                .then((f) => {
-                  return f.getText().then((text) => {
-                    return text;
-                  });
-                })
-                .catch(handleError);
-          //  } 
-            // else if (r.CheckOutType === 2) {
-            //   return w.web
-            //     .getFileByServerRelativePath(relativeUrl)
-            //     .checkout()
-            //     .then((f) => {
-            //       return w.web
-            //         .getFileByServerRelativePath(relativeUrl)
-            //         .setContent(content)
-            //         .then((f) => {
-            //           return w.web
-            //             .getFileByServerRelativePath(relativeUrl)
-            //             .checkin('Updated from SP Editor', 0)
-            //             .then((f) => {
-            //               return f;
-            //             })
-            //             .catch(handleError);
-            //         })
-            //         .catch(handleError);
-            //     })
-            //     .catch(handleError);
-            // } else {
-            //   return w.web
-            //     .getFileByServerRelativePath(relativeUrl)
-            //     .setContent(content)
-            //     .then((f) => {
-            //       return w.web
-            //         .getFileByServerRelativePath(relativeUrl)
-            //         .checkin('Updated from SP Editor', 0)
-            //         .then((f) => {
-            //           return f;
-            //         })
-            //         .catch(handleError);
-            //     })
-            //     .catch(handleError);
-            // }
-          })
-          .catch(handleError);
-      });
+    if (webId !== '') {
+      return sp.site
+        .openWebById(webId)
+        .then((w) => {
+          return w.web
+            .getFolderByServerRelativePath(relativeUrl)
+            .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
+            .then((r) => {
+              const file = {
+                id: r.ServerRelativeUrl,
+                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                webId: webId,
+                name: r.Name || r.Title,
+                ServerRelativeUrl: r.ServerRelativeUrl,
+                type: 'file',
+                CustomizedPageStatus: r.CustomizedPageStatus, 
+                fileInfo: r
+              }
+              return file;
+            })
+            .catch(handleError);
+        })
+        .catch(handleError);
+    } else {
+      return sp.web
+        .getFolderByServerRelativePath(relativeUrl)
+        .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
+        .then((r) => {
+          const file = {
+            id: r.ServerRelativeUrl,
+            portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                       (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                       (window as any)._spPageContextInfo.siteServerRelativeUrl,
+            webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+            webId: webId,
+            name: r.Name || r.Title,
+            ServerRelativeUrl: r.ServerRelativeUrl,
+            type: 'file',
+            CustomizedPageStatus: r.CustomizedPageStatus, 
+            fileInfo: r
+          }
+          return file;
+        })
+        .catch(handleError);
     }
   });
 

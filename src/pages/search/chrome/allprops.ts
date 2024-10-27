@@ -15,21 +15,68 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
         (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
       });
     }
+    let digest: string = '';
+
+    const SPEditor = (props?: SP.ISPBrowserProps) => {
+
+      return (instance: Queryable.Queryable) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse(),
+        );
+
+        instance.on.pre.prepend(async (url, init, result) => {
+          url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+
+          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
+            if (!digest) {
+              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+                method: 'POST',
+                headers: {
+                  accept: 'application/json;odata=verbose',
+                  'content-type': 'application/json;odata=verbose',
+                },
+              });
+              const data = await response.json();
+              digest = data.d.GetContextWebInformation.FormDigestValue;
+            }
+          
+            init.headers = {
+              'X-RequestDigest': digest,
+              ...init.headers,
+            };
+          }
+
+          return [
+            url
+              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
+            init,
+            result,
+          ];
+        });
+        return instance;
+      };
+    };
+
+    const headers: { [key: string]: string } = {
+      'Accept': 'application/json;odata=verbose',
+      'Cache-Control': 'no-cache',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    };
+
+    if (!(window as any)._spPageContextInfo.isSPO) {
+      headers['Content-Type'] = 'application/json;odata=verbose';
+    }
+
     /***  init pnpjs ***/
     const sp = pnpsp
       .spfi()
-      .using(
-        pnpsp.SPBrowser({
-          baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl,
-        })
-      )
-      .using(
-        pnpqueryable.InjectHeaders({
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        })
-      );
+      .using(SPEditor({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders(headers));
 
     /*** clear previous log listeners ***/
     pnplogging.Logger.clearSubscribers();
@@ -51,6 +98,32 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
 
     pnplogging.Logger.subscribe(listener);
 
+    const formatSearchResults = (rawResults: any): SP.ISearchResult[] => {
+
+      const results = new Array<SP.ISearchResult>();
+
+      if (typeof (rawResults) === "undefined" || rawResults == null) {
+          return [];
+      }
+
+      const tempResults = rawResults.results ? rawResults.results : rawResults;
+
+      for (const tempResult of tempResults) {
+
+          const cells: { Key: string; Value: any }[] = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
+
+          results.push(cells.reduce((res, cell) => {
+              // @ts-ignore
+              res[cell.Key] = cell.Value;
+
+              return res;
+
+          }, {}));
+      }
+
+      return results;
+  }
+
     var opts = {
       Querytext: `WorkId:${content}`,
       RowLimit: 1,
@@ -60,10 +133,10 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
     if (SourceId && SourceId.length > 0) {
       opts.SourceId = SourceId;
     }
-    return sp
-      .search(opts)
+    return pnpsp
+      .spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({ request: opts }) })
       .then((r1: any) => {
-        const entries = r1.RawSearchResults.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
+        const entries = r1.postquery.PrimaryQueryResult.RefinementResults.Refiners.results[0].Entries.results;
         const allProps = entries.map((entry: any) => entry.RefinementName);
 
         const filteredProps = allProps.filter(
@@ -72,17 +145,22 @@ export const allprops = (content: any, SourceId: any, extPath: string) => {
             value !== 'ClassificationCount' &&
             value !== 'ClassificationConfidence'
         );
+        const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
 
-        opts.SelectProperties = filteredProps;
+        opts.SelectProperties = isNotSPO ? { results: filteredProps } : filteredProps;
 
-        return sp.search(opts).then((r: any) => {
+        return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({ request: opts }) })
+        .then((r: any) => {
+          const parsedResults = formatSearchResults(
+            r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows
+          );
           var result = {
-            ElapsedTime: r.ElapsedTime,
-            PrimarySearchResults: r.PrimarySearchResults,
-            RawSearchResults: r.RawSearchResults,
-            RowCount: r.RowCount,
-            TotalRows: r.TotalRows,
-            TotalRowsIncludingDuplicates: r.TotalRowsIncludingDuplicates,
+            ElapsedTime: r.postquery.ElapsedTime,
+            PrimarySearchResults: parsedResults,
+            RowCount: r.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
+            TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
+            TotalRowsIncludingDuplicates:
+              r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
           };
           return result;
         });

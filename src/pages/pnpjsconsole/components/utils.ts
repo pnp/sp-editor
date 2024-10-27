@@ -60,15 +60,16 @@ export const pnpjsMonacoConfigs = () => {
 
 export const initCode = () => {
   const code = `
-  /* Hit 'ctrl + d' or 'cmd + d' to run the code */
-  /* Check output from browser console */
+/* Hit 'ctrl + d' or 'cmd + d' to run the code */
+/* Check output from browser console */
 
 import { spfi, SPBrowser } from "@pnp/sp/presets/all";
+//import { InjectHeaders } from "@pnp/queryable";
 
-const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }));
+const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+           /* onPrem might need verbose headers
+           .using(InjectHeaders({Accept: 'application/json; odata=verbose'}))*/;
 
-// wrapping the code inside self-excecuting async function
-// enables you to use await expression
 (async () => {
 
   const { Title } = await sp.web.select("Title")()

@@ -15,6 +15,7 @@ import { NestedAppOperatingContext } from "../operatingcontext/NestedAppOperatin
 import { IBridgeProxy } from "../naa/IBridgeProxy.js";
 import { NestedAppAuthAdapter } from "../naa/mapping/NestedAppAuthAdapter.js";
 import { EventHandler } from "../event/EventHandler.js";
+import { EventType } from "../event/EventType.js";
 import { EventCallbackFunction } from "../event/EventMessage.js";
 import { AuthenticationResult } from "../response/AuthenticationResult.js";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
@@ -30,11 +31,6 @@ export declare class NestedAppAuthController implements IController {
     protected readonly eventHandler: EventHandler;
     protected readonly nestedAppAuthAdapter: NestedAppAuthAdapter;
     constructor(operatingContext: NestedAppOperatingContext);
-    /**
-     * Returns the event handler instance
-     * @returns EventHandler
-     */
-    getEventHandler(): EventHandler;
     /**
      * Factory function to create a new instance of NestedAppAuthController
      * @param operatingContext
@@ -116,8 +112,9 @@ export declare class NestedAppAuthController implements IController {
     /**
      * Adds event callbacks to array
      * @param callback
+     * @param eventTypes
      */
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     /**
      * Removes callback with provided id from callback array
      * @param callbackId

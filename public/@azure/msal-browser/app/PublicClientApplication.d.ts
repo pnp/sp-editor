@@ -16,6 +16,7 @@ import { EventCallbackFunction } from "../event/EventMessage.js";
 import { ClearCacheRequest } from "../request/ClearCacheRequest.js";
 import { EndSessionPopupRequest } from "../request/EndSessionPopupRequest.js";
 import { InitializeApplicationRequest } from "../request/InitializeApplicationRequest.js";
+import { EventType } from "../event/EventType.js";
 /**
  * The PublicClientApplication class is the object exposed by the library to perform authentication and authorization functions in Single Page Applications
  * to obtain JWT tokens as described in the OAuth 2.0 Authorization Code Flow with PKCE specification.
@@ -95,8 +96,9 @@ export declare class PublicClientApplication implements IPublicClientApplication
     /**
      * Adds event callbacks to array
      * @param callback
+     * @param eventTypes
      */
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     /**
      * Removes callback with provided id from callback array
      * @param callbackId

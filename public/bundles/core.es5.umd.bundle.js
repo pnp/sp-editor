@@ -79,7 +79,7 @@ __webpack_require__.d(__webpack_exports__, {
   stringIsNullOrEmpty: () => (/* reexport */ stringIsNullOrEmpty)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -267,7 +267,7 @@ function delay(ms) {
     });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -453,7 +453,7 @@ class PnPClientStorage {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -541,7 +541,7 @@ function lifecycle() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// ./node_modules/@pnp/core/timeline.js
 
 
 /**
@@ -784,7 +784,7 @@ function cloneObserverCollection(source) {
     }, {});
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+;// ./node_modules/@pnp/core/behaviors/assign-from.js
 /**
  * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
  *
@@ -798,7 +798,7 @@ function AssignFrom(source) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -843,7 +843,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
+;// ./node_modules/@pnp/core/index.js
 
 
 
@@ -854,7 +854,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-core.ts
+;// ./pnpjs-sources/index-core.ts
 
 
 /******/ 	return __webpack_exports__;
