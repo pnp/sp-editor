@@ -160,6 +160,7 @@ const WebPropertiesList = () => {
             layoutMode={DetailsListLayoutMode.justified}
             onShouldVirtualize={() => false}
             items={filteredProps}
+            selection={selection}
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}
             selectionMode={SelectionMode.multiple}

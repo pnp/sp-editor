@@ -14,6 +14,7 @@ import { BrowserConfiguration, Configuration } from "../config/Configuration.js"
 import { EventCallbackFunction } from "../event/EventMessage.js";
 import { ClearCacheRequest } from "../request/ClearCacheRequest.js";
 import { AuthenticationResult } from "../response/AuthenticationResult.js";
+import { EventType } from "../event/EventType.js";
 /**
  * PublicClientNext is an early look at the planned implementation of PublicClientApplication in the next major version of MSAL.js.
  * It contains support for multiple API implementations based on the runtime environment that it is running in.
@@ -96,7 +97,7 @@ export declare class PublicClientNext implements IPublicClientApplication {
      * Adds event callbacks to array
      * @param callback
      */
-    addEventCallback(callback: EventCallbackFunction): string | null;
+    addEventCallback(callback: EventCallbackFunction, eventTypes?: Array<EventType>): string | null;
     /**
      * Removes callback with provided id from callback array
      * @param callbackId

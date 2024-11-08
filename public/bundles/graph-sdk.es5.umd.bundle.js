@@ -81,7 +81,7 @@ __webpack_require__.d(__webpack_exports__, {
   getValidRangeSize: () => (/* reexport */ getValidRangeSize)
 });
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -431,12 +431,25 @@ function __disposeResources(env) {
   return next();
 }
 
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+      });
+  }
+  return path;
+}
+
 /* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
   __decorate,
   __param,
+  __esDecorate,
+  __runInitializers,
+  __propKey,
+  __setFunctionName,
   __metadata,
   __awaiter,
   __generator,
@@ -459,9 +472,10 @@ function __disposeResources(env) {
   __classPrivateFieldIn,
   __addDisposableResource,
   __disposeResources,
+  __rewriteRelativeImportExtension,
 });
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/RequestMethod.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/RequestMethod.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -486,7 +500,7 @@ var RequestMethod;
     RequestMethod["DELETE"] = "DELETE";
 })(RequestMethod || (RequestMethod = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchRequestContent.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchRequestContent.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -904,7 +918,7 @@ class BatchRequestContent {
  */
 BatchRequestContent.requestLimit = 20;
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchResponseContent.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/content/BatchResponseContent.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -994,7 +1008,7 @@ class BatchResponseContent {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Constants.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Constants.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1020,7 +1034,7 @@ const GRAPH_BASE_URL = "https://graph.microsoft.com/";
  */
 const GRAPH_URLS = new Set(["graph.microsoft.com", "graph.microsoft.us", "dod-graph.microsoft.us", "graph.microsoft.de", "microsoftgraph.chinacloudapi.cn", "canary.graph.microsoft.com"]);
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphClientError.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphClientError.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1069,7 +1083,7 @@ class GraphClientError extends Error {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequestUtil.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1186,7 +1200,7 @@ const isCustomHostValid = (host) => {
     }
 };
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareControl.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1237,7 +1251,7 @@ class MiddlewareControl {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareUtil.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1386,7 +1400,7 @@ const cloneRequestWithNewUrl = (newUrl, request) => __awaiter(void 0, void 0, vo
     return new Request(newUrl, { method, headers, body, referrer, referrerPolicy, mode, credentials, cache, redirect, integrity, keepalive, signal });
 });
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/AuthenticationHandlerOptions.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/AuthenticationHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1413,7 +1427,7 @@ class AuthenticationHandlerOptions {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/TelemetryHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1491,7 +1505,7 @@ class TelemetryHandlerOptions {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/AuthenticationHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/AuthenticationHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1575,7 +1589,7 @@ class AuthenticationHandler {
  */
 AuthenticationHandler.AUTHORIZATION_HEADER = "Authorization";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/HTTPMessageHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/HTTPMessageHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1603,7 +1617,7 @@ class HTTPMessageHandler {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RetryHandlerOptions.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RetryHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1699,7 +1713,7 @@ RetryHandlerOptions.MAX_MAX_RETRIES = 10;
  */
 RetryHandlerOptions.defaultShouldRetry = () => true;
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RetryHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RetryHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1886,7 +1900,7 @@ RetryHandler.RETRY_ATTEMPT_HEADER = "Retry-Attempt";
  */
 RetryHandler.RETRY_AFTER_HEADER = "Retry-After";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RedirectHandlerOptions.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/RedirectHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -1940,7 +1954,7 @@ RedirectHandlerOptions.MAX_MAX_REDIRECTS = 20;
  */
 RedirectHandlerOptions.defaultShouldRedirect = () => true;
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RedirectHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/RedirectHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2152,7 +2166,7 @@ RedirectHandler.AUTHORIZATION_HEADER = "Authorization";
  */
 RedirectHandler.MANUAL_REDIRECT = "manual";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Version.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Version.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2166,7 +2180,7 @@ RedirectHandler.MANUAL_REDIRECT = "manual";
  */
 const PACKAGE_VERSION = "3.0.7";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2260,7 +2274,7 @@ TelemetryHandler.PRODUCT_NAME = "graph-js";
  */
 TelemetryHandler.FEATURE_USAGE_STRING = "featureUsage";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareFactory.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/MiddlewareFactory.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2312,7 +2326,7 @@ class MiddlewareFactory {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosStrategy.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosStrategy.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2332,7 +2346,7 @@ var ChaosStrategy;
     ChaosStrategy[ChaosStrategy["RANDOM"] = 1] = "RANDOM";
 })(ChaosStrategy || (ChaosStrategy = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerOptions.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerOptions.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2374,7 +2388,7 @@ class ChaosHandlerOptions {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerData.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/options/ChaosHandlerData.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2461,7 +2475,7 @@ const httpStatusCode = {
     511: "Network Authentication Required",
 };
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/ChaosHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/ChaosHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2684,7 +2698,7 @@ class ChaosHandler {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ResponseType.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ResponseType.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2712,7 +2726,7 @@ var ResponseType;
     ResponseType["TEXT"] = "text";
 })(ResponseType || (ResponseType = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphResponseHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2899,7 +2913,7 @@ class GraphResponseHandler {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/Range.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2928,7 +2942,7 @@ class Range {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/UploadResult.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -2989,7 +3003,7 @@ class UploadResult {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/LargeFileUploadTask.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3269,7 +3283,7 @@ class LargeFileUploadTask {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/FileUpload.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3310,7 +3324,7 @@ class FileUpload {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTaskUtil.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3354,7 +3368,7 @@ const getValidRangeSize = (rangeSize = DEFAULT_FILE_SIZE) => {
     return roundTo320KB(rangeSize);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/OneDriveLargeFileUploadTask.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3543,7 +3557,7 @@ class OneDriveLargeFileUploadTask extends LargeFileUploadTask {
  */
 OneDriveLargeFileUploadTask.DEFAULT_UPLOAD_PATH = "/";
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/StreamUpload.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/FileUploadTask/FileObjectClasses/StreamUpload.js
 
 
 /**
@@ -3665,7 +3679,7 @@ class StreamUpload {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/PageIterator.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/tasks/PageIterator.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3796,7 +3810,7 @@ class PageIterator {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/CustomAuthenticationProvider.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/CustomAuthenticationProvider.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3853,7 +3867,7 @@ class CustomAuthenticationProvider {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphError.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphError.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3893,7 +3907,7 @@ class GraphError extends Error {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphErrorHandler.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphErrorHandler.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -3995,7 +4009,7 @@ class GraphErrorHandler {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequest.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/GraphRequest.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4684,7 +4698,7 @@ class GraphRequest {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClient.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClient.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4764,7 +4778,7 @@ class HTTPClient {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClientFactory.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/HTTPClientFactory.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4838,7 +4852,7 @@ class HTTPClientFactory {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ValidatePolyFilling.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/ValidatePolyFilling.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4870,7 +4884,7 @@ const validatePolyFilling = () => {
     return true;
 };
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Client.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/Client.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -4967,7 +4981,7 @@ class Client {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/browser/index.js
+;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/browser/index.js
 /**
  * -------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.
@@ -5006,7 +5020,7 @@ class Client {
 
 
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-graph-sdk.ts
+;// ./pnpjs-sources/index-graph-sdk.ts
 
 
 /******/ 	return __webpack_exports__;

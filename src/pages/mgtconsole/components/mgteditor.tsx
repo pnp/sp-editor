@@ -1,6 +1,6 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { Dropdown, IDropdownOption, Stack } from '@fluentui/react';
+import { CommandBar, CommandBarButton, DirectionalHint, Dropdown, IconButton, IDropdownOption, Stack } from '@fluentui/react';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -225,6 +225,9 @@ const MGTEditor = () => {
           }
         });
 
+        mgtEditorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        });
+
         mgtEditorRef.current.addCommand(
           // tslint:disable-next-line:no-bitwise
           monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD,
@@ -282,27 +285,41 @@ const MGTEditor = () => {
   };
 
   return (
-    <Stack grow horizontal style={{ height: '100%' }}>
-      <Stack style={{ width: '60%' }}>
-        <Dropdown
-          selectedKey={selectedItem ? selectedItem.key : undefined}
-          placeholder="Select sample:"
-          options={componentSnippets.map((componentSnippet) => componentSnippet.option)}
-          onChange={changeModel}
-          defaultSelectedKey={componentSnippets[1].option.key}
-        />
-        <div ref={mgtEditorDiv} style={{ width: '100%', height: 'calc(100vh - 90px)' }} />
+    <>
+      <Stack grow horizontal style={{ height: '100%' }}>
+        <Stack style={{ width: '60%' }}>
+        <Stack horizontal tokens={{ childrenGap: 10 }}>
+            <CommandBarButton
+              iconProps={{ iconName: 'SetAction' }}
+              title="Add"
+              text='Run code'
+              onClick={() => transpileIt()}
+              styles={{ root: { marginLeft: 28 } }}
+            />
+            <>
+            <Dropdown
+              selectedKey={selectedItem ? selectedItem.key : undefined}
+              placeholder="Select sample:"
+              options={componentSnippets.map((componentSnippet) => componentSnippet.option)}
+              onChange={changeModel}
+              defaultSelectedKey={componentSnippets[1].option.key}
+              styles={{ root: { flexGrow: 1 } }}
+            />
+            </>
+          </Stack>
+          <div ref={mgtEditorDiv} style={{ width: '100%', height: 'calc(100vh - 90px)' }} />
+        </Stack>
+        <Stack style={{ width: '40%', marginLeft: '10px', marginRight: '10px' }}>
+          <iframe
+            title="MGT Sandbox"
+            onLoad={loaded}
+            style={{ width: '100%', height: '100vh', borderWidth: '0px' }}
+            id="testSandboxFrame"
+            src="build/index.html#/mgtiframe"
+          />
+        </Stack>
       </Stack>
-      <Stack style={{ width: '40%', marginLeft: '10px', marginRight: '10px' }}>
-        <iframe
-          title="MGT Sandbox"
-          onLoad={loaded}
-          style={{ width: '100%', height: '100vh', borderWidth: '0px' }}
-          id="testSandboxFrame"
-          src="build/index.html#/mgtiframe"
-        />
-      </Stack>
-    </Stack>
+    </>
   );
 };
 

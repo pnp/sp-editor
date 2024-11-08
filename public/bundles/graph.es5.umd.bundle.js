@@ -180,7 +180,7 @@ __webpack_require__.d(__webpack_exports__, {
   encodeSharingUrl: () => (/* reexport */ encodeSharingUrl)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/util.js
+;// ./node_modules/@pnp/core/util.js
 /**
  * Adds a value to a date
  *
@@ -368,7 +368,7 @@ function util_delay(ms) {
     });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/storage.js
+;// ./node_modules/@pnp/core/storage.js
 
 let storageShim;
 function getStorageShim() {
@@ -554,7 +554,7 @@ class PnPClientStorage {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/moments.js
+;// ./node_modules/@pnp/core/moments.js
 
 /**
  * Emits to all registered observers the supplied arguments. Any values returned by the observers are ignored
@@ -642,7 +642,7 @@ function lifecycle() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/timeline.js
+;// ./node_modules/@pnp/core/timeline.js
 
 
 /**
@@ -885,7 +885,7 @@ function cloneObserverCollection(source) {
     }, {});
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/assign-from.js
+;// ./node_modules/@pnp/core/behaviors/assign-from.js
 /**
  * Behavior that will assign a ref to the source's observers and reset the instance's inheriting flag
  *
@@ -899,7 +899,7 @@ function AssignFrom(source) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/behaviors/copy-from.js
+;// ./node_modules/@pnp/core/behaviors/copy-from.js
 
 
 /**
@@ -944,7 +944,7 @@ function copyObservers(source, behavior, filter) {
     return this;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/core/index.js
+;// ./node_modules/@pnp/core/index.js
 
 
 
@@ -955,7 +955,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1335,7 +1335,7 @@ function __disposeResources(env) {
   __disposeResources,
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/queryable.js
+;// ./node_modules/@pnp/queryable/queryable.js
 
 
 const DefaultMoments = {
@@ -1546,7 +1546,7 @@ function invokable(invokeableAction) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/parsers.js
+;// ./node_modules/@pnp/queryable/behaviors/parsers.js
 
 
 function DefaultParse() {
@@ -1645,7 +1645,7 @@ class parsers_HttpRequestError extends Error {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
+;// ./node_modules/@pnp/queryable/behaviors/browser-fetch.js
 
 
 function BrowserFetch(props) {
@@ -1734,7 +1734,7 @@ function BrowserFetchWithRetry(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching.js
+;// ./node_modules/@pnp/queryable/behaviors/caching.js
 
 /**
  * Behavior that forces caching for the request regardless of "method"
@@ -1838,7 +1838,7 @@ function caching_bindCachingCore(url, init, props) {
     ];
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
+;// ./node_modules/@pnp/queryable/behaviors/caching-pessimistic.js
 
 
 
@@ -1888,7 +1888,7 @@ function CachingPessimisticRefresh(props) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/cancelable.js
+;// ./node_modules/@pnp/queryable/behaviors/cancelable.js
 
 /**
  * Cancelable is a fairly complex behavior as there is a lot to consider through multiple timelines. We have
@@ -2082,7 +2082,7 @@ function CancelAction(action) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/behaviors/inject-headers.js
+;// ./node_modules/@pnp/queryable/behaviors/inject-headers.js
 function InjectHeaders(headers, prepend = false) {
     return (instance) => {
         const f = async function (url, init, result) {
@@ -2099,7 +2099,7 @@ function InjectHeaders(headers, prepend = false) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/queryable/index.js
+;// ./node_modules/@pnp/queryable/index.js
 
 
 /**
@@ -2149,7 +2149,7 @@ function headers(o, previous) {
     return Object.assign({}, previous, { headers: { ...previous === null || previous === void 0 ? void 0 : previous.headers, ...o } });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/consistency-level.js
+;// ./node_modules/@pnp/graph/behaviors/consistency-level.js
 function ConsistencyLevel(level = "eventual") {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
@@ -2160,7 +2160,7 @@ function ConsistencyLevel(level = "eventual") {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/paged.js
+;// ./node_modules/@pnp/graph/behaviors/paged.js
 
 
 
@@ -2208,7 +2208,7 @@ function Paged(supportsCount = false) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/graphqueryable.js
+;// ./node_modules/@pnp/graph/graphqueryable.js
 
 
 
@@ -2409,7 +2409,7 @@ class GraphQueryParams extends Map {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/decorators.js
+;// ./node_modules/@pnp/graph/decorators.js
 
 
 /**
@@ -2554,7 +2554,7 @@ function hasDelta() {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/fi.js
+;// ./node_modules/@pnp/graph/fi.js
 
 class GraphFI {
     /**
@@ -2590,7 +2590,387 @@ function graphfi(root = "") {
     return new GraphFI(root);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/admin/people.js
+;// ./node_modules/@pnp/graph/node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+var tslib_es6_extendStatics = function(d, b) {
+  tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_es6_extendStatics(d, b);
+};
+
+function tslib_es6_extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_es6_assign = function() {
+  tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_es6_rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
+}
+
+function tslib_es6_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_es6_param(paramIndex, decorator) {
+  return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
+function tslib_es6_metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+}
+
+function tslib_es6_generator(thisArg, body) {
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
+}
+
+var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+function tslib_es6_exportStar(m, o) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_es6_values(o) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_es6_read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_es6_read(arguments[i]));
+  return ar;
+}
+
+/** @deprecated */
+function tslib_es6_spreadArrays() {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
+}
+
+function tslib_es6_spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_es6_await(v) {
+  return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
+}
+
+function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_es6_asyncDelegator(o) {
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
+}
+
+function tslib_es6_asyncValues(o) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_es6_makeTemplateObject(cooked, raw) {
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
+};
+
+var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
+};
+
+function tslib_es6_importStar(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
+  tslib_es6_setModuleDefault(result, mod);
+  return result;
+}
+
+function tslib_es6_importDefault(mod) {
+  return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_es6_classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  var r, s = 0;
+  function next() {
+    while (r = env.stack.pop()) {
+      try {
+        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+        if (r.dispose) {
+          var result = r.dispose.call(r.value);
+          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+        }
+        else s |= 1;
+      }
+      catch (e) {
+        fail(e);
+      }
+    }
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const tslib_tslib_es6 = ({
+  __extends: tslib_es6_extends,
+  __assign: tslib_es6_assign,
+  __rest: tslib_es6_rest,
+  __decorate: tslib_es6_decorate,
+  __param: tslib_es6_param,
+  __metadata: tslib_es6_metadata,
+  __awaiter: tslib_es6_awaiter,
+  __generator: tslib_es6_generator,
+  __createBinding: tslib_es6_createBinding,
+  __exportStar: tslib_es6_exportStar,
+  __values: tslib_es6_values,
+  __read: tslib_es6_read,
+  __spread: tslib_es6_spread,
+  __spreadArrays: tslib_es6_spreadArrays,
+  __spreadArray: tslib_es6_spreadArray,
+  __await: tslib_es6_await,
+  __asyncGenerator: tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_es6_asyncDelegator,
+  __asyncValues: tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_es6_makeTemplateObject,
+  __importStar: tslib_es6_importStar,
+  __importDefault: tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_es6_addDisposableResource,
+  __disposeResources: tslib_es6_disposeResources,
+});
+
+;// ./node_modules/@pnp/graph/admin/people.js
 
 
 
@@ -2602,7 +2982,7 @@ let _PeopleAdmin = class _PeopleAdmin extends _GraphInstance {
         return PronounSettings(this);
     }
 };
-_PeopleAdmin = __decorate([
+_PeopleAdmin = tslib_es6_decorate([
     defaultPath("people")
 ], _PeopleAdmin);
 
@@ -2612,7 +2992,7 @@ const PeopleAdmin = graphInvokableFactory(_PeopleAdmin);
 */
 let _PronounSettings = class _PronounSettings extends _GraphInstance {
 };
-_PronounSettings = __decorate([
+_PronounSettings = tslib_es6_decorate([
     defaultPath("pronouns"),
     updateable()
 ], _PronounSettings);
@@ -2623,7 +3003,7 @@ const PronounSettings = graphInvokableFactory(_PronounSettings);
 */
 let _ProfileCardProperty = class _ProfileCardProperty extends _GraphInstance {
 };
-_ProfileCardProperty = __decorate([
+_ProfileCardProperty = tslib_es6_decorate([
     defaultPath("profileCardProperty"),
     deleteable(),
     updateable()
@@ -2635,7 +3015,7 @@ const ProfileCardProperty = graphInvokableFactory(_ProfileCardProperty);
 */
 let _ProfileCardProperties = class _ProfileCardProperties extends _GraphCollection {
 };
-_ProfileCardProperties = __decorate([
+_ProfileCardProperties = tslib_es6_decorate([
     defaultPath("profileCardProperties"),
     getById(ProfileCardProperty),
     addable()
@@ -2643,7 +3023,7 @@ _ProfileCardProperties = __decorate([
 
 const ProfileCardProperties = graphInvokableFactory(_ProfileCardProperties);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/admin/serviceAnnouncements.js
+;// ./node_modules/@pnp/graph/admin/serviceAnnouncements.js
 
 
 
@@ -2662,7 +3042,7 @@ let _ServiceAnnouncements = class _ServiceAnnouncements extends _GraphInstance {
         return ServiceMessages(this);
     }
 };
-_ServiceAnnouncements = __decorate([
+_ServiceAnnouncements = tslib_es6_decorate([
     defaultPath("serviceAnnouncement")
 ], _ServiceAnnouncements);
 
@@ -2678,7 +3058,7 @@ const ServiceHealth = graphInvokableFactory(_ServiceHealth);
  */
 let _HealthOverviews = class _HealthOverviews extends _GraphCollection {
 };
-_HealthOverviews = __decorate([
+_HealthOverviews = tslib_es6_decorate([
     defaultPath("healthOverviews"),
     getByName(ServiceHealth)
 ], _HealthOverviews);
@@ -2701,7 +3081,7 @@ let _HealthIssues = class _HealthIssues extends _GraphCollection {
         return graphGet(GraphQueryable(this, "issueReport"));
     }
 };
-_HealthIssues = __decorate([
+_HealthIssues = tslib_es6_decorate([
     defaultPath("issues"),
     getById(HealthIssue)
 ], _HealthIssues);
@@ -2784,7 +3164,7 @@ let _ServiceMessages = class _ServiceMessages extends _GraphCollection {
         }));
     }
 };
-_ServiceMessages = __decorate([
+_ServiceMessages = tslib_es6_decorate([
     defaultPath("messages"),
     getById(ServiceMessage)
 ], _ServiceMessages);
@@ -2801,14 +3181,14 @@ const ServiceMessageAttachment = graphInvokableFactory(_ServiceMessageAttachment
  */
 let _ServiceMessageAttachments = class _ServiceMessageAttachments extends _GraphCollection {
 };
-_ServiceMessageAttachments = __decorate([
+_ServiceMessageAttachments = tslib_es6_decorate([
     defaultPath("attachments"),
     getById(ServiceMessageAttachment)
 ], _ServiceMessageAttachments);
 
 const ServiceMessageAttachments = graphInvokableFactory(_ServiceMessageAttachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/admin/sharepoint.js
+;// ./node_modules/@pnp/graph/admin/sharepoint.js
 
 
 
@@ -2817,7 +3197,7 @@ let _SharePointAdmin = class _SharePointAdmin extends _GraphInstance {
         return SharePointSettings(this);
     }
 };
-_SharePointAdmin = __decorate([
+_SharePointAdmin = tslib_es6_decorate([
     defaultPath("sharepoint")
 ], _SharePointAdmin);
 
@@ -2827,14 +3207,14 @@ const SharePointAdmin = graphInvokableFactory(_SharePointAdmin);
  */
 let _SharePointSettings = class _SharePointSettings extends _GraphInstance {
 };
-_SharePointSettings = __decorate([
+_SharePointSettings = tslib_es6_decorate([
     defaultPath("settings"),
     updateable()
 ], _SharePointSettings);
 
 const SharePointSettings = graphInvokableFactory(_SharePointSettings);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/admin/index.js
+;// ./node_modules/@pnp/graph/admin/index.js
 
 
 
@@ -2862,7 +3242,7 @@ Reflect.defineProperty(GraphFI.prototype, "admin", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/funcs.js
+;// ./node_modules/@pnp/graph/files/funcs.js
 
 
 
@@ -2896,7 +3276,7 @@ async function driveItemUpload(fileOptions) {
     return await graphPut(q, { body: fileOptions.content });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/resumableUpload.js
+;// ./node_modules/@pnp/graph/files/resumableUpload.js
 
 
 
@@ -2952,7 +3332,7 @@ async function getUploadSession(resuableUploadOptions) {
     return { session, resumableUpload };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/types.js
+;// ./node_modules/@pnp/graph/files/types.js
 
 
 
@@ -3023,7 +3403,7 @@ let _Drive = class _Drive extends _GraphInstance {
         return DriveItem(this, combine("root:/", `${path}:`));
     }
 };
-_Drive = __decorate([
+_Drive = tslib_es6_decorate([
     defaultPath("drive")
 ], _Drive);
 
@@ -3034,7 +3414,7 @@ const Drive = graphInvokableFactory(_Drive);
  */
 let _Drives = class _Drives extends _GraphCollection {
 };
-_Drives = __decorate([
+_Drives = tslib_es6_decorate([
     defaultPath("drives"),
     getById(Drive)
 ], _Drives);
@@ -3076,7 +3456,7 @@ let _Root = class _Root extends _GraphInstance {
         return Reflect.apply(driveItemUpload, this, [fileOptions]);
     }
 };
-_Root = __decorate([
+_Root = tslib_es6_decorate([
     defaultPath("root"),
     hasDelta()
 ], _Root);
@@ -3269,7 +3649,7 @@ let _DriveItem = class _DriveItem extends _GraphInstance {
         return graphPatch(DriveItem(this, "retentionLabel"), body(postBody));
     }
 };
-_DriveItem = __decorate([
+_DriveItem = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _DriveItem);
@@ -3314,25 +3694,25 @@ let _DriveItems = class _DriveItems extends _GraphCollection {
         return await graphPost(this, body(postBody));
     }
 };
-_DriveItems = __decorate([
+_DriveItems = tslib_es6_decorate([
     getById(DriveItem)
 ], _DriveItems);
 
 const DriveItems = graphInvokableFactory(_DriveItems);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/analytics/types.js
+;// ./node_modules/@pnp/graph/analytics/types.js
 
 function analytics(analyticsOptions) {
     const query = `analytics/${analyticsOptions ? analyticsOptions.timeRange : "lastSevenDays"}`;
     return graphGet(GraphQueryable(this, query));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/analytics/driveItems.js
+;// ./node_modules/@pnp/graph/analytics/driveItems.js
 
 
 _DriveItem.prototype.analytics = analytics;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/list-item/types.js
+;// ./node_modules/@pnp/graph/list-item/types.js
 
 
 
@@ -3348,7 +3728,7 @@ let _ListItem = class _ListItem extends _GraphInstance {
         return graphqueryable_GraphCollection(this, "versions");
     }
 };
-_ListItem = __decorate([
+_ListItem = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _ListItem);
@@ -3360,7 +3740,7 @@ const ListItem = graphInvokableFactory(_ListItem);
  */
 let _ListItems = class _ListItems extends _GraphCollection {
 };
-_ListItems = __decorate([
+_ListItems = tslib_es6_decorate([
     defaultPath("items"),
     getById(ListItem),
     addable()
@@ -3379,7 +3759,7 @@ let _DocumentSetVersion = class _DocumentSetVersion extends _GraphInstance {
         return graphPost(DocumentSetVersion(this, "restore"));
     }
 };
-_DocumentSetVersion = __decorate([
+_DocumentSetVersion = tslib_es6_decorate([
     deleteable()
 ], _DocumentSetVersion);
 
@@ -3390,7 +3770,7 @@ const DocumentSetVersion = graphInvokableFactory(_DocumentSetVersion);
  */
 let _DocumentSetVersions = class _DocumentSetVersions extends _GraphCollection {
 };
-_DocumentSetVersions = __decorate([
+_DocumentSetVersions = tslib_es6_decorate([
     defaultPath("documentSetVersions"),
     getById(DocumentSetVersion),
     addable()
@@ -3398,12 +3778,12 @@ _DocumentSetVersions = __decorate([
 
 const DocumentSetVersions = graphInvokableFactory(_DocumentSetVersions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/analytics/listItems.js
+;// ./node_modules/@pnp/graph/analytics/listItems.js
 
 
 _ListItem.prototype.analytics = analytics;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/sites/types.js
+;// ./node_modules/@pnp/graph/sites/types.js
 
 
 
@@ -3440,7 +3820,7 @@ let _Sites = class _Sites extends _GraphCollection {
         return Sites(this, "getAllSites");
     }
 };
-_Sites = __decorate([
+_Sites = tslib_es6_decorate([
     defaultPath("sites")
 ], _Sites);
 
@@ -3485,23 +3865,23 @@ let _FollowedSites = class _FollowedSites extends _GraphCollection {
         return graphPost(FollowedSites(this, "remove"), body({ value: siteIds.map(id => ({ id })) }));
     }
 };
-_FollowedSites = __decorate([
+_FollowedSites = tslib_es6_decorate([
     defaultPath("followedsites")
 ], _FollowedSites);
 
 const FollowedSites = graphInvokableFactory(_FollowedSites);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/analytics/sites.js
+;// ./node_modules/@pnp/graph/analytics/sites.js
 
 
 _Site.prototype.analytics = analytics;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/analytics/index.js
+;// ./node_modules/@pnp/graph/analytics/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/appCatalog/types.js
+;// ./node_modules/@pnp/graph/appCatalog/types.js
 
 
 
@@ -3518,7 +3898,7 @@ let _AppCatalog = class _AppCatalog extends _GraphInstance {
         return TeamsApps(this);
     }
 };
-_AppCatalog = __decorate([
+_AppCatalog = tslib_es6_decorate([
     defaultPath("appCatalogs")
 ], _AppCatalog);
 
@@ -3541,7 +3921,7 @@ const AppDefinition = graphInvokableFactory(_AppDefinition);
  */
 let _AppDefinitions = class _AppDefinitions extends _GraphCollection {
 };
-_AppDefinitions = __decorate([
+_AppDefinitions = tslib_es6_decorate([
     defaultPath("appDefinitions"),
     getById(AppDefinition)
 ], _AppDefinitions);
@@ -3603,14 +3983,14 @@ let _TeamsApps = class _TeamsApps extends _GraphCollection {
         return graphPost(q, { body: zip });
     }
 };
-_TeamsApps = __decorate([
+_TeamsApps = tslib_es6_decorate([
     defaultPath("teamsApps"),
     getById(TeamsApp)
 ], _TeamsApps);
 
 const TeamsApps = graphInvokableFactory(_TeamsApps);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/appCatalog/index.js
+;// ./node_modules/@pnp/graph/appCatalog/index.js
 
 
 
@@ -3622,7 +4002,7 @@ Reflect.defineProperty(GraphFI.prototype, "appCatalog", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/types.js
+;// ./node_modules/@pnp/graph/conversations/types.js
 
 
 
@@ -3638,7 +4018,7 @@ let _Conversation = class _Conversation extends _GraphInstance {
         return Threads(this);
     }
 };
-_Conversation = __decorate([
+_Conversation = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _Conversation);
@@ -3649,7 +4029,7 @@ const Conversation = graphInvokableFactory(_Conversation);
  */
 let _Conversations = class _Conversations extends _GraphCollection {
 };
-_Conversations = __decorate([
+_Conversations = tslib_es6_decorate([
     defaultPath("conversations"),
     addable(),
     getById(Conversation)
@@ -3675,7 +4055,7 @@ let _Thread = class _Thread extends _GraphInstance {
         return graphPost(Thread(this, "reply"), body(post));
     }
 };
-_Thread = __decorate([
+_Thread = tslib_es6_decorate([
     deleteable()
 ], _Thread);
 
@@ -3685,7 +4065,7 @@ const Thread = graphInvokableFactory(_Thread);
  */
 let _Threads = class _Threads extends _GraphCollection {
 };
-_Threads = __decorate([
+_Threads = tslib_es6_decorate([
     defaultPath("threads"),
     addable(),
     getById(Thread)
@@ -3716,7 +4096,7 @@ let _Post = class _Post extends _GraphInstance {
         return graphPost(Post(this, "reply"), body(params));
     }
 };
-_Post = __decorate([
+_Post = tslib_es6_decorate([
     deleteable()
 ], _Post);
 
@@ -3726,7 +4106,7 @@ const Post = graphInvokableFactory(_Post);
  */
 let _Posts = class _Posts extends _GraphCollection {
 };
-_Posts = __decorate([
+_Posts = tslib_es6_decorate([
     defaultPath("posts"),
     addable(),
     getById(Post)
@@ -3757,12 +4137,12 @@ class _Senders extends _GraphCollection {
 }
 const Senders = graphInvokableFactory(_Senders);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/utils/type.js
+;// ./node_modules/@pnp/graph/utils/type.js
 function type(n, a) {
     return Object.assign({ "@odata.type": n }, a);
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/types.js
+;// ./node_modules/@pnp/graph/attachments/types.js
 
 
 
@@ -3773,7 +4153,7 @@ function type(n, a) {
  */
 let _Attachment = class _Attachment extends _GraphInstance {
 };
-_Attachment = __decorate([
+_Attachment = tslib_es6_decorate([
     deleteable()
 ], _Attachment);
 
@@ -3796,20 +4176,20 @@ let _Attachments = class _Attachments extends _GraphCollection {
         })));
     }
 };
-_Attachments = __decorate([
+_Attachments = tslib_es6_decorate([
     defaultPath("attachments"),
     getById(Attachment)
 ], _Attachments);
 
 const Attachments = graphInvokableFactory(_Attachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/conversations.js
+;// ./node_modules/@pnp/graph/attachments/conversations.js
 
 
 
 addProp(_Post, "attachments", Attachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/funcs.js
+;// ./node_modules/@pnp/graph/mail/funcs.js
 
 
 
@@ -3835,7 +4215,7 @@ async function mailResponse(gq, type, response, timeZone = null) {
     return await graphPost(q, body(postBody));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/messages.js
+;// ./node_modules/@pnp/graph/mail/messages.js
 
 
 
@@ -3941,7 +4321,7 @@ let _Message = class _Message extends _GraphInstance {
         return (await mailResponse(this, "forward", forward, timeZone));
     }
 };
-_Message = __decorate([
+_Message = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _Message);
@@ -3952,7 +4332,7 @@ const Message = graphInvokableFactory(_Message);
  */
 let _Messages = class _Messages extends _GraphCollection {
 };
-_Messages = __decorate([
+_Messages = tslib_es6_decorate([
     defaultPath("messages"),
     getById(Message),
     addable(),
@@ -3965,7 +4345,7 @@ const Messages = graphInvokableFactory(_Messages);
  */
 let _MessageRule = class _MessageRule extends _GraphInstance {
 };
-_MessageRule = __decorate([
+_MessageRule = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _MessageRule);
@@ -3976,7 +4356,7 @@ const MessageRule = graphInvokableFactory(_MessageRule);
  */
 let _MessageRules = class _MessageRules extends _GraphCollection {
 };
-_MessageRules = __decorate([
+_MessageRules = tslib_es6_decorate([
     defaultPath("messageRules"),
     getById(MessageRule),
     addable()
@@ -3984,13 +4364,13 @@ _MessageRules = __decorate([
 
 const MessageRules = graphInvokableFactory(_MessageRules);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/message.js
+;// ./node_modules/@pnp/graph/attachments/message.js
 
 
 
 addProp(_Message, "attachments", Attachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/funcs.js
+;// ./node_modules/@pnp/graph/calendars/funcs.js
 
 
 
@@ -4053,7 +4433,7 @@ function reminderView(start, end) {
     return query;
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/types.js
+;// ./node_modules/@pnp/graph/calendars/types.js
 
 
 
@@ -4083,7 +4463,7 @@ let _Calendar = class _Calendar extends _GraphInstance {
         return graphPost(Calendar(this, "getSchedule"), body(properties));
     }
 };
-_Calendar = __decorate([
+_Calendar = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Calendar);
@@ -4094,7 +4474,7 @@ const Calendar = graphInvokableFactory(_Calendar);
  */
 let _Calendars = class _Calendars extends _GraphCollection {
 };
-_Calendars = __decorate([
+_Calendars = tslib_es6_decorate([
     defaultPath("calendars"),
     getById(Calendar),
     addable()
@@ -4151,7 +4531,7 @@ let _Event = class _Event extends _GraphInstance {
         return graphPost(Event(this, "tentativelyAccept"), body({ comment, sendResponse, proposedNewTime }));
     }
 };
-_Event = __decorate([
+_Event = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Event);
@@ -4162,7 +4542,7 @@ const Event = graphInvokableFactory(_Event);
  */
 let _Events = class _Events extends _GraphCollection {
 };
-_Events = __decorate([
+_Events = tslib_es6_decorate([
     defaultPath("events"),
     getById(Event),
     addable()
@@ -4177,7 +4557,7 @@ let _CalendarGroup = class _CalendarGroup extends _GraphInstance {
         return Calendars(this);
     }
 };
-_CalendarGroup = __decorate([
+_CalendarGroup = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _CalendarGroup);
@@ -4188,7 +4568,7 @@ const CalendarGroup = graphInvokableFactory(_CalendarGroup);
  */
 let _CalendarGroups = class _CalendarGroups extends _GraphCollection {
 };
-_CalendarGroups = __decorate([
+_CalendarGroups = tslib_es6_decorate([
     defaultPath("calendarGroups"),
     getById(CalendarGroup),
     addable()
@@ -4200,7 +4580,7 @@ const CalendarGroups = graphInvokableFactory(_CalendarGroups);
  */
 let _CalendarPermission = class _CalendarPermission extends _GraphInstance {
 };
-_CalendarPermission = __decorate([
+_CalendarPermission = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _CalendarPermission);
@@ -4211,7 +4591,7 @@ const CalendarPermission = graphInvokableFactory(_CalendarPermission);
  */
 let _CalendarPermissions = class _CalendarPermissions extends _GraphCollection {
 };
-_CalendarPermissions = __decorate([
+_CalendarPermissions = tslib_es6_decorate([
     defaultPath("calendarPermissions"),
     getById(CalendarPermission),
     addable()
@@ -4219,19 +4599,19 @@ _CalendarPermissions = __decorate([
 
 const CalendarPermissions = graphInvokableFactory(_CalendarPermissions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/event.js
+;// ./node_modules/@pnp/graph/attachments/event.js
 
 
 
 addProp(_Event, "attachments", Attachments);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/attachments/index.js
+;// ./node_modules/@pnp/graph/attachments/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/types.js
+;// ./node_modules/@pnp/graph/directory-objects/types.js
 
 
 
@@ -4266,7 +4646,7 @@ let _DirectoryObject = class _DirectoryObject extends _GraphInstance {
         return graphPost(DirectoryObject(this, "checkMemberGroups"), body({ groupIds }));
     }
 };
-_DirectoryObject = __decorate([
+_DirectoryObject = tslib_es6_decorate([
     deleteable()
 ], _DirectoryObject);
 
@@ -4294,7 +4674,7 @@ let _DirectoryObjects = class _DirectoryObjects extends _GraphCollection {
         return Count(this);
     }
 };
-_DirectoryObjects = __decorate([
+_DirectoryObjects = tslib_es6_decorate([
     defaultPath("directoryObjects"),
     getById(DirectoryObject)
 ], _DirectoryObjects);
@@ -4323,7 +4703,7 @@ var DirectoryObjectTypes;
     DirectoryObjectTypes[DirectoryObjectTypes["device"] = 3] = "device";
 })(DirectoryObjectTypes || (DirectoryObjectTypes = {}));
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/groups/types.js
+;// ./node_modules/@pnp/graph/groups/types.js
 
 
 
@@ -4393,7 +4773,7 @@ let _Group = class _Group extends _DirectoryObject {
         return view();
     }
 };
-_Group = __decorate([
+_Group = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Group);
@@ -4430,14 +4810,14 @@ let _Groups = class _Groups extends _DirectoryObjects {
         return graphPost(this, body(postBody));
     }
 };
-_Groups = __decorate([
+_Groups = tslib_es6_decorate([
     defaultPath("groups"),
     getById(Group)
 ], _Groups);
 
 const Groups = graphInvokableFactory(_Groups);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/groups.js
+;// ./node_modules/@pnp/graph/calendars/groups.js
 
 
 
@@ -4446,7 +4826,7 @@ addProp(_Group, "calendar", Calendar);
 addProp(_Group, "events", Events);
 _Group.prototype.calendarView = calendarView;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/users/types.js
+;// ./node_modules/@pnp/graph/users/types.js
 
 
 
@@ -4483,7 +4863,7 @@ let _User = class _User extends _DirectoryObject {
         return User(this, "manager");
     }
 };
-_User = __decorate([
+_User = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _User);
@@ -4491,7 +4871,7 @@ _User = __decorate([
 const User = graphInvokableFactory(_User);
 let _Users = class _Users extends _DirectoryObjects {
 };
-_Users = __decorate([
+_Users = tslib_es6_decorate([
     defaultPath("users"),
     getById(User)
 ], _Users);
@@ -4499,13 +4879,13 @@ _Users = __decorate([
 const Users = graphInvokableFactory(_Users);
 let _People = class _People extends _DirectoryObjects {
 };
-_People = __decorate([
+_People = tslib_es6_decorate([
     defaultPath("people")
 ], _People);
 
 const People = graphInvokableFactory(_People);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/users.js
+;// ./node_modules/@pnp/graph/calendars/users.js
 
 
 
@@ -4518,12 +4898,12 @@ _User.prototype.calendarView = calendarView;
 _User.prototype.findMeetingTimes = findMeetingTimes;
 _User.prototype.reminderView = reminderView;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/calendars/index.js
+;// ./node_modules/@pnp/graph/calendars/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/cloud-communications/types.js
+;// ./node_modules/@pnp/graph/cloud-communications/types.js
 
 
 
@@ -4575,7 +4955,7 @@ let _Presence = class _Presence extends _GraphInstance {
         return graphPost(Presence(this, "setStatusMessage"), body(postBody));
     }
 };
-_Presence = __decorate([
+_Presence = tslib_es6_decorate([
     defaultPath("presence")
 ], _Presence);
 
@@ -4591,19 +4971,19 @@ let _Communications = class _Communications extends _GraphCollection {
         return graphPost(Communications(this, "getPresencesByUserId"), body(postBody));
     }
 };
-_Communications = __decorate([
+_Communications = tslib_es6_decorate([
     defaultPath("communications")
 ], _Communications);
 
 const Communications = graphInvokableFactory(_Communications);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/cloud-communications/users.js
+;// ./node_modules/@pnp/graph/cloud-communications/users.js
 
 
 
 addProp(_User, "presence", Presence);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/cloud-communications/index.js
+;// ./node_modules/@pnp/graph/cloud-communications/index.js
 
 
 
@@ -4616,7 +4996,7 @@ Reflect.defineProperty(GraphFI.prototype, "communications", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/lists/types.js
+;// ./node_modules/@pnp/graph/lists/types.js
 
 
 
@@ -4625,7 +5005,7 @@ Reflect.defineProperty(GraphFI.prototype, "communications", {
  */
 let _List = class _List extends _GraphInstance {
 };
-_List = __decorate([
+_List = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _List);
@@ -4637,7 +5017,7 @@ const List = graphInvokableFactory(_List);
  */
 let _Lists = class _Lists extends _GraphCollection {
 };
-_Lists = __decorate([
+_Lists = tslib_es6_decorate([
     defaultPath("lists"),
     getById(List),
     addable()
@@ -4645,7 +5025,7 @@ _Lists = __decorate([
 
 const Lists = graphInvokableFactory(_Lists);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/addColumns.js
+;// ./node_modules/@pnp/graph/columns/addColumns.js
 
 
 /**
@@ -4657,7 +5037,7 @@ const addColumn = async function (column) {
     return graphPost(this, body(column));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/types.js
+;// ./node_modules/@pnp/graph/columns/types.js
 
 
 
@@ -4666,7 +5046,7 @@ const addColumn = async function (column) {
  */
 let _Column = class _Column extends _GraphInstance {
 };
-_Column = __decorate([
+_Column = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Column);
@@ -4677,14 +5057,14 @@ const Column = graphInvokableFactory(_Column);
  */
 let _Columns = class _Columns extends _GraphCollection {
 };
-_Columns = __decorate([
+_Columns = tslib_es6_decorate([
     defaultPath("columns"),
     getById(Column)
 ], _Columns);
 
 const Columns = graphInvokableFactory(_Columns);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/lists.js
+;// ./node_modules/@pnp/graph/columns/lists.js
 
 
 
@@ -4692,7 +5072,7 @@ const Columns = graphInvokableFactory(_Columns);
 _Columns.prototype.add = addColumn;
 addProp(_List, "columns", Columns);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/sites.js
+;// ./node_modules/@pnp/graph/columns/sites.js
 
 
 
@@ -4700,7 +5080,7 @@ addProp(_List, "columns", Columns);
 _Columns.prototype.add = addColumn;
 addProp(_Site, "columns", Columns);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/content-types/types.js
+;// ./node_modules/@pnp/graph/content-types/types.js
 
 
 
@@ -4756,7 +5136,7 @@ let _ContentType = class _ContentType extends _GraphInstance {
         return graphPost(ContentType(this, "copyToDefaultContentLocation"), body(postBody));
     }
 };
-_ContentType = __decorate([
+_ContentType = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _ContentType);
@@ -4791,14 +5171,14 @@ let _ContentTypes = class _ContentTypes extends _GraphCollection {
         return graphGet(ContentTypes(this, "getCompatibleHubContentTypes"));
     }
 };
-_ContentTypes = __decorate([
+_ContentTypes = tslib_es6_decorate([
     defaultPath("contenttypes"),
     getById(ContentType)
 ], _ContentTypes);
 
 const ContentTypes = graphInvokableFactory(_ContentTypes);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/content-types.js
+;// ./node_modules/@pnp/graph/columns/content-types.js
 
 
 
@@ -4815,13 +5195,13 @@ _Columns.prototype.addRef = async function (siteColumn) {
 };
 addProp(_ContentType, "columns", Columns);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/columns/index.js
+;// ./node_modules/@pnp/graph/columns/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/compliance/types.js
+;// ./node_modules/@pnp/graph/compliance/types.js
 
 
 
@@ -4838,7 +5218,7 @@ let _Compliance = class _Compliance extends _GraphQueryable {
         return SubjectRightsRequests(this);
     }
 };
-_Compliance = __decorate([
+_Compliance = tslib_es6_decorate([
     defaultPath("security")
 ], _Compliance);
 
@@ -4866,7 +5246,7 @@ let _SubjectRightsRequest = class _SubjectRightsRequest extends _GraphInstance {
         return Notes(this);
     }
 };
-_SubjectRightsRequest = __decorate([
+_SubjectRightsRequest = tslib_es6_decorate([
     defaultPath("/"),
     updateable()
 ], _SubjectRightsRequest);
@@ -4877,7 +5257,7 @@ const SubjectRightsRequest = graphInvokableFactory(_SubjectRightsRequest);
  */
 let _SubjectRightsRequests = class _SubjectRightsRequests extends _GraphCollection {
 };
-_SubjectRightsRequests = __decorate([
+_SubjectRightsRequests = tslib_es6_decorate([
     defaultPath("subjectRightsRequests"),
     getById(SubjectRightsRequest),
     addable()
@@ -4889,14 +5269,14 @@ const SubjectRightsRequests = graphInvokableFactory(_SubjectRightsRequests);
  */
 let _Notes = class _Notes extends _GraphCollection {
 };
-_Notes = __decorate([
+_Notes = tslib_es6_decorate([
     defaultPath("notes"),
     addable()
 ], _Notes);
 
 const Notes = graphInvokableFactory(_Notes);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/compliance/index.js
+;// ./node_modules/@pnp/graph/compliance/index.js
 
 
 
@@ -4908,7 +5288,7 @@ Reflect.defineProperty(GraphFI.prototype, "compliance", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/types.js
+;// ./node_modules/@pnp/graph/contacts/types.js
 
 
 
@@ -4918,7 +5298,7 @@ Reflect.defineProperty(GraphFI.prototype, "compliance", {
  */
 let _Contact = class _Contact extends _GraphInstance {
 };
-_Contact = __decorate([
+_Contact = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _Contact);
@@ -4948,7 +5328,7 @@ let _Contacts = class _Contacts extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_Contacts = __decorate([
+_Contacts = tslib_es6_decorate([
     defaultPath("contacts"),
     getById(Contact)
 ], _Contacts);
@@ -4971,7 +5351,7 @@ let _ContactFolder = class _ContactFolder extends _GraphInstance {
         return ContactFolders(this, "childFolders");
     }
 };
-_ContactFolder = __decorate([
+_ContactFolder = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _ContactFolder);
@@ -4995,25 +5375,25 @@ let _ContactFolders = class _ContactFolders extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_ContactFolders = __decorate([
+_ContactFolders = tslib_es6_decorate([
     defaultPath("contactFolders"),
     getById(ContactFolder)
 ], _ContactFolders);
 
 const ContactFolders = graphInvokableFactory(_ContactFolders);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/users.js
+;// ./node_modules/@pnp/graph/contacts/users.js
 
 
 
 addProp(_User, "contacts", Contacts);
 addProp(_User, "contactFolders", ContactFolders);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/contacts/index.js
+;// ./node_modules/@pnp/graph/contacts/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/content-types/sites.js
+;// ./node_modules/@pnp/graph/content-types/sites.js
 
 
 
@@ -5052,7 +5432,7 @@ _Site.prototype.getApplicableContentTypesForList = function getApplicableContent
     return graphGet(Site(this, `getApplicableContentTypesForList(listId='${listId}')`));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/content-types/lists.js
+;// ./node_modules/@pnp/graph/content-types/lists.js
 
 
 
@@ -5074,12 +5454,12 @@ _ContentTypes.prototype.addCopy = async function (contentType) {
     };
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/content-types/index.js
+;// ./node_modules/@pnp/graph/content-types/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/groups.js
+;// ./node_modules/@pnp/graph/conversations/groups.js
 
 
 
@@ -5087,11 +5467,11 @@ addProp(_Group, "conversations", Conversations);
 addProp(_Group, "acceptedSenders", Senders);
 addProp(_Group, "rejectedSenders", Senders);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/conversations/index.js
+;// ./node_modules/@pnp/graph/conversations/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/directory-objects/index.js
+;// ./node_modules/@pnp/graph/directory-objects/index.js
 
 
 
@@ -5103,7 +5483,7 @@ Reflect.defineProperty(GraphFI.prototype, "directoryObjects", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/users.js
+;// ./node_modules/@pnp/graph/files/users.js
 
 
 
@@ -5129,7 +5509,7 @@ _DriveItem.prototype.restore = function restore(restoreOptions) {
     return graphPost(DriveItem(this, "restore"), body(restoreOptions));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/groups.js
+;// ./node_modules/@pnp/graph/files/groups.js
 
 
 
@@ -5139,7 +5519,7 @@ addProp(_Group, "drives", Drives);
 _DriveItem.prototype.checkIn = checkIn;
 _DriveItem.prototype.checkOut = checkOut;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/sites.js
+;// ./node_modules/@pnp/graph/files/sites.js
 
 
 
@@ -5151,7 +5531,7 @@ addProp(_Drive, "list", List);
 _DriveItem.prototype.checkIn = checkIn;
 _DriveItem.prototype.checkOut = checkOut;
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/bundles.js
+;// ./node_modules/@pnp/graph/files/bundles.js
 
 
 
@@ -5178,7 +5558,7 @@ let _Bundle = class _Bundle extends _GraphInstance {
         return graphDelete(GraphQueryable(this, `/children/${id}`));
     }
 };
-_Bundle = __decorate([
+_Bundle = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Bundle);
@@ -5198,14 +5578,14 @@ let _Bundles = class _Bundles extends _GraphCollection {
         return graphPost(this, body(bundleDef));
     }
 };
-_Bundles = __decorate([
+_Bundles = tslib_es6_decorate([
     defaultPath("bundles"),
     getById(Bundle)
 ], _Bundles);
 
 const Bundles = graphInvokableFactory(_Bundles);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/files/index.js
+;// ./node_modules/@pnp/graph/files/index.js
 
 
 
@@ -5224,7 +5604,7 @@ Reflect.defineProperty(GraphFI.prototype, "drives", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/groups/index.js
+;// ./node_modules/@pnp/graph/groups/index.js
 
 
 
@@ -5236,7 +5616,7 @@ Reflect.defineProperty(GraphFI.prototype, "groups", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/types.js
+;// ./node_modules/@pnp/graph/insights/types.js
 
 
 
@@ -5254,7 +5634,7 @@ let _Insights = class _Insights extends _GraphInstance {
         return SharedInsights(this);
     }
 };
-_Insights = __decorate([
+_Insights = tslib_es6_decorate([
     defaultPath("insights")
 ], _Insights);
 
@@ -5274,7 +5654,7 @@ const TrendingInsight = graphInvokableFactory(_TrendingInsight);
  */
 let _TrendingInsights = class _TrendingInsights extends _GraphCollection {
 };
-_TrendingInsights = __decorate([
+_TrendingInsights = tslib_es6_decorate([
     defaultPath("trending"),
     getById(TrendingInsight)
 ], _TrendingInsights);
@@ -5295,7 +5675,7 @@ const UsedInsight = graphInvokableFactory(_UsedInsight);
  */
 let _UsedInsights = class _UsedInsights extends _GraphCollection {
 };
-_UsedInsights = __decorate([
+_UsedInsights = tslib_es6_decorate([
     defaultPath("used"),
     getById(UsedInsight)
 ], _UsedInsights);
@@ -5316,7 +5696,7 @@ const SharedInsight = graphInvokableFactory(_SharedInsight);
  */
 let _SharedInsights = class _SharedInsights extends _GraphCollection {
 };
-_SharedInsights = __decorate([
+_SharedInsights = tslib_es6_decorate([
     defaultPath("shared"),
     getById(SharedInsight)
 ], _SharedInsights);
@@ -5327,23 +5707,23 @@ const SharedInsights = graphInvokableFactory(_SharedInsights);
  */
 let _Resource = class _Resource extends _GraphInstance {
 };
-_Resource = __decorate([
+_Resource = tslib_es6_decorate([
     defaultPath("resource")
 ], _Resource);
 
 const Resource = graphInvokableFactory(_Resource);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/users.js
+;// ./node_modules/@pnp/graph/insights/users.js
 
 
 
 addProp(_User, "insights", Insights);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/insights/index.js
+;// ./node_modules/@pnp/graph/insights/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/invitations/types.js
+;// ./node_modules/@pnp/graph/invitations/types.js
 
 
 
@@ -5369,13 +5749,13 @@ let _Invitations = class _Invitations extends _GraphCollection {
         return { data };
     }
 };
-_Invitations = __decorate([
+_Invitations = tslib_es6_decorate([
     defaultPath("invitations")
 ], _Invitations);
 
 const Invitations = graphInvokableFactory(_Invitations);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/invitations/index.js
+;// ./node_modules/@pnp/graph/invitations/index.js
 
 
 
@@ -5387,29 +5767,29 @@ Reflect.defineProperty(GraphFI.prototype, "invitations", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/list-item/list.js
+;// ./node_modules/@pnp/graph/list-item/list.js
 
 
 
 addProp(_List, "items", ListItems);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/list-item/document-sets.js
+;// ./node_modules/@pnp/graph/list-item/document-sets.js
 
 
 addProp(_ListItem, "documentSetVersions", DocumentSetVersions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/list-item/index.js
+;// ./node_modules/@pnp/graph/list-item/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/lists/sites.js
+;// ./node_modules/@pnp/graph/lists/sites.js
 
 
 
 addProp(_Site, "lists", Lists);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/lists/drive.js
+;// ./node_modules/@pnp/graph/lists/drive.js
 
 
 _Drive.prototype.getList = async function () {
@@ -5418,12 +5798,12 @@ _Drive.prototype.getList = async function () {
     return List([this, url]);
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/lists/index.js
+;// ./node_modules/@pnp/graph/lists/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/folders.js
+;// ./node_modules/@pnp/graph/mail/folders.js
 
 
 
@@ -5471,7 +5851,7 @@ let _MailFolder = class _MailFolder extends _GraphInstance {
         return await graphPost(MailFolder(this, "move"), body({ destinationId: destinationFolderId }));
     }
 };
-_MailFolder = __decorate([
+_MailFolder = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _MailFolder);
@@ -5487,7 +5867,7 @@ let _MailFolders = class _MailFolders extends _GraphCollection {
         return q;
     }
 };
-_MailFolders = __decorate([
+_MailFolders = tslib_es6_decorate([
     defaultPath("mailFolders"),
     getById(MailFolder),
     addable(),
@@ -5496,7 +5876,7 @@ _MailFolders = __decorate([
 
 const MailFolders = graphInvokableFactory(_MailFolders);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/categories.js
+;// ./node_modules/@pnp/graph/mail/categories.js
 
 
 
@@ -5516,7 +5896,7 @@ const Outlook = graphInvokableFactory(_Outlook);
  */
 let _OutlookCategory = class _OutlookCategory extends _GraphInstance {
 };
-_OutlookCategory = __decorate([
+_OutlookCategory = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _OutlookCategory);
@@ -5527,7 +5907,7 @@ const OutlookCategory = graphInvokableFactory(_OutlookCategory);
  */
 let _MasterCategories = class _MasterCategories extends _GraphCollection {
 };
-_MasterCategories = __decorate([
+_MasterCategories = tslib_es6_decorate([
     defaultPath("masterCategories"),
     getById(OutlookCategory),
     addable()
@@ -5535,7 +5915,7 @@ _MasterCategories = __decorate([
 
 const MasterCategories = graphInvokableFactory(_MasterCategories);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/mailbox.js
+;// ./node_modules/@pnp/graph/mail/mailbox.js
 
 
 
@@ -5601,7 +5981,7 @@ let _MailboxSettings = class _MailboxSettings extends _GraphInstance {
         return graphGet(GraphQueryable(this, "userPurpose"));
     }
 };
-_MailboxSettings = __decorate([
+_MailboxSettings = tslib_es6_decorate([
     defaultPath("mailboxSettings"),
     updateable()
 ], _MailboxSettings);
@@ -5612,7 +5992,7 @@ const MailboxSettings = graphInvokableFactory(_MailboxSettings);
  */
 let _FocusedInboxOverride = class _FocusedInboxOverride extends _GraphInstance {
 };
-_FocusedInboxOverride = __decorate([
+_FocusedInboxOverride = tslib_es6_decorate([
     defaultPath("inferenceClassification/overrides"),
     updateable(),
     deleteable()
@@ -5624,7 +6004,7 @@ const FocusedInboxOverride = graphInvokableFactory(_FocusedInboxOverride);
  */
 let _FocusedInboxOverrides = class _FocusedInboxOverrides extends _GraphCollection {
 };
-_FocusedInboxOverrides = __decorate([
+_FocusedInboxOverrides = tslib_es6_decorate([
     defaultPath("inferenceClassification/overrides"),
     getById(FocusedInboxOverride),
     addable()
@@ -5632,7 +6012,7 @@ _FocusedInboxOverrides = __decorate([
 
 const FocusedInboxOverrides = graphInvokableFactory(_FocusedInboxOverrides);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/users.js
+;// ./node_modules/@pnp/graph/mail/users.js
 
 
 
@@ -5656,14 +6036,14 @@ _User.prototype.translateExchangeIds = function (translateExchangeIds) {
     return graphPost(User(this, "translateExchangeIds"), body(translateExchangeIds));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/mail/index.js
+;// ./node_modules/@pnp/graph/mail/index.js
 
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/types.js
+;// ./node_modules/@pnp/graph/members/types.js
 
 
 
@@ -5695,25 +6075,25 @@ let _Members = class _Members extends _GraphCollection {
         return graphPost(Members(this, "$ref"), body({ "@odata.id": id }));
     }
 };
-_Members = __decorate([
+_Members = tslib_es6_decorate([
     defaultPath("members"),
     getById(Member)
 ], _Members);
 
 const Members = graphInvokableFactory(_Members);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/groups.js
+;// ./node_modules/@pnp/graph/members/groups.js
 
 
 
 addProp(_Group, "owners", Members, "owners");
 addProp(_Group, "members", Members);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/members/index.js
+;// ./node_modules/@pnp/graph/members/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/types.js
+;// ./node_modules/@pnp/graph/onenote/types.js
 
 
 
@@ -5738,7 +6118,7 @@ let _OneNote = class _OneNote extends _GraphInstance {
         return SectionGroups(this);
     }
 };
-_OneNote = __decorate([
+_OneNote = tslib_es6_decorate([
     defaultPath("onenote")
 ], _OneNote);
 
@@ -5784,7 +6164,7 @@ let _Notebooks = class _Notebooks extends _GraphCollection {
         return graphGet(GraphQueryable(this, `getRecentNotebooks(includePersonalNotebooks=${includePersonalNotebooks})`));
     }
 };
-_Notebooks = __decorate([
+_Notebooks = tslib_es6_decorate([
     defaultPath("notebooks"),
     getById(Notebook)
 ], _Notebooks);
@@ -5827,7 +6207,7 @@ let _Sections = class _Sections extends _GraphCollection {
         return graphPost(this, body({ displayName }));
     }
 };
-_Sections = __decorate([
+_Sections = tslib_es6_decorate([
     defaultPath("sections"),
     getById(Section)
 ], _Sections);
@@ -5858,7 +6238,7 @@ let _SectionGroups = class _SectionGroups extends _GraphCollection {
         return Sections(this);
     }
 };
-_SectionGroups = __decorate([
+_SectionGroups = tslib_es6_decorate([
     defaultPath("sectiongroups"),
     getById(SectionGroup)
 ], _SectionGroups);
@@ -5892,7 +6272,7 @@ let _Page = class _Page extends _GraphInstance {
         return graphPatch(GraphQueryable(this, "content"), body(props));
     }
 };
-_Page = __decorate([
+_Page = tslib_es6_decorate([
     deleteable()
 ], _Page);
 
@@ -5915,7 +6295,7 @@ let _Pages = class _Pages extends _GraphCollection {
         return graphPost(q, { body: html });
     }
 };
-_Pages = __decorate([
+_Pages = tslib_es6_decorate([
     defaultPath("pages"),
     getById(Page)
 ], _Pages);
@@ -5935,37 +6315,37 @@ let _Resources = class _Resources extends _GraphInstance {
         return GraphQueryable(this, `${id}/content`).using(BlobParse());
     }
 };
-_Resources = __decorate([
+_Resources = tslib_es6_decorate([
     defaultPath("resources")
 ], _Resources);
 
 const Resources = graphInvokableFactory(_Resources);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/groups.js
+;// ./node_modules/@pnp/graph/onenote/groups.js
 
 
 
 addProp(_Group, "onenote", OneNote);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/users.js
+;// ./node_modules/@pnp/graph/onenote/users.js
 
 
 
 addProp(_User, "onenote", OneNote);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/sites.js
+;// ./node_modules/@pnp/graph/onenote/sites.js
 
 
 
 addProp(_Site, "onenote", OneNote);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/onenote/index.js
+;// ./node_modules/@pnp/graph/onenote/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations/types.js
+;// ./node_modules/@pnp/graph/operations/types.js
 
 
 
@@ -5974,30 +6354,30 @@ addProp(_Site, "onenote", OneNote);
  */
 let _Operations = class _Operations extends _GraphCollection {
 };
-_Operations = __decorate([
+_Operations = tslib_es6_decorate([
     defaultPath("operations")
 ], _Operations);
 
 const Operations = graphInvokableFactory(_Operations);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations/site.js
+;// ./node_modules/@pnp/graph/operations/site.js
 
 
 
 addProp(_Site, "operations", Operations);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations/list.js
+;// ./node_modules/@pnp/graph/operations/list.js
 
 
 
 addProp(_List, "operations", Operations);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/operations/index.js
+;// ./node_modules/@pnp/graph/operations/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/permissions/types.js
+;// ./node_modules/@pnp/graph/permissions/types.js
 
 
 
@@ -6006,7 +6386,7 @@ addProp(_List, "operations", Operations);
  */
 let _Permission = class _Permission extends _GraphInstance {
 };
-_Permission = __decorate([
+_Permission = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Permission);
@@ -6017,14 +6397,14 @@ const Permission = graphInvokableFactory(_Permission);
  */
 let _Permissions = class _Permissions extends _GraphCollection {
 };
-_Permissions = __decorate([
+_Permissions = tslib_es6_decorate([
     defaultPath("permissions"),
     getById(Permission)
 ], _Permissions);
 
 const Permissions = graphInvokableFactory(_Permissions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/permissions/site.js
+;// ./node_modules/@pnp/graph/permissions/site.js
 
 
 
@@ -6034,7 +6414,7 @@ _Permissions.prototype.add = async function addPermissions(permissions) {
     return graphPost(this, body(permissions));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/permissions/drive-item.js
+;// ./node_modules/@pnp/graph/permissions/drive-item.js
 
 
 
@@ -6049,12 +6429,12 @@ _DriveItem.prototype.addPermissions = async function addPermissions(permissionsI
     return graphPost(DriveItem(this, "invite"), body(permissionsInviteInfo));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/permissions/index.js
+;// ./node_modules/@pnp/graph/permissions/index.js
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/types.js
+;// ./node_modules/@pnp/graph/photos/types.js
 
 
 
@@ -6081,7 +6461,7 @@ let _Photo = class _Photo extends _GraphInstance {
         return graphPatch(Photo(this, "$value"), { body: content });
     }
 };
-_Photo = __decorate([
+_Photo = tslib_es6_decorate([
     defaultPath("photo")
 ], _Photo);
 
@@ -6094,27 +6474,27 @@ let _Photos = class _Photos extends _GraphCollection {
         return Photo(this, `/${size}`);
     }
 };
-_Photos = __decorate([
+_Photos = tslib_es6_decorate([
     defaultPath("photos")
 ], _Photos);
 
 const Photos = graphInvokableFactory(_Photos);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/groups.js
+;// ./node_modules/@pnp/graph/photos/groups.js
 
 
 
 addProp(_Group, "photo", Photo);
 addProp(_Group, "photos", Photos);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/users.js
+;// ./node_modules/@pnp/graph/photos/users.js
 
 
 
 addProp(_User, "photo", Photo);
 addProp(_User, "photos", Photos);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/teams/types.js
+;// ./node_modules/@pnp/graph/teams/types.js
 
 
 
@@ -6186,7 +6566,7 @@ let _Team = class _Team extends _GraphInstance {
         return GraphInstance(this, `operations/${id}`)();
     }
 };
-_Team = __decorate([
+_Team = tslib_es6_decorate([
     defaultPath("team"),
     updateable()
 ], _Team);
@@ -6211,7 +6591,7 @@ let _Teams = class _Teams extends _GraphCollection {
         return result;
     }
 };
-_Teams = __decorate([
+_Teams = tslib_es6_decorate([
     defaultPath("teams"),
     getById(Team)
 ], _Teams);
@@ -6251,7 +6631,7 @@ let _Channels = class _Channels extends _GraphCollection {
         };
     }
 };
-_Channels = __decorate([
+_Channels = tslib_es6_decorate([
     defaultPath("channels"),
     getById(Channel)
 ], _Channels);
@@ -6280,7 +6660,7 @@ let types_Messages = class _Messages extends _GraphCollection {
         };
     }
 };
-types_Messages = __decorate([
+types_Messages = tslib_es6_decorate([
     defaultPath("messages"),
     getById(teams_types_Message)
 ], types_Messages);
@@ -6291,7 +6671,7 @@ const teams_types_Messages = graphInvokableFactory(types_Messages);
  */
 let _Tab = class _Tab extends _GraphInstance {
 };
-_Tab = __decorate([
+_Tab = tslib_es6_decorate([
     defaultPath("tab"),
     updateable(),
     deleteable()
@@ -6321,7 +6701,7 @@ let _Tabs = class _Tabs extends _GraphCollection {
         };
     }
 };
-_Tabs = __decorate([
+_Tabs = tslib_es6_decorate([
     defaultPath("tabs"),
     getById(Tab)
 ], _Tabs);
@@ -6335,7 +6715,7 @@ let _InstalledApp = class _InstalledApp extends _GraphInstance {
         return graphPost(InstalledApp(this, "upgrade"));
     }
 };
-_InstalledApp = __decorate([
+_InstalledApp = tslib_es6_decorate([
     deleteable()
 ], _InstalledApp);
 
@@ -6358,26 +6738,26 @@ let _InstalledApps = class _InstalledApps extends _GraphCollection {
         };
     }
 };
-_InstalledApps = __decorate([
+_InstalledApps = tslib_es6_decorate([
     defaultPath("installedApps"),
     getById(InstalledApp)
 ], _InstalledApps);
 
 const InstalledApps = graphInvokableFactory(_InstalledApps);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/teams.js
+;// ./node_modules/@pnp/graph/photos/teams.js
 
 
 
 addProp(_Team, "photo", Photo);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/photos/index.js
+;// ./node_modules/@pnp/graph/photos/index.js
 
 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/places/types.js
+;// ./node_modules/@pnp/graph/places/types.js
 
 
 
@@ -6386,7 +6766,7 @@ addProp(_Team, "photo", Photo);
  */
 let _Place = class _Place extends _GraphInstance {
 };
-_Place = __decorate([
+_Place = tslib_es6_decorate([
     updateable()
 ], _Place);
 
@@ -6408,7 +6788,7 @@ let _Places = class _Places extends _GraphInstance {
         return RoomLists(this);
     }
 };
-_Places = __decorate([
+_Places = tslib_es6_decorate([
     defaultPath("places"),
     getById(Place)
 ], _Places);
@@ -6431,7 +6811,7 @@ const RoomList = graphInvokableFactory(_RoomList);
  */
 let _RoomLists = class _RoomLists extends _GraphCollection {
 };
-_RoomLists = __decorate([
+_RoomLists = tslib_es6_decorate([
     defaultPath("microsoft.graph.roomList"),
     getById(RoomList)
 ], _RoomLists);
@@ -6448,14 +6828,14 @@ const Room = graphInvokableFactory(_Room);
  */
 let _Rooms = class _Rooms extends _GraphCollection {
 };
-_Rooms = __decorate([
+_Rooms = tslib_es6_decorate([
     defaultPath("microsoft.graph.room"),
     getById(Room)
 ], _Rooms);
 
 const Rooms = graphInvokableFactory(_Rooms);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/places/index.js
+;// ./node_modules/@pnp/graph/places/index.js
 
 
 
@@ -6467,7 +6847,7 @@ Reflect.defineProperty(GraphFI.prototype, "places", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/types.js
+;// ./node_modules/@pnp/graph/planner/types.js
 
 
 
@@ -6489,7 +6869,7 @@ let _Planner = class _Planner extends _GraphInstance {
         return Buckets(this);
     }
 };
-_Planner = __decorate([
+_Planner = tslib_es6_decorate([
     defaultPath("planner")
 ], _Planner);
 
@@ -6499,7 +6879,7 @@ const Planner = graphInvokableFactory(_Planner);
  */
 let _PlanDetails = class _PlanDetails extends _GraphInstance {
 };
-_PlanDetails = __decorate([
+_PlanDetails = tslib_es6_decorate([
     defaultPath("details"),
     updateableWithETag()
 ], _PlanDetails);
@@ -6519,7 +6899,7 @@ let _Plan = class _Plan extends _GraphInstance {
         return PlanDetails(this);
     }
 };
-_Plan = __decorate([
+_Plan = tslib_es6_decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Plan);
@@ -6527,7 +6907,7 @@ _Plan = __decorate([
 const Plan = graphInvokableFactory(_Plan);
 let _Plans = class _Plans extends _GraphCollection {
 };
-_Plans = __decorate([
+_Plans = tslib_es6_decorate([
     defaultPath("plans"),
     getById(Plan),
     addable()
@@ -6539,7 +6919,7 @@ const Plans = graphInvokableFactory(_Plans);
  */
 let _TaskDetails = class _TaskDetails extends _GraphInstance {
 };
-_TaskDetails = __decorate([
+_TaskDetails = tslib_es6_decorate([
     defaultPath("details"),
     updateableWithETag()
 ], _TaskDetails);
@@ -6550,7 +6930,7 @@ const TaskDetails = graphInvokableFactory(_TaskDetails);
  */
 let _AssignedToTaskBoardFormat = class _AssignedToTaskBoardFormat extends _GraphInstance {
 };
-_AssignedToTaskBoardFormat = __decorate([
+_AssignedToTaskBoardFormat = tslib_es6_decorate([
     defaultPath("assignedToTaskBoardFormat"),
     updateableWithETag()
 ], _AssignedToTaskBoardFormat);
@@ -6561,7 +6941,7 @@ const AssignedToTaskBoardFormat = graphInvokableFactory(_AssignedToTaskBoardForm
  */
 let _BucketTaskBoardFormat = class _BucketTaskBoardFormat extends _GraphInstance {
 };
-_BucketTaskBoardFormat = __decorate([
+_BucketTaskBoardFormat = tslib_es6_decorate([
     defaultPath("bucketTaskBoardFormat"),
     updateableWithETag()
 ], _BucketTaskBoardFormat);
@@ -6572,7 +6952,7 @@ const BucketTaskBoardFormat = graphInvokableFactory(_BucketTaskBoardFormat);
  */
 let _ProgressTaskBoardFormat = class _ProgressTaskBoardFormat extends _GraphInstance {
 };
-_ProgressTaskBoardFormat = __decorate([
+_ProgressTaskBoardFormat = tslib_es6_decorate([
     defaultPath("progressTaskBoardFormat"),
     updateableWithETag()
 ], _ProgressTaskBoardFormat);
@@ -6595,7 +6975,7 @@ let _Task = class _Task extends _GraphInstance {
         return ProgressTaskBoardFormat(this);
     }
 };
-_Task = __decorate([
+_Task = tslib_es6_decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Task);
@@ -6606,7 +6986,7 @@ const Task = graphInvokableFactory(_Task);
  */
 let _Tasks = class _Tasks extends _GraphCollection {
 };
-_Tasks = __decorate([
+_Tasks = tslib_es6_decorate([
     defaultPath("tasks"),
     getById(Task),
     addable()
@@ -6621,7 +7001,7 @@ let _Bucket = class _Bucket extends _GraphInstance {
         return Tasks(this);
     }
 };
-_Bucket = __decorate([
+_Bucket = tslib_es6_decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Bucket);
@@ -6632,7 +7012,7 @@ const Bucket = graphInvokableFactory(_Bucket);
  */
 let _Buckets = class _Buckets extends _GraphCollection {
 };
-_Buckets = __decorate([
+_Buckets = tslib_es6_decorate([
     defaultPath("buckets"),
     getById(Bucket),
     addable()
@@ -6640,19 +7020,19 @@ _Buckets = __decorate([
 
 const Buckets = graphInvokableFactory(_Buckets);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/groups.js
+;// ./node_modules/@pnp/graph/planner/groups.js
 
 
 
 addProp(_Group, "plans", Plans, "planner/plans");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/users.js
+;// ./node_modules/@pnp/graph/planner/users.js
 
 
 
 addProp(_User, "tasks", Tasks, "planner/tasks");
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/planner/index.js
+;// ./node_modules/@pnp/graph/planner/index.js
 
 
 
@@ -6666,7 +7046,7 @@ Reflect.defineProperty(GraphFI.prototype, "planner", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/search/types.js
+;// ./node_modules/@pnp/graph/search/types.js
 
 
 
@@ -6679,13 +7059,13 @@ let _Search = class _Search extends _GraphInstance {
         return graphPost(Search(this, "query"), body(request));
     }
 };
-_Search = __decorate([
+_Search = tslib_es6_decorate([
     defaultPath("search")
 ], _Search);
 
 const Search = graphInvokableFactory(_Search);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/search/index.js
+;// ./node_modules/@pnp/graph/search/index.js
 
 
 
@@ -6693,7 +7073,7 @@ GraphFI.prototype.query = async function (...requests) {
     return this.create(Search).executeQuery({ requests });
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/shares/types.js
+;// ./node_modules/@pnp/graph/shares/types.js
 
 
 
@@ -6744,14 +7124,14 @@ let _Shares = class _Shares extends _GraphCollection {
         return graphPost(q, body(shareLinkAccess));
     }
 };
-_Shares = __decorate([
+_Shares = tslib_es6_decorate([
     defaultPath("shares"),
     getById(Share)
 ], _Shares);
 
 const Shares = graphInvokableFactory(_Shares);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/shares/drive-item.js
+;// ./node_modules/@pnp/graph/shares/drive-item.js
 
 
 
@@ -6764,7 +7144,7 @@ _DriveItem.prototype.createSharingLink = async function createSharingLink(sharin
     return graphPost(DriveItem(this, "createLink"), body(sharingLinkInfo));
 };
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/shares/index.js
+;// ./node_modules/@pnp/graph/shares/index.js
 
 
 
@@ -6777,19 +7157,19 @@ Reflect.defineProperty(GraphFI.prototype, "shares", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/sites/group.js
+;// ./node_modules/@pnp/graph/sites/group.js
 
 
 
 addProp(_Group, "sites", Sites);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/sites/user.js
+;// ./node_modules/@pnp/graph/sites/user.js
 
 
 
 addProp(_User, "followedSites", FollowedSites);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/sites/index.js
+;// ./node_modules/@pnp/graph/sites/index.js
 
 
 
@@ -6803,7 +7183,7 @@ Reflect.defineProperty(GraphFI.prototype, "sites", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/subscriptions/types.js
+;// ./node_modules/@pnp/graph/subscriptions/types.js
 
 
 
@@ -6813,7 +7193,7 @@ Reflect.defineProperty(GraphFI.prototype, "sites", {
  */
 let _Subscription = class _Subscription extends _GraphInstance {
 };
-_Subscription = __decorate([
+_Subscription = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _Subscription);
@@ -6848,14 +7228,14 @@ let _Subscriptions = class _Subscriptions extends _GraphCollection {
         };
     }
 };
-_Subscriptions = __decorate([
+_Subscriptions = tslib_es6_decorate([
     defaultPath("subscriptions"),
     getById(Subscription)
 ], _Subscriptions);
 
 const Subscriptions = graphInvokableFactory(_Subscriptions);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/subscriptions/index.js
+;// ./node_modules/@pnp/graph/subscriptions/index.js
 
 
 
@@ -6867,7 +7247,7 @@ Reflect.defineProperty(GraphFI.prototype, "subscriptions", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/taxonomy/types.js
+;// ./node_modules/@pnp/graph/taxonomy/types.js
 
 
 
@@ -6889,7 +7269,7 @@ let _TermStore = class _TermStore extends _GraphInstance {
         return TermSets(this);
     }
 };
-_TermStore = __decorate([
+_TermStore = tslib_es6_decorate([
     defaultPath("termstore"),
     updateable()
 ], _TermStore);
@@ -6903,14 +7283,14 @@ let _TermGroup = class _TermGroup extends _GraphInstance {
         return TermSets(this, "sets");
     }
 };
-_TermGroup = __decorate([
+_TermGroup = tslib_es6_decorate([
     deleteable()
 ], _TermGroup);
 
 const TermGroup = graphInvokableFactory(_TermGroup);
 let _TermGroups = class _TermGroups extends _GraphCollection {
 };
-_TermGroups = __decorate([
+_TermGroups = tslib_es6_decorate([
     defaultPath("groups"),
     getById(TermGroup),
     addable()
@@ -6962,7 +7342,7 @@ let _TermSet = class _TermSet extends _GraphInstance {
         return tree;
     }
 };
-_TermSet = __decorate([
+_TermSet = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _TermSet);
@@ -6970,7 +7350,7 @@ _TermSet = __decorate([
 const TermSet = graphInvokableFactory(_TermSet);
 let _TermSets = class _TermSets extends _GraphCollection {
 };
-_TermSets = __decorate([
+_TermSets = tslib_es6_decorate([
     defaultPath("sets"),
     getById(TermSet),
     addable()
@@ -6979,7 +7359,7 @@ _TermSets = __decorate([
 const TermSets = graphInvokableFactory(_TermSets);
 let _Children = class _Children extends _GraphCollection {
 };
-_Children = __decorate([
+_Children = tslib_es6_decorate([
     defaultPath("children"),
     addable()
 ], _Children);
@@ -6996,7 +7376,7 @@ let _Term = class _Term extends _GraphInstance {
         return TermSet(this, "set");
     }
 };
-_Term = __decorate([
+_Term = tslib_es6_decorate([
     updateable(),
     deleteable()
 ], _Term);
@@ -7004,7 +7384,7 @@ _Term = __decorate([
 const Term = graphInvokableFactory(_Term);
 let _Terms = class _Terms extends _GraphCollection {
 };
-_Terms = __decorate([
+_Terms = tslib_es6_decorate([
     defaultPath("terms"),
     getById(Term)
 ], _Terms);
@@ -7012,14 +7392,14 @@ _Terms = __decorate([
 const Terms = graphInvokableFactory(_Terms);
 let _Relations = class _Relations extends _GraphCollection {
 };
-_Relations = __decorate([
+_Relations = tslib_es6_decorate([
     defaultPath("relations"),
     addable()
 ], _Relations);
 
 const Relations = graphInvokableFactory(_Relations);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/behaviors/endpoint.js
+;// ./node_modules/@pnp/graph/behaviors/endpoint.js
 function Endpoint(endpoint) {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
@@ -7034,13 +7414,13 @@ function Endpoint(endpoint) {
     };
 }
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/taxonomy/sites.js
+;// ./node_modules/@pnp/graph/taxonomy/sites.js
 
 
 
 addProp(_Site, "termStore", TermStore);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/taxonomy/index.js
+;// ./node_modules/@pnp/graph/taxonomy/index.js
 
 
 
@@ -7054,7 +7434,7 @@ Reflect.defineProperty(GraphFI.prototype, "termStore", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/to-do/types.js
+;// ./node_modules/@pnp/graph/to-do/types.js
 
 
 
@@ -7067,7 +7447,7 @@ let _Todo = class _Todo extends _GraphInstance {
         return TaskLists(this);
     }
 };
-_Todo = __decorate([
+_Todo = tslib_es6_decorate([
     defaultPath("todo")
 ], _Todo);
 
@@ -7080,7 +7460,7 @@ let _TaskList = class _TaskList extends _GraphInstance {
         return TodoTasks(this);
     }
 };
-_TaskList = __decorate([
+_TaskList = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _TaskList);
@@ -7091,7 +7471,7 @@ const TaskList = graphInvokableFactory(_TaskList);
  */
 let _TaskLists = class _TaskLists extends _GraphCollection {
 };
-_TaskLists = __decorate([
+_TaskLists = tslib_es6_decorate([
     defaultPath("lists"),
     getById(TaskList),
     addable(),
@@ -7113,7 +7493,7 @@ let _TodoTask = class _TodoTask extends _GraphInstance {
         return LinkedResources(this);
     }
 };
-_TodoTask = __decorate([
+_TodoTask = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _TodoTask);
@@ -7124,7 +7504,7 @@ const TodoTask = graphInvokableFactory(_TodoTask);
  */
 let _TodoTasks = class _TodoTasks extends _GraphCollection {
 };
-_TodoTasks = __decorate([
+_TodoTasks = tslib_es6_decorate([
     defaultPath("tasks"),
     getById(TodoTask),
     addable(),
@@ -7140,7 +7520,7 @@ let _TodoAttachment = class _TodoAttachment extends _GraphInstance {
         return TodoAttachments(this);
     }
 };
-_TodoAttachment = __decorate([
+_TodoAttachment = tslib_es6_decorate([
     deleteable()
 ], _TodoAttachment);
 
@@ -7157,7 +7537,7 @@ let _TodoAttachments = class _TodoAttachments extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_TodoAttachments = __decorate([
+_TodoAttachments = tslib_es6_decorate([
     defaultPath("attachments"),
     getById(TodoAttachment)
 ], _TodoAttachments);
@@ -7168,7 +7548,7 @@ const TodoAttachments = graphInvokableFactory(_TodoAttachments);
  */
 let _ChecklistItem = class _ChecklistItem extends _GraphInstance {
 };
-_ChecklistItem = __decorate([
+_ChecklistItem = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _ChecklistItem);
@@ -7179,7 +7559,7 @@ const ChecklistItem = graphInvokableFactory(_ChecklistItem);
  */
 let _ChecklistItems = class _ChecklistItems extends _GraphCollection {
 };
-_ChecklistItems = __decorate([
+_ChecklistItems = tslib_es6_decorate([
     defaultPath("checklistItems"),
     getById(ChecklistItem),
     addable()
@@ -7191,7 +7571,7 @@ const ChecklistItems = graphInvokableFactory(_ChecklistItems);
  */
 let _LinkedResource = class _LinkedResource extends _GraphInstance {
 };
-_LinkedResource = __decorate([
+_LinkedResource = tslib_es6_decorate([
     deleteable(),
     updateable()
 ], _LinkedResource);
@@ -7202,7 +7582,7 @@ const LinkedResource = graphInvokableFactory(_LinkedResource);
  */
 let _LinkedResources = class _LinkedResources extends _GraphCollection {
 };
-_LinkedResources = __decorate([
+_LinkedResources = tslib_es6_decorate([
     defaultPath("linkedResources"),
     getById(LinkedResource),
     addable()
@@ -7210,17 +7590,17 @@ _LinkedResources = __decorate([
 
 const LinkedResources = graphInvokableFactory(_LinkedResources);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/to-do/user.js
+;// ./node_modules/@pnp/graph/to-do/user.js
 
 
 
 addProp(_User, "todo", Todo);
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/to-do/index.js
+;// ./node_modules/@pnp/graph/to-do/index.js
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/users/index.js
+;// ./node_modules/@pnp/graph/users/index.js
 
 
 
@@ -7239,7 +7619,7 @@ Reflect.defineProperty(GraphFI.prototype, "users", {
     },
 });
 
-;// CONCATENATED MODULE: ./node_modules/@pnp/graph/presets/all.js
+;// ./node_modules/@pnp/graph/presets/all.js
 
 
 
@@ -7307,7 +7687,7 @@ Reflect.defineProperty(GraphFI.prototype, "users", {
 
 
 
-;// CONCATENATED MODULE: ./pnpjs-sources/index-graph.ts
+;// ./pnpjs-sources/index-graph.ts
 
 
 /******/ 	return __webpack_exports__;

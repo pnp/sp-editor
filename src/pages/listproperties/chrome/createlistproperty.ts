@@ -31,8 +31,57 @@ export const createListProperty = (values: any, extPath: string) => {
         return instance;
       };
     }
+    let digest: string = '';
 
-    const sp = pnpsp.spfi().using(pnpsp.SPBrowser({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+    const SPEditor = (props?: SP.ISPBrowserProps) => {
+
+      return (instance: Queryable.Queryable) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse(),
+        );
+
+        instance.on.pre.prepend(async (url, init, result) => {
+          url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+
+          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
+            if (!digest) {
+              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+                method: 'POST',
+                headers: {
+                  accept: 'application/json;odata=verbose',
+                  'content-type': 'application/json;odata=verbose',
+                },
+              });
+              const data = await response.json();
+              digest = data.d.GetContextWebInformation.FormDigestValue;
+            }
+          
+            init.headers = {
+              'X-RequestDigest': digest,
+              ...init.headers,
+            };
+          }
+
+          return [
+            url
+              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
+            init,
+            result,
+          ];
+        });
+        return instance;
+      };
+    };
+
+    /***  init pnpjs ***/
+    const sp = pnpsp
+      .spfi()
+      .using(SPEditor({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
       .using(SPSoapHandler())
       .using(pnpqueryable.InjectHeaders({
         "Accept": "application/json; odata=verbose",

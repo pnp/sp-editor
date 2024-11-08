@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v3.24.0 2024-09-20 */
+/*! @azure/msal-browser v3.26.1 2024-10-08 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -315,7 +315,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -332,7 +332,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -381,7 +381,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -479,7 +479,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -731,7 +731,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -770,7 +770,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -961,12 +961,12 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
     const version$1 = "14.15.0";
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -986,7 +986,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1047,7 +1047,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1084,7 +1084,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1411,7 +1411,7 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1465,7 +1465,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1603,7 +1603,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1700,7 +1700,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1900,7 +1900,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1940,7 +1940,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2019,7 +2019,7 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2034,7 +2034,7 @@
         Ciam: 3,
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2056,7 +2056,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2069,7 +2069,7 @@
         OIDC: "OIDC",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2312,7 +2312,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2359,7 +2359,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2523,7 +2523,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2663,7 +2663,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2671,7 +2671,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2698,7 +2698,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3950,7 +3950,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4049,7 +4049,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4068,7 +4068,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4166,7 +4166,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4203,7 +4203,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4213,7 +4213,7 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4261,7 +4261,7 @@
     const DOMAIN_HINT = "domain_hint";
     const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4328,7 +4328,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4713,7 +4713,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4725,7 +4725,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4735,7 +4735,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4745,7 +4745,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5227,7 +5227,7 @@
         "multiMatchedRT",
     ]);
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5323,7 +5323,7 @@
         };
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5432,7 +5432,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6271,7 +6271,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6302,7 +6302,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6405,7 +6405,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6431,7 +6431,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6519,7 +6519,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6591,7 +6591,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6675,7 +6675,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6702,7 +6702,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7079,7 +7079,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7097,7 +7097,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7528,7 +7528,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7742,7 +7742,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7878,7 +7878,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7893,7 +7893,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7951,7 +7951,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8214,7 +8214,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8222,7 +8222,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8247,7 +8247,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8287,7 +8287,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8366,7 +8366,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-09-20 */
+    /*! @azure/msal-common v14.15.0 2024-10-08 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10238,7 +10238,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "3.24.0";
+    const version = "3.26.1";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -12709,24 +12709,26 @@
      * Licensed under the MIT License.
      */
     class EventHandler {
-        constructor(logger, browserCrypto) {
+        constructor(logger) {
             this.eventCallbacks = new Map();
-            this.logger = logger;
-            this.browserCrypto = browserCrypto;
-            this.listeningToStorageEvents = false;
-            this.handleAccountCacheChange =
-                this.handleAccountCacheChange.bind(this);
+            this.logger = logger || new Logger({});
         }
         /**
          * Adds event callbacks to array
-         * @param callback
+         * @param callback - callback to be invoked when an event is raised
+         * @param eventTypes - list of events that this callback will be invoked for, if not provided callback will be invoked for all events
+         * @param callbackId - Identifier for the callback, used to locate and remove the callback when no longer required
          */
-        addEventCallback(callback) {
+        addEventCallback(callback, eventTypes, callbackId) {
             if (typeof window !== "undefined") {
-                const callbackId = createNewGuid();
-                this.eventCallbacks.set(callbackId, callback);
-                this.logger.verbose(`Event callback registered with id: ${callbackId}`);
-                return callbackId;
+                const id = callbackId || createGuid();
+                if (this.eventCallbacks.has(id)) {
+                    this.logger.error(`Event callback with id: ${id} is already registered. Please provide a unique id or remove the existing callback and try again.`);
+                    return null;
+                }
+                this.eventCallbacks.set(id, [callback, eventTypes || []]);
+                this.logger.verbose(`Event callback registered with id: ${id}`);
+                return id;
             }
             return null;
         }
@@ -12737,38 +12739,6 @@
         removeEventCallback(callbackId) {
             this.eventCallbacks.delete(callbackId);
             this.logger.verbose(`Event callback ${callbackId} removed.`);
-        }
-        /**
-         * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-         */
-        enableAccountStorageEvents() {
-            if (typeof window === "undefined") {
-                return;
-            }
-            if (!this.listeningToStorageEvents) {
-                this.logger.verbose("Adding account storage listener.");
-                this.listeningToStorageEvents = true;
-                window.addEventListener("storage", this.handleAccountCacheChange);
-            }
-            else {
-                this.logger.verbose("Account storage listener already registered.");
-            }
-        }
-        /**
-         * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
-         */
-        disableAccountStorageEvents() {
-            if (typeof window === "undefined") {
-                return;
-            }
-            if (this.listeningToStorageEvents) {
-                this.logger.verbose("Removing account storage listener.");
-                window.removeEventListener("storage", this.handleAccountCacheChange);
-                this.listeningToStorageEvents = false;
-            }
-            else {
-                this.logger.verbose("No account storage listener registered.");
-            }
         }
         /**
          * Emits events by calling callback with event message
@@ -12786,46 +12756,13 @@
                     error: error || null,
                     timestamp: Date.now(),
                 };
-                this.logger.info(`Emitting event: ${eventType}`);
-                this.eventCallbacks.forEach((callback, callbackId) => {
-                    this.logger.verbose(`Emitting event to callback ${callbackId}: ${eventType}`);
-                    callback.apply(null, [message]);
+                this.eventCallbacks.forEach(([callback, eventTypes], callbackId) => {
+                    if (eventTypes.length === 0 ||
+                        eventTypes.includes(eventType)) {
+                        this.logger.verbose(`Emitting event to callback ${callbackId}: ${eventType}`);
+                        callback.apply(null, [message]);
+                    }
                 });
-            }
-        }
-        /**
-         * Emit account added/removed events when cached accounts are changed in a different tab or frame
-         */
-        handleAccountCacheChange(e) {
-            try {
-                // Handle active account filter change
-                if (e.key?.includes(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS)) {
-                    // This event has no payload, it only signals cross-tab app instances that the results of calling getActiveAccount() will have changed
-                    this.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
-                }
-                // Handle account object change
-                const cacheValue = e.newValue || e.oldValue;
-                if (!cacheValue) {
-                    return;
-                }
-                const parsedValue = JSON.parse(cacheValue);
-                if (typeof parsedValue !== "object" ||
-                    !AccountEntity.isAccountEntity(parsedValue)) {
-                    return;
-                }
-                const accountEntity = CacheManager.toObject(new AccountEntity(), parsedValue);
-                const accountInfo = accountEntity.getAccountInfo();
-                if (!e.oldValue && e.newValue) {
-                    this.logger.info("Account was added to cache in a different window");
-                    this.emitEvent(EventType.ACCOUNT_ADDED, undefined, accountInfo);
-                }
-                else if (!e.newValue && e.oldValue) {
-                    this.logger.info("Account was removed from cache in a different window");
-                    this.emitEvent(EventType.ACCOUNT_REMOVED, undefined, accountInfo);
-                }
-            }
-            catch (e) {
-                return;
             }
         }
     }
@@ -14992,6 +14929,18 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    function getNavigationType() {
+        if (typeof window === "undefined" ||
+            typeof window.performance === "undefined" ||
+            typeof window.performance.getEntriesByType !== "function") {
+            return undefined;
+        }
+        const navigationEntries = window.performance.getEntriesByType("navigation");
+        const navigation = navigationEntries.length
+            ? navigationEntries[0]
+            : undefined;
+        return navigation?.type;
+    }
     class RedirectClient extends StandardInteractionClient {
         constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, nativeMessageHandler, correlationId) {
             super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
@@ -15073,7 +15022,13 @@
                     // Not a recognized server response hash or hash not associated with a redirect request
                     this.logger.info("handleRedirectPromise did not detect a response as a result of a redirect. Cleaning temporary cache.");
                     this.browserStorage.cleanRequestByInteractionType(exports.InteractionType.Redirect);
-                    parentMeasurement.event.errorCode = "no_server_response";
+                    // Do not instrument "no_server_response" if user clicked back button
+                    if (getNavigationType() !== "back_forward") {
+                        parentMeasurement.event.errorCode = "no_server_response";
+                    }
+                    else {
+                        this.logger.verbose("Back navigation event detected. Muting no_server_response error");
+                    }
                     return null;
                 }
                 // If navigateToLoginRequestUrl is true, get the url where the redirect request was initiated
@@ -15971,7 +15926,7 @@
             this.browserCrypto = this.isBrowserEnvironment
                 ? new CryptoOps(this.logger, this.performanceClient)
                 : DEFAULT_CRYPTO_IMPLEMENTATION;
-            this.eventHandler = new EventHandler(this.logger, this.browserCrypto);
+            this.eventHandler = new EventHandler(this.logger);
             // Initialize the browser storage class.
             this.browserStorage = this.isBrowserEnvironment
                 ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, buildStaticAuthorityOptions(this.config.auth), this.performanceClient)
@@ -15994,6 +15949,10 @@
             // Register listener functions
             this.trackPageVisibilityWithMeasurement =
                 this.trackPageVisibilityWithMeasurement.bind(this);
+            // account storage events
+            this.listeningToStorageEvents = false;
+            this.handleAccountCacheChange =
+                this.handleAccountCacheChange.bind(this);
         }
         static async createController(operatingContext, request) {
             const controller = new StandardController(operatingContext);
@@ -16015,6 +15974,12 @@
             this.logger.trace("initialize called");
             if (this.initialized) {
                 this.logger.info("initialize has already been called, exiting early.");
+                return;
+            }
+            if (!this.isBrowserEnvironment) {
+                this.logger.info("in non-browser environment, exiting early.");
+                this.initialized = true;
+                this.eventHandler.emitEvent(EventType.INITIALIZE_END);
                 return;
             }
             const initCorrelationId = request?.correlationId || this.getRequestCorrelationId();
@@ -16666,6 +16631,10 @@
          * @param logoutRequest
          */
         async clearCache(logoutRequest) {
+            if (!this.isBrowserEnvironment) {
+                this.logger.info("in non-browser environment, returning early.");
+                return;
+            }
             const correlationId = this.getRequestCorrelationId(logoutRequest);
             const cacheClient = this.createSilentCacheClient(correlationId);
             return cacheClient.logout(logoutRequest);
@@ -16851,8 +16820,8 @@
          * Adds event callbacks to array
          * @param callback
          */
-        addEventCallback(callback) {
-            return this.eventHandler.addEventCallback(callback);
+        addEventCallback(callback, eventTypes) {
+            return this.eventHandler.addEventCallback(callback, eventTypes);
         }
         /**
          * Removes callback with provided id from callback array
@@ -16868,6 +16837,7 @@
          * @returns {string}
          */
         addPerformanceCallback(callback) {
+            blockNonBrowserEnvironment();
             return this.performanceClient.addPerformanceCallback(callback);
         }
         /**
@@ -16883,13 +16853,68 @@
          * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
          */
         enableAccountStorageEvents() {
-            this.eventHandler.enableAccountStorageEvents();
+            if (typeof window === "undefined") {
+                return;
+            }
+            if (!this.listeningToStorageEvents) {
+                this.logger.verbose("Adding account storage listener.");
+                this.listeningToStorageEvents = true;
+                window.addEventListener("storage", this.handleAccountCacheChange);
+            }
+            else {
+                this.logger.verbose("Account storage listener already registered.");
+            }
         }
         /**
          * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
          */
         disableAccountStorageEvents() {
-            this.eventHandler.disableAccountStorageEvents();
+            if (typeof window === "undefined") {
+                return;
+            }
+            if (this.listeningToStorageEvents) {
+                this.logger.verbose("Removing account storage listener.");
+                window.removeEventListener("storage", this.handleAccountCacheChange);
+                this.listeningToStorageEvents = false;
+            }
+            else {
+                this.logger.verbose("No account storage listener registered.");
+            }
+        }
+        /**
+         * Emit account added/removed events when cached accounts are changed in a different tab or frame
+         */
+        handleAccountCacheChange(e) {
+            try {
+                // Handle active account filter change
+                if (e.key?.includes(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS)) {
+                    // This event has no payload, it only signals cross-tab app instances that the results of calling getActiveAccount() will have changed
+                    this.eventHandler.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
+                }
+                // Handle account object change
+                const cacheValue = e.newValue || e.oldValue;
+                if (!cacheValue) {
+                    return;
+                }
+                const parsedValue = JSON.parse(cacheValue);
+                if (typeof parsedValue !== "object" ||
+                    !AccountEntity.isAccountEntity(parsedValue)) {
+                    return;
+                }
+                const accountEntity = CacheManager.toObject(new AccountEntity(), parsedValue);
+                const accountInfo = accountEntity.getAccountInfo();
+                if (!e.oldValue && e.newValue) {
+                    this.logger.info("Account was added to cache in a different window");
+                    this.eventHandler.emitEvent(EventType.ACCOUNT_ADDED, undefined, accountInfo);
+                }
+                else if (!e.newValue && e.oldValue) {
+                    this.logger.info("Account was removed from cache in a different window");
+                    this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, accountInfo);
+                }
+            }
+            catch (e) {
+                return;
+            }
         }
         /**
          * Gets the token cache for the application.
@@ -16943,12 +16968,6 @@
          */
         isBrowserEnv() {
             return this.isBrowserEnvironment;
-        }
-        /**
-         * Returns the event handler
-         */
-        getEventHandler() {
-            return this.eventHandler;
         }
         /**
          * Generates a correlation id for a request if none is provided.
@@ -17475,7 +17494,7 @@
             this.browserStorage = this.operatingContext.isBrowserEnvironment()
                 ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, buildStaticAuthorityOptions(this.config.auth))
                 : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger);
-            this.eventHandler = new EventHandler(this.logger, this.browserCrypto);
+            this.eventHandler = new EventHandler(this.logger);
             this.nestedAppAuthAdapter = new NestedAppAuthAdapter(this.config.auth.clientId, this.config.auth.clientCapabilities, this.browserCrypto, this.logger);
             // Set the active account if available
             const accountContext = this.bridgeProxy.getAccountContext();
@@ -17483,13 +17502,6 @@
                 const cachedAccount = getAccount(accountContext, this.logger, this.browserStorage);
                 setActiveAccount(cachedAccount, this.browserStorage);
             }
-        }
-        /**
-         * Returns the event handler instance
-         * @returns EventHandler
-         */
-        getEventHandler() {
-            return this.eventHandler;
         }
         /**
          * Factory function to create a new instance of NestedAppAuthController
@@ -17536,7 +17548,9 @@
                 const naaRequest = this.nestedAppAuthAdapter.toNaaTokenRequest(validRequest);
                 const reqTimestamp = nowSeconds();
                 const response = await this.bridgeProxy.getTokenInteractive(naaRequest);
-                const result = this.nestedAppAuthAdapter.fromNaaTokenResponse(naaRequest, response, reqTimestamp);
+                const result = {
+                    ...this.nestedAppAuthAdapter.fromNaaTokenResponse(naaRequest, response, reqTimestamp),
+                };
                 // cache the tokens in the response
                 await this.hydrateCache(result, request);
                 this.browserStorage.setActiveAccount(result.account);
@@ -17620,7 +17634,22 @@
             atsMeasurement?.add({
                 nestedAppAuthRequest: true,
             });
-            const result = await this.acquireTokenFromCacheInternal(request);
+            // if the request has claims, we cannot look up in the cache
+            if (request.claims) {
+                this.logger.verbose("Claims are present in the request, skipping cache lookup");
+                return null;
+            }
+            // respect cache lookup policy
+            let result = null;
+            switch (request.cacheLookupPolicy) {
+                case CacheLookupPolicy.Default:
+                case CacheLookupPolicy.AccessToken:
+                case CacheLookupPolicy.AccessTokenAndRefreshToken:
+                    result = await this.acquireTokenFromCacheInternal(request);
+                    break;
+                default:
+                    return null;
+            }
             if (result) {
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, result);
                 atsMeasurement?.add({
@@ -17673,13 +17702,10 @@
             if (!cachedAccessToken) {
                 this.logger.verbose("No cached access token found");
                 return Promise.resolve(null);
-                // If access token has expired, remove the token from cache and return null
             }
             else if (wasClockTurnedBack(cachedAccessToken.cachedAt) ||
                 isTokenExpired(cachedAccessToken.expiresOn, this.config.system.tokenRenewalOffsetSeconds)) {
-                this.logger.verbose("Cached access token has expired, deleting all related tokens from cache");
-                const accountEntity = AccountEntity.createFromAccountInfo(currentAccount);
-                await this.browserStorage.removeAccountContext(accountEntity);
+                this.logger.verbose("Cached access token has expired");
                 return Promise.resolve(null);
             }
             const cachedIdToken = this.browserStorage.getIdToken(currentAccount, tokenKeys, currentAccount.tenantId, this.performanceClient, authRequest.correlationId);
@@ -17746,9 +17772,10 @@
         /**
          * Adds event callbacks to array
          * @param callback
+         * @param eventTypes
          */
-        addEventCallback(callback) {
-            return this.eventHandler.addEventCallback(callback);
+        addEventCallback(callback, eventTypes) {
+            return this.eventHandler.addEventCallback(callback, eventTypes);
         }
         /**
          * Removes callback with provided id from callback array
@@ -18047,9 +18074,10 @@
         /**
          * Adds event callbacks to array
          * @param callback
+         * @param eventTypes
          */
-        addEventCallback(callback) {
-            return this.controller.addEventCallback(callback);
+        addEventCallback(callback, eventTypes) {
+            return this.controller.addEventCallback(callback, eventTypes);
         }
         /**
          * Removes callback with provided id from callback array
@@ -18349,13 +18377,9 @@
             this.browserStorage = this.isBrowserEnvironment
                 ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, undefined, this.performanceClient)
                 : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger);
-            this.eventHandler = new EventHandler(this.logger, this.browserCrypto);
         }
         getBrowserStorage() {
             return this.browserStorage;
-        }
-        getEventHandler() {
-            return this.eventHandler;
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         getAccount(accountFilter) {
@@ -18426,12 +18450,16 @@
             blockNonBrowserEnvironment();
             return {};
         }
-        addEventCallback(callback) {
-            return this.eventHandler.addEventCallback(callback);
+        addEventCallback(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        callback, 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        eventTypes) {
+            return null;
         }
-        removeEventCallback(callbackId) {
-            this.eventHandler.removeEventCallback(callbackId);
-        }
+        removeEventCallback(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        callbackId) { }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         addPerformanceCallback(callback) {
             blockAPICallsBeforeInitialize(this.initialized);
@@ -18732,8 +18760,8 @@
          * Adds event callbacks to array
          * @param callback
          */
-        addEventCallback(callback) {
-            return this.controller.addEventCallback(callback);
+        addEventCallback(callback, eventTypes) {
+            return this.controller.addEventCallback(callback, eventTypes);
         }
         /**
          * Removes callback with provided id from callback array
@@ -19470,6 +19498,7 @@
     exports.ClientConfigurationErrorCodes = ClientConfigurationErrorCodes;
     exports.ClientConfigurationErrorMessage = ClientConfigurationErrorMessage;
     exports.DEFAULT_IFRAME_TIMEOUT_MS = DEFAULT_IFRAME_TIMEOUT_MS;
+    exports.EventHandler = EventHandler;
     exports.EventMessageUtils = EventMessageUtils;
     exports.EventType = EventType;
     exports.InteractionRequiredAuthError = InteractionRequiredAuthError;

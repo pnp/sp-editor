@@ -4,6 +4,8 @@ const init: IFileExplorerState = {
   files: [],
   loading: false,
   selectedFile: undefined,
+  selectedFolder: undefined,
+  webServerRelativeUrl: '',
 };
 
 const updatePropertyById = (nodes: IFile[], id: string, property: keyof IFile): IFile[] => {
@@ -22,6 +24,21 @@ const updatePropertyById = (nodes: IFile[], id: string, property: keyof IFile): 
     }
     return node;
   });
+};
+
+const findParentFolderById = (nodes: IFile[], fileId: string, parent: IFile | null = null): IFile | null => {
+  for (const node of nodes) {
+    if (node.id === fileId) {
+      return parent;
+    }
+    if (node.children) {
+      const result = findParentFolderById(node.children, fileId, node);
+      if (result) {
+        return result;
+      }
+    }
+  }
+  return null;
 };
 
 export function fileExplorerReducer(state: IFileExplorerState = init, action: FileExplorerActions): IFileExplorerState {
@@ -69,13 +86,39 @@ export function fileExplorerReducer(state: IFileExplorerState = init, action: Fi
         selectedFile: action.payload.file,
       };
 
+    case Constants.FE_SET_SELECTED_FOLDER:
+      const selectedFolder = action.payload.folder;
+
+      if (!selectedFolder) {
+        return state; // If selectedFolder is undefined, return the current state
+      }
+
+      const parentFile = findParentFolderById(state.files, selectedFolder.id);
+
+      return {
+        ...state,
+        selectedFolder: {
+          ...selectedFolder,
+          parentFile: parentFile || undefined, // Add parentFile only if it exists
+        },
+      };
+
     case Constants.FE_SET_SELECTED_FILE_CONTENT:
       return {
         ...state,
-        selectedFile: {
-          ...state.selectedFile!,
-          content: action.payload.content,
-        },
+        selectedFile: state.selectedFile
+          ? {
+              ...state.selectedFile,
+              content: action.payload.content,
+              loadedContent: action.payload.loadedContent || state.selectedFile.loadedContent || '',
+            }
+          : undefined,
+      };
+
+    case Constants.FE_SET_SITESERVER_RELATIVE_URL:
+      return {
+        ...state,
+        webServerRelativeUrl: action.payload.webServerRelativeUrl,
       };
 
     default:

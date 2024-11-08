@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const runsearch = (payload: any, extPath: string) => {
+export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -16,23 +16,99 @@ export const runsearch = (payload: any, extPath: string) => {
       });
     }
 
+    const removeEmptyArraysAndWrap = (payload: any) => {
+      const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
+    
+      for (const key in payload) {
+        if (Array.isArray(payload[key])) {
+          if (payload[key].length === 0) {
+            delete payload[key];
+          } else if (isNotSPO) {
+            payload[key] = { results: payload[key] };
+          }
+        }
+      }
+      return payload;
+    };
+    
+    const ensureSelectProperties = (payload: any) => {
+      if (Array.isArray(payload.SelectProperties)) {
+        const requiredProperties = ['Title', 'OriginalPath', 'DocId'];
+        requiredProperties.forEach((prop) => {
+          if (!payload.SelectProperties.includes(prop)) {
+            payload.SelectProperties.push(prop);
+          }
+        });
+      }
+      return payload;
+    };
+    
+    ensureSelectProperties(payload);
+    removeEmptyArraysAndWrap(payload);
+    
+    let digest: string = '';
+
+    const SPEditor = (props?: SP.ISPBrowserProps) => {
+      return (instance: Queryable.Queryable) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse()
+        );
+
+        instance.on.pre.prepend(async (url, init, result) => {
+          url = props?.baseUrl
+            ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
+            : url;
+
+          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
+            if (!digest) {
+              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+                method: 'POST',
+                headers: {
+                  accept: 'application/json;odata=verbose',
+                  'content-type': 'application/json;odata=verbose',
+                },
+              });
+              const data = await response.json();
+              digest = data.d.GetContextWebInformation.FormDigestValue;
+            }
+
+            init.headers = {
+              'X-RequestDigest': digest,
+              ...init.headers,
+            };
+          }
+
+          return [
+            url
+              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
+            init,
+            result,
+          ];
+        });
+        return instance;
+      };
+    };
+
+    const headers: { [key: string]: string } = {
+      'Accept': 'application/json;odata=verbose',
+      'Cache-Control': 'no-cache',
+      'X-ClientService-ClientTag': 'SPEDITOR',
+    };
+
+    if (!(window as any)._spPageContextInfo.isSPO) {
+      headers['Content-Type'] = 'application/json;odata=verbose';
+    }
+
     /***  init pnpjs ***/
     const sp = pnpsp
       .spfi()
-      .using(
-        pnpsp.SPBrowser({
-          baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl,
-        })
-      )
-      .using(
-        pnpqueryable.InjectHeaders(
-          {
-            Accept: 'application/json; odata=verbose',
-            'Cache-Control': 'no-cache',
-            'X-ClientService-ClientTag': 'SPEDITOR',
-          }
-        )
-      );
+      .using(SPEditor({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl }))
+      .using(pnpqueryable.InjectHeaders(headers));
 
     /*** clear previous log listeners ***/
     pnplogging.Logger.clearSubscribers();
@@ -54,16 +130,41 @@ export const runsearch = (payload: any, extPath: string) => {
 
     pnplogging.Logger.subscribe(listener);
 
-    return sp
-      .search(payload)
+    const formatSearchResults = (rawResults: any): SP.ISearchResult[] => {
+
+      const results = new Array<SP.ISearchResult>();
+
+      if (typeof (rawResults) === "undefined" || rawResults == null) {
+          return [];
+      }
+
+      const tempResults = rawResults.results ? rawResults.results : rawResults;
+
+      for (const tempResult of tempResults) {
+
+          const cells: { Key: string; Value: any }[] = tempResult.Cells.results ? tempResult.Cells.results : tempResult.Cells;
+
+          results.push(cells.reduce((res, cell) => {
+              // @ts-ignore
+              res[cell.Key] = cell.Value;
+
+              return res;
+
+          }, {}));
+      }
+
+      return results;
+  }
+
+    return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({request: payload }) })
       .then((r) => {
+        const parsedResults = formatSearchResults(r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows);
         var result = {
-          ElapsedTime: r.ElapsedTime,
-          PrimarySearchResults: r.PrimarySearchResults,
-          RawSearchResults: r.RawSearchResults,
-          RowCount: r.RowCount,
-          TotalRows: r.TotalRows,
-          TotalRowsIncludingDuplicates: r.TotalRowsIncludingDuplicates,
+          ElapsedTime: r.postquery.ElapsedTime,
+          PrimarySearchResults: parsedResults,
+          RowCount: r.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
+          TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
+          TotalRowsIncludingDuplicates: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
         };
         return result;
       })

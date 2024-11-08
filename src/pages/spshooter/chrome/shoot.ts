@@ -11,14 +11,58 @@ export const shoot = (payload: any, extPath: string) => {
     var pnplogging = modules[1];
     var pnpqueryable = modules[2];
 
+    let digest: string = '';
+
     /*** custom httpHandler ***/
-    const rawFetchHandler = () => {
+    const rawFetchHandler = (props?: any) => {
       return (instance: Queryable.Queryable) => {
-        instance.using(pnpsp.DefaultInit(), pnpqueryable.BrowserFetchWithRetry(), pnpqueryable.DefaultParse(), pnpsp.RequestDigest());
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.JSONParse()
+        );
+
         instance.on.pre.prepend(async (url, init, result) => {
-          if (url.indexOf('###') > -1) {
-            return [url.substring(url.indexOf("###") + 3), init, result];
+
+          url = props?.baseUrl
+          ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
+          : url;
+
+          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
+            if (!digest) {
+              const index = url.indexOf('###');
+              let extractedPart: string;
+
+              if (index !== -1) {
+                extractedPart = url.substring(index + 3);
+              } else {
+                extractedPart = url;
+              }
+              const modifiedUrl = extractedPart.replace(/_api.*|_vti_.*/g, '');
+              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+                method: 'POST',
+                headers: {
+                  accept: 'application/json;odata=verbose',
+                  'content-type': 'application/json;odata=verbose',
+                },
+              });
+              const data = await response.json();
+              digest = data.d.GetContextWebInformation.FormDigestValue;
+            }
+
+           // aking HttpClient request in queryable [400] Bad Request ::> {"error":{"code":"-1, Microsoft.Data.OData.ODataException","message":{"lang":"en-US","value":"The specified content type 'application/json;odata=verbose, application/json;charset=utf-8' contains either no media type or more than one media type, which is not allowed. You must specify exactly one media type as the content type."}}}
+
+            init.headers = {
+              'X-RequestDigest': digest,
+              ...init.headers,
+            };
           }
+
+          if (url.indexOf('###') > -1) {
+            return [url.substring(url.indexOf('###') + 3), init, result];
+          } 
+
           return [url, init, result];
         });
         return instance;
@@ -26,7 +70,7 @@ export const shoot = (payload: any, extPath: string) => {
     }
 
     /***  init pnpjs ***/
-    const sp = pnpsp.spfi().using(rawFetchHandler()).using(pnpqueryable.InjectHeaders({
+    const sp = pnpsp.spfi().using(rawFetchHandler({ baseUrl: (window as any)._spPageContextInfo.webAbsoluteUrl })).using(pnpqueryable.InjectHeaders({
       "Accept": "application/json; odata=verbose",
       "Cache-Control": "no-cache",
       "X-ClientService-ClientTag": "SPEDITOR"
