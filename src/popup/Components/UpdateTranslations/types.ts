@@ -1,3 +1,5 @@
+import { MessageBarType } from "@fluentui/react";
+
 export type TranslationsAPIResponse = {
   UntranslatedLanguages: string[];
   Items: {
@@ -39,4 +41,12 @@ export type TranslationsResponses = {
   translationsAPI: string[];
   itemAPI: string[];
   searchAPI: string[];
+  error?: string;
 };
+
+export type TranslationsStatus = {
+  pending?: boolean;
+  type?: MessageBarType;
+  text?: string;
+  autoDismissInMs?: number;
+}

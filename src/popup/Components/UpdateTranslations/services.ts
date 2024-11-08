@@ -9,21 +9,27 @@ export async function getTranslations(
   siteUrl: string,
   pageId: number,
   pageListId: string
-): Promise<TranslationsResponses | any> {
+): Promise<TranslationsResponses> {
+  const DEFAULTHEADERS = {
+    accept: 'application/json;odata=nometadata',
+    'content-type': 'application/json;odata=nometadata',
+    'X-ClientService-ClientTag': 'SPEDITOR',
+  };
   try {
-    const DEFAULTHEADERS = {
-      accept: 'application/json;odata=nometadata',
-      'content-type': 'application/json;odata=nometadata',
-      'X-ClientService-ClientTag': 'SPEDITOR',
-    };
-
     const translationsAPI: TranslationsAPIResponse = await fetch(
       siteUrl + `/_api/sitepages/pages(${pageId})/translations`,
       {
         method: 'GET',
         headers: DEFAULTHEADERS,
       }
-    ).then((response) => response.json());
+    ).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(
+        `Couldn't get translation data from Translations API. Translations are probably not enabled for this site.`
+      );
+    });
 
     const itemAPI: TranslationsItemAPIResponse = await fetch(
       siteUrl +
@@ -32,7 +38,14 @@ export async function getTranslations(
         method: 'GET',
         headers: DEFAULTHEADERS,
       }
-    ).then((response) => response.json());
+    ).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(
+        `Couldn't get translation data from Items API. Site Pages library might not have translation columns.`
+      );
+    });
 
     const searchAPI: TranslationsSearchAPIResponse = await fetch(
       siteUrl +
@@ -41,8 +54,12 @@ export async function getTranslations(
         method: 'GET',
         headers: DEFAULTHEADERS,
       }
-    ).then((response) => response.json());
-
+    ).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`Couldn't get translation data from Search API`);
+    });
     const languagesFromSearch =
       searchAPI.PrimaryQueryResult.RelevantResults.Table.Rows[0].Cells.filter(
         (c) => c.Key === 'SPTranslatedLanguages'
@@ -51,13 +68,13 @@ export async function getTranslations(
         .filter((e) => e) || [];
 
     return {
-      isTranslationMasterPage: itemAPI.OData__SPIsTranslation ? false : true,
       translationsAPI: translationsAPI.Items.map((i) => i.Culture),
       itemAPI: itemAPI.OData__SPTranslatedLanguages || [],
       searchAPI: languagesFromSearch,
     };
-  } catch (ex) {}
-  return undefined;
+  } catch (ex: any) {
+    return { translationsAPI: [], itemAPI: [], searchAPI: [], error: ex.message };
+  }
 }
 
 export async function updateTranslationValues(siteUrl: string, pageId: number) {
