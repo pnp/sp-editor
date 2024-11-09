@@ -45,7 +45,7 @@ import { Customizer } from "@fluentui/react/lib/Utilities";
 import {
   DarkCustomizations,
   DefaultCustomizations,
-} from "@uifabric/theme-samples";
+} from "@fluentui/theme-samples";
 import { useDispatch, useSelector } from "react-redux";
 import MessageBar from "./components/messageBar";
 import GraphSDKConsole from "./pages/graphsdkconsole";

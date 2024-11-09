@@ -8,8 +8,13 @@
     "@azure/msal-react": "^2.1.1",
     "@craco/craco": "^7.1.0",
     "@fluentui/react": "^8.121.6",
+    "@fluentui/react-hooks": "^8.8.16",
+    "@fluentui/date-time-utilities": "^8.6.9",
+    "@fluentui/theme-samples": "^8.7.183",
     "@ionic/react": "^8.3.3",
+    "@ionic/core": "^8.3.3",
     "@microsoft/mgt": "^4.3.0",
+    "@microsoft/mgt-element": "^4.3.0",
     "@microsoft/mgt-react": "^4.3.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@minoru/react-dnd-treeview": "^3.4.4",
@@ -22,11 +27,6 @@
     "@testing-library/jest-dom": "^6.6.2",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.7.9",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@uifabric/theme-samples": "^7.5.33",
     "@vscode/codicons": "^0.0.36",
     "gsap": "^3.12.5",
     "monaco-editor": "^0.52.0",
@@ -50,6 +50,11 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/chrome": "^0.0.271",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.7.9",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "cross-env": "^7.0.3",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
@@ -59,8 +64,8 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false craco start",
-    "build": "react-scripts build && cd iframe-sandbox-app && BUILD_PATH='../build/build' react-scripts build && cd ..",
+    "start": "cross-env GENERATE_SOURCEMAP=false craco start",
+    "build": "react-scripts build && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
     "updatedeps": "node_modules/.bin/webpack && gulp"
   },
   "eslintConfig": {

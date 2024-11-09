@@ -8,7 +8,7 @@ import {
   IonToggle,
   IonToolbar,
 } from '@ionic/react'
-import { DarkCustomizations, DefaultCustomizations } from '@uifabric/theme-samples'
+import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
