@@ -61,6 +61,7 @@ __webpack_require__.d(__webpack_exports__, {
   CachingPessimisticRefresh: () => (/* reexport */ CachingPessimisticRefresh),
   CancelAction: () => (/* reexport */ CancelAction),
   Cancelable: () => (/* reexport */ Cancelable),
+  DebugHeaders: () => (/* reexport */ DebugHeaders),
   DefaultParse: () => (/* reexport */ DefaultParse),
   HeaderParse: () => (/* reexport */ HeaderParse),
   HttpRequestError: () => (/* reexport */ HttpRequestError),
@@ -142,7 +143,6 @@ function dateAdd(date, interval, units) {
 function combine(...paths) {
     return paths
         .filter(path => !stringIsNullOrEmpty(path))
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
         .join("/")
         .replace(/\\/g, "/");
@@ -1565,7 +1565,7 @@ class HttpRequestError extends Error {
         this.isHttpRequestError = true;
     }
     static async init(r) {
-        const t = await r.clone().text();
+        const t = await r.text();
         return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
     }
 }
@@ -2007,6 +2007,27 @@ function CancelAction(action) {
     };
 }
 
+;// ./node_modules/@pnp/queryable/behaviors/debug-headers.js
+/**
+ *
+ * @param otherHeaders Optional list of additional headers to log from the response
+ * @returns A timeline pipe
+ */
+function DebugHeaders(otherHeaders = []) {
+    return (instance) => {
+        instance.on.parse.prepend(async function (url, response, result) {
+            var _a;
+            // here we add logging for the request id and timestamp to assist in reporting issues to Microsoft
+            const searchHeaders = ["request-id", "sprequestguid", "date", ...otherHeaders];
+            for (let i = 0; i < searchHeaders.length; i++) {
+                this.log(`${searchHeaders[i]}: ${(_a = response.headers.get(searchHeaders[i])) !== null && _a !== void 0 ? _a : ""}`);
+            }
+            return [url, response, result];
+        });
+        return instance;
+    };
+}
+
 ;// ./node_modules/@pnp/queryable/behaviors/timeout.js
 /**
  * Behavior that will cause a timeout in the request after the specified milliseconds
@@ -2049,6 +2070,7 @@ function RejectOnError() {
 /**
  * Behavior exports
  */
+
 
 
 

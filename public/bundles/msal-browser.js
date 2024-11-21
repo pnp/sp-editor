@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v3.26.1 2024-10-08 */
+/*! @azure/msal-browser v3.27.0 2024-11-05 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -101,6 +101,7 @@
      */
     const HeaderNames = {
         CONTENT_TYPE: "Content-Type",
+        CONTENT_LENGTH: "Content-Length",
         RETRY_AFTER: "Retry-After",
         CCS_HEADER: "X-AnchorMailbox",
         WWWAuthenticate: "WWW-Authenticate",
@@ -315,7 +316,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -332,7 +333,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -381,7 +382,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -479,7 +480,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -731,7 +732,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -770,7 +771,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -961,12 +962,12 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
-    const version$1 = "14.15.0";
+    const version$1 = "14.16.0";
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -986,7 +987,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1047,7 +1048,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1084,7 +1085,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1411,7 +1412,7 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1465,7 +1466,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1603,7 +1604,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1700,7 +1701,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1900,7 +1901,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1940,7 +1941,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2019,7 +2020,7 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2034,7 +2035,7 @@
         Ciam: 3,
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2056,7 +2057,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2069,7 +2070,7 @@
         OIDC: "OIDC",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2312,7 +2313,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2359,7 +2360,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2523,7 +2524,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2663,7 +2664,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2671,7 +2672,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2698,7 +2699,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3939,9 +3940,6 @@
         getTokenKeys() {
             throw createClientAuthError(methodNotImplemented);
         }
-        async clear() {
-            throw createClientAuthError(methodNotImplemented);
-        }
         updateCredentialCacheKey() {
             throw createClientAuthError(methodNotImplemented);
         }
@@ -3950,7 +3948,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4049,161 +4047,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Error thrown when there is an error with the server code, for example, unavailability.
-     */
-    class ServerError extends AuthError {
-        constructor(errorCode, errorMessage, subError, errorNo, status) {
-            super(errorCode, errorMessage, subError);
-            this.name = "ServerError";
-            this.errorNo = errorNo;
-            this.status = status;
-            Object.setPrototypeOf(this, ServerError.prototype);
-        }
-    }
-
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /** @internal */
-    class ThrottlingUtils {
-        /**
-         * Prepares a RequestThumbprint to be stored as a key.
-         * @param thumbprint
-         */
-        static generateThrottlingStorageKey(thumbprint) {
-            return `${ThrottlingConstants.THROTTLING_PREFIX}.${JSON.stringify(thumbprint)}`;
-        }
-        /**
-         * Performs necessary throttling checks before a network request.
-         * @param cacheManager
-         * @param thumbprint
-         */
-        static preProcess(cacheManager, thumbprint) {
-            const key = ThrottlingUtils.generateThrottlingStorageKey(thumbprint);
-            const value = cacheManager.getThrottlingCache(key);
-            if (value) {
-                if (value.throttleTime < Date.now()) {
-                    cacheManager.removeItem(key);
-                    return;
-                }
-                throw new ServerError(value.errorCodes?.join(" ") || Constants.EMPTY_STRING, value.errorMessage, value.subError);
-            }
-        }
-        /**
-         * Performs necessary throttling checks after a network request.
-         * @param cacheManager
-         * @param thumbprint
-         * @param response
-         */
-        static postProcess(cacheManager, thumbprint, response) {
-            if (ThrottlingUtils.checkResponseStatus(response) ||
-                ThrottlingUtils.checkResponseForRetryAfter(response)) {
-                const thumbprintValue = {
-                    throttleTime: ThrottlingUtils.calculateThrottleTime(parseInt(response.headers[HeaderNames.RETRY_AFTER])),
-                    error: response.body.error,
-                    errorCodes: response.body.error_codes,
-                    errorMessage: response.body.error_description,
-                    subError: response.body.suberror,
-                };
-                cacheManager.setThrottlingCache(ThrottlingUtils.generateThrottlingStorageKey(thumbprint), thumbprintValue);
-            }
-        }
-        /**
-         * Checks a NetworkResponse object's status codes against 429 or 5xx
-         * @param response
-         */
-        static checkResponseStatus(response) {
-            return (response.status === 429 ||
-                (response.status >= 500 && response.status < 600));
-        }
-        /**
-         * Checks a NetworkResponse object's RetryAfter header
-         * @param response
-         */
-        static checkResponseForRetryAfter(response) {
-            if (response.headers) {
-                return (response.headers.hasOwnProperty(HeaderNames.RETRY_AFTER) &&
-                    (response.status < 200 || response.status >= 300));
-            }
-            return false;
-        }
-        /**
-         * Calculates the Unix-time value for a throttle to expire given throttleTime in seconds.
-         * @param throttleTime
-         */
-        static calculateThrottleTime(throttleTime) {
-            const time = throttleTime <= 0 ? 0 : throttleTime;
-            const currentSeconds = Date.now() / 1000;
-            return Math.floor(Math.min(currentSeconds +
-                (time || ThrottlingConstants.DEFAULT_THROTTLE_TIME_SECONDS), currentSeconds +
-                ThrottlingConstants.DEFAULT_MAX_THROTTLE_TIME_SECONDS) * 1000);
-        }
-        static removeThrottle(cacheManager, clientId, request, homeAccountIdentifier) {
-            const thumbprint = {
-                clientId: clientId,
-                authority: request.authority,
-                scopes: request.scopes,
-                homeAccountIdentifier: homeAccountIdentifier,
-                claims: request.claims,
-                authenticationScheme: request.authenticationScheme,
-                resourceRequestMethod: request.resourceRequestMethod,
-                resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims,
-                sshKid: request.sshKid,
-            };
-            const key = this.generateThrottlingStorageKey(thumbprint);
-            cacheManager.removeItem(key);
-        }
-    }
-
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /** @internal */
-    class NetworkManager {
-        constructor(networkClient, cacheManager) {
-            this.networkClient = networkClient;
-            this.cacheManager = cacheManager;
-        }
-        /**
-         * Wraps sendPostRequestAsync with necessary preflight and postflight logic
-         * @param thumbprint
-         * @param tokenEndpoint
-         * @param options
-         */
-        async sendPostRequest(thumbprint, tokenEndpoint, options) {
-            ThrottlingUtils.preProcess(this.cacheManager, thumbprint);
-            let response;
-            try {
-                response = await this.networkClient.sendPostRequestAsync(tokenEndpoint, options);
-            }
-            catch (e) {
-                if (e instanceof AuthError) {
-                    throw e;
-                }
-                else {
-                    throw createClientAuthError(networkError);
-                }
-            }
-            ThrottlingUtils.postProcess(this.cacheManager, thumbprint, response);
-            return response;
-        }
-    }
-
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4213,7 +4057,7 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4260,8 +4104,10 @@
     const LOGIN_HINT = "login_hint";
     const DOMAIN_HINT = "domain_hint";
     const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
+    const BROKER_CLIENT_ID = "brk_client_id";
+    const BROKER_REDIRECT_URI = "brk_redirect_uri";
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4328,16 +4174,30 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    function instrumentBrokerParams(parameters, correlationId, performanceClient) {
+        if (!correlationId) {
+            return;
+        }
+        const clientId = parameters.get(CLIENT_ID);
+        if (clientId && parameters.has(BROKER_CLIENT_ID)) {
+            performanceClient?.addFields({
+                embeddedClientId: clientId,
+                embeddedRedirectUri: parameters.get(REDIRECT_URI),
+            }, correlationId);
+        }
+    }
     /** @internal */
     class RequestParameterBuilder {
-        constructor() {
+        constructor(correlationId, performanceClient) {
             this.parameters = new Map();
+            this.performanceClient = performanceClient;
+            this.correlationId = correlationId;
         }
         /**
          * add response_type = code
@@ -4701,6 +4561,14 @@
         addLogoutHint(logoutHint) {
             this.parameters.set(LOGOUT_HINT, encodeURIComponent(logoutHint));
         }
+        addBrokerParameters(params) {
+            const brokerParams = {};
+            brokerParams[BROKER_CLIENT_ID] =
+                params.brokerClientId;
+            brokerParams[BROKER_REDIRECT_URI] =
+                params.brokerRedirectUri;
+            this.addExtraQueryParameters(brokerParams);
+        }
         /**
          * Utility to create a URL from the params map
          */
@@ -4709,11 +4577,12 @@
             this.parameters.forEach((value, key) => {
                 queryParameterArray.push(`${key}=${value}`);
             });
+            instrumentBrokerParams(this.parameters, this.correlationId, this.performanceClient);
             return queryParameterArray.join("&");
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4725,7 +4594,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4735,7 +4604,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4745,7 +4614,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4847,6 +4716,7 @@
         /**
          * Time spent sending/waiting for the response of a request to the token endpoint
          */
+        NetworkClientSendPostRequestAsync: "networkClientSendPostRequestAsync",
         RefreshTokenClientExecutePostToTokenEndpoint: "refreshTokenClientExecutePostToTokenEndpoint",
         AuthorizationCodeClientExecutePostToTokenEndpoint: "authorizationCodeClientExecutePostToTokenEndpoint",
         /**
@@ -5019,6 +4889,10 @@
         [
             PerformanceEvents.BaseClientCreateTokenRequestHeaders,
             "BaseClientCreateTReqHead",
+        ],
+        [
+            PerformanceEvents.NetworkClientSendPostRequestAsync,
+            "NetClientSendPost",
         ],
         [
             PerformanceEvents.RefreshTokenClientExecutePostToTokenEndpoint,
@@ -5227,7 +5101,7 @@
         "multiMatchedRT",
     ]);
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5323,7 +5197,7 @@
         };
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5432,7 +5306,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6271,7 +6145,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6302,7 +6176,154 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Error thrown when there is an error with the server code, for example, unavailability.
+     */
+    class ServerError extends AuthError {
+        constructor(errorCode, errorMessage, subError, errorNo, status) {
+            super(errorCode, errorMessage, subError);
+            this.name = "ServerError";
+            this.errorNo = errorNo;
+            this.status = status;
+            Object.setPrototypeOf(this, ServerError.prototype);
+        }
+    }
+
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /** @internal */
+    class ThrottlingUtils {
+        /**
+         * Prepares a RequestThumbprint to be stored as a key.
+         * @param thumbprint
+         */
+        static generateThrottlingStorageKey(thumbprint) {
+            return `${ThrottlingConstants.THROTTLING_PREFIX}.${JSON.stringify(thumbprint)}`;
+        }
+        /**
+         * Performs necessary throttling checks before a network request.
+         * @param cacheManager
+         * @param thumbprint
+         */
+        static preProcess(cacheManager, thumbprint) {
+            const key = ThrottlingUtils.generateThrottlingStorageKey(thumbprint);
+            const value = cacheManager.getThrottlingCache(key);
+            if (value) {
+                if (value.throttleTime < Date.now()) {
+                    cacheManager.removeItem(key);
+                    return;
+                }
+                throw new ServerError(value.errorCodes?.join(" ") || Constants.EMPTY_STRING, value.errorMessage, value.subError);
+            }
+        }
+        /**
+         * Performs necessary throttling checks after a network request.
+         * @param cacheManager
+         * @param thumbprint
+         * @param response
+         */
+        static postProcess(cacheManager, thumbprint, response) {
+            if (ThrottlingUtils.checkResponseStatus(response) ||
+                ThrottlingUtils.checkResponseForRetryAfter(response)) {
+                const thumbprintValue = {
+                    throttleTime: ThrottlingUtils.calculateThrottleTime(parseInt(response.headers[HeaderNames.RETRY_AFTER])),
+                    error: response.body.error,
+                    errorCodes: response.body.error_codes,
+                    errorMessage: response.body.error_description,
+                    subError: response.body.suberror,
+                };
+                cacheManager.setThrottlingCache(ThrottlingUtils.generateThrottlingStorageKey(thumbprint), thumbprintValue);
+            }
+        }
+        /**
+         * Checks a NetworkResponse object's status codes against 429 or 5xx
+         * @param response
+         */
+        static checkResponseStatus(response) {
+            return (response.status === 429 ||
+                (response.status >= 500 && response.status < 600));
+        }
+        /**
+         * Checks a NetworkResponse object's RetryAfter header
+         * @param response
+         */
+        static checkResponseForRetryAfter(response) {
+            if (response.headers) {
+                return (response.headers.hasOwnProperty(HeaderNames.RETRY_AFTER) &&
+                    (response.status < 200 || response.status >= 300));
+            }
+            return false;
+        }
+        /**
+         * Calculates the Unix-time value for a throttle to expire given throttleTime in seconds.
+         * @param throttleTime
+         */
+        static calculateThrottleTime(throttleTime) {
+            const time = throttleTime <= 0 ? 0 : throttleTime;
+            const currentSeconds = Date.now() / 1000;
+            return Math.floor(Math.min(currentSeconds +
+                (time || ThrottlingConstants.DEFAULT_THROTTLE_TIME_SECONDS), currentSeconds +
+                ThrottlingConstants.DEFAULT_MAX_THROTTLE_TIME_SECONDS) * 1000);
+        }
+        static removeThrottle(cacheManager, clientId, request, homeAccountIdentifier) {
+            const thumbprint = {
+                clientId: clientId,
+                authority: request.authority,
+                scopes: request.scopes,
+                homeAccountIdentifier: homeAccountIdentifier,
+                claims: request.claims,
+                authenticationScheme: request.authenticationScheme,
+                resourceRequestMethod: request.resourceRequestMethod,
+                resourceRequestUri: request.resourceRequestUri,
+                shrClaims: request.shrClaims,
+                sshKid: request.sshKid,
+            };
+            const key = this.generateThrottlingStorageKey(thumbprint);
+            cacheManager.removeItem(key);
+        }
+    }
+
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Represents network related errors
+     */
+    class NetworkError extends AuthError {
+        constructor(error, httpStatus, responseHeaders) {
+            super(error.errorCode, error.errorMessage, error.subError);
+            Object.setPrototypeOf(this, NetworkError.prototype);
+            this.name = "NetworkError";
+            this.error = error;
+            this.httpStatus = httpStatus;
+            this.responseHeaders = responseHeaders;
+        }
+    }
+    /**
+     * Creates NetworkError object for a failed network request
+     * @param error - Error to be thrown back to the caller
+     * @param httpStatus - Status code of the network request
+     * @param responseHeaders - Response headers of the network request, when available
+     * @returns NetworkError object
+     */
+    function createNetworkError(error, httpStatus, responseHeaders) {
+        return new NetworkError(error, httpStatus, responseHeaders);
+    }
+
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6324,8 +6345,6 @@
             this.cacheManager = this.config.storageInterface;
             // Set the network interface
             this.networkClient = this.config.networkInterface;
-            // Set the NetworkManager
-            this.networkManager = new NetworkManager(this.networkClient, this.cacheManager);
             // Set TelemetryManager
             this.serverTelemetryManager = this.config.serverTelemetryManager;
             // set Authority
@@ -6369,17 +6388,59 @@
             if (queuedEvent) {
                 this.performanceClient?.addQueueMeasurement(queuedEvent, correlationId);
             }
-            const response = await this.networkManager.sendPostRequest(thumbprint, tokenEndpoint, { body: queryString, headers: headers });
-            this.performanceClient?.addFields({
-                refreshTokenSize: response.body.refresh_token?.length || 0,
-                httpVerToken: response.headers?.[HeaderNames.X_MS_HTTP_VERSION] || "",
-            }, correlationId);
+            const response = await this.sendPostRequest(thumbprint, tokenEndpoint, { body: queryString, headers: headers }, correlationId);
             if (this.config.serverTelemetryManager &&
                 response.status < 500 &&
                 response.status !== 429) {
                 // Telemetry data successfully logged by server, clear Telemetry cache
                 this.config.serverTelemetryManager.clearTelemetryCache();
             }
+            return response;
+        }
+        /**
+         * Wraps sendPostRequestAsync with necessary preflight and postflight logic
+         * @param thumbprint - Request thumbprint for throttling
+         * @param tokenEndpoint - Endpoint to make the POST to
+         * @param options - Body and Headers to include on the POST request
+         * @param correlationId - CorrelationId for telemetry
+         */
+        async sendPostRequest(thumbprint, tokenEndpoint, options, correlationId) {
+            ThrottlingUtils.preProcess(this.cacheManager, thumbprint);
+            let response;
+            try {
+                response = await invokeAsync((this.networkClient.sendPostRequestAsync.bind(this.networkClient)), PerformanceEvents.NetworkClientSendPostRequestAsync, this.logger, this.performanceClient, correlationId)(tokenEndpoint, options);
+                const responseHeaders = response.headers || {};
+                this.performanceClient?.addFields({
+                    refreshTokenSize: response.body.refresh_token?.length || 0,
+                    httpVerToken: responseHeaders[HeaderNames.X_MS_HTTP_VERSION] || "",
+                    requestId: responseHeaders[HeaderNames.X_MS_REQUEST_ID] || "",
+                }, correlationId);
+            }
+            catch (e) {
+                if (e instanceof NetworkError) {
+                    const responseHeaders = e.responseHeaders;
+                    if (responseHeaders) {
+                        this.performanceClient?.addFields({
+                            httpVerToken: responseHeaders[HeaderNames.X_MS_HTTP_VERSION] || "",
+                            requestId: responseHeaders[HeaderNames.X_MS_REQUEST_ID] ||
+                                "",
+                            contentTypeHeader: responseHeaders[HeaderNames.CONTENT_TYPE] ||
+                                undefined,
+                            contentLengthHeader: responseHeaders[HeaderNames.CONTENT_LENGTH] ||
+                                undefined,
+                            httpStatus: e.httpStatus,
+                        }, correlationId);
+                    }
+                    throw e.error;
+                }
+                if (e instanceof AuthError) {
+                    throw e;
+                }
+                else {
+                    throw createClientAuthError(networkError);
+                }
+            }
+            ThrottlingUtils.postProcess(this.cacheManager, thumbprint, response);
             return response;
         }
         /**
@@ -6397,15 +6458,22 @@
          * @param request
          */
         createTokenQueryParameters(request) {
-            const parameterBuilder = new RequestParameterBuilder();
+            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
+            if (request.embeddedClientId) {
+                parameterBuilder.addBrokerParameters({
+                    brokerClientId: this.config.authOptions.clientId,
+                    brokerRedirectUri: this.config.authOptions.redirectUri,
+                });
+            }
             if (request.tokenQueryParameters) {
                 parameterBuilder.addExtraQueryParameters(request.tokenQueryParameters);
             }
+            parameterBuilder.addCorrelationId(request.correlationId);
             return parameterBuilder.createQueryString();
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6431,7 +6499,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6519,7 +6587,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6591,7 +6659,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6675,7 +6743,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6702,7 +6770,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7079,7 +7147,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7097,7 +7165,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7223,8 +7291,9 @@
          */
         async createTokenRequestBody(request) {
             this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthClientCreateTokenRequestBody, request.correlationId);
-            const parameterBuilder = new RequestParameterBuilder();
-            parameterBuilder.addClientId(request.tokenBodyParameters?.[CLIENT_ID] ||
+            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
+            parameterBuilder.addClientId(request.embeddedClientId ||
+                request.tokenBodyParameters?.[CLIENT_ID] ||
                 this.config.authOptions.clientId);
             /*
              * For hybrid spa flow, there will be a code but no verifier
@@ -7284,9 +7353,6 @@
                     throw createClientConfigurationError(missingSshJwk);
                 }
             }
-            const correlationId = request.correlationId ||
-                this.config.cryptoInterface.createNewGuid();
-            parameterBuilder.addCorrelationId(correlationId);
             if (!StringUtils.isEmptyObj(request.claims) ||
                 (this.config.authOptions.clientCapabilities &&
                     this.config.authOptions.clientCapabilities.length > 0)) {
@@ -7326,6 +7392,12 @@
                         break;
                 }
             }
+            if (request.embeddedClientId) {
+                parameterBuilder.addBrokerParameters({
+                    brokerClientId: this.config.authOptions.clientId,
+                    brokerRedirectUri: this.config.authOptions.redirectUri,
+                });
+            }
             if (request.tokenBodyParameters) {
                 parameterBuilder.addExtraQueryParameters(request.tokenBodyParameters);
             }
@@ -7344,9 +7416,13 @@
          * @param request
          */
         async createAuthCodeUrlQueryString(request) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthClientCreateQueryString, request.correlationId);
-            const parameterBuilder = new RequestParameterBuilder();
-            parameterBuilder.addClientId(request.extraQueryParameters?.[CLIENT_ID] ||
+            // generate the correlationId if not set by the user and add
+            const correlationId = request.correlationId ||
+                this.config.cryptoInterface.createNewGuid();
+            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthClientCreateQueryString, correlationId);
+            const parameterBuilder = new RequestParameterBuilder(correlationId, this.performanceClient);
+            parameterBuilder.addClientId(request.embeddedClientId ||
+                request.extraQueryParameters?.[CLIENT_ID] ||
                 this.config.authOptions.clientId);
             const requestScopes = [
                 ...(request.scopes || []),
@@ -7355,9 +7431,6 @@
             parameterBuilder.addScopes(requestScopes, true, this.oidcDefaultScopes);
             // validate the redirectUri (to be a non null value)
             parameterBuilder.addRedirectUri(request.redirectUri);
-            // generate the correlationId if not set by the user and add
-            const correlationId = request.correlationId ||
-                this.config.cryptoInterface.createNewGuid();
             parameterBuilder.addCorrelationId(correlationId);
             // add response_mode. If not passed in it defaults to query.
             parameterBuilder.addResponseMode(request.responseMode);
@@ -7459,6 +7532,12 @@
                     this.config.authOptions.clientCapabilities.length > 0)) {
                 parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
             }
+            if (request.embeddedClientId) {
+                parameterBuilder.addBrokerParameters({
+                    brokerClientId: this.config.authOptions.clientId,
+                    brokerRedirectUri: this.config.authOptions.redirectUri,
+                });
+            }
             this.addExtraQueryParams(request, parameterBuilder);
             if (request.nativeBroker) {
                 // signal ests that this is a WAM call
@@ -7485,7 +7564,7 @@
          * @param request
          */
         createLogoutUrlQueryString(request) {
-            const parameterBuilder = new RequestParameterBuilder();
+            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
             if (request.postLogoutRedirectUri) {
                 parameterBuilder.addPostLogoutRedirectUri(request.postLogoutRedirectUri);
             }
@@ -7528,7 +7607,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7666,8 +7745,9 @@
         async createTokenRequestBody(request) {
             this.performanceClient?.addQueueMeasurement(PerformanceEvents.RefreshTokenClientCreateTokenRequestBody, request.correlationId);
             const correlationId = request.correlationId;
-            const parameterBuilder = new RequestParameterBuilder();
-            parameterBuilder.addClientId(request.tokenBodyParameters?.[CLIENT_ID] ||
+            const parameterBuilder = new RequestParameterBuilder(correlationId, this.performanceClient);
+            parameterBuilder.addClientId(request.embeddedClientId ||
+                request.tokenBodyParameters?.[CLIENT_ID] ||
                 this.config.authOptions.clientId);
             if (request.redirectUri) {
                 parameterBuilder.addRedirectUri(request.redirectUri);
@@ -7681,7 +7761,6 @@
             if (this.serverTelemetryManager && !isOidcProtocolMode(this.config)) {
                 parameterBuilder.addServerTelemetry(this.serverTelemetryManager);
             }
-            parameterBuilder.addCorrelationId(correlationId);
             parameterBuilder.addRefreshToken(request.refreshToken);
             if (this.config.clientCredentials.clientSecret) {
                 parameterBuilder.addClientSecret(this.config.clientCredentials.clientSecret);
@@ -7735,6 +7814,12 @@
                         break;
                 }
             }
+            if (request.embeddedClientId) {
+                parameterBuilder.addBrokerParameters({
+                    brokerClientId: this.config.authOptions.clientId,
+                    brokerRedirectUri: this.config.authOptions.redirectUri,
+                });
+            }
             if (request.tokenBodyParameters) {
                 parameterBuilder.addExtraQueryParameters(request.tokenBodyParameters);
             }
@@ -7742,7 +7827,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7878,7 +7963,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7893,7 +7978,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7951,7 +8036,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8214,7 +8299,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8222,7 +8307,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8247,7 +8332,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8287,7 +8372,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8366,7 +8451,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.15.0 2024-10-08 */
+    /*! @azure/msal-common v14.16.0 2024-11-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8498,18 +8583,30 @@
             return [];
         }
         const stackArr = stack.split("\n") || [];
-        if (stackArr.length < 2) {
-            return [];
-        }
         const res = [];
+        // Check for a handful of known, common runtime errors and log them (with redaction where applicable).
+        const firstLine = stackArr[0];
+        if (firstLine.startsWith("TypeError: Cannot read property") ||
+            firstLine.startsWith("TypeError: Cannot read properties of") ||
+            firstLine.startsWith("TypeError: Cannot set property") ||
+            firstLine.startsWith("TypeError: Cannot set properties of") ||
+            firstLine.endsWith("is not a function")) {
+            // These types of errors are not at risk of leaking PII. They will indicate unavailable APIs
+            res.push(compactStackLine(firstLine));
+        }
+        else if (firstLine.startsWith("SyntaxError") ||
+            firstLine.startsWith("TypeError")) {
+            // Prevent unintentional leaking of arbitrary info by redacting contents between both single and double quotes
+            res.push(compactStackLine(
+            // Example: SyntaxError: Unexpected token 'e', "test" is not valid JSON -> SyntaxError: Unexpected token <redacted>, <redacted> is not valid JSON
+            firstLine.replace(/['].*[']|["].*["]/g, "<redacted>")));
+        }
         // Get top N stack lines
-        for (
-        // Skip first line as it may contain PII data
-        let ix = Math.max(stackArr.length - stackMaxSize - 1, 1); ix < stackArr.length; ix++) {
-            const line = stackArr[ix];
+        for (let ix = 1; ix < stackArr.length; ix++) {
             if (res.length >= stackMaxSize) {
                 break;
             }
+            const line = stackArr[ix];
             res.push(compactStackLine(line));
         }
         return res;
@@ -8756,13 +8853,20 @@
                 rootEvent.incompleteSubMeasurements?.delete(event.eventId);
             }
             this.logger.trace(`PerformanceClient: Performance measurement ended for ${event.name}: ${event.durationMs} ms`, event.correlationId);
+            if (error) {
+                addError(error, this.logger, rootEvent);
+            }
             // Add sub-measurement attribute to root event.
             if (!isRoot) {
                 rootEvent[event.name + "DurationMs"] = Math.floor(event.durationMs);
                 return { ...rootEvent };
             }
-            if (error) {
-                addError(error, this.logger, rootEvent);
+            if (isRoot &&
+                !error &&
+                (rootEvent.errorCode || rootEvent.subErrorCode)) {
+                this.logger.trace(`PerformanceClient: Remove error and sub-error codes for root event ${event.name} as intermediate error was successfully handled`, event.correlationId);
+                rootEvent.errorCode = undefined;
+                rootEvent.subErrorCode = undefined;
             }
             let finalEvent = { ...rootEvent, ...event };
             let incompleteSubsCount = 0;
@@ -9006,6 +9110,8 @@
     const nativePromptNotSupported = "native_prompt_not_supported";
     const invalidBase64String = "invalid_base64_string";
     const invalidPopTokenRequest = "invalid_pop_token_request";
+    const failedToBuildHeaders = "failed_to_build_headers";
+    const failedToParseHeaders = "failed_to_parse_headers";
 
     var BrowserAuthErrorCodes = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -9020,6 +9126,8 @@
         databaseUnavailable: databaseUnavailable,
         emptyNavigateUri: emptyNavigateUri,
         emptyWindowError: emptyWindowError,
+        failedToBuildHeaders: failedToBuildHeaders,
+        failedToParseHeaders: failedToParseHeaders,
         failedToParseResponse: failedToParseResponse,
         getRequestFailed: getRequestFailed,
         hashDoesNotContainKnownProperties: hashDoesNotContainKnownProperties,
@@ -9112,6 +9220,8 @@
         [nativePromptNotSupported]: "The provided prompt is not supported by the native platform. This request should be routed to the web based flow.",
         [invalidBase64String]: "Invalid base64 encoded string.",
         [invalidPopTokenRequest]: "Invalid PoP token request. The request should not have both a popKid value and signPopToken set to true.",
+        [failedToBuildHeaders]: "Failed to build request headers object.",
+        [failedToParseHeaders]: "Failed to parse response headers",
     };
     /**
      * BrowserAuthErrorMessage class containing string constants used by error codes and messages.
@@ -9311,14 +9421,14 @@
      * Browser library error class thrown by the MSAL.js library for SPAs
      */
     class BrowserAuthError extends AuthError {
-        constructor(errorCode) {
-            super(errorCode, BrowserAuthErrorMessages[errorCode]);
+        constructor(errorCode, subError) {
+            super(errorCode, BrowserAuthErrorMessages[errorCode], subError);
             Object.setPrototypeOf(this, BrowserAuthError.prototype);
             this.name = "BrowserAuthError";
         }
     }
-    function createBrowserAuthError(errorCode) {
-        return new BrowserAuthError(errorCode);
+    function createBrowserAuthError(errorCode, subError) {
+        return new BrowserAuthError(errorCode, subError);
     }
 
     /*
@@ -9601,6 +9711,7 @@
     const UUID_CHARS = "0123456789abcdef";
     // Array to store UINT32 random value
     const UINT32_ARR = new Uint32Array(1);
+    const SUBTLE_SUBERROR = "crypto_subtle_undefined";
     const keygenAlgorithmOptions = {
         name: PKCS1_V15_KEYGEN_ALG,
         hash: S256_HASH_ALG,
@@ -9610,13 +9721,15 @@
     /**
      * Check whether browser crypto is available.
      */
-    function validateCryptoAvailable(logger) {
-        if ("crypto" in window) {
-            logger.verbose("BrowserCrypto: modern crypto interface available");
+    function validateCryptoAvailable() {
+        if (!window) {
+            throw createBrowserAuthError(nonBrowserEnvironment);
         }
-        else {
-            logger.error("BrowserCrypto: crypto interface is unavailable");
+        if (!window.crypto) {
             throw createBrowserAuthError(cryptoNonExistent);
+        }
+        if (!window.crypto.subtle) {
+            throw createBrowserAuthError(cryptoNonExistent, SUBTLE_SUBERROR);
         }
     }
     /**
@@ -10022,29 +10135,31 @@
          */
         async sendGetRequestAsync(url, options) {
             let response;
+            let responseHeaders = {};
+            let responseStatus = 0;
+            const reqHeaders = getFetchHeaders(options);
             try {
                 response = await fetch(url, {
                     method: HTTP_REQUEST_TYPE.GET,
-                    headers: this.getFetchHeaders(options),
+                    headers: reqHeaders,
                 });
             }
             catch (e) {
-                if (window.navigator.onLine) {
-                    throw createBrowserAuthError(getRequestFailed);
-                }
-                else {
-                    throw createBrowserAuthError(noNetworkConnectivity);
-                }
+                throw createBrowserAuthError(window.navigator.onLine
+                    ? getRequestFailed
+                    : noNetworkConnectivity);
             }
+            responseHeaders = getHeaderDict(response.headers);
             try {
+                responseStatus = response.status;
                 return {
-                    headers: this.getHeaderDict(response.headers),
+                    headers: responseHeaders,
                     body: (await response.json()),
-                    status: response.status,
+                    status: responseStatus,
                 };
             }
             catch (e) {
-                throw createBrowserAuthError(failedToParseResponse);
+                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders);
             }
         }
         /**
@@ -10054,55 +10169,72 @@
          * @param body
          */
         async sendPostRequestAsync(url, options) {
-            const reqBody = (options && options.body) || Constants.EMPTY_STRING;
+            const reqBody = (options && options.body) || "";
+            const reqHeaders = getFetchHeaders(options);
             let response;
+            let responseStatus = 0;
+            let responseHeaders = {};
             try {
                 response = await fetch(url, {
                     method: HTTP_REQUEST_TYPE.POST,
-                    headers: this.getFetchHeaders(options),
+                    headers: reqHeaders,
                     body: reqBody,
                 });
             }
             catch (e) {
-                if (window.navigator.onLine) {
-                    throw createBrowserAuthError(postRequestFailed);
-                }
-                else {
-                    throw createBrowserAuthError(noNetworkConnectivity);
-                }
+                throw createBrowserAuthError(window.navigator.onLine
+                    ? postRequestFailed
+                    : noNetworkConnectivity);
             }
+            responseHeaders = getHeaderDict(response.headers);
             try {
+                responseStatus = response.status;
                 return {
-                    headers: this.getHeaderDict(response.headers),
+                    headers: responseHeaders,
                     body: (await response.json()),
-                    status: response.status,
+                    status: responseStatus,
                 };
             }
             catch (e) {
-                throw createBrowserAuthError(failedToParseResponse);
+                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders);
             }
         }
-        /**
-         * Get Fetch API Headers object from string map
-         * @param inputHeaders
-         */
-        getFetchHeaders(options) {
+    }
+    /**
+     * Get Fetch API Headers object from string map
+     * @param inputHeaders
+     */
+    function getFetchHeaders(options) {
+        try {
             const headers = new Headers();
             if (!(options && options.headers)) {
                 return headers;
             }
             const optionsHeaders = options.headers;
-            Object.keys(optionsHeaders).forEach((key) => {
-                headers.append(key, optionsHeaders[key]);
+            Object.entries(optionsHeaders).forEach(([key, value]) => {
+                headers.append(key, value);
             });
             return headers;
         }
-        getHeaderDict(headers) {
+        catch (e) {
+            throw createBrowserAuthError(failedToBuildHeaders);
+        }
+    }
+    /**
+     * Returns object representing response headers
+     * @param headers
+     * @returns
+     */
+    function getHeaderDict(headers) {
+        try {
             const headerDict = {};
             headers.forEach((value, key) => {
                 headerDict[key] = value;
             });
             return headerDict;
+        }
+        catch (e) {
+            throw createBrowserAuthError(failedToParseHeaders);
         }
     }
 
@@ -10132,7 +10264,7 @@
             knownAuthorities: [],
             cloudDiscoveryMetadata: Constants.EMPTY_STRING,
             authorityMetadata: Constants.EMPTY_STRING,
-            redirectUri: Constants.EMPTY_STRING,
+            redirectUri: typeof window !== "undefined" ? getCurrentUri() : "",
             postLogoutRedirectUri: Constants.EMPTY_STRING,
             navigateToLoginRequestUrl: true,
             clientCapabilities: [],
@@ -10238,7 +10370,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "3.26.1";
+    const version = "3.27.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11028,7 +11160,7 @@
         constructor(logger, performanceClient) {
             this.logger = logger;
             // Browser crypto needs to be validated first before any other classes can be set.
-            validateCryptoAvailable(logger);
+            validateCryptoAvailable();
             this.cache = new AsyncMemoryStorage(this.logger);
             this.performanceClient = performanceClient;
         }
@@ -12821,9 +12953,7 @@
          */
         getRedirectUri(requestRedirectUri) {
             this.logger.verbose("getRedirectUri called");
-            const redirectUri = requestRedirectUri ||
-                this.config.auth.redirectUri ||
-                getCurrentUri();
+            const redirectUri = requestRedirectUri || this.config.auth.redirectUri;
             return UrlString.getAbsoluteUrl(redirectUri, getCurrentUri());
         }
         /**
@@ -13146,6 +13276,7 @@
                     clientId: this.config.auth.clientId,
                     authority: discoveredAuthority,
                     clientCapabilities: this.config.auth.clientCapabilities,
+                    redirectUri: this.config.auth.redirectUri,
                 },
                 systemOptions: {
                     tokenRenewalOffsetSeconds: this.config.system.tokenRenewalOffsetSeconds,
@@ -13343,10 +13474,6 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    const BrokerServerParamKeys = {
-        BROKER_CLIENT_ID: "brk_client_id",
-        BROKER_REDIRECT_URI: "brk_redirect_uri",
-    };
     class NativeInteractionClient extends BaseInteractionClient {
         constructor(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, provider, accountId, nativeStorageImpl, correlationId) {
             super(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
@@ -13949,21 +14076,33 @@
          * @private
          */
         handleExtraBrokerParams(request) {
-            if (!request.extraParameters) {
+            const hasExtraBrokerParams = request.extraParameters &&
+                request.extraParameters.hasOwnProperty(BROKER_CLIENT_ID) &&
+                request.extraParameters.hasOwnProperty(BROKER_REDIRECT_URI) &&
+                request.extraParameters.hasOwnProperty(CLIENT_ID);
+            if (!request.embeddedClientId && !hasExtraBrokerParams) {
                 return;
             }
-            if (request.extraParameters.hasOwnProperty(BrokerServerParamKeys.BROKER_CLIENT_ID) &&
-                request.extraParameters.hasOwnProperty(BrokerServerParamKeys.BROKER_REDIRECT_URI) &&
-                request.extraParameters.hasOwnProperty(CLIENT_ID)) {
-                const child_client_id = request.extraParameters[CLIENT_ID];
-                const child_redirect_uri = request.redirectUri;
-                const brk_redirect_uri = request.extraParameters[BrokerServerParamKeys.BROKER_REDIRECT_URI];
-                request.extraParameters = {
-                    child_client_id,
-                    child_redirect_uri,
-                };
-                request.redirectUri = brk_redirect_uri;
+            let child_client_id = "";
+            const child_redirect_uri = request.redirectUri;
+            if (request.embeddedClientId) {
+                request.redirectUri = this.config.auth.redirectUri;
+                child_client_id = request.embeddedClientId;
             }
+            else if (request.extraParameters) {
+                request.redirectUri =
+                    request.extraParameters[BROKER_REDIRECT_URI];
+                child_client_id =
+                    request.extraParameters[CLIENT_ID];
+            }
+            request.extraParameters = {
+                child_client_id,
+                child_redirect_uri,
+            };
+            this.performanceClient?.addFields({
+                embeddedClientId: child_client_id,
+                embeddedRedirectUri: child_redirect_uri,
+            }, request.correlationId);
         }
     }
 
@@ -16255,7 +16394,6 @@
                     atPopupMeasurement.end({
                         success: true,
                         isNativeBroker: true,
-                        requestId: response.requestId,
                         accountType: getAccountType(response.account),
                     });
                     return response;
@@ -16294,7 +16432,6 @@
                 }
                 atPopupMeasurement.end({
                     success: true,
-                    requestId: result.requestId,
                     accessTokenSize: result.accessToken.length,
                     idTokenSize: result.idToken.length,
                     accountType: getAccountType(result.account),
@@ -16385,7 +16522,6 @@
                 this.ssoSilentMeasurement?.end({
                     success: true,
                     isNativeBroker: response.fromNativeBroker,
-                    requestId: response.requestId,
                     accessTokenSize: response.accessToken.length,
                     idTokenSize: response.idToken.length,
                     accountType: getAccountType(response.account),
@@ -16440,7 +16576,6 @@
                             atbcMeasurement.end({
                                 success: true,
                                 isNativeBroker: result.fromNativeBroker,
-                                requestId: result.requestId,
                                 accessTokenSize: result.accessToken.length,
                                 idTokenSize: result.idToken.length,
                                 accountType: getAccountType(result.account),
@@ -16519,7 +16654,6 @@
                     success: true,
                     fromCache: response.fromCache,
                     isNativeBroker: response.fromNativeBroker,
-                    requestId: response.requestId,
                 });
                 return response;
             })
@@ -17070,7 +17204,6 @@
                         fromCache: result.fromCache,
                         isNativeBroker: result.fromNativeBroker,
                         cacheLookupPolicy: request.cacheLookupPolicy,
-                        requestId: result.requestId,
                         accessTokenSize: result.accessToken.length,
                         idTokenSize: result.idToken.length,
                     });
@@ -17181,7 +17314,6 @@
                     this.performanceClient.addFields({
                         fromCache: response.fromCache,
                         isNativeBroker: response.fromNativeBroker,
-                        requestId: response.requestId,
                     }, request.correlationId);
                 }
                 return response;
@@ -17281,7 +17413,8 @@
             else {
                 extraParams = new Map(Object.entries(request.extraQueryParameters));
             }
-            const requestBuilder = new RequestParameterBuilder();
+            const correlationId = request.correlationId || this.crypto.createNewGuid();
+            const requestBuilder = new RequestParameterBuilder(correlationId);
             const claims = requestBuilder.addClientCapabilitiesToClaims(request.claims, this.clientCapabilities);
             const scopes = request.scopes || OIDC_DEFAULT_SCOPES;
             const tokenRequest = {
@@ -17289,9 +17422,7 @@
                 clientId: this.clientId,
                 authority: request.authority,
                 scope: scopes.join(" "),
-                correlationId: request.correlationId !== undefined
-                    ? request.correlationId
-                    : this.crypto.createNewGuid(),
+                correlationId,
                 claims: !StringUtils.isEmptyObj(claims) ? claims : undefined,
                 state: request.state,
                 authenticationScheme: request.authenticationScheme || AuthenticationScheme.BEARER,

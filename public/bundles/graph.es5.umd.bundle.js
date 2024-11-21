@@ -50,9 +50,24 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   Admin: () => (/* reexport */ Admin),
+  AdvancedQuery: () => (/* reexport */ AdvancedQuery),
   AppCatalog: () => (/* reexport */ AppCatalog),
   Attachment: () => (/* reexport */ Attachment),
   Attachments: () => (/* reexport */ Attachments),
+  BookingAppointment: () => (/* reexport */ BookingAppointment),
+  BookingAppointments: () => (/* reexport */ BookingAppointments),
+  BookingBusiness: () => (/* reexport */ BookingBusiness),
+  BookingBusinesses: () => (/* reexport */ BookingBusinesses),
+  BookingCurrencies: () => (/* reexport */ BookingCurrencies),
+  BookingCurrency: () => (/* reexport */ BookingCurrency),
+  BookingCustomQuestion: () => (/* reexport */ BookingCustomQuestion),
+  BookingCustomQuestions: () => (/* reexport */ BookingCustomQuestions),
+  BookingCustomer: () => (/* reexport */ BookingCustomer),
+  BookingCustomers: () => (/* reexport */ BookingCustomers),
+  BookingService: () => (/* reexport */ BookingService),
+  BookingServices: () => (/* reexport */ BookingServices),
+  BookingStaffMember: () => (/* reexport */ BookingStaffMember),
+  BookingStaffMembers: () => (/* reexport */ BookingStaffMembers),
   Bucket: () => (/* reexport */ Bucket),
   Buckets: () => (/* reexport */ Buckets),
   Bundle: () => (/* reexport */ Bundle),
@@ -64,6 +79,8 @@ __webpack_require__.d(__webpack_exports__, {
   CalendarPermissions: () => (/* reexport */ CalendarPermissions),
   CalendarView: () => (/* reexport */ CalendarView),
   Calendars: () => (/* reexport */ Calendars),
+  Channel: () => (/* reexport */ Channel),
+  Channels: () => (/* reexport */ Channels),
   ChecklistItem: () => (/* reexport */ ChecklistItem),
   ChecklistItems: () => (/* reexport */ ChecklistItems),
   Children: () => (/* reexport */ Children),
@@ -71,6 +88,7 @@ __webpack_require__.d(__webpack_exports__, {
   Columns: () => (/* reexport */ Columns),
   Communications: () => (/* reexport */ Communications),
   Compliance: () => (/* reexport */ Compliance),
+  ConsistencyLevel: () => (/* reexport */ ConsistencyLevel),
   Contact: () => (/* reexport */ Contact),
   ContactFolder: () => (/* reexport */ ContactFolder),
   ContactFolders: () => (/* reexport */ ContactFolders),
@@ -79,6 +97,10 @@ __webpack_require__.d(__webpack_exports__, {
   ContentTypes: () => (/* reexport */ ContentTypes),
   Conversation: () => (/* reexport */ Conversation),
   Conversations: () => (/* reexport */ Conversations),
+  Count: () => (/* reexport */ Count),
+  DEFAULT_GRAPH_URL: () => (/* reexport */ DEFAULT_GRAPH_URL),
+  DefaultHeaders: () => (/* reexport */ DefaultHeaders),
+  DefaultInit: () => (/* reexport */ DefaultInit),
   DirectoryObject: () => (/* reexport */ DirectoryObject),
   DirectoryObjectTypes: () => (/* reexport */ DirectoryObjectTypes),
   DirectoryObjects: () => (/* reexport */ DirectoryObjects),
@@ -88,12 +110,22 @@ __webpack_require__.d(__webpack_exports__, {
   DriveItem: () => (/* reexport */ DriveItem),
   DriveItems: () => (/* reexport */ DriveItems),
   Drives: () => (/* reexport */ Drives),
+  Endpoint: () => (/* reexport */ Endpoint),
   Event: () => (/* reexport */ Event),
   Events: () => (/* reexport */ Events),
   FocusedInboxOverrides: () => (/* reexport */ FocusedInboxOverrides),
+  GraphBrowser: () => (/* reexport */ GraphBrowser),
+  GraphCollection: () => (/* reexport */ graphqueryable_GraphCollection),
+  GraphFI: () => (/* reexport */ GraphFI),
+  GraphInstance: () => (/* reexport */ GraphInstance),
+  GraphQueryable: () => (/* reexport */ GraphQueryable),
   Group: () => (/* reexport */ Group),
   GroupType: () => (/* reexport */ GroupType),
   Groups: () => (/* reexport */ Groups),
+  HorizontalSection: () => (/* reexport */ HorizontalSection),
+  HorizontalSectionColumn: () => (/* reexport */ HorizontalSectionColumn),
+  HorizontalSectionColumns: () => (/* reexport */ HorizontalSectionColumns),
+  HorizontalSections: () => (/* reexport */ HorizontalSections),
   Insights: () => (/* reexport */ Insights),
   Invitations: () => (/* reexport */ Invitations),
   LinkedResource: () => (/* reexport */ LinkedResource),
@@ -116,10 +148,13 @@ __webpack_require__.d(__webpack_exports__, {
   Notebooks: () => (/* reexport */ Notebooks),
   Notes: () => (/* reexport */ Notes),
   OneNote: () => (/* reexport */ OneNote),
+  OnenotePage: () => (/* reexport */ OnenotePage),
+  OnenotePages: () => (/* reexport */ OnenotePages),
   Operations: () => (/* reexport */ Operations),
   Outlook: () => (/* reexport */ Outlook),
   OutlookCategory: () => (/* reexport */ OutlookCategory),
   Page: () => (/* reexport */ Page),
+  Paged: () => (/* reexport */ Paged),
   Pages: () => (/* reexport */ Pages),
   People: () => (/* reexport */ People),
   Permission: () => (/* reexport */ Permission),
@@ -142,8 +177,12 @@ __webpack_require__.d(__webpack_exports__, {
   RoomList: () => (/* reexport */ RoomList),
   RoomLists: () => (/* reexport */ RoomLists),
   Root: () => (/* reexport */ Root),
+  SPFx: () => (/* reexport */ SPFx),
+  SPFxToken: () => (/* reexport */ SPFxToken),
   Search: () => (/* reexport */ Search),
   Section: () => (/* reexport */ Section),
+  SectionGroup: () => (/* reexport */ SectionGroup),
+  SectionGroups: () => (/* reexport */ SectionGroups),
   Sections: () => (/* reexport */ Sections),
   Senders: () => (/* reexport */ Senders),
   Share: () => (/* reexport */ Share),
@@ -151,17 +190,24 @@ __webpack_require__.d(__webpack_exports__, {
   SharedInsights: () => (/* reexport */ SharedInsights),
   Shares: () => (/* reexport */ Shares),
   Site: () => (/* reexport */ Site),
+  SitePage: () => (/* reexport */ SitePage),
+  SitePages: () => (/* reexport */ SitePages),
   Sites: () => (/* reexport */ Sites),
   SpecialFolder: () => (/* reexport */ SpecialFolder),
   SubjectRightsRequest: () => (/* reexport */ SubjectRightsRequest),
   SubjectRightsRequests: () => (/* reexport */ SubjectRightsRequests),
   Subscription: () => (/* reexport */ Subscription),
   Subscriptions: () => (/* reexport */ Subscriptions),
+  Tab: () => (/* reexport */ Tab),
+  Tabs: () => (/* reexport */ Tabs),
   Task: () => (/* reexport */ Task),
   TaskDetails: () => (/* reexport */ TaskDetails),
   TaskList: () => (/* reexport */ TaskList),
   TaskLists: () => (/* reexport */ TaskLists),
   Tasks: () => (/* reexport */ Tasks),
+  Team: () => (/* reexport */ Team),
+  Teams: () => (/* reexport */ Teams),
+  Telemetry: () => (/* reexport */ Telemetry),
   Term: () => (/* reexport */ Term),
   TermGroup: () => (/* reexport */ TermGroup),
   TermGroups: () => (/* reexport */ TermGroups),
@@ -177,7 +223,20 @@ __webpack_require__.d(__webpack_exports__, {
   UsedInsights: () => (/* reexport */ UsedInsights),
   User: () => (/* reexport */ User),
   Users: () => (/* reexport */ Users),
-  encodeSharingUrl: () => (/* reexport */ encodeSharingUrl)
+  VerticalSection: () => (/* reexport */ VerticalSection),
+  Webpart: () => (/* reexport */ Webpart),
+  Webparts: () => (/* reexport */ Webparts),
+  _GraphCollection: () => (/* reexport */ _GraphCollection),
+  _GraphInstance: () => (/* reexport */ _GraphInstance),
+  _GraphQueryable: () => (/* reexport */ _GraphQueryable),
+  encodeSharingUrl: () => (/* reexport */ encodeSharingUrl),
+  graphDelete: () => (/* reexport */ graphDelete),
+  graphGet: () => (/* reexport */ graphGet),
+  graphInvokableFactory: () => (/* reexport */ graphInvokableFactory),
+  graphPatch: () => (/* reexport */ graphPatch),
+  graphPost: () => (/* reexport */ graphPost),
+  graphPut: () => (/* reexport */ graphPut),
+  graphfi: () => (/* reexport */ graphfi)
 });
 
 ;// ./node_modules/@pnp/core/util.js
@@ -231,7 +290,6 @@ function util_dateAdd(date, interval, units) {
 function combine(...paths) {
     return paths
         .filter(path => !stringIsNullOrEmpty(path))
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
         .join("/")
         .replace(/\\/g, "/");
@@ -362,7 +420,7 @@ function util_getHashCode(s) {
  *
  * @param ms Number of ms to wait
  */
-function util_delay(ms) {
+function delay(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
     });
@@ -1590,7 +1648,7 @@ function JSONHeaderParse() {
 }
 async function errorCheck(url, response, result) {
     if (!response.ok) {
-        throw await parsers_HttpRequestError.init(response);
+        throw await HttpRequestError.init(response);
     }
     return [url, response, result];
 }
@@ -1631,7 +1689,7 @@ function parseBinderWithErrorCheck(impl) {
         return instance;
     };
 }
-class parsers_HttpRequestError extends Error {
+class HttpRequestError extends Error {
     constructor(message, response, status = response.status, statusText = response.statusText) {
         super(message);
         this.response = response;
@@ -1640,8 +1698,8 @@ class parsers_HttpRequestError extends Error {
         this.isHttpRequestError = true;
     }
     static async init(r) {
-        const t = await r.clone().text();
-        return new parsers_HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
+        const t = await r.text();
+        return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
     }
 }
 
@@ -2099,12 +2157,31 @@ function InjectHeaders(headers, prepend = false) {
     };
 }
 
+;// ./node_modules/@pnp/queryable/behaviors/resolvers.js
+function ResolveOnData() {
+    return (instance) => {
+        instance.on.data(function (data) {
+            this.emit[this.InternalResolve](data);
+        });
+        return instance;
+    };
+}
+function RejectOnError() {
+    return (instance) => {
+        instance.on.error(function (err) {
+            this.emit[this.InternalReject](err);
+        });
+        return instance;
+    };
+}
+
 ;// ./node_modules/@pnp/queryable/index.js
 
 
 /**
  * Behavior exports
  */
+
 
 
 
@@ -2269,12 +2346,8 @@ class _GraphQueryable extends queryable_Queryable {
      *
      * @param factory The contructor for the class to create
      */
-    getParent(factory, base = this.parentUrl, path) {
-        if (typeof base === "string") {
-            // we need to ensure the parent has observers, even if we are rebasing the url (#2435)
-            base = [this, base];
-        }
-        return new factory(base, path);
+    getParent(factory, path, base = this.parentUrl) {
+        return factory([this, base], path);
     }
 }
 const GraphQueryable = graphInvokableFactory(_GraphQueryable);
@@ -2342,12 +2415,9 @@ class _GraphCollection extends _GraphQueryable {
     }
     [Symbol.asyncIterator]() {
         const q = graphqueryable_GraphCollection(this).using(Paged(), ConsistencyLevel());
-        const queryParams = ["$search", "$top", "$select", "$expand", "$filter", "$orderby"];
-        for (let i = 0; i < queryParams.length; i++) {
-            const param = this.query.get(queryParams[i]);
-            if (util_objectDefinedNotNull(param)) {
-                q.query.set(queryParams[i], param);
-            }
+        // Issue #3136, some APIs take other query params that need to persist through the paging, so we just include everything
+        for (const [key, value] of this.query) {
+            q.query.set(key, value);
         }
         return {
             _next: q,
@@ -2408,6 +2478,174 @@ class GraphQueryParams extends Map {
         return literals.join("&");
     }
 }
+
+;// ./node_modules/@pnp/graph/fi.js
+
+class GraphFI {
+    /**
+     * Creates a new instance of the GraphFI class
+     *
+     * @param root Establishes a root url/configuration
+     */
+    constructor(root = "") {
+        this._root = GraphQueryable(root);
+    }
+    /**
+     * Applies one or more behaviors which will be inherited by all instances chained from this root
+     *
+     */
+    using(...behaviors) {
+        this._root.using(...behaviors);
+        return this;
+    }
+    /**
+     * Used by extending classes to create new objects directly from the root
+     *
+     * @param factory The factory for the type of object to create
+     * @returns A configured instance of that object
+     */
+    create(factory, path) {
+        return factory(this._root, path);
+    }
+}
+function graphfi(root = "") {
+    if (typeof root === "object" && !Reflect.has(root, "length")) {
+        root = root._root;
+    }
+    return new GraphFI(root);
+}
+
+;// ./node_modules/@pnp/graph/behaviors/advanced-query.js
+
+function AdvancedQuery() {
+    return (instance) => {
+        instance.using(ConsistencyLevel());
+        instance.query.set("$count", "true");
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/behaviors/telemetry.js
+function Telemetry() {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.7.0" };
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
+            this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/behaviors/defaults.js
+
+
+
+
+function DefaultInit(graphUrl = DEFAULT_GRAPH_URL) {
+    if (!isUrlAbsolute(graphUrl)) {
+        throw Error("Graph baseUrl must be absolute.");
+    }
+    return (instance) => {
+        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
+        instance.on.pre(async (url, init, result) => {
+            init.cache = "default";
+            init.credentials = "same-origin";
+            if (!isUrlAbsolute(url)) {
+                url = combine(graphUrl, url);
+            }
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+function DefaultHeaders() {
+    return (instance) => {
+        instance
+            .using(InjectHeaders({
+            "Content-Type": "application/json",
+        }));
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/behaviors/endpoint.js
+function Endpoint(endpoint) {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            const all = ["beta", "v1.0"];
+            let regex = new RegExp(endpoint, "i");
+            const replaces = all.filter(s => !regex.test(s)).map(s => s.replace(".", "\\."));
+            regex = new RegExp(`/?(${replaces.join("|")})/?`, "ig");
+            url = url.replace(regex, `/${endpoint}/`);
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/behaviors/graphbrowser.js
+
+
+
+function GraphBrowser(props) {
+    const { baseUrl } = {
+        baseUrl: DEFAULT_GRAPH_URL,
+        ...props,
+    };
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(baseUrl), BrowserFetchWithRetry(), DefaultParse());
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/behaviors/spfx.js
+
+
+class SPFxTokenNullOrUndefinedError extends Error {
+    constructor(behaviorName) {
+        super(`SPFx Context supplied to ${behaviorName} Behavior is null or undefined.`);
+    }
+    static check(behaviorName, context) {
+        if (typeof context === "undefined" || context === null) {
+            throw new SPFxTokenNullOrUndefinedError(behaviorName);
+        }
+    }
+}
+function SPFxToken(context) {
+    SPFxTokenNullOrUndefinedError.check("SPFxToken", context);
+    return (instance) => {
+        instance.on.auth.replace(async function (url, init) {
+            const provider = await context.aadTokenProviderFactory.getTokenProvider();
+            const token = await provider.getToken(`${url.protocol}//${url.hostname}`);
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            init.headers["Authorization"] = `Bearer ${token}`;
+            return [url, init];
+        });
+        return instance;
+    };
+}
+function SPFx(context) {
+    SPFxTokenNullOrUndefinedError.check("SPFx", context);
+    return (instance) => {
+        instance.using(DefaultHeaders(), DefaultInit(), BrowserFetchWithRetry(), DefaultParse(), SPFxToken(context));
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/graph/index.js
+
+
+
+
+
+
+
+
+
+
+const DEFAULT_GRAPH_URL = "https://graph.microsoft.com/v1.0";
 
 ;// ./node_modules/@pnp/graph/decorators.js
 
@@ -2504,7 +2742,7 @@ function getById(factory) {
     return function (target) {
         return class extends target {
             getById(id) {
-                return factory(this, id);
+                return factory(this, `${id}`);
             }
         };
     };
@@ -2552,42 +2790,6 @@ function hasDelta() {
             }
         };
     };
-}
-
-;// ./node_modules/@pnp/graph/fi.js
-
-class GraphFI {
-    /**
-     * Creates a new instance of the GraphFI class
-     *
-     * @param root Establishes a root url/configuration
-     */
-    constructor(root = "") {
-        this._root = GraphQueryable(root);
-    }
-    /**
-     * Applies one or more behaviors which will be inherited by all instances chained from this root
-     *
-     */
-    using(...behaviors) {
-        this._root.using(...behaviors);
-        return this;
-    }
-    /**
-     * Used by extending classes to create new objects directly from the root
-     *
-     * @param factory The factory for the type of object to create
-     * @returns A configured instance of that object
-     */
-    create(factory, path) {
-        return factory(this._root, path);
-    }
-}
-function graphfi(root = "") {
-    if (typeof root === "object" && !Reflect.has(root, "length")) {
-        root = root._root;
-    }
-    return new GraphFI(root);
 }
 
 ;// ./node_modules/@pnp/graph/node_modules/tslib/tslib.es6.mjs
@@ -4611,6 +4813,338 @@ addProp(_Event, "attachments", Attachments);
 
 
 
+;// ./node_modules/@pnp/graph/bookings/funcs.js
+
+/**
+ * Get the collection of bookingAppointment objects for a bookingBusiness, that occurs in the specified date range.
+ *
+ * @param this IGraphQueryable instance
+ * @param start start time
+ * @param end end time
+ */
+function funcs_calendarView(start, end) {
+    const query = graphqueryable_GraphCollection(this, "calendarView");
+    query.query.set("startDateTime", start);
+    query.query.set("endDateTime", end);
+    return query;
+}
+
+;// ./node_modules/@pnp/graph/bookings/types.js
+
+
+
+
+
+/**
+ * Describes a Booking Currency entity
+ *
+ */
+class _BookingCurrency extends _GraphInstance {
+}
+const BookingCurrency = graphInvokableFactory(_BookingCurrency);
+/**
+ * Describes a collection of Booking Currency objects
+ *
+ */
+let _BookingCurrencies = class _BookingCurrencies extends _GraphCollection {
+};
+_BookingCurrencies = tslib_es6_decorate([
+    defaultPath("solutions/bookingCurrencies"),
+    getById(BookingCurrency)
+], _BookingCurrencies);
+
+const BookingCurrencies = graphInvokableFactory(_BookingCurrencies);
+/**
+ * Represents a booking business entity
+ */
+let _BookingBusiness = class _BookingBusiness extends _GraphInstance {
+    constructor() {
+        super(...arguments);
+        /**
+         * Get the calendar view for the booking business.
+         */
+        this.calendarView = funcs_calendarView;
+    }
+    /**
+     * Make the scheduling page of a business available to external customers.
+     */
+    publish() {
+        return graphPost(BookingBusiness(this, "publish"));
+    }
+    /**
+     * Make the scheduling page of this business not available to external customers.
+     */
+    unpublish() {
+        return graphPost(BookingBusiness(this, "unpublish"));
+    }
+    /**
+     * Get the appointments for the booking business.
+     */
+    get appointments() {
+        return BookingAppointments(this);
+    }
+    /**
+     * Get the customers for the booking business.
+     */
+    get customers() {
+        return BookingCustomers(this);
+    }
+    /**
+     * Get the services for the booking business.
+     */
+    get services() {
+        return BookingServices(this);
+    }
+    /**
+     * Get the staff members for the booking business.
+     */
+    get staffMembers() {
+        return BookingStaffMembers(this);
+    }
+    /**
+     * Get the staff members for the booking business.
+     */
+    get customQuestions() {
+        return BookingCustomQuestions(this);
+    }
+};
+_BookingBusiness = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingBusiness);
+
+const BookingBusiness = graphInvokableFactory(_BookingBusiness);
+/**
+ * Describes a collection of Booking Business objects
+ *
+ */
+let _BookingBusinesses = class _BookingBusinesses extends _GraphCollection {
+    /**
+         * Create a new booking business as specified in the request body.
+         *
+         * @param name The name of the business, which interfaces with customers. This name appears at the top of the business scheduling page.
+         * @param additionalProperties A plain object collection of additional properties you want to set on the new group of type IBookingBusiness
+         */
+    async add(name, additionalProperties = {}) {
+        const postBody = {
+            displayName: name,
+            ...additionalProperties,
+        };
+        const data = await graphPost(this, body(postBody));
+        return {
+            data,
+            bookingBusiness: this.getById(data.id),
+        };
+    }
+};
+_BookingBusinesses = tslib_es6_decorate([
+    defaultPath("solutions/bookingBusinesses"),
+    getById(BookingBusiness)
+], _BookingBusinesses);
+
+const BookingBusinesses = graphInvokableFactory(_BookingBusinesses);
+/**
+ * Represents a booking appointment entity
+ */
+let _BookingApointment = class _BookingApointment extends _GraphInstance {
+    /**
+     * Cancel the specified bookingAppointment in the specified bookingBusiness and send a message to the involved customer and staff members.
+     */
+    cancel(cancellationMessage) {
+        const postBody = { cancellationMessage };
+        return graphPost(BookingAppointment(this, "cancel"), body(postBody));
+    }
+};
+_BookingApointment = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingApointment);
+
+const BookingAppointment = graphInvokableFactory(_BookingApointment);
+/**
+ * Describes a collection of booking appointment objects
+ *
+ */
+let _BookingAppointments = class _BookingAppointments extends _GraphCollection {
+    /**
+     * Create a new booking appointment as specified in the request body.
+     *
+     * @param bookingAppointment  a JSON representation of a BookingAppointment object.
+     */
+    async add(bookingAppointment) {
+        const data = await graphPost(this, body(bookingAppointment));
+        return {
+            data,
+            bookingAppointment: this.getById(data.id),
+        };
+    }
+};
+_BookingAppointments = tslib_es6_decorate([
+    defaultPath("appointments"),
+    getById(BookingAppointment)
+], _BookingAppointments);
+
+const BookingAppointments = graphInvokableFactory(_BookingAppointments);
+/**
+ * Represents a booking customer entity
+ */
+let _BookingCustomer = class _BookingCustomer extends _GraphInstance {
+};
+_BookingCustomer = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingCustomer);
+
+const BookingCustomer = graphInvokableFactory(_BookingCustomer);
+/**
+ * Describes a collection of booking customer objects
+ *
+ */
+let _BookingCustomers = class _BookingCustomers extends _GraphCollection {
+    /**
+     * Create a new booking customer as specified in the request body.
+     *
+     * @param bookingCustomer  a JSON representation of a BookingCustomer object.
+     */
+    async add(bookingCustomer) {
+        const data = await graphPost(this, body(bookingCustomer));
+        return {
+            data,
+            bookingCustomer: this.getById(data.id),
+        };
+    }
+};
+_BookingCustomers = tslib_es6_decorate([
+    defaultPath("customers"),
+    getById(BookingCustomer)
+], _BookingCustomers);
+
+const BookingCustomers = graphInvokableFactory(_BookingCustomers);
+/**
+ * Represents a booking service entity
+ */
+let _BookingService = class _BookingService extends _GraphInstance {
+};
+_BookingService = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingService);
+
+const BookingService = graphInvokableFactory(_BookingService);
+/**
+ * Describes a collection of booking service objects
+ *
+ */
+let _BookingServices = class _BookingServices extends _GraphCollection {
+    /**
+     * Create a new booking service as specified in the request body.
+     *
+     * @param bookingService  a JSON representation of a BookingService object.
+     */
+    async add(bookingService) {
+        const data = await graphPost(this, body(bookingService));
+        return {
+            data,
+            bookingService: this.getById(data.id),
+        };
+    }
+};
+_BookingServices = tslib_es6_decorate([
+    defaultPath("services"),
+    getById(BookingService)
+], _BookingServices);
+
+const BookingServices = graphInvokableFactory(_BookingServices);
+/**
+ * Represents a booking staffmember entity
+ */
+let _BookingStaffMember = class _BookingStaffMember extends _GraphInstance {
+};
+_BookingStaffMember = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingStaffMember);
+
+const BookingStaffMember = graphInvokableFactory(_BookingStaffMember);
+/**
+ * Describes a collection of booking staffmember objects
+ *
+ */
+let _BookingStaffMembers = class _BookingStaffMembers extends _GraphCollection {
+    /**
+     * Create a new booking staffmember as specified in the request body.
+     *
+     * @param bookingStaffMember  a JSON representation of a BookingStaffMember object.
+     */
+    async add(bookingStaffMember) {
+        const data = await graphPost(this, body(bookingStaffMember));
+        return {
+            data,
+            bookingStaffMember: this.getById(data.id),
+        };
+    }
+};
+_BookingStaffMembers = tslib_es6_decorate([
+    defaultPath("staffMembers"),
+    getById(BookingStaffMember)
+], _BookingStaffMembers);
+
+const BookingStaffMembers = graphInvokableFactory(_BookingStaffMembers);
+/**
+ * Represents a booking custom questions entity
+ */
+let _BookingCustomQuestion = class _BookingCustomQuestion extends _GraphInstance {
+};
+_BookingCustomQuestion = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _BookingCustomQuestion);
+
+const BookingCustomQuestion = graphInvokableFactory(_BookingCustomQuestion);
+/**
+ * Describes a collection of booking custom questions objects
+ *
+ */
+let _BookingCustomQuestions = class _BookingCustomQuestions extends _GraphCollection {
+    /**
+     * Create a new booking customquestions as specified in the request body.
+     *
+     * @param bookingCustomQuestion  a JSON representation of a BookingCustomQuestion object.
+     */
+    async add(bookingCustomQuestion) {
+        const data = await graphPost(this, body(bookingCustomQuestion));
+        return {
+            data,
+            bookingCustomQuestion: this.getById(data.id),
+        };
+    }
+};
+_BookingCustomQuestions = tslib_es6_decorate([
+    defaultPath("customquestions"),
+    getById(BookingCustomQuestion)
+], _BookingCustomQuestions);
+
+const BookingCustomQuestions = graphInvokableFactory(_BookingCustomQuestions);
+
+;// ./node_modules/@pnp/graph/bookings/index.js
+
+
+
+Reflect.defineProperty(GraphFI.prototype, "bookingBusinesses", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(BookingBusinesses);
+    },
+});
+Reflect.defineProperty(GraphFI.prototype, "bookingCurrencies", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(BookingCurrencies);
+    },
+});
+
 ;// ./node_modules/@pnp/graph/directory-objects/types.js
 
 
@@ -6106,7 +6640,7 @@ let _OneNote = class _OneNote extends _GraphInstance {
         return Notebooks(this);
     }
     get pages() {
-        return Pages(this);
+        return OnenotePages(this);
     }
     get resources() {
         return Resources(this);
@@ -6175,7 +6709,7 @@ const Notebooks = graphInvokableFactory(_Notebooks);
  */
 class _Section extends _GraphInstance {
     get pages() {
-        return Pages(this);
+        return OnenotePages(this);
     }
     /**
      * Copy section to notebook
@@ -6248,7 +6782,7 @@ const SectionGroups = graphInvokableFactory(_SectionGroups);
  * Describes a page instance
  *
  */
-let _Page = class _Page extends _GraphInstance {
+let _OnenotePage = class _OnenotePage extends _GraphInstance {
     /**
      * Copy page to section
      * @param props of type ICopyPageProps. groupId (id of group to copy to. Use only when copying to M365 group), id of destination  notebook
@@ -6262,7 +6796,7 @@ let _Page = class _Page extends _GraphInstance {
      * @param includeIDs page html body
      */
     async content(includeIDs = false) {
-        return Page(this, `content?includeIDs=${includeIDs}`).using(TextParse())();
+        return OnenotePage(this, `content?includeIDs=${includeIDs}`).using(TextParse())();
     }
     /**
      * Copy page to section
@@ -6272,16 +6806,16 @@ let _Page = class _Page extends _GraphInstance {
         return graphPatch(GraphQueryable(this, "content"), body(props));
     }
 };
-_Page = tslib_es6_decorate([
+_OnenotePage = tslib_es6_decorate([
     deleteable()
-], _Page);
+], _OnenotePage);
 
-const Page = graphInvokableFactory(_Page);
+const OnenotePage = graphInvokableFactory(_OnenotePage);
 /**
  * Describes a collection of page objects
  *
  */
-let _Pages = class _Pages extends _GraphCollection {
+let _OnenotePages = class _OnenotePages extends _GraphCollection {
     /**
      * Create a new page as specified in the request body.
      *
@@ -6295,12 +6829,12 @@ let _Pages = class _Pages extends _GraphCollection {
         return graphPost(q, { body: html });
     }
 };
-_Pages = tslib_es6_decorate([
+_OnenotePages = tslib_es6_decorate([
     defaultPath("pages"),
-    getById(Page)
-], _Pages);
+    getById(OnenotePage)
+], _OnenotePages);
 
-const Pages = graphInvokableFactory(_Pages);
+const OnenotePages = graphInvokableFactory(_OnenotePages);
 /**
  * Describes a resources
  *
@@ -6373,6 +6907,199 @@ addProp(_Site, "operations", Operations);
 addProp(_List, "operations", Operations);
 
 ;// ./node_modules/@pnp/graph/operations/index.js
+
+
+
+
+;// ./node_modules/@pnp/graph/pages/types.js
+
+
+
+
+
+/**
+ * Page
+ */
+let _Page = class _Page extends _GraphInstance {
+};
+_Page = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _Page);
+
+const Page = graphInvokableFactory(_Page);
+/**
+ * Pages
+ */
+let _Pages = class _Pages extends _GraphCollection {
+    get sitePages() {
+        return SitePages(this);
+    }
+};
+_Pages = tslib_es6_decorate([
+    defaultPath("pages"),
+    getById(Page)
+], _Pages);
+
+const Pages = graphInvokableFactory(_Pages);
+/**
+ * Site Page
+ */
+let _SitePage = class _SitePage extends _GraphInstance {
+    /**
+     * Publishes the page
+     * @returns void
+     */
+    async publish() {
+        return graphPost(SitePage(this, "publish"));
+    }
+    /**
+     * Gets the webparts in the page
+     *
+     * @returns array fo webpart information
+     */
+    async getWebPartsByPosition() {
+        return SitePage(this, "getWebPartsByPosition")();
+    }
+    /**
+     * Get a listing of all the webparts in this page
+     */
+    get webparts() {
+        return Webparts(this);
+    }
+    /**
+     * Gets the set of horizontal sections
+     */
+    get horizontalSections() {
+        return HorizontalSections(this);
+    }
+    /**
+     * Gets the set of vertical section
+     */
+    get verticalSection() {
+        return VerticalSection(this);
+    }
+    /**
+     * Creates a vertical section if none exists, returns the vertical section
+     */
+    ensureVerticalSection() {
+        const y = this.select("verticalSection")();
+        console.log(y);
+        return null;
+    }
+};
+_SitePage = tslib_es6_decorate([
+    deleteable(),
+    updateable()
+], _SitePage);
+
+const SitePage = graphInvokableFactory(_SitePage);
+const SitePageTypeString = "microsoft.graph.sitePage";
+/**
+ * Site Pages
+ */
+let _SitePages = class _SitePages extends _GraphCollection {
+    constructor(base, path) {
+        super(base, path);
+        this._pages = this.getParent(Pages, "");
+    }
+    getById(id) {
+        return SitePage(this._pages, combine(id, SitePageTypeString));
+    }
+    async add(pageInfo) {
+        return graphPost(this._pages, body({ "@odata.type": SitePageTypeString, ...pageInfo }));
+    }
+};
+_SitePages = tslib_es6_decorate([
+    defaultPath(SitePageTypeString)
+], _SitePages);
+
+const SitePages = graphInvokableFactory(_SitePages);
+let _HorizontalSection = class _HorizontalSection extends _GraphInstance {
+    get columns() {
+        return HorizontalSectionColumns(this);
+    }
+};
+_HorizontalSection = tslib_es6_decorate([
+    updateable(),
+    deleteable()
+], _HorizontalSection);
+
+const HorizontalSection = graphInvokableFactory(_HorizontalSection);
+let _HorizontalSections = class _HorizontalSections extends _GraphCollection {
+    async add(props) {
+        return graphPost(this, body(props));
+    }
+    getById(id) {
+        const section = HorizontalSection(this);
+        return section.concat(`('${id}')`);
+    }
+};
+_HorizontalSections = tslib_es6_decorate([
+    defaultPath("canvasLayout/horizontalSections")
+], _HorizontalSections);
+
+const HorizontalSections = graphInvokableFactory(_HorizontalSections);
+class _HorizontalSectionColumn extends _GraphInstance {
+    get webparts() {
+        return Webparts(this);
+    }
+}
+const HorizontalSectionColumn = graphInvokableFactory(_HorizontalSectionColumn);
+let _HorizontalSectionColumns = class _HorizontalSectionColumns extends _GraphCollection {
+    getById(id) {
+        const column = HorizontalSectionColumn(this);
+        return column.concat(`('${id}')`);
+    }
+};
+_HorizontalSectionColumns = tslib_es6_decorate([
+    defaultPath("columns")
+], _HorizontalSectionColumns);
+
+const HorizontalSectionColumns = graphInvokableFactory(_HorizontalSectionColumns);
+let _VerticalSection = class _VerticalSection extends _GraphInstance {
+    /**
+     * Get a listing of all the webparts in this vertical section
+     */
+    get webparts() {
+        return Webparts(this);
+    }
+};
+_VerticalSection = tslib_es6_decorate([
+    updateable(),
+    deleteable(),
+    defaultPath("canvasLayout/verticalSection")
+], _VerticalSection);
+
+const VerticalSection = graphInvokableFactory(_VerticalSection);
+class _Webpart extends _GraphInstance {
+}
+const Webpart = graphInvokableFactory(_Webpart);
+let _Webparts = class _Webparts extends _GraphCollection {
+    /**
+     * Gets the webpart information by id from the page's collection
+     * @param id string id of the webpart
+     * @returns The IWebpart instance
+     */
+    getById(id) {
+        const url = this.toUrl();
+        const base = url.slice(0, url.indexOf(SitePageTypeString) + SitePageTypeString.length);
+        return Webpart([this, base], `webparts/${id}`);
+    }
+};
+_Webparts = tslib_es6_decorate([
+    defaultPath("webparts")
+], _Webparts);
+
+const Webparts = graphInvokableFactory(_Webparts);
+
+;// ./node_modules/@pnp/graph/pages/site.js
+
+
+
+addProp(_Site, "pages", Pages);
+
+;// ./node_modules/@pnp/graph/pages/index.js
 
 
 
@@ -7399,21 +8126,6 @@ _Relations = tslib_es6_decorate([
 
 const Relations = graphInvokableFactory(_Relations);
 
-;// ./node_modules/@pnp/graph/behaviors/endpoint.js
-function Endpoint(endpoint) {
-    return (instance) => {
-        instance.on.pre(async function (url, init, result) {
-            const all = ["beta", "v1.0"];
-            let regex = new RegExp(endpoint, "i");
-            const replaces = all.filter(s => !regex.test(s)).map(s => s.replace(".", "\\."));
-            regex = new RegExp(`/?(${replaces.join("|")})/?`, "ig");
-            url = url.replace(regex, `/${endpoint}/`);
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
 ;// ./node_modules/@pnp/graph/taxonomy/sites.js
 
 
@@ -7431,6 +8143,37 @@ Reflect.defineProperty(GraphFI.prototype, "termStore", {
     enumerable: true,
     get: function () {
         return this.create(TermStore, "termStore").using(Endpoint("beta"));
+    },
+});
+
+;// ./node_modules/@pnp/graph/teams/users.js
+
+
+
+addProp(_User, "joinedTeams", Teams);
+addProp(_User, "installedApps", InstalledApps, "teamwork/installedApps");
+
+;// ./node_modules/@pnp/graph/teams/index.js
+
+
+
+
+
+
+
+addProp(_Group, "team", Team);
+_Group.prototype.createTeam = async function (props) {
+    const data = await graphPut(Group(this, "team"), body(props));
+    return {
+        data,
+        team: this.team,
+    };
+};
+Reflect.defineProperty(GraphFI.prototype, "teams", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(Teams);
     },
 });
 
@@ -7620,6 +8363,14 @@ Reflect.defineProperty(GraphFI.prototype, "users", {
 });
 
 ;// ./node_modules/@pnp/graph/presets/all.js
+
+
+
+
+
+
+
+
 
 
 

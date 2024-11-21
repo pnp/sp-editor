@@ -258,7 +258,6 @@ function util_dateAdd(date, interval, units) {
 function combine(...paths) {
     return paths
         .filter(path => !stringIsNullOrEmpty(path))
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
         .join("/")
         .replace(/\\/g, "/");
@@ -1667,7 +1666,7 @@ class HttpRequestError extends Error {
         this.isHttpRequestError = true;
     }
     static async init(r) {
-        const t = await r.clone().text();
+        const t = await r.text();
         return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
     }
 }
@@ -2159,6 +2158,7 @@ function RejectOnError() {
 
 
 
+
 /**
  * Adds a property to a target instance
  *
@@ -2305,7 +2305,15 @@ class _SPCollection extends _SPQueryable {
      * @param filter The string representing the filter query
      */
     filter(filter) {
-        this.query.set("$filter", filter);
+        if (typeof filter === "object") {
+            this.query.set("$filter", filter.toString());
+            return this;
+        }
+        if (typeof filter === "function") {
+            this.query.set("$filter", filter(SPOData.Where()).toString());
+            return this;
+        }
+        this.query.set("$filter", filter.toString());
         return this;
     }
     /**
@@ -2382,6 +2390,234 @@ const spPostDeleteETag = (o, init, eTag = "*") => {
 };
 const spDelete = (o, init) => op(o, del, init);
 const spPatch = (o, init) => op(o, patch, init);
+var FilterOperation;
+(function (FilterOperation) {
+    FilterOperation["Equals"] = "eq";
+    FilterOperation["NotEquals"] = "ne";
+    FilterOperation["GreaterThan"] = "gt";
+    FilterOperation["GreaterThanOrEqualTo"] = "ge";
+    FilterOperation["LessThan"] = "lt";
+    FilterOperation["LessThanOrEqualTo"] = "le";
+    FilterOperation["StartsWith"] = "startswith";
+    FilterOperation["SubstringOf"] = "substringof";
+})(FilterOperation || (FilterOperation = {}));
+var FilterJoinOperator;
+(function (FilterJoinOperator) {
+    FilterJoinOperator["And"] = "and";
+    FilterJoinOperator["AndWithSpace"] = " and ";
+    FilterJoinOperator["Or"] = "or";
+    FilterJoinOperator["OrWithSpace"] = " or ";
+})(FilterJoinOperator || (FilterJoinOperator = {}));
+class SPOData {
+    static Where() {
+        return new InitialFieldQuery([]);
+    }
+}
+// Linting complains that TBaseInterface is unused, but without it all the intellisense is lost since it's carrying it through the chain
+class BaseQuery {
+    constructor(query) {
+        this.query = [];
+        this.query = query;
+    }
+}
+class QueryableFields extends BaseQuery {
+    constructor(q) {
+        super(q);
+    }
+    text(internalName) {
+        return new TextField([...this.query, internalName]);
+    }
+    choice(internalName) {
+        return new TextField([...this.query, internalName]);
+    }
+    multiChoice(internalName) {
+        return new TextField([...this.query, internalName]);
+    }
+    number(internalName) {
+        return new NumberField([...this.query, internalName]);
+    }
+    date(internalName) {
+        return new DateField([...this.query, internalName]);
+    }
+    boolean(internalName) {
+        return new BooleanField([...this.query, internalName]);
+    }
+    lookup(internalName) {
+        return new LookupQueryableFields([...this.query], internalName);
+    }
+    lookupId(internalName) {
+        const col = internalName.endsWith("Id") ? internalName : `${internalName}Id`;
+        return new NumberField([...this.query, col]);
+    }
+}
+class QueryableAndResult extends QueryableFields {
+    or(...queries) {
+        return new ComparisonResult([...this.query, `(${queries.map(x => x.toString()).join(FilterJoinOperator.OrWithSpace)})`]);
+    }
+}
+class QueryableOrResult extends QueryableFields {
+    and(...queries) {
+        return new ComparisonResult([...this.query, `(${queries.map(x => x.toString()).join(FilterJoinOperator.AndWithSpace)})`]);
+    }
+}
+class InitialFieldQuery extends QueryableFields {
+    or(...queries) {
+        if (queries == null || queries.length === 0) {
+            return new QueryableFields([...this.query, FilterJoinOperator.Or]);
+        }
+        return new ComparisonResult([...this.query, `(${queries.map(x => x.toString()).join(FilterJoinOperator.OrWithSpace)})`]);
+    }
+    and(...queries) {
+        if (queries == null || queries.length === 0) {
+            return new QueryableFields([...this.query, FilterJoinOperator.And]);
+        }
+        return new ComparisonResult([...this.query, `(${queries.map(x => x.toString()).join(FilterJoinOperator.AndWithSpace)})`]);
+    }
+}
+class LookupQueryableFields extends BaseQuery {
+    constructor(q, LookupField) {
+        super(q);
+        this.LookupField = LookupField;
+    }
+    Id(id) {
+        return new ComparisonResult([...this.query, `${this.LookupField}/Id`, FilterOperation.Equals, id.toString()]);
+    }
+    text(internalName) {
+        return new TextField([...this.query, `${this.LookupField}/${internalName}`]);
+    }
+    number(internalName) {
+        return new NumberField([...this.query, `${this.LookupField}/${internalName}`]);
+    }
+}
+class NullableField extends BaseQuery {
+    constructor(q) {
+        super(q);
+        this.LastIndex = q.length - 1;
+        this.InternalName = q[this.LastIndex];
+    }
+    toODataValue(value) {
+        return `'${value}'`;
+    }
+    isNull() {
+        return new ComparisonResult([...this.query, FilterOperation.Equals, "null"]);
+    }
+    isNotNull() {
+        return new ComparisonResult([...this.query, FilterOperation.NotEquals, "null"]);
+    }
+}
+class ComparableField extends NullableField {
+    equals(value) {
+        return new ComparisonResult([...this.query, FilterOperation.Equals, this.toODataValue(value)]);
+    }
+    notEquals(value) {
+        return new ComparisonResult([...this.query, FilterOperation.NotEquals, this.toODataValue(value)]);
+    }
+    in(...values) {
+        return SPOData.Where().or(...values.map(x => this.equals(x)));
+    }
+    notIn(...values) {
+        return SPOData.Where().and(...values.map(x => this.notEquals(x)));
+    }
+}
+class TextField extends ComparableField {
+    startsWith(value) {
+        const filter = `${FilterOperation.StartsWith}(${this.InternalName}, ${this.toODataValue(value)})`;
+        this.query[this.LastIndex] = filter;
+        return new ComparisonResult([...this.query]);
+    }
+    contains(value) {
+        const filter = `${FilterOperation.SubstringOf}(${this.toODataValue(value)}, ${this.InternalName})`;
+        this.query[this.LastIndex] = filter;
+        return new ComparisonResult([...this.query]);
+    }
+}
+class BooleanField extends NullableField {
+    toODataValue(value) {
+        return `${value == null ? "null" : value ? 1 : 0}`;
+    }
+    isTrue() {
+        return new ComparisonResult([...this.query, FilterOperation.Equals, this.toODataValue(true)]);
+    }
+    isFalse() {
+        return new ComparisonResult([...this.query, FilterOperation.Equals, this.toODataValue(false)]);
+    }
+    isFalseOrNull() {
+        const filter = `(${[
+            this.InternalName,
+            FilterOperation.Equals,
+            this.toODataValue(null),
+            FilterJoinOperator.Or,
+            this.InternalName,
+            FilterOperation.Equals,
+            this.toODataValue(false),
+        ].join(" ")})`;
+        this.query[this.LastIndex] = filter;
+        return new ComparisonResult([...this.query]);
+    }
+}
+class NumericField extends ComparableField {
+    greaterThan(value) {
+        return new ComparisonResult([...this.query, FilterOperation.GreaterThan, this.toODataValue(value)]);
+    }
+    greaterThanOrEquals(value) {
+        return new ComparisonResult([...this.query, FilterOperation.GreaterThanOrEqualTo, this.toODataValue(value)]);
+    }
+    lessThan(value) {
+        return new ComparisonResult([...this.query, FilterOperation.LessThan, this.toODataValue(value)]);
+    }
+    lessThanOrEquals(value) {
+        return new ComparisonResult([...this.query, FilterOperation.LessThanOrEqualTo, this.toODataValue(value)]);
+    }
+}
+class NumberField extends NumericField {
+    toODataValue(value) {
+        return `${value}`;
+    }
+}
+class DateField extends NumericField {
+    toODataValue(value) {
+        return `'${value.toISOString()}'`;
+    }
+    isBetween(startDate, endDate) {
+        const filter = `(${[
+            this.InternalName,
+            FilterOperation.GreaterThan,
+            this.toODataValue(startDate),
+            FilterJoinOperator.And,
+            this.InternalName,
+            FilterOperation.LessThan,
+            this.toODataValue(endDate),
+        ].join(" ")})`;
+        this.query[this.LastIndex] = filter;
+        return new ComparisonResult([...this.query]);
+    }
+    isToday() {
+        const StartToday = new Date();
+        StartToday.setHours(0, 0, 0, 0);
+        const EndToday = new Date();
+        EndToday.setHours(23, 59, 59, 999);
+        return this.isBetween(StartToday, EndToday);
+    }
+}
+class ComparisonResult extends BaseQuery {
+    // eslint-disable-next-line max-len
+    and(...queries) {
+        if (queries == null || queries.length === 0) {
+            return new QueryableAndResult([...this.query, FilterJoinOperator.And]);
+        }
+        return new ComparisonResult([...this.query, FilterJoinOperator.And, `(${queries.map(x => x.toString()).join(FilterJoinOperator.AndWithSpace)})`]);
+    }
+    // eslint-disable-next-line max-len
+    or(...queries) {
+        if (queries == null || queries.length === 0) {
+            return new QueryableOrResult([...this.query, FilterJoinOperator.Or]);
+        }
+        return new ComparisonResult([...this.query, FilterJoinOperator.Or, `(${queries.map(x => x.toString()).join(FilterJoinOperator.OrWithSpace)})`]);
+    }
+    toString() {
+        return this.query.join(" ");
+    }
+}
 
 ;// ./node_modules/@pnp/sp/fi.js
 
@@ -3399,7 +3635,7 @@ function toResourcePath(url) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.6.0:";
+            let clientTag = "PnPCoreJS:4.7.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API

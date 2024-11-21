@@ -1,8 +1,8 @@
-import { IPerformanceClient, Logger } from "@azure/msal-common/browser";
+import { IPerformanceClient } from "@azure/msal-common/browser";
 /**
  * Check whether browser crypto is available.
  */
-export declare function validateCryptoAvailable(logger: Logger): void;
+export declare function validateCryptoAvailable(): void;
 /**
  * Returns a sha-256 hash of the given dataString as an ArrayBuffer.
  * @param dataString {string} data string

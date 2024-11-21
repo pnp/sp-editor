@@ -44,4 +44,6 @@ export declare const uninitializedPublicClientApplication = "uninitialized_publi
 export declare const nativePromptNotSupported = "native_prompt_not_supported";
 export declare const invalidBase64String = "invalid_base64_string";
 export declare const invalidPopTokenRequest = "invalid_pop_token_request";
+export declare const failedToBuildHeaders = "failed_to_build_headers";
+export declare const failedToParseHeaders = "failed_to_parse_headers";
 //# sourceMappingURL=BrowserAuthErrorCodes.d.ts.map

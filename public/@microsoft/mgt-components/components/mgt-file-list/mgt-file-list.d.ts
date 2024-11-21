@@ -338,7 +338,10 @@ export declare class MgtFileList extends MgtTemplatedTaskComponent implements Ca
      * @memberof MgtFileList
      */
     protected renderNextPage(): Promise<void>;
+    private readonly handleSharedInsightClick;
     private readonly handleFileClick;
+    private readonly showChildren;
+    private readonly renderChildren;
     /**
      * Get file extension string from file name
      *

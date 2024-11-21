@@ -51,6 +51,8 @@ export declare const BrowserAuthErrorMessages: {
     native_prompt_not_supported: string;
     invalid_base64_string: string;
     invalid_pop_token_request: string;
+    failed_to_build_headers: string;
+    failed_to_parse_headers: string;
 };
 /**
  * BrowserAuthErrorMessage class containing string constants used by error codes and messages.
@@ -250,7 +252,7 @@ export declare const BrowserAuthErrorMessage: {
  * Browser library error class thrown by the MSAL.js library for SPAs
  */
 export declare class BrowserAuthError extends AuthError {
-    constructor(errorCode: string);
+    constructor(errorCode: string, subError?: string);
 }
-export declare function createBrowserAuthError(errorCode: string): BrowserAuthError;
+export declare function createBrowserAuthError(errorCode: string, subError?: string): BrowserAuthError;
 //# sourceMappingURL=BrowserAuthError.d.ts.map

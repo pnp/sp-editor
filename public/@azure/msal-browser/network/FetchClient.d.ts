@@ -17,11 +17,5 @@ export declare class FetchClient implements INetworkModule {
      * @param body
      */
     sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    /**
-     * Get Fetch API Headers object from string map
-     * @param inputHeaders
-     */
-    private getFetchHeaders;
-    private getHeaderDict;
 }
 //# sourceMappingURL=FetchClient.d.ts.map

@@ -36,7 +36,7 @@ export declare class _GraphQueryable<GetType = any> extends Queryable<GetType> {
      *
      * @param factory The contructor for the class to create
      */
-    protected getParent<T extends _GraphQueryable>(factory: IGraphConstructor<T>, base?: GraphInit, path?: string): T;
+    protected getParent<T extends IGraphQueryable>(factory: IGraphInvokableFactory<any>, path?: string, base?: string): T;
 }
 export interface IGraphQueryable<GetType = any> extends _GraphQueryable<GetType> {
 }

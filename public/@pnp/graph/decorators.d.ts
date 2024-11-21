@@ -90,7 +90,7 @@ export interface IAddable<T = any, R = {
  */
 export declare function getById<R>(factory: (...args: any[]) => R): <T extends new (...args: any[]) => {}>(target: T) => {
     new (...args: any[]): {
-        getById(this: IGraphQueryable, id: string): R;
+        getById(this: IGraphQueryable, id: any): R;
     };
 } & T;
 export interface IGetById<R = any, T = string> {

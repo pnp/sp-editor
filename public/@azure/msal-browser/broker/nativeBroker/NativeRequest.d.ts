@@ -26,6 +26,7 @@ export type NativeTokenRequest = {
     extraParameters?: StringDict;
     storeInCache?: StoreInCache;
     signPopToken?: boolean;
+    embeddedClientId?: string;
 };
 /**
  * Request which will be forwarded to native broker by the browser extension

@@ -7,7 +7,7 @@ type Combine<T, U> = T & U;
  */
 export declare class _OneNote extends _GraphInstance<IOnenoteType> {
     get notebooks(): INotebooks;
-    get pages(): IPages;
+    get pages(): IOnenotePages;
     get resources(): IResources;
     get sections(): Combine<_GraphCollection<IOnenoteSectionType[]>, Omit<ISections, "add">>;
     get sectionGroups(): Combine<_GraphCollection<ISectionGroupType[]>, Omit<ISectionGroups, "add">>;
@@ -55,7 +55,7 @@ export declare const Notebooks: import("../graphqueryable.js").IGraphInvokableFa
  * Describes a OneNote sections instance
  */
 export declare class _Section extends _GraphInstance<IOnenoteSectionType> {
-    get pages(): IPages;
+    get pages(): IOnenotePages;
     /**
      * Copy section to notebook
      * @param props of type ICopyProps. groupId (id of group to copy to. Use only when copying to M365 group), id of destination  notebook, renameAs name of the copy.
@@ -113,7 +113,7 @@ export declare const SectionGroups: import("../graphqueryable.js").IGraphInvokab
  * Describes a page instance
  *
  */
-export declare class _Page extends _GraphInstance<IOnenotePageType> {
+export declare class _OnenotePage extends _GraphInstance<IOnenotePageType> {
     /**
      * Copy page to section
      * @param props of type ICopyPageProps. groupId (id of group to copy to. Use only when copying to M365 group), id of destination  notebook
@@ -131,14 +131,14 @@ export declare class _Page extends _GraphInstance<IOnenotePageType> {
      */
     update(props: IOnenotePatchContentCommand[]): Promise<void>;
 }
-export interface IPage extends _Page, IDeleteable {
+export interface IOnenotePage extends _OnenotePage, IDeleteable {
 }
-export declare const Page: import("../graphqueryable.js").IGraphInvokableFactory<IPage>;
+export declare const OnenotePage: import("../graphqueryable.js").IGraphInvokableFactory<IOnenotePage>;
 /**
  * Describes a collection of page objects
  *
  */
-export declare class _Pages extends _GraphCollection<IOnenotePageType[]> {
+export declare class _OnenotePages extends _GraphCollection<IOnenotePageType[]> {
     /**
      * Create a new page as specified in the request body.
      *
@@ -146,9 +146,9 @@ export declare class _Pages extends _GraphCollection<IOnenotePageType[]> {
      */
     add(html: string): Promise<IOnenotePageType>;
 }
-export interface IPages extends _Pages, IGetById<IPage> {
+export interface IOnenotePages extends _OnenotePages, IGetById<IOnenotePage> {
 }
-export declare const Pages: import("../graphqueryable.js").IGraphInvokableFactory<IPages>;
+export declare const OnenotePages: import("../graphqueryable.js").IGraphInvokableFactory<IOnenotePages>;
 /**
  * Describes a resources
  *

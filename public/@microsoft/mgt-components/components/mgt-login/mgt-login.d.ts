@@ -147,6 +147,7 @@ export declare class MgtLogin extends MgtTemplatedTaskComponent {
      * @memberof MgtLogin
      */
     logout: () => Promise<void>;
+    private readonly completeLogout;
     /**
      * Invoked on each update to perform rendering tasks. This method must return
      * a lit-html TemplateResult. Setting properties inside this method will *not*

@@ -130,7 +130,6 @@ function dateAdd(date, interval, units) {
 function combine(...paths) {
     return paths
         .filter(path => !stringIsNullOrEmpty(path))
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         .map(path => path.replace(/^[\\|/]/, "").replace(/[\\|/]$/, ""))
         .join("/")
         .replace(/\\/g, "/");
