@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { fileExplorerReducer } from "./fileexplorer/reducers";
 import { IFileExplorerState } from "./fileexplorer/types";
 import { GraphSDKConsoleReducer } from "./graphsdkconsole/reducers";
@@ -21,7 +22,10 @@ import { webPropertiesReducer } from "./webproperties/reducers";
 import { IWebPropertiesState } from "./webproperties/types";
 import { searchReducer } from "./search/reducers";
 import { ISearchState } from "./search/types";
-import { configureStore } from "@reduxjs/toolkit";
+//import { loadInitialState } from "./loadInitialState";
+//import chromeStorageSync from "./middleware/chromeStorageSync";
+import { proxyReducer } from "./proxy/reducers";
+import { IProxyState } from "./proxy/types";
 
 export interface IRootState {
   home: IHomeState;
@@ -35,6 +39,7 @@ export interface IRootState {
   mgtconsole: IMGTConsoleState;
   fileexplorer: IFileExplorerState;
   search: ISearchState;
+  proxy: IProxyState;
 }
 
 const rootReducer = combineReducers({
@@ -49,14 +54,21 @@ const rootReducer = combineReducers({
   mgtconsole: MGTConsoleReducer,
   fileexplorer: fileExplorerReducer,
   search: searchReducer,
+  proxy: proxyReducer,
 });
 
-const store = configureStore({
-  reducer: rootReducer,
+const initializeStore = async () => {
+
+  //TODO: Load initial state from local storage
+  const store = configureStore({
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-});
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+  });
 
-export default store;
+  return store;
+};
+
+export default initializeStore;

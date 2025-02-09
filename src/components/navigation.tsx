@@ -85,6 +85,12 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
+      name: 'Proxy',
+      url: '/proxy',
+      key: 'key18',
+      disabled: false,
+    },
+    {
       name: 'Page editor',
       url: '/pageeditor',
       key: 'key11',
