@@ -4,8 +4,8 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@azure/msal-browser": "^3.27.0",
-    "@azure/msal-react": "^2.2.0",
+    "@azure/msal-browser": "^4.2.0",
+    "@azure/msal-react": "^3.0.4",
     "@craco/craco": "^7.1.0",
     "@fluentui/react": "^8.122.9",
     "@fluentui/react-hooks": "^8.8.16",

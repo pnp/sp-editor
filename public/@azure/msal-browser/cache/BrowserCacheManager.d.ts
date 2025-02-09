@@ -1,6 +1,6 @@
-import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, ValidCredentialType, TokenKeys, CredentialType, CacheRecord, IPerformanceClient, StaticAuthorityOptions, StoreInCache } from "@azure/msal-common/browser";
+import { CommonAuthorizationCodeRequest, ICrypto, AccountEntity, IdTokenEntity, AccessTokenEntity, RefreshTokenEntity, AppMetadataEntity, CacheManager, ServerTelemetryEntity, ThrottlingEntity, Logger, AuthorityMetadataEntity, AccountInfo, TokenKeys, CredentialType, CacheRecord, IPerformanceClient, StaticAuthorityOptions, StoreInCache } from "@azure/msal-common/browser";
 import { CacheOptions } from "../config/Configuration.js";
-import { BrowserCacheLocation, InteractionType } from "../utils/BrowserConstants.js";
+import { InteractionType } from "../utils/BrowserConstants.js";
 import { MemoryStorage } from "./MemoryStorage.js";
 import { IWindowStorage } from "./IWindowStorage.js";
 import { NativeTokenRequest } from "../broker/nativeBroker/NativeRequest.js";
@@ -10,6 +10,7 @@ import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
 import { RedirectRequest } from "../request/RedirectRequest.js";
 import { PopupRequest } from "../request/PopupRequest.js";
 import { CookieStorage } from "./CookieStorage.js";
+import { EventHandler } from "../event/EventHandler.js";
 /**
  * This class implements the cache storage interface for MSAL through browser local or session storage.
  * Cookies are only used if storeAuthStateInCookie is true, and are only used for
@@ -22,57 +23,27 @@ export declare class BrowserCacheManager extends CacheManager {
     protected temporaryCacheStorage: IWindowStorage<string>;
     protected cookieStorage: CookieStorage;
     protected logger: Logger;
-    protected performanceClient?: IPerformanceClient;
-    constructor(clientId: string, cacheConfig: Required<CacheOptions>, cryptoImpl: ICrypto, logger: Logger, staticAuthorityOptions?: StaticAuthorityOptions, performanceClient?: IPerformanceClient);
-    /**
-     * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured cacheLocation.
-     * @param cacheLocation
-     */
-    protected setupBrowserStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
-    /**
-     * Migrate all old cache entries to new schema. No rollback supported.
-     * @param storeAuthStateInCookie
-     */
-    protected migrateCacheEntries(): void;
-    /**
-     * Searches all cache entries for MSAL accounts and creates the account key map
-     * This is used to migrate users from older versions of MSAL which did not create the map.
-     * @returns
-     */
-    private createKeyMaps;
+    protected performanceClient: IPerformanceClient;
+    private eventHandler;
+    constructor(clientId: string, cacheConfig: Required<CacheOptions>, cryptoImpl: ICrypto, logger: Logger, performanceClient: IPerformanceClient, eventHandler: EventHandler, staticAuthorityOptions?: StaticAuthorityOptions);
+    initialize(correlationId: string): Promise<void>;
     /**
      * Parses passed value as JSON object, JSON.parse() will throw an error.
      * @param input
      */
     protected validateAndParseJson(jsonValue: string): object | null;
     /**
-     * fetches the entry from the browser storage based off the key
-     * @param key
-     */
-    getItem(key: string): string | null;
-    /**
-     * sets the entry in the browser storage
-     * @param key
-     * @param value
-     */
-    setItem(key: string, value: string): void;
-    /**
-     * fetch the account entity from the platform cache
-     * @param accountKey
-     */
-    getAccount(accountKey: string, logger?: Logger): AccountEntity | null;
-    /**
      * Reads account from cache, deserializes it into an account entity and returns it.
      * If account is not found from the key, returns null and removes key from map.
      * @param accountKey
      * @returns
      */
-    getCachedAccountEntity(accountKey: string): AccountEntity | null;
+    getAccount(accountKey: string): AccountEntity | null;
     /**
      * set account entity in the platform cache
      * @param account
      */
-    setAccount(account: AccountEntity): void;
+    setAccount(account: AccountEntity, correlationId: string): Promise<void>;
     /**
      * Returns the array of account keys currently cached
      * @returns
@@ -82,7 +53,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * Add a new account to the key map
      * @param key
      */
-    addAccountKeyToMap(key: string): void;
+    addAccountKeyToMap(key: string): boolean;
     /**
      * Remove an account from the key map
      * @param key
@@ -94,10 +65,10 @@ export declare class BrowserCacheManager extends CacheManager {
      */
     removeAccount(key: string): Promise<void>;
     /**
-     * Remove account entity from the platform cache if it's outdated
-     * @param accountKey
+     * Removes credentials associated with the provided account
+     * @param account
      */
-    removeOutdatedAccount(accountKey: string): void;
+    removeAccountContext(account: AccountEntity): Promise<void>;
     /**
      * Removes given idToken from the cache and from the key map
      * @param key
@@ -139,7 +110,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set IdToken credential to the platform cache
      * @param idToken
      */
-    setIdTokenCredential(idToken: IdTokenEntity): void;
+    setIdTokenCredential(idToken: IdTokenEntity, correlationId: string): Promise<void>;
     /**
      * generates accessToken entity from a string
      * @param key
@@ -149,7 +120,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set accessToken credential to the platform cache
      * @param accessToken
      */
-    setAccessTokenCredential(accessToken: AccessTokenEntity): void;
+    setAccessTokenCredential(accessToken: AccessTokenEntity, correlationId: string): Promise<void>;
     /**
      * generates refreshToken entity from a string
      * @param refreshTokenKey
@@ -159,7 +130,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set refreshToken credential to the platform cache
      * @param refreshToken
      */
-    setRefreshTokenCredential(refreshToken: RefreshTokenEntity): void;
+    setRefreshTokenCredential(refreshToken: RefreshTokenEntity, correlationId: string): Promise<void>;
     /**
      * fetch appMetadata entity from the platform cache
      * @param appMetadataKey
@@ -324,15 +295,6 @@ export declare class BrowserCacheManager extends CacheManager {
     getInteractionInProgress(): string | null;
     setInteractionInProgress(inProgress: boolean): void;
     /**
-     * Returns username retrieved from ADAL or MSAL v1 idToken
-     * @deprecated
-     */
-    getLegacyLoginHint(): string | null;
-    /**
-     * Updates a credential's cache key if the current cache key is outdated
-     */
-    updateCredentialCacheKey(currentCacheKey: string, credential: ValidCredentialType): string;
-    /**
      * Builds credential entities from AuthenticationResult object and saves the resulting credentials to the cache
      * @param result
      * @param request
@@ -344,7 +306,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param storeInCache {?StoreInCache}
      * @param correlationId {?string} correlation id
      */
-    saveCacheRecord(cacheRecord: CacheRecord, storeInCache?: StoreInCache, correlationId?: string): Promise<void>;
+    saveCacheRecord(cacheRecord: CacheRecord, correlationId: string, storeInCache?: StoreInCache): Promise<void>;
 }
-export declare const DEFAULT_BROWSER_CACHE_MANAGER: (clientId: string, logger: Logger) => BrowserCacheManager;
+export declare const DEFAULT_BROWSER_CACHE_MANAGER: (clientId: string, logger: Logger, performanceClient: IPerformanceClient, eventHandler: EventHandler) => BrowserCacheManager;
 //# sourceMappingURL=BrowserCacheManager.d.ts.map

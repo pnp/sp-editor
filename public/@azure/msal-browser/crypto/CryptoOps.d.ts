@@ -19,7 +19,7 @@ export declare class CryptoOps implements ICrypto {
     private static POP_KEY_USAGES;
     private static EXTRACTABLE;
     private cache;
-    constructor(logger: Logger, performanceClient?: IPerformanceClient);
+    constructor(logger: Logger, performanceClient?: IPerformanceClient, skipValidateSubtleCrypto?: boolean);
     /**
      * Creates a new random GUID - used to populate state and nonce.
      * @returns string (GUID)

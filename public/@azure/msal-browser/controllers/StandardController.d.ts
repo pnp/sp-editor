@@ -48,7 +48,6 @@ export declare class StandardController implements IController {
     private activeIframeRequest;
     private ssoSilentMeasurement?;
     private acquireTokenByCodeAsyncMeasurement?;
-    private listeningToStorageEvents;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -246,10 +245,10 @@ export declare class StandardController implements IController {
      */
     acquireTokenNative(request: PopupRequest | SilentRequest | SsoSilentRequest, apiId: ApiId, accountId?: string): Promise<AuthenticationResult>;
     /**
-     * Returns boolean indicating if this request can use the native broker
+     * Returns boolean indicating if this request can use the platform broker
      * @param request
      */
-    canUseNative(request: RedirectRequest | PopupRequest | SsoSilentRequest, accountId?: string): boolean;
+    canUsePlatformBroker(request: RedirectRequest | PopupRequest | SsoSilentRequest, accountId?: string): boolean;
     /**
      * Get the native accountId from the account
      * @param request
@@ -309,16 +308,14 @@ export declare class StandardController implements IController {
     removePerformanceCallback(callbackId: string): boolean;
     /**
      * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
+     * @deprecated These events will be raised by default and this method will be removed in a future major version.
      */
     enableAccountStorageEvents(): void;
     /**
      * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
+     * @deprecated These events will be raised by default and this method will be removed in a future major version.
      */
     disableAccountStorageEvents(): void;
-    /**
-     * Emit account added/removed events when cached accounts are changed in a different tab or frame
-     */
-    protected handleAccountCacheChange(e: StorageEvent): void;
     /**
      * Gets the token cache for the application.
      */
