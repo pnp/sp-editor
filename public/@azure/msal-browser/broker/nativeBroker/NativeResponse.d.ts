@@ -7,7 +7,7 @@ export type NativeAccountInfo = {
     userName: string;
 };
 /**
- * Token response returned by Native Platform e.g. WAM
+ * Token response returned by Native Platform
  */
 export type NativeResponse = {
     access_token: string;

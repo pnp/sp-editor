@@ -26,7 +26,7 @@ export declare class TokenCache implements ITokenCache {
      * @param options
      * @returns `AuthenticationResult` for the response that was loaded.
      */
-    loadExternalTokens(request: SilentRequest, response: ExternalTokenResponse, options: LoadTokenOptions): AuthenticationResult;
+    loadExternalTokens(request: SilentRequest, response: ExternalTokenResponse, options: LoadTokenOptions): Promise<AuthenticationResult>;
     /**
      * Helper function to load account to msal-browser cache
      * @param idToken

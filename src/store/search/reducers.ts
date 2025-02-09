@@ -10,9 +10,10 @@ const init: ISearchState = {
     StartRow: 0,
     ClientType: "ContentSearchRegular",
     EnableNicknames: false,
-    TrimDuplicates: true,
+    TrimDuplicates: false,
     SelectProperties: [],
     SortList: [],
+    SourceId: "8413cd39-2156-4e00-b54d-11efd9abdb89",
   },
   optionsPanel: false,
 };

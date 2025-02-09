@@ -1565,7 +1565,7 @@ class HttpRequestError extends Error {
         this.isHttpRequestError = true;
     }
     static async init(r) {
-        const t = await r.text();
+        const t = await r.clone().text();
         return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
     }
 }

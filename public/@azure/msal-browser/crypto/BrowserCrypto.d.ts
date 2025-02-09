@@ -2,7 +2,7 @@ import { IPerformanceClient } from "@azure/msal-common/browser";
 /**
  * Check whether browser crypto is available.
  */
-export declare function validateCryptoAvailable(): void;
+export declare function validateCryptoAvailable(skipValidateSubtleCrypto: boolean): void;
 /**
  * Returns a sha-256 hash of the given dataString as an ArrayBuffer.
  * @param dataString {string} data string
@@ -45,6 +45,33 @@ export declare function importJwk(key: JsonWebKey, extractable: boolean, usages:
  * @param data
  */
 export declare function sign(key: CryptoKey, data: ArrayBuffer): Promise<ArrayBuffer>;
+/**
+ * Generates symmetric base encryption key. This may be stored as all encryption/decryption keys will be derived from this one.
+ */
+export declare function generateBaseKey(): Promise<ArrayBuffer>;
+/**
+ * Returns the raw key to be passed into the key derivation function
+ * @param baseKey
+ * @returns
+ */
+export declare function generateHKDF(baseKey: ArrayBuffer): Promise<CryptoKey>;
+/**
+ * Encrypt the given data given a base key. Returns encrypted data and a nonce that must be provided during decryption
+ * @param key
+ * @param rawData
+ */
+export declare function encrypt(baseKey: CryptoKey, rawData: string, context: string): Promise<{
+    data: string;
+    nonce: string;
+}>;
+/**
+ * Decrypt data with the given key and nonce
+ * @param key
+ * @param nonce
+ * @param encryptedData
+ * @returns
+ */
+export declare function decrypt(baseKey: CryptoKey, nonce: string, context: string, encryptedData: string): Promise<string>;
 /**
  * Returns the SHA-256 hash of an input string
  * @param plainText

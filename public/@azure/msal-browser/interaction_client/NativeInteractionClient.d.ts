@@ -1,4 +1,4 @@
-import { Logger, ICrypto, AccountEntity, ScopeSet, IPerformanceClient, TokenClaims, InProgressPerformanceEvent, ServerTelemetryManager } from "@azure/msal-common/browser";
+import { Logger, ICrypto, AccountEntity, ScopeSet, IPerformanceClient, TokenClaims, InProgressPerformanceEvent } from "@azure/msal-common/browser";
 import { BaseInteractionClient } from "./BaseInteractionClient.js";
 import { BrowserConfiguration } from "../config/Configuration.js";
 import { BrowserCacheManager } from "../cache/BrowserCacheManager.js";
@@ -21,7 +21,6 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
     protected silentCacheClient: SilentCacheClient;
     protected nativeStorageManager: BrowserCacheManager;
     protected skus: string;
-    protected serverTelemetryManager: ServerTelemetryManager;
     constructor(config: BrowserConfiguration, browserStorage: BrowserCacheManager, browserCrypto: ICrypto, logger: Logger, eventHandler: EventHandler, navigationClient: INavigationClient, apiId: ApiId, performanceClient: IPerformanceClient, provider: NativeMessageHandler, accountId: string, nativeStorageImpl: BrowserCacheManager, correlationId?: string);
     /**
      * Adds SKUs to request extra query parameters
@@ -107,7 +106,7 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
      * cache the account entity in browser storage
      * @param accountEntity
      */
-    cacheAccount(accountEntity: AccountEntity): void;
+    cacheAccount(accountEntity: AccountEntity): Promise<void>;
     /**
      * Stores the access_token and id_token in inmemory storage
      * @param response
@@ -118,7 +117,7 @@ export declare class NativeInteractionClient extends BaseInteractionClient {
      * @param tenantId
      * @param reqTimestamp
      */
-    cacheNativeTokens(response: NativeResponse, request: NativeTokenRequest, homeAccountIdentifier: string, idTokenClaims: TokenClaims, responseAccessToken: string, tenantId: string, reqTimestamp: number): void;
+    cacheNativeTokens(response: NativeResponse, request: NativeTokenRequest, homeAccountIdentifier: string, idTokenClaims: TokenClaims, responseAccessToken: string, tenantId: string, reqTimestamp: number): Promise<void>;
     protected addTelemetryFromNativeResponse(response: NativeResponse): MATS | null;
     /**
      * Validates native platform response before processing

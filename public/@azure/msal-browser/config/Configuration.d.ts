@@ -98,7 +98,8 @@ export type CacheOptions = {
      */
     storeAuthStateInCookie?: boolean;
     /**
-     * If set, MSAL sets the "Secure" flag on cookies so they can only be sent over HTTPS. By default this flag is set to false.
+     * If set, MSAL sets the "Secure" flag on cookies so they can only be sent over HTTPS. By default this flag is set to true.
+     * @deprecated This option will be removed in a future major version and all cookies set will include the Secure attribute.
      */
     secureCookies?: boolean;
     /**
@@ -153,9 +154,9 @@ export type BrowserSystemOptions = SystemOptions & {
      */
     allowRedirectInIframe?: boolean;
     /**
-     * Flag to enable native broker support (e.g. acquiring tokens from WAM on Windows)
+     * Flag to enable native broker support (e.g. acquiring tokens from WAM on Windows, MacBroker on Mac)
      */
-    allowNativeBroker?: boolean;
+    allowPlatformBroker?: boolean;
     /**
      * Sets the timeout for waiting for the native broker handshake to resolve
      */

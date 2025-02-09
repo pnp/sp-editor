@@ -16,8 +16,8 @@ import {
 import { initializeIcons } from "@fluentui/react";
 import { Provider } from "react-redux";
 import { MsalProvider } from "@azure/msal-react";
-import store from "./store";
 import { HashRouter } from "react-router-dom";
+import initializeStore from "./store";
 
 export const msalConfig: Configuration = {
   auth: {
@@ -121,7 +121,9 @@ if (
   );
 } else {
   // @ts-ignore: this is the only way to make it work
-  window.require(["vs/editor/editor.main"], () => {
+  window.require(["vs/editor/editor.main"], async () => {
+    const store = await initializeStore();
+
     root.render(
       <Provider store={store}>
         <MsalProvider instance={msalInstance}>

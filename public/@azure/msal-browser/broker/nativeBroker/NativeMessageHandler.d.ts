@@ -58,6 +58,6 @@ export declare class NativeMessageHandler {
      * @param nativeExtensionProvider
      * @param authenticationScheme
      */
-    static isNativeAvailable(config: BrowserConfiguration, logger: Logger, nativeExtensionProvider?: NativeMessageHandler, authenticationScheme?: AuthenticationScheme): boolean;
+    static isPlatformBrokerAvailable(config: BrowserConfiguration, logger: Logger, nativeExtensionProvider?: NativeMessageHandler, authenticationScheme?: AuthenticationScheme): boolean;
 }
 //# sourceMappingURL=NativeMessageHandler.d.ts.map

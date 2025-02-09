@@ -61,6 +61,8 @@ import { menuController } from "@ionic/core";
 import "./index.css";
 import FileExplorer from "./pages/fileexplorer";
 import InfoPage from "./pages/Info/infoPage";
+import Proxy from "./pages/proxy";
+
 
 setupIonicReact();
 
@@ -122,6 +124,7 @@ const App = () => {
                 <Route path="/mgtconsole" element={<MGTConsole />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/fileexplorer" element={<FileExplorer />} />
+                <Route path="/proxy" element={<Proxy />} />
                 <Route path="*" element={<InfoPage />} /> {/* Catch-all route */}
               </Routes>
             </IonRouterOutlet>

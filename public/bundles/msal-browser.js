@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v3.27.0 2024-11-05 */
+/*! @azure/msal-browser v4.2.0 2025-02-05 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -113,12 +113,6 @@
      * Persistent cache keys MSAL which stay while user is logged in.
      */
     const PersistentCacheKeys = {
-        ID_TOKEN: "idtoken",
-        CLIENT_INFO: "client.info",
-        ADAL_ID_TOKEN: "adal.idtoken",
-        ERROR: "error",
-        ERROR_DESC: "error.description",
-        ACTIVE_ACCOUNT: "active-account",
         ACTIVE_ACCOUNT_FILTERS: "active-account-filters", // new cache entry for active_account for a more robust version for browser
     };
     /**
@@ -316,7 +310,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -333,7 +327,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -382,7 +376,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -480,7 +474,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -732,7 +726,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -771,7 +765,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -962,12 +956,12 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
-    const version$1 = "14.16.0";
+    const version$1 = "15.1.1";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -987,7 +981,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1048,7 +1042,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1085,7 +1079,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1412,7 +1406,7 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1437,14 +1431,14 @@
     const missingNonceAuthenticationHeader = "missing_nonce_authentication_header";
     const invalidAuthenticationHeader = "invalid_authentication_header";
     const cannotSetOIDCOptions = "cannot_set_OIDCOptions";
-    const cannotAllowNativeBroker = "cannot_allow_native_broker";
+    const cannotAllowPlatformBroker = "cannot_allow_platform_broker";
     const authorityMismatch = "authority_mismatch";
 
     var ClientConfigurationErrorCodes = /*#__PURE__*/Object.freeze({
         __proto__: null,
         authorityMismatch: authorityMismatch,
         authorityUriInsecure: authorityUriInsecure,
-        cannotAllowNativeBroker: cannotAllowNativeBroker,
+        cannotAllowPlatformBroker: cannotAllowPlatformBroker,
         cannotSetOIDCOptions: cannotSetOIDCOptions,
         claimsRequestParsingError: claimsRequestParsingError,
         emptyInputScopesError: emptyInputScopesError,
@@ -1466,7 +1460,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1493,7 +1487,7 @@
         [missingNonceAuthenticationHeader]: "Unable to find an authentication header containing server nonce. Either the Authentication-Info or WWW-Authenticate headers must be present in order to obtain a server nonce.",
         [invalidAuthenticationHeader]: "Invalid authentication header provided",
         [cannotSetOIDCOptions]: "Cannot set OIDCOptions parameter. Please change the protocol mode to OIDC or use a non-Microsoft authority.",
-        [cannotAllowNativeBroker]: "Cannot set allowNativeBroker parameter to true when not in AAD protocol mode.",
+        [cannotAllowPlatformBroker]: "Cannot set allowPlatformBroker parameter to true when not in AAD protocol mode.",
         [authorityMismatch]: "Authority mismatch error. Authority provided in login request or PublicClientApplication config does not match the environment of the provided account. Please use a matching account or make an interactive request to login to this authority.",
     };
     /**
@@ -1581,9 +1575,9 @@
             code: cannotSetOIDCOptions,
             desc: ClientConfigurationErrorMessages[cannotSetOIDCOptions],
         },
-        cannotAllowNativeBroker: {
-            code: cannotAllowNativeBroker,
-            desc: ClientConfigurationErrorMessages[cannotAllowNativeBroker],
+        cannotAllowPlatformBroker: {
+            code: cannotAllowPlatformBroker,
+            desc: ClientConfigurationErrorMessages[cannotAllowPlatformBroker],
         },
         authorityMismatch: {
             code: authorityMismatch,
@@ -1604,7 +1598,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1701,7 +1695,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1721,8 +1715,10 @@
             const filteredInput = scopeArr
                 ? StringUtils.removeEmptyStringsFromArray(scopeArr)
                 : [];
-            // Validate and filter scopes (validate function throws if validation fails)
-            this.validateInputScopes(filteredInput);
+            // Check if scopes array has at least one member
+            if (!filteredInput || !filteredInput.length) {
+                throw createClientConfigurationError(emptyInputScopesError);
+            }
             this.scopes = new Set(); // Iterator in constructor not supported by IE11
             filteredInput.forEach((scope) => this.scopes.add(scope));
         }
@@ -1751,17 +1747,6 @@
                 scopeSet.removeScope(Constants.OFFLINE_ACCESS_SCOPE);
             }
             return scopeSet;
-        }
-        /**
-         * Used to validate the scopes input parameter requested  by the developer.
-         * @param {Array<string>} inputScopes - Developer requested permissions. Not all scopes are guaranteed to be included in the access token returned.
-         * @param {boolean} scopesRequired - Boolean indicating whether the scopes array is required or not
-         */
-        validateInputScopes(inputScopes) {
-            // Check if scopes are required but not given or is an empty array
-            if (!inputScopes || inputScopes.length < 1) {
-                throw createClientConfigurationError(emptyInputScopesError);
-            }
         }
         /**
          * Check if a given scope is present in this set of scopes.
@@ -1901,7 +1886,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1941,7 +1926,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2020,7 +2005,7 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2035,7 +2020,7 @@
         Ciam: 3,
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2057,7 +2042,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2070,7 +2055,7 @@
         OIDC: "OIDC",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2313,7 +2298,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2360,7 +2345,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2524,7 +2509,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2664,7 +2649,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2672,7 +2657,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2699,7 +2684,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2864,24 +2849,24 @@
          * @param storeInCache {?StoreInCache}
          * @param correlationId {?string} correlation id
          */
-        async saveCacheRecord(cacheRecord, storeInCache, correlationId) {
+        async saveCacheRecord(cacheRecord, correlationId, storeInCache) {
             if (!cacheRecord) {
                 throw createClientAuthError(invalidCacheRecord);
             }
             try {
                 if (!!cacheRecord.account) {
-                    this.setAccount(cacheRecord.account);
+                    await this.setAccount(cacheRecord.account, correlationId);
                 }
                 if (!!cacheRecord.idToken && storeInCache?.idToken !== false) {
-                    this.setIdTokenCredential(cacheRecord.idToken);
+                    await this.setIdTokenCredential(cacheRecord.idToken, correlationId);
                 }
                 if (!!cacheRecord.accessToken &&
                     storeInCache?.accessToken !== false) {
-                    await this.saveAccessToken(cacheRecord.accessToken);
+                    await this.saveAccessToken(cacheRecord.accessToken, correlationId);
                 }
                 if (!!cacheRecord.refreshToken &&
                     storeInCache?.refreshToken !== false) {
-                    this.setRefreshTokenCredential(cacheRecord.refreshToken);
+                    await this.setRefreshTokenCredential(cacheRecord.refreshToken, correlationId);
                 }
                 if (!!cacheRecord.appMetadata) {
                     this.setAppMetadata(cacheRecord.appMetadata);
@@ -2911,7 +2896,7 @@
          * saves access token credential
          * @param credential
          */
-        async saveAccessToken(credential) {
+        async saveAccessToken(credential, correlationId) {
             const accessTokenFilter = {
                 clientId: credential.clientId,
                 credentialType: credential.credentialType,
@@ -2938,7 +2923,7 @@
                 }
             });
             await Promise.all(removedAccessTokens);
-            this.setAccessTokenCredential(credential);
+            await this.setAccessTokenCredential(credential, correlationId);
         }
         /**
          * Retrieve account entities matching all provided tenant-agnostic filters; if no filter is set, get all account entities in the cache
@@ -3223,61 +3208,6 @@
                 }
             });
             await Promise.all(removedCredentials);
-        }
-        /**
-         * Migrates a single-tenant account and all it's associated alternate cross-tenant account objects in the
-         * cache into a condensed multi-tenant account object with tenant profiles.
-         * @param accountKey
-         * @param accountEntity
-         * @param logger
-         * @returns
-         */
-        updateOutdatedCachedAccount(accountKey, accountEntity, logger) {
-            // Only update if account entity is defined and has no tenantProfiles object (is outdated)
-            if (accountEntity && accountEntity.isSingleTenant()) {
-                this.commonLogger?.verbose("updateOutdatedCachedAccount: Found a single-tenant (outdated) account entity in the cache, migrating to multi-tenant account entity");
-                // Get keys of all accounts belonging to user
-                const matchingAccountKeys = this.getAccountKeys().filter((key) => {
-                    return key.startsWith(accountEntity.homeAccountId);
-                });
-                // Get all account entities belonging to user
-                const accountsToMerge = [];
-                matchingAccountKeys.forEach((key) => {
-                    const account = this.getCachedAccountEntity(key);
-                    if (account) {
-                        accountsToMerge.push(account);
-                    }
-                });
-                // Set base account to home account if available, any account if not
-                const baseAccount = accountsToMerge.find((account) => {
-                    return tenantIdMatchesHomeTenant(account.realm, account.homeAccountId);
-                }) || accountsToMerge[0];
-                // Populate tenant profiles built from each account entity belonging to the user
-                baseAccount.tenantProfiles = accountsToMerge.map((account) => {
-                    return {
-                        tenantId: account.realm,
-                        localAccountId: account.localAccountId,
-                        name: account.name,
-                        isHomeTenant: tenantIdMatchesHomeTenant(account.realm, account.homeAccountId),
-                    };
-                });
-                const updatedAccount = CacheManager.toObject(new AccountEntity(), {
-                    ...baseAccount,
-                });
-                const newAccountKey = updatedAccount.generateAccountKey();
-                // Clear cache of legacy account objects that have been collpsed into tenant profiles
-                matchingAccountKeys.forEach((key) => {
-                    if (key !== newAccountKey) {
-                        this.removeOutdatedAccount(accountKey);
-                    }
-                });
-                // Cache updated account object
-                this.setAccount(updatedAccount);
-                logger?.verbose("Updated an outdated account entity in the cache");
-                return updatedAccount;
-            }
-            // No update is necessary
-            return accountEntity;
         }
         /**
          * returns a boolean if the given credential is removed
@@ -3874,28 +3804,25 @@
     }
     /** @internal */
     class DefaultStorageClass extends CacheManager {
-        setAccount() {
+        async setAccount() {
             throw createClientAuthError(methodNotImplemented);
         }
         getAccount() {
             throw createClientAuthError(methodNotImplemented);
         }
-        getCachedAccountEntity() {
-            throw createClientAuthError(methodNotImplemented);
-        }
-        setIdTokenCredential() {
+        async setIdTokenCredential() {
             throw createClientAuthError(methodNotImplemented);
         }
         getIdTokenCredential() {
             throw createClientAuthError(methodNotImplemented);
         }
-        setAccessTokenCredential() {
+        async setAccessTokenCredential() {
             throw createClientAuthError(methodNotImplemented);
         }
         getAccessTokenCredential() {
             throw createClientAuthError(methodNotImplemented);
         }
-        setRefreshTokenCredential() {
+        async setRefreshTokenCredential() {
             throw createClientAuthError(methodNotImplemented);
         }
         getRefreshTokenCredential() {
@@ -3940,15 +3867,9 @@
         getTokenKeys() {
             throw createClientAuthError(methodNotImplemented);
         }
-        updateCredentialCacheKey() {
-            throw createClientAuthError(methodNotImplemented);
-        }
-        removeOutdatedAccount() {
-            throw createClientAuthError(methodNotImplemented);
-        }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4047,7 +3968,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4057,7 +3978,7 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4107,7 +4028,7 @@
     const BROKER_CLIENT_ID = "brk_client_id";
     const BROKER_REDIRECT_URI = "brk_redirect_uri";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4174,7 +4095,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4582,7 +4503,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4594,7 +4515,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4604,7 +4525,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4614,7 +4535,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4772,6 +4693,7 @@
          */
         InitializeSilentRequest: "initializeSilentRequest",
         InitializeClientApplication: "initializeClientApplication",
+        InitializeCache: "initializeCache",
         /**
          * Helper function in SilentIframeClient class (msal-browser).
          */
@@ -4849,6 +4771,9 @@
          */
         ClearTokensAndKeysWithClaims: "clearTokensAndKeysWithClaims",
         CacheManagerGetRefreshToken: "cacheManagerGetRefreshToken",
+        ImportExistingCache: "importExistingCache",
+        SetUserData: "setUserData",
+        LocalStorageUpdated: "localStorageUpdated",
         /**
          * Crypto Operations
          */
@@ -4857,6 +4782,12 @@
         GenerateCodeChallengeFromVerifier: "generateCodeChallengeFromVerifier",
         Sha256Digest: "sha256Digest",
         GetRandomValues: "getRandomValues",
+        GenerateHKDF: "generateHKDF",
+        GenerateBaseKey: "generateBaseKey",
+        Base64Decode: "base64Decode",
+        UrlEncodeArr: "urlEncodeArr",
+        Encrypt: "encrypt",
+        Decrypt: "decrypt",
     };
     const PerformanceEventAbbreviations = new Map([
         [PerformanceEvents.AcquireTokenByCode, "ATByCode"],
@@ -4941,6 +4872,10 @@
             PerformanceEvents.InitializeClientApplication,
             "InitClientApplication",
         ],
+        [PerformanceEvents.InitializeCache, "InitCache"],
+        [PerformanceEvents.ImportExistingCache, "importCache"],
+        [PerformanceEvents.SetUserData, "setUserData"],
+        [PerformanceEvents.LocalStorageUpdated, "localStorageUpdated"],
         [PerformanceEvents.SilentIframeClientTokenHelper, "SIClientTHelper"],
         [
             PerformanceEvents.SilentHandlerInitiateAuthRequest,
@@ -5074,6 +5009,12 @@
         ],
         [PerformanceEvents.Sha256Digest, "Sha256Digest"],
         [PerformanceEvents.GetRandomValues, "GetRandomValues"],
+        [PerformanceEvents.GenerateHKDF, "genHKDF"],
+        [PerformanceEvents.GenerateBaseKey, "genBaseKey"],
+        [PerformanceEvents.Base64Decode, "b64Decode"],
+        [PerformanceEvents.UrlEncodeArr, "urlEncArr"],
+        [PerformanceEvents.Encrypt, "encrypt"],
+        [PerformanceEvents.Decrypt, "decrypt"],
     ]);
     /**
      * State of the performance event.
@@ -5099,9 +5040,11 @@
         "multiMatchedAT",
         "multiMatchedID",
         "multiMatchedRT",
+        "unencryptedCacheCount",
+        "encryptedCacheExpiredCount",
     ]);
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5197,7 +5140,7 @@
         };
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5306,7 +5249,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6145,7 +6088,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6176,7 +6119,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6195,7 +6138,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6293,7 +6236,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6323,7 +6266,7 @@
         return new NetworkError(error, httpStatus, responseHeaders);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6473,7 +6416,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6499,7 +6442,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6587,7 +6530,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6659,7 +6602,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6743,7 +6686,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6770,7 +6713,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6930,13 +6873,13 @@
                     !forceCacheRefreshTokenResponse &&
                     cacheRecord.account) {
                     const key = cacheRecord.account.generateAccountKey();
-                    const account = this.cacheStorage.getAccount(key, this.logger);
+                    const account = this.cacheStorage.getAccount(key);
                     if (!account) {
                         this.logger.warning("Account used to refresh tokens not in persistence, refreshed tokens will not be stored in the cache");
                         return await ResponseHandler.generateAuthenticationResult(this.cryptoObj, authority, cacheRecord, false, request, idTokenClaims, requestStateObj, undefined, serverRequestId);
                     }
                 }
-                await this.cacheStorage.saveCacheRecord(cacheRecord, request.storeInCache, request.correlationId);
+                await this.cacheStorage.saveCacheRecord(cacheRecord, request.correlationId, request.storeInCache);
             }
             finally {
                 if (this.persistencePlugin &&
@@ -7122,7 +7065,7 @@
         });
         let cachedAccount = null;
         if (baseAccountKey) {
-            cachedAccount = cacheStorage.getAccount(baseAccountKey, logger);
+            cachedAccount = cacheStorage.getAccount(baseAccountKey);
         }
         const baseAccount = cachedAccount ||
             AccountEntity.createAccount({
@@ -7147,7 +7090,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7165,7 +7108,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7451,7 +7394,9 @@
             }
             if (request.domainHint) {
                 parameterBuilder.addDomainHint(request.domainHint);
+                this.performanceClient?.addFields({ domainHintFromRequest: true }, correlationId);
             }
+            this.performanceClient?.addFields({ prompt: request.prompt }, correlationId);
             // Add sid or loginHint with preference for login_hint claim (in request) -> sid -> loginHint (upn/email) -> username of AccountInfo object
             if (request.prompt !== PromptValue.SELECT_ACCOUNT) {
                 // AAD will throw if prompt=select_account is passed with an account hint
@@ -7459,6 +7404,7 @@
                     // SessionID is only used in silent calls
                     this.logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from request");
                     parameterBuilder.addSid(request.sid);
+                    this.performanceClient?.addFields({ sidFromRequest: true }, correlationId);
                 }
                 else if (request.account) {
                     const accountSid = this.extractAccountSid(request.account);
@@ -7471,6 +7417,7 @@
                     if (accountLoginHintClaim) {
                         this.logger.verbose("createAuthCodeUrlQueryString: login_hint claim present on account");
                         parameterBuilder.addLoginHint(accountLoginHintClaim);
+                        this.performanceClient?.addFields({ loginHintFromClaim: true }, correlationId);
                         try {
                             const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
                             parameterBuilder.addCcsOid(clientInfo);
@@ -7486,6 +7433,7 @@
                          */
                         this.logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from account");
                         parameterBuilder.addSid(accountSid);
+                        this.performanceClient?.addFields({ sidFromClaim: true }, correlationId);
                         try {
                             const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
                             parameterBuilder.addCcsOid(clientInfo);
@@ -7498,11 +7446,13 @@
                         this.logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from request");
                         parameterBuilder.addLoginHint(request.loginHint);
                         parameterBuilder.addCcsUpn(request.loginHint);
+                        this.performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
                     }
                     else if (request.account.username) {
                         // Fallback to account username if provided
                         this.logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from account");
                         parameterBuilder.addLoginHint(request.account.username);
+                        this.performanceClient?.addFields({ loginHintFromUpn: true }, correlationId);
                         try {
                             const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
                             parameterBuilder.addCcsOid(clientInfo);
@@ -7516,6 +7466,7 @@
                     this.logger.verbose("createAuthCodeUrlQueryString: No account, adding login_hint from request");
                     parameterBuilder.addLoginHint(request.loginHint);
                     parameterBuilder.addCcsUpn(request.loginHint);
+                    this.performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
                 }
             }
             else {
@@ -7539,7 +7490,7 @@
                 });
             }
             this.addExtraQueryParams(request, parameterBuilder);
-            if (request.nativeBroker) {
+            if (request.platformBroker) {
                 // signal ests that this is a WAM call
                 parameterBuilder.addNativeBroker();
                 // pass the req_cnf for POP
@@ -7607,7 +7558,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7687,6 +7638,7 @@
             if (refreshToken.expiresOn &&
                 isTokenExpired(refreshToken.expiresOn, request.refreshTokenExpirationOffsetSeconds ||
                     DEFAULT_REFRESH_TOKEN_EXPIRATION_OFFSET_SECONDS)) {
+                this.performanceClient?.addFields({ rtExpiresOnMs: Number(refreshToken.expiresOn) }, request.correlationId);
                 throw createInteractionRequiredAuthError(refreshTokenExpired);
             }
             // attach cached RT size to the current measurement
@@ -7703,12 +7655,14 @@
                 return await invokeAsync(this.acquireToken.bind(this), PerformanceEvents.RefreshTokenClientAcquireToken, this.logger, this.performanceClient, request.correlationId)(refreshTokenRequest);
             }
             catch (e) {
-                if (e instanceof InteractionRequiredAuthError &&
-                    e.subError === badToken) {
-                    // Remove bad refresh token from cache
-                    this.logger.verbose("acquireTokenWithRefreshToken: bad refresh token, removing from cache");
-                    const badRefreshTokenKey = generateCredentialKey(refreshToken);
-                    this.cacheManager.removeRefreshToken(badRefreshTokenKey);
+                if (e instanceof InteractionRequiredAuthError) {
+                    this.performanceClient?.addFields({ rtExpiresOnMs: Number(refreshToken.expiresOn) }, request.correlationId);
+                    if (e.subError === badToken) {
+                        // Remove bad refresh token from cache
+                        this.logger.verbose("acquireTokenWithRefreshToken: bad refresh token, removing from cache");
+                        const badRefreshTokenKey = generateCredentialKey(refreshToken);
+                        this.cacheManager.removeRefreshToken(badRefreshTokenKey);
+                    }
                 }
                 throw e;
             }
@@ -7827,7 +7781,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7837,44 +7791,6 @@
     class SilentFlowClient extends BaseClient {
         constructor(configuration, performanceClient) {
             super(configuration, performanceClient);
-        }
-        /**
-         * Retrieves a token from cache if it is still valid, or uses the cached refresh token to renew
-         * the given token and returns the renewed token
-         * @param request
-         */
-        async acquireToken(request) {
-            try {
-                const [authResponse, cacheOutcome] = await this.acquireCachedToken({
-                    ...request,
-                    scopes: request.scopes?.length
-                        ? request.scopes
-                        : [...OIDC_DEFAULT_SCOPES],
-                });
-                // if the token is not expired but must be refreshed; get a new one in the background
-                if (cacheOutcome === CacheOutcome.PROACTIVELY_REFRESHED) {
-                    this.logger.info("SilentFlowClient:acquireCachedToken - Cached access token's refreshOn property has been exceeded'. It's not expired, but must be refreshed.");
-                    // refresh the access token in the background
-                    const refreshTokenClient = new RefreshTokenClient(this.config, this.performanceClient);
-                    refreshTokenClient
-                        .acquireTokenByRefreshToken(request)
-                        .catch(() => {
-                        // do nothing, this is running in the background and no action is to be taken upon success or failure
-                    });
-                }
-                // return the cached token
-                return authResponse;
-            }
-            catch (e) {
-                if (e instanceof ClientAuthError &&
-                    e.errorCode === tokenRefreshRequired) {
-                    const refreshTokenClient = new RefreshTokenClient(this.config, this.performanceClient);
-                    return refreshTokenClient.acquireTokenByRefreshToken(request);
-                }
-                else {
-                    throw e;
-                }
-            }
         }
         /**
          * Retrieves token from cache or throws an error if it must be refreshed.
@@ -7963,7 +7879,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7978,7 +7894,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8036,7 +7952,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8299,7 +8215,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8307,7 +8223,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8332,7 +8248,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8372,7 +8288,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8451,7 +8367,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v15.1.1 2025-02-05 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9693,14 +9609,53 @@
      * Licensed under the MIT License.
      */
     /**
+     * Class which exposes APIs to decode base64 strings to plaintext. See here for implementation details:
+     * https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
+     */
+    /**
+     * Returns a URL-safe plaintext decoded string from b64 encoded input.
+     * @param input
+     */
+    function base64Decode(input) {
+        return new TextDecoder().decode(base64DecToArr(input));
+    }
+    /**
+     * Decodes base64 into Uint8Array
+     * @param base64String
+     */
+    function base64DecToArr(base64String) {
+        let encodedString = base64String.replace(/-/g, "+").replace(/_/g, "/");
+        switch (encodedString.length % 4) {
+            case 0:
+                break;
+            case 2:
+                encodedString += "==";
+                break;
+            case 3:
+                encodedString += "=";
+                break;
+            default:
+                throw createBrowserAuthError(invalidBase64String);
+        }
+        const binString = atob(encodedString);
+        return Uint8Array.from(binString, (m) => m.codePointAt(0) || 0);
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
      * This file defines functions used by the browser library to perform cryptography operations such as
      * hashing and encoding. It also has helper functions to validate the availability of specific APIs.
      */
     /**
      * See here for more info on RsaHashedKeyGenParams: https://developer.mozilla.org/en-US/docs/Web/API/RsaHashedKeyGenParams
      */
-    // RSA KeyGen Algorithm
+    // Algorithms
     const PKCS1_V15_KEYGEN_ALG = "RSASSA-PKCS1-v1_5";
+    const AES_GCM = "AES-GCM";
+    const HKDF = "HKDF";
     // SHA-256 hashing algorithm
     const S256_HASH_ALG = "SHA-256";
     // MOD length for PoP tokens
@@ -9711,6 +9666,13 @@
     const UUID_CHARS = "0123456789abcdef";
     // Array to store UINT32 random value
     const UINT32_ARR = new Uint32Array(1);
+    // Key Format
+    const RAW = "raw";
+    // Key Usages
+    const ENCRYPT = "encrypt";
+    const DECRYPT = "decrypt";
+    const DERIVE_KEY = "deriveKey";
+    // Suberror
     const SUBTLE_SUBERROR = "crypto_subtle_undefined";
     const keygenAlgorithmOptions = {
         name: PKCS1_V15_KEYGEN_ALG,
@@ -9721,14 +9683,14 @@
     /**
      * Check whether browser crypto is available.
      */
-    function validateCryptoAvailable() {
+    function validateCryptoAvailable(skipValidateSubtleCrypto) {
         if (!window) {
             throw createBrowserAuthError(nonBrowserEnvironment);
         }
         if (!window.crypto) {
             throw createBrowserAuthError(cryptoNonExistent);
         }
-        if (!window.crypto.subtle) {
+        if (!skipValidateSubtleCrypto && !window.crypto.subtle) {
             throw createBrowserAuthError(cryptoNonExistent, SUBTLE_SUBERROR);
         }
     }
@@ -9832,6 +9794,76 @@
      */
     async function sign(key, data) {
         return window.crypto.subtle.sign(keygenAlgorithmOptions, key, data);
+    }
+    /**
+     * Generates symmetric base encryption key. This may be stored as all encryption/decryption keys will be derived from this one.
+     */
+    async function generateBaseKey() {
+        const key = await window.crypto.subtle.generateKey({
+            name: AES_GCM,
+            length: 256,
+        }, true, [ENCRYPT, DECRYPT]);
+        return window.crypto.subtle.exportKey(RAW, key);
+    }
+    /**
+     * Returns the raw key to be passed into the key derivation function
+     * @param baseKey
+     * @returns
+     */
+    async function generateHKDF(baseKey) {
+        return window.crypto.subtle.importKey(RAW, baseKey, HKDF, false, [
+            DERIVE_KEY,
+        ]);
+    }
+    /**
+     * Given a base key and a nonce generates a derived key to be used in encryption and decryption.
+     * Note: every time we encrypt a new key is derived
+     * @param baseKey
+     * @param nonce
+     * @returns
+     */
+    async function deriveKey(baseKey, nonce, context) {
+        return window.crypto.subtle.deriveKey({
+            name: HKDF,
+            salt: nonce,
+            hash: S256_HASH_ALG,
+            info: new TextEncoder().encode(context),
+        }, baseKey, { name: AES_GCM, length: 256 }, false, [ENCRYPT, DECRYPT]);
+    }
+    /**
+     * Encrypt the given data given a base key. Returns encrypted data and a nonce that must be provided during decryption
+     * @param key
+     * @param rawData
+     */
+    async function encrypt(baseKey, rawData, context) {
+        const encodedData = new TextEncoder().encode(rawData);
+        // The nonce must never be reused with a given key.
+        const nonce = window.crypto.getRandomValues(new Uint8Array(16));
+        const derivedKey = await deriveKey(baseKey, nonce, context);
+        const encryptedData = await window.crypto.subtle.encrypt({
+            name: AES_GCM,
+            iv: new Uint8Array(12), // New key is derived for every encrypt so we don't need a new nonce
+        }, derivedKey, encodedData);
+        return {
+            data: urlEncodeArr(new Uint8Array(encryptedData)),
+            nonce: urlEncodeArr(nonce),
+        };
+    }
+    /**
+     * Decrypt data with the given key and nonce
+     * @param key
+     * @param nonce
+     * @param encryptedData
+     * @returns
+     */
+    async function decrypt(baseKey, nonce, context, encryptedData) {
+        const encodedData = base64DecToArr(encryptedData);
+        const derivedKey = await deriveKey(baseKey, base64DecToArr(nonce), context);
+        const decryptedData = await window.crypto.subtle.decrypt({
+            name: AES_GCM,
+            iv: new Uint8Array(12), // New key is derived for every encrypt so we don't need a new nonce
+        }, derivedKey, encodedData);
+        return new TextDecoder().decode(decryptedData);
     }
     /**
      * Returns the SHA-256 hash of an input string
@@ -9943,7 +9975,9 @@
      * Returns current window URL as redirect uri
      */
     function getCurrentUri() {
-        return window.location.href.split("?")[0].split("#")[0];
+        return typeof window !== "undefined" && window.location
+            ? window.location.href.split("?")[0].split("#")[0]
+            : "";
     }
     /**
      * Gets the homepage url for the current window location.
@@ -10323,7 +10357,7 @@
             redirectNavigationTimeout: DEFAULT_REDIRECT_TIMEOUT_MS,
             asyncPopups: false,
             allowRedirectInIframe: false,
-            allowNativeBroker: false,
+            allowPlatformBroker: false,
             nativeBrokerHandshakeTimeout: userInputSystem?.nativeBrokerHandshakeTimeout ||
                 DEFAULT_NATIVE_BROKER_HANDSHAKE_TIMEOUT_MS,
             pollIntervalMilliseconds: BrowserConstants.DEFAULT_POLL_INTERVAL_MS,
@@ -10346,11 +10380,11 @@
             const logger = new Logger(providedSystemOptions.loggerOptions);
             logger.warning(JSON.stringify(createClientConfigurationError(cannotSetOIDCOptions)));
         }
-        // Throw an error if user has set allowNativeBroker to true without being in AAD protocol mode
+        // Throw an error if user has set allowPlatformBroker to true without being in AAD protocol mode
         if (userInputAuth?.protocolMode &&
             userInputAuth.protocolMode !== ProtocolMode.AAD &&
-            providedSystemOptions?.allowNativeBroker) {
-            throw createClientConfigurationError(cannotAllowNativeBroker);
+            providedSystemOptions?.allowPlatformBroker) {
+            throw createClientConfigurationError(cannotAllowPlatformBroker);
         }
         const overlayedConfig = {
             auth: {
@@ -10370,7 +10404,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "3.27.0";
+    const version = "4.2.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10751,43 +10785,6 @@
      * Licensed under the MIT License.
      */
     /**
-     * Class which exposes APIs to decode base64 strings to plaintext. See here for implementation details:
-     * https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
-     */
-    /**
-     * Returns a URL-safe plaintext decoded string from b64 encoded input.
-     * @param input
-     */
-    function base64Decode(input) {
-        return new TextDecoder().decode(base64DecToArr(input));
-    }
-    /**
-     * Decodes base64 into Uint8Array
-     * @param base64String
-     */
-    function base64DecToArr(base64String) {
-        let encodedString = base64String.replace(/-/g, "+").replace(/_/g, "/");
-        switch (encodedString.length % 4) {
-            case 0:
-                break;
-            case 2:
-                encodedString += "==";
-                break;
-            case 3:
-                encodedString += "=";
-                break;
-            default:
-                throw createBrowserAuthError(invalidBase64String);
-        }
-        const binString = atob(encodedString);
-        return Uint8Array.from(binString, (m) => m.codePointAt(0) || 0);
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
      * Storage wrapper for IndexedDB storage in browsers: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
      */
     class DatabaseStorage {
@@ -10992,11 +10989,20 @@
         constructor() {
             this.cache = new Map();
         }
+        async initialize() {
+            // Memory storage does not require initialization
+        }
         getItem(key) {
             return this.cache.get(key) || null;
         }
+        getUserData(key) {
+            return this.getItem(key);
+        }
         setItem(key, value) {
             this.cache.set(key, value);
+        }
+        async setUserData(key, value) {
+            this.setItem(key, value);
         }
         removeItem(key) {
             this.cache.delete(key);
@@ -11157,10 +11163,10 @@
      * implementing Proof Key for Code Exchange specs for the OAuth Authorization Code Flow using PKCE (rfc here: https://tools.ietf.org/html/rfc7636).
      */
     class CryptoOps {
-        constructor(logger, performanceClient) {
+        constructor(logger, performanceClient, skipValidateSubtleCrypto) {
             this.logger = logger;
             // Browser crypto needs to be validated first before any other classes can be set.
-            validateCryptoAvailable();
+            validateCryptoAvailable(skipValidateSubtleCrypto ?? false);
             this.cache = new AsyncMemoryStorage(this.logger);
             this.performanceClient = performanceClient;
         }
@@ -11329,32 +11335,393 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    class BrowserStorage {
-        constructor(cacheLocation) {
-            this.validateWindowStorage(cacheLocation);
-            this.windowStorage = window[cacheLocation];
+    // Cookie life calculation (hours * minutes * seconds * ms)
+    const COOKIE_LIFE_MULTIPLIER = 24 * 60 * 60 * 1000;
+    const SameSiteOptions = {
+        Lax: "Lax",
+        None: "None",
+    };
+    class CookieStorage {
+        initialize() {
+            return Promise.resolve();
         }
-        validateWindowStorage(cacheLocation) {
-            if ((cacheLocation !== BrowserCacheLocation.LocalStorage &&
-                cacheLocation !== BrowserCacheLocation.SessionStorage) ||
-                !window[cacheLocation]) {
+        getItem(key) {
+            const name = `${encodeURIComponent(key)}`;
+            const cookieList = document.cookie.split(";");
+            for (let i = 0; i < cookieList.length; i++) {
+                const cookie = cookieList[i];
+                const [key, ...rest] = decodeURIComponent(cookie).trim().split("=");
+                const value = rest.join("=");
+                if (key === name) {
+                    return value;
+                }
+            }
+            return "";
+        }
+        getUserData() {
+            throw createClientAuthError(methodNotImplemented);
+        }
+        setItem(key, value, cookieLifeDays, secure = true, sameSite = SameSiteOptions.Lax) {
+            let cookieStr = `${encodeURIComponent(key)}=${encodeURIComponent(value)};path=/;SameSite=${sameSite};`;
+            if (cookieLifeDays) {
+                const expireTime = getCookieExpirationTime(cookieLifeDays);
+                cookieStr += `expires=${expireTime};`;
+            }
+            if (secure || sameSite === SameSiteOptions.None) {
+                // SameSite None requires Secure flag
+                cookieStr += "Secure;";
+            }
+            document.cookie = cookieStr;
+        }
+        async setUserData() {
+            return Promise.reject(createClientAuthError(methodNotImplemented));
+        }
+        removeItem(key) {
+            // Setting expiration to -1 removes it
+            this.setItem(key, "", -1);
+        }
+        getKeys() {
+            const cookieList = document.cookie.split(";");
+            const keys = [];
+            cookieList.forEach((cookie) => {
+                const cookieParts = decodeURIComponent(cookie).trim().split("=");
+                keys.push(cookieParts[0]);
+            });
+            return keys;
+        }
+        containsKey(key) {
+            return this.getKeys().includes(key);
+        }
+    }
+    /**
+     * Get cookie expiration time
+     * @param cookieLifeDays
+     */
+    function getCookieExpirationTime(cookieLifeDays) {
+        const today = new Date();
+        const expr = new Date(today.getTime() + cookieLifeDays * COOKIE_LIFE_MULTIPLIER);
+        return expr.toUTCString();
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Returns a list of cache keys for all known accounts
+     * @param storage
+     * @returns
+     */
+    function getAccountKeys(storage) {
+        const accountKeys = storage.getItem(StaticCacheKeys.ACCOUNT_KEYS);
+        if (accountKeys) {
+            return JSON.parse(accountKeys);
+        }
+        return [];
+    }
+    /**
+     * Returns a list of cache keys for all known tokens
+     * @param clientId
+     * @param storage
+     * @returns
+     */
+    function getTokenKeys(clientId, storage) {
+        const item = storage.getItem(`${StaticCacheKeys.TOKEN_KEYS}.${clientId}`);
+        if (item) {
+            const tokenKeys = JSON.parse(item);
+            if (tokenKeys &&
+                tokenKeys.hasOwnProperty("idToken") &&
+                tokenKeys.hasOwnProperty("accessToken") &&
+                tokenKeys.hasOwnProperty("refreshToken")) {
+                return tokenKeys;
+            }
+        }
+        return {
+            idToken: [],
+            accessToken: [],
+            refreshToken: [],
+        };
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const ENCRYPTION_KEY = "msal.cache.encryption";
+    const BROADCAST_CHANNEL_NAME$1 = "msal.broadcast.cache";
+    class LocalStorage {
+        constructor(clientId, logger, performanceClient) {
+            if (!window.localStorage) {
+                throw createBrowserConfigurationAuthError(storageNotSupported);
+            }
+            this.memoryStorage = new MemoryStorage();
+            this.initialized = false;
+            this.clientId = clientId;
+            this.logger = logger;
+            this.performanceClient = performanceClient;
+            this.broadcast = new BroadcastChannel(BROADCAST_CHANNEL_NAME$1);
+        }
+        async initialize(correlationId) {
+            this.initialized = true;
+            const cookies = new CookieStorage();
+            const cookieString = cookies.getItem(ENCRYPTION_KEY);
+            let parsedCookie = { key: "", id: "" };
+            if (cookieString) {
+                try {
+                    parsedCookie = JSON.parse(cookieString);
+                }
+                catch (e) { }
+            }
+            if (parsedCookie.key && parsedCookie.id) {
+                // Encryption key already exists, import
+                const baseKey = invoke(base64DecToArr, PerformanceEvents.Base64Decode, this.logger, this.performanceClient, correlationId)(parsedCookie.key);
+                this.encryptionCookie = {
+                    id: parsedCookie.id,
+                    key: await invokeAsync(generateHKDF, PerformanceEvents.GenerateHKDF, this.logger, this.performanceClient, correlationId)(baseKey),
+                };
+                await invokeAsync(this.importExistingCache.bind(this), PerformanceEvents.ImportExistingCache, this.logger, this.performanceClient, correlationId)(correlationId);
+            }
+            else {
+                // Encryption key doesn't exist or is invalid, generate a new one and clear existing cache
+                this.clear();
+                const id = createNewGuid();
+                const baseKey = await invokeAsync(generateBaseKey, PerformanceEvents.GenerateBaseKey, this.logger, this.performanceClient, correlationId)();
+                const keyStr = invoke(urlEncodeArr, PerformanceEvents.UrlEncodeArr, this.logger, this.performanceClient, correlationId)(new Uint8Array(baseKey));
+                this.encryptionCookie = {
+                    id: id,
+                    key: await invokeAsync(generateHKDF, PerformanceEvents.GenerateHKDF, this.logger, this.performanceClient, correlationId)(baseKey),
+                };
+                const cookieData = {
+                    id: id,
+                    key: keyStr,
+                };
+                cookies.setItem(ENCRYPTION_KEY, JSON.stringify(cookieData), 0, // Expiration - 0 means cookie will be cleared at the end of the browser session
+                true, // Secure flag
+                SameSiteOptions.None // SameSite must be None to support iframed apps
+                );
+            }
+            // Register listener for cache updates in other tabs
+            this.broadcast.addEventListener("message", this.updateCache.bind(this));
+        }
+        getItem(key) {
+            return window.localStorage.getItem(key);
+        }
+        getUserData(key) {
+            if (!this.initialized) {
+                throw createBrowserAuthError(uninitializedPublicClientApplication);
+            }
+            return this.memoryStorage.getItem(key);
+        }
+        setItem(key, value) {
+            window.localStorage.setItem(key, value);
+        }
+        async setUserData(key, value, correlationId) {
+            if (!this.initialized || !this.encryptionCookie) {
+                throw createBrowserAuthError(uninitializedPublicClientApplication);
+            }
+            const { data, nonce } = await invokeAsync(encrypt, PerformanceEvents.Encrypt, this.logger, this.performanceClient, correlationId)(this.encryptionCookie.key, value, this.getContext(key));
+            const encryptedData = {
+                id: this.encryptionCookie.id,
+                nonce: nonce,
+                data: data,
+            };
+            this.memoryStorage.setItem(key, value);
+            this.setItem(key, JSON.stringify(encryptedData));
+            // Notify other frames to update their in-memory cache
+            this.broadcast.postMessage({
+                key: key,
+                value: value,
+                context: this.getContext(key),
+            });
+        }
+        removeItem(key) {
+            if (this.memoryStorage.containsKey(key)) {
+                this.memoryStorage.removeItem(key);
+                this.broadcast.postMessage({
+                    key: key,
+                    value: null,
+                    context: this.getContext(key),
+                });
+            }
+            window.localStorage.removeItem(key);
+        }
+        getKeys() {
+            return Object.keys(window.localStorage);
+        }
+        containsKey(key) {
+            return window.localStorage.hasOwnProperty(key);
+        }
+        /**
+         * Removes all known MSAL keys from the cache
+         */
+        clear() {
+            // Removes all remaining MSAL cache items
+            this.memoryStorage.clear();
+            const accountKeys = getAccountKeys(this);
+            accountKeys.forEach((key) => this.removeItem(key));
+            const tokenKeys = getTokenKeys(this.clientId, this);
+            tokenKeys.idToken.forEach((key) => this.removeItem(key));
+            tokenKeys.accessToken.forEach((key) => this.removeItem(key));
+            tokenKeys.refreshToken.forEach((key) => this.removeItem(key));
+            // Clean up anything left
+            this.getKeys().forEach((cacheKey) => {
+                if (cacheKey.startsWith(Constants.CACHE_PREFIX) ||
+                    cacheKey.indexOf(this.clientId) !== -1) {
+                    this.removeItem(cacheKey);
+                }
+            });
+        }
+        /**
+         * Helper to decrypt all known MSAL keys in localStorage and save them to inMemory storage
+         * @returns
+         */
+        async importExistingCache(correlationId) {
+            if (!this.encryptionCookie) {
+                return;
+            }
+            let accountKeys = getAccountKeys(this);
+            accountKeys = await this.importArray(accountKeys, correlationId);
+            // Write valid account keys back to map
+            this.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+            const tokenKeys = getTokenKeys(this.clientId, this);
+            tokenKeys.idToken = await this.importArray(tokenKeys.idToken, correlationId);
+            tokenKeys.accessToken = await this.importArray(tokenKeys.accessToken, correlationId);
+            tokenKeys.refreshToken = await this.importArray(tokenKeys.refreshToken, correlationId);
+            // Write valid token keys back to map
+            this.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
+        }
+        /**
+         * Helper to decrypt and save cache entries
+         * @param key
+         * @returns
+         */
+        async getItemFromEncryptedCache(key, correlationId) {
+            if (!this.encryptionCookie) {
+                return null;
+            }
+            const rawCache = this.getItem(key);
+            if (!rawCache) {
+                return null;
+            }
+            let encObj;
+            try {
+                encObj = JSON.parse(rawCache);
+            }
+            catch (e) {
+                // Not a valid encrypted object, remove
+                return null;
+            }
+            if (!encObj.id || !encObj.nonce || !encObj.data) {
+                // Data is not encrypted, likely from old version of MSAL. It must be removed because we don't know how old it is.
+                this.performanceClient.incrementFields({ unencryptedCacheCount: 1 }, correlationId);
+                return null;
+            }
+            if (encObj.id !== this.encryptionCookie.id) {
+                // Data was encrypted with a different key. It must be removed because it is from a previous session.
+                this.performanceClient.incrementFields({ encryptedCacheExpiredCount: 1 }, correlationId);
+                return null;
+            }
+            return invokeAsync(decrypt, PerformanceEvents.Decrypt, this.logger, this.performanceClient, correlationId)(this.encryptionCookie.key, encObj.nonce, this.getContext(key), encObj.data);
+        }
+        /**
+         * Helper to decrypt and save an array of cache keys
+         * @param arr
+         * @returns Array of keys successfully imported
+         */
+        async importArray(arr, correlationId) {
+            const importedArr = [];
+            const promiseArr = [];
+            arr.forEach((key) => {
+                const promise = this.getItemFromEncryptedCache(key, correlationId).then((value) => {
+                    if (value) {
+                        this.memoryStorage.setItem(key, value);
+                        importedArr.push(key);
+                    }
+                    else {
+                        // If value is empty, unencrypted or expired remove
+                        this.removeItem(key);
+                    }
+                });
+                promiseArr.push(promise);
+            });
+            await Promise.all(promiseArr);
+            return importedArr;
+        }
+        /**
+         * Gets encryption context for a given cache entry. This is clientId for app specific entries, empty string for shared entries
+         * @param key
+         * @returns
+         */
+        getContext(key) {
+            let context = "";
+            if (key.includes(this.clientId)) {
+                context = this.clientId; // Used to bind encryption key to this appId
+            }
+            return context;
+        }
+        updateCache(event) {
+            this.logger.trace("Updating internal cache from broadcast event");
+            const perfMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.LocalStorageUpdated);
+            perfMeasurement.add({ isBackground: true });
+            const { key, value, context } = event.data;
+            if (!key) {
+                this.logger.error("Broadcast event missing key");
+                perfMeasurement.end({ success: false, errorCode: "noKey" });
+                return;
+            }
+            if (context && context !== this.clientId) {
+                this.logger.trace(`Ignoring broadcast event from clientId: ${context}`);
+                perfMeasurement.end({
+                    success: false,
+                    errorCode: "contextMismatch",
+                });
+                return;
+            }
+            if (!value) {
+                this.memoryStorage.removeItem(key);
+                this.logger.verbose("Removed item from internal cache");
+            }
+            else {
+                this.memoryStorage.setItem(key, value);
+                this.logger.verbose("Updated item in internal cache");
+            }
+            perfMeasurement.end({ success: true });
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class SessionStorage {
+        constructor() {
+            if (!window.sessionStorage) {
                 throw createBrowserConfigurationAuthError(storageNotSupported);
             }
         }
+        async initialize() {
+            // Session storage does not require initialization
+        }
         getItem(key) {
-            return this.windowStorage.getItem(key);
+            return window.sessionStorage.getItem(key);
+        }
+        getUserData(key) {
+            return this.getItem(key);
         }
         setItem(key, value) {
-            this.windowStorage.setItem(key, value);
+            window.sessionStorage.setItem(key, value);
+        }
+        async setUserData(key, value) {
+            this.setItem(key, value);
         }
         removeItem(key) {
-            this.windowStorage.removeItem(key);
+            window.sessionStorage.removeItem(key);
         }
         getKeys() {
-            return Object.keys(this.windowStorage);
+            return Object.keys(window.sessionStorage);
         }
         containsKey(key) {
-            return this.windowStorage.hasOwnProperty(key);
+            return window.sessionStorage.hasOwnProperty(key);
         }
     }
 
@@ -11384,187 +11751,58 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    const EventType = {
+        INITIALIZE_START: "msal:initializeStart",
+        INITIALIZE_END: "msal:initializeEnd",
+        ACCOUNT_ADDED: "msal:accountAdded",
+        ACCOUNT_REMOVED: "msal:accountRemoved",
+        ACTIVE_ACCOUNT_CHANGED: "msal:activeAccountChanged",
+        LOGIN_START: "msal:loginStart",
+        LOGIN_SUCCESS: "msal:loginSuccess",
+        LOGIN_FAILURE: "msal:loginFailure",
+        ACQUIRE_TOKEN_START: "msal:acquireTokenStart",
+        ACQUIRE_TOKEN_SUCCESS: "msal:acquireTokenSuccess",
+        ACQUIRE_TOKEN_FAILURE: "msal:acquireTokenFailure",
+        ACQUIRE_TOKEN_NETWORK_START: "msal:acquireTokenFromNetworkStart",
+        SSO_SILENT_START: "msal:ssoSilentStart",
+        SSO_SILENT_SUCCESS: "msal:ssoSilentSuccess",
+        SSO_SILENT_FAILURE: "msal:ssoSilentFailure",
+        ACQUIRE_TOKEN_BY_CODE_START: "msal:acquireTokenByCodeStart",
+        ACQUIRE_TOKEN_BY_CODE_SUCCESS: "msal:acquireTokenByCodeSuccess",
+        ACQUIRE_TOKEN_BY_CODE_FAILURE: "msal:acquireTokenByCodeFailure",
+        HANDLE_REDIRECT_START: "msal:handleRedirectStart",
+        HANDLE_REDIRECT_END: "msal:handleRedirectEnd",
+        POPUP_OPENED: "msal:popupOpened",
+        LOGOUT_START: "msal:logoutStart",
+        LOGOUT_SUCCESS: "msal:logoutSuccess",
+        LOGOUT_FAILURE: "msal:logoutFailure",
+        LOGOUT_END: "msal:logoutEnd",
+        RESTORE_FROM_BFCACHE: "msal:restoreFromBFCache",
+    };
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     /**
      * This class implements the cache storage interface for MSAL through browser local or session storage.
      * Cookies are only used if storeAuthStateInCookie is true, and are only used for
      * parameters such as state and nonce, generally.
      */
     class BrowserCacheManager extends CacheManager {
-        constructor(clientId, cacheConfig, cryptoImpl, logger, staticAuthorityOptions, performanceClient) {
+        constructor(clientId, cacheConfig, cryptoImpl, logger, performanceClient, eventHandler, staticAuthorityOptions) {
             super(clientId, cryptoImpl, logger, staticAuthorityOptions);
-            // Cookie life calculation (hours * minutes * seconds * ms)
-            this.COOKIE_LIFE_MULTIPLIER = 24 * 60 * 60 * 1000;
             this.cacheConfig = cacheConfig;
             this.logger = logger;
             this.internalStorage = new MemoryStorage();
-            this.browserStorage = this.setupBrowserStorage(this.cacheConfig.cacheLocation);
-            this.temporaryCacheStorage = this.setupTemporaryCacheStorage(this.cacheConfig.temporaryCacheLocation, this.cacheConfig.cacheLocation);
-            // Migrate cache entries from older versions of MSAL.
-            if (cacheConfig.cacheMigrationEnabled) {
-                this.migrateCacheEntries();
-                this.createKeyMaps();
-            }
+            this.browserStorage = getStorageImplementation(clientId, cacheConfig.cacheLocation, logger, performanceClient);
+            this.temporaryCacheStorage = getStorageImplementation(clientId, cacheConfig.temporaryCacheLocation, logger, performanceClient);
+            this.cookieStorage = new CookieStorage();
             this.performanceClient = performanceClient;
+            this.eventHandler = eventHandler;
         }
-        /**
-         * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured cacheLocation.
-         * @param cacheLocation
-         */
-        setupBrowserStorage(cacheLocation) {
-            switch (cacheLocation) {
-                case BrowserCacheLocation.LocalStorage:
-                case BrowserCacheLocation.SessionStorage:
-                    try {
-                        return new BrowserStorage(cacheLocation);
-                    }
-                    catch (e) {
-                        this.logger.verbose(e);
-                        break;
-                    }
-                case BrowserCacheLocation.MemoryStorage:
-            }
-            this.cacheConfig.cacheLocation = BrowserCacheLocation.MemoryStorage;
-            return new MemoryStorage();
-        }
-        /**
-         * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured temporaryCacheLocation.
-         * @param temporaryCacheLocation
-         * @param cacheLocation
-         */
-        setupTemporaryCacheStorage(temporaryCacheLocation, cacheLocation) {
-            switch (cacheLocation) {
-                case BrowserCacheLocation.LocalStorage:
-                case BrowserCacheLocation.SessionStorage:
-                    try {
-                        // Temporary cache items will always be stored in session storage to mitigate problems caused by multiple tabs
-                        return new BrowserStorage(temporaryCacheLocation ||
-                            BrowserCacheLocation.SessionStorage);
-                    }
-                    catch (e) {
-                        this.logger.verbose(e);
-                        return this.internalStorage;
-                    }
-                case BrowserCacheLocation.MemoryStorage:
-                default:
-                    return this.internalStorage;
-            }
-        }
-        /**
-         * Migrate all old cache entries to new schema. No rollback supported.
-         * @param storeAuthStateInCookie
-         */
-        migrateCacheEntries() {
-            const idTokenKey = `${Constants.CACHE_PREFIX}.${PersistentCacheKeys.ID_TOKEN}`;
-            const clientInfoKey = `${Constants.CACHE_PREFIX}.${PersistentCacheKeys.CLIENT_INFO}`;
-            const errorKey = `${Constants.CACHE_PREFIX}.${PersistentCacheKeys.ERROR}`;
-            const errorDescKey = `${Constants.CACHE_PREFIX}.${PersistentCacheKeys.ERROR_DESC}`;
-            const idTokenValue = this.browserStorage.getItem(idTokenKey);
-            const clientInfoValue = this.browserStorage.getItem(clientInfoKey);
-            const errorValue = this.browserStorage.getItem(errorKey);
-            const errorDescValue = this.browserStorage.getItem(errorDescKey);
-            const values = [
-                idTokenValue,
-                clientInfoValue,
-                errorValue,
-                errorDescValue,
-            ];
-            const keysToMigrate = [
-                PersistentCacheKeys.ID_TOKEN,
-                PersistentCacheKeys.CLIENT_INFO,
-                PersistentCacheKeys.ERROR,
-                PersistentCacheKeys.ERROR_DESC,
-            ];
-            keysToMigrate.forEach((cacheKey, index) => {
-                const value = values[index];
-                if (value) {
-                    this.setTemporaryCache(cacheKey, value, true);
-                }
-            });
-        }
-        /**
-         * Searches all cache entries for MSAL accounts and creates the account key map
-         * This is used to migrate users from older versions of MSAL which did not create the map.
-         * @returns
-         */
-        createKeyMaps() {
-            this.logger.trace("BrowserCacheManager - createKeyMaps called.");
-            const accountKeys = this.getItem(StaticCacheKeys.ACCOUNT_KEYS);
-            const tokenKeys = this.getItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`);
-            if (accountKeys && tokenKeys) {
-                this.logger.verbose("BrowserCacheManager:createKeyMaps - account and token key maps already exist, skipping migration.");
-                // Key maps already exist, no need to iterate through cache
-                return;
-            }
-            const allKeys = this.browserStorage.getKeys();
-            allKeys.forEach((key) => {
-                if (this.isCredentialKey(key)) {
-                    // Get item, parse, validate and write key to map
-                    const value = this.getItem(key);
-                    if (value) {
-                        const credObj = this.validateAndParseJson(value);
-                        if (credObj && credObj.hasOwnProperty("credentialType")) {
-                            switch (credObj["credentialType"]) {
-                                case CredentialType.ID_TOKEN:
-                                    if (isIdTokenEntity(credObj)) {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - idToken found, saving key to token key map");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - idToken with key: ${key} found, saving key to token key map`);
-                                        const idTokenEntity = credObj;
-                                        const newKey = this.updateCredentialCacheKey(key, idTokenEntity);
-                                        this.addTokenKey(newKey, CredentialType.ID_TOKEN);
-                                        return;
-                                    }
-                                    else {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - key found matching idToken schema with value containing idToken credentialType field but value failed IdTokenEntity validation, skipping.");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - failed idToken validation on key: ${key}`);
-                                    }
-                                    break;
-                                case CredentialType.ACCESS_TOKEN:
-                                case CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME:
-                                    if (isAccessTokenEntity(credObj)) {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - accessToken found, saving key to token key map");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - accessToken with key: ${key} found, saving key to token key map`);
-                                        const accessTokenEntity = credObj;
-                                        const newKey = this.updateCredentialCacheKey(key, accessTokenEntity);
-                                        this.addTokenKey(newKey, CredentialType.ACCESS_TOKEN);
-                                        return;
-                                    }
-                                    else {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - key found matching accessToken schema with value containing accessToken credentialType field but value failed AccessTokenEntity validation, skipping.");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - failed accessToken validation on key: ${key}`);
-                                    }
-                                    break;
-                                case CredentialType.REFRESH_TOKEN:
-                                    if (isRefreshTokenEntity(credObj)) {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - refreshToken found, saving key to token key map");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - refreshToken with key: ${key} found, saving key to token key map`);
-                                        const refreshTokenEntity = credObj;
-                                        const newKey = this.updateCredentialCacheKey(key, refreshTokenEntity);
-                                        this.addTokenKey(newKey, CredentialType.REFRESH_TOKEN);
-                                        return;
-                                    }
-                                    else {
-                                        this.logger.trace("BrowserCacheManager:createKeyMaps - key found matching refreshToken schema with value containing refreshToken credentialType field but value failed RefreshTokenEntity validation, skipping.");
-                                        this.logger.tracePii(`BrowserCacheManager:createKeyMaps - failed refreshToken validation on key: ${key}`);
-                                    }
-                                    break;
-                                // If credentialType isn't one of our predefined ones, it may not be an MSAL cache value. Ignore.
-                            }
-                        }
-                    }
-                }
-                if (this.isAccountKey(key)) {
-                    const value = this.getItem(key);
-                    if (value) {
-                        const accountObj = this.validateAndParseJson(value);
-                        if (accountObj &&
-                            AccountEntity.isAccountEntity(accountObj)) {
-                            this.logger.trace("BrowserCacheManager:createKeyMaps - account found, saving key to account key map");
-                            this.logger.tracePii(`BrowserCacheManager:createKeyMaps - account with key: ${key} found, saving key to account key map`);
-                            this.addAccountKeyToMap(key);
-                        }
-                    }
-                }
-            });
+        async initialize(correlationId) {
+            await this.browserStorage.initialize(correlationId);
         }
         /**
          * Parses passed value as JSON object, JSON.parse() will throw an error.
@@ -11588,37 +11826,14 @@
             }
         }
         /**
-         * fetches the entry from the browser storage based off the key
-         * @param key
-         */
-        getItem(key) {
-            return this.browserStorage.getItem(key);
-        }
-        /**
-         * sets the entry in the browser storage
-         * @param key
-         * @param value
-         */
-        setItem(key, value) {
-            this.browserStorage.setItem(key, value);
-        }
-        /**
-         * fetch the account entity from the platform cache
-         * @param accountKey
-         */
-        getAccount(accountKey, logger) {
-            this.logger.trace("BrowserCacheManager.getAccount called");
-            const accountEntity = this.getCachedAccountEntity(accountKey);
-            return this.updateOutdatedCachedAccount(accountKey, accountEntity, logger);
-        }
-        /**
          * Reads account from cache, deserializes it into an account entity and returns it.
          * If account is not found from the key, returns null and removes key from map.
          * @param accountKey
          * @returns
          */
-        getCachedAccountEntity(accountKey) {
-            const serializedAccount = this.getItem(accountKey);
+        getAccount(accountKey) {
+            this.logger.trace("BrowserCacheManager.getAccount called");
+            const serializedAccount = this.browserStorage.getUserData(accountKey);
             if (!serializedAccount) {
                 this.removeAccountKeyFromMap(accountKey);
                 return null;
@@ -11634,24 +11849,26 @@
          * set account entity in the platform cache
          * @param account
          */
-        setAccount(account) {
+        async setAccount(account, correlationId) {
             this.logger.trace("BrowserCacheManager.setAccount called");
             const key = account.generateAccountKey();
-            this.setItem(key, JSON.stringify(account));
-            this.addAccountKeyToMap(key);
+            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(key, JSON.stringify(account), correlationId);
+            const wasAdded = this.addAccountKeyToMap(key);
+            /**
+             * @deprecated - Remove this in next major version in favor of more consistent LOGIN event
+             */
+            if (this.cacheConfig.cacheLocation ===
+                BrowserCacheLocation.LocalStorage &&
+                wasAdded) {
+                this.eventHandler.emitEvent(EventType.ACCOUNT_ADDED, undefined, account.getAccountInfo());
+            }
         }
         /**
          * Returns the array of account keys currently cached
          * @returns
          */
         getAccountKeys() {
-            this.logger.trace("BrowserCacheManager.getAccountKeys called");
-            const accountKeys = this.getItem(StaticCacheKeys.ACCOUNT_KEYS);
-            if (accountKeys) {
-                return JSON.parse(accountKeys);
-            }
-            this.logger.verbose("BrowserCacheManager.getAccountKeys - No account keys found");
-            return [];
+            return getAccountKeys(this.browserStorage);
         }
         /**
          * Add a new account to the key map
@@ -11664,11 +11881,13 @@
             if (accountKeys.indexOf(key) === -1) {
                 // Only add key if it does not already exist in the map
                 accountKeys.push(key);
-                this.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+                this.browserStorage.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
                 this.logger.verbose("BrowserCacheManager.addAccountKeyToMap account key added");
+                return true;
             }
             else {
                 this.logger.verbose("BrowserCacheManager.addAccountKeyToMap account key already exists in map");
+                return false;
             }
         }
         /**
@@ -11682,7 +11901,7 @@
             const removalIndex = accountKeys.indexOf(key);
             if (removalIndex > -1) {
                 accountKeys.splice(removalIndex, 1);
-                this.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+                this.browserStorage.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
                 this.logger.trace("BrowserCacheManager.removeAccountKeyFromMap account key removed");
             }
             else {
@@ -11698,12 +11917,17 @@
             this.removeAccountKeyFromMap(key);
         }
         /**
-         * Remove account entity from the platform cache if it's outdated
-         * @param accountKey
+         * Removes credentials associated with the provided account
+         * @param account
          */
-        removeOutdatedAccount(accountKey) {
-            this.removeItem(accountKey);
-            this.removeAccountKeyFromMap(accountKey);
+        async removeAccountContext(account) {
+            await super.removeAccountContext(account);
+            /**
+             * @deprecated - Remove this in next major version in favor of more consistent LOGOUT event
+             */
+            if (this.cacheConfig.cacheLocation === BrowserCacheLocation.LocalStorage) {
+                this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, account.getAccountInfo());
+            }
         }
         /**
          * Removes given idToken from the cache and from the key map
@@ -11734,28 +11958,7 @@
          * @returns
          */
         getTokenKeys() {
-            this.logger.trace("BrowserCacheManager.getTokenKeys called");
-            const item = this.getItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`);
-            if (item) {
-                const tokenKeys = this.validateAndParseJson(item);
-                if (tokenKeys &&
-                    tokenKeys.hasOwnProperty("idToken") &&
-                    tokenKeys.hasOwnProperty("accessToken") &&
-                    tokenKeys.hasOwnProperty("refreshToken")) {
-                    return tokenKeys;
-                }
-                else {
-                    this.logger.error("BrowserCacheManager.getTokenKeys - Token keys found but in an unknown format. Returning empty key map.");
-                }
-            }
-            else {
-                this.logger.verbose("BrowserCacheManager.getTokenKeys - No token keys found");
-            }
-            return {
-                idToken: [],
-                accessToken: [],
-                refreshToken: [],
-            };
+            return getTokenKeys(this.clientId, this.browserStorage);
         }
         /**
          * Adds the given key to the token key map
@@ -11788,7 +11991,7 @@
                     this.logger.error(`BrowserCacheManager:addTokenKey - CredentialType provided invalid. CredentialType: ${type}`);
                     throw createClientAuthError(unexpectedCredentialType);
             }
-            this.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
+            this.browserStorage.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
         }
         /**
          * Removes the given key from the token key map
@@ -11836,14 +12039,14 @@
                     this.logger.error(`BrowserCacheManager:removeTokenKey - CredentialType provided invalid. CredentialType: ${type}`);
                     throw createClientAuthError(unexpectedCredentialType);
             }
-            this.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
+            this.browserStorage.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
         }
         /**
          * generates idToken entity from a string
          * @param idTokenKey
          */
         getIdTokenCredential(idTokenKey) {
-            const value = this.getItem(idTokenKey);
+            const value = this.browserStorage.getUserData(idTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getIdTokenCredential: called, no cache hit");
                 this.removeTokenKey(idTokenKey, CredentialType.ID_TOKEN);
@@ -11862,10 +12065,10 @@
          * set IdToken credential to the platform cache
          * @param idToken
          */
-        setIdTokenCredential(idToken) {
+        async setIdTokenCredential(idToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setIdTokenCredential called");
             const idTokenKey = generateCredentialKey(idToken);
-            this.setItem(idTokenKey, JSON.stringify(idToken));
+            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(idTokenKey, JSON.stringify(idToken), correlationId);
             this.addTokenKey(idTokenKey, CredentialType.ID_TOKEN);
         }
         /**
@@ -11873,7 +12076,7 @@
          * @param key
          */
         getAccessTokenCredential(accessTokenKey) {
-            const value = this.getItem(accessTokenKey);
+            const value = this.browserStorage.getUserData(accessTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getAccessTokenCredential: called, no cache hit");
                 this.removeTokenKey(accessTokenKey, CredentialType.ACCESS_TOKEN);
@@ -11893,10 +12096,10 @@
          * set accessToken credential to the platform cache
          * @param accessToken
          */
-        setAccessTokenCredential(accessToken) {
+        async setAccessTokenCredential(accessToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setAccessTokenCredential called");
             const accessTokenKey = generateCredentialKey(accessToken);
-            this.setItem(accessTokenKey, JSON.stringify(accessToken));
+            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(accessTokenKey, JSON.stringify(accessToken), correlationId);
             this.addTokenKey(accessTokenKey, CredentialType.ACCESS_TOKEN);
         }
         /**
@@ -11904,7 +12107,7 @@
          * @param refreshTokenKey
          */
         getRefreshTokenCredential(refreshTokenKey) {
-            const value = this.getItem(refreshTokenKey);
+            const value = this.browserStorage.getUserData(refreshTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getRefreshTokenCredential: called, no cache hit");
                 this.removeTokenKey(refreshTokenKey, CredentialType.REFRESH_TOKEN);
@@ -11924,10 +12127,10 @@
          * set refreshToken credential to the platform cache
          * @param refreshToken
          */
-        setRefreshTokenCredential(refreshToken) {
+        async setRefreshTokenCredential(refreshToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setRefreshTokenCredential called");
             const refreshTokenKey = generateCredentialKey(refreshToken);
-            this.setItem(refreshTokenKey, JSON.stringify(refreshToken));
+            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(refreshTokenKey, JSON.stringify(refreshToken), correlationId);
             this.addTokenKey(refreshTokenKey, CredentialType.REFRESH_TOKEN);
         }
         /**
@@ -11935,7 +12138,7 @@
          * @param appMetadataKey
          */
         getAppMetadata(appMetadataKey) {
-            const value = this.getItem(appMetadataKey);
+            const value = this.browserStorage.getItem(appMetadataKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getAppMetadata: called, no cache hit");
                 return null;
@@ -11956,14 +12159,14 @@
         setAppMetadata(appMetadata) {
             this.logger.trace("BrowserCacheManager.setAppMetadata called");
             const appMetadataKey = generateAppMetadataKey(appMetadata);
-            this.setItem(appMetadataKey, JSON.stringify(appMetadata));
+            this.browserStorage.setItem(appMetadataKey, JSON.stringify(appMetadata));
         }
         /**
          * fetch server telemetry entity from the platform cache
          * @param serverTelemetryKey
          */
         getServerTelemetry(serverTelemetryKey) {
-            const value = this.getItem(serverTelemetryKey);
+            const value = this.browserStorage.getItem(serverTelemetryKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getServerTelemetry: called, no cache hit");
                 return null;
@@ -11984,7 +12187,7 @@
          */
         setServerTelemetry(serverTelemetryKey, serverTelemetry) {
             this.logger.trace("BrowserCacheManager.setServerTelemetry called");
-            this.setItem(serverTelemetryKey, JSON.stringify(serverTelemetry));
+            this.browserStorage.setItem(serverTelemetryKey, JSON.stringify(serverTelemetry));
         }
         /**
          *
@@ -12044,25 +12247,9 @@
          */
         getActiveAccount() {
             const activeAccountKeyFilters = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS);
-            const activeAccountValueFilters = this.getItem(activeAccountKeyFilters);
+            const activeAccountValueFilters = this.browserStorage.getItem(activeAccountKeyFilters);
             if (!activeAccountValueFilters) {
-                // if new active account cache type isn't found, it's an old version, so look for that instead
-                this.logger.trace("BrowserCacheManager.getActiveAccount: No active account filters cache schema found, looking for legacy schema");
-                const activeAccountKeyLocal = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT);
-                const activeAccountValueLocal = this.getItem(activeAccountKeyLocal);
-                if (!activeAccountValueLocal) {
-                    this.logger.trace("BrowserCacheManager.getActiveAccount: No active account found");
-                    return null;
-                }
-                const activeAccount = this.getAccountInfoFilteredBy({
-                    localAccountId: activeAccountValueLocal,
-                });
-                if (activeAccount) {
-                    this.logger.trace("BrowserCacheManager.getActiveAccount: Legacy active account cache schema found");
-                    this.logger.trace("BrowserCacheManager.getActiveAccount: Adding active account filters cache schema");
-                    this.setActiveAccount(activeAccount);
-                    return activeAccount;
-                }
+                this.logger.trace("BrowserCacheManager.getActiveAccount: No active account filters found");
                 return null;
             }
             const activeAccountValueObj = this.validateAndParseJson(activeAccountValueFilters);
@@ -12083,7 +12270,6 @@
          */
         setActiveAccount(account) {
             const activeAccountKey = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS);
-            const activeAccountKeyLocal = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT);
             if (account) {
                 this.logger.verbose("setActiveAccount: Active account set");
                 const activeAccountValue = {
@@ -12092,20 +12278,19 @@
                     tenantId: account.tenantId,
                 };
                 this.browserStorage.setItem(activeAccountKey, JSON.stringify(activeAccountValue));
-                this.browserStorage.setItem(activeAccountKeyLocal, account.localAccountId);
             }
             else {
                 this.logger.verbose("setActiveAccount: No account passed, active account not set");
                 this.browserStorage.removeItem(activeAccountKey);
-                this.browserStorage.removeItem(activeAccountKeyLocal);
             }
+            this.eventHandler.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
         }
         /**
          * fetch throttling entity from the platform cache
          * @param throttlingCacheKey
          */
         getThrottlingCache(throttlingCacheKey) {
-            const value = this.getItem(throttlingCacheKey);
+            const value = this.browserStorage.getItem(throttlingCacheKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getThrottlingCache: called, no cache hit");
                 return null;
@@ -12126,7 +12311,7 @@
          */
         setThrottlingCache(throttlingCacheKey, throttlingCache) {
             this.logger.trace("BrowserCacheManager.setThrottlingCache called");
-            this.setItem(throttlingCacheKey, JSON.stringify(throttlingCache));
+            this.browserStorage.setItem(throttlingCacheKey, JSON.stringify(throttlingCache));
         }
         /**
          * Gets cache item with given key.
@@ -12136,7 +12321,7 @@
         getTemporaryCache(cacheKey, generateKey) {
             const key = generateKey ? this.generateCacheKey(cacheKey) : cacheKey;
             if (this.cacheConfig.storeAuthStateInCookie) {
-                const itemCookie = this.getItemCookie(key);
+                const itemCookie = this.cookieStorage.getItem(key);
                 if (itemCookie) {
                     this.logger.trace("BrowserCacheManager.getTemporaryCache: storeAuthStateInCookies set to true, retrieving from cookies");
                     return itemCookie;
@@ -12171,7 +12356,7 @@
             this.temporaryCacheStorage.setItem(key, value);
             if (this.cacheConfig.storeAuthStateInCookie) {
                 this.logger.trace("BrowserCacheManager.setTemporaryCache: storeAuthStateInCookie set to true, setting item cookie");
-                this.setItemCookie(key, value);
+                this.cookieStorage.setItem(key, value, undefined, this.cacheConfig.secureCookies);
             }
         }
         /**
@@ -12190,7 +12375,7 @@
             this.temporaryCacheStorage.removeItem(key);
             if (this.cacheConfig.storeAuthStateInCookie) {
                 this.logger.trace("BrowserCacheManager.removeItem: storeAuthStateInCookie is true, clearing item cookie");
-                this.clearItemCookie(key);
+                this.cookieStorage.removeItem(key);
             }
         }
         /**
@@ -12247,79 +12432,6 @@
             }
         }
         /**
-         * Add value to cookies
-         * @param cookieName
-         * @param cookieValue
-         * @param expires
-         * @deprecated
-         */
-        setItemCookie(cookieName, cookieValue, expires) {
-            let cookieStr = `${encodeURIComponent(cookieName)}=${encodeURIComponent(cookieValue)};path=/;SameSite=Lax;`;
-            if (expires) {
-                const expireTime = this.getCookieExpirationTime(expires);
-                cookieStr += `expires=${expireTime};`;
-            }
-            if (this.cacheConfig.secureCookies) {
-                cookieStr += "Secure;";
-            }
-            document.cookie = cookieStr;
-        }
-        /**
-         * Get one item by key from cookies
-         * @param cookieName
-         * @deprecated
-         */
-        getItemCookie(cookieName) {
-            const name = `${encodeURIComponent(cookieName)}=`;
-            const cookieList = document.cookie.split(";");
-            for (let i = 0; i < cookieList.length; i++) {
-                let cookie = cookieList[i];
-                while (cookie.charAt(0) === " ") {
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(name) === 0) {
-                    return decodeURIComponent(cookie.substring(name.length, cookie.length));
-                }
-            }
-            return Constants.EMPTY_STRING;
-        }
-        /**
-         * Clear all msal-related cookies currently set in the browser. Should only be used to clear temporary cache items.
-         * @deprecated
-         */
-        clearMsalCookies() {
-            const cookiePrefix = `${Constants.CACHE_PREFIX}.${this.clientId}`;
-            const cookieList = document.cookie.split(";");
-            cookieList.forEach((cookie) => {
-                while (cookie.charAt(0) === " ") {
-                    // eslint-disable-next-line no-param-reassign
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(cookiePrefix) === 0) {
-                    const cookieKey = cookie.split("=")[0];
-                    this.clearItemCookie(cookieKey);
-                }
-            });
-        }
-        /**
-         * Clear an item in the cookies by key
-         * @param cookieName
-         * @deprecated
-         */
-        clearItemCookie(cookieName) {
-            this.setItemCookie(cookieName, Constants.EMPTY_STRING, -1);
-        }
-        /**
-         * Get cookie expiration time
-         * @param cookieLifeDays
-         * @deprecated
-         */
-        getCookieExpirationTime(cookieLifeDays) {
-            const today = new Date();
-            const expr = new Date(today.getTime() + cookieLifeDays * this.COOKIE_LIFE_MULTIPLIER);
-            return expr.toUTCString();
-        }
-        /**
          * Prepend msal.<client-id> to each key; Skip for any JSON object as Key (defined schemas do not need the key appended: AccessToken Keys or the upcoming schema)
          * @param key
          * @param addInstanceId
@@ -12327,8 +12439,7 @@
         generateCacheKey(key) {
             const generatedKey = this.validateAndParseJson(key);
             if (!generatedKey) {
-                if (StringUtils.startsWith(key, Constants.CACHE_PREFIX) ||
-                    StringUtils.startsWith(key, PersistentCacheKeys.ADAL_ID_TOKEN)) {
+                if (StringUtils.startsWith(key, Constants.CACHE_PREFIX)) {
                     return key;
                 }
                 return `${Constants.CACHE_PREFIX}.${this.clientId}.${key}`;
@@ -12442,7 +12553,6 @@
                 this.logger.infoPii(`BrowserCacheManager.cleanRequestByState: Removing temporary cache items for state: ${cachedState}`);
                 this.resetRequestCache(cachedState || Constants.EMPTY_STRING);
             }
-            this.clearMsalCookies();
         }
         /**
          * Looks in temporary cache for any state values with the provided interactionType and removes all temporary cache items for that state
@@ -12470,7 +12580,6 @@
                     this.resetRequestCache(stateValue);
                 }
             });
-            this.clearMsalCookies();
             this.setInteractionInProgress(false);
         }
         cacheCodeRequest(authCodeRequest) {
@@ -12557,59 +12666,6 @@
             }
         }
         /**
-         * Returns username retrieved from ADAL or MSAL v1 idToken
-         * @deprecated
-         */
-        getLegacyLoginHint() {
-            // Only check for adal/msal token if no SSO params are being used
-            const adalIdTokenString = this.getTemporaryCache(PersistentCacheKeys.ADAL_ID_TOKEN);
-            if (adalIdTokenString) {
-                this.browserStorage.removeItem(PersistentCacheKeys.ADAL_ID_TOKEN);
-                this.logger.verbose("Cached ADAL id token retrieved.");
-            }
-            // Check for cached MSAL v1 id token
-            const msalIdTokenString = this.getTemporaryCache(PersistentCacheKeys.ID_TOKEN, true);
-            if (msalIdTokenString) {
-                this.browserStorage.removeItem(this.generateCacheKey(PersistentCacheKeys.ID_TOKEN));
-                this.logger.verbose("Cached MSAL.js v1 id token retrieved");
-            }
-            const cachedIdTokenString = msalIdTokenString || adalIdTokenString;
-            if (cachedIdTokenString) {
-                const idTokenClaims = extractTokenClaims(cachedIdTokenString, base64Decode);
-                if (idTokenClaims.preferred_username) {
-                    this.logger.verbose("No SSO params used and ADAL/MSAL v1 token retrieved, setting ADAL/MSAL v1 preferred_username as loginHint");
-                    return idTokenClaims.preferred_username;
-                }
-                else if (idTokenClaims.upn) {
-                    this.logger.verbose("No SSO params used and ADAL/MSAL v1 token retrieved, setting ADAL/MSAL v1 upn as loginHint");
-                    return idTokenClaims.upn;
-                }
-                else {
-                    this.logger.verbose("No SSO params used and ADAL/MSAL v1 token retrieved, however, no account hint claim found. Enable preferred_username or upn id token claim to get SSO.");
-                }
-            }
-            return null;
-        }
-        /**
-         * Updates a credential's cache key if the current cache key is outdated
-         */
-        updateCredentialCacheKey(currentCacheKey, credential) {
-            const updatedCacheKey = generateCredentialKey(credential);
-            if (currentCacheKey !== updatedCacheKey) {
-                const cacheItem = this.getItem(currentCacheKey);
-                if (cacheItem) {
-                    this.browserStorage.removeItem(currentCacheKey);
-                    this.setItem(updatedCacheKey, cacheItem);
-                    this.logger.verbose(`Updated an outdated ${credential.credentialType} cache key`);
-                    return updatedCacheKey;
-                }
-                else {
-                    this.logger.error(`Attempted to update an outdated ${credential.credentialType} cache key but no item matching the outdated key was found in storage`);
-                }
-            }
-            return currentCacheKey;
-        }
-        /**
          * Builds credential entities from AuthenticationResult object and saves the resulting credentials to the cache
          * @param result
          * @param request
@@ -12634,7 +12690,7 @@
                 idToken: idTokenEntity,
                 accessToken: accessTokenEntity,
             };
-            return this.saveCacheRecord(cacheRecord);
+            return this.saveCacheRecord(cacheRecord, result.correlationId);
         }
         /**
          * saves a cache record
@@ -12642,9 +12698,9 @@
          * @param storeInCache {?StoreInCache}
          * @param correlationId {?string} correlation id
          */
-        async saveCacheRecord(cacheRecord, storeInCache, correlationId) {
+        async saveCacheRecord(cacheRecord, correlationId, storeInCache) {
             try {
-                await super.saveCacheRecord(cacheRecord, storeInCache, correlationId);
+                await super.saveCacheRecord(cacheRecord, correlationId, storeInCache);
             }
             catch (e) {
                 if (e instanceof CacheError &&
@@ -12664,7 +12720,28 @@
             }
         }
     }
-    const DEFAULT_BROWSER_CACHE_MANAGER = (clientId, logger) => {
+    /**
+     * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured cacheLocation.
+     * @param cacheLocation
+     */
+    function getStorageImplementation(clientId, cacheLocation, logger, performanceClient) {
+        try {
+            switch (cacheLocation) {
+                case BrowserCacheLocation.LocalStorage:
+                    return new LocalStorage(clientId, logger, performanceClient);
+                case BrowserCacheLocation.SessionStorage:
+                    return new SessionStorage();
+                case BrowserCacheLocation.MemoryStorage:
+                default:
+                    break;
+            }
+        }
+        catch (e) {
+            logger.error(e);
+        }
+        return new MemoryStorage();
+    }
+    const DEFAULT_BROWSER_CACHE_MANAGER = (clientId, logger, performanceClient, eventHandler) => {
         const cacheOptions = {
             cacheLocation: BrowserCacheLocation.MemoryStorage,
             temporaryCacheLocation: BrowserCacheLocation.MemoryStorage,
@@ -12673,7 +12750,7 @@
             cacheMigrationEnabled: false,
             claimsBasedCachingEnabled: false,
         };
-        return new BrowserCacheManager(clientId, cacheOptions, DEFAULT_CRYPTO_IMPLEMENTATION, logger);
+        return new BrowserCacheManager(clientId, cacheOptions, DEFAULT_CRYPTO_IMPLEMENTATION, logger, performanceClient, eventHandler);
     };
 
     /*
@@ -12807,43 +12884,13 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    const EventType = {
-        INITIALIZE_START: "msal:initializeStart",
-        INITIALIZE_END: "msal:initializeEnd",
-        ACCOUNT_ADDED: "msal:accountAdded",
-        ACCOUNT_REMOVED: "msal:accountRemoved",
-        ACTIVE_ACCOUNT_CHANGED: "msal:activeAccountChanged",
-        LOGIN_START: "msal:loginStart",
-        LOGIN_SUCCESS: "msal:loginSuccess",
-        LOGIN_FAILURE: "msal:loginFailure",
-        ACQUIRE_TOKEN_START: "msal:acquireTokenStart",
-        ACQUIRE_TOKEN_SUCCESS: "msal:acquireTokenSuccess",
-        ACQUIRE_TOKEN_FAILURE: "msal:acquireTokenFailure",
-        ACQUIRE_TOKEN_NETWORK_START: "msal:acquireTokenFromNetworkStart",
-        SSO_SILENT_START: "msal:ssoSilentStart",
-        SSO_SILENT_SUCCESS: "msal:ssoSilentSuccess",
-        SSO_SILENT_FAILURE: "msal:ssoSilentFailure",
-        ACQUIRE_TOKEN_BY_CODE_START: "msal:acquireTokenByCodeStart",
-        ACQUIRE_TOKEN_BY_CODE_SUCCESS: "msal:acquireTokenByCodeSuccess",
-        ACQUIRE_TOKEN_BY_CODE_FAILURE: "msal:acquireTokenByCodeFailure",
-        HANDLE_REDIRECT_START: "msal:handleRedirectStart",
-        HANDLE_REDIRECT_END: "msal:handleRedirectEnd",
-        POPUP_OPENED: "msal:popupOpened",
-        LOGOUT_START: "msal:logoutStart",
-        LOGOUT_SUCCESS: "msal:logoutSuccess",
-        LOGOUT_FAILURE: "msal:logoutFailure",
-        LOGOUT_END: "msal:logoutEnd",
-        RESTORE_FROM_BFCACHE: "msal:restoreFromBFCache",
-    };
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
+    const BROADCAST_CHANNEL_NAME = "msal.broadcast.event";
     class EventHandler {
         constructor(logger) {
             this.eventCallbacks = new Map();
             this.logger = logger || new Logger({});
+            this.broadcastChannel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+            this.invokeCrossTabCallbacks = this.invokeCrossTabCallbacks.bind(this);
         }
         /**
          * Adds event callbacks to array
@@ -12880,22 +12927,58 @@
          * @param error
          */
         emitEvent(eventType, interactionType, payload, error) {
-            if (typeof window !== "undefined") {
-                const message = {
-                    eventType: eventType,
-                    interactionType: interactionType || null,
-                    payload: payload || null,
-                    error: error || null,
-                    timestamp: Date.now(),
-                };
-                this.eventCallbacks.forEach(([callback, eventTypes], callbackId) => {
-                    if (eventTypes.length === 0 ||
-                        eventTypes.includes(eventType)) {
-                        this.logger.verbose(`Emitting event to callback ${callbackId}: ${eventType}`);
-                        callback.apply(null, [message]);
-                    }
-                });
+            const message = {
+                eventType: eventType,
+                interactionType: interactionType || null,
+                payload: payload || null,
+                error: error || null,
+                timestamp: Date.now(),
+            };
+            switch (eventType) {
+                case EventType.ACCOUNT_ADDED:
+                case EventType.ACCOUNT_REMOVED:
+                case EventType.ACTIVE_ACCOUNT_CHANGED:
+                    // Send event to other open tabs / MSAL instances on same domain
+                    this.broadcastChannel.postMessage(message);
+                    break;
+                default:
+                    // Emit event to callbacks registered in this instance
+                    this.invokeCallbacks(message);
+                    break;
             }
+        }
+        /**
+         * Invoke registered callbacks
+         * @param message
+         */
+        invokeCallbacks(message) {
+            this.eventCallbacks.forEach(([callback, eventTypes], callbackId) => {
+                if (eventTypes.length === 0 ||
+                    eventTypes.includes(message.eventType)) {
+                    this.logger.verbose(`Emitting event to callback ${callbackId}: ${message.eventType}`);
+                    callback.apply(null, [message]);
+                }
+            });
+        }
+        /**
+         * Wrapper around invokeCallbacks to handle broadcast events received from other tabs/instances
+         * @param event
+         */
+        invokeCrossTabCallbacks(event) {
+            const message = event.data;
+            this.invokeCallbacks(message);
+        }
+        /**
+         * Listen for events broadcasted from other tabs/instances
+         */
+        subscribeCrossTab() {
+            this.broadcastChannel.addEventListener("message", this.invokeCrossTabCallbacks);
+        }
+        /**
+         * Unsubscribe from broadcast events
+         */
+        unsubscribeCrossTab() {
+            this.broadcastChannel.removeEventListener("message", this.invokeCrossTabCallbacks);
         }
     }
 
@@ -13325,18 +13408,15 @@
                 responseMode: this.config.auth.OIDCOptions
                     .serverResponseType,
             };
+            // Skip active account lookup if either login hint or session id is set
+            if (request.loginHint || request.sid) {
+                return validatedRequest;
+            }
             const account = request.account || this.browserStorage.getActiveAccount();
             if (account) {
                 this.logger.verbose("Setting validated request account", this.correlationId);
                 this.logger.verbosePii(`Setting validated request account: ${account.homeAccountId}`, this.correlationId);
                 validatedRequest.account = account;
-            }
-            // Check for ADAL/MSAL v1 SSO
-            if (!validatedRequest.loginHint && !account) {
-                const legacyLoginHint = this.browserStorage.getLegacyLoginHint();
-                if (legacyLoginHint) {
-                    validatedRequest.loginHint = legacyLoginHint;
-                }
             }
             return validatedRequest;
         }
@@ -13482,7 +13562,6 @@
             this.nativeMessageHandler = provider;
             this.nativeStorageManager = nativeStorageImpl;
             this.silentCacheClient = new SilentCacheClient(config, this.nativeStorageManager, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
-            this.serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
             const extensionName = this.nativeMessageHandler.getExtensionId() ===
                 NativeConstants.PREFERRED_EXTENSION_ID
                 ? "chrome"
@@ -13517,6 +13596,7 @@
             // start the perf measurement
             const nativeATMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.NativeInteractionClientAcquireToken, request.correlationId);
             const reqTimestamp = nowSeconds();
+            const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
             try {
                 // initialize native request
                 const nativeRequest = await this.initializeNativeRequest(request);
@@ -13549,7 +13629,7 @@
                         isNativeBroker: true,
                         requestId: result.requestId,
                     });
-                    this.serverTelemetryManager.clearNativeBrokerErrorCode();
+                    serverTelemetryManager.clearNativeBrokerErrorCode();
                     return result;
                 })
                     .catch((error) => {
@@ -13564,7 +13644,7 @@
             }
             catch (e) {
                 if (e instanceof NativeAuthError) {
-                    this.serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
+                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
                 }
                 throw e;
             }
@@ -13641,7 +13721,8 @@
             catch (e) {
                 // Only throw fatal errors here to allow application to fallback to regular redirect. Otherwise proceed and the error will be thrown in handleRedirectPromise
                 if (e instanceof NativeAuthError) {
-                    this.serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
+                    const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
                     if (isFatalNativeAuthError(e)) {
                         throw e;
                     }
@@ -13696,7 +13777,8 @@
                 const result = this.handleNativeResponse(response, request, reqTimestamp);
                 this.browserStorage.setInteractionInProgress(false);
                 const res = await result;
-                this.serverTelemetryManager.clearNativeBrokerErrorCode();
+                const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                serverTelemetryManager.clearNativeBrokerErrorCode();
                 return res;
             }
             catch (e) {
@@ -13741,8 +13823,8 @@
             // generate authenticationResult
             const result = await this.generateAuthenticationResult(response, request, idTokenClaims, baseAccount, authority.canonicalAuthority, reqTimestamp);
             // cache accounts and tokens in the appropriate storage
-            this.cacheAccount(baseAccount);
-            this.cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, response.access_token, result.tenantId, reqTimestamp);
+            await this.cacheAccount(baseAccount);
+            await this.cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, response.access_token, result.tenantId, reqTimestamp);
             return result;
         }
         /**
@@ -13866,9 +13948,9 @@
          * cache the account entity in browser storage
          * @param accountEntity
          */
-        cacheAccount(accountEntity) {
+        async cacheAccount(accountEntity) {
             // Store the account info and hence `nativeAccountId` in browser cache
-            this.browserStorage.setAccount(accountEntity);
+            await this.browserStorage.setAccount(accountEntity, this.correlationId);
             // Remove any existing cached tokens for this account in browser storage
             this.browserStorage.removeAccountContext(accountEntity).catch((e) => {
                 this.logger.error(`Error occurred while removing account context from browser storage. ${e}`);
@@ -13899,7 +13981,7 @@
                 idToken: cachedIdToken,
                 accessToken: cachedAccessToken,
             };
-            void this.nativeStorageManager.saveCacheRecord(nativeCacheRecord, request.storeInCache);
+            return this.nativeStorageManager.saveCacheRecord(nativeCacheRecord, this.correlationId, request.storeInCache);
         }
         addTelemetryFromNativeResponse(response) {
             const mats = this.getMATSFromResponse(response);
@@ -14334,15 +14416,15 @@
          * @param nativeExtensionProvider
          * @param authenticationScheme
          */
-        static isNativeAvailable(config, logger, nativeExtensionProvider, authenticationScheme) {
-            logger.trace("isNativeAvailable called");
-            if (!config.system.allowNativeBroker) {
-                logger.trace("isNativeAvailable: allowNativeBroker is not enabled, returning false");
+        static isPlatformBrokerAvailable(config, logger, nativeExtensionProvider, authenticationScheme) {
+            logger.trace("isPlatformBrokerAvailable called");
+            if (!config.system.allowPlatformBroker) {
+                logger.trace("isPlatformBrokerAvailable: allowPlatformBroker is not enabled, returning false");
                 // Developer disabled WAM
                 return false;
             }
             if (!nativeExtensionProvider) {
-                logger.trace("isNativeAvailable: WAM extension provider is not initialized, returning false");
+                logger.trace("isPlatformBrokerAvailable: Platform extension provider is not initialized, returning false");
                 // Extension is not available
                 return false;
             }
@@ -14350,10 +14432,10 @@
                 switch (authenticationScheme) {
                     case AuthenticationScheme.BEARER:
                     case AuthenticationScheme.POP:
-                        logger.trace("isNativeAvailable: authenticationScheme is supported, returning true");
+                        logger.trace("isPlatformBrokerAvailable: authenticationScheme is supported, returning true");
                         return true;
                     default:
-                        logger.trace("isNativeAvailable: authenticationScheme is not supported, returning false");
+                        logger.trace("isPlatformBrokerAvailable: authenticationScheme is not supported, returning false");
                         return false;
                 }
             }
@@ -14515,6 +14597,7 @@
                     popupWindowAttributes: request.popupWindowAttributes || {},
                     popupWindowParent: request.popupWindowParent ?? window,
                 };
+                this.performanceClient.addFields({ isAsyncPopup: this.config.system.asyncPopups }, this.correlationId);
                 // asyncPopups flag is true. Acquires token without first opening popup. Popup will be opened later asynchronously.
                 if (this.config.system.asyncPopups) {
                     this.logger.verbose("asyncPopups set to true, acquiring token");
@@ -14590,17 +14673,17 @@
                     requestExtraQueryParameters: validRequest.extraQueryParameters,
                     account: validRequest.account,
                 });
-                const isNativeBroker = NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme);
+                const isPlatformBroker = NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme);
                 // Start measurement for server calls with native brokering enabled
                 let fetchNativeAccountIdMeasurement;
-                if (isNativeBroker) {
+                if (isPlatformBroker) {
                     fetchNativeAccountIdMeasurement =
                         this.performanceClient.startMeasurement(PerformanceEvents.FetchAccountIdWithNativeBroker, request.correlationId);
                 }
                 // Create acquire token url.
                 const navigateUrl = await authClient.getAuthCodeUrl({
                     ...validRequest,
-                    nativeBroker: isNativeBroker,
+                    platformBroker: isPlatformBroker,
                 });
                 // Create popup interaction handler.
                 const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
@@ -15117,7 +15200,7 @@
                 // Create acquire token url.
                 const navigateUrl = await authClient.getAuthCodeUrl({
                     ...validRequest,
-                    nativeBroker: NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme),
+                    platformBroker: NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme),
                 });
                 const redirectStartPage = this.getRedirectStartPage(request.redirectStartPage);
                 this.logger.verbosePii(`Redirect start page: ${redirectStartPage}`);
@@ -15631,7 +15714,7 @@
             // Create authorize request url
             const navigateUrl = await invokeAsync(authClient.getAuthCodeUrl.bind(authClient), PerformanceEvents.GetAuthCodeUrl, this.logger, this.performanceClient, correlationId)({
                 ...silentRequest,
-                nativeBroker: NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeMessageHandler, silentRequest.authenticationScheme),
+                platformBroker: NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, silentRequest.authenticationScheme),
             });
             // Create silent handler
             const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
@@ -15746,10 +15829,11 @@
          * @param options
          * @returns `AuthenticationResult` for the response that was loaded.
          */
-        loadExternalTokens(request, response, options) {
+        async loadExternalTokens(request, response, options) {
             if (!this.isBrowserEnvironment) {
                 throw createBrowserAuthError(nonBrowserEnvironment);
             }
+            const correlationId = request.correlationId || createNewGuid();
             const idTokenClaims = response.id_token
                 ? extractTokenClaims(response.id_token, base64Decode)
                 : undefined;
@@ -15763,10 +15847,10 @@
             const authority = request.authority
                 ? new Authority(Authority.generateAuthority(request.authority, request.azureCloudOptions), this.config.system.networkClient, this.storage, authorityOptions, this.logger, request.correlationId || createNewGuid())
                 : undefined;
-            const cacheRecordAccount = this.loadAccount(request, options.clientInfo || response.client_info || "", idTokenClaims, authority);
-            const idToken = this.loadIdToken(response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, cacheRecordAccount.realm);
-            const accessToken = this.loadAccessToken(request, response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, cacheRecordAccount.realm, options);
-            const refreshToken = this.loadRefreshToken(response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment);
+            const cacheRecordAccount = await this.loadAccount(request, options.clientInfo || response.client_info || "", correlationId, idTokenClaims, authority);
+            const idToken = await this.loadIdToken(response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, cacheRecordAccount.realm, correlationId);
+            const accessToken = await this.loadAccessToken(request, response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, cacheRecordAccount.realm, options, correlationId);
+            const refreshToken = await this.loadRefreshToken(response, cacheRecordAccount.homeAccountId, cacheRecordAccount.environment, correlationId);
             return this.generateAuthenticationResult(request, {
                 account: cacheRecordAccount,
                 idToken,
@@ -15783,11 +15867,11 @@
          * @param requestHomeAccountId
          * @returns `AccountEntity`
          */
-        loadAccount(request, clientInfo, idTokenClaims, authority) {
+        async loadAccount(request, clientInfo, correlationId, idTokenClaims, authority) {
             this.logger.verbose("TokenCache - loading account");
             if (request.account) {
                 const accountEntity = AccountEntity.createFromAccountInfo(request.account);
-                this.storage.setAccount(accountEntity);
+                await this.storage.setAccount(accountEntity, correlationId);
                 return accountEntity;
             }
             else if (!authority || (!clientInfo && !idTokenClaims)) {
@@ -15799,7 +15883,7 @@
             const cachedAccount = buildAccountToCache(this.storage, authority, homeAccountId, base64Decode, idTokenClaims, clientInfo, authority.hostnameAndPort, claimsTenantId, undefined, // authCodePayload
             undefined, // nativeAccountId
             this.logger);
-            this.storage.setAccount(cachedAccount);
+            await this.storage.setAccount(cachedAccount, correlationId);
             return cachedAccount;
         }
         /**
@@ -15810,14 +15894,14 @@
          * @param tenantId
          * @returns `IdTokenEntity`
          */
-        loadIdToken(response, homeAccountId, environment, tenantId) {
+        async loadIdToken(response, homeAccountId, environment, tenantId, correlationId) {
             if (!response.id_token) {
                 this.logger.verbose("TokenCache - no id token found in response");
                 return null;
             }
             this.logger.verbose("TokenCache - loading id token");
             const idTokenEntity = createIdTokenEntity(homeAccountId, environment, response.id_token, this.config.auth.clientId, tenantId);
-            this.storage.setIdTokenCredential(idTokenEntity);
+            await this.storage.setIdTokenCredential(idTokenEntity, correlationId);
             return idTokenEntity;
         }
         /**
@@ -15829,7 +15913,7 @@
          * @param tenantId
          * @returns `AccessTokenEntity`
          */
-        loadAccessToken(request, response, homeAccountId, environment, tenantId, options) {
+        async loadAccessToken(request, response, homeAccountId, environment, tenantId, options, correlationId) {
             if (!response.access_token) {
                 this.logger.verbose("TokenCache - no access token found in response");
                 return null;
@@ -15853,7 +15937,7 @@
                 (response.ext_expires_in || response.expires_in) +
                     new Date().getTime() / 1000;
             const accessTokenEntity = createAccessTokenEntity(homeAccountId, environment, response.access_token, this.config.auth.clientId, tenantId, scopes.printScopes(), expiresOn, extendedExpiresOn, base64Decode);
-            this.storage.setAccessTokenCredential(accessTokenEntity);
+            await this.storage.setAccessTokenCredential(accessTokenEntity, correlationId);
             return accessTokenEntity;
         }
         /**
@@ -15864,7 +15948,7 @@
          * @param environment
          * @returns `RefreshTokenEntity`
          */
-        loadRefreshToken(response, homeAccountId, environment) {
+        async loadRefreshToken(response, homeAccountId, environment, correlationId) {
             if (!response.refresh_token) {
                 this.logger.verbose("TokenCache - no refresh token found in response");
                 return null;
@@ -15872,7 +15956,7 @@
             this.logger.verbose("TokenCache - loading refresh token");
             const refreshTokenEntity = createRefreshTokenEntity(homeAccountId, environment, response.refresh_token, this.config.auth.clientId, response.foci, undefined, // userAssertionHash
             response.refresh_token_expires_in);
-            this.storage.setRefreshTokenCredential(refreshTokenEntity);
+            await this.storage.setRefreshTokenCredential(refreshTokenEntity, correlationId);
             return refreshTokenEntity;
         }
         /**
@@ -16068,8 +16152,8 @@
             this.eventHandler = new EventHandler(this.logger);
             // Initialize the browser storage class.
             this.browserStorage = this.isBrowserEnvironment
-                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, buildStaticAuthorityOptions(this.config.auth), this.performanceClient)
-                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger);
+                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, this.performanceClient, this.eventHandler, buildStaticAuthorityOptions(this.config.auth))
+                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger, this.performanceClient, this.eventHandler);
             // initialize in memory storage for native flows
             const nativeCacheOptions = {
                 cacheLocation: BrowserCacheLocation.MemoryStorage,
@@ -16079,7 +16163,7 @@
                 cacheMigrationEnabled: false,
                 claimsBasedCachingEnabled: false,
             };
-            this.nativeInternalStorage = new BrowserCacheManager(this.config.auth.clientId, nativeCacheOptions, this.browserCrypto, this.logger, undefined, this.performanceClient);
+            this.nativeInternalStorage = new BrowserCacheManager(this.config.auth.clientId, nativeCacheOptions, this.browserCrypto, this.logger, this.performanceClient, this.eventHandler);
             // Initialize the token cache
             this.tokenCache = new TokenCache(this.config, this.browserStorage, this.logger, this.browserCrypto);
             this.activeSilentTokenRequests = new Map();
@@ -16088,10 +16172,6 @@
             // Register listener functions
             this.trackPageVisibilityWithMeasurement =
                 this.trackPageVisibilityWithMeasurement.bind(this);
-            // account storage events
-            this.listeningToStorageEvents = false;
-            this.handleAccountCacheChange =
-                this.handleAccountCacheChange.bind(this);
         }
         static async createController(operatingContext, request) {
             const controller = new StandardController(operatingContext);
@@ -16122,10 +16202,11 @@
                 return;
             }
             const initCorrelationId = request?.correlationId || this.getRequestCorrelationId();
-            const allowNativeBroker = this.config.system.allowNativeBroker;
+            const allowPlatformBroker = this.config.system.allowPlatformBroker;
             const initMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.InitializeClientApplication, initCorrelationId);
             this.eventHandler.emitEvent(EventType.INITIALIZE_START);
-            if (allowNativeBroker) {
+            await invokeAsync(this.browserStorage.initialize.bind(this.browserStorage), PerformanceEvents.InitializeCache, this.logger, this.performanceClient, initCorrelationId)(initCorrelationId);
+            if (allowPlatformBroker) {
                 try {
                     this.nativeExtensionProvider =
                         await NativeMessageHandler.createProvider(this.logger, this.config.system.nativeBrokerHandshakeTimeout, this.performanceClient);
@@ -16140,7 +16221,10 @@
             }
             this.initialized = true;
             this.eventHandler.emitEvent(EventType.INITIALIZE_END);
-            initMeasurement.end({ allowNativeBroker, success: true });
+            initMeasurement.end({
+                allowPlatformBroker: allowPlatformBroker,
+                success: true,
+            });
         }
         // #region Redirect Flow
         /**
@@ -16184,7 +16268,7 @@
             const loggedInAccounts = this.getAllAccounts();
             const request = this.browserStorage.getCachedNativeRequest();
             const useNative = request &&
-                NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeExtensionProvider) &&
+                NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider) &&
                 this.nativeExtensionProvider &&
                 !hash;
             const correlationId = useNative
@@ -16313,7 +16397,8 @@
                     this.eventHandler.emitEvent(EventType.LOGIN_START, exports.InteractionType.Redirect, request);
                 }
                 let result;
-                if (this.nativeExtensionProvider && this.canUseNative(request)) {
+                if (this.nativeExtensionProvider &&
+                    this.canUsePlatformBroker(request)) {
                     const nativeClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenRedirect, this.performanceClient, this.nativeExtensionProvider, this.getNativeAccountId(request), this.nativeInternalStorage, correlationId);
                     result = nativeClient
                         .acquireTokenRedirect(request, atrMeasurement)
@@ -16384,7 +16469,7 @@
                 this.eventHandler.emitEvent(EventType.LOGIN_START, exports.InteractionType.Popup, request);
             }
             let result;
-            if (this.canUseNative(request)) {
+            if (this.canUsePlatformBroker(request)) {
                 result = this.acquireTokenNative({
                     ...request,
                     correlationId,
@@ -16501,7 +16586,7 @@
             this.logger.verbose("ssoSilent called", correlationId);
             this.eventHandler.emitEvent(EventType.SSO_SILENT_START, exports.InteractionType.Silent, validRequest);
             let result;
-            if (this.canUseNative(validRequest)) {
+            if (this.canUsePlatformBroker(validRequest)) {
                 result = this.acquireTokenNative(validRequest, ApiId.ssoSilent).catch((e) => {
                     // If native token acquisition fails for availability reasons fallback to standard flow
                     if (e instanceof NativeAuthError && isFatalNativeAuthError(e)) {
@@ -16599,7 +16684,7 @@
                     return await response;
                 }
                 else if (request.nativeAccountId) {
-                    if (this.canUseNative(request, request.nativeAccountId)) {
+                    if (this.canUsePlatformBroker(request, request.nativeAccountId)) {
                         const result = await this.acquireTokenNative({
                             ...request,
                             correlationId,
@@ -16846,7 +16931,7 @@
             this.logger.verbose("hydrateCache called");
             // Account gets saved to browser storage regardless of native or not
             const accountEntity = AccountEntity.createFromAccountInfo(result.account, result.cloudGraphHostName, result.msGraphHost);
-            this.browserStorage.setAccount(accountEntity);
+            await this.browserStorage.setAccount(accountEntity, result.correlationId);
             if (result.fromNativeBroker) {
                 this.logger.verbose("Response was from native broker, storing in-memory");
                 // Tokens from native broker are stored in-memory
@@ -16870,13 +16955,13 @@
             return nativeClient.acquireToken(request);
         }
         /**
-         * Returns boolean indicating if this request can use the native broker
+         * Returns boolean indicating if this request can use the platform broker
          * @param request
          */
-        canUseNative(request, accountId) {
-            this.logger.trace("canUseNative called");
-            if (!NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeExtensionProvider, request.authenticationScheme)) {
-                this.logger.trace("canUseNative: isNativeAvailable returned false, returning false");
+        canUsePlatformBroker(request, accountId) {
+            this.logger.trace("canUsePlatformBroker called");
+            if (!NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider, request.authenticationScheme)) {
+                this.logger.trace("canUsePlatformBroker: isPlatformBrokerAvailable returned false, returning false");
                 return false;
             }
             if (request.prompt) {
@@ -16884,15 +16969,15 @@
                     case PromptValue.NONE:
                     case PromptValue.CONSENT:
                     case PromptValue.LOGIN:
-                        this.logger.trace("canUseNative: prompt is compatible with native flow");
+                        this.logger.trace("canUsePlatformBroker: prompt is compatible with platform broker flow");
                         break;
                     default:
-                        this.logger.trace(`canUseNative: prompt = ${request.prompt} is not compatible with native flow, returning false`);
+                        this.logger.trace(`canUsePlatformBroker: prompt = ${request.prompt} is not compatible with platform broker flow, returning false`);
                         return false;
                 }
             }
             if (!accountId && !this.getNativeAccountId(request)) {
-                this.logger.trace("canUseNative: nativeAccountId is not available, returning false");
+                this.logger.trace("canUsePlatformBroker: nativeAccountId is not available, returning false");
                 return false;
             }
             return true;
@@ -16985,70 +17070,27 @@
         }
         /**
          * Adds event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
+         * @deprecated These events will be raised by default and this method will be removed in a future major version.
          */
         enableAccountStorageEvents() {
-            if (typeof window === "undefined") {
+            if (this.config.cache.cacheLocation !==
+                BrowserCacheLocation.LocalStorage) {
+                this.logger.info("Account storage events are only available when cacheLocation is set to localStorage");
                 return;
             }
-            if (!this.listeningToStorageEvents) {
-                this.logger.verbose("Adding account storage listener.");
-                this.listeningToStorageEvents = true;
-                window.addEventListener("storage", this.handleAccountCacheChange);
-            }
-            else {
-                this.logger.verbose("Account storage listener already registered.");
-            }
+            this.eventHandler.subscribeCrossTab();
         }
         /**
          * Removes event listener that emits an event when a user account is added or removed from localstorage in a different browser tab or window
+         * @deprecated These events will be raised by default and this method will be removed in a future major version.
          */
         disableAccountStorageEvents() {
-            if (typeof window === "undefined") {
+            if (this.config.cache.cacheLocation !==
+                BrowserCacheLocation.LocalStorage) {
+                this.logger.info("Account storage events are only available when cacheLocation is set to localStorage");
                 return;
             }
-            if (this.listeningToStorageEvents) {
-                this.logger.verbose("Removing account storage listener.");
-                window.removeEventListener("storage", this.handleAccountCacheChange);
-                this.listeningToStorageEvents = false;
-            }
-            else {
-                this.logger.verbose("No account storage listener registered.");
-            }
-        }
-        /**
-         * Emit account added/removed events when cached accounts are changed in a different tab or frame
-         */
-        handleAccountCacheChange(e) {
-            try {
-                // Handle active account filter change
-                if (e.key?.includes(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS)) {
-                    // This event has no payload, it only signals cross-tab app instances that the results of calling getActiveAccount() will have changed
-                    this.eventHandler.emitEvent(EventType.ACTIVE_ACCOUNT_CHANGED);
-                }
-                // Handle account object change
-                const cacheValue = e.newValue || e.oldValue;
-                if (!cacheValue) {
-                    return;
-                }
-                const parsedValue = JSON.parse(cacheValue);
-                if (typeof parsedValue !== "object" ||
-                    !AccountEntity.isAccountEntity(parsedValue)) {
-                    return;
-                }
-                const accountEntity = CacheManager.toObject(new AccountEntity(), parsedValue);
-                const accountInfo = accountEntity.getAccountInfo();
-                if (!e.oldValue && e.newValue) {
-                    this.logger.info("Account was added to cache in a different window");
-                    this.eventHandler.emitEvent(EventType.ACCOUNT_ADDED, undefined, accountInfo);
-                }
-                else if (!e.newValue && e.oldValue) {
-                    this.logger.info("Account was removed from cache in a different window");
-                    this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, accountInfo);
-                }
-            }
-            catch (e) {
-                return;
-            }
+            this.eventHandler.unsubscribeCrossTab();
         }
         /**
          * Gets the token cache for the application.
@@ -17333,7 +17375,7 @@
          * @returns
          */
         async acquireTokenSilentNoIframe(silentRequest, cacheLookupPolicy) {
-            if (NativeMessageHandler.isNativeAvailable(this.config, this.logger, this.nativeExtensionProvider, silentRequest.authenticationScheme) &&
+            if (NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider, silentRequest.authenticationScheme) &&
                 silentRequest.account.nativeAccountId) {
                 this.logger.verbose("acquireTokenSilent - attempting to acquire token from native platform");
                 return this.acquireTokenNative(silentRequest, ApiId.acquireTokenSilent_silentFlow).catch(async (e) => {
@@ -17619,20 +17661,17 @@
             this.performanceClient = this.config.telemetry.client;
             // Initialize the crypto class.
             this.browserCrypto = operatingContext.isBrowserEnvironment()
-                ? new CryptoOps(this.logger, this.performanceClient)
+                ? new CryptoOps(this.logger, this.performanceClient, true)
                 : DEFAULT_CRYPTO_IMPLEMENTATION;
+            this.eventHandler = new EventHandler(this.logger);
             // Initialize the browser storage class.
             this.browserStorage = this.operatingContext.isBrowserEnvironment()
-                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, buildStaticAuthorityOptions(this.config.auth))
-                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger);
-            this.eventHandler = new EventHandler(this.logger);
+                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, this.performanceClient, this.eventHandler, buildStaticAuthorityOptions(this.config.auth))
+                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger, this.performanceClient, this.eventHandler);
             this.nestedAppAuthAdapter = new NestedAppAuthAdapter(this.config.auth.clientId, this.config.auth.clientCapabilities, this.browserCrypto, this.logger);
             // Set the active account if available
             const accountContext = this.bridgeProxy.getAccountContext();
-            if (accountContext) {
-                const cachedAccount = getAccount(accountContext, this.logger, this.browserStorage);
-                setActiveAccount(cachedAccount, this.browserStorage);
-            }
+            this.currentAccountContext = accountContext ? accountContext : null;
         }
         /**
          * Factory function to create a new instance of NestedAppAuthController
@@ -17647,8 +17686,9 @@
          * Specific implementation of initialize function for NestedAppAuthController
          * @returns
          */
-        initialize() {
-            // do nothing not required by this controller
+        async initialize(request) {
+            const initCorrelationId = request?.correlationId || createNewGuid();
+            await this.browserStorage.initialize(initCorrelationId);
             return Promise.resolve();
         }
         /**
@@ -17684,7 +17724,12 @@
                 };
                 // cache the tokens in the response
                 await this.hydrateCache(result, request);
-                this.browserStorage.setActiveAccount(result.account);
+                // cache the account context in memory after successful token fetch
+                this.currentAccountContext = {
+                    homeAccountId: result.account.homeAccountId,
+                    environment: result.account.environment,
+                    tenantId: result.account.tenantId,
+                };
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Popup, result);
                 atPopupMeasurement.add({
                     accessTokenSize: result.accessToken.length,
@@ -17734,7 +17779,12 @@
                 const result = this.nestedAppAuthAdapter.fromNaaTokenResponse(naaRequest, response, reqTimestamp);
                 // cache the tokens in the response
                 await this.hydrateCache(result, request);
-                this.browserStorage.setActiveAccount(result.account);
+                // cache the account context in memory after successful token fetch
+                this.currentAccountContext = {
+                    homeAccountId: result.account.homeAccountId,
+                    environment: result.account.environment,
+                    tenantId: result.account.tenantId,
+                };
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, result);
                 ssoSilentMeasurement?.add({
                     accessTokenSize: result.accessToken.length,
@@ -17770,8 +17820,16 @@
                 this.logger.verbose("Claims are present in the request, skipping cache lookup");
                 return null;
             }
+            // if the request has forceRefresh, we cannot look up in the cache
+            if (request.forceRefresh) {
+                this.logger.verbose("forceRefresh is set to true, skipping cache lookup");
+                return null;
+            }
             // respect cache lookup policy
             let result = null;
+            if (!request.cacheLookupPolicy) {
+                request.cacheLookupPolicy = CacheLookupPolicy.Default;
+            }
             switch (request.cacheLookupPolicy) {
                 case CacheLookupPolicy.Default:
                 case CacheLookupPolicy.AccessToken:
@@ -17805,12 +17863,11 @@
          * @returns
          */
         async acquireTokenFromCacheInternal(request) {
-            const accountContext = this.bridgeProxy.getAccountContext();
+            // always prioritize the account context from the bridge
+            const accountContext = this.bridgeProxy.getAccountContext() || this.currentAccountContext;
             let currentAccount = null;
             if (accountContext) {
-                const hubAccount = getAccount(accountContext, this.logger, this.browserStorage);
-                // always prioritize for hub account context, the reqirement of `request.account` will be removed soon
-                currentAccount = hubAccount || request.account;
+                currentAccount = getAccount(accountContext, this.logger, this.browserStorage);
             }
             // fall back to brokering if no cached account is found
             if (!currentAccount) {
@@ -18074,7 +18131,7 @@
         async hydrateCache(result, request) {
             this.logger.verbose("hydrateCache called");
             const accountEntity = AccountEntity.createFromAccountInfo(result.account, result.cloudGraphHostName, result.msGraphHost);
-            this.browserStorage.setAccount(accountEntity);
+            await this.browserStorage.setAccount(accountEntity, result.correlationId);
             return this.browserStorage.hydrateCache(result, request);
         }
     }
@@ -18454,7 +18511,9 @@
         await nestedAppAuth.initialize();
         if (nestedAppAuth.isAvailable()) {
             const controller = new NestedAppAuthController(nestedAppAuth);
-            return new PublicClientApplication(configuration, controller);
+            const nestablePCA = new PublicClientApplication(configuration, controller);
+            await nestablePCA.initialize();
+            return nestablePCA;
         }
         return createStandardPublicClientApplication(configuration);
     }
@@ -18504,10 +18563,11 @@
             this.browserCrypto = this.isBrowserEnvironment
                 ? new CryptoOps(this.logger, this.performanceClient)
                 : DEFAULT_CRYPTO_IMPLEMENTATION;
+            this.eventHandler = new EventHandler(this.logger);
             // Initialize the browser storage class.
             this.browserStorage = this.isBrowserEnvironment
-                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, undefined, this.performanceClient)
-                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger);
+                ? new BrowserCacheManager(this.config.auth.clientId, this.config.cache, this.browserCrypto, this.logger, this.performanceClient, this.eventHandler, undefined)
+                : DEFAULT_BROWSER_CACHE_MANAGER(this.config.auth.clientId, this.logger, this.performanceClient, this.eventHandler);
         }
         getBrowserStorage() {
             return this.browserStorage;
@@ -19619,7 +19679,6 @@
     exports.BrowserConfigurationAuthErrorMessage = BrowserConfigurationAuthErrorMessage;
     exports.BrowserPerformanceClient = BrowserPerformanceClient;
     exports.BrowserPerformanceMeasurement = BrowserPerformanceMeasurement;
-    exports.BrowserStorage = BrowserStorage;
     exports.BrowserUtils = BrowserUtils;
     exports.CacheLookupPolicy = CacheLookupPolicy;
     exports.ClientAuthError = ClientAuthError;
@@ -19637,6 +19696,7 @@
     exports.InteractionRequiredAuthErrorMessage = InteractionRequiredAuthErrorMessage;
     exports.InteractionStatus = InteractionStatus;
     exports.JsonWebTokenTypes = JsonWebTokenTypes;
+    exports.LocalStorage = LocalStorage;
     exports.Logger = Logger;
     exports.MemoryStorage = MemoryStorage;
     exports.NavigationClient = NavigationClient;
@@ -19648,6 +19708,7 @@
     exports.PublicClientNext = PublicClientNext;
     exports.ServerError = ServerError;
     exports.ServerResponseType = ServerResponseType;
+    exports.SessionStorage = SessionStorage;
     exports.SignedHttpRequest = SignedHttpRequest;
     exports.StringUtils = StringUtils;
     exports.StubPerformanceClient = StubPerformanceClient;
