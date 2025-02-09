@@ -20,6 +20,13 @@ declare class _Tenant extends _SPInstance<ITenantInfo> {
      */
     getSitePropertiesByUrl(url: string, includeDetail?: boolean): Promise<Partial<ITenantSitePropertiesInfo>>;
     /**
+     * Sets site object for the given site id
+     *
+     * @param siteId the id of the site (i.e. _api/site -- not root web)
+     * @param props properties to be updated
+     */
+    setSitePropertiesById(siteId: string, properties: Partial<ITenantSitePropertiesInfo>): Promise<void>;
+    /**
      * Gets SPOSiteProperties objects for all sites from SharePoint in the tenancy that match the filter expression
      *
      * @param speFilter If the filter is null or empty string, then all the sites are returned

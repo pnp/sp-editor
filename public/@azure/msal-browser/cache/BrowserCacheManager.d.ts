@@ -9,6 +9,7 @@ import { SilentRequest } from "../request/SilentRequest.js";
 import { SsoSilentRequest } from "../request/SsoSilentRequest.js";
 import { RedirectRequest } from "../request/RedirectRequest.js";
 import { PopupRequest } from "../request/PopupRequest.js";
+import { CookieStorage } from "./CookieStorage.js";
 /**
  * This class implements the cache storage interface for MSAL through browser local or session storage.
  * Cookies are only used if storeAuthStateInCookie is true, and are only used for
@@ -19,21 +20,15 @@ export declare class BrowserCacheManager extends CacheManager {
     protected browserStorage: IWindowStorage<string>;
     protected internalStorage: MemoryStorage<string>;
     protected temporaryCacheStorage: IWindowStorage<string>;
+    protected cookieStorage: CookieStorage;
     protected logger: Logger;
     protected performanceClient?: IPerformanceClient;
-    protected readonly COOKIE_LIFE_MULTIPLIER: number;
     constructor(clientId: string, cacheConfig: Required<CacheOptions>, cryptoImpl: ICrypto, logger: Logger, staticAuthorityOptions?: StaticAuthorityOptions, performanceClient?: IPerformanceClient);
     /**
      * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured cacheLocation.
      * @param cacheLocation
      */
     protected setupBrowserStorage(cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
-    /**
-     * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured temporaryCacheLocation.
-     * @param temporaryCacheLocation
-     * @param cacheLocation
-     */
-    protected setupTemporaryCacheStorage(temporaryCacheLocation: BrowserCacheLocation | string, cacheLocation: BrowserCacheLocation | string): IWindowStorage<string>;
     /**
      * Migrate all old cache entries to new schema. No rollback supported.
      * @param storeAuthStateInCookie
@@ -269,37 +264,6 @@ export declare class BrowserCacheManager extends CacheManager {
      * @returns
      */
     clearTokensAndKeysWithClaims(performanceClient: IPerformanceClient, correlationId: string): Promise<void>;
-    /**
-     * Add value to cookies
-     * @param cookieName
-     * @param cookieValue
-     * @param expires
-     * @deprecated
-     */
-    setItemCookie(cookieName: string, cookieValue: string, expires?: number): void;
-    /**
-     * Get one item by key from cookies
-     * @param cookieName
-     * @deprecated
-     */
-    getItemCookie(cookieName: string): string;
-    /**
-     * Clear all msal-related cookies currently set in the browser. Should only be used to clear temporary cache items.
-     * @deprecated
-     */
-    clearMsalCookies(): void;
-    /**
-     * Clear an item in the cookies by key
-     * @param cookieName
-     * @deprecated
-     */
-    clearItemCookie(cookieName: string): void;
-    /**
-     * Get cookie expiration time
-     * @param cookieLifeDays
-     * @deprecated
-     */
-    getCookieExpirationTime(cookieLifeDays: number): string;
     /**
      * Prepend msal.<client-id> to each key; Skip for any JSON object as Key (defined schemas do not need the key appended: AccessToken Keys or the upcoming schema)
      * @param key

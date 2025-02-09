@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v3.27.0 2024-11-05 */
+/*! @azure/msal-browser v3.28.0 2024-12-12 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -316,7 +316,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -333,7 +333,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -382,7 +382,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -480,7 +480,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -732,7 +732,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -771,7 +771,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -962,12 +962,12 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
     const version$1 = "14.16.0";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -987,7 +987,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1048,7 +1048,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1085,7 +1085,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1412,7 +1412,7 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1466,7 +1466,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1604,7 +1604,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1701,7 +1701,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1901,7 +1901,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1941,7 +1941,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2020,7 +2020,7 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2035,7 +2035,7 @@
         Ciam: 3,
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2057,7 +2057,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2070,7 +2070,7 @@
         OIDC: "OIDC",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2313,7 +2313,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2360,7 +2360,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2524,7 +2524,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2664,7 +2664,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2672,7 +2672,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2699,7 +2699,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3948,7 +3948,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4047,7 +4047,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4057,7 +4057,7 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4107,7 +4107,7 @@
     const BROKER_CLIENT_ID = "brk_client_id";
     const BROKER_REDIRECT_URI = "brk_redirect_uri";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4174,7 +4174,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4582,7 +4582,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4594,7 +4594,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4604,7 +4604,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4614,7 +4614,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5101,7 +5101,7 @@
         "multiMatchedRT",
     ]);
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5197,7 +5197,7 @@
         };
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5306,7 +5306,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6145,7 +6145,7 @@
         };
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6176,7 +6176,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6195,7 +6195,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6293,7 +6293,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6323,7 +6323,7 @@
         return new NetworkError(error, httpStatus, responseHeaders);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6473,7 +6473,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6499,7 +6499,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6587,7 +6587,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6659,7 +6659,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6743,7 +6743,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6770,7 +6770,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7147,7 +7147,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7165,7 +7165,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7607,7 +7607,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7827,7 +7827,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7963,7 +7963,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7978,7 +7978,7 @@
         },
     };
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8036,7 +8036,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8299,7 +8299,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8307,7 +8307,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8332,7 +8332,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8372,7 +8372,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8451,7 +8451,7 @@
         }
     }
 
-    /*! @azure/msal-common v14.16.0 2024-11-05 */
+    /*! @azure/msal-common v14.16.0 2024-12-12 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10370,7 +10370,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "3.27.0";
+    const version = "3.28.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11329,32 +11329,53 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    class BrowserStorage {
-        constructor(cacheLocation) {
-            this.validateWindowStorage(cacheLocation);
-            this.windowStorage = window[cacheLocation];
-        }
-        validateWindowStorage(cacheLocation) {
-            if ((cacheLocation !== BrowserCacheLocation.LocalStorage &&
-                cacheLocation !== BrowserCacheLocation.SessionStorage) ||
-                !window[cacheLocation]) {
+    class LocalStorage {
+        constructor() {
+            if (!window.localStorage) {
                 throw createBrowserConfigurationAuthError(storageNotSupported);
             }
         }
         getItem(key) {
-            return this.windowStorage.getItem(key);
+            return window.localStorage.getItem(key);
         }
         setItem(key, value) {
-            this.windowStorage.setItem(key, value);
+            window.localStorage.setItem(key, value);
         }
         removeItem(key) {
-            this.windowStorage.removeItem(key);
+            window.localStorage.removeItem(key);
         }
         getKeys() {
-            return Object.keys(this.windowStorage);
+            return Object.keys(window.localStorage);
         }
         containsKey(key) {
-            return this.windowStorage.hasOwnProperty(key);
+            return window.localStorage.hasOwnProperty(key);
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class SessionStorage {
+        constructor() {
+            if (!window.sessionStorage) {
+                throw createBrowserConfigurationAuthError(storageNotSupported);
+            }
+        }
+        getItem(key) {
+            return window.sessionStorage.getItem(key);
+        }
+        setItem(key, value) {
+            window.sessionStorage.setItem(key, value);
+        }
+        removeItem(key) {
+            window.sessionStorage.removeItem(key);
+        }
+        getKeys() {
+            return Object.keys(window.sessionStorage);
+        }
+        containsKey(key) {
+            return window.sessionStorage.hasOwnProperty(key);
         }
     }
 
@@ -11384,6 +11405,64 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    // Cookie life calculation (hours * minutes * seconds * ms)
+    const COOKIE_LIFE_MULTIPLIER = 24 * 60 * 60 * 1000;
+    class CookieStorage {
+        getItem(key) {
+            const name = `${encodeURIComponent(key)}`;
+            const cookieList = document.cookie.split(";");
+            for (let i = 0; i < cookieList.length; i++) {
+                const cookie = cookieList[i];
+                const [key, ...rest] = decodeURIComponent(cookie).trim().split("=");
+                const value = rest.join("=");
+                if (key === name) {
+                    return value;
+                }
+            }
+            return "";
+        }
+        setItem(key, value, cookieLifeDays, secure = true) {
+            let cookieStr = `${encodeURIComponent(key)}=${encodeURIComponent(value)};path=/;SameSite=Lax;`;
+            if (cookieLifeDays) {
+                const expireTime = getCookieExpirationTime(cookieLifeDays);
+                cookieStr += `expires=${expireTime};`;
+            }
+            if (secure) {
+                cookieStr += "Secure;";
+            }
+            document.cookie = cookieStr;
+        }
+        removeItem(key) {
+            // Setting expiration to -1 removes it
+            this.setItem(key, "", -1);
+        }
+        getKeys() {
+            const cookieList = document.cookie.split(";");
+            const keys = [];
+            cookieList.forEach((cookie) => {
+                const cookieParts = decodeURIComponent(cookie).trim().split("=");
+                keys.push(cookieParts[0]);
+            });
+            return keys;
+        }
+        containsKey(key) {
+            return this.getKeys().includes(key);
+        }
+    }
+    /**
+     * Get cookie expiration time
+     * @param cookieLifeDays
+     */
+    function getCookieExpirationTime(cookieLifeDays) {
+        const today = new Date();
+        const expr = new Date(today.getTime() + cookieLifeDays * COOKIE_LIFE_MULTIPLIER);
+        return expr.toUTCString();
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     /**
      * This class implements the cache storage interface for MSAL through browser local or session storage.
      * Cookies are only used if storeAuthStateInCookie is true, and are only used for
@@ -11392,13 +11471,12 @@
     class BrowserCacheManager extends CacheManager {
         constructor(clientId, cacheConfig, cryptoImpl, logger, staticAuthorityOptions, performanceClient) {
             super(clientId, cryptoImpl, logger, staticAuthorityOptions);
-            // Cookie life calculation (hours * minutes * seconds * ms)
-            this.COOKIE_LIFE_MULTIPLIER = 24 * 60 * 60 * 1000;
             this.cacheConfig = cacheConfig;
             this.logger = logger;
             this.internalStorage = new MemoryStorage();
             this.browserStorage = this.setupBrowserStorage(this.cacheConfig.cacheLocation);
-            this.temporaryCacheStorage = this.setupTemporaryCacheStorage(this.cacheConfig.temporaryCacheLocation, this.cacheConfig.cacheLocation);
+            this.temporaryCacheStorage = this.setupBrowserStorage(this.cacheConfig.temporaryCacheLocation);
+            this.cookieStorage = new CookieStorage();
             // Migrate cache entries from older versions of MSAL.
             if (cacheConfig.cacheMigrationEnabled) {
                 this.migrateCacheEntries();
@@ -11411,43 +11489,22 @@
          * @param cacheLocation
          */
         setupBrowserStorage(cacheLocation) {
-            switch (cacheLocation) {
-                case BrowserCacheLocation.LocalStorage:
-                case BrowserCacheLocation.SessionStorage:
-                    try {
-                        return new BrowserStorage(cacheLocation);
-                    }
-                    catch (e) {
-                        this.logger.verbose(e);
+            try {
+                switch (cacheLocation) {
+                    case BrowserCacheLocation.LocalStorage:
+                        return new LocalStorage();
+                    case BrowserCacheLocation.SessionStorage:
+                        return new SessionStorage();
+                    case BrowserCacheLocation.MemoryStorage:
+                    default:
                         break;
-                    }
-                case BrowserCacheLocation.MemoryStorage:
+                }
+            }
+            catch (e) {
+                this.logger.error(e);
             }
             this.cacheConfig.cacheLocation = BrowserCacheLocation.MemoryStorage;
             return new MemoryStorage();
-        }
-        /**
-         * Returns a window storage class implementing the IWindowStorage interface that corresponds to the configured temporaryCacheLocation.
-         * @param temporaryCacheLocation
-         * @param cacheLocation
-         */
-        setupTemporaryCacheStorage(temporaryCacheLocation, cacheLocation) {
-            switch (cacheLocation) {
-                case BrowserCacheLocation.LocalStorage:
-                case BrowserCacheLocation.SessionStorage:
-                    try {
-                        // Temporary cache items will always be stored in session storage to mitigate problems caused by multiple tabs
-                        return new BrowserStorage(temporaryCacheLocation ||
-                            BrowserCacheLocation.SessionStorage);
-                    }
-                    catch (e) {
-                        this.logger.verbose(e);
-                        return this.internalStorage;
-                    }
-                case BrowserCacheLocation.MemoryStorage:
-                default:
-                    return this.internalStorage;
-            }
         }
         /**
          * Migrate all old cache entries to new schema. No rollback supported.
@@ -12136,7 +12193,7 @@
         getTemporaryCache(cacheKey, generateKey) {
             const key = generateKey ? this.generateCacheKey(cacheKey) : cacheKey;
             if (this.cacheConfig.storeAuthStateInCookie) {
-                const itemCookie = this.getItemCookie(key);
+                const itemCookie = this.cookieStorage.getItem(key);
                 if (itemCookie) {
                     this.logger.trace("BrowserCacheManager.getTemporaryCache: storeAuthStateInCookies set to true, retrieving from cookies");
                     return itemCookie;
@@ -12171,7 +12228,7 @@
             this.temporaryCacheStorage.setItem(key, value);
             if (this.cacheConfig.storeAuthStateInCookie) {
                 this.logger.trace("BrowserCacheManager.setTemporaryCache: storeAuthStateInCookie set to true, setting item cookie");
-                this.setItemCookie(key, value);
+                this.cookieStorage.setItem(key, value, undefined, this.cacheConfig.secureCookies);
             }
         }
         /**
@@ -12190,7 +12247,7 @@
             this.temporaryCacheStorage.removeItem(key);
             if (this.cacheConfig.storeAuthStateInCookie) {
                 this.logger.trace("BrowserCacheManager.removeItem: storeAuthStateInCookie is true, clearing item cookie");
-                this.clearItemCookie(key);
+                this.cookieStorage.removeItem(key);
             }
         }
         /**
@@ -12245,79 +12302,6 @@
             if (removedAccessTokens.length > 0) {
                 this.logger.warning(`${removedAccessTokens.length} access tokens with claims in the cache keys have been removed from the cache.`);
             }
-        }
-        /**
-         * Add value to cookies
-         * @param cookieName
-         * @param cookieValue
-         * @param expires
-         * @deprecated
-         */
-        setItemCookie(cookieName, cookieValue, expires) {
-            let cookieStr = `${encodeURIComponent(cookieName)}=${encodeURIComponent(cookieValue)};path=/;SameSite=Lax;`;
-            if (expires) {
-                const expireTime = this.getCookieExpirationTime(expires);
-                cookieStr += `expires=${expireTime};`;
-            }
-            if (this.cacheConfig.secureCookies) {
-                cookieStr += "Secure;";
-            }
-            document.cookie = cookieStr;
-        }
-        /**
-         * Get one item by key from cookies
-         * @param cookieName
-         * @deprecated
-         */
-        getItemCookie(cookieName) {
-            const name = `${encodeURIComponent(cookieName)}=`;
-            const cookieList = document.cookie.split(";");
-            for (let i = 0; i < cookieList.length; i++) {
-                let cookie = cookieList[i];
-                while (cookie.charAt(0) === " ") {
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(name) === 0) {
-                    return decodeURIComponent(cookie.substring(name.length, cookie.length));
-                }
-            }
-            return Constants.EMPTY_STRING;
-        }
-        /**
-         * Clear all msal-related cookies currently set in the browser. Should only be used to clear temporary cache items.
-         * @deprecated
-         */
-        clearMsalCookies() {
-            const cookiePrefix = `${Constants.CACHE_PREFIX}.${this.clientId}`;
-            const cookieList = document.cookie.split(";");
-            cookieList.forEach((cookie) => {
-                while (cookie.charAt(0) === " ") {
-                    // eslint-disable-next-line no-param-reassign
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(cookiePrefix) === 0) {
-                    const cookieKey = cookie.split("=")[0];
-                    this.clearItemCookie(cookieKey);
-                }
-            });
-        }
-        /**
-         * Clear an item in the cookies by key
-         * @param cookieName
-         * @deprecated
-         */
-        clearItemCookie(cookieName) {
-            this.setItemCookie(cookieName, Constants.EMPTY_STRING, -1);
-        }
-        /**
-         * Get cookie expiration time
-         * @param cookieLifeDays
-         * @deprecated
-         */
-        getCookieExpirationTime(cookieLifeDays) {
-            const today = new Date();
-            const expr = new Date(today.getTime() + cookieLifeDays * this.COOKIE_LIFE_MULTIPLIER);
-            return expr.toUTCString();
         }
         /**
          * Prepend msal.<client-id> to each key; Skip for any JSON object as Key (defined schemas do not need the key appended: AccessToken Keys or the upcoming schema)
@@ -12442,7 +12426,6 @@
                 this.logger.infoPii(`BrowserCacheManager.cleanRequestByState: Removing temporary cache items for state: ${cachedState}`);
                 this.resetRequestCache(cachedState || Constants.EMPTY_STRING);
             }
-            this.clearMsalCookies();
         }
         /**
          * Looks in temporary cache for any state values with the provided interactionType and removes all temporary cache items for that state
@@ -12470,7 +12453,6 @@
                     this.resetRequestCache(stateValue);
                 }
             });
-            this.clearMsalCookies();
             this.setInteractionInProgress(false);
         }
         cacheCodeRequest(authCodeRequest) {
@@ -13325,6 +13307,10 @@
                 responseMode: this.config.auth.OIDCOptions
                     .serverResponseType,
             };
+            // Skip active account lookup if either login hint or session id is set
+            if (request.loginHint || request.sid) {
+                return validatedRequest;
+            }
             const account = request.account || this.browserStorage.getActiveAccount();
             if (account) {
                 this.logger.verbose("Setting validated request account", this.correlationId);
@@ -19236,6 +19222,42 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    /**
+     * @deprecated This class will be removed in a future major version
+     */
+    class BrowserStorage {
+        constructor(cacheLocation) {
+            if (cacheLocation === BrowserCacheLocation.LocalStorage) {
+                this.windowStorage = new LocalStorage();
+            }
+            else if (cacheLocation === BrowserCacheLocation.SessionStorage) {
+                this.windowStorage = new SessionStorage();
+            }
+            else {
+                throw createBrowserConfigurationAuthError(storageNotSupported);
+            }
+        }
+        getItem(key) {
+            return this.windowStorage.getItem(key);
+        }
+        setItem(key, value) {
+            this.windowStorage.setItem(key, value);
+        }
+        removeItem(key) {
+            this.windowStorage.removeItem(key);
+        }
+        getKeys() {
+            return Object.keys(this.windowStorage);
+        }
+        containsKey(key) {
+            return this.windowStorage.hasOwnProperty(key);
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     class EventMessageUtils {
         /**
          * Gets interaction status from event message
@@ -19637,6 +19659,7 @@
     exports.InteractionRequiredAuthErrorMessage = InteractionRequiredAuthErrorMessage;
     exports.InteractionStatus = InteractionStatus;
     exports.JsonWebTokenTypes = JsonWebTokenTypes;
+    exports.LocalStorage = LocalStorage;
     exports.Logger = Logger;
     exports.MemoryStorage = MemoryStorage;
     exports.NavigationClient = NavigationClient;
@@ -19648,6 +19671,7 @@
     exports.PublicClientNext = PublicClientNext;
     exports.ServerError = ServerError;
     exports.ServerResponseType = ServerResponseType;
+    exports.SessionStorage = SessionStorage;
     exports.SignedHttpRequest = SignedHttpRequest;
     exports.StringUtils = StringUtils;
     exports.StubPerformanceClient = StubPerformanceClient;

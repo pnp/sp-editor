@@ -1698,7 +1698,7 @@ class HttpRequestError extends Error {
         this.isHttpRequestError = true;
     }
     static async init(r) {
-        const t = await r.text();
+        const t = await r.clone().text();
         return new HttpRequestError(`Error making HttpClient request in queryable [${r.status}] ${r.statusText} ::> ${t}`, r);
     }
 }
@@ -2529,7 +2529,7 @@ function AdvancedQuery() {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.7.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.9.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -3448,12 +3448,6 @@ Reflect.defineProperty(GraphFI.prototype, "admin", {
 
 
 
-function checkIn(checkInOptions) {
-    return graphPost(DriveItem(this, "checkin"), body(checkInOptions));
-}
-function checkOut() {
-    return graphPost(DriveItem(this, "checkout"));
-}
 function encodeSharingUrl(url) {
     return "u!" + Buffer.from(url, "utf8").toString("base64").replace(/=$/i, "").replace("/", "_").replace("+", "-");
 }
@@ -3529,7 +3523,7 @@ async function getUploadSession(resuableUploadOptions) {
     // Create the upload session
     const session = await graphPost(q, body(postBody));
     // Create a new queryable for the upload session
-    const uploadQueryable = GraphQueryable(session.uploadUrl).using(CopyFrom(this, "replace", (k) => /(pre|init|send|parse|post|data)/i.test(k)));
+    const uploadQueryable = GraphQueryable(session.uploadUrl).using(CopyFrom(this, "replace", (k) => /(pre|init|send|parse|post|data|error)/i.test(k)));
     const resumableUpload = ResumableUpload(uploadQueryable);
     return { session, resumableUpload };
 }
@@ -3849,6 +3843,12 @@ let _DriveItem = class _DriveItem extends _GraphInstance {
     async updateRetentionLabel(name) {
         const postBody = { name };
         return graphPatch(DriveItem(this, "retentionLabel"), body(postBody));
+    }
+    async checkIn(checkInOptions) {
+        return graphPost(DriveItem(this, "checkin"), body(checkInOptions));
+    }
+    async checkOut() {
+        return graphPost(DriveItem(this, "checkout"));
     }
 };
 _DriveItem = tslib_es6_decorate([
@@ -6047,14 +6047,10 @@ _DriveItem.prototype.restore = function restore(restoreOptions) {
 
 
 
-
 addProp(_Group, "drive", Drive);
 addProp(_Group, "drives", Drives);
-_DriveItem.prototype.checkIn = checkIn;
-_DriveItem.prototype.checkOut = checkOut;
 
 ;// ./node_modules/@pnp/graph/files/sites.js
-
 
 
 
@@ -6062,8 +6058,13 @@ _DriveItem.prototype.checkOut = checkOut;
 addProp(_Site, "drive", Drive);
 addProp(_Site, "drives", Drives);
 addProp(_Drive, "list", List);
-_DriveItem.prototype.checkIn = checkIn;
-_DriveItem.prototype.checkOut = checkOut;
+
+;// ./node_modules/@pnp/graph/files/lists.js
+
+
+_List.prototype.drive = function drive() {
+    return graphGet(List(this, "drive"));
+};
 
 ;// ./node_modules/@pnp/graph/files/bundles.js
 
@@ -6120,6 +6121,7 @@ _Bundles = tslib_es6_decorate([
 const Bundles = graphInvokableFactory(_Bundles);
 
 ;// ./node_modules/@pnp/graph/files/index.js
+
 
 
 
