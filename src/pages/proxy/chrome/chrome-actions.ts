@@ -8,7 +8,12 @@ let listenerAdded = false; // Flag to check if listener is added
 let listener: (tabId: number, changeInfo: any, tab: any) => void; // Listener reference
 
 export async function addProxy(dispatch: Dispatch<ProxyActions | HomeActions>, payload: IProxy[], update?: boolean) {
-  if (payload.length > 0 && !listenerAdded) {
+  if ((payload.length > 0 && !listenerAdded) || update) {
+    if (listenerAdded) {
+      chrome.tabs.onUpdated.removeListener(listener);
+      listenerAdded = false;
+    }
+
     listener = (tabId, changeInfo, tab) => {
       if (changeInfo.status === 'complete' && tab.active) {
         executeScript(dispatch, payload, update);
