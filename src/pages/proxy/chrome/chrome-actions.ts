@@ -4,36 +4,34 @@ import { HomeActions, MessageBarColors } from '../../../store/home/types';
 import { IProxy, ProxyActions } from '../../../store/proxy/types';
 import { addProxyScript } from './addproxy';
 
-let listenerAdded = false; // Flag to check if listener is added
 let listener: (tabId: number, changeInfo: any, tab: any) => void; // Listener reference
 
-export async function addProxy(dispatch: Dispatch<ProxyActions | HomeActions>, payload: IProxy[], update?: boolean) {
-  if ((payload.length > 0 && !listenerAdded) || update) {
-    if (listenerAdded) {
+export async function addProxy(dispatch: Dispatch<ProxyActions | HomeActions>, enabled: boolean, payload: IProxy[], update?: boolean) {
+  if ((enabled && !chrome.tabs.onUpdated.hasListeners()) || (enabled && update)) {
+    if (chrome.tabs.onUpdated.hasListeners()) {
       chrome.tabs.onUpdated.removeListener(listener);
-      listenerAdded = false;
     }
 
     listener = (tabId, changeInfo, tab) => {
       if (changeInfo.status === 'complete' && tab.active) {
-        executeScript(dispatch, payload, update);
+        executeScript(dispatch, enabled, payload, false);
       }
     };
-    chrome.tabs.onUpdated.addListener(listener);
-    listenerAdded = true; // Set the flag to true after adding the listener
-  } else if (payload.length === 0 && listenerAdded) {
+    if(!chrome.tabs.onUpdated.hasListeners()) {
+      chrome.tabs.onUpdated.addListener(listener);
+    }
+  } else if (!enabled && chrome.tabs.onUpdated.hasListeners()) {
     chrome.tabs.onUpdated.removeListener(listener);
-    listenerAdded = false; // Reset the flag after removing the listener
   }
 
-  executeScript(dispatch, payload, update);
+  executeScript(dispatch, enabled, payload, update);
 }
 
-function executeScript(dispatch: Dispatch<ProxyActions | HomeActions>, payload: IProxy[], update?: boolean) {
+function executeScript(dispatch: Dispatch<ProxyActions | HomeActions>, enabled: boolean, payload: IProxy[], update?: boolean) {
   chrome.scripting.executeScript({
     target: { tabId: chrome.devtools.inspectedWindow.tabId },
     world: 'MAIN',
-    args: [payload, update],
+    args: [payload, enabled, update],
     func: addProxyScript,
   }).then(async injectionResults => {
     if (injectionResults[0].result) {
@@ -42,8 +40,8 @@ function executeScript(dispatch: Dispatch<ProxyActions | HomeActions>, payload: 
         dispatch(
           rootActions.setAppMessage({
             showMessage: true,
-            message: payload.length > 0 ? 'Proxy Enabled!' : 'Proxy Disabled!',
-            color: payload.length > 0 ? MessageBarColors.success : MessageBarColors.warning,
+            message: enabled ? update ? 'Proxy updated' : 'Proxy enabled' : 'Proxy disabled',
+            color: enabled ? MessageBarColors.success : MessageBarColors.warning,
           })
         );
       } else {

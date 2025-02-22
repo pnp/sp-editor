@@ -4,29 +4,31 @@ import * as actions from './actions'
 export type ProxyActions = ActionType<typeof actions>
 
 export interface IProxy {
-  [key: string]: any
+  id: string
   methods: string[]
   failRate: number
   url: string
-  status: number
+  status: string
   statusText: string
   responseHeaders: HeadersInit
-  responseBody: BodyInit | null
+  responseBody: any
   enabled?: boolean
+  description?: string
 }
 
 export interface IProxyState {
   proxies: IProxy[],
   loading: boolean,
   enabled: boolean,
-  selectedItems: IProxy[],
+  selectedItem: IProxy | undefined,
   editpanel: boolean,
 }
 
 export enum Constants {
-  PX_ADD_ITEM = 'PX_ADD_ITEM',
+  PX_SET_SELECTED_ITEM = 'PX_SET_SELECTED_ITEM',
   PX_UPDATE_ITEM = 'PX_UPDATE_ITEM',
-  PX_REMOVE_ITEMS = 'PX_REMOVE_ITEM"',
+  PX_ADD_ITEM = 'PX_ADD_ITEM',
+  PX_REMOVE_ITEM = 'PX_REMOVE_ITEM"',
   PX_SET_ENABLED = 'PX_SET_ENABLED',
   PX_SET_EDITPANEL = 'PX_SET_EDITPANEL',
 }
