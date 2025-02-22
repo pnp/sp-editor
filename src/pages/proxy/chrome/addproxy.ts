@@ -47,7 +47,7 @@ export const addProxyScript = (proxies: IProxy[], enabled: boolean, update?: boo
         if (proxy.enabled && url && url.indexOf(proxy.url) > -1 && methodMatches && shouldFail(proxy.failRate)) {
           console.warn(`SP Editor blocked ${url}`);
           return new Response(
-            proxy.responseBody,
+            JSON.stringify(proxy.responseBody),
             {
               status: Number(proxy.status),
               statusText: proxy.statusText,

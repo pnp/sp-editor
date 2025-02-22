@@ -32,9 +32,12 @@ const ProxyEditPanel = () => {
     responseBody: {
       message: 'Success',
     },
+    description: '',
   });
 
   const [localProxy, setLocalProxy] = useState<IProxy>(createDefaultProxy());
+  const [sampleData, setSampleData] = useState<any>(undefined);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (selectedItem) {
@@ -44,13 +47,57 @@ const ProxyEditPanel = () => {
     }
   }, [selectedItem]);
 
+  useEffect(() => {
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+    const timeout = setTimeout(() => {
+      const fetchGraphData = async () => {
+        if (localProxy.url.includes('https://graph.microsoft.com')) {
+          const encodedUrl = encodeURIComponent(localProxy.url);
+          const url = `https://graph.office.net/en-us/graph/api/proxy?url=${encodedUrl}`;
+          const token = '{token:https://graph.microsoft.com/}';
+
+          try {
+            const response = await fetch(url, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              setSampleData(undefined);
+              return;
+            }
+
+            const data = await response.json();
+            setSampleData(data);
+          } catch (error) {
+            setSampleData(undefined);
+          }
+        }
+      };
+
+      fetchGraphData();
+    }, 500); // Wait for 500ms before fetching data
+
+    setDebounceTimeout(timeout);
+
+    return () => {
+      if (debounceTimeout) {
+        clearTimeout(debounceTimeout);
+      }
+    };
+  }, [localProxy.url]);
+
   const panelOverlayProps: IOverlayProps = { isDarkThemed: isDark };
 
   const _onRenderItemFooterContent = () => {
     return (
-      <Stack
-        horizontal
-      >
+      <Stack horizontal>
         <PrimaryButton
           onClick={() => {
             if (selectedItem) {
@@ -73,7 +120,7 @@ const ProxyEditPanel = () => {
             }}
             style={{ marginRight: '8px' }}
             text={'Delete'}
-            disabled={selectedItem.id === '1'}
+            disabled={selectedItem.id === '1' || selectedItem.id === '2'}
           />
         )}
       </Stack>
@@ -81,8 +128,8 @@ const ProxyEditPanel = () => {
   };
 
   const failRateOptions: IDropdownOption[] = Array.from({ length: 11 }, (_, i) => ({
-    key: (i) * 10,
-    text: `${(i) * 10}%`,
+    key: i * 10,
+    text: `${i * 10}%`,
   }));
 
   const handleFailRateChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
@@ -110,18 +157,30 @@ const ProxyEditPanel = () => {
       onRenderFooterContent={_onRenderItemFooterContent}
       overlayProps={panelOverlayProps}
       onRenderFooter={(footerProps, defaultRender) => (
-        <div style={{ position: 'sticky', bottom: 0 }}>
-          {defaultRender?.(footerProps)}
-        </div>
-      )}    >
+        <div style={{ position: 'sticky', bottom: 0 }}>{defaultRender?.(footerProps)}</div>
+      )}
+    >
       <Stack tokens={{ childrenGap: 10 }}>
-        <TextField
-          label="Blocking Url"
-          value={localProxy.url}
-          onChange={(event, newValue?: string) => {
-            setLocalProxy({ ...localProxy, url: newValue ?? '' });
-          }}
-        />
+        <Stack horizontal tokens={{ childrenGap: 10 }} styles={{ root: { alignItems: 'end' } }}>
+          <TextField
+            label="Blocking Url"
+            value={localProxy.url}
+            onChange={(event, newValue?: string) => {
+              setLocalProxy({ ...localProxy, url: newValue ?? '' });
+            }}
+            styles={{ root: { flexGrow: 1 } }}
+          />
+          <PrimaryButton
+            text="Sample response available, click to load"
+            onClick={() => {
+              if (sampleData) {
+                setLocalProxy({ ...localProxy, responseBody: sampleData });
+              }
+            }}
+            styles={{ root: { height: '100%' } }}
+            disabled={!sampleData}
+          />
+        </Stack>
         <Stack horizontal tokens={{ childrenGap: 10 }}>
           <TextField
             label="Response Status"
@@ -137,7 +196,7 @@ const ProxyEditPanel = () => {
             onChange={(e, newValue) => setLocalProxy({ ...localProxy, statusText: newValue ?? '' })}
           />
           <Dropdown
-            label="Fail Rate"
+            label="Block Rate"
             options={failRateOptions}
             selectedKey={localProxy.failRate * 100}
             onChange={handleFailRateChange}
@@ -178,9 +237,7 @@ const ProxyEditPanel = () => {
           label="Description"
           autoAdjustHeight
           value={localProxy.description}
-          onChange={(e, newValue) =>
-            setLocalProxy({ ...localProxy, description: newValue ?? '' })
-          }
+          onChange={(e, newValue) => setLocalProxy({ ...localProxy, description: newValue ?? '' })}
           styles={{ root: { width: '100%' } }}
         />
         <TextField

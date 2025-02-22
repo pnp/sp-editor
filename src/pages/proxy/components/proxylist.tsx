@@ -78,8 +78,8 @@ const ProxyList = () => {
       isResizable: true,
       isRowHeader: true,
       key: 'url',
-      maxWidth: 300,
-      minWidth: 300,
+      maxWidth: 500,
+      minWidth: 500,
       name: 'Url',
     },
     {
@@ -103,7 +103,7 @@ const ProxyList = () => {
       key: 'failRate',
       maxWidth: 60,
       minWidth: 60,
-      name: 'Fail Rate',
+      name: 'Block Rate',
       onRender: (item: IProxy) => <div>{(item.failRate * 100).toFixed(0)}%</div>,
     },
     {
