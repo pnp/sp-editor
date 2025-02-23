@@ -25,6 +25,7 @@ export interface IProxyState {
 }
 
 export enum Constants {
+  PX_SET_ALL_PROXIES = 'PX_SET_ALL_PROXIES',
   PX_SET_SELECTED_ITEM = 'PX_SET_SELECTED_ITEM',
   PX_UPDATE_ITEM = 'PX_UPDATE_ITEM',
   PX_ADD_ITEM = 'PX_ADD_ITEM',

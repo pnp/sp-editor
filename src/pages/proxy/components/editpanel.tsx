@@ -22,7 +22,7 @@ const ProxyEditPanel = () => {
   const createDefaultProxy = (): IProxy => ({
     id: Date.now().toString(),
     methods: ['ALL'],
-    failRate: 0.0,
+    failRate: 1.0,
     url: '/_api/',
     status: '200',
     statusText: 'OK',

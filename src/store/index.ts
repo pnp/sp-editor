@@ -26,6 +26,7 @@ import { ISearchState } from "./search/types";
 //import chromeStorageSync from "./middleware/chromeStorageSync";
 import { proxyReducer } from "./proxy/reducers";
 import { IProxyState } from "./proxy/types";
+import localStorageMiddleware from "./localStorageMiddleware";
 
 export interface IRootState {
   home: IHomeState;
@@ -59,13 +60,12 @@ const rootReducer = combineReducers({
 
 const initializeStore = async () => {
 
-  //TODO: Load initial state from local storage
   const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }),
+      }).concat(localStorageMiddleware),
   });
 
   return store;

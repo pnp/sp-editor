@@ -1,6 +1,11 @@
 import { action } from 'typesafe-actions'
 import { Constants, IProxy } from './types'
 
+export function setAllProxies(proxies: IProxy[]) {
+  return action(Constants.PX_SET_ALL_PROXIES, {
+    proxies,
+  })
+}
 export function setEnabled(enabled: boolean) {
   return action(Constants.PX_SET_ENABLED, {
     enabled,

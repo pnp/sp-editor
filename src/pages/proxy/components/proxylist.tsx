@@ -9,14 +9,25 @@ import {
 } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { setEditPanel, setSelectedItem, updateItem } from '../../../store/proxy/actions';
+import { setAllProxies, setEditPanel, setSelectedItem, updateItem } from '../../../store/proxy/actions';
 import { IProxy } from '../../../store/proxy/types';
 import { IonToggle } from '@ionic/react';
+import { useEffect } from 'react';
 
 const ProxyList = () => {
   const dispatch = useDispatch();
   const { proxies } = useSelector((state: IRootState) => state.proxy);
-  
+
+  useEffect(() => {
+
+    const storedProxies = localStorage.getItem('proxies');
+    console.log('storedProxies', storedProxies);
+    if (storedProxies) {
+      const parsedProxies = JSON.parse(storedProxies);
+      dispatch(setAllProxies(parsedProxies));
+    }
+  }, []);
+
   const detailsListColumns: IColumn[] = [
     {
       key: 'empty',

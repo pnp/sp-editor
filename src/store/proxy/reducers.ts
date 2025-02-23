@@ -64,6 +64,8 @@ const defaultProxy: IProxy[] = [{
 
 export function proxyReducer(state: IProxyState = init, action: ProxyActions): IProxyState {
   switch (action.type) {
+    case Constants.PX_SET_ALL_PROXIES:
+      return { ...state, proxies: action.payload.proxies };
     case Constants.PX_SET_ENABLED:
       return { ...state, ...action.payload };
     case Constants.PX_SET_EDITPANEL:

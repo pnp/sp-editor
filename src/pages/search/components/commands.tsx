@@ -1,18 +1,31 @@
-import { CommandBar, PrimaryButton } from '@fluentui/react';
+import { ActionButton, CommandBar, DefaultButton, Dialog, DialogFooter, DialogType, Link, Panel, PanelType, PrimaryButton, Stack, Text, TextField } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { runsearch } from '../chrome/runsearch';
-import { setOptionsPanel, setSearchResults } from '../../../store/search/actions';
+import { deleteSearchQuery, saveSearchQuery, setAllQueries, setOptionsPanel, setSearchQuery, setSearchResults } from '../../../store/search/actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
 import { currentpageallprops } from '../chrome/currentpageallprops';
 import { reindexweb } from '../chrome/reindexweb';
+import { useEffect, useState } from 'react';
+import { ISearchHistory } from '../../../store/search/types';
 
 const SearchCommands = () => {
   const dispatch = useDispatch();
 
-  const { searchQuery, optionsPanel } = useSelector((state: IRootState) => state.search);
+  const { searchQuery, optionsPanel, searchHistory } = useSelector((state: IRootState) => state.search);
+  const [showSaveQueryDialog, setShowSaveQueryDialog] = useState(false);
+  const [showSearchHistoryPanel, setShowSearchHistoryPanel] = useState(false);
+  const [queryName, setQueryName] = useState('');
 
+   useEffect(() => {
+     const storedQueries = localStorage.getItem('searchHistory');
+     if (storedQueries) {
+       const parsedQueries = JSON.parse(storedQueries);
+       dispatch(setAllQueries(parsedQueries));
+     }
+   }, []);
+ 
   const indexWebOnClick = () => {
     dispatch(rootActions.setLoading(true));
     chrome.scripting
@@ -48,63 +61,148 @@ const SearchCommands = () => {
   };
 
   return (
-    <CommandBar
-      items={[
-        {
-          key: 'Search',
-          onRender: () => (
-            <PrimaryButton
-              text="Search"
-              allowDisabledFocus
-              styles={{ root: { marginTop: 6, marginRight: 6 } }}
-              onClick={() => {
-                dispatch(rootActions.setLoading(true));
-                chrome.scripting
-                  .executeScript({
-                    target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                    world: 'MAIN',
-                    args: [searchQuery, chrome.runtime.getURL('')],
-                    func: runsearch,
-                  })
-                  .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
-              }}
-            />
-          ),
-        },
-        {
-          key: 'Options',
-          text: 'Options',
-          iconProps: { iconName: 'CheckList' },
-          onClick: () => {
-            dispatch(setOptionsPanel(!optionsPanel));
+    <>
+      <CommandBar
+        items={[
+          {
+            key: 'Search',
+            onRender: () => (
+              <PrimaryButton
+                text="Search"
+                allowDisabledFocus
+                styles={{ root: { marginTop: 6, marginRight: 6 } }}
+                onClick={() => {
+                  dispatch(rootActions.setLoading(true));
+                  chrome.scripting
+                    .executeScript({
+                      target: { tabId: chrome.devtools.inspectedWindow.tabId },
+                      world: 'MAIN',
+                      args: [searchQuery, chrome.runtime.getURL('')],
+                      func: runsearch,
+                    })
+                    .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
+                }}
+              />
+            ),
           },
-        },
-      ]}
-      farItems={[
-        {
-          key: 'SearchPage',
-          text: 'Search Current Page',
-          iconProps: { iconName: 'SearchAndApps' },
-          onClick: () => {
-            dispatch(rootActions.setLoading(true));
-            chrome.scripting
-              .executeScript({
-                target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                world: 'MAIN',
-                args: [chrome.runtime.getURL('')],
-                func: currentpageallprops,
-              })
-              .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
+          {
+            key: 'Options',
+            text: 'Options',
+            iconProps: { iconName: 'CheckList' },
+            onClick: () => {
+              dispatch(setOptionsPanel(!optionsPanel));
+            },
           },
-        },
-        {
-          key: 'IndexWeb',
-          text: 'Reindex Current Web',
-          iconProps: { iconName: 'SiteScan' },
-          onClick: () => indexWebOnClick(),
-        },
-      ]}
-    />
+          {
+            key: 'Save',
+            text: 'Save query',
+            iconProps: { iconName: 'Save' },
+            onClick: () => {
+              setShowSaveQueryDialog(true);
+            },
+          },
+          {
+            key: 'Load',
+            text: 'View saved queries',
+            iconProps: { iconName: 'OfflineStorage' },
+            onClick: () => {
+              setShowSearchHistoryPanel(true);
+            },
+          },
+        ]}
+        farItems={[
+          {
+            key: 'SearchPage',
+            text: 'Search Current Page',
+            iconProps: { iconName: 'SearchAndApps' },
+            onClick: () => {
+              dispatch(rootActions.setLoading(true));
+              chrome.scripting
+                .executeScript({
+                  target: { tabId: chrome.devtools.inspectedWindow.tabId },
+                  world: 'MAIN',
+                  args: [chrome.runtime.getURL('')],
+                  func: currentpageallprops,
+                })
+                .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
+            },
+          },
+          {
+            key: 'IndexWeb',
+            text: 'Reindex Current Web',
+            iconProps: { iconName: 'SiteScan' },
+            onClick: () => indexWebOnClick(),
+          },
+        ]}
+      />
+      <Dialog
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Save query',
+          closeButtonAriaLabel: 'Close',
+        }}
+        hidden={!showSaveQueryDialog}
+      >
+        <TextField label="Query name" value={queryName} onChange={(e, newValue) => setQueryName(newValue ?? '')} />
+        <DialogFooter>
+          <PrimaryButton
+            onClick={() => {
+              const newSearchHistory: ISearchHistory = {
+                ...searchQuery,
+                queryName: queryName,
+              };
+              dispatch(saveSearchQuery(newSearchHistory));
+              setShowSaveQueryDialog(false);
+            }}
+            text="Save"
+            disabled={!queryName}
+          />{' '}
+          <DefaultButton
+            onClick={() => {
+              setShowSaveQueryDialog(false);
+              setQueryName('');
+            }}
+            text="Cancel"
+          />
+        </DialogFooter>
+      </Dialog>
+      <Panel
+        isOpen={showSearchHistoryPanel}
+        onDismiss={() => setShowSearchHistoryPanel(false)}
+        type={PanelType.smallFixedFar}
+        headerText="Saved Search Queries"
+        closeButtonAriaLabel="Close"
+        isLightDismiss={true}
+        styles={{ content: { paddingLeft: 0, paddingRight: 0 } }}
+      >
+        <Stack>
+          {searchHistory.map((query: ISearchHistory, index) => (
+            <Stack horizontal key={index} styles={{ root: { width: '100%' } }}>
+              <Stack.Item align="start" grow>
+                <ActionButton
+                  iconProps={{ iconName: 'SearchBookmark' }}
+                  onClick={() => {
+                    const { queryName, ...searchQueryWithoutName } = query;
+                    dispatch(setSearchQuery(searchQueryWithoutName));
+                    setShowSearchHistoryPanel(false);
+                  }}
+                  text={query.queryName}
+                  styles={{ root: { display: 'inline-block', width: '100%', textAlign: 'start' } }}
+                />
+              </Stack.Item>
+              <Stack.Item align="end">
+                <ActionButton
+                  iconProps={{ iconName: 'Delete' }}
+                  onClick={() => {
+                    dispatch(deleteSearchQuery(index));
+                  }}
+                />
+              </Stack.Item>
+            </Stack>
+          ))}
+        </Stack>
+      </Panel>
+    </>
   );
 
   function handleInjectionResults(injectionResults: any, dispatch: Function) {
