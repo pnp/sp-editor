@@ -14,12 +14,22 @@ import { setOptionsPanel, setSearchQuery } from '../../../store/search/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { ISort, SortDirection } from '@pnp/sp/search';
+import { useEffect, useState } from 'react';
 
 const SearchQueryForm = () => {
   const dispatch = useDispatch();
 
   const { searchQuery, optionsPanel } = useSelector((state: IRootState) => state.search);
   const { isDark } = useSelector((state: IRootState) => state.home);
+  const [localQuery, setLocalQuery] = useState(searchQuery);
+
+   useEffect(() => {
+      // modify the searchQuery object to replace date tokens
+      const modifiedQuery = { ...searchQuery };
+      modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
+     setLocalQuery(modifiedQuery);
+   }, [searchQuery]);
+
 
   const sourceIds = [
     {
@@ -121,22 +131,75 @@ const SearchQueryForm = () => {
     }
   }
 
+  function replaceDateTokens(inputString: string): string {
+    const currentDate = /\{CurrentDate\}/gi;
+    const currentMonth = /\{CurrentMonth\}/gi;
+    const currentYear = /\{CurrentYear\}/gi;
+    const currentHour = /\{CurrentHour\}/gi;
+    const currentMinute = /\{CurrentMinute\}/gi;
+    const currentSecond = /\{CurrentSecond\}/gi;
+    const currentDateUTC = /\{CurrentDateUTC\}/gi;
+    const currentMonthUTC = /\{CurrentMonthUTC\}/gi;
+    const currentYearUTC = /\{CurrentYearUTC\}/gi;
+    const currentHourUTC = /\{CurrentHourUTC\}/gi;
+    const currentMinuteUTC = /\{CurrentMinuteUTC\}/gi;
+    const currentSecondUTC = /\{CurrentSecondUTC\}/gi;
+  
+    // Replaces any "{Today} +/- [digit]" expression
+    let results = /\{Today\s*[\+-]\s*\[{0,1}\d{1,}\]{0,1}\}/gi;
+    let match;
+    while ((match = results.exec(inputString)) !== null) {
+      for (let result of match) {
+        const operator = result.indexOf('+') !== -1 ? '+' : '-';
+        const addOrRemove = operator === '+' ? 1 : -1;
+        const operatorSplit = result.split(operator);
+        const digit = parseInt(operatorSplit[operatorSplit.length - 1].replace("{", "").replace("}", "").trim()) * addOrRemove;
+        let dt = new Date();
+        dt.setDate(dt.getDate() + digit);
+        const formatDate = dt.toISOString().replace(/\.\d{3}Z$/, 'Z');
+        inputString = inputString.replace(result, formatDate);
+      }
+    }
+  
+    // Replaces any "{Today}" expression by its actual value
+    let formattedDate = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+    inputString = inputString.replace(new RegExp("{Today}", 'gi'), formattedDate);
+  
+    const d = new Date();
+    inputString = inputString.replace(currentDate, d.getDate().toString());
+    inputString = inputString.replace(currentMonth, (d.getMonth() + 1).toString());
+    inputString = inputString.replace(currentYear, d.getFullYear().toString());
+    inputString = inputString.replace(currentHour, d.getHours().toString());
+    inputString = inputString.replace(currentMinute, d.getMinutes().toString());
+    inputString = inputString.replace(currentSecond, d.getSeconds().toString());
+    inputString = inputString.replace(currentDateUTC, d.getUTCDate().toString());
+    inputString = inputString.replace(currentMonthUTC, (d.getUTCMonth() + 1).toString());
+    inputString = inputString.replace(currentYearUTC, d.getUTCFullYear().toString());
+    inputString = inputString.replace(currentHourUTC, d.getUTCHours().toString());
+    inputString = inputString.replace(currentMinuteUTC, d.getUTCMinutes().toString());
+    inputString = inputString.replace(currentSecondUTC, d.getUTCSeconds().toString());
+  
+    return inputString;
+  }
+  
   return (
     <>
-        <ScrollablePane
-          scrollbarVisibility={ScrollbarVisibility.auto}
+      <ScrollablePane
+        scrollbarVisibility={ScrollbarVisibility.auto}
+        style={{
+          width: '300px',
+          marginLeft: '5px',
+          marginRight: '5px',
+          marginTop: '50px',
+          marginBottom: '25px',
+          backgroundColor: 'transparent',
+        }}
+      >
+        <div
           style={{
-            width: '300px',
-            marginLeft: '5px',
-            marginRight: '5px',
-            marginTop: '50px',
-            marginBottom: '25px',
-            backgroundColor: 'transparent',
+            marginRight: '10px',
           }}
         >
-          <div style={{
-            marginRight: '10px',
-          }}>
           <TextField
             spellCheck={false}
             label="Querytext"
@@ -149,6 +212,22 @@ const SearchQueryForm = () => {
                 setSearchQuery({
                   ...searchQuery,
                   Querytext: newValue ? newValue : '',
+                })
+              )
+            }
+          />
+          <TextField
+            spellCheck={false}
+            label="Querytemplate"
+            placeholder=""
+            multiline
+            value={searchQuery.QueryTemplate}
+            autoAdjustHeight
+            onChange={(event, newValue?: string) =>
+              dispatch(
+                setSearchQuery({
+                  ...searchQuery,
+                  QueryTemplate: newValue ? newValue : '',
                 })
               )
             }
@@ -181,7 +260,12 @@ const SearchQueryForm = () => {
             label="SelectedProperties"
             placeholder="eg. Title,contentclass"
             onChange={(event, newValue?: string) => {
-              dispatch(setSearchQuery({ ...searchQuery, SelectProperties: newValue ? newValue.split(',').map(item => item.trim()) : [] }));
+              dispatch(
+                setSearchQuery({
+                  ...searchQuery,
+                  SelectProperties: newValue ? newValue.split(',').map((item) => item.trim()) : [],
+                })
+              );
             }}
           />
           <TextField
@@ -210,7 +294,12 @@ const SearchQueryForm = () => {
             label="RefinementFilters"
             placeholder='eg. and(lastname:equals("burr"),firstname:equals("bill"))'
             onChange={(event, newValue?: string) => {
-              dispatch(setSearchQuery({ ...searchQuery, RefinementFilters: newValue ? newValue.split(',').map(item => item.trim()) : [] }));
+              dispatch(
+                setSearchQuery({
+                  ...searchQuery,
+                  RefinementFilters: newValue ? newValue.split(',').map((item) => item.trim()) : [],
+                })
+              );
             }}
           />
           <ComboBox
@@ -230,8 +319,8 @@ const SearchQueryForm = () => {
               );
             }}
           />
-          </div>
-        </ScrollablePane>
+        </div>
+      </ScrollablePane>
       <Panel
         isOpen={optionsPanel}
         onDismiss={() => {
@@ -274,7 +363,7 @@ const SearchQueryForm = () => {
           <Stack.Item grow>
             <Text variant={'medium'}>Payload preview</Text>
             <pre spellCheck="false" style={{ color: isDark ? 'white' : 'black' }}>
-              {JSON.stringify(searchQuery, null, 2)}
+              {JSON.stringify(localQuery, null, 2)}
             </pre>{' '}
           </Stack.Item>
         </Stack>

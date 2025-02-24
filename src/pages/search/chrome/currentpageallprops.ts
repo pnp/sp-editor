@@ -174,6 +174,7 @@ export const currentpageallprops = (extPath: string) => {
                     TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
                     TotalRowsIncludingDuplicates:
                       r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
+                    RawSearchResults: r.postquery.PrimaryQueryResult,
                   };
                   return result;
                 });

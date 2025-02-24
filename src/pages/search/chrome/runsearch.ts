@@ -165,6 +165,7 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
           RowCount: r.postquery.PrimaryQueryResult?.RelevantResults?.RowCount,
           TotalRows: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRows,
           TotalRowsIncludingDuplicates: r.postquery.PrimaryQueryResult?.RelevantResults?.TotalRowsIncludingDuplicates,
+          RawSearchResults: r.postquery.PrimaryQueryResult,
         };
         return result;
       })

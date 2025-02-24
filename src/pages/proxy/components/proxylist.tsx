@@ -9,14 +9,25 @@ import {
 } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { setEditPanel } from '../../../store/proxy/actions';
+import { setAllProxies, setEditPanel, setSelectedItem, updateItem } from '../../../store/proxy/actions';
 import { IProxy } from '../../../store/proxy/types';
+import { IonToggle } from '@ionic/react';
+import { useEffect } from 'react';
 
 const ProxyList = () => {
   const dispatch = useDispatch();
   const { proxies } = useSelector((state: IRootState) => state.proxy);
-  const { isDark } = useSelector((state: IRootState) => state.home);
-  
+
+  useEffect(() => {
+
+    const storedProxies = localStorage.getItem('proxies');
+    console.log('storedProxies', storedProxies);
+    if (storedProxies) {
+      const parsedProxies = JSON.parse(storedProxies);
+      dispatch(setAllProxies(parsedProxies));
+    }
+  }, []);
+
   const detailsListColumns: IColumn[] = [
     {
       key: 'empty',
@@ -27,17 +38,38 @@ const ProxyList = () => {
       isResizable: false,
     },
     {
+      key: 'enabled',
+      name: 'Enabled',
+      minWidth: 32,
+      maxWidth: 32,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <IonToggle
+          onClick={() => {
+           dispatch(updateItem({ ...item, enabled: !item.enabled }));
+          }}
+          checked={item.enabled}
+          color="success"
+          style={{ verticalAlign: 'middle' }}
+        >
+        </IonToggle>
+      ),
+    },
+    {
       key: 'editproxy',
-      name: '',
+      name: 'Edit',
       minWidth: 16,
       maxWidth: 16,
       isPadded: true,
       isResizable: false,
       onRender: (item) => (
         <ActionButton
-          iconProps={{ iconName: 'Edit', style: { width: '16px', height: '16px' }, title: 'Copy value to clipboard' }}
-          onClick={() => dispatch(setEditPanel(true))
-          }
+          iconProps={{ iconName: 'Edit', style: { width: '16px', height: '16px' }, title: 'Edit proxy' }}
+          onClick={() => {
+            dispatch(setSelectedItem(item));
+            dispatch(setEditPanel(true));
+          }}
           styles={{
             root: {
               marginLeft: 'auto',
@@ -51,27 +83,39 @@ const ProxyList = () => {
       ),
     },
     {
-      data: 'number',
-      fieldName: 'failRate',
-      isPadded: false,
-      isResizable: true,
-      isRowHeader: true,
-      key: 'failRate',
-      maxWidth: 50,
-      minWidth: 50,
-      name: 'Fail Rate',
-      onRender: (item: IProxy) => <div>{(item.failRate * 100).toFixed(0)}%</div>,
-    },
-    {
       data: 'string',
       fieldName: 'url',
       isPadded: false,
       isResizable: true,
       isRowHeader: true,
       key: 'url',
-      maxWidth: 300,
-      minWidth: 300,
+      maxWidth: 500,
+      minWidth: 500,
       name: 'Url',
+    },
+    {
+      data: 'string',
+      fieldName: 'methods',
+      isPadded: false,
+      isResizable: true,
+      isRowHeader: true,
+      key: 'methods',
+      maxWidth: 150,
+      minWidth: 150,
+      name: 'Methods',
+      onRender: (item: IProxy) => <div>{item.methods.join(', ')}</div>,
+    },
+    {
+      data: 'number',
+      fieldName: 'failRate',
+      isPadded: false,
+      isResizable: true,
+      isRowHeader: true,
+      key: 'failRate',
+      maxWidth: 60,
+      minWidth: 60,
+      name: 'Block Rate',
+      onRender: (item: IProxy) => <div>{(item.failRate * 100).toFixed(0)}%</div>,
     },
     {
       data: 'number',
@@ -80,32 +124,20 @@ const ProxyList = () => {
       isResizable: true,
       isRowHeader: true,
       key: 'status',
-      maxWidth: 50,
-      minWidth: 50,
-      name: 'Status',
+      maxWidth: 120,
+      minWidth: 120,
+      name: 'Response status',
     },
     {
       data: 'string',
-      fieldName: 'statusText',
+      fieldName: 'description',
       isPadded: false,
       isResizable: true,
       isRowHeader: true,
-      key: 'statusText',
-      minWidth: 50,
-      maxWidth: 200,
-      name: 'Status Text',
-    },
-    {
-      data: 'string',
-      fieldName: 'responseHeaders',
-      isPadded: false,
-      isResizable: true,
-      isRowHeader: true,
-      key: 'responseHeaders',
-      maxWidth: 350,
-      minWidth: 350,
-      name: 'Response Headers',
-      onRender: (item: IProxy) => <div>{JSON.stringify(item.responseHeaders)}</div>,
+      key: 'description',
+      maxWidth: 300,
+      minWidth: 300,
+      name: 'Description',
     },
   ];
 
@@ -130,9 +162,6 @@ const ProxyList = () => {
         isHeaderVisible={true}
         enterModalSelectionOnTouch={true}
         onRenderDetailsHeader={renderHeader}
-        onItemInvoked={(item: IProxy) => {
-          dispatch(setEditPanel(true));
-        }}
       />
     </ScrollablePane>
   );

@@ -161,8 +161,12 @@ export interface IFolderInfo {
     TimeLastModified: string;
     UniqueId: string;
     WelcomePage: string;
-    ContentTypeOrder: string[];
-    UniqueContentTypeOrder: string[];
+    ContentTypeOrder: {
+        StringValue: string;
+    }[];
+    UniqueContentTypeOrder: {
+        StringValue: string;
+    }[];
     StorageMetrics?: IStorageMetrics;
 }
 export interface IStorageMetrics {

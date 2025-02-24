@@ -21,6 +21,9 @@ export interface SearchResult {
   TotalRowsIncludingDuplicates: number;
 }
 
+export interface ISearchHistory extends ISearchQuery {
+  queryName: string;
+}
 export interface ISearchState {
   items: ISearchItem[];
   groups: IGroup[];
@@ -28,10 +31,15 @@ export interface ISearchState {
   searchResults?: SearchResult;
   loading: boolean;
   optionsPanel: boolean;
+  searchHistory: ISearchHistory[];
 }
+
 
 export enum Constants {
   S_GET_ITEMS = "S_GET_ITEMS",
   S_SET_QUERY = "S_SET_QUERY",
+  S_SAVE_QUERY = "S_SAVE_QUERY",
+  S_DELETE_QUERY = "S_DELETE_QUERY",
   S_SET_OPTIONSPANEL = "S_SET_OPTIONSPANEL",
+  s_SET_ALL_QUERIES = "S_SET_ALL_QUERIES",
 }
