@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v4.2.0 2025-02-05 */
+/*! @azure/msal-browser v4.4.0 2025-02-20 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -310,7 +310,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -327,7 +327,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -376,7 +376,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -474,7 +474,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -726,7 +726,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -765,7 +765,7 @@
         },
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -956,12 +956,12 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
-    const version$1 = "15.1.1";
+    const version$1 = "15.2.0";
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -981,7 +981,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1042,7 +1042,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1079,7 +1079,7 @@
         return cachedAtSec > nowSeconds();
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1406,7 +1406,7 @@
         return metadata.expiresAt <= nowSeconds();
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1460,7 +1460,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1598,7 +1598,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1695,7 +1695,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1886,7 +1886,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1926,7 +1926,7 @@
         };
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2005,7 +2005,7 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2020,7 +2020,7 @@
         Ciam: 3,
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2042,7 +2042,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2055,7 +2055,7 @@
         OIDC: "OIDC",
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2298,7 +2298,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2345,7 +2345,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2509,7 +2509,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2649,7 +2649,7 @@
         return null;
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -2657,7 +2657,7 @@
     const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
     const cacheUnknownErrorCode = "cache_error_unknown";
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2684,7 +2684,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3869,7 +3869,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3968,7 +3968,7 @@
         return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -3978,7 +3978,7 @@
         UPN: "UPN",
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4028,7 +4028,7 @@
     const BROKER_CLIENT_ID = "brk_client_id";
     const BROKER_REDIRECT_URI = "brk_redirect_uri";
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4095,7 +4095,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4503,7 +4503,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4515,7 +4515,7 @@
             response.hasOwnProperty("jwks_uri"));
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4525,7 +4525,7 @@
             response.hasOwnProperty("metadata"));
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4535,7 +4535,7 @@
             response.hasOwnProperty("error_description"));
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5044,7 +5044,7 @@
         "encryptedCacheExpiredCount",
     ]);
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5140,7 +5140,7 @@
         };
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5249,7 +5249,7 @@
         },
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6088,7 +6088,7 @@
         };
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6119,7 +6119,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6138,7 +6138,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6236,7 +6236,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6266,7 +6266,7 @@
         return new NetworkError(error, httpStatus, responseHeaders);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6416,7 +6416,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6442,7 +6442,7 @@
         refreshTokenExpired: refreshTokenExpired
     });
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6530,7 +6530,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6602,7 +6602,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6686,7 +6686,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6713,7 +6713,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7090,7 +7090,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7108,7 +7108,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7558,7 +7558,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7781,7 +7781,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7879,7 +7879,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7894,7 +7894,7 @@
         },
     };
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7952,7 +7952,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8215,7 +8215,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8223,7 +8223,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8248,7 +8248,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8288,7 +8288,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8367,7 +8367,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.1.1 2025-02-05 */
+    /*! @azure/msal-common v15.2.0 2025-02-20 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10404,7 +10404,7 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "4.2.0";
+    const version = "4.4.0";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -13220,10 +13220,12 @@
         /**
          * Generates an auth code request tied to the url request.
          * @param request
+         * @param pkceCodes
          */
-        async initializeAuthorizationCodeRequest(request) {
+        async initializeAuthorizationCodeRequest(request, pkceCodes) {
             this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.correlationId);
-            const generatedPkceParams = await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, this.correlationId)(this.performanceClient, this.logger, this.correlationId);
+            const generatedPkceParams = pkceCodes ||
+                (await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, this.correlationId)(this.performanceClient, this.logger, this.correlationId));
             const authCodeRequest = {
                 ...request,
                 redirectUri: request.redirectUri,
@@ -14588,8 +14590,9 @@
         /**
          * Acquires tokens by opening a popup window to the /authorize endpoint of the authority
          * @param request
+         * @param pkceCodes
          */
-        acquireToken(request) {
+        acquireToken(request, pkceCodes) {
             try {
                 const popupName = this.generatePopupName(request.scopes || OIDC_DEFAULT_SCOPES, request.authority || this.config.auth.authority);
                 const popupParams = {
@@ -14602,13 +14605,13 @@
                 if (this.config.system.asyncPopups) {
                     this.logger.verbose("asyncPopups set to true, acquiring token");
                     // Passes on popup position and dimensions if in request
-                    return this.acquireTokenPopupAsync(request, popupParams);
+                    return this.acquireTokenPopupAsync(request, popupParams, pkceCodes);
                 }
                 else {
                     // asyncPopups flag is set to false. Opens popup before acquiring token.
                     this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
                     popupParams.popup = this.openSizedPopup("about:blank", popupParams);
-                    return this.acquireTokenPopupAsync(request, popupParams);
+                    return this.acquireTokenPopupAsync(request, popupParams, pkceCodes);
                 }
             }
             catch (e) {
@@ -14650,21 +14653,26 @@
         }
         /**
          * Helper which obtains an access_token for your API via opening a popup window in the user's browser
-         * @param validRequest
-         * @param popupName
-         * @param popup
-         * @param popupWindowAttributes
+         * @param request
+         * @param popupParams
+         * @param pkceCodes
          *
          * @returns A promise that is fulfilled when this function has completed, or rejected if an error was raised.
          */
-        async acquireTokenPopupAsync(request, popupParams) {
+        async acquireTokenPopupAsync(request, popupParams, pkceCodes) {
             this.logger.verbose("acquireTokenPopupAsync called");
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenPopup);
             const validRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, this.correlationId)(request, exports.InteractionType.Popup);
-            preconnect(validRequest.authority);
+            /*
+             * Skip pre-connect for async popups to reduce time between user interaction and popup window creation to avoid
+             * popup from being blocked by browsers with shorter popup timers
+             */
+            if (popupParams.popup) {
+                preconnect(validRequest.authority);
+            }
             try {
                 // Create auth code request and generate PKCE params
-                const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
+                const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest, pkceCodes);
                 // Initialize the client
                 const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
                     serverTelemetryManager,
@@ -16219,6 +16227,8 @@
                 this.logger.verbose("Claims-based caching is disabled. Clearing the previous cache with claims");
                 await invokeAsync(this.browserStorage.clearTokensAndKeysWithClaims.bind(this.browserStorage), PerformanceEvents.ClearTokensAndKeysWithClaims, this.logger, this.performanceClient, initCorrelationId)(this.performanceClient, initCorrelationId);
             }
+            this.config.system.asyncPopups &&
+                (await this.preGeneratePkceCodes(initCorrelationId));
             this.initialized = true;
             this.eventHandler.emitEvent(EventType.INITIALIZE_END);
             initMeasurement.end({
@@ -16469,6 +16479,7 @@
                 this.eventHandler.emitEvent(EventType.LOGIN_START, exports.InteractionType.Popup, request);
             }
             let result;
+            const pkce = this.getPreGeneratedPkceCodes(correlationId);
             if (this.canUsePlatformBroker(request)) {
                 result = this.acquireTokenNative({
                     ...request,
@@ -16488,12 +16499,12 @@
                         isFatalNativeAuthError(e)) {
                         this.nativeExtensionProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
                         const popupClient = this.createPopupClient(correlationId);
-                        return popupClient.acquireToken(request);
+                        return popupClient.acquireToken(request, pkce);
                     }
                     else if (e instanceof InteractionRequiredAuthError) {
                         this.logger.verbose("acquireTokenPopup - Resolving interaction required error thrown by native broker by falling back to web flow");
                         const popupClient = this.createPopupClient(correlationId);
-                        return popupClient.acquireToken(request);
+                        return popupClient.acquireToken(request, pkce);
                     }
                     this.browserStorage.setInteractionInProgress(false);
                     throw e;
@@ -16501,7 +16512,7 @@
             }
             else {
                 const popupClient = this.createPopupClient(correlationId);
-                result = popupClient.acquireToken(request);
+                result = popupClient.acquireToken(request, pkce);
             }
             return result
                 .then((result) => {
@@ -16535,7 +16546,9 @@
                 }, e);
                 // Since this function is syncronous we need to reject
                 return Promise.reject(e);
-            });
+            })
+                .finally(() => this.config.system.asyncPopups &&
+                this.preGeneratePkceCodes(correlationId));
         }
         trackPageVisibilityWithMeasurement() {
             const measurement = this.ssoSilentMeasurement ||
@@ -17400,6 +17413,27 @@
                 });
             }
         }
+        /**
+         * Pre-generates PKCE codes and stores it in local variable
+         * @param correlationId
+         */
+        async preGeneratePkceCodes(correlationId) {
+            this.logger.verbose("Generating new PKCE codes");
+            this.pkceCode = await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, correlationId)(this.performanceClient, this.logger, correlationId);
+            return Promise.resolve();
+        }
+        /**
+         * Provides pre-generated PKCE codes, if any
+         * @param correlationId
+         */
+        getPreGeneratedPkceCodes(correlationId) {
+            this.logger.verbose("Attempting to pick up pre-generated PKCE codes");
+            const res = this.pkceCode ? { ...this.pkceCode } : undefined;
+            this.pkceCode = undefined;
+            this.logger.verbose(`${res ? "Found" : "Did not find"} pre-generated PKCE codes`);
+            this.performanceClient.addFields({ usePreGeneratedPkce: !!res }, correlationId);
+            return res;
+        }
     }
     /**
      * Determines whether an error thrown by the refresh token endpoint can be resolved without interaction
@@ -17742,7 +17776,9 @@
                 return result;
             }
             catch (e) {
-                const error = this.nestedAppAuthAdapter.fromBridgeError(e);
+                const error = e instanceof AuthError
+                    ? e
+                    : this.nestedAppAuthAdapter.fromBridgeError(e);
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Popup, null, e);
                 atPopupMeasurement.end({
                     success: false,
@@ -17797,7 +17833,9 @@
                 return result;
             }
             catch (e) {
-                const error = this.nestedAppAuthAdapter.fromBridgeError(e);
+                const error = e instanceof AuthError
+                    ? e
+                    : this.nestedAppAuthAdapter.fromBridgeError(e);
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null, e);
                 ssoSilentMeasurement?.end({
                     success: false,

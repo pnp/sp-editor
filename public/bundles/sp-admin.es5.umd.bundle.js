@@ -2674,7 +2674,7 @@ function encodePath(value) {
 function telemetry_Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.9.0:";
+            let clientTag = "PnPCoreJS:4.10.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -3393,13 +3393,16 @@ function createBatch(base, props) {
     const registrationPromises = [];
     const completePromises = [];
     const requests = [];
-    const batchId = util_getGUID();
     const batchQuery = new BatchQueryable(base);
+    // this id will be reused across multiple batches if the number of requests added to the batch
+    // exceeds the configured maxRequests value
+    const batchId = util_getGUID();
     // this query is used to copy back the behaviors after the batch executes
     // it should not manipulated or have behaviors added.
     const refQuery = new BatchQueryable(base);
-    const { headersCopyPattern } = {
+    const { headersCopyPattern, maxRequests } = {
         headersCopyPattern: /Accept|Content-Type|IF-Match/i,
+        maxRequests: 20,
         ...props,
     };
     const execute = async () => {
@@ -3410,97 +3413,88 @@ function createBatch(base, props) {
             // this likely means caching is being used, we returned values for all child requests from the cache
             return Promise.all(completePromises).then(() => void (0));
         }
-        const batchBody = [];
-        let currentChangeSetId = "";
-        for (let i = 0; i < requests.length; i++) {
-            const [, url, init] = requests[i];
-            if (init.method === "GET") {
-                if (currentChangeSetId.length > 0) {
-                    // end an existing change set
-                    batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
-                    currentChangeSetId = "";
-                }
-                batchBody.push(`--batch_${batchId}\n`);
-            }
-            else {
-                if (currentChangeSetId.length < 1) {
-                    // start new change set
-                    currentChangeSetId = util_getGUID();
+        // create a working copy of our requests
+        const requestsWorkingCopy = requests.slice();
+        while (requestsWorkingCopy.length > 0) {
+            const requestsChunk = requestsWorkingCopy.splice(0, maxRequests);
+            const batchBody = [];
+            let currentChangeSetId = "";
+            for (let i = 0; i < requestsChunk.length; i++) {
+                const [, url, init] = requestsChunk[i];
+                if (init.method === "GET") {
+                    if (currentChangeSetId.length > 0) {
+                        // end an existing change set
+                        batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+                        currentChangeSetId = "";
+                    }
                     batchBody.push(`--batch_${batchId}\n`);
-                    batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
                 }
-                batchBody.push(`--changeset_${currentChangeSetId}\n`);
-            }
-            // common batch part prefix
-            batchBody.push("Content-Type: application/http\n");
-            batchBody.push("Content-Transfer-Encoding: binary\n\n");
-            // these are the per-request headers
-            const headers = new Headers(init.headers);
-            // this is the url of the individual request within the batch
-            const reqUrl = util_isUrlAbsolute(url) ? url : util_combine(batchQuery.requestBaseUrl, url);
-            if (init.method !== "GET") {
-                let method = init.method;
-                if (headers.has("X-HTTP-Method")) {
-                    method = headers.get("X-HTTP-Method");
-                    headers.delete("X-HTTP-Method");
+                else {
+                    if (currentChangeSetId.length < 1) {
+                        // start new change set
+                        currentChangeSetId = util_getGUID();
+                        batchBody.push(`--batch_${batchId}\n`);
+                        batchBody.push(`Content-Type: multipart/mixed; boundary="changeset_${currentChangeSetId}"\n\n`);
+                    }
+                    batchBody.push(`--changeset_${currentChangeSetId}\n`);
                 }
-                batchBody.push(`${method} ${reqUrl} HTTP/1.1\n`);
-            }
-            else {
-                batchBody.push(`${init.method} ${reqUrl} HTTP/1.1\n`);
-            }
-            // lastly we apply any default headers we need that may not exist
-            if (!headers.has("Accept")) {
-                headers.append("Accept", "application/json");
-            }
-            if (!headers.has("Content-Type")) {
-                headers.append("Content-Type", "application/json;charset=utf-8");
-            }
-            // write headers into batch body
-            headers.forEach((value, name) => {
-                if (headersCopyPattern.test(name)) {
-                    batchBody.push(`${name}: ${value}\n`);
+                // common batch part prefix
+                batchBody.push("Content-Type: application/http\n");
+                batchBody.push("Content-Transfer-Encoding: binary\n\n");
+                // these are the per-request headers
+                const headers = new Headers(init.headers);
+                // this is the url of the individual request within the batch
+                const reqUrl = util_isUrlAbsolute(url) ? url : util_combine(batchQuery.requestBaseUrl, url);
+                if (init.method !== "GET") {
+                    let method = init.method;
+                    if (headers.has("X-HTTP-Method")) {
+                        method = headers.get("X-HTTP-Method");
+                        headers.delete("X-HTTP-Method");
+                    }
+                    batchBody.push(`${method} ${reqUrl} HTTP/1.1\n`);
                 }
+                else {
+                    batchBody.push(`${init.method} ${reqUrl} HTTP/1.1\n`);
+                }
+                // lastly we apply any default headers we need that may not exist
+                if (!headers.has("Accept")) {
+                    headers.append("Accept", "application/json");
+                }
+                if (!headers.has("Content-Type")) {
+                    headers.append("Content-Type", "application/json;charset=utf-8");
+                }
+                // write headers into batch body
+                headers.forEach((value, name) => {
+                    if (headersCopyPattern.test(name)) {
+                        batchBody.push(`${name}: ${value}\n`);
+                    }
+                });
+                batchBody.push("\n");
+                if (init.body) {
+                    batchBody.push(`${init.body}\n\n`);
+                }
+            }
+            if (currentChangeSetId.length > 0) {
+                // Close the changeset
+                batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
+                currentChangeSetId = "";
+            }
+            batchBody.push(`--batch_${batchId}--\n`);
+            const responses = await spqueryable_spPost(batchQuery, {
+                body: batchBody.join(""),
+                headers: {
+                    "Content-Type": `multipart/mixed; boundary=batch_${batchId}`,
+                },
             });
-            batchBody.push("\n");
-            if (init.body) {
-                batchBody.push(`${init.body}\n\n`);
+            if (responses.length !== requestsChunk.length) {
+                throw Error("Could not properly parse responses to match requests in batch.");
             }
-        }
-        if (currentChangeSetId.length > 0) {
-            // Close the changeset
-            batchBody.push(`--changeset_${currentChangeSetId}--\n\n`);
-            currentChangeSetId = "";
-        }
-        batchBody.push(`--batch_${batchId}--\n`);
-        const responses = await spqueryable_spPost(batchQuery, {
-            body: batchBody.join(""),
-            headers: {
-                "Content-Type": `multipart/mixed; boundary=batch_${batchId}`,
-            },
-        });
-        if (responses.length !== requests.length) {
-            throw Error("Could not properly parse responses to match requests in batch.");
-        }
-        return new Promise((res, rej) => {
-            try {
-                for (let index = 0; index < responses.length; index++) {
-                    const [, , , resolve, reject] = requests[index];
-                    try {
-                        resolve(responses[index]);
-                    }
-                    catch (e) {
-                        reject(e);
-                    }
-                }
-                // this small delay allows the promises to resolve correctly in order by dropping this resolve behind
-                // the other work in the event loop. Feels hacky, but it works so 🤷
-                setTimeout(res, 0);
+            for (let index = 0; index < responses.length; index++) {
+                // resolve the child request's send promise with the parsed response
+                requestsChunk[index][3](responses[index]);
             }
-            catch (e) {
-                setTimeout(() => rej(e), 0);
-            }
-        }).then(() => Promise.all(completePromises)).then(() => void (0));
+        } // end of while (requestsWorkingCopy.length > 0)
+        await Promise.all(completePromises).then(() => void (0));
     };
     const register = (instance) => {
         instance.on.init(function () {
@@ -3530,9 +3524,9 @@ function createBatch(base, props) {
             // we replace the send function with our batching logic
             this.on.send.replace(async function (url, init) {
                 // this is the promise that Queryable will see returned from .emit.send
-                const promise = new Promise((resolve, reject) => {
+                const promise = new Promise((resolve) => {
                     // add the request information into the batch
-                    requests.push([this, url.toString(), init, resolve, reject]);
+                    requests.push([this, url.toString(), init, resolve]);
                 });
                 this.log(`[batch:${batchId}] (${(new Date()).getTime()}) Adding request ${init.method} ${url.toString()} to batch.`, 0);
                 // we need to ensure we wait to resolve execute until all our batch children have fully completed their request timelines
@@ -3810,6 +3804,7 @@ function SPFx(context) {
 }
 
 ;// ./node_modules/@pnp/sp/index.js
+
 
 
 

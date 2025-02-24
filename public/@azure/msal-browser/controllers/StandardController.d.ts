@@ -48,6 +48,7 @@ export declare class StandardController implements IController {
     private activeIframeRequest;
     private ssoSilentMeasurement?;
     private acquireTokenByCodeAsyncMeasurement?;
+    private pkceCode;
     /**
      * @constructor
      * Constructor for the PublicClientApplication used to instantiate the PublicClientApplication object
@@ -401,5 +402,15 @@ export declare class StandardController implements IController {
      * @returns
      */
     private acquireTokenSilentNoIframe;
+    /**
+     * Pre-generates PKCE codes and stores it in local variable
+     * @param correlationId
+     */
+    private preGeneratePkceCodes;
+    /**
+     * Provides pre-generated PKCE codes, if any
+     * @param correlationId
+     */
+    private getPreGeneratedPkceCodes;
 }
 //# sourceMappingURL=StandardController.d.ts.map

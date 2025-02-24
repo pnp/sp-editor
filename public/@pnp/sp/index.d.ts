@@ -2,6 +2,7 @@ export * from "./spqueryable.js";
 export * from "./decorators.js";
 export { SPFI, spfi, } from "./fi.js";
 export * from "./types.js";
+export * from "./utils/create-change-token.js";
 export * from "./utils/extract-web-url.js";
 export * from "./utils/file-names.js";
 export * from "./utils/odata-url-from.js";

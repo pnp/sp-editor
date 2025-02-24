@@ -25,6 +25,11 @@ interface ISPBatchProps {
      * default: /Accept|Content-Type|IF-Match/i
      */
     headersCopyPattern?: RegExp;
+    /**
+     * Number of requests to include in each batch, if more than this number are added your requests will
+     * be completed in multiple batches. This may affect ordered operations.
+     */
+    maxRequests?: number;
 }
 /**
  * Creates a batched version of the supplied base, meaning that all chained fluent operations from the new base are part of the batch

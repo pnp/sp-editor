@@ -1,4 +1,4 @@
-import { ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions, StringDict } from "@azure/msal-common/browser";
+import { ServerTelemetryManager, CommonAuthorizationCodeRequest, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions, StringDict, PkceCodes } from "@azure/msal-common/browser";
 import { BaseInteractionClient } from "./BaseInteractionClient.js";
 import { AuthorizationUrlRequest } from "../request/AuthorizationUrlRequest.js";
 import { InteractionType } from "../utils/BrowserConstants.js";
@@ -13,8 +13,9 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
     /**
      * Generates an auth code request tied to the url request.
      * @param request
+     * @param pkceCodes
      */
-    protected initializeAuthorizationCodeRequest(request: AuthorizationUrlRequest): Promise<CommonAuthorizationCodeRequest>;
+    protected initializeAuthorizationCodeRequest(request: AuthorizationUrlRequest, pkceCodes?: PkceCodes): Promise<CommonAuthorizationCodeRequest>;
     /**
      * Initializer for the logout request.
      * @param logoutRequest
