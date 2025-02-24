@@ -8,7 +8,8 @@ export interface IHomeState {
   loading: boolean,
   isDark: boolean,
   appMessage: IAppMessage,
-  theme: ICustomizations
+  theme: ICustomizations,
+  livereload: boolean,
 }
 
 export interface IAppMessage {
@@ -28,6 +29,7 @@ export enum Constants {
     SET_DARK_MODE = 'SET_DARK_MODE',
     SET_APP_MESSAGE = 'SET_APP_MESSAGE',
     SET_THEME = 'SET_THEME',
+    SET_LIVERELOAD = 'SET_LIVERELOAD',
 }
 
 export enum MessageBarColors {

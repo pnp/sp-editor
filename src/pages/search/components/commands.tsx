@@ -103,7 +103,7 @@ const SearchCommands = () => {
           },
           {
             key: 'Load',
-            text: 'View saved queries',
+            text: 'View queries',
             iconProps: { iconName: 'OfflineStorage' },
             onClick: () => {
               setShowSearchHistoryPanel(true);
@@ -141,6 +141,10 @@ const SearchCommands = () => {
           title: 'Save query',
           closeButtonAriaLabel: 'Close',
         }}
+        onDismiss={() => {
+          setShowSaveQueryDialog(false);
+          setQueryName('');
+        }}
         hidden={!showSaveQueryDialog}
       >
         <TextField label="Query name" value={queryName} onChange={(e, newValue) => setQueryName(newValue ?? '')} />
@@ -153,6 +157,7 @@ const SearchCommands = () => {
               };
               dispatch(saveSearchQuery(newSearchHistory));
               setShowSaveQueryDialog(false);
+              setQueryName('');
             }}
             text="Save"
             disabled={!queryName}

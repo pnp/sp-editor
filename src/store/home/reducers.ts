@@ -6,6 +6,7 @@ const init: IHomeState = {
   isDark: false,
   theme: fabricDark,
   appMessage: { showMessage: false, message: '', color: MessageBarColors.primary },
+  livereload: false,
 }
 
 export function homeReducer(state: IHomeState = init, action: HomeActions): IHomeState {
@@ -17,6 +18,8 @@ export function homeReducer(state: IHomeState = init, action: HomeActions): IHom
     case Constants.SET_APP_MESSAGE:
       return { ...state, ...action.payload }
     case Constants.SET_THEME:
+      return { ...state, ...action.payload }
+    case Constants.SET_LIVERELOAD:
       return { ...state, ...action.payload }
     default:
       return state

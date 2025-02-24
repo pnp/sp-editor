@@ -25,3 +25,8 @@ export function setTheme(theme: ICustomizations) {
     theme,
   })
 }
+export function setLiveReload(livereload: boolean) {
+  return action(Constants.SET_LIVERELOAD, {
+    livereload,
+  })
+}
