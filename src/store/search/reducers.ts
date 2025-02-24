@@ -6,6 +6,7 @@ const init: ISearchState = {
   loading: false,
   searchQuery: {
     Querytext: "contentclass:STS_*",
+    QueryTemplate: "({searchterms})",
     RowLimit: 10,
     StartRow: 0,
     ClientType: "ContentSearchRegular",

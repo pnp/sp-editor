@@ -132,7 +132,6 @@ const SearchResults = () => {
       ),
     },
   ]);
-
   // make columns sticky
   const renderHeader = (headerProps: any, defaultRender: any) => {
     return (
@@ -140,9 +139,12 @@ const SearchResults = () => {
         {searchResults && (
           <div style={{ width: '100%', height: '100%', backgroundColor: isDark ? 'black' : 'white' 
           }}>
+            <Stack>
             <Text variant={'medium'}>
               {`Results, ${searchResults.TotalRows} hits in ${searchResults.ElapsedTime}ms. Total rows with duplicates ${searchResults.TotalRowsIncludingDuplicates}`}
             </Text>
+            {(searchResults?.RawSearchResults as any).RelevantResults.Properties.results[1].Value !== '0' && <Text variant={'medium'}>{`QueryModification: ${(searchResults?.RawSearchResults as any).RelevantResults.Properties.results[1].Value}`}</Text>}
+            </Stack>
           </div>
         )}
         {defaultRender(headerProps)}
