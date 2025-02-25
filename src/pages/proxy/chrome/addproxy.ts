@@ -12,6 +12,16 @@ export const addProxyScript = (proxies: IProxy[], enabled: boolean, update?: boo
     }
   }
 
+  function safeParseHeaders(headers: string | undefined): Headers | undefined {
+    if (!headers) return undefined;
+    try {
+      return new Headers(JSON.parse(headers));
+    } catch (error) {
+      console.error('Failed to parse headers:', error);
+      return undefined;
+    }
+  }
+
   if (!enabled) {
     if ((window as any).__fetchInterceptorRegistered) {
       window.fetch = (window as any).__originalFetch;
@@ -44,14 +54,14 @@ export const addProxyScript = (proxies: IProxy[], enabled: boolean, update?: boo
 
       for (const proxy of proxies) {
         const methodMatches = proxy.methods.includes('ALL') || proxy.methods.includes(method);
-        if (proxy.enabled && url && url.indexOf(proxy.url) > -1 && methodMatches && shouldFail(proxy.failRate)) {
+        if (proxy.enabled && url && url.indexOf(proxy.url.trim()) > -1 && methodMatches && shouldFail(proxy.failRate)) {
           console.warn(`SP Editor blocked ${url}`);
           return new Response(
-            JSON.stringify(proxy.responseBody),
+            proxy.responseBody,
             {
               status: Number(proxy.status),
               statusText: proxy.statusText,
-              headers: proxy.responseHeaders,
+              headers: safeParseHeaders(proxy.responseHeaders),
             }
           );
         }

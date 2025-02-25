@@ -26,12 +26,12 @@ const ProxyEditPanel = () => {
     url: '/_api/',
     status: '200',
     statusText: 'OK',
-    responseHeaders: {
+    responseHeaders: JSON.stringify({
       'Content-Type': 'application/json',
-    },
-    responseBody: {
+    }),
+    responseBody: JSON.stringify({
       message: 'Success',
-    },
+    }),
     description: '',
   });
 
@@ -74,7 +74,7 @@ const ProxyEditPanel = () => {
             }
 
             const data = await response.json();
-            setSampleData(data);
+            setSampleData(JSON.stringify(data, null, 2));
           } catch (error) {
             setSampleData(undefined);
           }
@@ -244,9 +244,9 @@ const ProxyEditPanel = () => {
           label="Response Headers"
           multiline
           autoAdjustHeight
-          value={JSON.stringify(localProxy.responseHeaders, null, 2)}
+          value={typeof localProxy.responseHeaders === 'object' ? JSON.stringify(localProxy.responseHeaders, null, 2) : localProxy.responseHeaders}
           onChange={(e, newValue) =>
-            setLocalProxy({ ...localProxy, responseHeaders: newValue ? JSON.parse(newValue) : {} })
+            setLocalProxy({ ...localProxy, responseHeaders: newValue ?? '' })
           }
           styles={{ root: { width: '100%' } }}
         />
@@ -255,9 +255,9 @@ const ProxyEditPanel = () => {
             label="Response Body"
             multiline
             autoAdjustHeight
-            value={JSON.stringify(localProxy.responseBody, null, 2)}
+            value={typeof localProxy.responseBody === 'object' ? JSON.stringify(localProxy.responseBody, null, 2) : localProxy.responseBody}
             onChange={(e, newValue) =>
-              setLocalProxy({ ...localProxy, responseBody: newValue ? JSON.parse(newValue) : {} })
+              setLocalProxy({ ...localProxy, responseBody: newValue ?? '' })  
             }
             styles={{ root: { width: '100%' } }}
           />

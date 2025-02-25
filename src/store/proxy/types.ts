@@ -10,8 +10,8 @@ export interface IProxy {
   url: string
   status: string
   statusText: string
-  responseHeaders: HeadersInit
-  responseBody: any
+  responseHeaders: string
+  responseBody: string
   enabled?: boolean
   description?: string
 }

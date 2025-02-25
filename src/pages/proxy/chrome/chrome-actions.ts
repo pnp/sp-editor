@@ -7,20 +7,15 @@ import { addProxyScript } from './addproxy';
 let listener: (tabId: number, changeInfo: any, tab: any) => void; // Listener reference
 
 export async function addProxy(dispatch: Dispatch<ProxyActions | HomeActions>, enabled: boolean, payload: IProxy[], update?: boolean) {
-  if ((enabled && !chrome.tabs.onUpdated.hasListeners()) || (enabled && update)) {
-    if (chrome.tabs.onUpdated.hasListeners()) {
-      chrome.tabs.onUpdated.removeListener(listener);
-    }
-
+  if ((enabled)) {
+    chrome.tabs.onUpdated.removeListener(listener);
     listener = (tabId, changeInfo, tab) => {
       if (changeInfo.status === 'complete' && tab.active) {
         executeScript(dispatch, enabled, payload, false);
       }
     };
-    if(!chrome.tabs.onUpdated.hasListeners()) {
-      chrome.tabs.onUpdated.addListener(listener);
-    }
-  } else if (!enabled && chrome.tabs.onUpdated.hasListeners()) {
+    chrome.tabs.onUpdated.addListener(listener);
+  } else {
     chrome.tabs.onUpdated.removeListener(listener);
   }
 

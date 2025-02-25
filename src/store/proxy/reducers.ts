@@ -7,11 +7,11 @@ const defaultProxy: IProxy[] = [{
   url: '/_api/',
   status: '429',
   statusText: 'Too many requests',
-  responseHeaders: {
+  responseHeaders: JSON.stringify({
     'Content-Type': 'application/json',
     'Retry-After': '2', // Tell the client to wait 2 seconds
-  },
-  responseBody: {
+  }),
+  responseBody: JSON.stringify({
     error: {
       code: '-2147024860, Microsoft.SharePoint.SPQueryThrottledException',
       message: {
@@ -20,7 +20,7 @@ const defaultProxy: IProxy[] = [{
           'The attempted operation is prohibited because it exceeds the list view threshold enforced by the administrator.',
       },
     },
-  },
+  }),
   description: 'Default 429 proxy, please edit to suit your needs',
 },
   {
@@ -30,10 +30,10 @@ const defaultProxy: IProxy[] = [{
     url: 'https://graph.microsoft.com/v1.0/me',
     status: '200',
     statusText: 'OK',
-    responseHeaders: {
+    responseHeaders: JSON.stringify({
       'Content-Type': 'application/json',
-    },
-    responseBody: {
+    }),
+    responseBody: JSON.stringify({
       "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users/$entity",
       "businessPhones": [
         "+1 412 555 0109"
@@ -48,7 +48,7 @@ const defaultProxy: IProxy[] = [{
       "surname": "Bowen",
       "userPrincipalName": "MeganB@M365x214355.onmicrosoft.com",
       "id": "48d31887-5fad-4d73-a9f5-3c356e68a038"
-    },
+    }),
     description: 'Default 200 proxy, please edit to suit your needs',
   }
 ];
