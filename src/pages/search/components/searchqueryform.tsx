@@ -16,6 +16,58 @@ import { IRootState } from '../../../store';
 import { ISort, SortDirection } from '@pnp/sp/search';
 import { useEffect, useState } from 'react';
 
+
+export function replaceDateTokens(inputString: string): string {
+  const currentDate = /\{CurrentDate\}/gi;
+  const currentMonth = /\{CurrentMonth\}/gi;
+  const currentYear = /\{CurrentYear\}/gi;
+  const currentHour = /\{CurrentHour\}/gi;
+  const currentMinute = /\{CurrentMinute\}/gi;
+  const currentSecond = /\{CurrentSecond\}/gi;
+  const currentDateUTC = /\{CurrentDateUTC\}/gi;
+  const currentMonthUTC = /\{CurrentMonthUTC\}/gi;
+  const currentYearUTC = /\{CurrentYearUTC\}/gi;
+  const currentHourUTC = /\{CurrentHourUTC\}/gi;
+  const currentMinuteUTC = /\{CurrentMinuteUTC\}/gi;
+  const currentSecondUTC = /\{CurrentSecondUTC\}/gi;
+
+  // Replaces any "{Today} +/- [digit]" expression
+  let results = /\{Today\s*[\+-]\s*\[{0,1}\d{1,}\]{0,1}\}/gi;
+  let match;
+  while ((match = results.exec(inputString)) !== null) {
+    for (let result of match) {
+      const operator = result.indexOf('+') !== -1 ? '+' : '-';
+      const addOrRemove = operator === '+' ? 1 : -1;
+      const operatorSplit = result.split(operator);
+      const digit = parseInt(operatorSplit[operatorSplit.length - 1].replace("{", "").replace("}", "").trim()) * addOrRemove;
+      let dt = new Date();
+      dt.setDate(dt.getDate() + digit);
+      const formatDate = dt.toISOString().replace(/\.\d{3}Z$/, 'Z');
+      inputString = inputString.replace(result, formatDate);
+    }
+  }
+
+  // Replaces any "{Today}" expression by its actual value
+  let formattedDate = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+  inputString = inputString.replace(new RegExp("{Today}", 'gi'), formattedDate);
+
+  const d = new Date();
+  inputString = inputString.replace(currentDate, d.getDate().toString());
+  inputString = inputString.replace(currentMonth, (d.getMonth() + 1).toString());
+  inputString = inputString.replace(currentYear, d.getFullYear().toString());
+  inputString = inputString.replace(currentHour, d.getHours().toString());
+  inputString = inputString.replace(currentMinute, d.getMinutes().toString());
+  inputString = inputString.replace(currentSecond, d.getSeconds().toString());
+  inputString = inputString.replace(currentDateUTC, d.getUTCDate().toString());
+  inputString = inputString.replace(currentMonthUTC, (d.getUTCMonth() + 1).toString());
+  inputString = inputString.replace(currentYearUTC, d.getUTCFullYear().toString());
+  inputString = inputString.replace(currentHourUTC, d.getUTCHours().toString());
+  inputString = inputString.replace(currentMinuteUTC, d.getUTCMinutes().toString());
+  inputString = inputString.replace(currentSecondUTC, d.getUTCSeconds().toString());
+
+  return inputString;
+}
+
 const SearchQueryForm = () => {
   const dispatch = useDispatch();
 
@@ -27,6 +79,7 @@ const SearchQueryForm = () => {
       // modify the searchQuery object to replace date tokens
       const modifiedQuery = { ...searchQuery };
       modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
+      modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
      setLocalQuery(modifiedQuery);
    }, [searchQuery]);
 
@@ -129,57 +182,6 @@ const SearchQueryForm = () => {
       console.error('Error converting to sort list:', error);
       return null;
     }
-  }
-
-  function replaceDateTokens(inputString: string): string {
-    const currentDate = /\{CurrentDate\}/gi;
-    const currentMonth = /\{CurrentMonth\}/gi;
-    const currentYear = /\{CurrentYear\}/gi;
-    const currentHour = /\{CurrentHour\}/gi;
-    const currentMinute = /\{CurrentMinute\}/gi;
-    const currentSecond = /\{CurrentSecond\}/gi;
-    const currentDateUTC = /\{CurrentDateUTC\}/gi;
-    const currentMonthUTC = /\{CurrentMonthUTC\}/gi;
-    const currentYearUTC = /\{CurrentYearUTC\}/gi;
-    const currentHourUTC = /\{CurrentHourUTC\}/gi;
-    const currentMinuteUTC = /\{CurrentMinuteUTC\}/gi;
-    const currentSecondUTC = /\{CurrentSecondUTC\}/gi;
-  
-    // Replaces any "{Today} +/- [digit]" expression
-    let results = /\{Today\s*[\+-]\s*\[{0,1}\d{1,}\]{0,1}\}/gi;
-    let match;
-    while ((match = results.exec(inputString)) !== null) {
-      for (let result of match) {
-        const operator = result.indexOf('+') !== -1 ? '+' : '-';
-        const addOrRemove = operator === '+' ? 1 : -1;
-        const operatorSplit = result.split(operator);
-        const digit = parseInt(operatorSplit[operatorSplit.length - 1].replace("{", "").replace("}", "").trim()) * addOrRemove;
-        let dt = new Date();
-        dt.setDate(dt.getDate() + digit);
-        const formatDate = dt.toISOString().replace(/\.\d{3}Z$/, 'Z');
-        inputString = inputString.replace(result, formatDate);
-      }
-    }
-  
-    // Replaces any "{Today}" expression by its actual value
-    let formattedDate = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-    inputString = inputString.replace(new RegExp("{Today}", 'gi'), formattedDate);
-  
-    const d = new Date();
-    inputString = inputString.replace(currentDate, d.getDate().toString());
-    inputString = inputString.replace(currentMonth, (d.getMonth() + 1).toString());
-    inputString = inputString.replace(currentYear, d.getFullYear().toString());
-    inputString = inputString.replace(currentHour, d.getHours().toString());
-    inputString = inputString.replace(currentMinute, d.getMinutes().toString());
-    inputString = inputString.replace(currentSecond, d.getSeconds().toString());
-    inputString = inputString.replace(currentDateUTC, d.getUTCDate().toString());
-    inputString = inputString.replace(currentMonthUTC, (d.getUTCMonth() + 1).toString());
-    inputString = inputString.replace(currentYearUTC, d.getUTCFullYear().toString());
-    inputString = inputString.replace(currentHourUTC, d.getUTCHours().toString());
-    inputString = inputString.replace(currentMinuteUTC, d.getUTCMinutes().toString());
-    inputString = inputString.replace(currentSecondUTC, d.getUTCSeconds().toString());
-  
-    return inputString;
   }
   
   return (

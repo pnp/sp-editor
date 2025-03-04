@@ -9,6 +9,7 @@ import { currentpageallprops } from '../chrome/currentpageallprops';
 import { reindexweb } from '../chrome/reindexweb';
 import { useEffect, useState } from 'react';
 import { ISearchHistory } from '../../../store/search/types';
+import { replaceDateTokens } from './searchqueryform';
 
 const SearchCommands = () => {
   const dispatch = useDispatch();
@@ -73,11 +74,16 @@ const SearchCommands = () => {
                 styles={{ root: { marginTop: 6, marginRight: 6 } }}
                 onClick={() => {
                   dispatch(rootActions.setLoading(true));
+
+                  const modifiedQuery = { ...searchQuery };
+                  modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
+                  modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
+
                   chrome.scripting
                     .executeScript({
                       target: { tabId: chrome.devtools.inspectedWindow.tabId },
                       world: 'MAIN',
-                      args: [searchQuery, chrome.runtime.getURL('')],
+                      args: [modifiedQuery, chrome.runtime.getURL('')],
                       func: runsearch,
                     })
                     .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
