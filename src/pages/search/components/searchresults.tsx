@@ -29,7 +29,7 @@ import { setSearchResults } from '../../../store/search/actions';
 import { MessageBarColors } from '../../../store/home/types';
 
 const SearchResults = () => {
-  const { items, groups: rootGroups, searchResults } = useSelector((state: IRootState) => state.search);
+  const { items, groups: rootGroups, searchResults, searchQuery } = useSelector((state: IRootState) => state.search);
   const [groups, setGroups] = useState(rootGroups);
 
   useEffect(() => {
@@ -275,7 +275,7 @@ const SearchResults = () => {
                                     tabId: chrome.devtools.inspectedWindow.tabId,
                                   },
                                   world: 'MAIN',
-                                  args: [props?.group?.key, null, chrome.runtime.getURL('')],
+                                  args: [props?.group?.key, searchQuery.SourceId, chrome.runtime.getURL('')],
                                   func: allprops,
                                 })
                                 .then((injectionResults) => {
