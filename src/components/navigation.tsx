@@ -1,10 +1,11 @@
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost } from '@fluentui/react'
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, Stack } from '@fluentui/react'
 import {
   IonButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonMenu,
+  IonTitle,
   IonToggle,
   IonToolbar,
 } from '@ionic/react'
@@ -133,45 +134,49 @@ export const FabricNav = () => {
   }
 
   return (
-    <IonMenu contentId='main'>
+    <IonMenu contentId="main">
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot='end'>
-            <TooltipHost content={!isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode'} delay={TooltipDelay.zero} >
-              <IonToggle onClick={toggleDarkTheme} color='success' checked={isDark}/>
+          <IonTitle>
+            SP Editor
+            <Text style={{ marginLeft: 4 }}>v.{chrome.runtime.getManifest().version}</Text>
+          </IonTitle>
+          <IonButtons slot="end">
+            <TooltipHost content={!isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode'} delay={TooltipDelay.zero}>
+              <IonToggle onClick={toggleDarkTheme} color="success" checked={isDark} />
             </TooltipHost>
-            <TooltipHost content='Reload SP Editor' delay={TooltipDelay.zero} >
+            <TooltipHost content="Reload SP Editor" delay={TooltipDelay.zero}>
               <IonButton onClick={() => document.location.reload()}>
-                <FontIcon iconName='Refresh' />
+                <FontIcon iconName="Refresh" />
               </IonButton>
             </TooltipHost>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent no-bounce>
-      <ScrollablePane>
-        <Nav
-         selectedKey={selectedKey}
-          onLinkClick={(event, element) => {
-            if (event && element) {
-              const menu = document.querySelector('ion-menu') as any
-              menu && menu.close()
-              event.preventDefault()
-              if (element.key && selectedKey !== element.key) {
-                dispatch(setLoading(false))
-                navigate(element.url);
-                setSelectedKey(element.key)
+        <ScrollablePane>
+          <Nav
+            selectedKey={selectedKey}
+            onLinkClick={(event, element) => {
+              if (event && element) {
+                const menu = document.querySelector('ion-menu') as any;
+                menu && menu.close();
+                event.preventDefault();
+                if (element.key && selectedKey !== element.key) {
+                  dispatch(setLoading(false));
+                  navigate(element.url);
+                  setSelectedKey(element.key);
+                }
               }
-            }
-          }}
-          groups={[
-            {
-              links: navLinks,
-            },
-          ]}
-        />
+            }}
+            groups={[
+              {
+                links: navLinks,
+              },
+            ]}
+          />
         </ScrollablePane>
       </IonContent>
     </IonMenu>
-  )
+  );
 };
