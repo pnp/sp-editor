@@ -227,12 +227,50 @@ const SearchCommands = () => {
             color: MessageBarColors.danger,
           })
         );
-        dispatch(setSearchResults([], [], undefined));
+        dispatch(setSearchResults([], [], [], [], undefined));
       } else {
         var items: any[] = [];
         var groups: any[] = [];
         var uniqueKey = 0;
         var startIndex = 0;
+        //console.log('Refiners: ', res.Refiners.Refiners.results);
+       
+              // Map refiners
+      var refinersItems: any[] = [];
+      var refinersGroups: any[] = [];
+      var refinersUniqueKey = 0;
+      var refinersStartIndex = 0;
+      
+      if (res.Refiners && res.Refiners.Refiners && res.Refiners.Refiners.results) {
+        res.Refiners.Refiners.results.forEach((refiner: any) => {
+          if (refiner.Entries && refiner.Entries.results) {
+            // Create a group for each refiner
+            refinersGroups.push({
+              key: refiner.Name || `refiner-${refinersStartIndex}`,
+              name: refiner.Name || "Unknown Refiner",
+              startIndex: refinersStartIndex,
+              count: refiner.Entries.results.length,
+              level: 0,
+              isCollapsed: true,
+            });
+            
+            // Map each entry in the refiner
+            const refinementItems = refiner.Entries.results.map((entry: any, index: number) => ({
+              key: refinersUniqueKey++,
+              refinementName: entry.RefinementName || "",
+              refinementValue: entry.RefinementValue || "",
+              refinementCount: entry.RefinementCount || "0",
+              refinementToken: entry.RefinementToken || "",
+              refinerName: refiner.Name || "Unknown Refiner",
+              row: index + 1
+            }));
+            
+            refinersItems = [...refinersItems, ...refinementItems];
+            refinersStartIndex += refiner.Entries.results.length;
+          }
+        });
+      }
+
         res.PrimarySearchResults.forEach((item: any) => {
           const temp = Object.keys(item)
             .map((name) => ({
@@ -264,7 +302,7 @@ const SearchCommands = () => {
           startIndex += Object.keys(item).length;
         });
 
-        dispatch(setSearchResults(items, groups, res));
+        dispatch(setSearchResults(items, groups, refinersItems, refinersGroups, res));
       }
     } else {
       //console.log('Injection failed: ', injectionResults);

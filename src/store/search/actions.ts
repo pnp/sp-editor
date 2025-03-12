@@ -1,12 +1,14 @@
 import { action } from "typesafe-actions";
-import { Constants, ISearchHistory, ISearchItem, SearchResult } from "./types";
+import { Constants, IRefinementItem, ISearchHistory, ISearchItem, SearchResult } from "./types";
 import { IGroup } from "@fluentui/react";
 import { ISearchQuery } from "@pnp/sp/search/types";
 
-export function setSearchResults(items: ISearchItem[], groups: IGroup[], searchResults?: SearchResult) {
+export function setSearchResults(items: ISearchItem[], groups: IGroup[], refinemenItems: IRefinementItem[], refinemenGroups: IGroup[], searchResults?: SearchResult) {
   return action(Constants.S_GET_ITEMS, {
     items,
     groups,
+    refinemenItems,
+    refinemenGroups,
     searchResults,
   });
 }

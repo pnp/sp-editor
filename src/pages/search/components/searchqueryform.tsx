@@ -229,7 +229,7 @@ const SearchQueryForm = () => {
               dispatch(
                 setSearchQuery({
                   ...searchQuery,
-                  QueryTemplate: newValue ? newValue : '',
+                  QueryTemplate: newValue ?? '',
                 })
               )
             }
@@ -286,6 +286,22 @@ const SearchQueryForm = () => {
               if (newValue && newSortList && newSortList.length > 0)
                 dispatch(setSearchQuery({ ...searchQuery, SortList: newSortList }));
               else dispatch(setSearchQuery({ ...searchQuery, SortList: [] }));
+            }}
+          />
+          <TextField
+            autoAdjustHeight
+            multiline
+            spellCheck={false}
+            defaultValue={searchQuery.Refiners}
+            label="Refiners"
+            placeholder='eg. ContentType,FileType'
+            onChange={(event, newValue?: string) => {
+              dispatch(
+                setSearchQuery({
+                  ...searchQuery,
+                  Refiners: newValue ? newValue.replace(/\s+/g, '') : '',
+                })
+              );
             }}
           />
           <TextField
