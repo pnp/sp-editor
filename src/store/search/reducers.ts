@@ -18,6 +18,8 @@ const init: ISearchState = {
   },
   optionsPanel: false,
   searchHistory: [],
+  refinemenItems: [],
+  refinemenGroups: []
 };
 
 export function searchReducer(state: ISearchState = init, action: SearchActions): ISearchState {
@@ -27,6 +29,8 @@ export function searchReducer(state: ISearchState = init, action: SearchActions)
         ...state,
         items: action.payload.items,
         groups: action.payload.groups,
+        refinemenItems: action.payload.refinemenItems,
+        refinemenGroups: action.payload.refinemenGroups,
         searchResults: action.payload.searchResults,
         };
     case Constants.S_SET_QUERY:
