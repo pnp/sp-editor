@@ -110,152 +110,37 @@ export const createTenantProperty = (values: any, extPath: string) => {
     });
     pnplogging.Logger.subscribe(listener);
 
-    let webid = '';
-    let siteid = '';
+    return Promise.all([sp.web(), sp.getTenantAppCatalogWeb()]).then(([web, appcatalogweb]) => {
+      return appcatalogweb.getCurrentUserEffectivePermissions().then((perms: any) => {
+        if (!sp.web.hasPermissions(perms?.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+          return {
+            success: false,
+            result: null,
+            errorMessage: 'No script is enabled, cannot edit Tenant Properties',
+            source: 'chrome-sp-editor',
+          };
+        }
 
-    return sp.site
-      .select('Id')()
-      .then((site) => {
-        siteid = site.Id;
-        return sp.web
-          .select('Id, EffectiveBasePermissions')()
-          .then((web: any) => {
-            if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-              return {
-                success: false,
-                result: null,
-                errorMessage: 'No script is enabled, cannot edit Tenant Properties',
-                source: 'chrome-sp-editor',
-              };
-            }
-
-            webid = web.Id;
-            const payload = `
-          <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-            <Actions>
-              <Method Name="SetFieldValue" Id="9" ObjectPathId="4">
-                <Parameters>
-                  <Parameter Type="String">${values.key}</Parameter>
-                  <Parameter Type="String">${values.value}</Parameter>
-                </Parameters>
-              </Method>
-              <Method Name="Update" Id="10" ObjectPathId="2" />
-            </Actions>
-            <ObjectPaths>
-              <Identity Id="2" Name="740c6a0b-85e2-48a0-a494-e0f1759d4aa7:site:${siteid}:web:${webid}" />
-              <Property Id="4" ParentId="2" Name="AllProperties" />
-            </ObjectPaths>
-          </Request>`;
-
-            return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload }).then((r) => {
-              if (r[0]?.ErrorInfo?.ErrorMessage) {
-                return {
-                  success: false,
-                  result: null,
-                  errorMessage: r[0].ErrorInfo.ErrorMessage,
-                  source: 'chrome-sp-editor',
-                };
-              }
-              return sp.web.allProperties
-                .select('vti_indexedpropertykeys')()
-                .then((result) => {
-                  const allProps = [];
-                  for (let prop in result) {
-                    if (
-                      prop &&
-                      prop !== 'odata.metadata' &&
-                      prop !== '__metadata' &&
-                      prop !== 'odata.editLink' &&
-                      prop !== 'odata.id' &&
-                      prop !== 'odata.type'
-                    ) {
-                      const re = /_x.*?_/g;
-                      const found = prop.match(re);
-                      const origKey = prop;
-
-                      if (found !== null)
-                        for (const g in found) {
-                          if (g) {
-                            const unesc = found[g].replace('_x', '%u').replace('_', '');
-                            prop = prop.replace(found[g], unescape(unesc));
-                          }
-                        }
-                      allProps.push({ key: prop.replace(/OData_/g, ''), value: result[origKey] });
-                    }
-                  }
-
-                  const bytes = [];
-                  for (let i = 0; i < values.key.length; ++i) {
-                    bytes.push(values.key.charCodeAt(i));
-                    bytes.push(0);
-                  }
-
-                  const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes));
-                  let newIndexValue = '';
-
-                  const propertyBag = allProps.find((el) => el.key === 'vti_indexedpropertykeys');
-
-                  if (!propertyBag && !values.indexed) {
-                    return {
-                      success: true,
-                      result: [],
-                      errorMessage: '',
-                      source: 'chrome-sp-editor',
-                    };
-                  } else {
-                    if (values.indexed) {
-                      newIndexValue =
-                        propertyBag && propertyBag.value && propertyBag.value.length > 0
-                          ? propertyBag.value.indexOf(`${b64encoded}|`) === -1
-                            ? `${propertyBag.value}${b64encoded}|`
-                            : propertyBag.value
-                          : (newIndexValue = `${b64encoded}|`);
-                    } else {
-                      if (propertyBag && propertyBag.value && propertyBag.value.length > 0) {
-                        newIndexValue = propertyBag.value;
-                        newIndexValue = newIndexValue.replace(b64encoded + '|', '');
-                      }
-                    }
-                    const payload2 = `
-                <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-                  <Actions>
-                    <Method Name="SetFieldValue" Id="9" ObjectPathId="4">
-                      <Parameters>
-                        <Parameter Type="String">vti_indexedpropertykeys</Parameter>
-                        <Parameter Type="String">${newIndexValue}</Parameter>
-                      </Parameters>
-                    </Method>
-                    <Method Name="Update" Id="10" ObjectPathId="2" />
-                  </Actions>
-                  <ObjectPaths>
-                    <Identity Id="2" Name="740c6a0b-85e2-48a0-a494-e0f1759d4aa7:site:${siteid}:web:${webid}" />
-                    <Property Id="4" ParentId="2" Name="AllProperties" />
-                  </ObjectPaths>
-                </Request>`;
-
-                    return pnpsp
-                      .spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload2 })
-                      .then((r2) => {
-                        if (r2[0]?.ErrorInfo?.ErrorMessage) {
-                          return {
-                            success: false,
-                            result: null,
-                            errorMessage: r2[0].ErrorInfo.ErrorMessage,
-                            source: 'chrome-sp-editor',
-                          };
-                        }
-                        return {
-                          success: true,
-                          result: [],
-                          errorMessage: '',
-                          source: 'chrome-sp-editor',
-                        };
-                      });
-                  }
-                });
-            });
+        return appcatalogweb
+          .setStorageEntity(values.key, values.value, values.description, values.comment)
+          .then((r: any) => {
+            return {
+              success: true,
+              result: r,
+              errorMessage: '',
+              source: 'chrome-sp-editor',
+            };
+          })
+          .catch((e: any) => {
+            return {
+              success: false,
+              result: null,
+              errorMessage: e.message,
+              source: 'chrome-sp-editor',
+            };
           });
       });
+    });
   });
 
   function moduleLoader(extPath: string) {
