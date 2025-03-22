@@ -37,7 +37,6 @@ const TenantPropertiesList = () => {
 
   const [sortkey, setSortkey] = useState('webkey');
   const [keyAsc, setKeyAsc] = useState(true);
-  const [indexedAsc, setIndexedAsc] = useState(true);
 
   // set selected items to store
   const [selection] = useState(
