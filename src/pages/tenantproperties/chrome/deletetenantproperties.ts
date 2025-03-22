@@ -1,9 +1,8 @@
 import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
-import { ITenantProperty } from '../../../store/tenantproperties/types';
 
-export const deleteTenantProperties = (values: any[], extPath: string) => {
+export const deleteTenantProperties = (values: any, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     var pnpsp = modules[0];
@@ -111,154 +110,37 @@ export const deleteTenantProperties = (values: any[], extPath: string) => {
     });
     pnplogging.Logger.subscribe(listener);
 
-    const tenantprops: ITenantProperty = values[0];
+    return Promise.all([sp.web(), sp.getTenantAppCatalogWeb()]).then(([web, appcatalogweb]) => {
+      return appcatalogweb.getCurrentUserEffectivePermissions().then((perms: any) => {
+        if (!sp.web.hasPermissions(perms?.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+          return {
+            success: false,
+            result: null,
+            errorMessage: 'No script is enabled, cannot edit Tenant Properties',
+            source: 'chrome-sp-editor',
+          };
+        }
 
-    let siteid = '';
-    let webid = '';
-
-    return sp.site
-      .select('Id')()
-      .then((site) => {
-        siteid = site.Id;
-        return sp.web
-          .select('Id, EffectiveBasePermissions')()
-          .then((web: any) => {
-            if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-              return {
-                success: false,
-                result: null,
-                errorMessage: 'No script is enabled, cannot edit Tenant Properties',
-                source: 'chrome-sp-editor',
-              };
-            }
-
-            webid = web.Id;
-
-            const payload = `
-            <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-              <Actions>
-                <Method Name="SetFieldValue" Id="9" ObjectPathId="4">
-                  <Parameters>
-                    <Parameter Type="String">${tenantprops.key}</Parameter>
-                    <Parameter Type="Null" />
-                  </Parameters>
-                </Method>
-                <Method Name="Update" Id="10" ObjectPathId="2" />
-              </Actions>
-              <ObjectPaths>
-                <Identity Id="2" Name="740c6a0b-85e2-48a0-a494-e0f1759d4aa7:site:${siteid}:web:${webid}" />
-                <Property Id="4" ParentId="2" Name="AllProperties" />
-              </ObjectPaths>
-            </Request>`;
-
-            return pnpsp.spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload }).then((r) => {
-              if (r[0]?.ErrorInfo?.ErrorMessage) {
-                return {
-                  success: false,
-                  result: null,
-                  errorMessage: r[0].ErrorInfo.ErrorMessage,
-                  source: 'chrome-sp-editor',
-                };
-              }
-
-              return sp.web.allProperties
-                .select('vti_indexedpropertykeys')()
-                .then((result) => {
-                  const allProps = [];
-                  for (let iprop in result) {
-                    if (
-                      iprop &&
-                      iprop !== 'odata.metadata' &&
-                      iprop !== '__metadata' &&
-                      iprop !== 'odata.editLink' &&
-                      iprop !== 'odata.id' &&
-                      iprop !== 'odata.type'
-                    ) {
-                      const re = /_x.*?_/g;
-                      const found = iprop.match(re);
-                      const origKey = iprop;
-
-                      if (found !== null)
-                        for (const g in found) {
-                          if (g) {
-                            const unesc = found[g].replace('_x', '%u').replace('_', '');
-                            iprop = iprop.replace(found[g], unescape(unesc));
-                          }
-                        }
-                      allProps.push({ key: iprop.replace(/OData_/g, ''), value: result[origKey] });
-                    }
-                  }
-
-                  const propertyBag = allProps.find((el) => el.key === 'vti_indexedpropertykeys');
-
-                  if (propertyBag && propertyBag.value && propertyBag.value.length > 0) {
-                    let newIndexValue = propertyBag.value;
-
-                    const bytes = [];
-                    for (let i = 0; i < tenantprops.key.length; ++i) {
-                      bytes.push(tenantprops.key.charCodeAt(i));
-                      bytes.push(0);
-                    }
-
-                    const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes));
-                    newIndexValue = newIndexValue.replace(b64encoded + '|', '');
-
-                    if (newIndexValue !== propertyBag.value) {
-                      const payload2 = `
-                  <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-                    <Actions>
-                      <Method Name="SetFieldValue" Id="9" ObjectPathId="4">
-                        <Parameters>
-                          <Parameter Type="String">vti_indexedpropertykeys</Parameter>
-                          <Parameter Type="String">${newIndexValue}</Parameter>
-                        </Parameters>
-                      </Method>
-                      <Method Name="Update" Id="10" ObjectPathId="2" />
-                    </Actions>
-                    <ObjectPaths>
-                      <Identity Id="2" Name="740c6a0b-85e2-48a0-a494-e0f1759d4aa7:site:${siteid}:web:${webid}" />
-                      <Property Id="4" ParentId="2" Name="AllProperties" />
-                    </ObjectPaths>
-                  </Request>`;
-
-                      return pnpsp
-                        .spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), { body: payload2 })
-                        .then((r2) => {
-                          if (r2[0]?.ErrorInfo?.ErrorMessage) {
-                            return {
-                              success: false,
-                              result: null,
-                              errorMessage: r2[0].ErrorInfo.ErrorMessage,
-                              source: 'chrome-sp-editor',
-                            };
-                          }
-                          return {
-                            success: true,
-                            result: [],
-                            errorMessage: '',
-                            source: 'chrome-sp-editor',
-                          };
-                        });
-                    } else {
-                      return {
-                        success: true,
-                        result: [],
-                        errorMessage: '',
-                        source: 'chrome-sp-editor',
-                      };
-                    }
-                  } else {
-                    return {
-                      success: true,
-                      result: [],
-                      errorMessage: '',
-                      source: 'chrome-sp-editor',
-                    };
-                  }
-                });
-            });
+        return appcatalogweb
+          .removeStorageEntity(values?.[0].key)
+          .then((r: any) => {
+            return {
+              success: true,
+              result: r,
+              errorMessage: '',
+              source: 'chrome-sp-editor',
+            };
+          })
+          .catch((e: any) => {
+            return {
+              success: false,
+              result: null,
+              errorMessage: e.message,
+              source: 'chrome-sp-editor',
+            };
           });
       });
+    });
   });
 
   function moduleLoader(extPath: string) {

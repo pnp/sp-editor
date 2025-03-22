@@ -168,7 +168,7 @@ const TenantPropertiesList = () => {
             selection={selection}
             selectionPreservedOnEmptyClick={true}
             columns={detailsListColumns}
-            selectionMode={SelectionMode.multiple}
+            selectionMode={SelectionMode.single}
             getKey={(item: ITenantProperty) => {
               return item.key;
             }}
