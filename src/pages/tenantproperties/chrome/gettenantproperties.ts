@@ -89,38 +89,21 @@ export const getTenantProperties = (extPath: string) => {
     pnplogging.Logger.subscribe(listener);
 
     /*** execute request, add ### to trigger custom httpHandler ***/
-    return sp.web
-      .allProperties()
+    return sp
+      .getTenantAppCatalogWeb()
+      .then((appcatalogWeb) => appcatalogWeb.allProperties.select('storageentitiesindex')())
       .then((result) => {
         const compare = (a: any, b: any) => {
           return a.key.toLowerCase() < b.key.toLowerCase() ? -1 : a.key.toLowerCase() > b.key.toLowerCase() ? 1 : 0;
         };
 
-        const allProps = [];
-        for (let key in result) {
-          if (
-            key &&
-            key !== 'odata.metadata' &&
-            key !== '__metadata' &&
-            key !== 'odata.editLink' &&
-            key !== 'odata.id' &&
-            key !== 'odata.type'
-          ) {
-            const re = /_x.*?_/g;
-            const found = key.match(re);
-            const origKey = key;
-
-            if (found !== null)
-              for (const g in found) {
-                if (g) {
-                  const unesc = found[g].replace('_x', '%u').replace('_', '');
-                  key = key.replace(found[g], unescape(unesc));
-                }
-              }
-            allProps.push({ key: key.replace(/OData_/g, ''), value: result[origKey] });
-          }
-        }
-
+        const parsedResult = JSON.parse(result?.storageentitiesindex ?? '{}');
+        const allProps = Object.keys(parsedResult).map((key) => ({
+          key,
+          value: parsedResult[key].Value,
+          comment: parsedResult[key].Comment,
+          description: parsedResult[key].Description,
+        }));
         allProps.sort(compare);
         return allProps;
       })

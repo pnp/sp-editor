@@ -96,20 +96,6 @@ const TenantPropertiesList = () => {
   const detailsListColumns: IColumn[] = [
     {
       data: 'string',
-      fieldName: 'indexed',
-      isPadded: true,
-      isResizable: true,
-      isRowHeader: true,
-      isSorted: sortkey === 'indexed',
-      isSortedDescending: indexedAsc,
-      key: 'indexed',
-      maxWidth: 70,
-      minWidth: 50,
-      name: `Indexed (${filteredProps.filter((prop) => prop.indexed === true).length})`,
-      onColumnClick,
-    },
-    {
-      data: 'string',
       fieldName: 'key',
       isPadded: true,
       isResizable: true,
@@ -117,8 +103,8 @@ const TenantPropertiesList = () => {
       isSorted: sortkey === 'tenantkey',
       isSortedDescending: keyAsc,
       key: 'tenantkey',
-      maxWidth: 200,
-      minWidth: 100,
+      maxWidth: 280,
+      minWidth: 160,
       name: `Property (${filteredProps.length})`,
       onColumnClick,
     },
@@ -129,8 +115,35 @@ const TenantPropertiesList = () => {
       isResizable: true,
       isRowHeader: true,
       key: 'tenantvalue',
-      minWidth: 210,
+      maxWidth: 450,
+      minWidth: 160,
       name: 'Value',
+      isMultiline: true,
+      isCollapsable: false,
+    },
+    {
+      data: 'string',
+      fieldName: 'description',
+      isPadded: true,
+      isResizable: true,
+      isRowHeader: true,
+      key: 'tenantdescription',
+      maxWidth: 450,
+      minWidth: 160,
+      name: 'Description',
+      isMultiline: true,
+      isCollapsable: false,
+    },
+    {
+      data: 'string',
+      fieldName: 'comment',
+      isPadded: true,
+      isResizable: true,
+      isRowHeader: true,
+      key: 'tenantcomment',
+      maxWidth: 250,
+      minWidth: 160,
+      name: 'Comment',
       isMultiline: true,
       isCollapsable: false,
     },
@@ -145,31 +158,11 @@ const TenantPropertiesList = () => {
     );
   };
 
-  const iconClass = mergeStyles({
-    fontSize: 20,
-    height: 20,
-    width: 20,
-    marginLeft: '14px',
-  });
-
   // render custom column (indexed) with icon
   const _renderItemColumn = (item?: any, index?: number | undefined, column?: IColumn | undefined) => {
     const fieldContent = item[column?.fieldName as keyof ITenantProperty] as string;
 
-    switch (column?.key) {
-      case 'indexed':
-        const tenantProp = item as ITenantProperty;
-        return tenantProp.indexed ? (
-          <span>
-            <Icon iconName="CheckMark" className={iconClass} />
-          </span>
-        ) : (
-          <span></span>
-        );
-
-      default:
-        return <span>{fieldContent}</span>;
-    }
+    return <span>{fieldContent}</span>;
   };
 
   return (

@@ -1,27 +1,17 @@
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, Stack } from '@fluentui/react'
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonMenu,
-  IonTitle,
-  IonToggle,
-  IonToolbar,
-} from '@ionic/react'
-import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples'
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, Stack } from '@fluentui/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
+import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { IRootState } from '../store'
-import { setDarkMode, setLoading, setTheme } from '../store/home/actions'
+import { IRootState } from '../store';
+import { setDarkMode, setLoading, setTheme } from '../store/home/actions';
 
 export const FabricNav = () => {
   const navigate = useNavigate();
 
-  
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const navLinks = [
     {
@@ -121,17 +111,22 @@ export const FabricNav = () => {
       key: 'key16',
       disabled: false,
     },
-  ]
+    {
+      name: 'Tenant Properties',
+      url: '/tenantproperties',
+      key: 'key17',
+    },
+  ];
 
-  const currentLink = navLinks.find(x => x.url === document.location.pathname)
-  const [selectedKey, setSelectedKey] = useState(currentLink?.key ?? 'key1')
-  const { isDark } = useSelector((state: IRootState) => state.home)
+  const currentLink = navLinks.find((x) => x.url === document.location.pathname);
+  const [selectedKey, setSelectedKey] = useState(currentLink?.key ?? 'key1');
+  const { isDark } = useSelector((state: IRootState) => state.home);
 
   const toggleDarkTheme = () => {
-    document.body.classList.toggle('dark', !isDark)
-    dispatch(setTheme(!isDark ? DarkCustomizations : DefaultCustomizations))
-    dispatch(setDarkMode(!isDark))
-  }
+    document.body.classList.toggle('dark', !isDark);
+    dispatch(setTheme(!isDark ? DarkCustomizations : DefaultCustomizations));
+    dispatch(setDarkMode(!isDark));
+  };
 
   return (
     <IonMenu contentId="main">
