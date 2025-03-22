@@ -12,9 +12,10 @@ const TenantPropertiesNewPanel = () => {
   const dispatch = useDispatch();
 
   const [newItem, setNewItem] = useState<ITenantProperty>({
-    indexed: false,
     key: '',
     value: '',
+    description: '',
+    comment: '',
   });
 
   const { isDark } = useSelector((state: IRootState) => state.home);
@@ -22,9 +23,10 @@ const TenantPropertiesNewPanel = () => {
 
   useEffect(() => {
     setNewItem({
-      indexed: false,
       key: '',
       value: '',
+      description: '',
+      comment: '',
     });
   }, [newpanel]);
 
@@ -38,6 +40,7 @@ const TenantPropertiesNewPanel = () => {
         }}
         style={{ marginRight: '8px' }}
         text={'Add'}
+        disabled={!(newItem?.value.length && newItem?.key.length && newItem?.value)}
       />
     );
   };
@@ -62,7 +65,10 @@ const TenantPropertiesNewPanel = () => {
           label="Property Key"
           description="The key of the property"
           value={newItem.key}
-          onChange={(event, newValue?: string) => setNewItem({ ...newItem, key: newValue ? newValue : '' })}
+          onChange={(event, newValue?: string) => {
+            const alphanumericValue = newValue ? newValue.replace(/[^a-z0-9]/gi, '') : '';
+            setNewItem({ ...newItem, key: alphanumericValue });
+          }}
           required
         />
         <TextField
@@ -72,14 +78,26 @@ const TenantPropertiesNewPanel = () => {
           multiline
           rows={5}
           autoAdjustHeight={true}
+          required
           onChange={(event, newValue?: string) => setNewItem({ ...newItem, value: newValue ? newValue : '' })}
         />
-        <Toggle
-          label="Indexed"
-          checked={newItem.indexed}
-          onText="Yes"
-          offText="No"
-          onChange={(event, checked?: boolean) => setNewItem({ ...newItem, indexed: checked ? true : false })}
+        <TextField
+          label="Property Description"
+          description="The description of the property"
+          value={newItem.description}
+          multiline
+          rows={5}
+          autoAdjustHeight={true}
+          onChange={(event, newValue?: string) => setNewItem({ ...newItem, description: newValue ? newValue : '' })}
+        />
+        <TextField
+          label="Property Comment"
+          description="The comment of the property"
+          value={newItem.comment}
+          multiline
+          rows={5}
+          autoAdjustHeight={true}
+          onChange={(event, newValue?: string) => setNewItem({ ...newItem, comment: newValue ? newValue : '' })}
         />
       </Stack>
     </Panel>

@@ -6,7 +6,8 @@ export type TenantPropertiesActions = ActionType<typeof actions>;
 export interface ITenantProperty {
   key: string;
   value: string;
-  indexed: boolean;
+  description: string;
+  comment: string;
 }
 
 export interface ITenantPropertiesState {

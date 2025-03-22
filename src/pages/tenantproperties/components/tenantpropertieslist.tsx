@@ -77,11 +77,6 @@ const TenantPropertiesList = () => {
           : 0
       );
       setKeyAsc(!keyAsc);
-    } else if (key === 'indexed') {
-      tenantproperties.sort((a, b) =>
-        a.indexed < b.indexed ? (indexedAsc ? 1 : -1) : b.indexed < a.indexed ? (indexedAsc ? -1 : 1) : 0
-      );
-      setIndexedAsc(!indexedAsc);
     }
     setSortkey(key);
 

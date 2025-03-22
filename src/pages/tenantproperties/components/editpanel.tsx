@@ -37,6 +37,7 @@ const TenantPropertiesEditPanel = () => {
         onClick={() => dispatch(setConfirmEditDialog(false))}
         style={{ marginRight: '8px' }}
         text={'Update'}
+        disabled={!editItem?.value.length}
       />
     );
   };
@@ -77,13 +78,26 @@ const TenantPropertiesEditPanel = () => {
               dispatch(setSelectedItem({ ...selectedItem, value: newValue ? newValue : '' }));
             }}
           />
-          <Toggle
-            label="Indexed"
-            checked={selectedItem.indexed}
-            onText="Yes"
-            offText="No"
-            onChange={(event, checked?: boolean) => {
-              dispatch(setSelectedItem({ ...selectedItem, indexed: checked ? true : false }));
+          <TextField
+            label="Property Description"
+            description="The description of the property"
+            value={editItem ? editItem.description : ''}
+            multiline
+            rows={5}
+            autoAdjustHeight
+            onChange={(event, newValue?: string) => {
+              dispatch(setSelectedItem({ ...selectedItem, description: newValue ? newValue : '' }));
+            }}
+          />
+          <TextField
+            label="Property Comment"
+            description="The comment of the property"
+            value={editItem ? editItem.comment : ''}
+            multiline
+            rows={5}
+            autoAdjustHeight
+            onChange={(event, newValue?: string) => {
+              dispatch(setSelectedItem({ ...selectedItem, comment: newValue ? newValue : '' }));
             }}
           />
         </Stack>

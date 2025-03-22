@@ -51,7 +51,6 @@ export async function getAllTenantProperties(dispatch: Dispatch<TenantProperties
                 bytes.push(0);
               }
               const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes));
-              property.indexed = vti_indexedpropertykeys.value.split('|').find((x) => x === b64encoded) ? true : false;
               return property;
             });
           }
