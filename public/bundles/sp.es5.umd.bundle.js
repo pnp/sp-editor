@@ -50,10 +50,16 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   AddFieldOptions: () => (/* reexport */ AddFieldOptions),
+  Admin: () => (/* reexport */ Admin),
+  AnonymousLinkType: () => (/* reexport */ AnonymousLinkType),
   App: () => (/* reexport */ App),
   AppCatalog: () => (/* reexport */ AppCatalog),
+  AppViewsPolicy: () => (/* reexport */ AppViewsPolicy),
   Attachment: () => (/* reexport */ Attachment),
   Attachments: () => (/* reexport */ Attachments),
+  AzureSubscriptionState: () => (/* reexport */ AzureSubscriptionState),
+  BatchNever: () => (/* reexport */ BatchNever),
+  BlockDownloadLinksFileTypes: () => (/* reexport */ BlockDownloadLinksFileTypes),
   CalendarType: () => (/* reexport */ CalendarType),
   CanvasColumn: () => (/* reexport */ CanvasColumn),
   CanvasSection: () => (/* reexport */ CanvasSection),
@@ -65,6 +71,7 @@ __webpack_require__.d(__webpack_exports__, {
   ColumnControl: () => (/* reexport */ ColumnControl),
   Comment: () => (/* reexport */ Comment),
   Comments: () => (/* reexport */ Comments),
+  CompanyWideSharingLinksPolicy: () => (/* reexport */ CompanyWideSharingLinksPolicy),
   ContentType: () => (/* reexport */ ContentType),
   ContentTypes: () => (/* reexport */ ContentTypes),
   ControlMode: () => (/* reexport */ ControlMode),
@@ -73,6 +80,7 @@ __webpack_require__.d(__webpack_exports__, {
   DateTimeFieldFriendlyFormatType: () => (/* reexport */ DateTimeFieldFriendlyFormatType),
   DefaultHeaders: () => (/* reexport */ DefaultHeaders),
   DefaultInit: () => (/* reexport */ DefaultInit),
+  DenyAddAndCustomizePagesStatus: () => (/* reexport */ DenyAddAndCustomizePagesStatus),
   Feature: () => (/* reexport */ Feature),
   Features: () => (/* reexport */ Features),
   Field: () => (/* reexport */ Field),
@@ -83,12 +91,17 @@ __webpack_require__.d(__webpack_exports__, {
   Fields: () => (/* reexport */ Fields),
   File: () => (/* reexport */ File),
   Files: () => (/* reexport */ Files),
+  FlowsPolicy: () => (/* reexport */ FlowsPolicy),
   Folder: () => (/* reexport */ Folder),
   Folders: () => (/* reexport */ Folders),
   Form: () => (/* reexport */ Form),
   Forms: () => (/* reexport */ Forms),
+  GroupSiteManager: () => (/* reexport */ GroupSiteManager),
   HubSite: () => (/* reexport */ HubSite),
   HubSites: () => (/* reexport */ HubSites),
+  ImageTaggingChoice: () => (/* reexport */ ImageTaggingChoice),
+  ImportProfilePropertiesJobState: () => (/* reexport */ ImportProfilePropertiesJobState),
+  ImportProfilePropertiesUserIdTypes: () => (/* reexport */ ImportProfilePropertiesUserIdTypes),
   Item: () => (/* reexport */ Item),
   ItemVersion: () => (/* reexport */ ItemVersion),
   ItemVersions: () => (/* reexport */ ItemVersions),
@@ -96,14 +109,18 @@ __webpack_require__.d(__webpack_exports__, {
   LimitedWebPartManager: () => (/* reexport */ LimitedWebPartManager),
   List: () => (/* reexport */ List),
   Lists: () => (/* reexport */ Lists),
+  MediaTranscriptionPolicyType: () => (/* reexport */ MediaTranscriptionPolicyType),
   MoveOperations: () => (/* reexport */ MoveOperations),
   MySocial: () => (/* reexport */ MySocial),
   Navigation: () => (/* reexport */ Navigation),
   NavigationNode: () => (/* reexport */ NavigationNode),
   NavigationNodes: () => (/* reexport */ NavigationNodes),
   NavigationService: () => (/* reexport */ NavigationService),
+  Office365Tenant: () => (/* reexport */ Office365Tenant),
+  PWAEnabledStatus: () => (/* reexport */ PWAEnabledStatus),
   PageType: () => (/* reexport */ PageType),
   PermissionKind: () => (/* reexport */ PermissionKind),
+  PersonalSiteFilter: () => (/* reexport */ PersonalSiteFilter),
   PrincipalSource: () => (/* reexport */ PrincipalSource),
   PrincipalType: () => (/* reexport */ PrincipalType),
   Profiles: () => (/* reexport */ Profiles),
@@ -115,6 +132,8 @@ __webpack_require__.d(__webpack_exports__, {
   ReorderingRuleMatchType: () => (/* reexport */ ReorderingRuleMatchType),
   Replies: () => (/* reexport */ Replies),
   RequestDigest: () => (/* reexport */ RequestDigest),
+  RestrictedToRegion: () => (/* reexport */ RestrictedToRegion),
+  ResultStatus: () => (/* reexport */ ResultStatus),
   RoleAssignment: () => (/* reexport */ RoleAssignment),
   RoleAssignments: () => (/* reexport */ RoleAssignments),
   RoleDefinition: () => (/* reexport */ RoleDefinition),
@@ -126,16 +145,31 @@ __webpack_require__.d(__webpack_exports__, {
   SPFx: () => (/* reexport */ SPFx),
   SPFxToken: () => (/* reexport */ SPFxToken),
   SPInstance: () => (/* reexport */ SPInstance),
+  SPOConditionalAccessPolicyType: () => (/* reexport */ SPOConditionalAccessPolicyType),
+  SPOHubSiteUserRights: () => (/* reexport */ SPOHubSiteUserRights),
+  SPOLimitedAccessFileType: () => (/* reexport */ SPOLimitedAccessFileType),
+  SPOTenantCdnPolicyType: () => (/* reexport */ SPOTenantCdnPolicyType),
+  SPOTenantCdnType: () => (/* reexport */ SPOTenantCdnType),
+  SPOUserSessionRevocationState: () => (/* reexport */ SPOUserSessionRevocationState),
+  SPOrgAssetType: () => (/* reexport */ SPOrgAssetType),
   SPQueryable: () => (/* reexport */ SPQueryable),
+  SPResilienceModeType: () => (/* reexport */ SPResilienceModeType),
   SPSharedObjectType: () => (/* reexport */ SPSharedObjectType),
   Search: () => (/* reexport */ Search),
   SearchBuiltInSourceId: () => (/* reexport */ SearchBuiltInSourceId),
   SearchQueryBuilder: () => (/* reexport */ SearchQueryBuilder),
   SearchResults: () => (/* reexport */ SearchResults),
+  SensitiveByDefaultState: () => (/* reexport */ SensitiveByDefaultState),
+  SharingCapabilities: () => (/* reexport */ SharingCapabilities),
   SharingDomainRestrictionMode: () => (/* reexport */ SharingDomainRestrictionMode),
+  SharingDomainRestrictionModes: () => (/* reexport */ SharingDomainRestrictionModes),
   SharingLinkKind: () => (/* reexport */ SharingLinkKind),
+  SharingLinkType: () => (/* reexport */ SharingLinkType),
   SharingOperationStatusCode: () => (/* reexport */ SharingOperationStatusCode),
+  SharingPermissionType: () => (/* reexport */ SharingPermissionType),
   SharingRole: () => (/* reexport */ SharingRole),
+  SharingScope: () => (/* reexport */ SharingScope),
+  SharingState: () => (/* reexport */ SharingState),
   Site: () => (/* reexport */ Site),
   SiteDesigns: () => (/* reexport */ SiteDesigns),
   SiteGroup: () => (/* reexport */ SiteGroup),
@@ -145,6 +179,7 @@ __webpack_require__.d(__webpack_exports__, {
   SitePageService: () => (/* reexport */ SitePageService),
   SiteScripts: () => (/* reexport */ SiteScripts),
   SiteUser: () => (/* reexport */ SiteUser),
+  SiteUserInfoVisibilityPolicyValue: () => (/* reexport */ SiteUserInfoVisibilityPolicyValue),
   SiteUsers: () => (/* reexport */ SiteUsers),
   Social: () => (/* reexport */ Social),
   SocialActorType: () => (/* reexport */ SocialActorType),
@@ -152,11 +187,16 @@ __webpack_require__.d(__webpack_exports__, {
   SocialFollowResult: () => (/* reexport */ SocialFollowResult),
   SocialStatusCode: () => (/* reexport */ SocialStatusCode),
   SortDirection: () => (/* reexport */ SortDirection),
+  SortOrder: () => (/* reexport */ SortOrder),
+  SpecialCharactersState: () => (/* reexport */ SpecialCharactersState),
+  SpoSiteLockState: () => (/* reexport */ SpoSiteLockState),
   Subscription: () => (/* reexport */ Subscription),
   Subscriptions: () => (/* reexport */ Subscriptions),
   Suggest: () => (/* reexport */ Suggest),
+  TeamsChannelTypeValue: () => (/* reexport */ TeamsChannelTypeValue),
   Telemetry: () => (/* reexport */ Telemetry),
   TemplateFileType: () => (/* reexport */ TemplateFileType),
+  TenantBrowseUserInfoPolicyValue: () => (/* reexport */ TenantBrowseUserInfoPolicyValue),
   TimeZone: () => (/* reexport */ TimeZone),
   TimeZones: () => (/* reexport */ TimeZones),
   UrlFieldFormatType: () => (/* reexport */ UrlFieldFormatType),
@@ -177,16 +217,19 @@ __webpack_require__.d(__webpack_exports__, {
   WebPartDefinitions: () => (/* reexport */ WebPartDefinitions),
   WebPartsPersonalizationScope: () => (/* reexport */ WebPartsPersonalizationScope),
   Webs: () => (/* reexport */ Webs),
+  Workflows2013State: () => (/* reexport */ Workflows2013State),
   _SPCollection: () => (/* reexport */ _SPCollection),
   _SPInstance: () => (/* reexport */ _SPInstance),
   _SPQueryable: () => (/* reexport */ _SPQueryable),
   containsInvalidFileFolderChars: () => (/* reexport */ containsInvalidFileFolderChars),
+  createBatch: () => (/* reexport */ createBatch),
   createChangeToken: () => (/* reexport */ createChangeToken),
   defaultPath: () => (/* reexport */ defaultPath),
   deleteable: () => (/* reexport */ deleteable),
   deleteableWithETag: () => (/* reexport */ deleteableWithETag),
   emptyGuid: () => (/* reexport */ emptyGuid),
   encodePath: () => (/* reexport */ encodePath),
+  encodePathNoURIEncode: () => (/* reexport */ encodePathNoURIEncode),
   extractWebUrl: () => (/* reexport */ extractWebUrl),
   fileFromAbsolutePath: () => (/* reexport */ fileFromAbsolutePath),
   fileFromPath: () => (/* reexport */ fileFromPath),
@@ -194,6 +237,7 @@ __webpack_require__.d(__webpack_exports__, {
   folderFromAbsolutePath: () => (/* reexport */ folderFromAbsolutePath),
   folderFromPath: () => (/* reexport */ folderFromPath),
   folderFromServerRelativePath: () => (/* reexport */ folderFromServerRelativePath),
+  metadata: () => (/* reexport */ metadata),
   odataUrlFrom: () => (/* reexport */ odataUrlFrom),
   spDelete: () => (/* reexport */ spDelete),
   spGet: () => (/* reexport */ spGet),
@@ -3095,6 +3139,23 @@ function encodePath(value) {
         return encodeURIComponent(value.replace(/'/ig, "''"));
     }
 }
+function encodePathNoURIEncode(value) {
+    if (stringIsNullOrEmpty(value)) {
+        return "";
+    }
+    // replace all instance of ' with ''
+    if (/!(@.*?)::(.*?)/ig.test(value)) {
+        return value.replace(/!(@.*?)::(.*)$/ig, (match, labelName, v) => {
+            // we do not need to encodeURIComponent v as it will be encoded automatically when it is added as a query string param
+            // we do need to double any ' chars
+            return `!${labelName}::${v.replace(/'/ig, "''")}`;
+        });
+    }
+    else {
+        // because this is a literal path value we encodeURIComponent after doubling any ' chars
+        return value.replace(/'/ig, "''");
+    }
+}
 
 ;// ./node_modules/@pnp/sp/webs/types.js
 
@@ -3315,393 +3376,6 @@ _Web = tslib_es6_decorate([
 ], _Web);
 
 const Web = spInvokableFactory(_Web);
-
-;// ./node_modules/@pnp/sp/appcatalog/types.js
-
-
-
-
-
-function getAppCatalogPath(base, path) {
-    const paths = ["_api/web/tenantappcatalog/", "_api/web/sitecollectionappcatalog/"];
-    for (let i = 0; i < paths.length; i++) {
-        const index = base.indexOf(paths[i]);
-        if (index > -1) {
-            return combine(base.substring(index, index + paths[i].length), path);
-        }
-    }
-    return combine(base, path);
-}
-let _AppCatalog = class _AppCatalog extends _SPCollection {
-    constructor(base, path) {
-        super(base, null);
-        this._url = combine(extractWebUrl(this._url), path);
-    }
-    /**
-     * Get details of specific app from the app catalog
-     * @param id - Specify the guid of the app
-     */
-    getAppById(id) {
-        return App(this, `getById('${id}')`);
-    }
-    /**
-     * Synchronize a solution to the Microsoft Teams App Catalog
-     * @param id - Specify the guid of the app
-     * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
-     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
-     */
-    async syncSolutionToTeams(id, useSharePointItemId = false) {
-        // This REST call requires that you refer the list item id of the solution in the app catalog site.
-        let appId = null;
-        const webUrl = combine(extractWebUrl(this.toUrl()), "_api/web");
-        if (useSharePointItemId) {
-            appId = id;
-        }
-        else {
-            const listId = (await SPCollection([this, webUrl], "lists").select("Id").filter("EntityTypeName eq 'AppCatalog'")())[0].Id;
-            const listItems = await SPCollection([this, webUrl], `lists/getById('${listId}')/items`).select("Id").filter(`AppProductID eq '${id}'`).top(1)();
-            if (listItems && listItems.length > 0) {
-                appId = listItems[0].Id;
-            }
-            else {
-                throw Error(`Did not find the app with id ${id} in the appcatalog.`);
-            }
-        }
-        return spPost(AppCatalog(this, getAppCatalogPath(this.toUrl(), `SyncSolutionToTeams(id=${appId})`)));
-    }
-    /**
-     * Uploads an app package. Not supported for batching
-     *
-     * @param filename Filename to create.
-     * @param content app package data (eg: the .app or .sppkg file).
-     * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
-     * @returns Promise<IAppAddResult>
-     */
-    async add(filename, content, shouldOverWrite = true) {
-        // you don't add to the availableapps collection
-        const adder = AppCatalog(this, getAppCatalogPath(this.toUrl(), `add(overwrite=${shouldOverWrite},url='${filename}')`));
-        return spPost(adder, {
-            body: content, headers: {
-                "binaryStringRequestBody": "true",
-            },
-        });
-    }
-};
-_AppCatalog = tslib_es6_decorate([
-    defaultPath("_api/web/tenantappcatalog/AvailableApps")
-], _AppCatalog);
-
-const AppCatalog = spInvokableFactory(_AppCatalog);
-class _App extends _SPInstance {
-    /**
-     * This method deploys an app on the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     *
-     * @param skipFeatureDeployment Deploy the app to the entire tenant
-     */
-    deploy(skipFeatureDeployment = false) {
-        return this.do(`Deploy(${skipFeatureDeployment})`);
-    }
-    /**
-     * This method retracts a deployed app on the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     */
-    retract() {
-        return this.do("Retract");
-    }
-    /**
-     * This method allows an app which is already deployed to be installed on a web
-     */
-    install() {
-        return this.do("Install");
-    }
-    /**
-     * This method allows an app which is already installed to be uninstalled on a web
-     * Note: when you use the REST API to uninstall a solution package from the site, it is not relocated to the recycle bin
-     */
-    uninstall() {
-        return this.do("Uninstall");
-    }
-    /**
-     * This method allows an app which is already installed to be upgraded on a web
-     */
-    upgrade() {
-        return this.do("Upgrade");
-    }
-    /**
-     * This method removes an app from the app catalog. It must be called in the context
-     * of the tenant app catalog web or it will fail.
-     */
-    remove() {
-        return this.do("Remove");
-    }
-    do(path) {
-        return spPost(App(this, path));
-    }
-}
-const App = spInvokableFactory(_App);
-
-;// ./node_modules/@pnp/sp/appcatalog/web.js
-
-
-
-// we use this function to wrap the AppCatalog as we want to ignore any path values addProp
-// will pass and use the defaultPath defined for AppCatalog
-addProp(_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
-
-;// ./node_modules/@pnp/sp/appcatalog/index.js
-
-
-
-
-
-Reflect.defineProperty(SPFI.prototype, "tenantAppcatalog", {
-    configurable: true,
-    enumerable: true,
-    get: function () {
-        return this.create(AppCatalog, "_api/web/tenantappcatalog/AvailableApps");
-    },
-});
-SPFI.prototype.getTenantAppCatalogWeb = async function () {
-    const data = await Web(this._root, "_api/SP_TenantSettings_Current")();
-    return Web([this._root, data.CorporateCatalogUrl]);
-};
-
-;// ./node_modules/@pnp/sp/types.js
-// reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
-const emptyGuid = "00000000-0000-0000-0000-000000000000";
-/**
- * Specifies the type of a principal.
- */
-var PrincipalType;
-(function (PrincipalType) {
-    /**
-     * Enumeration whose value specifies no principal type.
-     */
-    PrincipalType[PrincipalType["None"] = 0] = "None";
-    /**
-     * Enumeration whose value specifies a user as the principal type.
-     */
-    PrincipalType[PrincipalType["User"] = 1] = "User";
-    /**
-     * Enumeration whose value specifies a distribution list as the principal type.
-     */
-    PrincipalType[PrincipalType["DistributionList"] = 2] = "DistributionList";
-    /**
-     * Enumeration whose value specifies a security group as the principal type.
-     */
-    PrincipalType[PrincipalType["SecurityGroup"] = 4] = "SecurityGroup";
-    /**
-     * Enumeration whose value specifies a group as the principal type.
-     */
-    PrincipalType[PrincipalType["SharePointGroup"] = 8] = "SharePointGroup";
-    /**
-     * Enumeration whose value specifies all principal types.
-     */
-    // eslint-disable-next-line no-bitwise
-    PrincipalType[PrincipalType["All"] = 15] = "All";
-})(PrincipalType || (PrincipalType = {}));
-/**
- * Specifies the source of a principal.
- */
-var PrincipalSource;
-(function (PrincipalSource) {
-    /**
-     * Enumeration whose value specifies no principal source.
-     */
-    PrincipalSource[PrincipalSource["None"] = 0] = "None";
-    /**
-     * Enumeration whose value specifies user information list as the principal source.
-     */
-    PrincipalSource[PrincipalSource["UserInfoList"] = 1] = "UserInfoList";
-    /**
-     * Enumeration whose value specifies Active Directory as the principal source.
-     */
-    PrincipalSource[PrincipalSource["Windows"] = 2] = "Windows";
-    /**
-     * Enumeration whose value specifies the current membership provider as the principal source.
-     */
-    PrincipalSource[PrincipalSource["MembershipProvider"] = 4] = "MembershipProvider";
-    /**
-     * Enumeration whose value specifies the current role provider as the principal source.
-     */
-    PrincipalSource[PrincipalSource["RoleProvider"] = 8] = "RoleProvider";
-    /**
-     * Enumeration whose value specifies all principal sources.
-     */
-    // eslint-disable-next-line no-bitwise
-    PrincipalSource[PrincipalSource["All"] = 15] = "All";
-})(PrincipalSource || (PrincipalSource = {}));
-var PageType;
-(function (PageType) {
-    PageType[PageType["Invalid"] = -1] = "Invalid";
-    PageType[PageType["DefaultView"] = 0] = "DefaultView";
-    PageType[PageType["NormalView"] = 1] = "NormalView";
-    PageType[PageType["DialogView"] = 2] = "DialogView";
-    PageType[PageType["View"] = 3] = "View";
-    PageType[PageType["DisplayForm"] = 4] = "DisplayForm";
-    PageType[PageType["DisplayFormDialog"] = 5] = "DisplayFormDialog";
-    PageType[PageType["EditForm"] = 6] = "EditForm";
-    PageType[PageType["EditFormDialog"] = 7] = "EditFormDialog";
-    PageType[PageType["NewForm"] = 8] = "NewForm";
-    PageType[PageType["NewFormDialog"] = 9] = "NewFormDialog";
-    PageType[PageType["SolutionForm"] = 10] = "SolutionForm";
-    PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
-})(PageType || (PageType = {}));
-
-;// ./node_modules/@pnp/sp/utils/create-change-token.js
-/**
- * Creates a change token for use with sites, webs, or lists
- *
- * @param resourceType The type of resource for which you want a change token
- * @param resource The identifier (GUID) of the resource site.Id, web.Id, or List.Id
- * @param tokenDate The date for this token (if start token, start date of chages; if end token, end date of the changes)
- * @param versionNumber Version number for token (default = 1)
- * @returns A properly formatted change token
- */
-function createChangeToken(resourceType = "site", resource, tokenDate = new Date(), versionNumber = 1) {
-    const resourceTypeMapping = new Map([["site", 1], ["web", 2], ["list", 3]]).get(resourceType);
-    // The value of the string assigned to ChangeTokenStart.StringValue is semicolon delimited, and takes the following parameters in the order listed:
-    // Version number.
-    // The change scope (0 - Content Database, 1 - site collection, 2 - site, 3 - list).
-    // GUID of the item the scope applies to (for example, GUID of the list).
-    // Time (in UTC) from when changes occurred in Ticks (but its .NET ticks so we do this math)
-    // Initialize the change item on the ChangeToken using a default value of -1.
-    const tokenDateTicks = (tokenDate.getTime() * 10000) + 621355968000000000;
-    return { StringValue: `${versionNumber};${resourceTypeMapping};${resource};${tokenDateTicks};-1` };
-}
-
-;// ./node_modules/@pnp/sp/utils/file-names.js
-// eslint-disable-next-line no-control-regex
-const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
-// eslint-disable-next-line no-control-regex
-const InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
-/**
- * Checks if file or folder name contains invalid characters
- *
- * @param input File or folder name to check
- * @param onPremise Set to true for SharePoint On-Premise
- * @returns True if contains invalid chars, false otherwise
- */
-function containsInvalidFileFolderChars(input, onPremise = false) {
-    if (onPremise) {
-        return InvalidFileFolderNameCharsOnPremiseRegex.test(input);
-    }
-    else {
-        return InvalidFileFolderNameCharsOnlineRegex.test(input);
-    }
-}
-/**
- * Removes invalid characters from file or folder name
- *
- * @param input File or folder name
- * @param replacer Value that will replace invalid characters
- * @param onPremise Set to true for SharePoint On-Premise
- * @returns File or folder name with replaced invalid characters
- */
-function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
-    if (onPremise) {
-        return input.replace(InvalidFileFolderNameCharsOnPremiseRegex, replacer);
-    }
-    else {
-        return input.replace(InvalidFileFolderNameCharsOnlineRegex, replacer);
-    }
-}
-
-;// ./node_modules/@pnp/sp/utils/odata-url-from.js
-
-
-function odataUrlFrom(candidate) {
-    const parts = [];
-    const s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
-    if (hOP(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
-        // webs return an absolute url in the id
-        if (hOP(candidate, s[4])) {
-            parts.push(candidate[s[4]]);
-        }
-        else if (hOP(candidate, s[2])) {
-            // we are dealing with verbose, which has an absolute uri
-            parts.push(candidate.__metadata.uri);
-        }
-    }
-    else {
-        if (hOP(candidate, s[3]) && hOP(candidate, s[1])) {
-            // we are dealign with minimal metadata (default)
-            // some entities return an abosolute url in the editlink while for others it is relative
-            // without the _api. This code is meant to handle both situations
-            const editLink = isUrlAbsolute(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
-            parts.push(extractWebUrl(candidate[s[3]]), "_api", editLink);
-        }
-        else if (hOP(candidate, s[1])) {
-            parts.push("_api", candidate[s[1]]);
-        }
-        else if (hOP(candidate, s[2])) {
-            // we are dealing with verbose, which has an absolute uri
-            parts.push(candidate.__metadata.uri);
-        }
-    }
-    if (parts.length < 1) {
-        return "";
-    }
-    return combine(...parts);
-}
-
-;// ./node_modules/@pnp/sp/utils/to-resource-path.js
-function toResourcePath(url) {
-    return {
-        DecodedUrl: url,
-    };
-}
-
-;// ./node_modules/@pnp/sp/behaviors/telemetry.js
-
-function Telemetry() {
-    return (instance) => {
-        instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.10.0:";
-            // make our best guess based on url to the method called
-            const { pathname } = new URL(url);
-            // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
-            // and we want to modify any (*) calls at the end such as items(3) and items(344) so we just track "items()"
-            clientTag = pathname.split("/")
-                .filter((v) => !stringIsNullOrEmpty(v) && ["_api", "v2.1", "v2.0"].indexOf(v) < 0)
-                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0])
-                .join(".");
-            if (clientTag.length > 32) {
-                clientTag = clientTag.substring(0, 32);
-            }
-            this.log(`Request Tag: ${clientTag}`, 0);
-            init.headers = { ...init.headers, ["X-ClientService-ClientTag"]: clientTag };
-            return [url, init, result];
-        });
-        return instance;
-    };
-}
-
-;// ./node_modules/@pnp/sp/behaviors/defaults.js
-
-
-function DefaultInit() {
-    return (instance) => {
-        instance.on.pre(async (url, init, result) => {
-            init.cache = "no-cache";
-            init.credentials = "same-origin";
-            return [url, init, result];
-        });
-        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
-        return instance;
-    };
-}
-function DefaultHeaders() {
-    return (instance) => {
-        instance
-            .using(InjectHeaders({
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=utf-8",
-        }));
-        return instance;
-    };
-}
 
 ;// ./node_modules/@pnp/sp/batching.js
 
@@ -4048,6 +3722,327 @@ function parseResponse(body) {
     return responses;
 }
 
+;// ./node_modules/@pnp/sp/appcatalog/types.js
+
+
+
+
+
+function getAppCatalogPath(base, path) {
+    const paths = ["_api/web/tenantappcatalog/", "_api/web/sitecollectionappcatalog/"];
+    for (let i = 0; i < paths.length; i++) {
+        const index = base.indexOf(paths[i]);
+        if (index > -1) {
+            return combine(base.substring(index, index + paths[i].length), path);
+        }
+    }
+    return combine(base, path);
+}
+let _AppCatalog = class _AppCatalog extends _SPCollection {
+    constructor(base, path) {
+        super(base, null);
+        this._url = combine(extractWebUrl(this._url), path);
+    }
+    /**
+     * Get details of specific app from the app catalog
+     * @param id - Specify the guid of the app
+     */
+    getAppById(id) {
+        return App(this, `getById('${id}')`);
+    }
+    /**
+     * Synchronize a solution to the Microsoft Teams App Catalog
+     * @param id - Specify the guid of the app
+     * @param useSharePointItemId (optional) - By default this REST call requires the SP Item id of the app, not the app id.
+     *                            PnPjs will try to fetch the item id, you can still use this parameter to pass your own item id in the first parameter
+     */
+    async syncSolutionToTeams(id, useSharePointItemId = false) {
+        // This REST call requires that you refer the list item id of the solution in the app catalog site.
+        let appId = null;
+        const webUrl = combine(extractWebUrl(this.toUrl()), "_api/web");
+        if (useSharePointItemId) {
+            appId = id;
+        }
+        else {
+            const listId = (await SPCollection([this, webUrl], "lists").select("Id").filter("EntityTypeName eq 'AppCatalog'")())[0].Id;
+            const listItems = await SPCollection([this, webUrl], `lists/getById('${listId}')/items`).select("Id").filter(`AppProductID eq '${id}'`).top(1)();
+            if (listItems && listItems.length > 0) {
+                appId = listItems[0].Id;
+            }
+            else {
+                throw Error(`Did not find the app with id ${id} in the appcatalog.`);
+            }
+        }
+        return spPost(AppCatalog(this, getAppCatalogPath(this.toUrl(), `SyncSolutionToTeams(id=${appId})`)));
+    }
+    /**
+     * Uploads an app package. Not supported for batching
+     *
+     * @param filename Filename to create.
+     * @param content app package data (eg: the .app or .sppkg file).
+     * @param shouldOverWrite Should an app with the same name in the same location be overwritten? (default: true)
+     * @returns Promise<IAppAddResult>
+     */
+    async add(filename, content, shouldOverWrite = true) {
+        // you don't add to the availableapps collection
+        const adder = AppCatalog(this, getAppCatalogPath(this.toUrl(), `add(overwrite=${shouldOverWrite},url='${filename}')`));
+        return spPost(adder, {
+            body: content, headers: {
+                "binaryStringRequestBody": "true",
+            },
+        });
+    }
+};
+_AppCatalog = tslib_es6_decorate([
+    defaultPath("_api/web/tenantappcatalog/AvailableApps")
+], _AppCatalog);
+
+const AppCatalog = spInvokableFactory(_AppCatalog);
+class _App extends _SPInstance {
+    /**
+     * This method deploys an app on the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
+     *
+     * @param skipFeatureDeployment Deploy the app to the entire tenant
+     */
+    deploy(skipFeatureDeployment = false) {
+        return this.do(`Deploy(${skipFeatureDeployment})`);
+    }
+    /**
+     * This method retracts a deployed app on the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
+     */
+    retract() {
+        return this.do("Retract");
+    }
+    /**
+     * This method allows an app which is already deployed to be installed on a web
+     */
+    install() {
+        return this.do("Install");
+    }
+    /**
+     * This method allows an app which is already installed to be uninstalled on a web
+     * Note: when you use the REST API to uninstall a solution package from the site, it is not relocated to the recycle bin
+     */
+    uninstall() {
+        return this.do("Uninstall");
+    }
+    /**
+     * This method allows an app which is already installed to be upgraded on a web
+     */
+    upgrade() {
+        return this.do("Upgrade");
+    }
+    /**
+     * This method removes an app from the app catalog. It must be called in the context
+     * of the tenant app catalog web or it will fail.
+     */
+    remove() {
+        return this.do("Remove");
+    }
+    do(path) {
+        return spPost(App(this, path));
+    }
+}
+const App = spInvokableFactory(_App);
+
+;// ./node_modules/@pnp/sp/appcatalog/web.js
+
+
+
+// we use this function to wrap the AppCatalog as we want to ignore any path values addProp
+// will pass and use the defaultPath defined for AppCatalog
+addProp(_Web, "appcatalog", (s) => AppCatalog(s, "_api/web/sitecollectionappcatalog/AvailableApps"));
+
+;// ./node_modules/@pnp/sp/appcatalog/index.js
+
+
+
+
+
+Reflect.defineProperty(SPFI.prototype, "tenantAppcatalog", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(AppCatalog, "_api/web/tenantappcatalog/AvailableApps");
+    },
+});
+SPFI.prototype.getTenantAppCatalogWeb = async function () {
+    const data = await Web(this._root, "_api/SP_TenantSettings_Current")();
+    return Web([this._root, data.CorporateCatalogUrl]);
+};
+
+;// ./node_modules/@pnp/sp/types.js
+// reference: https://msdn.microsoft.com/en-us/library/office/dn600183.aspx
+const emptyGuid = "00000000-0000-0000-0000-000000000000";
+/**
+ * Specifies the type of a principal.
+ */
+var PrincipalType;
+(function (PrincipalType) {
+    /**
+     * Enumeration whose value specifies no principal type.
+     */
+    PrincipalType[PrincipalType["None"] = 0] = "None";
+    /**
+     * Enumeration whose value specifies a user as the principal type.
+     */
+    PrincipalType[PrincipalType["User"] = 1] = "User";
+    /**
+     * Enumeration whose value specifies a distribution list as the principal type.
+     */
+    PrincipalType[PrincipalType["DistributionList"] = 2] = "DistributionList";
+    /**
+     * Enumeration whose value specifies a security group as the principal type.
+     */
+    PrincipalType[PrincipalType["SecurityGroup"] = 4] = "SecurityGroup";
+    /**
+     * Enumeration whose value specifies a group as the principal type.
+     */
+    PrincipalType[PrincipalType["SharePointGroup"] = 8] = "SharePointGroup";
+    /**
+     * Enumeration whose value specifies all principal types.
+     */
+    // eslint-disable-next-line no-bitwise
+    PrincipalType[PrincipalType["All"] = 15] = "All";
+})(PrincipalType || (PrincipalType = {}));
+/**
+ * Specifies the source of a principal.
+ */
+var PrincipalSource;
+(function (PrincipalSource) {
+    /**
+     * Enumeration whose value specifies no principal source.
+     */
+    PrincipalSource[PrincipalSource["None"] = 0] = "None";
+    /**
+     * Enumeration whose value specifies user information list as the principal source.
+     */
+    PrincipalSource[PrincipalSource["UserInfoList"] = 1] = "UserInfoList";
+    /**
+     * Enumeration whose value specifies Active Directory as the principal source.
+     */
+    PrincipalSource[PrincipalSource["Windows"] = 2] = "Windows";
+    /**
+     * Enumeration whose value specifies the current membership provider as the principal source.
+     */
+    PrincipalSource[PrincipalSource["MembershipProvider"] = 4] = "MembershipProvider";
+    /**
+     * Enumeration whose value specifies the current role provider as the principal source.
+     */
+    PrincipalSource[PrincipalSource["RoleProvider"] = 8] = "RoleProvider";
+    /**
+     * Enumeration whose value specifies all principal sources.
+     */
+    // eslint-disable-next-line no-bitwise
+    PrincipalSource[PrincipalSource["All"] = 15] = "All";
+})(PrincipalSource || (PrincipalSource = {}));
+var PageType;
+(function (PageType) {
+    PageType[PageType["Invalid"] = -1] = "Invalid";
+    PageType[PageType["DefaultView"] = 0] = "DefaultView";
+    PageType[PageType["NormalView"] = 1] = "NormalView";
+    PageType[PageType["DialogView"] = 2] = "DialogView";
+    PageType[PageType["View"] = 3] = "View";
+    PageType[PageType["DisplayForm"] = 4] = "DisplayForm";
+    PageType[PageType["DisplayFormDialog"] = 5] = "DisplayFormDialog";
+    PageType[PageType["EditForm"] = 6] = "EditForm";
+    PageType[PageType["EditFormDialog"] = 7] = "EditFormDialog";
+    PageType[PageType["NewForm"] = 8] = "NewForm";
+    PageType[PageType["NewFormDialog"] = 9] = "NewFormDialog";
+    PageType[PageType["SolutionForm"] = 10] = "SolutionForm";
+    PageType[PageType["PAGE_MAXITEMS"] = 11] = "PAGE_MAXITEMS";
+})(PageType || (PageType = {}));
+
+;// ./node_modules/@pnp/sp/utils/odata-url-from.js
+
+
+function odataUrlFrom(candidate) {
+    const parts = [];
+    const s = ["odata.type", "odata.editLink", "__metadata", "odata.metadata", "odata.id"];
+    if (hOP(candidate, s[0]) && candidate[s[0]] === "SP.Web") {
+        // webs return an absolute url in the id
+        if (hOP(candidate, s[4])) {
+            parts.push(candidate[s[4]]);
+        }
+        else if (hOP(candidate, s[2])) {
+            // we are dealing with verbose, which has an absolute uri
+            parts.push(candidate.__metadata.uri);
+        }
+    }
+    else {
+        if (hOP(candidate, s[3]) && hOP(candidate, s[1])) {
+            // we are dealign with minimal metadata (default)
+            // some entities return an abosolute url in the editlink while for others it is relative
+            // without the _api. This code is meant to handle both situations
+            const editLink = isUrlAbsolute(candidate[s[1]]) ? candidate[s[1]].split("_api")[1] : candidate[s[1]];
+            parts.push(extractWebUrl(candidate[s[3]]), "_api", editLink);
+        }
+        else if (hOP(candidate, s[1])) {
+            parts.push("_api", candidate[s[1]]);
+        }
+        else if (hOP(candidate, s[2])) {
+            // we are dealing with verbose, which has an absolute uri
+            parts.push(candidate.__metadata.uri);
+        }
+    }
+    if (parts.length < 1) {
+        return "";
+    }
+    return combine(...parts);
+}
+
+;// ./node_modules/@pnp/sp/behaviors/telemetry.js
+
+function Telemetry() {
+    return (instance) => {
+        instance.on.pre(async function (url, init, result) {
+            let clientTag = "PnPCoreJS:4.11.0:";
+            // make our best guess based on url to the method called
+            const { pathname } = new URL(url);
+            // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
+            // and we want to modify any (*) calls at the end such as items(3) and items(344) so we just track "items()"
+            clientTag = pathname.split("/")
+                .filter((v) => !stringIsNullOrEmpty(v) && ["_api", "v2.1", "v2.0"].indexOf(v) < 0)
+                .map((value, index, arr) => index === arr.length - 1 ? value.replace(/\(.*?$/i, "()") : value[0])
+                .join(".");
+            if (clientTag.length > 32) {
+                clientTag = clientTag.substring(0, 32);
+            }
+            this.log(`Request Tag: ${clientTag}`, 0);
+            init.headers = { ...init.headers, ["X-ClientService-ClientTag"]: clientTag };
+            return [url, init, result];
+        });
+        return instance;
+    };
+}
+
+;// ./node_modules/@pnp/sp/behaviors/defaults.js
+
+
+function DefaultInit() {
+    return (instance) => {
+        instance.on.pre(async (url, init, result) => {
+            init.cache = "no-cache";
+            init.credentials = "same-origin";
+            return [url, init, result];
+        });
+        instance.using(Telemetry(), RejectOnError(), ResolveOnData());
+        return instance;
+    };
+}
+function DefaultHeaders() {
+    return (instance) => {
+        instance
+            .using(InjectHeaders({
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=utf-8",
+        }));
+        return instance;
+    };
+}
+
 ;// ./node_modules/@pnp/sp/behaviors/request-digest.js
 
 
@@ -4203,6 +4198,13 @@ function SPFx(context) {
 
 
 
+
+;// ./node_modules/@pnp/sp/utils/to-resource-path.js
+function toResourcePath(url) {
+    return {
+        DecodedUrl: url,
+    };
+}
 
 ;// ./node_modules/@pnp/sp/lists/types.js
 
@@ -7385,7 +7387,7 @@ const Folder = spInvokableFactory(_Folder);
  * @returns IFolder instance referencing the folder described by the supplied parameters
  */
 function folderFromServerRelativePath(base, serverRelativePath) {
-    return Folder([base, extractWebUrl(base.toUrl())], `_api/web/getFolderByServerRelativePath(decodedUrl='${encodePath(serverRelativePath)}')`);
+    return Folder([base, extractWebUrl(base.toUrl())], `_api/web/getFolderByServerRelativePath(decodedUrl='${encodePathNoURIEncode(serverRelativePath)}')`);
 }
 /**
  * Creates an IFolder instance given a base object and an absolute path
@@ -8411,6 +8413,341 @@ addProp(_List, "forms", Forms);
 ;// ./node_modules/@pnp/sp/forms/index.js
 
 
+
+;// ./node_modules/@pnp/sp/groupsitemanager/types.js
+
+
+
+
+let _GroupSiteManager = class _GroupSiteManager extends _SPInstance {
+    /**
+     * Indicates if the current user / application can create Microsoft 365 groups
+     *
+     *@returns True if possible, otherwise false
+     */
+    canUserCreateGroup() {
+        return spGet(GroupSiteManager(this, "CanUserCreateGroup"));
+    }
+    /**
+     * Clears Teams cache for current user / application
+     */
+    clearCurrentUserTeamsCache() {
+        return spPost(GroupSiteManager(this, "ClearCurrentUserTeamsCache"));
+    }
+    /**
+     * Creates a SharePoint team site for the submitted Microsoft 365 group.
+     * More information regarding site creation status here: https://learn.microsoft.com/sharepoint/dev/apis/site-creation-rest#response-2
+     *
+     *@param groupId Id of the Microsoft 365 group
+     *@returns Created SharePoint site information (or current creation status)
+     */
+    create(groupId) {
+        return spPost(GroupSiteManager(this, "Create"), body({
+            groupId,
+        }));
+    }
+    /**
+     * Creates a Microsoft 365 group with a connected site.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param displayName The name of the group
+     *@param isPublic Whether the new group should be public or private
+     *@param ownerPrincipalNames The group owners principal names
+     *@param description Detailed information about the group
+     *@param creationOptions Additional options ("SPSiteLanguage", "SensitivityLabel", "HubSiteId",...)
+     *@returns Created SharePoint site information and group Id (or current creation status)
+     */
+    // eslint-disable-next-line max-len
+    createGroup(displayName, alias, isPublic, ownerPrincipalNames, description, creationOptions) {
+        return spPost(GroupSiteManager(this, "CreateGroup"), body({
+            displayName,
+            alias,
+            isPublic,
+            ownerPrincipalNames,
+            description,
+            creationOptions,
+        }));
+    }
+    // CreateGroupEx: created in sp/sites node through PR #2520
+    /**
+     * Deletes a group-connected site.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param siteUrl URL of the group-connected site to delete
+     */
+    delete(siteUrl) {
+        return spPost(GroupSiteManager(this, "Delete"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Creates a team for the current site (group-connected only).
+     * This method doesn't work in Azure AD Application context
+     *
+     *@returns The group-connected site team URL
+     */
+    ensureTeamForGroup() {
+        return spPost(GroupSiteManager(this, "EnsureTeamForGroup"));
+    }
+    /**
+     * Creates a team for the current site (group-connected only).
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@returns The group-connected site team ID and URL
+     */
+    ensureTeamForGroupEx() {
+        return spPost(GroupSiteManager(this, "EnsureTeamForGroupEx"));
+    }
+    /**
+     * Gets labels configured for the tenant
+     *
+     *@param pageNumber Page results number to display
+     *@returns A list of labels
+     */
+    getAllOrgLabels(pageNumber) {
+        return spPost(GroupSiteManager(this, "GetAllOrgLabels"), body({
+            pageNumber,
+        }));
+    }
+    /**
+     * Gets the joined teams for the current user.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param getLogoData True to return logo data, otherwise false
+     *@param forceCacheUpdate True to force cache update, otherwise false
+     *@returns A list of teams with detailed information. The returned value is a JSON object which can be parsed
+     */
+    getCurrentUserJoinedTeams(getLogoData, forceCacheUpdate) {
+        return spPost(GroupSiteManager(this, "GetCurrentUserJoinedTeams"), body({
+            getLogoData,
+            forceCacheUpdate,
+        }));
+    }
+    /**
+     * Gets the teams shared channels which current user is member of.
+     * This method doesn't work in Azure AD application context
+     *
+     *@returns A list of teams shared channels with summary information (object id, acronym, banner color, ...).
+      The returned value is a JSON object which can be parsed
+     */
+    getCurrentUserSharedChannelMemberGroups() {
+        return spPost(GroupSiteManager(this, "GetCurrentUserSharedChannelMemberGroups"));
+    }
+    /**
+     * Gets the teams which current user is member of.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@returns A list of teams with summary information (object id, acronym, banner color,...).
+      The returned value is a JSON object which can be parsed
+     */
+    getCurrentUserTeamConnectedMemberGroups() {
+        return spPost(GroupSiteManager(this, "GetCurrentUserTeamConnectedMemberGroups"));
+    }
+    /**
+     * Gets information regarding Microsoft 365 group creation configuration
+     *
+     *@returns Information about current configuration
+     */
+    getGroupCreationContext() {
+        return spGet(GroupSiteManager(this, "GetGroupCreationContext"));
+    }
+    /**
+     * Gets information regarding site groupification configuration for the current site
+     *
+     *@returns Information about current configuration
+     */
+    getGroupSiteConversionData() {
+        return spGet(GroupSiteManager(this, "GetGroupSiteConversionData"));
+    }
+    /**
+     * Gets group-connected site creation status
+     *
+     *@param groupId Microsoft 365 group Id
+     *@returns SharePoint site information and group Id (or current creation status)
+     */
+    getSiteStatus(groupId) {
+        return spPost(GroupSiteManager(this, "GetSiteStatus"), body({
+            groupId,
+        }));
+    }
+    /**
+     * Gets detailed information related to a team channel files URL.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param teamId Team's group Id
+     *@param channelId Teams's channel Id
+     *@returns Stream information about team channel files URL. The returned value is a JSON object which can be parsed
+     */
+    getTeamChannelFilesUrl(teamId, channelId) {
+        return spPost(GroupSiteManager(this, "GetTeamChannelFilesUrl").using(BufferParse()), body({
+            teamId,
+            channelId,
+        }));
+    }
+    /**
+     * Gets channels for a team.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param teamId Team's group Id
+     *@param useStagingEndpoint Use staging endpoint or not
+     *@returns Stream information about team's channels. The returned value is a JSON object which can be parsed
+     */
+    getTeamChannels(teamId, useStagingEndpoint) {
+        return spPost(GroupSiteManager(this, "GetTeamChannels").using(BufferParse()), body({
+            teamId,
+            useStagingEndpoint,
+        }));
+    }
+    /**
+     * Gets channels for a team.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param teamId Team's group Id
+     *@returns Detailed information about team's channels. The returned value is a JSON object which can be parsed
+     */
+    getTeamChannelsDirect(teamId) {
+        return spPost(GroupSiteManager(this, "GetTeamChannelsDirect"), body({
+            teamId,
+        }));
+    }
+    /**
+     * Gets channels for a team.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param teamId Team's group Id
+     *@returns Detailed information about team's channels
+     */
+    getTeamChannelsEx(teamId) {
+        return spPost(GroupSiteManager(this, "GetTeamChannelsEx"), body({
+            teamId,
+        }));
+    }
+    /**
+     * Gets channels for a team based on site URL.
+     * Works only with root site (neither private or shared channel sites).
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param siteUrl group-connected site URL
+     *@returns Detailed information about team's channels
+     */
+    getTeamChannelsWithSiteUrl(siteUrl) {
+        return spPost(GroupSiteManager(this, "GetTeamChannelsWithSiteUrl"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Gets shared channels membership for a user
+     *
+     *@param userName User principal name to get shared channels membership
+     *@returns Information about user's shared channels. The returned value is a JSON object which can be parsed
+     */
+    getUserSharedChannelMemberGroups(userName) {
+        return spPost(GroupSiteManager(this, "GetUserSharedChannelMemberGroups"), body({
+            userName,
+        }));
+    }
+    /**
+     * Gets teams membership for a user
+     *
+     *@param userName User principal name to get teams membership
+     *@returns Information about requested user's teams. The returned value is a JSON object which can be parsed
+     */
+    getUserTeamConnectedMemberGroups(userName) {
+        return spPost(GroupSiteManager(this, "GetUserTeamConnectedMemberGroups"), body({
+            userName,
+        }));
+    }
+    /**
+     * Gets a valid SharePoint site URL from an alias
+     *
+     *@param alias Alias for SharePoint site URL (also used when creating a Microsoft 365 group)
+     *@param managedPath SharePoint managed path ("/sites" or "/teams", optional)
+     *@param isTeamSite True if target is a group-connected site, otherwise false (optional)
+     *@returns A valid SharePoint site URL
+     */
+    getValidSiteUrlFromAlias(alias, managedPath, isTeamSite) {
+        return spPost(GroupSiteManager(this, "GetValidSiteUrlFromAlias"), body({
+            alias,
+            managedPath,
+            isTeamSite,
+        }));
+    }
+    /**
+     * Indicates if the "Teamify" prompt is displayed or not on a group-connected site.
+     * If no parameter is specified, the command will run in the current site context
+     *
+     *@param siteUrl Group-Connected site
+     *@returns true if "Teamify" prompt is hidden, otherwise false
+     */
+    isTeamifyPromptHidden(siteUrl) {
+        return spPost(GroupSiteManager(this, "IsTeamifyPromptHidden"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Gets the group-connected site default OneNote Notebook location
+     *
+     *@param groupId Id of the Microsoft 365 group
+     *@returns URL of the group's default OneNote Notebook
+     */
+    notebook(groupId) {
+        return spPost(GroupSiteManager(this, "Notebook"), body({
+            groupId,
+        }));
+    }
+    /**
+     * Pins one or more new SharePoint tabs to a team's default channel.
+     * This method only works with @pnp/sp behaviors.
+     * This method doesn't work in Azure AD Application context
+     *
+     *@param requestParams Parameters including the tabs data and the team's group Id
+     *@returns Successful and failed results for the submitted tabs to add
+     */
+    pinToTeam(requestParams) {
+        return spPost(GroupSiteManager(this, "PinToTeam"), body({
+            requestParams,
+        }));
+    }
+    /**
+     * Supports calling POST methods not added explicitly to this class
+     *
+     * @param method method name, used in url path (ex: "CreateGroup")
+     * @param args optional, any arguments to include in the body
+     * @returns The result of the method invocation T
+     */
+    call(method, args) {
+        const query = GroupSiteManager(this, method);
+        if (typeof args !== "undefined") {
+            return spPost(query, body(args));
+        }
+        else {
+            return spPost(query);
+        }
+    }
+};
+_GroupSiteManager = tslib_es6_decorate([
+    defaultPath("_api/groupsitemanager")
+], _GroupSiteManager);
+const GroupSiteManager = spInvokableFactory(_GroupSiteManager);
+
+;// ./node_modules/@pnp/sp/groupsitemanager/index.js
+
+
+
+Reflect.defineProperty(SPFI.prototype, "groupSiteManager", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(GroupSiteManager);
+    },
+});
 
 ;// ./node_modules/@pnp/sp/hubsites/types.js
 
@@ -11840,6 +12177,65 @@ Reflect.defineProperty(SPFI.prototype, "web", {
     },
 });
 
+;// ./node_modules/@pnp/sp/utils/create-change-token.js
+/**
+ * Creates a change token for use with sites, webs, or lists
+ *
+ * @param resourceType The type of resource for which you want a change token
+ * @param resource The identifier (GUID) of the resource site.Id, web.Id, or List.Id
+ * @param tokenDate The date for this token (if start token, start date of chages; if end token, end date of the changes)
+ * @param versionNumber Version number for token (default = 1)
+ * @returns A properly formatted change token
+ */
+function createChangeToken(resourceType = "site", resource, tokenDate = new Date(), versionNumber = 1) {
+    const resourceTypeMapping = new Map([["site", 1], ["web", 2], ["list", 3]]).get(resourceType);
+    // The value of the string assigned to ChangeTokenStart.StringValue is semicolon delimited, and takes the following parameters in the order listed:
+    // Version number.
+    // The change scope (0 - Content Database, 1 - site collection, 2 - site, 3 - list).
+    // GUID of the item the scope applies to (for example, GUID of the list).
+    // Time (in UTC) from when changes occurred in Ticks (but its .NET ticks so we do this math)
+    // Initialize the change item on the ChangeToken using a default value of -1.
+    const tokenDateTicks = (tokenDate.getTime() * 10000) + 621355968000000000;
+    return { StringValue: `${versionNumber};${resourceTypeMapping};${resource};${tokenDateTicks};-1` };
+}
+
+;// ./node_modules/@pnp/sp/utils/file-names.js
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnlineRegex = /["*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+// eslint-disable-next-line no-control-regex
+const InvalidFileFolderNameCharsOnPremiseRegex = /["#%*:<>?/\\|\x00-\x1f\x7f-\x9f]/g;
+/**
+ * Checks if file or folder name contains invalid characters
+ *
+ * @param input File or folder name to check
+ * @param onPremise Set to true for SharePoint On-Premise
+ * @returns True if contains invalid chars, false otherwise
+ */
+function containsInvalidFileFolderChars(input, onPremise = false) {
+    if (onPremise) {
+        return InvalidFileFolderNameCharsOnPremiseRegex.test(input);
+    }
+    else {
+        return InvalidFileFolderNameCharsOnlineRegex.test(input);
+    }
+}
+/**
+ * Removes invalid characters from file or folder name
+ *
+ * @param input File or folder name
+ * @param replacer Value that will replace invalid characters
+ * @param onPremise Set to true for SharePoint On-Premise
+ * @returns File or folder name with replaced invalid characters
+ */
+function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
+    if (onPremise) {
+        return input.replace(InvalidFileFolderNameCharsOnPremiseRegex, replacer);
+    }
+    else {
+        return input.replace(InvalidFileFolderNameCharsOnlineRegex, replacer);
+    }
+}
+
 ;// ./node_modules/@pnp/sp/presets/all.js
 
 
@@ -11912,7 +12308,1797 @@ Reflect.defineProperty(SPFI.prototype, "web", {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;// ./node_modules/@pnp/sp-admin/node_modules/tslib/tslib.es6.mjs
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
+
+var tslib_tslib_es6_extendStatics = function(d, b) {
+  tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+  return tslib_tslib_es6_extendStatics(d, b);
+};
+
+function tslib_tslib_es6_extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  tslib_tslib_es6_extendStatics(d, b);
+  function __() { this.constructor = d; }
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var tslib_tslib_es6_assign = function() {
+  tslib_tslib_es6_assign = Object.assign || function __assign(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+  }
+  return tslib_tslib_es6_assign.apply(this, arguments);
+}
+
+function tslib_tslib_es6_rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+      t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+              t[p[i]] = s[p[i]];
+      }
+  return t;
+}
+
+function tslib_tslib_es6_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function tslib_tslib_es6_param(paramIndex, decorator) {
+  return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function tslib_tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+  var _, done = false;
+  for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+      if (kind === "accessor") {
+          if (result === void 0) continue;
+          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+          if (_ = accept(result.get)) descriptor.get = _;
+          if (_ = accept(result.set)) descriptor.set = _;
+          if (_ = accept(result.init)) initializers.unshift(_);
+      }
+      else if (_ = accept(result)) {
+          if (kind === "field") initializers.unshift(_);
+          else descriptor[key] = _;
+      }
+  }
+  if (target) Object.defineProperty(target, contextIn.name, descriptor);
+  done = true;
+};
+
+function tslib_tslib_es6_runInitializers(thisArg, initializers, value) {
+  var useValue = arguments.length > 2;
+  for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+  }
+  return useValue ? value : void 0;
+};
+
+function tslib_tslib_es6_propKey(x) {
+  return typeof x === "symbol" ? x : "".concat(x);
+};
+
+function tslib_tslib_es6_setFunctionName(f, name, prefix) {
+  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
+};
+
+function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
+  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+  return new (P || (P = Promise))(function (resolve, reject) {
+      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+}
+
+function tslib_tslib_es6_generator(thisArg, body) {
+  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+  function verb(n) { return function (v) { return step([n, v]); }; }
+  function step(op) {
+      if (f) throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+          if (y = 0, t) op = [op[0] & 2, t.value];
+          switch (op[0]) {
+              case 0: case 1: t = op; break;
+              case 4: _.label++; return { value: op[1], done: false };
+              case 5: _.label++; y = op[1]; op = [0]; continue;
+              case 7: op = _.ops.pop(); _.trys.pop(); continue;
+              default:
+                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                  if (t[2]) _.ops.pop();
+                  _.trys.pop(); continue;
+          }
+          op = body.call(thisArg, _);
+      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+  }
+}
+
+var tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  var desc = Object.getOwnPropertyDescriptor(m, k);
+  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+  }
+  Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+function tslib_tslib_es6_exportStar(m, o) {
+  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_tslib_es6_createBinding(o, m, p);
+}
+
+function tslib_tslib_es6_values(o) {
+  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+  if (m) return m.call(o);
+  if (o && typeof o.length === "number") return {
+      next: function () {
+          if (o && i >= o.length) o = void 0;
+          return { value: o && o[i++], done: !o };
+      }
+  };
+  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function tslib_tslib_es6_read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o), r, ar = [], e;
+  try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+  }
+  catch (error) { e = { error: error }; }
+  finally {
+      try {
+          if (r && !r.done && (m = i["return"])) m.call(i);
+      }
+      finally { if (e) throw e.error; }
+  }
+  return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++)
+      ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
+  return ar;
+}
+
+/** @deprecated */
+function tslib_tslib_es6_spreadArrays() {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+          r[k] = a[j];
+  return r;
+}
+
+function tslib_tslib_es6_spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+      if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+      }
+  }
+  return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function tslib_tslib_es6_await(v) {
+  return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
+}
+
+function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var g = generator.apply(thisArg, _arguments || []), i, q = [];
+  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
+  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+  function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+  function fulfill(value) { resume("next", value); }
+  function reject(value) { resume("throw", value); }
+  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function tslib_tslib_es6_asyncDelegator(o) {
+  var i, p;
+  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
+}
+
+function tslib_tslib_es6_asyncValues(o) {
+  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+  var m = o[Symbol.asyncIterator], i;
+  return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
+  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+  return cooked;
+};
+
+var tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+  o["default"] = v;
+};
+
+function tslib_tslib_es6_importStar(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_tslib_es6_createBinding(result, mod, k);
+  tslib_tslib_es6_setModuleDefault(result, mod);
+  return result;
+}
+
+function tslib_tslib_es6_importDefault(mod) {
+  return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
+  if (kind === "m") throw new TypeError("Private method is not writable");
+  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+function tslib_tslib_es6_classPrivateFieldIn(state, receiver) {
+  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
+  return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+
+function tslib_tslib_es6_addDisposableResource(env, value, async) {
+  if (value !== null && value !== void 0) {
+    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+    var dispose, inner;
+    if (async) {
+      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+      dispose = value[Symbol.asyncDispose];
+    }
+    if (dispose === void 0) {
+      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+      dispose = value[Symbol.dispose];
+      if (async) inner = dispose;
+    }
+    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
+    env.stack.push({ value: value, dispose: dispose, async: async });
+  }
+  else if (async) {
+    env.stack.push({ async: true });
+  }
+  return value;
+}
+
+var tslib_tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+  var e = new Error(message);
+  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+function tslib_tslib_es6_disposeResources(env) {
+  function fail(e) {
+    env.error = env.hasError ? new tslib_tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+    env.hasError = true;
+  }
+  var r, s = 0;
+  function next() {
+    while (r = env.stack.pop()) {
+      try {
+        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+        if (r.dispose) {
+          var result = r.dispose.call(r.value);
+          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
+        }
+        else s |= 1;
+      }
+      catch (e) {
+        fail(e);
+      }
+    }
+    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+    if (env.hasError) throw env.error;
+  }
+  return next();
+}
+
+/* harmony default export */ const node_modules_tslib_tslib_es6 = ({
+  __extends: tslib_tslib_es6_extends,
+  __assign: tslib_tslib_es6_assign,
+  __rest: tslib_tslib_es6_rest,
+  __decorate: tslib_tslib_es6_decorate,
+  __param: tslib_tslib_es6_param,
+  __metadata: tslib_tslib_es6_metadata,
+  __awaiter: tslib_tslib_es6_awaiter,
+  __generator: tslib_tslib_es6_generator,
+  __createBinding: tslib_tslib_es6_createBinding,
+  __exportStar: tslib_tslib_es6_exportStar,
+  __values: tslib_tslib_es6_values,
+  __read: tslib_tslib_es6_read,
+  __spread: tslib_tslib_es6_spread,
+  __spreadArrays: tslib_tslib_es6_spreadArrays,
+  __spreadArray: tslib_tslib_es6_spreadArray,
+  __await: tslib_tslib_es6_await,
+  __asyncGenerator: tslib_tslib_es6_asyncGenerator,
+  __asyncDelegator: tslib_tslib_es6_asyncDelegator,
+  __asyncValues: tslib_tslib_es6_asyncValues,
+  __makeTemplateObject: tslib_tslib_es6_makeTemplateObject,
+  __importStar: tslib_tslib_es6_importStar,
+  __importDefault: tslib_tslib_es6_importDefault,
+  __classPrivateFieldGet: tslib_tslib_es6_classPrivateFieldGet,
+  __classPrivateFieldSet: tslib_tslib_es6_classPrivateFieldSet,
+  __classPrivateFieldIn: tslib_tslib_es6_classPrivateFieldIn,
+  __addDisposableResource: tslib_tslib_es6_addDisposableResource,
+  __disposeResources: tslib_tslib_es6_disposeResources,
+});
+
+;// ./node_modules/@pnp/sp-admin/types.js
+var SharingCapabilities;
+(function (SharingCapabilities) {
+    /**
+     * External user sharing (share by email) and guest link sharing are both disabled for all site collections
+     * in the tenancy.  No new external user invitations or sharing links can be created, and any content previously
+     * shared becomes inaccessible to external users.
+     */
+    SharingCapabilities[SharingCapabilities["Disabled"] = 0] = "Disabled";
+    /**
+     * External user sharing is enabled for the tenancy, but guest link sharing is disabled.  Each individual
+     * site collection's sharing properties govern whether the site collection has sharing disabled or allows
+     * external user sharing, but a site collection cannot enable guest link sharing.
+     */
+    SharingCapabilities[SharingCapabilities["ExternalUserSharingOnly"] = 1] = "ExternalUserSharingOnly";
+    /**
+     * External user sharing and guest link sharing are enabled for the tenancy.  Each individual site
+     * collection's sharing properties govern whether the site collection has sharing disabled, allows external user
+     * sharing only, or allows both external user sharing and guest link sharing.
+     */
+    SharingCapabilities[SharingCapabilities["ExternalUserAndGuestSharing"] = 2] = "ExternalUserAndGuestSharing";
+    /**
+     * External user sharing and guest link sharing are both disabled for the tenancy, but AllowGuestUserSignIn is enabled.
+     * Each individual site collection's sharing properties govern whether the site collection has sharing disabled or allows
+     * existing external user signing in, but a site collection cannot enable guest link sharing and cannot share with new external users.
+     */
+    SharingCapabilities[SharingCapabilities["ExistingExternalUserSharingOnly"] = 3] = "ExistingExternalUserSharingOnly";
+})(SharingCapabilities || (SharingCapabilities = {}));
+var ImageTaggingChoice;
+(function (ImageTaggingChoice) {
+    ImageTaggingChoice[ImageTaggingChoice["Disabled"] = 1] = "Disabled";
+    ImageTaggingChoice[ImageTaggingChoice["Basic"] = 2] = "Basic";
+    ImageTaggingChoice[ImageTaggingChoice["Enhanced"] = 3] = "Enhanced";
+})(ImageTaggingChoice || (ImageTaggingChoice = {}));
+var AzureSubscriptionState;
+(function (AzureSubscriptionState) {
+    AzureSubscriptionState[AzureSubscriptionState["Unknown"] = 0] = "Unknown";
+    AzureSubscriptionState[AzureSubscriptionState["Active"] = 1] = "Active";
+    AzureSubscriptionState[AzureSubscriptionState["Deleted"] = 2] = "Deleted";
+    AzureSubscriptionState[AzureSubscriptionState["Disabled"] = 3] = "Disabled";
+    AzureSubscriptionState[AzureSubscriptionState["Expired"] = 4] = "Expired";
+    AzureSubscriptionState[AzureSubscriptionState["PastDue"] = 5] = "PastDue";
+    AzureSubscriptionState[AzureSubscriptionState["Warned"] = 6] = "Warned";
+})(AzureSubscriptionState || (AzureSubscriptionState = {}));
+var SPResilienceModeType;
+(function (SPResilienceModeType) {
+    SPResilienceModeType[SPResilienceModeType["DefaultAAD"] = 0] = "DefaultAAD";
+    SPResilienceModeType[SPResilienceModeType["Enabled"] = 1] = "Enabled";
+    SPResilienceModeType[SPResilienceModeType["Disabled"] = 2] = "Disabled";
+})(SPResilienceModeType || (SPResilienceModeType = {}));
+var SharingDomainRestrictionModes;
+(function (SharingDomainRestrictionModes) {
+    SharingDomainRestrictionModes[SharingDomainRestrictionModes["None"] = 0] = "None";
+    SharingDomainRestrictionModes[SharingDomainRestrictionModes["AllowList"] = 1] = "AllowList";
+    SharingDomainRestrictionModes[SharingDomainRestrictionModes["BlockList"] = 2] = "BlockList";
+})(SharingDomainRestrictionModes || (SharingDomainRestrictionModes = {}));
+var SharingLinkType;
+(function (SharingLinkType) {
+    SharingLinkType[SharingLinkType["View"] = 0] = "View";
+    SharingLinkType[SharingLinkType["Edit"] = 1] = "Edit";
+    SharingLinkType[SharingLinkType["Review"] = 2] = "Review";
+    SharingLinkType[SharingLinkType["Embed"] = 3] = "Embed";
+    SharingLinkType[SharingLinkType["BlocksDownload"] = 4] = "BlocksDownload";
+    SharingLinkType[SharingLinkType["CreateOnly"] = 5] = "CreateOnly";
+    SharingLinkType[SharingLinkType["AddressBar"] = 6] = "AddressBar";
+    SharingLinkType[SharingLinkType["AdminDefault"] = 7] = "AdminDefault";
+    SharingLinkType[SharingLinkType["Unknown"] = 8] = "Unknown";
+})(SharingLinkType || (SharingLinkType = {}));
+var AnonymousLinkType;
+(function (AnonymousLinkType) {
+    AnonymousLinkType[AnonymousLinkType["None"] = 0] = "None";
+    AnonymousLinkType[AnonymousLinkType["View"] = 1] = "View";
+    AnonymousLinkType[AnonymousLinkType["Edit"] = 2] = "Edit";
+})(AnonymousLinkType || (AnonymousLinkType = {}));
+var SharingState;
+(function (SharingState) {
+    SharingState[SharingState["Unspecified"] = 0] = "Unspecified";
+    SharingState[SharingState["On"] = 1] = "On";
+    SharingState[SharingState["Off"] = 2] = "Off";
+})(SharingState || (SharingState = {}));
+var BlockDownloadLinksFileTypes;
+(function (BlockDownloadLinksFileTypes) {
+    BlockDownloadLinksFileTypes[BlockDownloadLinksFileTypes["WebPreviewableFiles"] = 1] = "WebPreviewableFiles";
+    BlockDownloadLinksFileTypes[BlockDownloadLinksFileTypes["ServerRenderedFilesOnly"] = 2] = "ServerRenderedFilesOnly";
+})(BlockDownloadLinksFileTypes || (BlockDownloadLinksFileTypes = {}));
+var SharingScope;
+(function (SharingScope) {
+    SharingScope[SharingScope["Anyone"] = 0] = "Anyone";
+    SharingScope[SharingScope["Organization"] = 1] = "Organization";
+    SharingScope[SharingScope["SpecificPeople"] = 2] = "SpecificPeople";
+})(SharingScope || (SharingScope = {}));
+var SPOConditionalAccessPolicyType;
+(function (SPOConditionalAccessPolicyType) {
+    SPOConditionalAccessPolicyType[SPOConditionalAccessPolicyType["AllowFullAccess"] = 0] = "AllowFullAccess";
+    SPOConditionalAccessPolicyType[SPOConditionalAccessPolicyType["AllowLimitedAccess"] = 1] = "AllowLimitedAccess";
+    SPOConditionalAccessPolicyType[SPOConditionalAccessPolicyType["BlockAccess"] = 2] = "BlockAccess";
+    SPOConditionalAccessPolicyType[SPOConditionalAccessPolicyType["AuthenticationContext"] = 3] = "AuthenticationContext";
+})(SPOConditionalAccessPolicyType || (SPOConditionalAccessPolicyType = {}));
+var SPOLimitedAccessFileType;
+(function (SPOLimitedAccessFileType) {
+    SPOLimitedAccessFileType[SPOLimitedAccessFileType["OfficeOnlineFilesOnly"] = 0] = "OfficeOnlineFilesOnly";
+    SPOLimitedAccessFileType[SPOLimitedAccessFileType["WebPreviewableFiles"] = 1] = "WebPreviewableFiles";
+    SPOLimitedAccessFileType[SPOLimitedAccessFileType["OtherFiles"] = 2] = "OtherFiles";
+})(SPOLimitedAccessFileType || (SPOLimitedAccessFileType = {}));
+var Workflows2013State;
+(function (Workflows2013State) {
+    Workflows2013State[Workflows2013State["Disabled"] = 0] = "Disabled";
+    Workflows2013State[Workflows2013State["Configuring"] = 1] = "Configuring";
+    Workflows2013State[Workflows2013State["Enabled"] = 2] = "Enabled";
+})(Workflows2013State || (Workflows2013State = {}));
+var TenantBrowseUserInfoPolicyValue;
+(function (TenantBrowseUserInfoPolicyValue) {
+    TenantBrowseUserInfoPolicyValue[TenantBrowseUserInfoPolicyValue["ApplyToNoUsers"] = 0] = "ApplyToNoUsers";
+    TenantBrowseUserInfoPolicyValue[TenantBrowseUserInfoPolicyValue["ApplyToGuestAndExternalUsers"] = 1] = "ApplyToGuestAndExternalUsers";
+    TenantBrowseUserInfoPolicyValue[TenantBrowseUserInfoPolicyValue["ApplyToInternalUsers"] = 2] = "ApplyToInternalUsers";
+    TenantBrowseUserInfoPolicyValue[TenantBrowseUserInfoPolicyValue["ApplyToAllUsers"] = 3] = "ApplyToAllUsers";
+})(TenantBrowseUserInfoPolicyValue || (TenantBrowseUserInfoPolicyValue = {}));
+var MediaTranscriptionPolicyType;
+(function (MediaTranscriptionPolicyType) {
+    MediaTranscriptionPolicyType[MediaTranscriptionPolicyType["Enabled"] = 0] = "Enabled";
+    MediaTranscriptionPolicyType[MediaTranscriptionPolicyType["Disabled"] = 1] = "Disabled";
+})(MediaTranscriptionPolicyType || (MediaTranscriptionPolicyType = {}));
+var SPOTenantCdnType;
+(function (SPOTenantCdnType) {
+    SPOTenantCdnType[SPOTenantCdnType["Public"] = 0] = "Public";
+    SPOTenantCdnType[SPOTenantCdnType["Private"] = 1] = "Private";
+})(SPOTenantCdnType || (SPOTenantCdnType = {}));
+var SPOrgAssetType;
+(function (SPOrgAssetType) {
+    // The flag for Undefined is 0000.
+    SPOrgAssetType[SPOrgAssetType["Undefined"] = 0] = "Undefined";
+    // The flag for ImageDocumentLibrary is 0001.
+    SPOrgAssetType[SPOrgAssetType["ImageDocumentLibrary"] = 1] = "ImageDocumentLibrary";
+    // The flag for OfficeTemplateLibrary is 0010.
+    SPOrgAssetType[SPOrgAssetType["OfficeTemplateLibrary"] = 2] = "OfficeTemplateLibrary";
+    // The flag for OfficeFontLibrary is 0100.
+    SPOrgAssetType[SPOrgAssetType["OfficeFontLibrary"] = 4] = "OfficeFontLibrary";
+})(SPOrgAssetType || (SPOrgAssetType = {}));
+var SPOTenantCdnPolicyType;
+(function (SPOTenantCdnPolicyType) {
+    SPOTenantCdnPolicyType[SPOTenantCdnPolicyType["IncludeFileExtensions"] = 0] = "IncludeFileExtensions";
+    SPOTenantCdnPolicyType[SPOTenantCdnPolicyType["ExcludeRestrictedSiteClassifications"] = 1] = "ExcludeRestrictedSiteClassifications";
+    SPOTenantCdnPolicyType[SPOTenantCdnPolicyType["ExcludeIfNoScriptDisabled"] = 2] = "ExcludeIfNoScriptDisabled";
+    SPOTenantCdnPolicyType[SPOTenantCdnPolicyType["ExcludeRestrictedSiteClassificationsFileExtensions"] = 3] = "ExcludeRestrictedSiteClassificationsFileExtensions";
+})(SPOTenantCdnPolicyType || (SPOTenantCdnPolicyType = {}));
+var SortOrder;
+(function (SortOrder) {
+    SortOrder[SortOrder["Ascending"] = 0] = "Ascending";
+    SortOrder[SortOrder["Descending"] = 1] = "Descending";
+})(SortOrder || (SortOrder = {}));
+var ImportProfilePropertiesUserIdTypes;
+(function (ImportProfilePropertiesUserIdTypes) {
+    ImportProfilePropertiesUserIdTypes[ImportProfilePropertiesUserIdTypes["Email"] = 0] = "Email";
+    ImportProfilePropertiesUserIdTypes[ImportProfilePropertiesUserIdTypes["CloudId"] = 1] = "CloudId";
+    ImportProfilePropertiesUserIdTypes[ImportProfilePropertiesUserIdTypes["PrincipalName"] = 2] = "PrincipalName";
+})(ImportProfilePropertiesUserIdTypes || (ImportProfilePropertiesUserIdTypes = {}));
+var ImportProfilePropertiesJobState;
+(function (ImportProfilePropertiesJobState) {
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Unknown"] = 0] = "Unknown";
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Submitted"] = 1] = "Submitted";
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Processing"] = 2] = "Processing";
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Queued"] = 3] = "Queued";
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Succeeded"] = 4] = "Succeeded";
+    ImportProfilePropertiesJobState[ImportProfilePropertiesJobState["Error"] = 5] = "Error";
+})(ImportProfilePropertiesJobState || (ImportProfilePropertiesJobState = {}));
+var SPOUserSessionRevocationState;
+(function (SPOUserSessionRevocationState) {
+    SPOUserSessionRevocationState[SPOUserSessionRevocationState["FeatureDisabled"] = 0] = "FeatureDisabled";
+    SPOUserSessionRevocationState[SPOUserSessionRevocationState["UserNotFound"] = 1] = "UserNotFound";
+    SPOUserSessionRevocationState[SPOUserSessionRevocationState["Failure"] = 2] = "Failure";
+    SPOUserSessionRevocationState[SPOUserSessionRevocationState["NonInstantaneousSuccess"] = 3] = "NonInstantaneousSuccess";
+    SPOUserSessionRevocationState[SPOUserSessionRevocationState["InstantaneousSuccess"] = 4] = "InstantaneousSuccess";
+})(SPOUserSessionRevocationState || (SPOUserSessionRevocationState = {}));
+var SpoSiteLockState;
+(function (SpoSiteLockState) {
+    SpoSiteLockState[SpoSiteLockState["Unlock"] = 0] = "Unlock";
+    SpoSiteLockState[SpoSiteLockState["NoAdditions"] = 1] = "NoAdditions";
+    SpoSiteLockState[SpoSiteLockState["ReadOnly"] = 2] = "ReadOnly";
+    SpoSiteLockState[SpoSiteLockState["NoAccess"] = 3] = "NoAccess";
+})(SpoSiteLockState || (SpoSiteLockState = {}));
+var TeamsChannelTypeValue;
+(function (TeamsChannelTypeValue) {
+    TeamsChannelTypeValue[TeamsChannelTypeValue["None"] = 0] = "None";
+    TeamsChannelTypeValue[TeamsChannelTypeValue["PrivateChannel"] = 1] = "PrivateChannel";
+    TeamsChannelTypeValue[TeamsChannelTypeValue["SharedChannel"] = 2] = "SharedChannel";
+    TeamsChannelTypeValue[TeamsChannelTypeValue["StandardChannel"] = 3] = "StandardChannel";
+})(TeamsChannelTypeValue || (TeamsChannelTypeValue = {}));
+var DenyAddAndCustomizePagesStatus;
+(function (DenyAddAndCustomizePagesStatus) {
+    DenyAddAndCustomizePagesStatus[DenyAddAndCustomizePagesStatus["Unknown"] = 0] = "Unknown";
+    DenyAddAndCustomizePagesStatus[DenyAddAndCustomizePagesStatus["Disabled"] = 1] = "Disabled";
+    DenyAddAndCustomizePagesStatus[DenyAddAndCustomizePagesStatus["Enabled"] = 2] = "Enabled";
+})(DenyAddAndCustomizePagesStatus || (DenyAddAndCustomizePagesStatus = {}));
+var RestrictedToRegion;
+(function (RestrictedToRegion) {
+    RestrictedToRegion[RestrictedToRegion["NoRestriction"] = 0] = "NoRestriction";
+    RestrictedToRegion[RestrictedToRegion["BlockMoveOnly"] = 1] = "BlockMoveOnly";
+    RestrictedToRegion[RestrictedToRegion["BlockFull"] = 2] = "BlockFull";
+    RestrictedToRegion[RestrictedToRegion["Unknown"] = 3] = "Unknown";
+})(RestrictedToRegion || (RestrictedToRegion = {}));
+var PWAEnabledStatus;
+(function (PWAEnabledStatus) {
+    PWAEnabledStatus[PWAEnabledStatus["Unknown"] = 0] = "Unknown";
+    PWAEnabledStatus[PWAEnabledStatus["Disabled"] = 1] = "Disabled";
+    PWAEnabledStatus[PWAEnabledStatus["Enabled"] = 2] = "Enabled";
+})(PWAEnabledStatus || (PWAEnabledStatus = {}));
+var CompanyWideSharingLinksPolicy;
+(function (CompanyWideSharingLinksPolicy) {
+    CompanyWideSharingLinksPolicy[CompanyWideSharingLinksPolicy["Unknown"] = 0] = "Unknown";
+    CompanyWideSharingLinksPolicy[CompanyWideSharingLinksPolicy["Disabled"] = 1] = "Disabled";
+    CompanyWideSharingLinksPolicy[CompanyWideSharingLinksPolicy["NotDisabled"] = 2] = "NotDisabled";
+})(CompanyWideSharingLinksPolicy || (CompanyWideSharingLinksPolicy = {}));
+var AppViewsPolicy;
+(function (AppViewsPolicy) {
+    AppViewsPolicy[AppViewsPolicy["Unknown"] = 0] = "Unknown";
+    AppViewsPolicy[AppViewsPolicy["Disabled"] = 1] = "Disabled";
+    AppViewsPolicy[AppViewsPolicy["NotDisabled"] = 2] = "NotDisabled";
+})(AppViewsPolicy || (AppViewsPolicy = {}));
+var FlowsPolicy;
+(function (FlowsPolicy) {
+    FlowsPolicy[FlowsPolicy["Unknown"] = 0] = "Unknown";
+    FlowsPolicy[FlowsPolicy["Disabled"] = 1] = "Disabled";
+    FlowsPolicy[FlowsPolicy["NotDisabled"] = 2] = "NotDisabled";
+})(FlowsPolicy || (FlowsPolicy = {}));
+var SharingPermissionType;
+(function (SharingPermissionType) {
+    SharingPermissionType[SharingPermissionType["None"] = 0] = "None";
+    SharingPermissionType[SharingPermissionType["View"] = 1] = "View";
+    SharingPermissionType[SharingPermissionType["Edit"] = 2] = "Edit";
+})(SharingPermissionType || (SharingPermissionType = {}));
+var SiteUserInfoVisibilityPolicyValue;
+(function (SiteUserInfoVisibilityPolicyValue) {
+    SiteUserInfoVisibilityPolicyValue[SiteUserInfoVisibilityPolicyValue["OrganizationDefault"] = 0] = "OrganizationDefault";
+    SiteUserInfoVisibilityPolicyValue[SiteUserInfoVisibilityPolicyValue["ApplyToNoUsers"] = 1] = "ApplyToNoUsers";
+    SiteUserInfoVisibilityPolicyValue[SiteUserInfoVisibilityPolicyValue["ApplyToGuestAndExternalUsers"] = 2] = "ApplyToGuestAndExternalUsers";
+    SiteUserInfoVisibilityPolicyValue[SiteUserInfoVisibilityPolicyValue["ApplyToInternalUsers"] = 3] = "ApplyToInternalUsers";
+    SiteUserInfoVisibilityPolicyValue[SiteUserInfoVisibilityPolicyValue["ApplyToAllUsers"] = 4] = "ApplyToAllUsers";
+})(SiteUserInfoVisibilityPolicyValue || (SiteUserInfoVisibilityPolicyValue = {}));
+var SpecialCharactersState;
+(function (SpecialCharactersState) {
+    SpecialCharactersState[SpecialCharactersState["NoPreference"] = 0] = "NoPreference";
+    SpecialCharactersState[SpecialCharactersState["Allowed"] = 1] = "Allowed";
+    SpecialCharactersState[SpecialCharactersState["Disallowed"] = 2] = "Disallowed";
+})(SpecialCharactersState || (SpecialCharactersState = {}));
+var SensitiveByDefaultState;
+(function (SensitiveByDefaultState) {
+    SensitiveByDefaultState[SensitiveByDefaultState["AllowExternalSharing"] = 0] = "AllowExternalSharing";
+    SensitiveByDefaultState[SensitiveByDefaultState["BlockExternalSharing"] = 1] = "BlockExternalSharing";
+})(SensitiveByDefaultState || (SensitiveByDefaultState = {}));
+var PersonalSiteFilter;
+(function (PersonalSiteFilter) {
+    PersonalSiteFilter[PersonalSiteFilter["UseServerDefault"] = 0] = "UseServerDefault";
+    PersonalSiteFilter[PersonalSiteFilter["Include"] = 1] = "Include";
+    PersonalSiteFilter[PersonalSiteFilter["Exclude"] = 2] = "Exclude";
+})(PersonalSiteFilter || (PersonalSiteFilter = {}));
+var ResultStatus;
+(function (ResultStatus) {
+    ResultStatus[ResultStatus["Success"] = 0] = "Success";
+    ResultStatus[ResultStatus["Warning"] = 1] = "Warning";
+    ResultStatus[ResultStatus["Error"] = 2] = "Error";
+})(ResultStatus || (ResultStatus = {}));
+var SPOHubSiteUserRights;
+(function (SPOHubSiteUserRights) {
+    SPOHubSiteUserRights[SPOHubSiteUserRights["None"] = 0] = "None";
+    SPOHubSiteUserRights[SPOHubSiteUserRights["Join"] = 1] = "Join";
+})(SPOHubSiteUserRights || (SPOHubSiteUserRights = {}));
+
+;// ./node_modules/@pnp/sp-admin/office-tenant.js
+
+
+
+
+let _Office365Tenant = class _Office365Tenant extends _SPInstance {
+    /**
+    * Choose which fields to return
+    *
+    * @param selects One or more fields to return
+    * @description we limit the selects here because there are so many values possible and it improves discoverability.
+    * Unfortunately this doesn't work as a general solution due to expands
+    */
+    select(...selects) {
+        return super.select(...selects);
+    }
+    /**
+     *Sets the configuration values for Idle session sign out for unmanaged devices
+     *
+     *@param enabled Boolean indicating if the policy should be enabled
+     *@param warnAfter TimeSpan containing the time before warning the user
+     *@param signOutAfter TimeSpan containing the time before signing out the user
+     *@returns True if the operation succeeds, false otherwise
+     */
+    setIdleSessionSignOutForUnmanagedDevices(enabled, warnAfter, signOutAfter) {
+        return spPost(Office365Tenant(this, "SetIdleSessionSignOutForUnmanagedDevices"), body({
+            enabled,
+            warnAfter,
+            signOutAfter,
+        }));
+    }
+    /**
+     *Gets the configuration values, as a string, for Idle session sign out for unmanaged devices
+     *The return string is a comma delineated list of the three policy settings.  The policy settings consist of
+     *1. Enabled: true or false
+     *2. Warn after: Time until user should be warned in seconds.
+     *3. Sign out after: Time until user should be signed out in seconds.
+     *
+     *@returns A string indicating the current policy settings
+     */
+    getIdleSessionSignOutForUnmanagedDevices() {
+        return spPost(Office365Tenant(this, "GetIdleSessionSignOutForUnmanagedDevices"));
+    }
+    /**
+     *Adds a SharePoint document library to the list of Organization Assets libraries
+     *
+     *@param cdnType
+     *@param libUrl Url of a SharePoint document library to be added to the list of Organization Assets libraries
+     *@param thumbnailUrl
+     *@param orgAssetType
+     *@param defaultOriginAdded
+     */
+    // eslint-disable-next-line max-len
+    addToOrgAssetsLibAndCdn(cdnType, libUrl, thumbnailUrl, orgAssetType, defaultOriginAdded) {
+        return spPost(Office365Tenant(this, "AddToOrgAssetsLibAndCdn"), body({
+            cdnType,
+            libUrl,
+            thumbnailUrl,
+            orgAssetType,
+            defaultOriginAdded,
+        }));
+    }
+    removeFromOrgAssetsAndCdn(remove, cdnType, libUrl) {
+        return spPost(Office365Tenant(this, "RemoveFromOrgAssetsAndCdn"), body({
+            remove,
+            cdnType,
+            libUrl,
+        }));
+    }
+    /**
+     *Removes an entry from the list of Organization Assets libraries
+     */
+    removeFromOrgAssets(libUrl, listId) {
+        return spPost(Office365Tenant(this, "RemoveFromOrgAssets"), body({
+            libUrl,
+            listId,
+        }));
+    }
+    /**
+     *Sets a SharePoint library thumbnail in Organization Assets libraries
+     *
+     *@param libUrl Url of a SharePoint library to be set in Organization Assets
+     *@param thumbnailUrl Url to an image used as the thumbnail for this library in the FilePicker
+     *@param orgAssetType Type of Organization Assets Document Library
+     */
+    setOrgAssetsLib(libUrl, thumbnailUrl, orgAssetType) {
+        return spPost(Office365Tenant(this, "SetOrgAssetsLib"), body({
+            libUrl,
+            thumbnailUrl,
+            orgAssetType,
+        }));
+    }
+    /**
+     * Gets the minor version that should be used to generate the next iteration of the custom font catalog for the
+     * font org asset library specified by libUrl
+     */
+    getCustomFontsMinorVersion(libUrl) {
+        return spPost(Office365Tenant(this, "GetCustomFontsMinorVersion"), body({
+            libUrl,
+        }));
+    }
+    /**
+     *Uploads fonts and font catalogs to a font asset library
+     */
+    uploadCustomFontsAndCatalogLib(customFontFiles, libUrl) {
+        return spPost(Office365Tenant(this, "UploadCustomFontsAndCatalogLib"), body({
+            customFontFiles,
+            libUrl,
+        }));
+    }
+    /**
+     *Removes old Custom Fonts files
+     */
+    removePreviousCustomFontUpload(majVersions, libUrl) {
+        return spPost(Office365Tenant(this, "RemovePreviousCustomFontUpload"), body({
+            majVersions,
+            libUrl,
+        }));
+    }
+    /**
+     *Increments the minor version for libUrl
+     */
+    incrementCustomFontsMinorVersion(libUrl) {
+        return spPost(Office365Tenant(this, "IncrementCustomFontsMinorVersion"), body({
+            libUrl,
+        }));
+    }
+    /**
+     *Gets a list of tenant CDN origins
+     *
+     *@param cdnType Type of CDN: private or public
+     */
+    getTenantCdnOrigins(cdnType) {
+        return spPost(Office365Tenant(this, "GetTenantCdnOrigins"), body({
+            cdnType,
+        }));
+    }
+    /**
+     *Adds a tenant cdn origin
+     *
+     *@param cdnType Type of CDN: private or public
+     *@param originUrl origin Url to add
+     */
+    addTenantCdnOrigin(cdnType, originUrl) {
+        return spPost(Office365Tenant(this, "AddTenantCdnOrigin"), body({
+            cdnType,
+            originUrl,
+        }));
+    }
+    /**
+     *Removes a tenant cdn origin
+     *
+     *@param cdnType Type of CDN: private or public
+     *@param originUrl origin Url to remove
+     */
+    removeTenantCdnOrigin(cdnType, originUrl) {
+        return spPost(Office365Tenant(this, "RemoveTenantCdnOrigin"), body({
+            cdnType,
+            originUrl,
+        }));
+    }
+    /**
+     *Enables or disabled tenant CDN feature
+     *
+     *@param cdnType Type of CDN: private or public
+     *@param isEnabled value to set
+     */
+    setTenantCdnEnabled(cdnType, isEnabled) {
+        return spPost(Office365Tenant(this, "setTenantCdnEnabled"), body({
+            cdnType,
+            isEnabled,
+        }));
+    }
+    /**
+     *Gets whether tenant CDN feature is enabled
+     *
+     *@param cdnType Type of CDN: private or public
+     *@returns True if CDN is enabled; false otherwise
+     */
+    getTenantCdnEnabled(cdnType) {
+        return spPost(Office365Tenant(this, "GetTenantCdnEnabled"), body({
+            cdnType,
+        }));
+    }
+    /**
+     *Sets policy for the tenant CDN
+     *
+     *@param cdnType CDN type
+     *@param policy Policy type
+     *@param policyValue Policy value
+     */
+    setTenantCdnPolicy(cdnType, policy, policyValue) {
+        return spPost(Office365Tenant(this, "SetTenantCdnPolicy"), body({
+            cdnType,
+            policy,
+            policyValue,
+        }));
+    }
+    /**
+     *Gets list of policies for the tenant CDN
+     *
+     *@param cdnType CDN type
+     *@returns List of policies
+     */
+    getTenantCdnPolicies(cdnType) {
+        return spPost(Office365Tenant(this, "GetTenantCdnPolicies"), body({
+            cdnType,
+        }));
+    }
+    /**
+     *Creates default origins for requested CDN type
+     */
+    createTenantCdnDefaultOrigins(cdnType) {
+        return spPost(Office365Tenant(this, "CreateTenantCdnDefaultOrigins"), body({
+            cdnType,
+        }));
+    }
+    /**
+     *Add a custom theme to the tenant so that it will be available when selecting a site theme
+     *
+     *@param name The name of the theme
+     *@param themeJson A JSON representation of the theme information
+     *@returns True, if the theme is added successfully
+     */
+    addTenantTheme(name, themeJson) {
+        return spPost(Office365Tenant(this, "AddTenantTheme"), body({
+            name,
+            themeJson,
+        }));
+    }
+    /**
+     *Update the properties of a custom theme
+     *
+     *@param name The name of the theme to update
+     *@param themeJson A JSON representation of the new theme information
+     *@returns True, if the theme is updated successfully
+     */
+    updateTenantTheme(name, themeJson) {
+        return spPost(Office365Tenant(this, "UpdateTenantTheme"), body({
+            name,
+            themeJson,
+        }));
+    }
+    /**
+     *Remove a custom theme from the tenant
+     *
+     *@param name The name of the theme to delete
+     */
+    deleteTenantTheme(name) {
+        return spPost(Office365Tenant(this, "DeleteTenantTheme"), body({
+            name,
+        }));
+    }
+    /**
+     *Retrieves a custom theme previously added to the tenant
+     *
+     *@param name The name of the theme to retrieve
+     *@returns A ThemeProperties object representing the theme
+     */
+    getTenantTheme(name) {
+        return spPost(Office365Tenant(this, "GetTenantTheme"), body({
+            name,
+        }));
+    }
+    /**
+     *Retrieves all custom themes added to the tenant
+     *
+     *@returns ThemeProperties objects representing all of the custom themes added to the tenant
+     */
+    getAllTenantThemes() {
+        return spPost(Office365Tenant(this, "GetAllTenantThemes"));
+    }
+    /**
+     *Retrieves a setting specifying whether default SharePoint themes should be hidden from the web UI
+     *
+     *@return True, if default SharePoint themes should be hidden from the web UI
+     */
+    getHideDefaultThemes() {
+        return spPost(Office365Tenant(this, "GetHideDefaultThemes"));
+    }
+    /**
+     *Updates a setting specifying whether default SharePoint themes should be hidden from the web UI
+     *
+     *@param hideDefaultThemes
+     *@returns True, if the setting is updated successfully
+     */
+    setHideDefaultThemes(hideDefaultThemes) {
+        return spPost(Office365Tenant(this, "SetHideDefaultThemes"), body({
+            hideDefaultThemes,
+        }));
+    }
+    /**
+     *Adds an SDN provider to the tenant
+     *
+     *@param identifier id of an SDN provider to be added
+     *@param license license number provided by SDN provider
+     */
+    addSdnProvider(identifier, license) {
+        return spPost(Office365Tenant(this, "AddSdnProvider"), body({
+            identifier,
+            license,
+        }));
+    }
+    /**
+     *Removes an entry from the list of supported SDN providers
+     */
+    removeSdnProvider() {
+        return spPost(Office365Tenant(this, "RemoveSdnProvider"));
+    }
+    /**
+     *Returns a collection of User objects corresponding to external users in the tenancy
+     *
+     *@param position Zero-based index of the position in the sorted collection of the first result to be returned
+     *@param pageSize The maximum number of ExternalUsers to be returned in the collection.  Must be less than or equal to 50
+     *@param filter Limits the results to only those ExternalUers whose display name or invitedAs email address begins with the text in the string, using case-insensitive
+     *@param sortOrder Specifies whether a call to GetExternalUsers should sort results in Ascending or Descending order on the ExternalUser.invitedAs property
+     *@returns A GetExternalUsersResults object containing up to pageSize users that match the filter criteria, in the order specified, starting from the specified position.
+     *Further pages can be fetched by calling again with the same filter and sortOrder parameters but specifying for position the
+     *GetExternalUsersResults.UserCollectionPosition value returned from the previous call.  If GetExternalUsersResults.ExternalUserCollection.Count is less than pageSize,
+     *all available users have been returned (it is the last page of results.)
+     */
+    getExternalUsers(position = 0, pageSize = 50, filter = null, sortOrder = SortOrder.Ascending) {
+        return spPost(Office365Tenant(this, "GetExternalUsers").select("ExternalUserCollection").expand("ExternalUserCollection"), body({
+            position,
+            pageSize,
+            filter,
+            sortOrder,
+        }));
+    }
+    /**
+     *Returns a collection of User objects corresponding to external users in the tenancy
+     *
+     *@param position Zero-based index of the position in the sorted collection of the first result to be returned
+     *@param pageSize The maximum number of ExternalUsers to be returned in the collection.  Must be less than or equal to 50
+     *@param filter Limits the results to only those ExternalUers whose display name or invitedAs email address begins with the text in the string, case-insensitive
+     *@param sortPropertyName Name of the property to sort by. Support ExternalUser.acceptedAs and ExternalUser.whenCreated property
+     *@param sortOrder Specifies whether a call to GetExternalUsers should sort results in Ascending or Descending order on the ExternalUser.invitedAs property
+     *@returns A GetExternalUsersResults object containing up to pageSize users that match the filter criteria, in the order specified, starting from the specified position.
+     *Further pages can be fetched by calling again with the same filter and sortOrder parameters but specifying for position the
+     *GetExternalUsersResults.UserCollectionPosition value returned from the previous call.  If GetExternalUsersResults.ExternalUserCollection.Count is less than pageSize,
+     *all available users have been returned (it is the last page of results.)
+     */
+    // eslint-disable-next-line max-len
+    getExternalUsersWithSortBy(position = 0, pageSize = 50, filter = null, sortPropertyName = "OtherMail", sortOrder = SortOrder.Ascending) {
+        return spPost(Office365Tenant(this, "GetExternalUsersWithSortBy").select("ExternalUserCollection").expand("ExternalUserCollection"), body({
+            position,
+            pageSize,
+            filter,
+            sortPropertyName,
+            sortOrder,
+        }));
+    }
+    /**
+     *Returns a collection of User objects corresponding to external users who have accessed this site collection
+     *
+     *@param siteUrl The site url whose external users are required
+     *@param position Zero-based index of the position in the sorted collection of the first result to be returned
+     *@param pageSize The maximum number of ExternalUsers to be returned in the collection.  Must be less than or equal to 50
+     *@param filter Limits the results to only those ExternalUers whose display name or invitedAs email address begins with the text in the string, case-insensitive
+     *@param sortOrder Specifies whether a call to GetExternalUsers should sort results in Ascending or Descending order on the ExternalUser.invitedAs property
+     *@returns A GetExternalUsersResults object containing up to pageSize users that match the filter criteria, in the order specified, starting from the specified position.
+     * Further pages can be fetched by calling again with the same filter and sortOrder parameters but specifying for position the GetExternalUsersResults.UserCollectionPosition
+     * value returned from the previous call.  If GetExternalUsersResults.ExternalUserCollection.Count is less than pageSize,
+     * all available users have been returned (it is the last page of results.)
+     */
+    getExternalUsersForSite(siteUrl, position = 0, pageSize = 50, filter = null, sortOrder = SortOrder.Ascending) {
+        return spPost(Office365Tenant(this, "GetExternalUsersForSite").select("ExternalUserCollection").expand("ExternalUserCollection"), body({
+            siteUrl,
+            position,
+            pageSize,
+            filter,
+            sortOrder,
+        }));
+    }
+    /**
+     *Removes from the directory external users whose full ExternalUser.UniqueId property belongs in (case insensitive) the array of strings.
+     *This method is unaffected by the value of the SharingCapability property
+     *
+     *@param uniqueIds An array of strings, where each string is the UniqueId of an external user to delete
+     *@returns A RemoveExternalUsersResults object with the RemoveSucceeded and RemoveFailed arrays populated based on the results of attempting to remove the specified users.
+     */
+    removeExternalUsers(uniqueIds) {
+        return spPost(Office365Tenant(this, "RemoveExternalUsers"), body({
+            uniqueIds,
+        }));
+    }
+    /**
+     * Queues an import of custom properties into user profiles from an external data source. This is a mostly asynchronous call in that it doesn't download
+     * the source data or do the import, it simply adds it to a queue to do later
+     *
+     *@description The overall process for this import is as follows:
+     *1) Create users in the User Profile Service. The custom property import process does not import users, only properties.
+     *2) Create the custom properties in the User Profile Service. The custom property import process does not create the properties, just imports the values.
+     *3) Create an external data source, the uri of which is passed to this method as the sourceUri parameter. The Uri must point to a resource that is accessible
+     *   from within the SharePoint Online data center. It must have a record for each user with properties to import. Users are identified in the source data using
+     *   the property passed to sourceDataIdProperty.
+     *4) Call this method. This mehod queues the import. The data pointed to by sourceUri will be downloaded to the server and later imported into the User
+     *   Profile Service. Data will be downloaded roughly once an hour and then queued for actual import.
+     *
+     *@param idType The type of id to use when looking up the user profile. See docs for ImportProfilePropertiesUserIdType for details.
+     * Note that regardless of the type the user must already exist in the User Profile Service for import to work.
+     *@param sourceDataIdProperty The name of the id property in the source data. The value of the property from the source data will be used to look up the user.
+     * The User Profile Service property used for the lookup depends on the value of idType.</param>
+     *@param propertyMap A map from source property name to User Profile Service property name. Note that the User Profile Service properties must already exist.
+     *@param sourceUri The URI of the source data to import. This must not be transient as it may not be downloaded for some time.
+     *@returns Guid identifying the import job that has been queued
+     */
+    // eslint-disable-next-line max-len
+    queueImportProfileProperties(idType, sourceDataIdProperty, propertyMap, sourceUri) {
+        return spPost(Office365Tenant(this, "QueueImportProfileProperties"), body({
+            idType,
+            sourceDataIdProperty,
+            propertyMap,
+            sourceUri,
+        }));
+    }
+    /**
+     *Deletes a previously queued job to import of custom properties into user profiles. Only certain jobs can be deleted:
+     *- Only jobs that haven't been started yet (have been queued but not imported) can be deleted.
+     *- Only top-level jobs can be cancelled. The job id returned by QueueImportProfileProperties will be a top-l
+     *
+     *@param jobId The job id returned by QueueImportProfileProperties to delete
+     *@returns True if the job is deleted, false otherwise
+     */
+    deleteImportProfilePropertiesJob(jobId) {
+        return spPost(Office365Tenant(this, "DeleteImportProfilePropertiesJob"), body({
+            jobId,
+        }));
+    }
+    /**
+     *Gets high-level status for all the import profile properties jobs for the current tenant
+     *
+     *@returns A collection of ImportProfilePropertiesJobStatus objects with high-level status information for the jobs
+     */
+    getImportProfilePropertyJobs() {
+        return spPost(Office365Tenant(this, "GetImportProfilePropertyJobs"));
+    }
+    /**
+     *Gets high-level status for the import profile properties job specified by jobId. This jobId would have been returned by the original call to QueueImportProfileProperties
+     *
+     *@param jobId The id of the job for which to get high-level status
+     *@returns An ImportProfilePropertiesJobStatus obect with high level status information about the specified job
+     */
+    getImportProfilePropertyJob(jobId) {
+        return spPost(Office365Tenant(this, "GetImportProfilePropertyJob"), body({
+            jobId,
+        }));
+    }
+    /**
+     *Disables non-owners of a site to share content to users that are not members of the site collection
+     *
+     *@param siteUrl The siteUrl of the site collection
+     */
+    disableSharingForNonOwnersOfSite(siteUrl) {
+        return spPost(Office365Tenant(this, "DisableSharingForNonOwnersOfSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Gets whether non-owners of a site can share content to users that are not members of the site collection
+     *
+     *@param siteUrl The siteUrl of the site collection to check if restrict sharing is enabled
+     *@returns A Boolean indicating if sharing is disabled for site members in the site collection
+     */
+    isSharingDisabledForNonOwnersOfSite(siteUrl) {
+        return spPost(Office365Tenant(this, "IsSharingDisabledForNonOwnersOfSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Revokes all user sessions for a given username
+     *
+     *@param userName The home tenant user name, which is being used at authentication time (user@contoso.com)
+     *@returns An value which represents the state of the operation
+     */
+    revokeAllUserSessions(userName) {
+        return spPost(Office365Tenant(this, "RevokeAllUserSessions"), body({
+            userName,
+        }));
+    }
+    /**
+     * Revokes all user sessions for a given user's puid
+     *
+     *@param puidList A list of puids to be revoked (ex: 10037ffe8000008d)
+     *@returns An SPOUserSessionRevocationResult enum value which represents the state of the operation
+     */
+    revokeAllUserSessionsByPuid(puidList) {
+        return spPost(Office365Tenant(this, "RevokeAllUserSessionsByPuid"), body({
+            puidList,
+        }));
+    }
+    /**
+     * Supports calling POST methods not added explicitly to this class
+     *
+     * @param method method name, used in url path (ex: "AddTenantCdnOrigin")
+     * @param args optional, any arguments to include in the body
+     * @returns The result of the method invocation T
+     */
+    call(method, args) {
+        const query = Office365Tenant(this, method);
+        if (typeof args !== "undefined") {
+            return spPost(query, body(args));
+        }
+        else {
+            return spPost(query);
+        }
+    }
+};
+_Office365Tenant = tslib_tslib_es6_decorate([
+    defaultPath("_api/Microsoft.Online.SharePoint.TenantManagement.Office365Tenant")
+], _Office365Tenant);
+const Office365Tenant = spInvokableFactory(_Office365Tenant);
+
+;// ./node_modules/@pnp/sp-admin/site-properties.js
+
+
+
+let _TenantSiteProperties = class _TenantSiteProperties extends _SPInstance {
+    /**
+    * Choose which fields to return
+    *
+    * @param selects One or more fields to return
+    * @description we limit the selects here because there are so many values possible and it improves discoverability.
+    * Unfortunately this doesn't work as a general solution due to expands
+    */
+    select(...selects) {
+        return super.select(...selects);
+    }
+    /**
+     * Clears the Lockdown placed due to Sharing-Lockdown Policy
+     */
+    clearSharingLockDown(siteUrl) {
+        return spPost(TenantSiteProperties(this, "ClearSharingLockDown"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Supports calling POST methods not added explicitly to this class
+     *
+     * @param method method name, used in url path (ex: "CreateGroupForSite")
+     * @param args optional, any arguments to include in the body
+     * @returns The result of the method invocation T
+     */
+    call(method, args) {
+        const query = TenantSiteProperties(this, method);
+        if (typeof args !== "undefined") {
+            return spPost(query, body(args));
+        }
+        else {
+            return spPost(query);
+        }
+    }
+};
+_TenantSiteProperties = tslib_tslib_es6_decorate([
+    defaultPath("_api/Microsoft.Online.SharePoint.TenantAdministration.SiteProperties")
+], _TenantSiteProperties);
+const TenantSiteProperties = spInvokableFactory(_TenantSiteProperties);
+
+;// ./node_modules/@pnp/sp-admin/tenant.js
+
+
+
+let _Tenant = class _Tenant extends _SPInstance {
+    /**
+    * Choose which fields to return
+    *
+    * @param selects One or more fields to return
+    * @description we limit the selects here because there are so many values possible and it improves discoverability.
+    * Unfortunately this doesn't work as a general solution due to expands
+    */
+    select(...selects) {
+        return super.select(...selects);
+    }
+    /**
+     * Returns a site object for the given URL
+     *
+     * @param url URL of the requested site object
+     * @param includeDetail true to include details
+     * @returns Returns a site object for the given URL
+     */
+    getSitePropertiesByUrl(url, includeDetail = false) {
+        return spPost(Tenant(this, "GetSitePropertiesByUrl"), body({
+            url,
+            includeDetail,
+        }));
+    }
+    /**
+     * Sets site object for the given site id
+     *
+     * @param siteId the id of the site (i.e. _api/site -- not root web)
+     * @param props properties to be updated
+     */
+    setSitePropertiesById(siteId, properties) {
+        return spPatch(Tenant(this, `sites('${siteId}')`), body(properties));
+    }
+    /**
+     * Gets SPOSiteProperties objects for all sites from SharePoint in the tenancy that match the filter expression
+     *
+     * @param speFilter If the filter is null or empty string, then all the sites are returned
+     */
+    getSitePropertiesFromSharePointByFilters(speFilter) {
+        return spPost(Tenant(this, "GetSitePropertiesFromSharePointByFilters"), body({
+            speFilter,
+        }));
+    }
+    /**
+     * Get whether this tenant has valid education license
+     */
+    hasValidEducationLicense() {
+        return spPost(Tenant(this, "HasValidEducationLicense"));
+    }
+    /**
+     * Queues a site collection for creation with the given properties
+     *
+     * @param siteCreationProperties The initial properties for the site which is to be created
+     * @returns Queues a site collection for creation with the given properties
+     */
+    createSite(siteCreationProperties) {
+        return spPost(Tenant(this, "CreateSite"), body({
+            siteCreationProperties,
+        }));
+    }
+    /**
+     * Gets all the SPWebTemplates on this Tenant
+     *
+     * @returns An SPOWebTemplateCollection containing a SPOWebTemplate information for each template
+     */
+    getSPOTenantAllWebTemplates() {
+        return spPost(Tenant(this, "GetSPOTenantAllWebTemplates"));
+    }
+    /**
+     * Handles updating the properties based on updateType of all the sites which are part of the groupId
+     *
+     * @param groupId Group Id
+     * @param siteId Site Id
+     * @param updateType Property which is required to be updated
+     * @param UpdateGroupSitePropertiesParameters
+     * @param parameters Params which are required to be passed based on the updateType
+     * @returns string denoting the user storage key which can be used by client to pull the async workflow status
+     */
+    // eslint-disable-next-line max-len
+    updateGroupSiteProperties(groupId, siteId, updateType, parameters = {}) {
+        return spPost(Tenant(this, "UpdateGroupSiteProperties"), body({
+            groupId,
+            siteId,
+            updateType,
+            parameters,
+        }));
+    }
+    /**
+     * Gets all the site collection templates available in SPO for the given UI culture
+     *
+     * @returns An SPOWebTemplateCollection for all the site collection templates available in SPO for the given UI culture.
+     */
+    getSPOAllWebTemplates(cultureName, compatibilityLevel) {
+        return spPost(Tenant(this, "GetSPOAllWebTemplates"), body({
+            cultureName,
+            compatibilityLevel,
+        }));
+    }
+    /**
+     * Gets all the SPWebTemplates for site collections on this Tenant
+     *
+     * @returns An SPOWebTemplateCollection for all the site collection templates available in SPO for the given UI culture.
+     */
+    getSPOTenantWebTemplates(localeId, compatibilityLevel) {
+        return spPost(Tenant(this, "GetSPOTenantWebTemplates"), body({
+            localeId,
+            compatibilityLevel,
+        }));
+    }
+    /**
+     * Returns the site header logo by site URL.
+     *
+     * @param siteUrl Absolute URL to the site
+     * @returns Stream containing the site logo data
+     */
+    getSiteThumbnailLogo(siteUrl) {
+        return spPost(Tenant(this, "GetSiteThumbnailLogo").using(BufferParse()), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Gets all the SPSiteCreationSources
+     */
+    getSPOSiteCreationSources() {
+        return spPost(Tenant(this, "GetSPOSiteCreationSources"));
+    }
+    /**
+     * Deletes the site to the recycle bin
+     *
+     * @param siteUrl Absolute url of the site to remove
+     */
+    removeSite(siteUrl) {
+        return spPost(Tenant(this, "RemoveSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Gets the health Status of the site
+     *
+     * @param sourceUrl Absolute url of the site
+     */
+    getSiteHealthStatus(sourceUrl) {
+        return spPost(Tenant(this, "GetSiteHealthStatus"), body({
+            sourceUrl,
+        }));
+    }
+    /**
+     * Performs the Swap operation on the provided sites
+     */
+    swapSiteWithSmartGestureOptionForce(sourceUrl, targetUrl, archiveUrl, includeSmartGestures, force) {
+        return spPost(Tenant(this, "SwapSiteWithSmartGestureOptionForce"), body({
+            sourceUrl,
+            targetUrl,
+            archiveUrl,
+            includeSmartGestures,
+            force,
+        }));
+    }
+    /**
+     * Performs the Swap operation on the provided sites
+     */
+    swapSiteWithSmartGestureOption(sourceUrl, targetUrl, archiveUrl, includeSmartGestures) {
+        return spPost(Tenant(this, "SwapSiteWithSmartGestureOption"), body({
+            sourceUrl,
+            targetUrl,
+            archiveUrl,
+            includeSmartGestures,
+        }));
+    }
+    /**
+     * Performs the Swap operation on the provided sites
+     */
+    swapSite(sourceUrl, targetUrl, archiveUrl) {
+        return spPost(Tenant(this, "SwapSite"), body({
+            sourceUrl,
+            targetUrl,
+            archiveUrl,
+        }));
+    }
+    /**
+     * Permanently deletes the site from the recycle bin
+     *
+     * @param siteUrl URL of the site to be deleted
+     */
+    removeDeletedSite(siteUrl) {
+        return spPost(Tenant(this, "RemoveDeletedSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Permanently deletes the site from the recycle bin
+     *
+     * @param siteUrl URL of the site to be deleted
+     * @param siteId SiteID of the site to be deleted
+     */
+    removeDeletedSitePreferId(siteUrl, siteId) {
+        return spPost(Tenant(this, "RemoveDeletedSitePreferId"), body({
+            siteUrl,
+            siteId,
+        }));
+    }
+    /**
+     * Restores site from deleted state (recycle bin)
+     *
+     * @param siteUrl URL of the site to be restored
+     */
+    restoreDeletedSite(siteUrl) {
+        return spPost(Tenant(this, "RestoreDeletedSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Restores site from deleted state (recycle bin)
+     *
+     * @param siteId SiteID of the site to be restored
+     */
+    restoreDeletedSiteById(siteId) {
+        return spPost(Tenant(this, "RestoreDeletedSiteById"), body({
+            siteId,
+        }));
+    }
+    /**
+     * Restores site from deleted state (recycle bin)
+     *
+     * @param siteUrl URL of the site to be restored
+     * @param siteId SiteID of the site to be deleted
+     */
+    restoreDeletedSitePreferId(siteUrl, siteId) {
+        return spPost(Tenant(this, "RestoreDeletedSitePreferId"), body({
+            siteUrl,
+            siteId,
+        }));
+    }
+    /**
+     * A collection of PowerApps environments
+     */
+    getPowerAppsEnvironments() {
+        return spPost(Tenant(this, "GetPowerAppsEnvironments"));
+    }
+    /**
+     * Sets the configuration values for Idle session sign out for unmanaged devices
+     * @param enabled Boolean indicating if the policy should be enabled
+     * @param warnAfter TimeSpan containing the time before warning the user
+     * @param signOutAfter TimeSpan containing the time before signing out the user
+     * @returns True if the operation succeeds, false otherwise
+     */
+    setIdleSessionSignOutForUnmanagedDevices(enabled, warnAfter, signOutAfter) {
+        return spPost(Tenant(this, "SetIdleSessionSignOutForUnmanagedDevices"), body({
+            enabled,
+            warnAfter,
+            signOutAfter,
+        }));
+    }
+    /**
+     * Gets the configuration values for Idle session sign out for unmanaged devices
+     */
+    getIdleSessionSignOutForUnmanagedDevices() {
+        return spPost(Tenant(this, "GetIdleSessionSignOutForUnmanagedDevices"));
+    }
+    /**
+     * RESTful API to export SPList to CSV file and return file download link
+     *
+     * @param viewXml XML of the export view
+     */
+    exportToCSV(viewXml) {
+        return spPost(Tenant(this, "ExportToCSV"), body({
+            viewXml,
+        }));
+    }
+    /**
+     * RESTful API to export SPList to CSV file and return file download link
+     *
+     * @param viewXml XML of the export view
+     * @param listName Name of Admin SPList to be exported
+     */
+    exportAdminListToCSV(viewXml, listName) {
+        return spPost(Tenant(this, "ExportAdminListToCSV"), body({
+            viewXml,
+            listName,
+        }));
+    }
+    /**
+     * RESTful API to set site's user groups
+     *
+     */
+    setSiteUserGroups(siteUserGroupsData) {
+        return spPost(Tenant(this, "SetSiteUserGroups"), body({
+            siteUserGroupsData,
+        }));
+    }
+    /**
+     * RESTful API to set site administrators
+     */
+    setSiteAdministrators(siteAdministratorsFieldsData) {
+        return spPost(Tenant(this, "SetSiteAdministrators"), body({
+            siteAdministratorsFieldsData,
+        }));
+    }
+    /**
+     * RESTful API to check tenant licenses.
+     *
+     * @returns True if and only if tenant has all licenses in parameter
+     */
+    checkTenantLicenses(licenses) {
+        return spPost(Tenant(this, "CheckTenantLicenses"), body({
+            licenses,
+        }));
+    }
+    /**
+     * RESTful API to check tenant intune license
+     */
+    checkTenantIntuneLicense() {
+        return spPost(Tenant(this, "CheckTenantIntuneLicense"));
+    }
+    /**
+     * Gets a list of site administrators for the given site
+     *
+     * @param siteId guid site id
+     * @returns Array of site admins
+     */
+    getSiteAdministrators(siteId) {
+        return spPost(Tenant(this, "GetSiteAdministrators"), body({
+            siteId,
+        }));
+    }
+    /**
+     * Renders Tenant Admin SPList Data after filtering based on the groupId the site belongs to
+     *
+     * @param groupId Group Id the sites belong to
+     */
+    renderFilteredAdminListDataByGroupId(groupId) {
+        return spPost(Tenant(this, "RenderFilteredAdminListDataByGroupId").using(BufferParse()), body({
+            groupId,
+        }));
+    }
+    /**
+     * Renders Tenant Admin SPList Data
+     */
+    renderAdminListData(listName, parameters, overrideParameters = null) {
+        return spPost(Tenant(this, "RenderAdminListData").using(BufferParse()), body({
+            parameters,
+            overrideParameters,
+            listName,
+        }));
+    }
+    /**
+     * Renders Tenant Admin SPList Data after filtering based on filter conditions
+     */
+    renderFilteredAdminListData(listName, parameters) {
+        return spPost(Tenant(this, "RenderFilteredAdminListData").using(BufferParse()), body({
+            parameters,
+            listName,
+        }));
+    }
+    /**
+     * Gets SPList total item Count
+     *
+     * @param listName Optional List Name. By Default Aggregated TenantAdmin SPList will be used
+     * @returns List item count
+     */
+    getSPListItemCount(listName) {
+        return spPost(Tenant(this, "GetSPListItemCount"), body({
+            listName,
+        }));
+    }
+    /**
+     * Registers the site with the specified URL as a HubSite
+     *
+     * @param siteUrl The URL of the site to make into a HubSite
+     * @returns The properties of the new HubSite
+     */
+    registerHubSite(siteUrl) {
+        return spPost(Tenant(this, "RegisterHubSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Registers the site with the specified URL as a HubSite
+     *
+     * @param siteUrl The URL of the site to make into a HubSite
+     * @param creationInformation Information used to create this HubSite, If not specified, some default properties will be set instead
+     * @returns The properties of the new HubSite
+     */
+    registerHubSiteWithCreationInformation(siteUrl, creationInformation = null) {
+        return spPost(Tenant(this, "RegisterHubSiteWithCreationInformation"), body({
+            siteUrl,
+            creationInformation,
+        }));
+    }
+    /**
+     * Makes the specified site no longer a HubSite and removes it from the list of HubSites The site is not deleted by this operation;
+     * it is merely removed from the list of available HubSites
+     *
+     * @param siteUrl The URL of the site which should no longer be a HubSite
+     */
+    unregisterHubSite(siteUrl) {
+        return spPost(Tenant(this, "UnregisterHubSite"), body({
+            siteUrl,
+        }));
+    }
+    /**
+     * Connects a site to a HubSite using hub site id, support multi-geo
+     *
+     * @param siteUrl URL of the site to connect to the HubSite
+     * @param hubSiteId Guid of the HubSite ID
+     */
+    connectSiteToHubSiteById(siteUrl, hubSiteId) {
+        return spPost(Tenant(this, "ConnectSiteToHubSiteById"), body({
+            siteUrl,
+            hubSiteId,
+        }));
+    }
+    /**
+     * Grant HubSite rights to users giving HubSite ID, support multi-geo
+     *
+     * @param hubSiteId ID of the HubSite
+     * @param principals principals of users to grant rights
+     * @param grantedRights The HubSite rights to grant
+     */
+    grantHubSiteRightsById(hubSiteId, principals, grantedRights) {
+        return spPost(Tenant(this, "GrantHubSiteRightsById"), body({
+            hubSiteId,
+            principals,
+            grantedRights,
+        }));
+    }
+    /**
+     * Revoke HubSite rights from users giving HubSite ID, support multi-geo
+     *
+     * @param hubSiteId ID of the HubSite
+     * @param principals principals of users to revoke rights
+     */
+    revokeHubSiteRightsById(hubSiteId, principals) {
+        return spPost(Tenant(this, "RevokeHubSiteRightsById"), body({
+            hubSiteId,
+            principals,
+        }));
+    }
+    /**
+     * Get the home site Ids, url and site title
+     *
+     * @param bypasscache bypass tenant store cache
+     * @param expandDetails call the expensive API with cross geo call to fill siteUrl and site title
+     */
+    getHomeSitesDetails(bypasscache = false, expandDetails = false) {
+        const q = Tenant(this, "GetHomeSitesDetails");
+        if (bypasscache) {
+            q.query.set("bypasscache", "true");
+        }
+        if (expandDetails) {
+            q.query.set("expandDetails", "true");
+        }
+        return spPost(q);
+    }
+    /**
+     * Add a new home site in tenant admin setting
+     *
+     * @param homeSiteUrl The home site URL
+     * @param audiences The targeting audiences
+     * @param order The rank order of this home site. The order starts at 1, defaults to end of order if not provided
+     * @returns Details about ID, title, URL from the adding home site
+     */
+    addHomeSite(homeSiteUrl, audiences, order) {
+        return spPost(Tenant(this, "AddHomeSite"), body({
+            homeSiteUrl,
+            audiences,
+            order,
+        }));
+    }
+    /**
+     * Update the home site with specific URL for its audiences
+     *
+     * @param homeSiteUrl The home site URL
+     * @param audiences The targeting audiences
+     * @param order The rank order of this home site. The order starts at 1, defaults to end of order if not provided
+     * @returns Details about ID, title, URL from the adding home site
+     */
+    updateHomeSite(homeSiteUrl, audiences, order) {
+        return spPost(Tenant(this, "UpdateHomeSite"), body({
+            homeSiteUrl,
+            audiences,
+            order,
+        }));
+    }
+    /**
+     * Reorder the rank of all home sites in tenant admin setting
+     *
+     * @param homeSitesSiteIds All home sites siteId with new order
+     * @returns Details about siteId and webId from all home sites in a new order
+     */
+    reorderHomeSites(homeSitesSiteIds) {
+        return spPost(Tenant(this, "ReorderHomeSites"), body({
+            homeSitesSiteIds,
+        }));
+    }
+    /**
+     * Remove a home site in tenant admin setting
+     *
+     * @param homeSiteUrl The home site URL
+     */
+    removeHomeSite(homeSiteUrl) {
+        return spPost(Tenant(this, "RemoveHomeSite"), body({
+            homeSiteUrl,
+        }));
+    }
+    /**
+     * Get site subscription id
+     */
+    getSiteSubscriptionId() {
+        return spPost(Tenant(this, "GetSiteSubscriptionId"));
+    }
+    /**
+     * Supports calling POST methods not added explicitly to this class
+     *
+     * @param method method name, used in url path (ex: "CreateGroupForSite")
+     * @param args optional, any arguments to include in the body
+     * @returns The result of the method invocation T
+     */
+    call(method, args) {
+        const query = Tenant(this, method);
+        if (typeof args !== "undefined") {
+            return spPost(query, body(args));
+        }
+        else {
+            return spPost(query);
+        }
+    }
+};
+_Tenant = tslib_tslib_es6_decorate([
+    defaultPath("_api/SPO.Tenant")
+], _Tenant);
+const Tenant = spInvokableFactory(_Tenant);
+
+;// ./node_modules/@pnp/sp-admin/index.js
+
+
+
+
+
+
+Reflect.defineProperty(SPFI.prototype, "admin", {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+        return this.create(Admin);
+    },
+});
+class _Admin extends _SPQueryable {
+    get office365Tenant() {
+        return Office365Tenant(this);
+    }
+    get siteProperties() {
+        return TenantSiteProperties(this);
+    }
+    get tenant() {
+        return Tenant(this);
+    }
+}
+const Admin = spInvokableFactory(_Admin);
+
 ;// ./pnpjs-sources/index-sp.ts
+
 
 
 /******/ 	return __webpack_exports__;

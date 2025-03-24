@@ -2668,13 +2668,30 @@ function encodePath(value) {
         return encodeURIComponent(value.replace(/'/ig, "''"));
     }
 }
+function encodePathNoURIEncode(value) {
+    if (stringIsNullOrEmpty(value)) {
+        return "";
+    }
+    // replace all instance of ' with ''
+    if (/!(@.*?)::(.*?)/ig.test(value)) {
+        return value.replace(/!(@.*?)::(.*)$/ig, (match, labelName, v) => {
+            // we do not need to encodeURIComponent v as it will be encoded automatically when it is added as a query string param
+            // we do need to double any ' chars
+            return `!${labelName}::${v.replace(/'/ig, "''")}`;
+        });
+    }
+    else {
+        // because this is a literal path value we encodeURIComponent after doubling any ' chars
+        return value.replace(/'/ig, "''");
+    }
+}
 
 ;// ./node_modules/@pnp/sp/behaviors/telemetry.js
 
 function telemetry_Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.10.0:";
+            let clientTag = "PnPCoreJS:4.11.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API

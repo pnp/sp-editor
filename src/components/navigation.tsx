@@ -88,6 +88,11 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
+      name: 'Tenant Properties',
+      url: '/tenantproperties',
+      key: 'key18',
+    },
+    {
       name: 'Modern properties',
       url: '/modernproperties',
       key: 'key13',
@@ -110,11 +115,6 @@ export const FabricNav = () => {
       url: '/appcatalog',
       key: 'key16',
       disabled: false,
-    },
-    {
-      name: 'Tenant Properties',
-      url: '/tenantproperties',
-      key: 'key17',
     },
   ];
 

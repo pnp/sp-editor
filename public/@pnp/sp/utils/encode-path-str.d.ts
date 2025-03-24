@@ -5,4 +5,5 @@
  * @returns A path encoded for use in SP urls
  */
 export declare function encodePath(value: string): string;
+export declare function encodePathNoURIEncode(value: string): string;
 //# sourceMappingURL=encode-path-str.d.ts.map

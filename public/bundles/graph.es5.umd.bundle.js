@@ -2529,7 +2529,7 @@ function AdvancedQuery() {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.10.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.11.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -6881,6 +6881,52 @@ addProp(_Site, "onenote", OneNote);
 
 
 
+;// ./node_modules/@pnp/graph/open-extensions/types.js
+
+
+
+
+/**
+ * Open Extension
+ */
+let _OpenExtension = class _OpenExtension extends _GraphCollection {
+    update(extension) {
+        return graphPatch(this, body(extension));
+    }
+};
+_OpenExtension = tslib_es6_decorate([
+    deleteable()
+], _OpenExtension);
+
+const OpenExtension = graphInvokableFactory(_OpenExtension);
+/**
+ * Open Extensions
+ */
+let _OpenExtensions = class _OpenExtensions extends _GraphCollection {
+    create(extension) {
+        if (extension.extensionName.length > 30) {
+            throw Error("Extension id length should be less than or equal to 30 characters.");
+        }
+        return graphPost(this, body(extension));
+    }
+};
+_OpenExtensions = tslib_es6_decorate([
+    defaultPath("extensions"),
+    getById(OpenExtension)
+], _OpenExtensions);
+
+const OpenExtensions = graphInvokableFactory(_OpenExtensions);
+
+;// ./node_modules/@pnp/graph/open-extensions/site.js
+
+
+
+addProp(_Site, "extensions", OpenExtensions);
+
+;// ./node_modules/@pnp/graph/open-extensions/index.js
+
+
+
 ;// ./node_modules/@pnp/graph/operations/types.js
 
 
@@ -8364,7 +8410,616 @@ Reflect.defineProperty(GraphFI.prototype, "users", {
     },
 });
 
+;// ./node_modules/@pnp/graph/workbooks/types.js
+
+
+
+
+
+let _Workbook = class _Workbook extends _GraphInstance {
+    get worksheets() {
+        return Worksheets(this);
+    }
+    get tables() {
+        return Tables(this);
+    }
+    get comments() {
+        return Comments(this);
+    }
+    get names() {
+        return NamedItems(this);
+    }
+    get operations() {
+        return workbooks_types_Operations(this);
+    }
+    get application() {
+        return Application(this);
+    }
+};
+_Workbook = tslib_es6_decorate([
+    defaultPath("workbook")
+], _Workbook);
+
+const Workbook = graphInvokableFactory(_Workbook);
+class _WorkbookWithSession extends _Workbook {
+    closeSession() {
+        return graphPost(GraphQueryable(this, "closeSession"));
+    }
+    refreshSession() {
+        return graphPost(GraphQueryable(this, "refreshSession"));
+    }
+}
+const WorkbookWithSession = graphInvokableFactory(_WorkbookWithSession);
+let _Range = class _Range extends _GraphInstance {
+    get format() {
+        return RangeFormat(this);
+    }
+    get sort() {
+        return RangeSort(this);
+    }
+    cell(row, column) {
+        return Range(this, `cell(row=${row},column=${column})`);
+    }
+    column(column) {
+        return Range(this, `column(column=${column})`);
+    }
+    columnsAfter(count = 1) {
+        return Range(this, `columnsAfter(count=${count})`);
+    }
+    columnsBefore(count = 1) {
+        return Range(this, `columnsBefore(count=${count})`);
+    }
+    row(row) {
+        return Range(this, `row(row=${row})`);
+    }
+    rowsAbove(count = 1) {
+        return Range(this, `rowsAbove(count=${count})`);
+    }
+    rowsBelow(count = 1) {
+        return Range(this, `rowsBelow(count=${count})`);
+    }
+    get entireColumn() {
+        return Range(this, "entireColumn");
+    }
+    get entireRow() {
+        return Range(this, "entireRow");
+    }
+    // NOTE: A few methods here are documented incorrectly.
+    // They're GET methods, but specify that their arguments
+    // are supposed to be passed in the request body.
+    // The API actually wants them in the query string, so
+    // that's what we do here.
+    intersection(anotherRange) {
+        return Range(this, `intersection(anotherRange='${anotherRange}')`);
+    }
+    boundingRect(anotherRange) {
+        return Range(this, `boundingRect(anotherRange='${anotherRange}')`);
+    }
+    get lastCell() {
+        return Range(this, "lastCell");
+    }
+    get lastColumn() {
+        return Range(this, "lastColumn");
+    }
+    get lastRow() {
+        return Range(this, "lastRow");
+    }
+    offsetRange(rowOffset, columnOffset) {
+        return Range(this, `offsetRange(rowOffset=${rowOffset}, columnOffset=${columnOffset})`);
+    }
+    // NOTE: Docs say this is a POST. It's a GET.
+    resizedRange(deltaRows, deltaColumns) {
+        return Range(this, `resizedRange(deltaRows=${deltaRows}, deltaColumns=${deltaColumns})`);
+    }
+    usedRange(valuesOnly) {
+        return Range(this, `usedRange(valuesOnly=${valuesOnly})`);
+    }
+    get visibleView() {
+        return RangeView(this, "visibleView");
+    }
+    insert(shift) {
+        return graphPost(GraphQueryable(this, "insert"), body({ shift }));
+    }
+    merge(across) {
+        return graphPost(GraphQueryable(this, "merge"), body({ across }));
+    }
+    unmerge() {
+        return graphPost(GraphQueryable(this, "unmerge"));
+    }
+    clear(applyTo) {
+        return graphPost(GraphQueryable(this, "clear"), body({ applyTo }));
+    }
+    delete(shift) {
+        return graphPost(GraphQueryable(this, "delete"), body({ shift }));
+    }
+};
+_Range = tslib_es6_decorate([
+    updateable()
+], _Range);
+
+const Range = graphInvokableFactory(_Range);
+class _RangeView extends _GraphInstance {
+    get rows() {
+        return RangeViews(this, "rows");
+    }
+    get range() {
+        return Range(this, "range");
+    }
+}
+const RangeView = graphInvokableFactory(_RangeView);
+let _RangeViews = class _RangeViews extends _GraphCollection {
+};
+_RangeViews = tslib_es6_decorate([
+    getItemAt(RangeView)
+], _RangeViews);
+
+const RangeViews = graphInvokableFactory(_RangeViews);
+let _RangeSort = class _RangeSort extends _GraphInstance {
+    apply(params) {
+        return graphPost(GraphQueryable(this, "apply"), body(params));
+    }
+};
+_RangeSort = tslib_es6_decorate([
+    defaultPath("sort")
+], _RangeSort);
+
+const RangeSort = graphInvokableFactory(_RangeSort);
+let _RangeFormat = class _RangeFormat extends _GraphInstance {
+    get borders() {
+        return RangeBorders(this);
+    }
+    get font() {
+        return RangeFont(this);
+    }
+    get fill() {
+        return RangeFill(this);
+    }
+    get protection() {
+        return RangeFormatProtection(this);
+    }
+    autofitColumns() {
+        return graphPost(GraphQueryable(this, "autofitColumns"));
+    }
+    autofitRows() {
+        return graphPost(GraphQueryable(this, "autofitRows"));
+    }
+};
+_RangeFormat = tslib_es6_decorate([
+    updateable(),
+    defaultPath("format")
+], _RangeFormat);
+
+const RangeFormat = graphInvokableFactory(_RangeFormat);
+let _RangeFont = class _RangeFont extends _GraphInstance {
+};
+_RangeFont = tslib_es6_decorate([
+    defaultPath("font"),
+    updateable()
+], _RangeFont);
+
+const RangeFont = graphInvokableFactory(_RangeFont);
+let _RangeFill = class _RangeFill extends _GraphInstance {
+    clear() {
+        return graphPost(GraphQueryable(this, "clear"));
+    }
+};
+_RangeFill = tslib_es6_decorate([
+    defaultPath("fill"),
+    updateable()
+], _RangeFill);
+
+const RangeFill = graphInvokableFactory(_RangeFill);
+let _RangeFormatProtection = class _RangeFormatProtection extends _GraphInstance {
+};
+_RangeFormatProtection = tslib_es6_decorate([
+    defaultPath("protection"),
+    updateable()
+], _RangeFormatProtection);
+
+const RangeFormatProtection = graphInvokableFactory(_RangeFormatProtection);
+let _RangeBorder = class _RangeBorder extends _GraphInstance {
+};
+_RangeBorder = tslib_es6_decorate([
+    updateable()
+], _RangeBorder);
+
+const RangeBorder = graphInvokableFactory(_RangeBorder);
+let _RangeBorders = class _RangeBorders extends _GraphCollection {
+    getBySideIndex(sideIndex) {
+        return RangeBorder(this, sideIndex);
+    }
+};
+_RangeBorders = tslib_es6_decorate([
+    defaultPath("borders")
+    // @addable()
+    /**
+     * NOTE: According the docs at https://learn.microsoft.com/en-us/graph/api/rangeformat-post-borders,
+     * you should be able to POST new border styles. In my testing, this fails with MethodNotAllowed
+     * Using `RangeBorder.update()` works instead, even for borders that haven't been "created" yet.
+     */
+    ,
+    getItemAt(RangeBorder)
+], _RangeBorders);
+
+const RangeBorders = graphInvokableFactory(_RangeBorders);
+let _Worksheet = class _Worksheet extends _GraphInstance {
+    /**
+     * Get a range of cells within the worksheet.
+     *
+     * @param address (Optional) An A1-notation address of a range within this worksheet.
+     * If omitted, a range containing the entire worksheet is returned.
+     */
+    getRange(address) {
+        if (address) {
+            return Range(this, `range(address='${address}')`);
+        }
+        else {
+            return Range(this, "range");
+        }
+    }
+    getUsedRange(valuesOnly) {
+        if (valuesOnly) {
+            return Range(this, `usedRange(valuesOnly=${valuesOnly})`);
+        }
+        else {
+            return Range(this, "usedRange");
+        }
+    }
+    get tables() {
+        return Tables(this);
+    }
+    get pivotTables() {
+        return PivotTables(this, "pivotTables");
+    }
+    get names() {
+        return NamedItems(this, "names");
+    }
+    get protection() {
+        return WorksheetProtection(this, "protection");
+    }
+};
+_Worksheet = tslib_es6_decorate([
+    updateable(),
+    deleteable()
+], _Worksheet);
+
+const Worksheet = graphInvokableFactory(_Worksheet);
+let _Worksheets = class _Worksheets extends _GraphCollection {
+};
+_Worksheets = tslib_es6_decorate([
+    defaultPath("worksheets"),
+    addable(),
+    getById(Worksheet)
+], _Worksheets);
+
+const Worksheets = graphInvokableFactory(_Worksheets);
+class _WorksheetProtection extends _GraphInstance {
+    protect(options) {
+        return graphPost(GraphQueryable(this, "protect"), body(options));
+    }
+    unprotect() {
+        return graphPost(GraphQueryable(this, "unprotect"));
+    }
+}
+const WorksheetProtection = graphInvokableFactory(_WorksheetProtection);
+let _Table = class _Table extends _GraphInstance {
+    get rows() {
+        return TableRows(this);
+    }
+    get columns() {
+        return TableColumns(this);
+    }
+    get worksheet() {
+        return Worksheet(this, "worksheet");
+    }
+    get range() {
+        return Range(this, "range");
+    }
+    get headerRowRange() {
+        return Range(this, "headerRowRange");
+    }
+    get dataBodyRange() {
+        return Range(this, "dataBodyRange");
+    }
+    get totalRowRange() {
+        return Range(this, "totalRowRange");
+    }
+    get sort() {
+        return TableSort(this);
+    }
+    clearFilters() {
+        return graphPost(GraphQueryable(this, "clearFilters"));
+    }
+    reapplyFilters() {
+        return graphPost(GraphQueryable(this, "reapplyFilters"));
+    }
+    convertToRange() {
+        return graphPost(GraphQueryable(this, "convertToRange"));
+    }
+};
+_Table = tslib_es6_decorate([
+    getRange(),
+    updateable(),
+    deleteable()
+], _Table);
+
+const Table = graphInvokableFactory(_Table);
+let _Tables = class _Tables extends _GraphCollection {
+    getByName(name) {
+        return Table(this, name);
+    }
+    async add(address, hasHeaders) {
+        return graphPost(GraphQueryable(this, "add"), body({ address, hasHeaders }));
+    }
+};
+_Tables = tslib_es6_decorate([
+    defaultPath("tables"),
+    getById(Table)
+], _Tables);
+
+const Tables = graphInvokableFactory(_Tables);
+let _TableRow = class _TableRow extends _GraphInstance {
+};
+_TableRow = tslib_es6_decorate([
+    getRange(),
+    deleteable(),
+    updateable()
+], _TableRow);
+
+const TableRow = graphInvokableFactory(_TableRow);
+let _TableRows = class _TableRows extends _GraphCollection {
+};
+_TableRows = tslib_es6_decorate([
+    defaultPath("rows"),
+    addable(),
+    getItemAt(TableRow)
+], _TableRows);
+
+const TableRows = graphInvokableFactory(_TableRows);
+let _TableColumn = class _TableColumn extends _GraphInstance {
+    get filter() {
+        return WorkbookFilter(this);
+    }
+    get headerRowRange() {
+        return Range(this, "headerRowRange");
+    }
+    get dataBodyRange() {
+        return Range(this, "dataBodyRange");
+    }
+    get totalRowRange() {
+        return Range(this, "totalRowRange");
+    }
+};
+_TableColumn = tslib_es6_decorate([
+    getRange(),
+    deleteable(),
+    updateable()
+], _TableColumn);
+
+const TableColumn = graphInvokableFactory(_TableColumn);
+let _TableColumns = class _TableColumns extends _GraphCollection {
+    getByName(name) {
+        return TableColumn(this, name);
+    }
+};
+_TableColumns = tslib_es6_decorate([
+    defaultPath("columns"),
+    addable(),
+    getItemAt(TableColumn)
+], _TableColumns);
+
+const TableColumns = graphInvokableFactory(_TableColumns);
+let _WorkbookFilter = class _WorkbookFilter extends _GraphInstance {
+    apply(filter) {
+        /**
+         * NOTE: The "criterion" object you pass here MUST have a
+         * "filterOn" property, otherwise you get a 500.
+         * The docs aren't clear on what you need to set this to.
+         * Excel seems to set it to "Custom", which works in my testing.
+         * We could do this for users here, though there could be
+         * scenarios in which you might want it to be something else.
+         */
+        return graphPost(GraphQueryable(this, "apply"), body(filter));
+    }
+    clear() {
+        return graphPost(GraphQueryable(this, "clear"));
+    }
+};
+_WorkbookFilter = tslib_es6_decorate([
+    defaultPath("filter")
+], _WorkbookFilter);
+
+const WorkbookFilter = graphInvokableFactory(_WorkbookFilter);
+let _TableSort = class _TableSort extends _GraphInstance {
+    apply(fields, matchCase, method) {
+        return graphPost(GraphQueryable(this, "apply"), body({ fields, matchCase, method }));
+    }
+    clear() {
+        return graphPost(GraphQueryable(this, "clear"));
+    }
+    reapply() {
+        return graphPost(GraphQueryable(this, "reapply"));
+    }
+};
+_TableSort = tslib_es6_decorate([
+    defaultPath("sort")
+], _TableSort);
+
+class ITableSort extends (/* unused pure expression or super */ null && (_TableSort)) {
+}
+const TableSort = graphInvokableFactory(_TableSort);
+// See above
+// export class _SortFields extends _GraphInstance<WorkbookSortFieldType[]> {
+//     public get icon(): IIcon {
+//         return Icon(this, "icon");
+//     }
+// }
+// export interface ISortFields extends _SortFields {}
+// export const SortFields = graphInvokableFactory<ISortFields>(_SortFields);
+class _PivotTable extends _GraphInstance {
+    refresh() {
+        return graphPost(GraphQueryable(this, "refresh"));
+    }
+}
+const PivotTable = graphInvokableFactory(_PivotTable);
+let _PivotTables = class _PivotTables extends _GraphCollection {
+    refreshAll() {
+        return graphPost(GraphQueryable(this, "refreshAll"));
+    }
+};
+_PivotTables = tslib_es6_decorate([
+    getById(PivotTable)
+], _PivotTables);
+
+const PivotTables = graphInvokableFactory(_PivotTables);
+let _NamedItem = class _NamedItem extends _GraphInstance {
+    get range() {
+        return Range(this, "range");
+    }
+};
+_NamedItem = tslib_es6_decorate([
+    updateable()
+], _NamedItem);
+
+const NamedItem = graphInvokableFactory(_NamedItem);
+let _NamedItems = class _NamedItems extends _GraphCollection {
+    /**
+     * The NamedItem object contains string property named "value".
+     * This causes an issue with the DefaultParse
+     * parser (namely parseODataJSON), because it's set up to throw away
+     * the rest of the object if it contains a field "value".
+     *
+     * Below I'm manually replacing the parser with JSONParse. This works,
+     * but is unideal because it would replace any custom parser a user
+     * may have set up earlier.
+     *
+     * I know the docs caution against making changes in the
+     * core classes - my suggestion would be to change
+     * the check in parseODataJSON from `hasOwnProperty` to something like
+     * `typeof json["value"] === "object"`. Thoughts?
+     */
+    add(item) {
+        const q = GraphQueryable(this, "add");
+        q.using(JSONParse());
+        return graphPost(q, body(item));
+    }
+    getByName(name) {
+        const q = NamedItem(this, name);
+        q.using(JSONParse());
+        return q;
+    }
+};
+_NamedItems = tslib_es6_decorate([
+    defaultPath("names")
+    // @getById(NamedItem)
+], _NamedItems);
+
+const NamedItems = graphInvokableFactory(_NamedItems);
+class _Comment extends _GraphInstance {
+    get replies() {
+        return CommentReplies(this);
+    }
+}
+const Comment = graphInvokableFactory(_Comment);
+let _Comments = class _Comments extends _GraphCollection {
+};
+_Comments = tslib_es6_decorate([
+    getById(Comment),
+    defaultPath("comments")
+], _Comments);
+
+const Comments = graphInvokableFactory(_Comments);
+class _CommentReply extends _GraphInstance {
+}
+const CommentReply = graphInvokableFactory(_CommentReply);
+let _CommentReplies = class _CommentReplies extends _GraphInstance {
+};
+_CommentReplies = tslib_es6_decorate([
+    defaultPath("replies"),
+    getById(CommentReply),
+    addable()
+], _CommentReplies);
+
+const CommentReplies = graphInvokableFactory(_CommentReplies);
+let _Application = class _Application extends _GraphInstance {
+    calculate(calculationType) {
+        return graphPost(GraphQueryable(this, "calculate"), body({ calculationType }));
+    }
+};
+_Application = tslib_es6_decorate([
+    defaultPath("application")
+], _Application);
+
+const Application = graphInvokableFactory(_Application);
+class _Operation extends _GraphInstance {
+}
+const Operation = graphInvokableFactory(_Operation);
+let types_Operations = class _Operations extends _GraphCollection {
+};
+types_Operations = tslib_es6_decorate([
+    defaultPath("operations"),
+    getById(Operation)
+], types_Operations);
+
+const workbooks_types_Operations = graphInvokableFactory(types_Operations);
+let _Icon = class _Icon extends _GraphInstance {
+};
+_Icon = tslib_es6_decorate([
+    updateable()
+], _Icon);
+
+const Icon = graphInvokableFactory(_Icon);
+function getItemAt(factory) {
+    return function (target) {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        return class extends target {
+            getItemAt(index) {
+                return factory(this, `itemAt(index=${index})`);
+            }
+        };
+    };
+}
+/**
+ * Adds the getRange method to the tagged class
+ */
+function getRange() {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return function (target) {
+        return class extends target {
+            getRange() {
+                return Range(this, "range");
+            }
+        };
+    };
+}
+
+;// ./node_modules/@pnp/graph/workbooks/driveitem.js
+
+
+
+
+addProp(_DriveItem, "workbook", Workbook);
+_DriveItem.prototype.getWorkbookSession = getWorkbookSession;
+async function getWorkbookSession(persistChanges) {
+    const workbook = WorkbookWithSession(this);
+    const sessionResult = await graphPost(GraphQueryable(workbook, "createSession"), body({
+        persistChanges,
+    }));
+    if (!sessionResult.id) {
+        throw new Error("createSession did not respond with a session ID");
+    }
+    workbook.using(InjectHeaders({ "workbook-session-id": sessionResult.id }));
+    return workbook;
+}
+
+;// ./node_modules/@pnp/graph/workbooks/index.js
+
+
 ;// ./node_modules/@pnp/graph/presets/all.js
+
+
+
+
 
 
 

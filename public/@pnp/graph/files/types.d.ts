@@ -105,12 +105,12 @@ export declare class _DriveItem extends _GraphInstance<IDriveItemType> {
      * Method for retrieving thumbnails of the drive items.
      * @returns Microsoft Graph - ThumbnailSet
      */
-    get thumbnails(): IGraphCollection<IThumbnailSetType>;
+    get thumbnails(): IGraphCollection<IThumbnailSetType[]>;
     /**
      * Method for retrieving the versions of a drive item.
      * @returns IDriveItemVersionInfo
      */
-    get versions(): IGraphCollection<IDriveItemVersionType>;
+    get versions(): IGraphCollection<IDriveItemVersionType[]>;
     /**
      * Method for moving a file to a new location and/or name.
      * @param moveOptions - IItemOptions object
