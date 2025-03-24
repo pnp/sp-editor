@@ -19,7 +19,6 @@ import { IListProperty } from '../../../store/listproperties/types'
 import { addListProperty } from '../chrome/chrome-actions'
 
 const ListPropertiesEditPanel = () => {
-
   const dispatch = useDispatch()
   const { isDark } = useSelector((state: IRootState) => state.home)
   const { editpanel, selectedItem, confirmedit } = useSelector((state: IRootState) => state.listProperties)
@@ -34,7 +33,12 @@ const ListPropertiesEditPanel = () => {
   const _onRenderItemFooterContent = () => {
     return (
       <PrimaryButton
-        onClick={() => dispatch(setConfirmEditDialog(false))}
+        onClick={() => {
+          if (editItem) {
+            dispatch(setSelectedItem(editItem))
+            dispatch(setConfirmEditDialog(false))
+          }
+        }}
         style={{ marginRight: '8px' }}
         text={'Update'}
       />
@@ -48,8 +52,7 @@ const ListPropertiesEditPanel = () => {
       onDismiss={() => {
         dispatch(setSelectedItem(undefined))
         dispatch(setEditPanel(false))
-      }
-      }
+      }}
       isLightDismiss={true}
       isFooterAtBottom={true}
       headerText='Edit List Property'
@@ -75,19 +78,23 @@ const ListPropertiesEditPanel = () => {
             rows={5}
             autoAdjustHeight
             onChange={(event, newValue?: string) => {
-              dispatch(setSelectedItem({ ...selectedItem, value: newValue ? newValue : '' }))
+              if (editItem) {
+                // Update local state only
+                setEditItem({ ...editItem, value: newValue ? newValue : '' });
+              }
             }}
           />
-        <Toggle
-          label='Indexed'
-          checked={selectedItem.indexed}
-          onText='Yes'
-          offText='No'
-          onChange={(event, checked?: boolean) => {
-            dispatch(setSelectedItem({ ...selectedItem, indexed: checked ? true : false }))
-          }}
-        />
-
+          <Toggle
+            label='Indexed'
+            checked={editItem?.indexed}
+            onText='Yes'
+            offText='No'
+            onChange={(event, checked?: boolean) => {
+              if (editItem) {
+                setEditItem({ ...editItem, indexed: checked ? true : false })
+              }
+            }}
+          />
         </Stack>
       }
       <Dialog

@@ -14,7 +14,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-// mport { updateScriptLink } from '../../../store/scriptlinks/async-actions'
 import { setConfirmEditDialog, setEditPanel, setSelectedItem } from '../../../store/tenantproperties/actions';
 import { ITenantProperty } from '../../../store/tenantproperties/types';
 import { addTenantProperty } from '../chrome/chrome-actions';
@@ -24,17 +23,25 @@ const TenantPropertiesEditPanel = () => {
   const { isDark } = useSelector((state: IRootState) => state.home);
   const { editpanel, selectedItem, confirmedit } = useSelector((state: IRootState) => state.tenantProperties);
 
-  const [editItem, setEditItem] = useState<ITenantProperty>();
+  const [editItem, setEditItem] = useState<ITenantProperty | undefined>();
 
   useEffect(() => {
     setEditItem(selectedItem);
   }, [selectedItem]);
 
   const panelOverlayProps: IOverlayProps = { isDarkThemed: isDark };
+  
+  const handleSubmit = () => {
+    if (editItem) {
+      dispatch(setSelectedItem(editItem));
+      dispatch(setConfirmEditDialog(false));
+    }
+  };
+
   const _onRenderItemFooterContent = () => {
     return (
       <PrimaryButton
-        onClick={() => dispatch(setConfirmEditDialog(false))}
+        onClick={handleSubmit}
         style={{ marginRight: '8px' }}
         text={'Update'}
         disabled={!editItem?.value.length}
@@ -75,7 +82,9 @@ const TenantPropertiesEditPanel = () => {
             rows={5}
             autoAdjustHeight
             onChange={(event, newValue?: string) => {
-              dispatch(setSelectedItem({ ...selectedItem, value: newValue ? newValue : '' }));
+              if (editItem) {
+                setEditItem({ ...editItem, value: newValue ? newValue : '' });
+              }
             }}
           />
           <TextField
@@ -86,7 +95,9 @@ const TenantPropertiesEditPanel = () => {
             rows={5}
             autoAdjustHeight
             onChange={(event, newValue?: string) => {
-              dispatch(setSelectedItem({ ...selectedItem, description: newValue ? newValue : '' }));
+              if (editItem) {
+                setEditItem({ ...editItem, description: newValue ? newValue : '' });
+              }
             }}
           />
           <TextField
@@ -97,7 +108,9 @@ const TenantPropertiesEditPanel = () => {
             rows={5}
             autoAdjustHeight
             onChange={(event, newValue?: string) => {
-              dispatch(setSelectedItem({ ...selectedItem, comment: newValue ? newValue : '' }));
+              if (editItem) {
+                setEditItem({ ...editItem, comment: newValue ? newValue : '' });
+              }
             }}
           />
         </Stack>

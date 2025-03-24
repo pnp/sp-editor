@@ -35,7 +35,12 @@ const WebPropertiesEditPanel = () => {
   const _onRenderItemFooterContent = () => {
     return (
       <PrimaryButton
-        onClick={() => dispatch(setConfirmEditDialog(false))}
+        onClick={() => {
+          if (editItem) {
+            dispatch(setSelectedItem(editItem))
+            dispatch(setConfirmEditDialog(false))
+          }
+        }}
         style={{ marginRight: '8px' }}
         text={'Update'}
       />
@@ -58,12 +63,12 @@ const WebPropertiesEditPanel = () => {
       onRenderFooterContent={_onRenderItemFooterContent}
       overlayProps={panelOverlayProps}
     >
-      {selectedItem &&
+      {selectedItem && editItem &&
         <Stack>
           <TextField
             label='Property Key'
             description='The key of the property'
-            value={editItem ? editItem.key : ''}
+            value={editItem.key}
             readOnly
             disabled
             required
@@ -71,21 +76,21 @@ const WebPropertiesEditPanel = () => {
           <TextField
             label='Property Value'
             description='The value of the property'
-            value={editItem ? editItem.value : ''}
+            value={editItem.value}
             multiline
             rows={5}
             autoAdjustHeight
             onChange={(event, newValue?: string) => {
-              dispatch(setSelectedItem({ ...selectedItem, value: newValue ? newValue : '' }))
+              setEditItem({ ...editItem, value: newValue ? newValue : '' })
             }}
           />
         <Toggle
           label='Indexed'
-          checked={selectedItem.indexed}
+          checked={editItem.indexed}
           onText='Yes'
           offText='No'
           onChange={(event, checked?: boolean) => {
-            dispatch(setSelectedItem({ ...selectedItem, indexed: checked ? true : false }))
+            setEditItem({ ...editItem, indexed: checked ? true : false })
           }}
         />
 

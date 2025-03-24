@@ -82,15 +82,15 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
+      name: 'Tenant Properties',
+      url: '/tenantproperties',
+      key: 'key18',
+    },
+    {
       name: 'Page editor',
       url: '/pageeditor',
       key: 'key11',
       disabled: false,
-    },
-    {
-      name: 'Tenant Properties',
-      url: '/tenantproperties',
-      key: 'key18',
     },
     {
       name: 'Modern properties',

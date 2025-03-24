@@ -12,23 +12,36 @@ import {
   Stack,
   TextField,
 } from '@fluentui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setConfirmEditDialog, setEditPanel, setSelectedItem } from '../../../store/scriptlinks/actions'
+import { IScriptLink } from '../../../store/scriptlinks/types'
 import { updateScriptLink } from '../chrome/chrome-actions'
 
 const ScriptLinksEditPanel = () => {
-
   const dispatch = useDispatch()
   const { isDark } = useSelector((state: IRootState) => state.home)
   const { editpanel, selectedItem, confirmedit } = useSelector((state: IRootState) => state.scriptLinks)
+  
+  // Add local state to store edits
+  const [editItem, setEditItem] = useState<IScriptLink>()
+  
+  // Update local state when selected item changes
+  useEffect(() => {
+    setEditItem(selectedItem)
+  }, [selectedItem])
 
   const panelOverlayProps: IOverlayProps = { isDarkThemed: isDark }
   const _onRenderItemFooterContent = () => {
     return (
       <PrimaryButton
-        onClick={() => dispatch(setConfirmEditDialog(false))}
+        onClick={() => {
+          if (editItem) {
+            dispatch(setSelectedItem(editItem))
+            dispatch(setConfirmEditDialog(false))
+          }
+        }}
         style={{ marginRight: '8px' }}
         text={'Update'}
       />
@@ -54,32 +67,30 @@ const ScriptLinksEditPanel = () => {
         onRenderFooterContent={_onRenderItemFooterContent}
         overlayProps={panelOverlayProps}
       >
-        {selectedItem &&
+        {selectedItem && editItem &&
           <Stack>
             <TextField
               label='Url'
               description='Url of the file to be injected.'
               multiline
               autoAdjustHeight
-              value={selectedItem.Url}
+              value={editItem.Url}
               onChange={(event, newValue?: string) =>
-                dispatch(setSelectedItem({ ...selectedItem, Url: newValue ? newValue : '' }))
+                setEditItem({ ...editItem, Url: newValue ? newValue : '' })
               }
               required
-            // TODO: do proper validation
             />
             <TextField
               label='Sequence'
               description='The sequence of the scriplink'
               styles={{ fieldGroup: { width: 100 } }}
-              value={selectedItem.Sequence.toString()}
+              value={editItem.Sequence.toString()}
               type={'number'}
               onChange={(event, newValue?: string) =>
-                dispatch(setSelectedItem({ ...selectedItem, Sequence: newValue ? +newValue : selectedItem.Sequence }))
+                setEditItem({ ...editItem, Sequence: newValue ? +newValue : editItem.Sequence })
               }
               onGetErrorMessage={sequenceValidator}
               required
-            // TODO: do proper casting & validation
             />
             <Dropdown
               placeholder='Select scope'
@@ -88,15 +99,15 @@ const ScriptLinksEditPanel = () => {
                 { key: 2, text: 'Site Collection' },
                 { key: 3, text: 'Current Web' },
               ]}
-              selectedKey={selectedItem.Scope}
+              selectedKey={editItem.Scope}
               onChange={(event, option?: IDropdownOption) =>
-                dispatch(setSelectedItem({ ...selectedItem, Scope: option ? +option.key : selectedItem.Scope }))
+                setEditItem({ ...editItem, Scope: option ? +option.key : editItem.Scope })
               }
             />
             <TextField
               label='Id'
               description='Id of the custom action'
-              value={selectedItem.Id}
+              value={editItem.Id}
               readOnly
               disabled
             />
