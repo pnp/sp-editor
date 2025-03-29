@@ -52,6 +52,11 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
+      name: 'Site Properties',
+      url: '/siteproperties',
+      key: 'key19',
+    },
+    {
       name: 'SP Shooter',
       url: '/spshooter',
       key: 'key7',

@@ -47,6 +47,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MessageBar from './components/messageBar';
 import GraphSDKConsole from './pages/graphsdkconsole';
 import ListProperties from './pages/listproperties';
+import SiteProperties from './pages/siteproperties';
 import MGTConsole from './pages/mgtconsole';
 import SPShooter from './pages/spshooter';
 import Webhooks from './pages/webhooks';
@@ -110,6 +111,7 @@ const App = () => {
                 <Route path="/pnpjsconsole" element={<PnPjsConsole />} />
                 <Route path="/webproperties" element={<WebProperties />} />
                 <Route path="/listproperties" element={<ListProperties />} />
+                <Route path="/siteproperties" element={<SiteProperties />} />
                 <Route path="/tenantproperties" element={<TenantProperties />} />
                 <Route path="/webhooks" element={<Webhooks />} />
                 <Route path="/spshooter" element={<SPShooter />} />
