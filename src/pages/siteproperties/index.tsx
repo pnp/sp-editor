@@ -13,7 +13,7 @@ const SiteProperties = () => {
         title={'Site Properties'}
         showOnLoad={false}
         headline="Site properties"
-        content="This is works only from SharePoint admin center site"
+        content="This feature is only supported in the SharePoint admin site. Please open the SharePoint admin site to use this feature."
       />
       {/* Actions menu */}
       <SitePropertiesCommands />
