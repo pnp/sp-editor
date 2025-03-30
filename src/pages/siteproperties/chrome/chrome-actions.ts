@@ -105,15 +105,16 @@ export async function addSiteProperty(
 
 export async function getAllSites(
   dispatch: Dispatch<SitePropertiesActions | HomeActions>,
+  queryText: string,
   selectedSite: string | undefined
 ) {
   dispatch(rootActions.setLoading(true));
 
-  chrome.scripting
+  return chrome.scripting
     .executeScript({
       target: { tabId: chrome.devtools.inspectedWindow.tabId },
       world: 'MAIN',
-      args: [chrome.runtime.getURL('')],
+      args: [queryText, chrome.runtime.getURL('')],
       func: getSites,
     })
     .then(async (injectionResults) => {
@@ -152,6 +153,7 @@ export async function getAllSites(
             })
           );
         }
+        return res.result;
       }
     });
 }

@@ -50,7 +50,7 @@ const SitePropertiesList = () => {
 
   // load initial data
   useEffect(() => {
-    getAllSites(dispatch, selectedSite?.key);
+    getAllSites(dispatch, '', selectedSite?.key);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

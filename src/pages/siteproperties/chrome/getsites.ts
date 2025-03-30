@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const getSites = (extPath: string) => {
+export const getSites = (queryText: string, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     let pnpsp = modules[0];
@@ -87,12 +87,11 @@ export const getSites = (extPath: string) => {
         });
     });
     pnplogging.Logger.subscribe(listener);
-
     return sp
       .search({
-        Querytext: '*',
-        QueryTemplate: 'contentclass:STS_Site OR contentclass:STS_Web',
-        RowLimit: 2000,
+        Querytext: queryText ?? '*',
+        QueryTemplate: `(Title:${queryText}* OR Path:${queryText}*) AND (contentclass:STS_Site OR contentclass:STS_Web)`,
+        RowLimit: 100,
         SelectProperties: ['Title', 'SiteId', 'Path'],
       })
       .then((results) => {

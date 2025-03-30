@@ -1,9 +1,9 @@
-import { CommandBar, SearchBox, ComboBox, IComboBoxOption, IComboBox } from '@fluentui/react';
-import React, { FormEvent } from 'react';
+import { CommandBar, SearchBox, Stack, Label, TagPicker, ITag } from '@fluentui/react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
 import { setSearchString, setSelectedSite } from '../../../store/siteproperties/actions';
-import { getAllSiteProperties } from '../chrome/chrome-actions';
+import { getAllSiteProperties, getAllSites } from '../chrome/chrome-actions';
 
 const SitePropertiesCommands = () => {
   const { sites, selectedSite } = useSelector((state: IRootState) => state.siteProperties);
@@ -20,28 +20,37 @@ const SitePropertiesCommands = () => {
         {
           key: 'siteSelector',
           onRender: () => (
-            <ComboBox
-              placeholder="Select site"
-              selectedKey={selectedSite?.key}
-              options={sites?.map((site) => ({
-                key: site.key,
-                text: site.text,
-              }))}
-              autoComplete="on"
-              allowFreeform={false}
-              onChange={(
-                event: FormEvent<IComboBox>,
-                option?: IComboBoxOption | undefined,
-                index?: number | undefined
-              ): void => {
-                if (option) {
-                  const selectedSite = sites.find((site) => site.key === option.key);
-                  getAllSiteProperties(dispatch, option.key.toString());
-                  dispatch(setSelectedSite(selectedSite));
-                }
-              }}
-              styles={{ root: { width: 300 } }}
-            />
+            <>
+              <Stack horizontal tokens={{ childrenGap: 10 }}>
+                <Label>Site: </Label>
+                <TagPicker
+                  styles={{ root: { width: 300 } }}
+                  onChange={(items) => {
+                    if (items?.length) {
+                      const selectedSite = sites.find((site) => site.key === items[0].key);
+                      getAllSiteProperties(dispatch, selectedSite?.key.toString() ?? '');
+                      dispatch(setSelectedSite(selectedSite));
+                    }
+                  }}
+                  pickerSuggestionsProps={{
+                    suggestionsHeaderText: 'Available sites',
+                    noResultsFoundText: 'No sites found',
+                  }}
+                  itemLimit={1}
+                  onResolveSuggestions={function (
+                    filter: string,
+                    selectedItems?: ITag[] | undefined
+                  ): ITag[] | PromiseLike<ITag[]> {
+                    return getAllSites(dispatch, filter, selectedSite?.key).then((r) => {
+                      return r?.map((s: any) => ({
+                        key: s.key,
+                        name: s.text,
+                      }));
+                    });
+                  }}
+                />
+              </Stack>
+            </>
           ),
         },
         {
