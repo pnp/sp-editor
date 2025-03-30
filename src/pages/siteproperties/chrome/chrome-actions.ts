@@ -31,11 +31,7 @@ export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActi
           });
 
           // find indexed properties
-          if (
-            vti_indexedpropertykeys &&
-            vti_indexedpropertykeys.value &&
-            vti_indexedpropertykeys.value.indexOf('|') > -1
-          ) {
+          if (vti_indexedpropertykeys?.value && vti_indexedpropertykeys.value.indexOf('|') > -1) {
             siteProperties = siteProperties.map((property) => {
               const bytes = [];
               for (let i = 0; i < property.key.length; ++i) {
@@ -43,7 +39,7 @@ export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActi
                 bytes.push(0);
               }
               const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes));
-              property.indexed = vti_indexedpropertykeys.value.split('|').find((x) => x === b64encoded) ? true : false;
+              property.indexed = vti_indexedpropertykeys.value.split('|').some((x) => x === b64encoded);
               return property;
             });
           }
