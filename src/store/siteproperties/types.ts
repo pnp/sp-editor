@@ -6,22 +6,21 @@ export type SitePropertiesActions = ActionType<typeof actions>;
 export interface ISiteProperty {
   key: string;
   value: string;
-  siteId: string;
-  indexed: boolean;
 }
 
-export interface ISitePropertyList {
+export interface ISite {
   key: string;
   text: string;
+  siteId: string;
 }
 
 export interface ISitePropertiesState {
   siteproperties: ISiteProperty[];
-  sites: ISitePropertyList[];
+  sites: ISite[];
   loading: boolean;
   editpanel: boolean;
   newpanel: boolean;
-  selectedSite: string | undefined;
+  selectedSite: ISite | undefined;
   selectedItems: ISiteProperty[];
   selectedItem: ISiteProperty | undefined;
   confirmremove: boolean;

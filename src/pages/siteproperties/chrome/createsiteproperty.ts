@@ -2,7 +2,7 @@ import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
-export const createSiteProperty = (values: any, extPath: string) => {
+export const createSiteProperty = (values: any, siteId: string, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     let pnpsp = modules[0];
@@ -109,6 +109,8 @@ export const createSiteProperty = (values: any, extPath: string) => {
     });
     pnplogging.Logger.subscribe(listener);
 
+    debugger;
+
     const sitePropertyPayload = (pkey: any, pvalue: any, psiteId: any) => {
       return `
             <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
@@ -144,7 +146,7 @@ export const createSiteProperty = (values: any, extPath: string) => {
 
     return pnpsp
       .spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), {
-        body: sitePropertyPayload(values.key, values.value, values.siteId),
+        body: sitePropertyPayload(values.key, values.value, siteId),
       })
       .then((r) => {
         if (r[0]?.ErrorInfo?.ErrorMessage) {

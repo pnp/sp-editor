@@ -22,8 +22,11 @@ const SitePropertiesCommands = () => {
           onRender: () => (
             <ComboBox
               placeholder="Select site"
-              selectedKey={selectedSite}
-              options={sites}
+              selectedKey={selectedSite?.key}
+              options={sites?.map((site) => ({
+                key: site.key,
+                text: site.text,
+              }))}
               autoComplete="on"
               allowFreeform={false}
               onChange={(
@@ -32,8 +35,9 @@ const SitePropertiesCommands = () => {
                 index?: number | undefined
               ): void => {
                 if (option) {
+                  const selectedSite = sites.find((site) => site.key === option.key);
                   getAllSiteProperties(dispatch, option.key.toString());
-                  dispatch(setSelectedSite(option.key.toString()));
+                  dispatch(setSelectedSite(selectedSite));
                 }
               }}
               styles={{ root: { width: 300 } }}

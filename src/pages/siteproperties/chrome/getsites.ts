@@ -99,6 +99,7 @@ export const getSites = (extPath: string) => {
         const sites = results.PrimarySearchResults.map((site) => ({
           text: site.Title,
           key: site.Path,
+          siteId: site.SiteId,
         }));
         return {
           success: true,

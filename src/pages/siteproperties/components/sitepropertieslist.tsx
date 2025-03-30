@@ -6,10 +6,7 @@ import {
   DialogFooter,
   DialogType,
   IColumn,
-  Icon,
   MarqueeSelection,
-  mergeStyles,
-  PrimaryButton,
   ScrollablePane,
   SelectionMode,
   Sticky,
@@ -40,7 +37,6 @@ const SitePropertiesList = () => {
 
   const [sortkey, setSortkey] = useState('webkey');
   const [keyAsc, setKeyAsc] = useState(true);
-  const [indexedAsc, setIndexedAsc] = useState(true);
 
   // set selected items to store
   const [selection] = useState(
@@ -54,7 +50,7 @@ const SitePropertiesList = () => {
 
   // load initial data
   useEffect(() => {
-    getAllSites(dispatch, selectedSite);
+    getAllSites(dispatch, selectedSite?.key);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -80,11 +76,6 @@ const SitePropertiesList = () => {
           : 0
       );
       setKeyAsc(!keyAsc);
-    } else if (key === 'indexed') {
-      siteproperties.sort((a, b) =>
-        a.indexed < b.indexed ? (indexedAsc ? 1 : -1) : b.indexed < a.indexed ? (indexedAsc ? -1 : 1) : 0
-      );
-      setIndexedAsc(!indexedAsc);
     }
     setSortkey(key);
     // dispatch(setAllWebProperties(webproperties))
@@ -135,31 +126,11 @@ const SitePropertiesList = () => {
     );
   };
 
-  const iconClass = mergeStyles({
-    fontSize: 20,
-    height: 20,
-    width: 20,
-    marginLeft: '14px',
-  });
-
   // render custom column (indexed) with icon
   const _renderItemColumn = (item?: any, index?: number | undefined, column?: IColumn | undefined) => {
     const fieldContent = item[column?.fieldName as keyof ISiteProperty] as string;
 
-    switch (column?.key) {
-      case 'indexed':
-        const webProp = item as ISiteProperty;
-        return webProp.indexed ? (
-          <span>
-            <Icon iconName="CheckMark" className={iconClass} />
-          </span>
-        ) : (
-          <span></span>
-        );
-
-      default:
-        return <span>{fieldContent}</span>;
-    }
+    return <span>{fieldContent}</span>;
   };
 
   // this will run when the compunent unmounts

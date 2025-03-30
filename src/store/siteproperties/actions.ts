@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { Constants, ISiteProperty, ISitePropertyList } from './types';
+import { Constants, ISite, ISiteProperty } from './types';
 
 export function setAllSiteProperties(items: ISiteProperty[]) {
   return action(Constants.SP_GET_ITEMS, {
@@ -7,13 +7,13 @@ export function setAllSiteProperties(items: ISiteProperty[]) {
   });
 }
 
-export function setAllSites(sites: ISitePropertyList[]) {
+export function setAllSites(sites: ISite[]) {
   return action(Constants.SP_GET_ITEMS_SITES, {
     sites,
   });
 }
 
-export function setSelectedSite(selectedSite: string | undefined) {
+export function setSelectedSite(selectedSite: ISite | undefined) {
   return action(Constants.SP_SET_SELECTED_ITEM, {
     selectedSite,
   });

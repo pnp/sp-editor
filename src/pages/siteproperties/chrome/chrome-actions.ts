@@ -2,7 +2,7 @@ import { Dispatch } from 'redux';
 import * as rootActions from '../../../store/home/actions';
 import { HomeActions, MessageBarColors } from '../../../store/home/types';
 import * as actions from '../../../store/siteproperties/actions';
-import { ISiteProperty, ISitePropertyList, SitePropertiesActions } from '../../../store/siteproperties/types';
+import { ISiteProperty, ISite, SitePropertiesActions } from '../../../store/siteproperties/types';
 import { spDelay } from '../../../utilities/utilities';
 import { createSiteProperty } from './createsiteproperty';
 import { getSiteProperties } from './getsiteproperties';
@@ -24,24 +24,6 @@ export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActi
         if (res.success) {
           /* on success */
           let siteProperties: ISiteProperty[] = res.result;
-
-          const vti_indexedpropertykeys = siteProperties.find((obj) => {
-            return obj.key === 'vti_indexedpropertykeys';
-          });
-
-          // find indexed properties
-          if (vti_indexedpropertykeys?.value && vti_indexedpropertykeys.value.indexOf('|') > -1) {
-            siteProperties = siteProperties.map((property) => {
-              const bytes = [];
-              for (let i = 0; i < property.key.length; ++i) {
-                bytes.push(property.key.charCodeAt(i));
-                bytes.push(0);
-              }
-              const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes));
-              property.indexed = vti_indexedpropertykeys.value.split('|').some((x) => x === b64encoded);
-              return property;
-            });
-          }
 
           // add webproperties to state
           dispatch(actions.setAllSiteProperties(siteProperties));
@@ -67,6 +49,7 @@ export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActi
 export async function addSiteProperty(
   dispatch: Dispatch<SitePropertiesActions | HomeActions>,
   payload: ISiteProperty,
+  siteId: string,
   update: boolean
 ) {
   // show loading spinner
@@ -83,7 +66,7 @@ export async function addSiteProperty(
     .executeScript({
       target: { tabId: chrome.devtools.inspectedWindow.tabId },
       world: 'MAIN',
-      args: [payload, chrome.runtime.getURL('')],
+      args: [payload, siteId, chrome.runtime.getURL('')],
       func: createSiteProperty,
     })
     .then(async (injectionResults) => {
@@ -94,7 +77,7 @@ export async function addSiteProperty(
           // add small delay just be sure SP can process previous requests
           await spDelay(500);
           // load all scriptlinks
-          getAllSiteProperties(dispatch, payload.siteId);
+          getAllSiteProperties(dispatch, payload.key);
           // set success message
           dispatch(
             rootActions.setAppMessage({
@@ -138,19 +121,19 @@ export async function getAllSites(
         const res = injectionResults[0].result as any;
         if (res.success) {
           /* on success */
-          const sites: ISitePropertyList[] = res.result;
+          const sites: ISite[] = res.result;
           if (sites) {
             const check = sites.find((site) => site.key === selectedSite);
             // if the selected site does not exist,
             // propably inspected page have changed to another site
             if (!check) {
-              dispatch(actions.setSelectedSite(''));
+              dispatch(actions.setSelectedSite(undefined));
               dispatch(actions.setAllSiteProperties([]));
             }
             // add webproperties to state
             dispatch(actions.setAllSites(sites));
           } else {
-            dispatch(actions.setSelectedSite(''));
+            dispatch(actions.setSelectedSite(undefined));
             dispatch(actions.setAllSiteProperties([]));
             dispatch(actions.setAllSites([]));
           }

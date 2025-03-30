@@ -20,7 +20,9 @@ import { addSiteProperty } from '../chrome/chrome-actions';
 const SitePropertiesEditPanel = () => {
   const dispatch = useDispatch();
   const { isDark } = useSelector((state: IRootState) => state.home);
-  const { editpanel, selectedItem, confirmedit } = useSelector((state: IRootState) => state.siteProperties);
+  const { editpanel, selectedItem, confirmedit, selectedSite } = useSelector(
+    (state: IRootState) => state.siteProperties
+  );
 
   const [editItem, setEditItem] = useState<ISiteProperty>();
 
@@ -102,7 +104,7 @@ const SitePropertiesEditPanel = () => {
         <DialogFooter>
           <PrimaryButton
             onClick={() => {
-              addSiteProperty(dispatch, selectedItem!, true);
+              addSiteProperty(dispatch, selectedItem!, selectedSite?.siteId?.toString() ?? '', true);
             }}
             text="Update"
           />
