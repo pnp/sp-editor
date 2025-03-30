@@ -2,7 +2,7 @@ import { CommandBar, SearchBox, Stack, Label, TagPicker, ITag } from '@fluentui/
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { setSearchString, setSelectedSite } from '../../../store/siteproperties/actions';
+import { setSearchString, setSelectedSite, setAllSiteProperties } from '../../../store/siteproperties/actions';
 import { getAllSiteProperties, getAllSites } from '../chrome/chrome-actions';
 
 const SitePropertiesCommands = () => {
@@ -30,6 +30,9 @@ const SitePropertiesCommands = () => {
                       const selectedSite = sites.find((site) => site.key === items[0].key);
                       getAllSiteProperties(dispatch, selectedSite?.key.toString() ?? '');
                       dispatch(setSelectedSite(selectedSite));
+                    } else {
+                      dispatch(setSelectedSite(undefined));
+                      dispatch(setAllSiteProperties([]));
                     }
                   }}
                   pickerSuggestionsProps={{

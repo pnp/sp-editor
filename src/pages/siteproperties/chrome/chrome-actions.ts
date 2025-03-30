@@ -124,15 +124,8 @@ export async function getAllSites(
           /* on success */
           const sites: ISite[] = res.result;
           if (sites) {
-            const check = sites.find((site) => site.key === selectedSite);
-            // if the selected site does not exist,
-            // propably inspected page have changed to another site
-            if (!check) {
-              dispatch(actions.setSelectedSite(undefined));
-              dispatch(actions.setAllSiteProperties([]));
-            }
-            // add webproperties to state
             dispatch(actions.setAllSites(sites));
+            dispatch(actions.setAllSiteProperties([]));
           } else {
             dispatch(actions.setSelectedSite(undefined));
             dispatch(actions.setAllSiteProperties([]));
