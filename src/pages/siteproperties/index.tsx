@@ -5,12 +5,17 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import SitePropertiesCommands from './components/commands';
 import SitePropertiesEditPanel from './components/editpanel';
 import SitePropertiesList from './components/sitepropertieslist';
-import SitePropertiesNewPanel from './components/newpanel';
+//import SitePropertiesNewPanel from './components/newpanel';
 
 const SiteProperties = () => {
   return (
     <IonPage>
-      <Header title={'Site Properties'} showOnLoad={false} headline="Header here" content="instructions here" />
+      <Header
+        title={'Site Properties'}
+        showOnLoad={false}
+        headline="Site properties"
+        content="This is works only from SharePoint admin center site"
+      />
       {/* Actions menu */}
       <SitePropertiesCommands />
       <IonContent>
@@ -20,7 +25,7 @@ const SiteProperties = () => {
         {/* Panel to edit site property */}
         <SitePropertiesEditPanel />
         {/* Panel to create new site property */}
-        <SitePropertiesNewPanel />
+        {/* <SitePropertiesNewPanel /> */}
       </IonContent>
     </IonPage>
   );
