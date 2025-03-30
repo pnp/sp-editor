@@ -1,4 +1,4 @@
-import { CommandBar, Dropdown, IDropdownOption, ResponsiveMode, SearchBox } from '@fluentui/react';
+import { CommandBar, SearchBox, ComboBox, IComboBoxOption, IComboBox } from '@fluentui/react';
 import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
@@ -47,14 +47,15 @@ const SitePropertiesCommands = () => {
         {
           key: 'siteSelector',
           onRender: () => (
-            <Dropdown
+            <ComboBox
               placeholder="Select site"
               selectedKey={selectedSite}
               options={sites}
-              responsiveMode={ResponsiveMode.xxxLarge}
+              autoComplete="on"
+              allowFreeform={false}
               onChange={(
-                event: FormEvent<HTMLDivElement>,
-                option?: IDropdownOption | undefined,
+                event: FormEvent<IComboBox>,
+                option?: IComboBoxOption | undefined,
                 index?: number | undefined
               ): void => {
                 if (option) {
@@ -75,7 +76,7 @@ const SitePropertiesCommands = () => {
               // onBlur={() => console.log('onBlur called')}
               iconProps={{ iconName: 'Filter' }}
               styles={{ root: { width: 300, paddingLeft: '6px' } }}
-              onChange={(ev, value) => dispatch(setSearchString(value ? value : ''))}
+              onChange={(ev, value) => dispatch(setSearchString(value ?? ''))}
             />
           ),
         },

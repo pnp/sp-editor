@@ -5,9 +5,9 @@ import * as Queryable from '@pnp/queryable';
 export const getSites = (extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
-    var pnpsp = modules[0];
-    var pnplogging = modules[1];
-    var pnpqueryable = modules[2];
+    let pnpsp = modules[0];
+    let pnplogging = modules[1];
+    let pnpqueryable = modules[2];
 
     let digest: string = '';
 
@@ -88,18 +88,18 @@ export const getSites = (extPath: string) => {
     });
     pnplogging.Logger.subscribe(listener);
 
-    return sp.web.lists
-      .select('Id, Title')
-      .orderBy('Title', true)()
-      .then((result: any[]) => {
-        const sites: any[] = [];
-
-        result.forEach((site) => {
-          sites.push({
-            text: site.Title,
-            key: site.Id,
-          });
-        });
+    return sp
+      .search({
+        Querytext: '*',
+        QueryTemplate: 'contentclass:STS_Site OR contentclass:STS_Web',
+        RowLimit: 2000,
+        SelectProperties: ['Title', 'SiteId'],
+      })
+      .then((results) => {
+        const sites = results.PrimarySearchResults.map((site) => ({
+          text: site.Title,
+          key: site.SiteId,
+        }));
         return {
           success: true,
           result: sites,
