@@ -5,9 +5,9 @@ import * as Queryable from '@pnp/queryable';
 export const createSiteProperty = (values: any, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
-    var pnpsp = modules[0];
-    var pnplogging = modules[1];
-    var pnpqueryable = modules[2];
+    let pnpsp = modules[0];
+    let pnplogging = modules[1];
+    let pnpqueryable = modules[2];
 
     function SPSoapHandler() {
       return (instance: Queryable.Queryable) => {

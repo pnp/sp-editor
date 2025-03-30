@@ -5,7 +5,6 @@ import * as actions from '../../../store/siteproperties/actions';
 import { ISiteProperty, ISitePropertyList, SitePropertiesActions } from '../../../store/siteproperties/types';
 import { spDelay } from '../../../utilities/utilities';
 import { createSiteProperty } from './createsiteproperty';
-import { deleteSiteProperty } from './deletesiteproperty';
 import { getSiteProperties } from './getsiteproperties';
 import { getSites } from './getsites';
 
@@ -162,56 +161,6 @@ export async function getAllSites(
           // hide loading component
           dispatch(rootActions.setLoading(false));
           // show error message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: res.errorMessage,
-              color: MessageBarColors.danger,
-            })
-          );
-        }
-      }
-    });
-}
-
-export async function removeSiteProperties(
-  dispatch: Dispatch<SitePropertiesActions | HomeActions>,
-  payload: ISiteProperty[]
-) {
-  // hide confirm dialog
-  dispatch(actions.setConfirmRemoveDialog(true));
-  // show loading spinner
-  dispatch(rootActions.setLoading(true));
-
-  chrome.scripting
-    .executeScript({
-      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-      world: 'MAIN',
-      args: [payload[0], chrome.runtime.getURL('')],
-      func: deleteSiteProperty,
-    })
-    .then(async (injectionResults) => {
-      if (injectionResults[0].result) {
-        const res = injectionResults[0].result as any;
-        if (res.success) {
-          /* on success */
-          // add small delay just be sure SP can process previous requests
-          await spDelay(500);
-          // load all scriptlinks
-          getAllSiteProperties(dispatch, payload[0].siteId);
-          // set success message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: 'Site property removed succesfully!',
-              color: MessageBarColors.success,
-            })
-          );
-        } else {
-          /* on error */
-          // hide loading
-          dispatch(rootActions.setLoading(false));
-          // set error message
           dispatch(
             rootActions.setAppMessage({
               showMessage: true,

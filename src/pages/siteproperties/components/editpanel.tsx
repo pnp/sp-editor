@@ -9,7 +9,6 @@ import {
   PrimaryButton,
   Stack,
   TextField,
-  Toggle,
 } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -80,18 +79,7 @@ const SitePropertiesEditPanel = () => {
             onChange={(event, newValue?: string) => {
               if (editItem) {
                 // Update local state only
-                setEditItem({ ...editItem, value: newValue ? newValue : '' });
-              }
-            }}
-          />
-          <Toggle
-            label="Indexed"
-            checked={editItem?.indexed}
-            onText="Yes"
-            offText="No"
-            onChange={(event, checked?: boolean) => {
-              if (editItem) {
-                setEditItem({ ...editItem, indexed: checked ? true : false });
+                setEditItem({ ...editItem, value: newValue ?? '' });
               }
             }}
           />

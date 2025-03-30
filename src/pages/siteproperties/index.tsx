@@ -5,7 +5,6 @@ import LoadingSpinner from '../../components/loadingSpinner';
 import SitePropertiesCommands from './components/commands';
 import SitePropertiesEditPanel from './components/editpanel';
 import SitePropertiesList from './components/sitepropertieslist';
-import SitePropertiesNewPanel from './components/newpanel';
 
 const SiteProperties = () => {
   return (
@@ -24,8 +23,6 @@ const SiteProperties = () => {
         <SitePropertiesList />
         {/* Panel to edit site property */}
         <SitePropertiesEditPanel />
-        {/* Panel to create new site property */}
-        <SitePropertiesNewPanel />
       </IonContent>
     </IonPage>
   );

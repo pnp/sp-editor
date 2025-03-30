@@ -2,16 +2,11 @@ import { CommandBar, SearchBox, ComboBox, IComboBoxOption, IComboBox } from '@fl
 import React, { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import {
-  setConfirmRemoveDialog,
-  setNewPanel,
-  setSearchString,
-  setSelectedSite,
-} from '../../../store/siteproperties/actions';
+import { setSearchString, setSelectedSite } from '../../../store/siteproperties/actions';
 import { getAllSiteProperties } from '../chrome/chrome-actions';
 
 const SitePropertiesCommands = () => {
-  const { sites, selectedSite, selectedItems } = useSelector((state: IRootState) => state.siteProperties);
+  const { sites, selectedSite } = useSelector((state: IRootState) => state.siteProperties);
   const dispatch = useDispatch();
 
   return (
@@ -22,28 +17,6 @@ const SitePropertiesCommands = () => {
         },
       }}
       items={[
-        {
-          key: 'newItem',
-          name: 'New',
-          cacheKey: 'myCacheKey', // changing this key will invalidate this items cache
-          iconProps: {
-            iconName: 'Add',
-          },
-          disabled: !selectedSite,
-          ariaLabel: 'New',
-          onClick: () => {
-            dispatch(setNewPanel(true));
-          },
-        },
-        {
-          key: 'deleteRow',
-          text: 'Remove',
-          iconProps: { iconName: 'Delete' },
-          onClick: () => {
-            dispatch(setConfirmRemoveDialog(false));
-          },
-          disabled: selectedItems.length !== 1,
-        },
         {
           key: 'siteSelector',
           onRender: () => (

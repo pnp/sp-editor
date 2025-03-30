@@ -29,7 +29,7 @@ import {
   setSelectedSite,
 } from '../../../store/siteproperties/actions';
 import { ISiteProperty } from '../../../store/siteproperties/types';
-import { getAllSites, removeSiteProperties } from '../chrome/chrome-actions';
+import { getAllSites } from '../chrome/chrome-actions';
 
 const SitePropertiesList = () => {
   const dispatch = useDispatch();
@@ -216,7 +216,6 @@ const SitePropertiesList = () => {
         }}
       >
         <DialogFooter>
-          <PrimaryButton onClick={() => removeSiteProperties(dispatch, selectedItems)} text="Remove" />
           <DefaultButton onClick={() => dispatch(setConfirmRemoveDialog(true))} text="Cancel" />
         </DialogFooter>
       </Dialog>
