@@ -93,12 +93,12 @@ export const getSites = (extPath: string) => {
         Querytext: '*',
         QueryTemplate: 'contentclass:STS_Site OR contentclass:STS_Web',
         RowLimit: 2000,
-        SelectProperties: ['Title', 'SiteId'],
+        SelectProperties: ['Title', 'SiteId', 'Path'],
       })
       .then((results) => {
         const sites = results.PrimarySearchResults.map((site) => ({
           text: site.Title,
-          key: site.SiteId,
+          key: site.Path,
         }));
         return {
           success: true,

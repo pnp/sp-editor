@@ -1,13 +1,14 @@
 import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
+import '@pnp/sp-admin';
 
-export const getSiteProperties = (siteId: string, extPath: string) => {
+export const getSiteProperties = (siteUrl: string, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
-    var pnpsp = modules[0];
-    var pnplogging = modules[1];
-    var pnpqueryable = modules[2];
+    let pnpsp = modules[0];
+    let pnplogging = modules[1];
+    let pnpqueryable = modules[2];
 
     let digest: string = '';
 
@@ -88,38 +89,49 @@ export const getSiteProperties = (siteId: string, extPath: string) => {
     });
     pnplogging.Logger.subscribe(listener);
 
-    return sp.web.lists
-      .getById(siteId)
-      .expand('RootFolder/Properties')
-      .select('RootFolder/Properties')()
-      .then(function (result: any) {
+    return sp.admin.tenant
+      .getSitePropertiesByUrl(siteUrl, true)
+      .then((result) => {
         const compare = (a: any, b: any) => {
           return a.key.toLowerCase() < b.key.toLowerCase() ? -1 : a.key.toLowerCase() > b.key.toLowerCase() ? 1 : 0;
         };
 
-        const allProps = [];
-        for (let key in result.RootFolder.Properties) {
-          if (key && key !== '__metadata' && key !== 'odata.editLink' && key !== 'odata.id' && key !== 'odata.type') {
-            const re = /_x.*?_/g;
-            const found = key.match(re);
-            const origKey = key;
-
-            if (found !== null)
-              for (const g in found) {
-                if (g) {
-                  const unesc = found[g].replace('_x', '%u').replace('_', '');
-                  key = key.replace(found[g], unescape(unesc));
-                }
-              }
-            allProps.push({ key: key.replace(/OData_/g, ''), value: result.RootFolder.Properties[origKey], siteId });
-          }
-        }
-
+        const allProps = Object.entries(result)
+          .map(([key, value]) => {
+            if (key === '__metadata' || key === 'odata.metadata') {
+              return undefined;
+            } else {
+              return {
+                key,
+                value: typeof value === 'object' ? JSON.stringify(value) : value,
+              };
+            }
+          })
+          .filter((item) => !!item);
         allProps.sort(compare);
         return {
           success: true,
           result: allProps,
           errorMessage: '',
+          source: 'chrome-sp-editor',
+        };
+      })
+      .catch((error) => {
+        let errorMessage = error.message;
+        if (error !== null && error !== void 0 && error.isHttpRequestError) {
+          // we can read the json from the response
+          error.response.json().then((json: any) => {
+            // if we have a value property we can show it
+            errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
+          });
+        } else {
+          // not an HttpRequestError so we just log message
+          //console.log(error);
+        }
+        return {
+          success: false,
+          result: null,
+          errorMessage: errorMessage,
           source: 'chrome-sp-editor',
         };
       });
