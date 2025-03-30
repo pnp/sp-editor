@@ -104,7 +104,11 @@ const SitePropertiesEditPanel = () => {
         <DialogFooter>
           <PrimaryButton
             onClick={() => {
-              addSiteProperty(dispatch, selectedItem!, selectedSite?.siteId?.toString() ?? '', true);
+              if (selectedSite) {
+                addSiteProperty(dispatch, selectedItem!, selectedSite, true);
+              } else {
+                console.error('Selected site is undefined.');
+              }
             }}
             text="Update"
           />

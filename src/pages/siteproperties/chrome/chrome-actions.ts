@@ -49,7 +49,7 @@ export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActi
 export async function addSiteProperty(
   dispatch: Dispatch<SitePropertiesActions | HomeActions>,
   payload: ISiteProperty,
-  siteId: string,
+  site: ISite,
   update: boolean
 ) {
   // show loading spinner
@@ -66,7 +66,7 @@ export async function addSiteProperty(
     .executeScript({
       target: { tabId: chrome.devtools.inspectedWindow.tabId },
       world: 'MAIN',
-      args: [payload, siteId, chrome.runtime.getURL('')],
+      args: [payload, site, chrome.runtime.getURL('')],
       func: createSiteProperty,
     })
     .then(async (injectionResults) => {
@@ -77,7 +77,7 @@ export async function addSiteProperty(
           // add small delay just be sure SP can process previous requests
           await spDelay(500);
           // load all scriptlinks
-          getAllSiteProperties(dispatch, payload.key);
+          getAllSiteProperties(dispatch, site.key);
           // set success message
           dispatch(
             rootActions.setAppMessage({

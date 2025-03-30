@@ -1,8 +1,9 @@
 import * as SP from '@pnp/sp/presets/all';
 import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
+import { ISite } from '../../../store/siteproperties/types';
 
-export const createSiteProperty = (values: any, siteId: string, extPath: string) => {
+export const createSiteProperty = (values: any, site: ISite, extPath: string) => {
   return moduleLoader(extPath).then((modules) => {
     /*** map modules ***/
     let pnpsp = modules[0];
@@ -109,113 +110,24 @@ export const createSiteProperty = (values: any, siteId: string, extPath: string)
     });
     pnplogging.Logger.subscribe(listener);
 
-    debugger;
-
-    const sitePropertyPayload = (pkey: any, pvalue: any, psiteId: any) => {
-      return `
-            <Request xmlns="http://schemas.microsoft.com/sharepoint/clientquery/2009" SchemaVersion="15.0.0.0" LibraryVersion="16.0.0.0" ApplicationName="SPEditor">
-            <Actions>
-              <ObjectPath Id="1" ObjectPathId="0" />
-              <ObjectPath Id="3" ObjectPathId="2" />
-              <ObjectPath Id="5" ObjectPathId="4" />
-              <ObjectPath Id="7" ObjectPathId="6" />
-              <ObjectPath Id="9" ObjectPathId="8" />
-              <ObjectPath Id="11" ObjectPathId="10" />
-              <Method Name="SetFieldValue" Id="12" ObjectPathId="10">
-                <Parameters>
-                  <Parameter Type="String">${pkey}</Parameter>
-                  <Parameter Type="String">${pvalue}</Parameter>
-                </Parameters>
-              </Method>
-              <Method Name="Update" Id="13" ObjectPathId="8" />
-            </Actions>
-            <ObjectPaths>
-              <StaticProperty Id="0" TypeId="{3747adcd-a3c3-41b9-bfab-4a64dd2f1e0a}" Name="Current" />
-              <Property Id="2" ParentId="0" Name="Web" />
-              <Property Id="4" ParentId="2" Name="Lists" />
-              <Method Id="6" ParentId="4" Name="GetById">
-                <Parameters>
-                  <Parameter Type="String">${psiteId}</Parameter>
-                </Parameters>
-              </Method>
-              <Property Id="8" ParentId="6" Name="RootFolder" />
-              <Property Id="10" ParentId="8" Name="Properties" />
-            </ObjectPaths>
-          </Request>`;
-    };
-
-    return pnpsp
-      .spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), {
-        body: sitePropertyPayload(values.key, values.value, siteId),
+    const payload = { [values.key]: values.value };
+    return sp.admin.tenant
+      .setSitePropertiesById(site?.siteId, payload)
+      .then((r: any) => {
+        return {
+          success: true,
+          result: site,
+          errorMessage: '',
+          source: 'chrome-sp-editor',
+        };
       })
-      .then((r) => {
-        if (r[0]?.ErrorInfo?.ErrorMessage) {
-          return {
-            success: false,
-            result: null,
-            errorMessage: r[0].ErrorInfo.ErrorMessage,
-            source: 'chrome-sp-editor',
-          };
-        }
-        return sp.web.lists
-          .getById(values.siteId)
-          .expand('RootFolder/Properties')
-          .select('RootFolder/Properties/vti_x005f_indexedpropertykeys')()
-          .then((res: any) => {
-            const vtiprop = res.RootFolder.Properties.vti_x005f_indexedpropertykeys;
-
-            const bytes = [];
-            for (let i = 0; i < values.key.length; ++i) {
-              bytes.push(values.key.charCodeAt(i));
-              bytes.push(0);
-            }
-
-            const b64encoded = window.btoa(String.fromCharCode.apply(null, bytes)) + '|';
-            let newIndexValue = '';
-            // TODO check indexed using array/find
-            if (values.indexed) {
-              newIndexValue =
-                vtiprop && vtiprop.length > 0
-                  ? vtiprop.indexOf(b64encoded) === -1
-                    ? `${vtiprop}${b64encoded}`
-                    : vtiprop
-                  : b64encoded;
-            } else {
-              if (vtiprop && vtiprop.length > 0) {
-                newIndexValue = vtiprop;
-                newIndexValue = newIndexValue.replace(b64encoded, '');
-              }
-            }
-            if ((!vtiprop && !values.indexed) || (vtiprop && !values.indexed && vtiprop.indexOf(b64encoded) === -1)) {
-              return {
-                success: true,
-                result: [],
-                errorMessage: '',
-                source: 'chrome-sp-editor',
-              };
-            } else {
-              return pnpsp
-                .spPost(pnpsp.Web(sp.web, `/_vti_bin/client.svc/ProcessQuery`), {
-                  body: sitePropertyPayload('vti_indexedpropertykeys', newIndexValue, values.siteId),
-                })
-                .then((r2) => {
-                  if (r2[0]?.ErrorInfo?.ErrorMessage) {
-                    return {
-                      success: false,
-                      result: null,
-                      errorMessage: r2[0].ErrorInfo.ErrorMessage,
-                      source: 'chrome-sp-editor',
-                    };
-                  }
-                  return {
-                    success: true,
-                    result: [],
-                    errorMessage: '',
-                    source: 'chrome-sp-editor',
-                  };
-                });
-            }
-          });
+      .catch((e: any) => {
+        return {
+          success: false,
+          result: null,
+          errorMessage: e.message,
+          source: 'chrome-sp-editor',
+        };
       });
   });
 
