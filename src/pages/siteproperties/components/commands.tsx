@@ -51,6 +51,7 @@ const SitePropertiesCommands = () => {
                       }));
                     });
                   }}
+                  pickerCalloutProps={{ doNotLayer: true }}
                 />
               </Stack>
             </>
