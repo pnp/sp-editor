@@ -1,8 +1,9 @@
 import { IonContent, IonPage } from '@ionic/react';
 import Header from '../../components/header';
+import useSPContext from '../../dataproviders/useSPContext';
 
 const AdminFeaturePage = () => {
-  const adminUrl = 'https://lsegdevxm365-admin.sharepoint.com/';
+  const { adminUrl, isAdminSite } = useSPContext();
   return (
     <IonPage>
       <Header />
@@ -21,16 +22,17 @@ const AdminFeaturePage = () => {
           >
             <div>
               <p>
-                Features in the Admin section are accessible only when this extension is used within the SharePoint
-                Admin Center.
+                {isAdminSite
+                  ? 'You are on the SharePoint admin site. You can use the admin section features of this extension. Select the feature you want to use from the menu.'
+                  : 'This feature is only supported in the SharePoint admin site. Please open the SharePoint admin site to use this feature.'}
               </p>
-              {adminUrl && (
-                <p>
-                  Please navigate to:{' '}
+              {adminUrl && !isAdminSite && (
+                <>
+                  <p>Please navigate to:</p>
                   <a href={adminUrl} target="_blank" rel="noopener noreferrer">
                     {adminUrl}
                   </a>
-                </p>
+                </>
               )}
             </div>
           </section>
