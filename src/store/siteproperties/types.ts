@@ -13,6 +13,7 @@ export const EditableProperties = [
   'TimeZoneId',
   'ResourceQuota',
   'ResourceQuotaWarningLevel',
+  'DenyAddAndCustomizePages',
 ];
 
 export interface ISiteProperty {
