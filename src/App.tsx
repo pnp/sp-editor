@@ -53,6 +53,7 @@ import SPShooter from './pages/spshooter';
 import Webhooks from './pages/webhooks';
 import WebProperties from './pages/webproperties';
 import TenantProperties from './pages/tenantproperties';
+import AdminFeaturePage from './pages/adminfeature/AdminFeaturePage';
 import { IRootState } from './store';
 import { setDarkMode, setTheme } from './store/home/actions';
 import Search from './pages/search';
@@ -112,6 +113,7 @@ const App = () => {
                 <Route path="/webproperties" element={<WebProperties />} />
                 <Route path="/listproperties" element={<ListProperties />} />
                 <Route path="/siteproperties" element={<SiteProperties />} />
+                <Route path="/adminfeatures" element={<AdminFeaturePage />} />
                 <Route path="/tenantproperties" element={<TenantProperties />} />
                 <Route path="/webhooks" element={<Webhooks />} />
                 <Route path="/spshooter" element={<SPShooter />} />
