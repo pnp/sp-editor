@@ -12,6 +12,7 @@ const init: ISitePropertiesState = {
   confirmremove: true,
   confirmedit: true,
   searchstring: '',
+  showAllProperties: false,
 };
 
 export function sitePropertiesReducer(
@@ -38,6 +39,8 @@ export function sitePropertiesReducer(
     case Constants.SP_SET_CONFIRM_REMOVE_DIALOG:
       return { ...state, ...action.payload };
     case Constants.SP_SET_SEARCH_STRING:
+      return { ...state, ...action.payload };
+    case Constants.SP_SET_SHOWALLPROPERTIES:
       return { ...state, ...action.payload };
     default:
       return state;

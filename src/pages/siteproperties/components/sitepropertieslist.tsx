@@ -25,12 +25,12 @@ import {
   setSelectedItems,
   setSelectedSite,
 } from '../../../store/siteproperties/actions';
-import { ISiteProperty } from '../../../store/siteproperties/types';
+import { EditableProperties, ISiteProperty } from '../../../store/siteproperties/types';
 import { getAllSites } from '../chrome/chrome-actions';
 
 const SitePropertiesList = () => {
   const dispatch = useDispatch();
-  const { siteproperties, selectedItems, confirmremove, searchstring, selectedSite } = useSelector(
+  const { siteproperties, selectedItems, confirmremove, searchstring, selectedSite, showAllProperties } = useSelector(
     (state: IRootState) => state.siteProperties
   );
   const { isDark } = useSelector((state: IRootState) => state.home);
@@ -84,9 +84,9 @@ const SitePropertiesList = () => {
     dispatch(setSelectedItems([]));
   };
 
-  const filteredProps = siteproperties.filter(
-    (prop) => prop.key.toLocaleLowerCase().indexOf(searchstring.toLocaleLowerCase()) > -1
-  );
+  const filteredProps = siteproperties
+    .filter((prop) => showAllProperties || EditableProperties.includes(prop.key))
+    .filter((prop) => prop.key.toLocaleLowerCase().indexOf(searchstring.toLocaleLowerCase()) > -1);
 
   const detailsListColumns: IColumn[] = [
     {

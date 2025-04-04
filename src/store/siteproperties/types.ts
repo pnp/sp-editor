@@ -3,6 +3,18 @@ import * as actions from './actions';
 
 export type SitePropertiesActions = ActionType<typeof actions>;
 
+export const EditableProperties = [
+  'LockState',
+  'Title',
+  'SharingCapability',
+  'StorageQuota',
+  'StorageQuotaWarningLevel',
+  'Owner',
+  'TimeZoneId',
+  'ResourceQuota',
+  'ResourceQuotaWarningLevel',
+];
+
 export interface ISiteProperty {
   key: string;
   value: string;
@@ -26,6 +38,7 @@ export interface ISitePropertiesState {
   confirmremove: boolean;
   confirmedit: boolean;
   searchstring: string;
+  showAllProperties: boolean;
 }
 
 export enum Constants {
@@ -42,4 +55,5 @@ export enum Constants {
   SP_SET_CONFIRM_REMOVE_DIALOG = 'SP_SET_CONFIRM_REMOVE_DIALOG',
   SP_SET_CONFIRM_EDIT_DIALOG = 'SP_SET_CONFIRM_EDIT_DIALOG',
   SP_SET_SEARCH_STRING = 'SP_SET_SEARCH_STRING',
+  SP_SET_SHOWALLPROPERTIES = 'SP_SET_SHOWALLPROPERTIES',
 }

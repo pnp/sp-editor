@@ -1,12 +1,18 @@
-import { CommandBar, SearchBox, Stack, Label, TagPicker, ITag } from '@fluentui/react';
+import { CommandBar, SearchBox, Stack, TagPicker, ITag } from '@fluentui/react';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { setSearchString, setSelectedSite, setAllSiteProperties } from '../../../store/siteproperties/actions';
+import {
+  setSearchString,
+  setSelectedSite,
+  setAllSiteProperties,
+  setShowAllProperties,
+} from '../../../store/siteproperties/actions';
 import { getAllSiteProperties, getAllSites } from '../chrome/chrome-actions';
+import { IonToggle } from '@ionic/react';
 
 const SitePropertiesCommands = () => {
-  const { sites, selectedSite } = useSelector((state: IRootState) => state.siteProperties);
+  const { sites, selectedSite, showAllProperties } = useSelector((state: IRootState) => state.siteProperties);
   const dispatch = useDispatch();
 
   return (
@@ -15,6 +21,9 @@ const SitePropertiesCommands = () => {
         root: {
           alignItems: 'center',
         },
+        primarySet: {
+          columnGap: '16px',
+        },
       }}
       items={[
         {
@@ -22,9 +31,9 @@ const SitePropertiesCommands = () => {
           onRender: () => (
             <>
               <Stack horizontal tokens={{ childrenGap: 10 }}>
-                <Label>Site: </Label>
                 <TagPicker
                   styles={{ root: { width: 300 } }}
+                  inputProps={{ placeholder: 'Select site' }}
                   onChange={(items) => {
                     if (items?.length) {
                       const selectedSite = sites.find((site) => site.key === items[0].key);
@@ -40,10 +49,24 @@ const SitePropertiesCommands = () => {
                     noResultsFoundText: 'No sites found',
                   }}
                   itemLimit={1}
-                  onResolveSuggestions={function (
+                  onEmptyResolveSuggestions={() =>
+                    sites.map((site) => ({
+                      key: site.key,
+                      name: site.text,
+                    }))
+                  }
+                  onResolveSuggestions={(
                     filter: string,
                     selectedItems?: ITag[] | undefined
-                  ): ITag[] | PromiseLike<ITag[]> {
+                  ): ITag[] | PromiseLike<ITag[]> => {
+                    if (!filter) {
+                      // Return default suggestions when the input is empty
+                      return sites.map((site) => ({
+                        key: site.key,
+                        name: site.text,
+                      }));
+                    }
+                    // Filter suggestions based on the input
                     return getAllSites(dispatch, filter, selectedSite?.key).then((r) => {
                       return r?.map((s: any) => ({
                         key: s.key,
@@ -68,6 +91,29 @@ const SitePropertiesCommands = () => {
               styles={{ root: { width: 300, paddingLeft: '6px' } }}
               onChange={(ev, value) => dispatch(setSearchString(value ?? ''))}
             />
+          ),
+        },
+        {
+          key: 'enableProxy',
+          onRenderIcon: () => (
+            <IonToggle
+              onClick={() => {
+                dispatch(setShowAllProperties(!showAllProperties));
+              }}
+              checked={showAllProperties}
+              color="success"
+              labelPlacement="end"
+            >
+              <span
+                style={{
+                  display: 'inline-block',
+                  width: '120px',
+                  textAlign: 'left',
+                }}
+              >
+                {showAllProperties ? 'All properties' : 'Editable properties'}
+              </span>{' '}
+            </IonToggle>
           ),
         },
       ]}

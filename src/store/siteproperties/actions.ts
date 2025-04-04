@@ -60,3 +60,9 @@ export function setSearchString(searchstring: string) {
     searchstring,
   });
 }
+
+export function setShowAllProperties(showAllProperties: boolean) {
+  return action(Constants.SP_SET_SHOWALLPROPERTIES, {
+    showAllProperties,
+  });
+}
