@@ -20,12 +20,10 @@ export default function useSPContext(): ISPContextFetch {
   const [status, setStatus] = useState<FetchStatus>(FetchStatus.idle);
   const adminUrl =
     ctx?.isSPO && ctx.portalUrl
-      ? `${ctx.portalUrl
-          .toLocaleLowerCase()
-          .replace('.sharepoint.', '-admin.sharepoint.')}_layouts/15/online/AdminHome.aspx#/home`
+      ? `${ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.')}`
       : '';
 
-  const isAdminSite = !!(adminUrl && tabUrl === adminUrl);
+  const isAdminSite = !!(adminUrl && tabUrl.toLocaleLowerCase().indexOf(adminUrl?.toLocaleLowerCase()) > -1);
 
   useEffect(() => {
     setStatus(FetchStatus.loading);
