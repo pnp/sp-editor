@@ -1,4 +1,4 @@
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, Stack } from '@fluentui/react';
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, INavLink } from '@fluentui/react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples';
 import React, { useState } from 'react';
@@ -13,7 +13,7 @@ export const FabricNav = () => {
 
   const dispatch = useDispatch();
 
-  const navLinks = [
+  const navLinks: INavLink[] = [
     {
       name: 'Home',
       url: '/',
@@ -84,7 +84,19 @@ export const FabricNav = () => {
     {
       name: 'Tenant Properties',
       url: '/tenantproperties',
-      key: 'key18',
+      key: 'key19',
+    },
+    {
+      name: 'Admin section',
+      key: '21',
+      url: '/adminfeatures',
+      links: [
+        {
+          name: 'Site Properties',
+          url: '/siteproperties',
+          key: 'key20',
+        },
+      ],
     },
     {
       name: 'Page editor',

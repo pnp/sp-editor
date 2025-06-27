@@ -8,6 +8,8 @@ import { homeReducer } from './home/reducers';
 import { IHomeState } from './home/types';
 import { listPropertiesReducer } from './listproperties/reducers';
 import { IListPropertiesState } from './listproperties/types';
+import { sitePropertiesReducer } from './siteproperties/reducers';
+import { ISitePropertiesState } from './siteproperties/types';
 import { MGTConsoleReducer } from './mgtconsole/reducers';
 import { IMGTConsoleState } from './mgtconsole/types';
 import { pnpJSConsoleReducer } from './pnpjsconsole/reducers';
@@ -38,6 +40,7 @@ export interface IRootState {
   webHooks: IWebHooksState;
   tenantProperties: ITenantPropertiesState;
   listProperties: IListPropertiesState;
+  siteProperties: ISitePropertiesState;
   spshoot: ISPShootState;
   graphsdkconsole: IGraphSDKConsoleState;
   mgtconsole: IMGTConsoleState;
@@ -54,6 +57,7 @@ const rootReducer = combineReducers({
   webHooks: webHooksReducer,
   tenantProperties: tenantPropertiesReducer,
   listProperties: listPropertiesReducer,
+  siteProperties: sitePropertiesReducer,
   spshoot: spshootReducer,
   graphsdkconsole: GraphSDKConsoleReducer,
   mgtconsole: MGTConsoleReducer,
