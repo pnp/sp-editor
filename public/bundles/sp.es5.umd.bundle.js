@@ -72,6 +72,7 @@ __webpack_require__.d(__webpack_exports__, {
   Comment: () => (/* reexport */ Comment),
   Comments: () => (/* reexport */ Comments),
   CompanyWideSharingLinksPolicy: () => (/* reexport */ CompanyWideSharingLinksPolicy),
+  ComparisonResult: () => (/* reexport */ ComparisonResult),
   ContentType: () => (/* reexport */ ContentType),
   ContentTypes: () => (/* reexport */ ContentTypes),
   ControlMode: () => (/* reexport */ ControlMode),
@@ -102,6 +103,7 @@ __webpack_require__.d(__webpack_exports__, {
   ImageTaggingChoice: () => (/* reexport */ ImageTaggingChoice),
   ImportProfilePropertiesJobState: () => (/* reexport */ ImportProfilePropertiesJobState),
   ImportProfilePropertiesUserIdTypes: () => (/* reexport */ ImportProfilePropertiesUserIdTypes),
+  InitialFieldQuery: () => (/* reexport */ InitialFieldQuery),
   Item: () => (/* reexport */ Item),
   ItemVersion: () => (/* reexport */ ItemVersion),
   ItemVersions: () => (/* reexport */ ItemVersions),
@@ -3998,7 +4000,7 @@ function odataUrlFrom(candidate) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.11.0:";
+            let clientTag = "PnPCoreJS:4.14.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -5588,7 +5590,7 @@ class _File extends ReadableFile {
      * @param chunkSize The size of each file slice, in bytes (default: 10485760)
      */
     async setContentChunked(file, props) {
-        const { progress } = applyChunckedOperationDefaults(props);
+        const { progress, chunkSize = 10485760 } = applyChunckedOperationDefaults(props);
         const uploadId = getGUID();
         let first = true;
         let chunk;
@@ -5598,19 +5600,33 @@ class _File extends ReadableFile {
         }));
         const contentStream = sourceToReadableStream(file);
         const reader = contentStream.getReader();
+        let buffer = new Uint8Array();
         while ((chunk = await reader.read())) {
+            if (chunk.value) {
+                const newBuffer = new Uint8Array(buffer.length + chunk.value.length);
+                newBuffer.set(buffer);
+                newBuffer.set(chunk.value, buffer.length);
+                buffer = newBuffer;
+            }
+            while (buffer.length >= chunkSize || (chunk.done && buffer.length > 0)) {
+                const chunkToUpload = buffer.slice(0, chunkSize);
+                buffer = buffer.slice(chunkSize);
+                if (first) {
+                    progress({ offset, stage: "starting", uploadId });
+                    offset = await spPost(File(fileRef, `startUpload(uploadId=guid'${uploadId}')`), { body: chunkToUpload });
+                    first = false;
+                }
+                else if (chunk.done && buffer.length === 0) {
+                    progress({ offset, stage: "finishing", uploadId });
+                    return spPost(File(fileRef, `finishUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: chunkToUpload });
+                }
+                else {
+                    progress({ offset, stage: "continue", uploadId });
+                    offset = await spPost(File(fileRef, `continueUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: chunkToUpload });
+                }
+            }
             if (chunk.done) {
-                progress({ offset, stage: "finishing", uploadId });
-                return spPost(File(fileRef, `finishUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: (chunk === null || chunk === void 0 ? void 0 : chunk.value) || "" });
-            }
-            else if (first) {
-                progress({ offset, stage: "starting", uploadId });
-                offset = await spPost(File(fileRef, `startUpload(uploadId=guid'${uploadId}')`), { body: chunk.value });
-                first = false;
-            }
-            else {
-                progress({ offset, stage: "continue", uploadId });
-                offset = await spPost(File(fileRef, `continueUpload(uploadId=guid'${uploadId}',fileOffset=${offset})`), { body: chunk.value });
+                break;
             }
         }
     }

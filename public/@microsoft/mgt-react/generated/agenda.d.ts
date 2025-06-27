@@ -18,6 +18,7 @@ export type AgendaProps = {
     preferredTimezone?: string;
     templateContext?: TemplateContext;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
+    updated?: (e: CustomEvent<undefined>) => void;
 };
 export declare const Agenda: import("react").ForwardRefExoticComponent<AgendaProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;
 //# sourceMappingURL=agenda.d.ts.map

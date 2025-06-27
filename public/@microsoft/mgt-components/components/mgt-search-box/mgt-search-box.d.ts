@@ -10,6 +10,7 @@ export declare const registerMgtSearchBoxComponent: () => void;
 /**
  * Web component used to enter a search value to power search scenarios.
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<string>} searchTermChanged - Fired when the search term is changed
  *
  * @class MgtSearchBox

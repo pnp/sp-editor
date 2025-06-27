@@ -12,6 +12,7 @@ export declare const registerMgtSearchResultsComponent: () => void;
  * **Preview component** Custom element for making Microsoft Graph get queries.
  * Component may change before general availability release.
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<DataChangedDetail>} dataChange - Fired when data changes
  *
  * @cssprop --answer-border-radius - {Length} Border radius of an answer

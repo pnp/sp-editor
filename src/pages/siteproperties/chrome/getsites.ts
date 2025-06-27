@@ -90,7 +90,7 @@ export const getSites = (queryText: string, extPath: string) => {
     return sp
       .search({
         Querytext: queryText ?? '*',
-        QueryTemplate: `(Title:${queryText}* OR Path:${queryText}*) AND (contentclass:STS_Site OR contentclass:STS_Web)`,
+        QueryTemplate: `(Title:${queryText}* OR Path:${queryText}*) AND contentclass:STS_Site`,
         RowLimit: 100,
         SelectProperties: ['Title', 'SiteId', 'Path'],
       })

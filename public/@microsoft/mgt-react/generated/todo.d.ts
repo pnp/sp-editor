@@ -15,6 +15,7 @@ export type TodoProps = {
     targetId?: string;
     initialId?: string;
     templateContext?: TemplateContext;
+    updated?: (e: CustomEvent<undefined>) => void;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
 };
 export declare const Todo: import("react").ForwardRefExoticComponent<TodoProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;

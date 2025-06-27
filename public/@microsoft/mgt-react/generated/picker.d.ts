@@ -19,6 +19,7 @@ export type PickerProps = {
     selectedValue?: string;
     templateContext?: TemplateContext;
     selectionChanged?: (e: CustomEvent<any>) => void;
+    updated?: (e: CustomEvent<undefined>) => void;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
 };
 export declare const Picker: import("react").ForwardRefExoticComponent<PickerProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;

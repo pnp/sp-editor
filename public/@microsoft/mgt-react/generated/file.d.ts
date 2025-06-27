@@ -27,6 +27,7 @@ export type FileProps = {
     line3Property?: string;
     view?: ViewType;
     templateContext?: TemplateContext;
+    updated?: (e: CustomEvent<undefined>) => void;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
 };
 export declare const File: import("react").ForwardRefExoticComponent<FileProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;

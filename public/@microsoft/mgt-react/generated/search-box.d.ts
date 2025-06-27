@@ -9,6 +9,7 @@ export type SearchBoxProps = {
     placeholder?: string;
     searchTerm?: string;
     debounceDelay?: number;
+    updated?: (e: CustomEvent<undefined>) => void;
     searchTermChanged?: (e: CustomEvent<string>) => void;
 };
 export declare const SearchBox: import("react").ForwardRefExoticComponent<SearchBoxProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;

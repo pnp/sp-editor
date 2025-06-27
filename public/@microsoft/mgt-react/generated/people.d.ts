@@ -21,6 +21,7 @@ export type PeopleProps = {
     fallbackDetails?: IDynamicPerson[];
     templateContext?: TemplateContext;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
+    updated?: (e: CustomEvent<undefined>) => void;
 };
 export declare const People: import("react").ForwardRefExoticComponent<PeopleProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;
 //# sourceMappingURL=people.d.ts.map

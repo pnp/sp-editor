@@ -23,5 +23,6 @@ export declare const strings: {
     changeTaskDateInputLabel: string;
     newTaskNameInputLabel: string;
     cancelAddingTask: string;
+    taskNameCheckboxLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

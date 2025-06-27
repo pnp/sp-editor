@@ -9,6 +9,7 @@ import { SelectedChannel } from '@microsoft/mgt-components';
 import { TemplateContext, TemplateRenderedData } from '@microsoft/mgt-element';
 export type TeamsChannelPickerProps = {
     templateContext?: TemplateContext;
+    updated?: (e: CustomEvent<undefined>) => void;
     selectionChanged?: (e: CustomEvent<SelectedChannel | null>) => void;
     templateRendered?: (e: CustomEvent<TemplateRenderedData>) => void;
 };

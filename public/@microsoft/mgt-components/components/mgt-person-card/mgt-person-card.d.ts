@@ -20,6 +20,7 @@ export declare const registerMgtPersonCardComponent: () => void;
  * @class MgtPersonCard
  * @extends {MgtTemplatedComponent}
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<null>} expanded - Fired when expanded details section is opened
  *
  * @cssprop --person-card-line1-font-size - {Length} Font size of line 1

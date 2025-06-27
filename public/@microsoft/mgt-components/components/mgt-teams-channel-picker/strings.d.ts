@@ -19,5 +19,6 @@ export declare const strings: {
     closeButtonAriaLabel: string;
     downChevronButtonAriaLabel: string;
     upChevronButtonAriaLabel: string;
+    searchButtonAriaLabel: string;
 };
 //# sourceMappingURL=strings.d.ts.map

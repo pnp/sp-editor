@@ -29,6 +29,7 @@ export type PersonProps = {
     line4Property?: string;
     view?: ViewType;
     templateContext?: TemplateContext;
+    updated?: (e: CustomEvent<undefined>) => void;
     line1clicked?: (e: CustomEvent<IDynamicPerson>) => void;
     line2clicked?: (e: CustomEvent<IDynamicPerson>) => void;
     line3clicked?: (e: CustomEvent<IDynamicPerson>) => void;

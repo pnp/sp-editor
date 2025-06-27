@@ -5,7 +5,8 @@
  * -------------------------------------------------------------------------------------------
  */
 /// <reference types="react" />
-type SpinnerProps = Record<string, never>;
-export declare const Spinner: import("react").ForwardRefExoticComponent<Omit<SpinnerProps & import("react").HTMLAttributes<unknown>, "ref"> & import("react").RefAttributes<unknown>>;
-export {};
+export type SpinnerProps = {
+    updated?: (e: CustomEvent<undefined>) => void;
+};
+export declare const Spinner: import("react").ForwardRefExoticComponent<SpinnerProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;
 //# sourceMappingURL=spinner.d.ts.map

@@ -25,6 +25,7 @@ export declare const registerMgtPersonComponent: () => void;
  * @class MgtPerson
  * @extends {MgtTemplatedComponent}
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<IDynamicPerson>} line1clicked - Fired when line1 is clicked
  * @fires {CustomEvent<IDynamicPerson>} line2clicked - Fired when line2 is clicked
  * @fires {CustomEvent<IDynamicPerson>} line3clicked - Fired when line3 is clicked

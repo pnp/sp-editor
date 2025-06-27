@@ -22,6 +22,7 @@ export declare const registerMgtPeoplePickerComponent: () => void;
  * @class MgtPicker
  * @extends {MgtTemplatedTaskComponent}
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<IDynamicPerson[]>} selectionChanged - Fired when set of selected people changes
  *
  * @cssprop --people-picker-selected-option-background-color - {Color} the background color of the selected person.
@@ -45,6 +46,8 @@ export declare const registerMgtPeoplePickerComponent: () => void;
  * @cssprop --people-picker-result-person-avatar-size - {Length} the avatar size of the person in the result. Default is 40px.
  * @cssprop --people-picker-selected-person-avatar-size - {Length} the avatar size of the selected person. Default is 24px.
  * @cssprop --people-picker-font-size - {Length} the font size of the text in the people picker input. Default is 14px.
+ * @cssprop --people-picker-dropdown-max-height - {Length} the maximum height of the dropdown. Default is 300px.
+ * @cssprop --people-picker-dropdown-scrollbar - {String} the scrollbar behavior for the dropdown. Default is auto.
  */
 export declare class MgtPeoplePicker extends MgtTemplatedTaskComponent {
     /**

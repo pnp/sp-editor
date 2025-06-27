@@ -4,7 +4,7 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-import { IGraph, CacheItem } from '@microsoft/mgt-element';
+import { CacheItem, IGraph } from '@microsoft/mgt-element';
 import { Group } from '@microsoft/microsoft-graph-types';
 declare const groupTypeValues: readonly ["any", "unified", "security", "mailenabledsecurity", "distribution"];
 /**
@@ -14,7 +14,7 @@ declare const groupTypeValues: readonly ["any", "unified", "security", "mailenab
  * @enum {string}
  */
 export type GroupType = (typeof groupTypeValues)[number];
-export declare const isGroupType: (value: unknown) => value is "any" | "unified" | "security" | "mailenabledsecurity" | "distribution";
+export declare const isGroupType: (groupType: string) => groupType is "any" | "unified" | "security" | "mailenabledsecurity" | "distribution";
 export declare const groupTypeConverter: (value: string, defaultValue?: GroupType) => GroupType;
 /**
  * Object to be stored in cache

@@ -8,6 +8,7 @@
 export type ThemeToggleProps = {
     darkModeActive?: boolean;
     darkmodechanged?: (e: CustomEvent<boolean>) => void;
+    updated?: (e: CustomEvent<undefined>) => void;
 };
 export declare const ThemeToggle: import("react").ForwardRefExoticComponent<ThemeToggleProps & import("react").HTMLAttributes<unknown> & import("react").RefAttributes<unknown>>;
 //# sourceMappingURL=theme-toggle.d.ts.map

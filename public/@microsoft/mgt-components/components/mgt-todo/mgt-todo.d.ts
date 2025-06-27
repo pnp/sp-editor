@@ -19,6 +19,8 @@ export declare const registerMgtTodoComponent: () => void;
  * @class MgtTodo
  * @extends {MgtTasksBase}
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
+ *
  * @cssprop --task-color - {Color} - Task text color
  * @cssprop --task-background-color - {Color} - Task background color
  * @cssprop --task-complete-background - {Color} - Task background color when completed
@@ -55,6 +57,7 @@ export declare class MgtTodo extends MgtTasksBase {
         changeTaskDateInputLabel: string;
         newTaskNameInputLabel: string;
         cancelAddingTask: string;
+        taskNameCheckboxLabel: string;
     };
     /**
      * Optional filter function when rendering tasks

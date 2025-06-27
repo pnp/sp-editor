@@ -15,6 +15,8 @@ export declare const registerMgtThemeToggleComponent: () => void;
  *
  * @class MgtDarkToggle
  * @extends {MgtBaseTaskComponent}
+ *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  */
 export declare class MgtThemeToggle extends MgtBaseTaskComponent {
     constructor();

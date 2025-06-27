@@ -17,6 +17,8 @@ export declare const registerMgtPickerComponent: () => void;
  * @class MgtPicker
  * @extends {MgtTemplatedTaskComponent}
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
+ *
  * @cssprop --picker-background-color - {Color} Picker component background color
  * @cssprop --picker-list-max-height - {String} max height for options list. Default value is 380px.
  */

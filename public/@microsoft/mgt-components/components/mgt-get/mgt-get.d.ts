@@ -39,6 +39,7 @@ export declare const registerMgtGetComponent: () => void;
 /**
  * Custom element for making Microsoft Graph get queries
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<DataChangedDetail>} dataChange - Fired when data changes bubbles, composed, and is not cancelable.
  *
  * @export

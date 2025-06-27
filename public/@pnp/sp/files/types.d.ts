@@ -405,6 +405,7 @@ export interface IFileDeleteParams {
 }
 export interface IChunkedOperationProps {
     progress: (data: IFileUploadProgressData) => void;
+    chunkSize?: number;
 }
 export type ValidFileContentSource = Blob | ReadableStream | TransformStream | Stream | PassThrough | ArrayBuffer;
 //# sourceMappingURL=types.d.ts.map

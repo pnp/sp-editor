@@ -19,6 +19,7 @@ export declare const registerMgtFileListComponent: () => void;
  * @export
  * @class MgtFileList
  *
+ * @fires {CustomEvent<undefined>} updated - Fired when the component is updated
  * @fires {CustomEvent<MicrosoftGraph.DriveItem>} itemClick - Fired when a user clicks on a file.
  * it returns the file (DriveItem) details.
  *

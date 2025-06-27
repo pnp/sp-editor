@@ -142,7 +142,7 @@ declare class QueryableAndResult<T> extends QueryableFields<T> {
 declare class QueryableOrResult<T> extends QueryableFields<T> {
     and(...queries: (ComparisonResult<T> | ((f: QueryableFields<T>) => ComparisonResult<T>))[]): ComparisonResult<T>;
 }
-declare class InitialFieldQuery<T> extends QueryableFields<T> {
+export declare class InitialFieldQuery<T> extends QueryableFields<T> {
     or(): QueryableFields<T>;
     or(...queries: (ComparisonResult<T> | ((f: QueryableFields<T>) => ComparisonResult<T>))[]): ComparisonResult<T>;
     and(): QueryableFields<T>;
@@ -193,7 +193,7 @@ declare class DateField<TBaseInterface> extends NumericField<TBaseInterface, Dat
     isBetween(startDate: Date, endDate: Date): ComparisonResult<TBaseInterface>;
     isToday(): ComparisonResult<TBaseInterface>;
 }
-declare class ComparisonResult<T> extends BaseQuery {
+export declare class ComparisonResult<T> extends BaseQuery {
     and(): QueryableAndResult<T>;
     and(...queries: (ComparisonResult<T> | ((f: QueryableFields<T>) => ComparisonResult<T>))[]): ComparisonResult<T>;
     or(): QueryableOrResult<T>;
