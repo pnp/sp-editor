@@ -1,7 +1,7 @@
 import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, INavLink } from '@fluentui/react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -123,6 +123,12 @@ export const FabricNav = () => {
       disabled: false,
     },
     {
+      name: 'Query Builder',
+      url: '/queryBuilder',
+      key: 'queryBuilderKey',
+      disabled: false,
+    },
+    {
       name: 'App catalog',
       url: '/appcatalog',
       key: 'key16',
@@ -139,6 +145,7 @@ export const FabricNav = () => {
     dispatch(setTheme(!isDark ? DarkCustomizations : DefaultCustomizations));
     dispatch(setDarkMode(!isDark));
   };
+
 
   return (
     <IonMenu contentId="main">

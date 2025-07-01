@@ -49,6 +49,7 @@ import GraphSDKConsole from './pages/graphsdkconsole';
 import ListProperties from './pages/listproperties';
 import SiteProperties from './pages/siteproperties';
 import MGTConsole from './pages/mgtconsole';
+import QueryBuilder from './pages/queryBuilder';
 import SPShooter from './pages/spshooter';
 import Webhooks from './pages/webhooks';
 import WebProperties from './pages/webproperties';
@@ -122,6 +123,7 @@ const App = () => {
                 <Route path="/search" element={<Search />} />
                 <Route path="/fileexplorer" element={<FileExplorer />} />
                 <Route path="/proxy" element={<Proxy />} />
+                <Route path="/queryBuilder" element={<QueryBuilder />} />
                 <Route path="*" element={<InfoPage />} /> {/* Catch-all route */}
               </Routes>
             </IonRouterOutlet>
