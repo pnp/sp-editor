@@ -29,6 +29,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@vscode/codicons": "^0.0.36",
     "gsap": "^3.13.0",
+    "mgwdev-m365-helpers": "^0.2.14",
     "monaco-editor": "^0.52.2",
     "nth-check": "^2.1.1",
     "react": "^18.3.1",
