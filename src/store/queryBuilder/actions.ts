@@ -29,3 +29,6 @@ export function setConfiguredQueryFields(queryFields: IQueryField[]){
         configuredQueryFields: queryFields
     })
 }
+export const setQuery = (query: string) => action(Constants.QB_SET_QUERY, query);
+export const setCamlQuery = (camlQuery: string) => action(Constants.QB_SET_CAML_QUERY, camlQuery);
+export const setSelectedViewFields = (fields: string[]) => action(Constants.QB_SET_SELECTED_VIEW_FIELDS, fields);

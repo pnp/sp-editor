@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setMethod, setPath } from '../../../store/spshoot/actions'
 import { runRestCall } from '../chrome/chrome-actions'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SPShooterCommands = () => {
 
@@ -11,6 +12,10 @@ const SPShooterCommands = () => {
   const { path, method, headers, body, context } = useSelector((state: IRootState) => state.spshoot)
   const { isDark } = useSelector((state: IRootState) => state.home)
   const [ warning, setWarning] = useState(true)
+  
+  let navigate = useNavigate();
+  const location = useLocation();
+  const navigationState = location.state as { from?: string; queryType?: string } | null;
 
   const methodStyles: IStackStyles = {
     root: {
@@ -102,19 +107,30 @@ const SPShooterCommands = () => {
           onRenderSuffix={onRenderSuffix}
           onRenderPrefix={onRenderPrefix}
           onChange={(ev, newValue) => {
-            dispatch(setPath(newValue ? newValue : ''))
+            dispatch(setPath(newValue ? newValue : ''));
           }}
           onKeyPress={(ev) => {
             if (ev.key === 'Enter') {
               if (method !== 'DELETE') {
-                makeRequest()
+                makeRequest();
               } else {
-                setWarning(false)
+                setWarning(false);
               }
             }
           }}
         />
-        <TextField readOnly underlined value={`${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/${path}`} />
+        <TextField
+          readOnly
+          underlined
+          value={`${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/${path}`}
+        />
+        {navigationState?.from === 'queryBuilder' && (
+          <PrimaryButton
+            styles={{ root: { width: 180, marginTop: 16 } }}
+            text="Edit in Query Builder"
+            onClick={() => navigate('/queryBuilder')}
+          />
+        )}
       </Stack>
       <Dialog
         hidden={warning}
@@ -131,12 +147,12 @@ const SPShooterCommands = () => {
         }}
       >
         <DialogFooter>
-          <PrimaryButton onClick={() => makeRequest()} text='Shoot!' />
-          <DefaultButton onClick={() => setWarning(true)} text='Cancel' />
+          <PrimaryButton onClick={() => makeRequest()} text="Shoot!" />
+          <DefaultButton onClick={() => setWarning(true)} text="Cancel" />
         </DialogFooter>
       </Dialog>
     </>
-  )
+  );
 }
 
 export default SPShooterCommands

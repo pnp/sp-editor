@@ -4,7 +4,11 @@ const init: IQueryBuilderState = {
   context: null,
   listFields: [],
   allLists: [],
-  configuredQueryFields: []
+  configuredQueryFields: [],
+  selectedListId: undefined,
+  query: '',
+  camlQuery: '',
+  selectedViewFields: []
 }
 
 export function queryBuilderReducer(state: IQueryBuilderState = init, action: QueryBuilderActions): IQueryBuilderState {
@@ -19,6 +23,12 @@ export function queryBuilderReducer(state: IQueryBuilderState = init, action: Qu
       return { ...state, ...action.payload }
     case Constants.QB_SET_LIST_FIELDS:
       return { ...state, ...action.payload }
+    case Constants.QB_SET_QUERY:
+      return { ...state, query: action.payload };
+    case Constants.QB_SET_CAML_QUERY:
+      return { ...state, camlQuery: action.payload };
+    case Constants.QB_SET_SELECTED_VIEW_FIELDS:
+      return { ...state, selectedViewFields: action.payload };
     default:
       return state
   }

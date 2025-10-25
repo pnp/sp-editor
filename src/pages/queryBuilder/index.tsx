@@ -5,6 +5,7 @@ import LoadingSpinner from "../../components/loadingSpinner";
 import SPListsList from "./components/SPListsList";
 import SPQueryBuilder from "./components/QueryBuilder";
 import "./QueryBuilder.css"
+import { ScrollablePane } from "@fluentui/react";
 
 const QueryBuilder = () => {
     return (
@@ -13,8 +14,16 @@ const QueryBuilder = () => {
             <IonContent>
                 <LoadingSpinner />
                 <div className="queryBuilderRoot">
-                    <SPListsList />
-                    <SPQueryBuilder />
+                    <ScrollablePane style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '20px',
+                        gap: '10px',
+                        margin: '20px'
+                    }}>
+                        <SPListsList />
+                        <SPQueryBuilder />
+                    </ScrollablePane>
                 </div>
             </IonContent>
         </IonPage>
