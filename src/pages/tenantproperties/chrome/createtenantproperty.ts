@@ -112,14 +112,14 @@ export const createTenantProperty = (values: any, extPath: string) => {
 
     return Promise.all([sp.web(), sp.getTenantAppCatalogWeb()]).then(([web, appcatalogweb]) => {
       return appcatalogweb.getCurrentUserEffectivePermissions().then((perms: any) => {
-        if (!sp.web.hasPermissions(perms?.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+        /*if (!sp.web.hasPermissions(perms?.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
           return {
             success: false,
             result: null,
             errorMessage: 'No script is enabled, cannot edit Tenant Properties',
             source: 'chrome-sp-editor',
           };
-        }
+        }*/
 
         return appcatalogweb
           .setStorageEntity(values.key, values.value, values.description, values.comment)

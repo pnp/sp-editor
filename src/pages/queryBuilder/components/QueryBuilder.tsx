@@ -72,11 +72,12 @@ export default function SPQueryBuilder() {
   }, [selectedListId, previousListId, dispatch]);
 
   // Convert list fields to dropdown options
-  const fieldOptions: IDropdownOption[] = React.useMemo(() => 
-    listFields.map((f) => ({
-      key: f.InternalName,
-      text: f.InternalName,
-    })),
+  const fieldOptions: IDropdownOption[] = React.useMemo(
+    () =>
+      listFields.map((f) => ({
+        key: f.InternalName,
+        text: f.InternalName,
+      })),
     [listFields]
   );
   // Build queries with AND/OR support
@@ -200,7 +201,9 @@ export default function SPQueryBuilder() {
       return { isValid: false, length: 0, errorMessage: '' };
     }
 
-    let fullQuery = `${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/_api/web/lists/getById(guid'${selectedListId}')/items`;
+    let fullQuery = `${
+      context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''
+    }/_api/web/lists/getById(guid'${selectedListId}')/items`;
     const queryParams: string[] = [];
 
     if (query) {
@@ -210,20 +213,21 @@ export default function SPQueryBuilder() {
     if (selectedViewFields && selectedViewFields.length > 0) {
       const expandFields: string[] = [];
 
-      selectedViewFields.forEach(field => {
-        const fieldDef = listFields.find(f => f.InternalName === field);
-        if (fieldDef && (
-          fieldDef.TypeAsString === 'User' || 
-          fieldDef.TypeAsString === 'UserMulti' || 
-          fieldDef.TypeAsString === 'Lookup' ||
-          fieldDef.TypeAsString === 'LookupMulti'
-        )) {
+      selectedViewFields.forEach((field) => {
+        const fieldDef = listFields.find((f) => f.InternalName === field);
+        if (
+          fieldDef &&
+          (fieldDef.TypeAsString === 'User' ||
+            fieldDef.TypeAsString === 'UserMulti' ||
+            fieldDef.TypeAsString === 'Lookup' ||
+            fieldDef.TypeAsString === 'LookupMulti')
+        ) {
           expandFields.push(field);
         }
       });
 
       queryParams.push(`$select=${selectedViewFields.join(',')}`);
-      
+
       if (expandFields.length > 0) {
         queryParams.push(`$expand=${expandFields.join(',')}`);
       }
@@ -239,42 +243,44 @@ export default function SPQueryBuilder() {
     return {
       isValid: queryLength <= maxLength,
       length: queryLength,
-      errorMessage: queryLength > maxLength 
-        ? `Query URL is too long (${queryLength} characters, max ${maxLength}). Please select fewer fields or use CAML query instead.`
-        : ''
+      errorMessage:
+        queryLength > maxLength
+          ? `Query URL is too long (${queryLength} characters, max ${maxLength}). Please select fewer fields or use CAML query instead.`
+          : '',
     };
   }, [selectedListId, context, query, selectedViewFields, listFields]);
 
   // Update the displayODataQuery to automatically detect lookup fields
   const displayODataQuery = React.useMemo(() => {
     const queryParams: string[] = [];
-  
+
     if (query) {
       queryParams.push(`$filter=${query}`);
     }
-  
+
     if (selectedViewFields && selectedViewFields.length > 0) {
       const expandFields: string[] = [];
-  
-      selectedViewFields.forEach(field => {
-        const fieldDef = listFields.find(f => f.InternalName === field);
-        if (fieldDef && (
-          fieldDef.TypeAsString === 'User' || 
-          fieldDef.TypeAsString === 'UserMulti' || 
-          fieldDef.TypeAsString === 'Lookup' ||
-          fieldDef.TypeAsString === 'LookupMulti'
-        )) {
+
+      selectedViewFields.forEach((field) => {
+        const fieldDef = listFields.find((f) => f.InternalName === field);
+        if (
+          fieldDef &&
+          (fieldDef.TypeAsString === 'User' ||
+            fieldDef.TypeAsString === 'UserMulti' ||
+            fieldDef.TypeAsString === 'Lookup' ||
+            fieldDef.TypeAsString === 'LookupMulti')
+        ) {
           expandFields.push(field);
         }
       });
-  
+
       queryParams.push(`$select=${selectedViewFields.join(',')}`);
-      
+
       if (expandFields.length > 0) {
         queryParams.push(`$expand=${expandFields.join(',')}`);
       }
     }
-  
+
     return queryParams.length > 0 ? `/items?${queryParams.join('&')}` : '/items';
   }, [query, selectedViewFields, listFields]);
 
@@ -324,68 +330,69 @@ export default function SPQueryBuilder() {
         ))}
         {newFilterVisible && <FieldQueryBuilder index={configuredQueryFields.length} key="new-row" />}
       </div>
-            {/* Field selector for ViewFields */}
-{/* Field selector for ViewFields with Select/Deselect All buttons */}
-<div style={{ display: 'flex', gap: '5px', alignItems: 'flex-end', marginBottom: '10px' }}>
-  <Dropdown
-    placeholder="Select fields to return (leave empty for all fields)"
-    label="View Fields"
-    multiSelect
-    selectedKeys={selectedViewFields}
-    options={fieldOptions}
-    disabled={!isListSelected}
-    onChange={(e, option) => {
-      if (option) {
-        // Handle individual field selection
-        const newSelectedFields = option.selected
-          ? [...(selectedViewFields || []), option.key as string]
-          : (selectedViewFields || []).filter((key) => key !== option.key);
-        dispatch(actions.setSelectedViewFields(newSelectedFields));
-      }
-    }}
-    styles={{
-      root: { maxWidth: '400px', flexGrow: 1 },
-      dropdownItemsWrapper: isDark
-        ? {
-            backgroundColor: '#2d2d2d',
-          }
-        : {},
-      dropdownItem: isDark
-        ? {
-            color: '#ffffff',
-            selectors: {
-              ':hover': {
-                backgroundColor: '#404040',
-                color: '#ffffff',
-              },
-            },
-          }
-        : {},
-      dropdownItemSelected: isDark
-        ? {
-            backgroundColor: '#404040',
-            color: '#ffffff',
-          }
-        : {},
-    }}
-  />
-  <DefaultButton
-    text="Select All"
-    onClick={() => {
-      const allFields = listFields.map(f => f.InternalName);
-      dispatch(actions.setSelectedViewFields(allFields));
-    }}
-    style={{ height: 'min-content' }}
-    disabled={!isListSelected}
-  />
-  <DefaultButton
-    text="Clear All"
-    onClick={() => {
-      dispatch(actions.setSelectedViewFields([]));
-    }}
-    style={{ height: 'min-content' }}
-  />
-</div>
+      {/* Field selector for ViewFields */}
+      {/* Field selector for ViewFields with Select/Deselect All buttons */}
+      <div style={{ display: 'flex', gap: '5px', alignItems: 'flex-end', marginBottom: '10px' }}>
+        <Dropdown
+          placeholder="Select fields to return (leave empty for all fields)"
+          label="View Fields"
+          multiSelect
+          selectedKeys={selectedViewFields}
+          options={fieldOptions}
+          disabled={!isListSelected}
+          onChange={(e, option) => {
+            if (option) {
+              // Handle individual field selection
+              const newSelectedFields = option.selected
+                ? [...(selectedViewFields || []), option.key as string]
+                : (selectedViewFields || []).filter((key) => key !== option.key);
+              dispatch(actions.setSelectedViewFields(newSelectedFields));
+            }
+          }}
+          styles={{
+            root: { maxWidth: '400px', flexGrow: 1 },
+            dropdownItemsWrapper: isDark
+              ? {
+                  backgroundColor: '#2d2d2d',
+                }
+              : {},
+            dropdownItem: isDark
+              ? {
+                  color: '#ffffff',
+                  selectors: {
+                    ':hover': {
+                      backgroundColor: '#404040',
+                      color: '#ffffff',
+                    },
+                  },
+                }
+              : {},
+            dropdownItemSelected: isDark
+              ? {
+                  backgroundColor: '#404040',
+                  color: '#ffffff',
+                }
+              : {},
+          }}
+        />
+        <DefaultButton
+          text="Select All"
+          onClick={() => {
+            const allFields = listFields.map((f) => f.InternalName);
+            dispatch(actions.setSelectedViewFields(allFields));
+          }}
+          style={{ height: 'min-content' }}
+          disabled={!isListSelected}
+        />
+        <DefaultButton
+          text="Clear All"
+          onClick={() => {
+            dispatch(actions.setSelectedViewFields([]));
+          }}
+          style={{ height: 'min-content' }}
+          disabled={!isListSelected}
+        />
+      </div>
       <div>
         {/* CAML Query section */}
         <div
@@ -393,11 +400,12 @@ export default function SPQueryBuilder() {
             display: 'flex',
             gap: '5px',
             alignItems: 'flex-end',
+            maxWidth: '100%',
           }}
         >
           <TextField
             styles={{
-              root: { width: '100%' },
+              root: { width: '100%', maxWidth: 'calc(100vw - 400px)' },
               field: { maxHeight: '400px', overflowY: 'auto' },
             }}
             multiline
@@ -410,8 +418,9 @@ export default function SPQueryBuilder() {
           <PrimaryButton
             style={{
               height: 'min-content',
+              minWidth: '170px',
             }}
-            text="Try"
+            text="Test CAML Query"
             disabled={!isListSelected}
             onClick={() => {
               dispatch(setPath(path));
@@ -431,16 +440,16 @@ export default function SPQueryBuilder() {
             }}
           />
         </div>
-        
+
         {/* OData Query section with error message */}
-        <div style={{ marginTop: '10px' }}>
+        <div style={{ marginTop: '10px', maxWidth: '100%' }}>
           {oDataQueryInfo.isValid && oDataQueryInfo.length > 1500 && (
-            <Text 
-              style={{ 
-                color: '#ca5010', 
-                fontSize: '12px', 
+            <Text
+              style={{
+                color: '#ca5010',
+                fontSize: '12px',
                 marginBottom: '5px',
-                display: 'block'
+                display: 'block',
               }}
             >
               ⚡ Warning: Query URL is getting long ({oDataQueryInfo.length} characters). Consider using fewer fields.
@@ -453,21 +462,21 @@ export default function SPQueryBuilder() {
               alignItems: 'flex-start',
             }}
           >
-            <div style={{ flex: 1 }}>
-              <TextField 
-                disabled={!isListSelected} 
-                styles={{ root: { width: '100%' } }} 
-                label={'OData query'} 
-                value={displayODataQuery} 
-                readOnly 
+            <div style={{ flex: 1, maxWidth: 'calc(100vw - 400px)' }}>
+              <TextField
+                disabled={!isListSelected}
+                styles={{ root: { width: '100%' } }}
+                label={'OData query'}
+                value={displayODataQuery}
+                readOnly
               />
               {!oDataQueryInfo.isValid && oDataQueryInfo.errorMessage && (
-                <Text 
-                  style={{ 
-                    color: '#a4262c', 
-                    fontSize: '12px', 
+                <Text
+                  style={{
+                    color: '#a4262c',
+                    fontSize: '12px',
                     marginTop: '5px',
-                    display: 'block'
+                    display: 'block',
                   }}
                 >
                   {oDataQueryInfo.errorMessage}
@@ -477,50 +486,52 @@ export default function SPQueryBuilder() {
             <PrimaryButton
               style={{
                 height: 'min-content',
+                minWidth: '170px',
                 marginTop: '28px', // Align with the TextField input (accounting for label)
               }}
               disabled={!isListSelected || !oDataQueryInfo.isValid}
-              text="Try"
+              text="Test OData Query"
               onClick={() => {
                 // Build the complete OData query path with $filter and $select
                 let oDataPath = `_api/web/lists/getById(guid'${selectedListId}')/items`;
-            
+
                 const queryParams: string[] = [];
-            
+
                 // Add filter if query exists
                 if (query) {
                   queryParams.push(`$filter=${query}`);
                 }
-            
+
                 // Add select and expand if fields are selected
                 if (selectedViewFields && selectedViewFields.length > 0) {
                   const expandFields: string[] = [];
-            
-                  selectedViewFields.forEach(field => {
-                    const fieldDef = listFields.find(f => f.InternalName === field);
+
+                  selectedViewFields.forEach((field) => {
+                    const fieldDef = listFields.find((f) => f.InternalName === field);
                     // Check if field is a lookup type that needs expansion
-                    if (fieldDef && (
-                      fieldDef.TypeAsString === 'User' || 
-                      fieldDef.TypeAsString === 'UserMulti' || 
-                      fieldDef.TypeAsString === 'Lookup' ||
-                      fieldDef.TypeAsString === 'LookupMulti'
-                    )) {
+                    if (
+                      fieldDef &&
+                      (fieldDef.TypeAsString === 'User' ||
+                        fieldDef.TypeAsString === 'UserMulti' ||
+                        fieldDef.TypeAsString === 'Lookup' ||
+                        fieldDef.TypeAsString === 'LookupMulti')
+                    ) {
                       expandFields.push(field);
                     }
                   });
-            
+
                   queryParams.push(`$select=${selectedViewFields.join(',')}`);
-                  
+
                   if (expandFields.length > 0) {
                     queryParams.push(`$expand=${expandFields.join(',')}`);
                   }
                 }
-            
+
                 // Combine all query parameters
                 if (queryParams.length > 0) {
                   oDataPath += `?${queryParams.join('&')}`;
                 }
-            
+
                 dispatch(setPath(oDataPath));
                 const fullPath: string = `${
                   context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''
@@ -712,15 +723,17 @@ function FieldQueryBuilder(props: { index: number }) {
           handleValueChange(data || '');
         }}
       />
-      <DefaultButton
-        text={isNewRow ? 'Add to query' : 'Update'}
+      <PrimaryButton
+        text={isNewRow ? 'Add' : 'Update'}
         disabled={!isListSelected || !currentField.name || !currentField.comparer || !currentField.value}
         onClick={handleAddOrUpdate}
+        style={{ minWidth: '100px' }}
       />
       {!isNewRow && (
         <DefaultButton
           text="Remove"
           disabled={!isListSelected}
+          style={{ minWidth: '100px' }}
           onClick={() => {
             const temp = [...configuredQueryFields];
             temp.splice(props.index, 1);

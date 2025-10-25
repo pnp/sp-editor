@@ -114,14 +114,14 @@ export const createWebProperty = (values: any, extPath: string) => {
       siteid = site.Id
       return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
 
-        if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+       /* if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
           return {
             success: false,
             result: null,
             errorMessage: 'No script is enabled, cannot edit Web Properties',
             source: 'chrome-sp-editor',
           }
-        }
+        }*/
 
         webid = web.Id
         const payload = `

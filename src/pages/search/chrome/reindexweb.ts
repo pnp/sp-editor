@@ -159,11 +159,11 @@ export const reindexweb = (extPath: string) => {
           return sp.web
             .select('Id, EffectiveBasePermissions')()
             .then((web: any) => {
-              if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+              /*if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
                 return {
                   errorMessage: 'No script is enabled, cannot edit Web Properties',
                 };
-              }
+              }*/
 
               webid = web.Id;
               const payload = `

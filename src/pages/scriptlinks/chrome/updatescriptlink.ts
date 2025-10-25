@@ -133,63 +133,143 @@ export const updateCustomAction = (values: any, extPath: string) => {
       // site collection scope
       if (values.Scope === 2) {
         // check that uca exists in site
-        return sp.site.userCustomActions.getById(values.Id)().then(uca => {
-          // update uca if exists
-          if (uca && uca.Id) {
-            return sp.site.userCustomActions.getById(values.Id).update(payload).then(() => {
-              return {
-                success: true,
-                result: [],
-                errorMessage: '',
-                source: 'chrome-sp-editor',
-              }
-            })
-          } else {
-            // uca did not exists in site, so scope must have been switched
-            // so lets remove it from web
-            return sp.web.userCustomActions.getById(values.Id).delete().then(res => {
-              // and then add it to site
-              return sp.site.userCustomActions.add(payload).then(() => {
-                return {
-                  success: true,
-                  result: [],
-                  errorMessage: '',
-                  source: 'chrome-sp-editor',
-                }
-              })
-            })
-          }
-        })
+        return sp.site.userCustomActions.getById(values.Id)()
+          .then(uca => {
+            // update uca if exists
+            if (uca && uca.Id) {
+              return sp.site.userCustomActions.getById(values.Id).update(payload)
+                .then(() => {
+                  return {
+                    success: true,
+                    result: [],
+                    errorMessage: '',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+                .catch(error => {
+                  console.error('Error updating site collection custom action:', error);
+                  return {
+                    success: false,
+                    result: [],
+                    errorMessage: error?.message || 'Failed to update site collection custom action',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+            } else {
+              // uca did not exists in site, so scope must have been switched
+              // so lets remove it from web
+              return sp.web.userCustomActions.getById(values.Id).delete()
+                .then(res => {
+                  // and then add it to site
+                  return sp.site.userCustomActions.add(payload)
+                    .then(() => {
+                      return {
+                        success: true,
+                        result: [],
+                        errorMessage: '',
+                        source: 'chrome-sp-editor',
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error adding custom action to site:', error);
+                      return {
+                        success: false,
+                        result: [],
+                        errorMessage: error?.message || 'Failed to add custom action to site collection',
+                        source: 'chrome-sp-editor',
+                      }
+                    })
+                })
+                .catch(error => {
+                  console.error('Error deleting custom action from web:', error);
+                  return {
+                    success: false,
+                    result: [],
+                    errorMessage: error?.message || 'Failed to delete custom action from web',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+            }
+          })
+          .catch(error => {
+            console.error('Error getting site collection custom action:', error);
+            return {
+              success: false,
+              result: [],
+              errorMessage: error?.message || 'Failed to get site collection custom action',
+              source: 'chrome-sp-editor',
+            }
+          })
         // web scope
       } else {
         // check that uca exists in web
-        return sp.web.userCustomActions.getById(values.Id)().then(uca => {
-          // update uca if exists
-          if (uca && uca.Id) {
-            return sp.web.userCustomActions.getById(values.Id).update(payload).then(() => {
-              return {
-                success: true,
-                result: [],
-                errorMessage: '',
-                source: 'chrome-sp-editor',
-              }
-            })
-          } else {
-            // uca did not exists in web, so scope must have been switched
-            // so lets remove it from site
-            return sp.site.userCustomActions.getById(values.Id).delete().then(res => {
-              // and then add it to web
-              return sp.web.userCustomActions.add(payload).then(() => {
-                return {
-                  success: true,
-                  result: [],
-                  errorMessage: '',
-                  source: 'chrome-sp-editor',
-                }
-              })
-            })
-          }
-        })
+        return sp.web.userCustomActions.getById(values.Id)()
+          .then(uca => {
+            // update uca if exists
+            if (uca && uca.Id) {
+              return sp.web.userCustomActions.getById(values.Id).update(payload)
+                .then(() => {
+                  return {
+                    success: true,
+                    result: [],
+                    errorMessage: '',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+                .catch(error => {
+                  console.error('Error updating web custom action:', error);
+                  return {
+                    success: false,
+                    result: [],
+                    errorMessage: error?.message || 'Failed to update web custom action',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+            } else {
+              // uca did not exists in web, so scope must have been switched
+              // so lets remove it from site
+              return sp.site.userCustomActions.getById(values.Id).delete()
+                .then(res => {
+                  // and then add it to web
+                  return sp.web.userCustomActions.add(payload)
+                    .then(() => {
+                      return {
+                        success: true,
+                        result: [],
+                        errorMessage: '',
+                        source: 'chrome-sp-editor',
+                      }
+                    })
+                    .catch(error => {
+                      console.error('Error adding custom action to web:', error);
+                      return {
+                        success: false,
+                        result: [],
+                        errorMessage: error?.message || 'Failed to add custom action to web',
+                        source: 'chrome-sp-editor',
+                      }
+                    })
+                })
+                .catch(error => {
+                  console.error('Error deleting custom action from site:', error);
+                  return {
+                    success: false,
+                    result: [],
+                    errorMessage: error?.message || 'Failed to delete custom action from site collection',
+                    source: 'chrome-sp-editor',
+                  }
+                })
+            }
+          })
+          .catch(error => {
+            console.error('Error getting web custom action:', error);
+            return {
+              success: false,
+              result: [],
+              errorMessage: error?.message || 'Failed to get web custom action',
+              source: 'chrome-sp-editor',
+            }
+          })
       }
 
   });

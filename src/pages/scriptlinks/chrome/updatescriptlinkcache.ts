@@ -88,103 +88,144 @@ export const updateCacheCustomAction = (values: any, extPath: string) => {
     const ucas: any[] = values
     const promises: any[] = []  
     const timeStamp = new Date().getTime().toString();
+return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+  /*if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+    return {
+      success: false,
+      result: [],
+      errorMessage: 'No script is enabled, cannot edit Custom Actions',
+      source: 'chrome-sp-editor',
+    }
+  }*/
 
-    return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-        return {
-          success: false,
-          result: [],
-          errorMessage: 'No script is enabled, cannot edit Custom Actions',
-          source: 'chrome-sp-editor',
-        }
+  ucas.forEach((uc: IScriptLink) => {
+    if(uc.Location === 'ClientSideExtension.ApplicationCustomizer'){
+      return;
+    }
+    const scope = uc.Scope
+    let url = uc.Url
+    const id = uc.Id
+
+    /* prepare payload */
+    const payload: { [k: string]: any } = {}
+
+    let querystrings = ''
+
+    if (url.split('?').length > 1) {
+      querystrings = '?' + url.split('?')[1]
+      url = url.split('?')[0]
+    }
+
+    const par = new URLSearchParams(querystrings)
+    par.set('sptag', timeStamp)
+    querystrings = `?${par.toString()}`
+
+    // if url starts with ~ and ends .js we can inject with ScriptSrc (o365 / onprem)
+    // if we are in o365, we can inject anything that ends with .js with ScriptSrc
+    if ((url.indexOf('~') > -1 && url.match(/.js$/)) || (window.location.href.indexOf('.sharepoint.') > 0 && url.match(/.js$/))) {
+      payload.ScriptSrc = url + querystrings
+    } else if (url.match(/.js$/) && window.location.href.indexOf('.sharepoint.') === -1) {
+
+      let headID = ''
+      let newScript = ''
+      const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+      for (let i = 0; i < 5; i++) {
+        headID += possible.charAt(Math.floor(Math.random() * possible.length))
+      }
+      for (let i = 0; i < 5; i++) {
+        newScript += possible.charAt(Math.floor(Math.random() * possible.length))
       }
 
-      ucas.forEach((uc: IScriptLink) => {
-        if(uc.Location === 'ClientSideExtension.ApplicationCustomizer'){
-          return;
-        }
-        const scope = uc.Scope
-        let url = uc.Url
-        const id = uc.Id
-
-        /* prepare payload */
-        const payload: { [k: string]: any } = {}
-
-        let querystrings = ''
-
-        if (url.split('?').length > 1) {
-          querystrings = '?' + url.split('?')[1]
-          url = url.split('?')[0]
-        }
-
-        const par = new URLSearchParams(querystrings)
-        par.set('sptag', timeStamp)
-        querystrings = `?${par.toString()}`
-
-        // if url starts with ~ and ends .js we can inject with ScriptSrc (o365 / onprem)
-        // if we are in o365, we can inject anything that ends with .js with ScriptSrc
-        if ((url.indexOf('~') > -1 && url.match(/.js$/)) || (window.location.href.indexOf('.sharepoint.') > 0 && url.match(/.js$/))) {
-          payload.ScriptSrc = url + querystrings
-        } else if (url.match(/.js$/) && window.location.href.indexOf('.sharepoint.') === -1) {
-
-          let headID = ''
-          let newScript = ''
-          const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-          for (let i = 0; i < 5; i++) {
-            headID += possible.charAt(Math.floor(Math.random() * possible.length))
-          }
-          for (let i = 0; i < 5; i++) {
-            newScript += possible.charAt(Math.floor(Math.random() * possible.length))
-          }
-
-          let jsScriptBlock = `var ${headID} = document.getElementsByTagName("head")[0];`
-          jsScriptBlock += ` var ${newScript} = document.createElement("script");`
-          jsScriptBlock += ` ${newScript}.type = "text/javascript";`
-          jsScriptBlock += ` ${newScript}.src = "${url}${querystrings}";`
-          jsScriptBlock += ` ${headID}.appendChild(${newScript});`
-          payload.ScriptBlock = jsScriptBlock
-        } else if (url.match(/.css$/)) {
-          // tslint:disable-next-line:prefer-template
-          payload.ScriptBlock = "if (window.location.href.toLowerCase().indexOf('_layouts/15/termstoremanager.aspx') === -1) { document.write('<link rel=\"stylesheet\" href=\"" + url + querystrings + "\" />');}"
-        } else {
-          return {
-            success: false,
-            result: [],
-            errorMessage: 'Only inject js or css files!',
-            source: 'chrome-sp-editor',
-          }
-        }
+      let jsScriptBlock = `var ${headID} = document.getElementsByTagName("head")[0];`
+      jsScriptBlock += ` var ${newScript} = document.createElement("script");`
+      jsScriptBlock += ` ${newScript}.type = "text/javascript";`
+      jsScriptBlock += ` ${newScript}.src = "${url}${querystrings}";`
+      jsScriptBlock += ` ${headID}.appendChild(${newScript});`
+      payload.ScriptBlock = jsScriptBlock
+    } else if (url.match(/.css$/)) {
+      // tslint:disable-next-line:prefer-template
+      payload.ScriptBlock = "if (window.location.href.toLowerCase().indexOf('_layouts/15/termstoremanager.aspx') === -1) { document.write('<link rel=\"stylesheet\" href=\"" + url + querystrings + "\" />');}"
+    } else {
+      return {
+        success: false,
+        result: [],
+        errorMessage: 'Only inject js or css files!',
+        source: 'chrome-sp-editor',
+      }
+    }
 
 
-        // site collection scope
-        if (scope === 2) {
-          // check that uca exists in site
-          promises.push(sp.site.userCustomActions.getById(id)().then(uca => {
+    // site collection scope
+    if (scope === 2) {
+      // check that uca exists in site
+      promises.push(
+        sp.site.userCustomActions.getById(id)()
+          .then(uca => {
             // update uca if exists
             if (uca && uca.Id) {
               return sp.site.userCustomActions.getById(id).update(payload)
+                .catch(error => {
+                  console.error(`Error updating site collection custom action ${id}:`, error);
+                  throw error;
+                })
             }
-          }))
-          // web scope
-        } else {
-          // check that uca exists in web
-          promises.push(sp.web.userCustomActions.getById(id)().then(uca => {
+          })
+          .catch(error => {
+            console.error(`Error getting site collection custom action ${id}:`, error);
+            throw error;
+          })
+      )
+      // web scope
+    } else {
+      // check that uca exists in web
+      promises.push(
+        sp.web.userCustomActions.getById(id)()
+          .then(uca => {
             // update uca if exists
             if (uca && uca.Id) {
               return sp.web.userCustomActions.getById(id).update(payload)
+                .catch(error => {
+                  console.error(`Error updating web custom action ${id}:`, error);
+                  throw error;
+                })
             }
-          }))
-        }
-      })
-      return Promise.all(promises).then(() => {
-        return {
-          success: true,
-          result: [],
-          errorMessage: '',
-          source: 'chrome-sp-editor',
-        }
-      })
+          })
+          .catch(error => {
+            console.error(`Error getting web custom action ${id}:`, error);
+            throw error;
+          })
+      )
+    }
+  })
+  
+  return Promise.all(promises)
+    .then(() => {
+      return {
+        success: true,
+        result: [],
+        errorMessage: '',
+        source: 'chrome-sp-editor',
+      }
     })
+    .catch(error => {
+      console.error('Error updating custom action cache:', error);
+      return {
+        success: false,
+        result: [],
+        errorMessage: error?.message || 'Failed to update custom action cache',
+        source: 'chrome-sp-editor',
+      }
+    })
+})
+.catch(error => {
+  console.error('Error getting web permissions:', error);
+  return {
+    success: false,
+    result: [],
+    errorMessage: error?.message || 'Failed to get web permissions',
+    source: 'chrome-sp-editor',
+  }
+})
 
 
   });

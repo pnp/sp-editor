@@ -86,31 +86,58 @@ export const deleteCustomActions = (values: any, extPath: string) => {
 
     const promises: any[] = []
 
-    return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-      if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+       return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+      /*if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
         return {
           success: false,
           result: [],
           errorMessage: 'No script is enabled, cannot edit Custom Actions',
           source: 'chrome-sp-editor',
         }
-      }
+      }*/
       values.forEach((uca: any) => {
         const deletionPromise = uca.Scope === 2
           ? sp.site.userCustomActions.getById(uca.Id).delete()
-          : sp.web.userCustomActions.getById(uca.Id).delete();
+              .catch((error: any) => {
+                console.error(`Error deleting site collection custom action ${uca.Id}:`, error);
+                throw error;
+              })
+          : sp.web.userCustomActions.getById(uca.Id).delete()
+              .catch((error: any) => {
+                console.error(`Error deleting web custom action ${uca.Id}:`, error);
+                throw error;
+              });
       
         promises.push(deletionPromise);
       });
       
-      return Promise.all(promises).then(results => {
-        return {
-          success: true,
-          result: [],
-          errorMessage: '',
-          source: 'chrome-sp-editor',
-        };
-      });
+      return Promise.all(promises)
+        .then(results => {
+          return {
+            success: true,
+            result: [],
+            errorMessage: '',
+            source: 'chrome-sp-editor',
+          };
+        })
+        .catch((error: any) => {
+          console.error('Error deleting custom actions:', error);
+          return {
+            success: false,
+            result: [],
+            errorMessage: error?.message || 'Failed to delete custom actions',
+            source: 'chrome-sp-editor',
+          };
+        });
+    })
+    .catch((error: any) => {
+      console.error('Error getting web permissions:', error);
+      return {
+        success: false,
+        result: [],
+        errorMessage: error?.message || 'Failed to get web permissions',
+        source: 'chrome-sp-editor',
+      };
     })
 
   });

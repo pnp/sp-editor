@@ -1013,7 +1013,7 @@ function copyObservers(source, behavior, filter) {
 
 
 
-;// ./node_modules/@pnp/queryable/node_modules/tslib/tslib.es6.mjs
+;// ./node_modules/tslib/tslib.es6.mjs
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -1279,10 +1279,19 @@ var __setModuleDefault = Object.create ? (function(o, v) {
   o["default"] = v;
 };
 
+var ownKeys = function(o) {
+  ownKeys = Object.getOwnPropertyNames || function (o) {
+    var ar = [];
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+    return ar;
+  };
+  return ownKeys(o);
+};
+
 function __importStar(mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
   __setModuleDefault(result, mod);
   return result;
 }
@@ -1363,12 +1372,25 @@ function __disposeResources(env) {
   return next();
 }
 
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+  if (typeof path === "string" && /^\.\.?\//.test(path)) {
+      return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function (m, tsx, d, ext, cm) {
+          return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : (d + ext + "." + cm.toLowerCase() + "js");
+      });
+  }
+  return path;
+}
+
 /* harmony default export */ const tslib_es6 = ({
   __extends,
   __assign,
   __rest,
   __decorate,
   __param,
+  __esDecorate,
+  __runInitializers,
+  __propKey,
+  __setFunctionName,
   __metadata,
   __awaiter,
   __generator,
@@ -1391,6 +1413,7 @@ function __disposeResources(env) {
   __classPrivateFieldIn,
   __addDisposableResource,
   __disposeResources,
+  __rewriteRelativeImportExtension,
 });
 
 ;// ./node_modules/@pnp/queryable/queryable.js
@@ -1637,13 +1660,13 @@ function HeaderParse() {
 function JSONHeaderParse() {
     return parseBinderWithErrorCheck(async (response) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        if ((response.headers.has("Content-Length") && parseFloat(response.headers.get("Content-Length")) === 0) || response.status === 204) {
+        if (response.status === 204) {
             return {};
         }
         // patch to handle cases of 200 response with no or whitespace only bodies (#487 & #545)
         const txt = await response.text();
         const json = txt.replace(/\s/ig, "").length > 0 ? JSON.parse(txt) : {};
-        return { data: { ...parseODataJSON(json) }, headers: { ...response.headers } };
+        return { data: { ...parseODataJSON(json) }, headers: response.headers };
     });
 }
 async function errorCheck(url, response, result) {
@@ -2529,7 +2552,7 @@ function AdvancedQuery() {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.14.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.17.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -2792,386 +2815,6 @@ function hasDelta() {
     };
 }
 
-;// ./node_modules/@pnp/graph/node_modules/tslib/tslib.es6.mjs
-/******************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
-
-var tslib_es6_extendStatics = function(d, b) {
-  tslib_es6_extendStatics = Object.setPrototypeOf ||
-      ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-      function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-  return tslib_es6_extendStatics(d, b);
-};
-
-function tslib_es6_extends(d, b) {
-  if (typeof b !== "function" && b !== null)
-      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-  tslib_es6_extendStatics(d, b);
-  function __() { this.constructor = d; }
-  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var tslib_es6_assign = function() {
-  tslib_es6_assign = Object.assign || function __assign(t) {
-      for (var s, i = 1, n = arguments.length; i < n; i++) {
-          s = arguments[i];
-          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-      return t;
-  }
-  return tslib_es6_assign.apply(this, arguments);
-}
-
-function tslib_es6_rest(s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-      t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-              t[p[i]] = s[p[i]];
-      }
-  return t;
-}
-
-function tslib_es6_decorate(decorators, target, key, desc) {
-  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-  return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function tslib_es6_param(paramIndex, decorator) {
-  return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function tslib_es6_esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
-  function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
-  var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
-  var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
-  var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
-  var _, done = false;
-  for (var i = decorators.length - 1; i >= 0; i--) {
-      var context = {};
-      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
-      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
-      context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
-      var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
-      if (kind === "accessor") {
-          if (result === void 0) continue;
-          if (result === null || typeof result !== "object") throw new TypeError("Object expected");
-          if (_ = accept(result.get)) descriptor.get = _;
-          if (_ = accept(result.set)) descriptor.set = _;
-          if (_ = accept(result.init)) initializers.unshift(_);
-      }
-      else if (_ = accept(result)) {
-          if (kind === "field") initializers.unshift(_);
-          else descriptor[key] = _;
-      }
-  }
-  if (target) Object.defineProperty(target, contextIn.name, descriptor);
-  done = true;
-};
-
-function tslib_es6_runInitializers(thisArg, initializers, value) {
-  var useValue = arguments.length > 2;
-  for (var i = 0; i < initializers.length; i++) {
-      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-  }
-  return useValue ? value : void 0;
-};
-
-function tslib_es6_propKey(x) {
-  return typeof x === "symbol" ? x : "".concat(x);
-};
-
-function tslib_es6_setFunctionName(f, name, prefix) {
-  if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
-  return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
-};
-
-function tslib_es6_metadata(metadataKey, metadataValue) {
-  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-  function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-  return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-      function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-      function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-}
-
-function tslib_es6_generator(thisArg, body) {
-  var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
-  return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-  function verb(n) { return function (v) { return step([n, v]); }; }
-  function step(op) {
-      if (f) throw new TypeError("Generator is already executing.");
-      while (g && (g = 0, op[0] && (_ = 0)), _) try {
-          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-          if (y = 0, t) op = [op[0] & 2, t.value];
-          switch (op[0]) {
-              case 0: case 1: t = op; break;
-              case 4: _.label++; return { value: op[1], done: false };
-              case 5: _.label++; y = op[1]; op = [0]; continue;
-              case 7: op = _.ops.pop(); _.trys.pop(); continue;
-              default:
-                  if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                  if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                  if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                  if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                  if (t[2]) _.ops.pop();
-                  _.trys.pop(); continue;
-          }
-          op = body.call(thisArg, _);
-      } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-      if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-  }
-}
-
-var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  var desc = Object.getOwnPropertyDescriptor(m, k);
-  if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-  }
-  Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-function tslib_es6_exportStar(m, o) {
-  for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
-}
-
-function tslib_es6_values(o) {
-  var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-  if (m) return m.call(o);
-  if (o && typeof o.length === "number") return {
-      next: function () {
-          if (o && i >= o.length) o = void 0;
-          return { value: o && o[i++], done: !o };
-      }
-  };
-  throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function tslib_es6_read(o, n) {
-  var m = typeof Symbol === "function" && o[Symbol.iterator];
-  if (!m) return o;
-  var i = m.call(o), r, ar = [], e;
-  try {
-      while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-  }
-  catch (error) { e = { error: error }; }
-  finally {
-      try {
-          if (r && !r.done && (m = i["return"])) m.call(i);
-      }
-      finally { if (e) throw e.error; }
-  }
-  return ar;
-}
-
-/** @deprecated */
-function tslib_es6_spread() {
-  for (var ar = [], i = 0; i < arguments.length; i++)
-      ar = ar.concat(tslib_es6_read(arguments[i]));
-  return ar;
-}
-
-/** @deprecated */
-function tslib_es6_spreadArrays() {
-  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-  for (var r = Array(s), k = 0, i = 0; i < il; i++)
-      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-          r[k] = a[j];
-  return r;
-}
-
-function tslib_es6_spreadArray(to, from, pack) {
-  if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-      if (ar || !(i in from)) {
-          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-          ar[i] = from[i];
-      }
-  }
-  return to.concat(ar || Array.prototype.slice.call(from));
-}
-
-function tslib_es6_await(v) {
-  return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
-}
-
-function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-  var g = generator.apply(thisArg, _arguments || []), i, q = [];
-  return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
-  function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
-  function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
-  function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-  function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-  function fulfill(value) { resume("next", value); }
-  function reject(value) { resume("throw", value); }
-  function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function tslib_es6_asyncDelegator(o) {
-  var i, p;
-  return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-  function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: false } : f ? f(v) : v; } : f; }
-}
-
-function tslib_es6_asyncValues(o) {
-  if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-  var m = o[Symbol.asyncIterator], i;
-  return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-  function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-  function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function tslib_es6_makeTemplateObject(cooked, raw) {
-  if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-  return cooked;
-};
-
-var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
-  Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-  o["default"] = v;
-};
-
-function tslib_es6_importStar(mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
-  tslib_es6_setModuleDefault(result, mod);
-  return result;
-}
-
-function tslib_es6_importDefault(mod) {
-  return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
-  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-  return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-}
-
-function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
-  if (kind === "m") throw new TypeError("Private method is not writable");
-  if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-  if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-  return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-}
-
-function tslib_es6_classPrivateFieldIn(state, receiver) {
-  if (receiver === null || (typeof receiver !== "object" && typeof receiver !== "function")) throw new TypeError("Cannot use 'in' operator on non-object");
-  return typeof state === "function" ? receiver === state : state.has(receiver);
-}
-
-function tslib_es6_addDisposableResource(env, value, async) {
-  if (value !== null && value !== void 0) {
-    if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
-    var dispose, inner;
-    if (async) {
-      if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
-      dispose = value[Symbol.asyncDispose];
-    }
-    if (dispose === void 0) {
-      if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
-      dispose = value[Symbol.dispose];
-      if (async) inner = dispose;
-    }
-    if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
-    if (inner) dispose = function() { try { inner.call(this); } catch (e) { return Promise.reject(e); } };
-    env.stack.push({ value: value, dispose: dispose, async: async });
-  }
-  else if (async) {
-    env.stack.push({ async: true });
-  }
-  return value;
-}
-
-var tslib_es6_SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
-  var e = new Error(message);
-  return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
-
-function tslib_es6_disposeResources(env) {
-  function fail(e) {
-    env.error = env.hasError ? new tslib_es6_SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
-    env.hasError = true;
-  }
-  var r, s = 0;
-  function next() {
-    while (r = env.stack.pop()) {
-      try {
-        if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
-        if (r.dispose) {
-          var result = r.dispose.call(r.value);
-          if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) { fail(e); return next(); });
-        }
-        else s |= 1;
-      }
-      catch (e) {
-        fail(e);
-      }
-    }
-    if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
-    if (env.hasError) throw env.error;
-  }
-  return next();
-}
-
-/* harmony default export */ const tslib_tslib_es6 = ({
-  __extends: tslib_es6_extends,
-  __assign: tslib_es6_assign,
-  __rest: tslib_es6_rest,
-  __decorate: tslib_es6_decorate,
-  __param: tslib_es6_param,
-  __metadata: tslib_es6_metadata,
-  __awaiter: tslib_es6_awaiter,
-  __generator: tslib_es6_generator,
-  __createBinding: tslib_es6_createBinding,
-  __exportStar: tslib_es6_exportStar,
-  __values: tslib_es6_values,
-  __read: tslib_es6_read,
-  __spread: tslib_es6_spread,
-  __spreadArrays: tslib_es6_spreadArrays,
-  __spreadArray: tslib_es6_spreadArray,
-  __await: tslib_es6_await,
-  __asyncGenerator: tslib_es6_asyncGenerator,
-  __asyncDelegator: tslib_es6_asyncDelegator,
-  __asyncValues: tslib_es6_asyncValues,
-  __makeTemplateObject: tslib_es6_makeTemplateObject,
-  __importStar: tslib_es6_importStar,
-  __importDefault: tslib_es6_importDefault,
-  __classPrivateFieldGet: tslib_es6_classPrivateFieldGet,
-  __classPrivateFieldSet: tslib_es6_classPrivateFieldSet,
-  __classPrivateFieldIn: tslib_es6_classPrivateFieldIn,
-  __addDisposableResource: tslib_es6_addDisposableResource,
-  __disposeResources: tslib_es6_disposeResources,
-});
-
 ;// ./node_modules/@pnp/graph/admin/people.js
 
 
@@ -3184,7 +2827,7 @@ let _PeopleAdmin = class _PeopleAdmin extends _GraphInstance {
         return PronounSettings(this);
     }
 };
-_PeopleAdmin = tslib_es6_decorate([
+_PeopleAdmin = __decorate([
     defaultPath("people")
 ], _PeopleAdmin);
 
@@ -3194,7 +2837,7 @@ const PeopleAdmin = graphInvokableFactory(_PeopleAdmin);
 */
 let _PronounSettings = class _PronounSettings extends _GraphInstance {
 };
-_PronounSettings = tslib_es6_decorate([
+_PronounSettings = __decorate([
     defaultPath("pronouns"),
     updateable()
 ], _PronounSettings);
@@ -3205,7 +2848,7 @@ const PronounSettings = graphInvokableFactory(_PronounSettings);
 */
 let _ProfileCardProperty = class _ProfileCardProperty extends _GraphInstance {
 };
-_ProfileCardProperty = tslib_es6_decorate([
+_ProfileCardProperty = __decorate([
     defaultPath("profileCardProperty"),
     deleteable(),
     updateable()
@@ -3217,7 +2860,7 @@ const ProfileCardProperty = graphInvokableFactory(_ProfileCardProperty);
 */
 let _ProfileCardProperties = class _ProfileCardProperties extends _GraphCollection {
 };
-_ProfileCardProperties = tslib_es6_decorate([
+_ProfileCardProperties = __decorate([
     defaultPath("profileCardProperties"),
     getById(ProfileCardProperty),
     addable()
@@ -3244,7 +2887,7 @@ let _ServiceAnnouncements = class _ServiceAnnouncements extends _GraphInstance {
         return ServiceMessages(this);
     }
 };
-_ServiceAnnouncements = tslib_es6_decorate([
+_ServiceAnnouncements = __decorate([
     defaultPath("serviceAnnouncement")
 ], _ServiceAnnouncements);
 
@@ -3260,7 +2903,7 @@ const ServiceHealth = graphInvokableFactory(_ServiceHealth);
  */
 let _HealthOverviews = class _HealthOverviews extends _GraphCollection {
 };
-_HealthOverviews = tslib_es6_decorate([
+_HealthOverviews = __decorate([
     defaultPath("healthOverviews"),
     getByName(ServiceHealth)
 ], _HealthOverviews);
@@ -3283,7 +2926,7 @@ let _HealthIssues = class _HealthIssues extends _GraphCollection {
         return graphGet(GraphQueryable(this, "issueReport"));
     }
 };
-_HealthIssues = tslib_es6_decorate([
+_HealthIssues = __decorate([
     defaultPath("issues"),
     getById(HealthIssue)
 ], _HealthIssues);
@@ -3366,7 +3009,7 @@ let _ServiceMessages = class _ServiceMessages extends _GraphCollection {
         }));
     }
 };
-_ServiceMessages = tslib_es6_decorate([
+_ServiceMessages = __decorate([
     defaultPath("messages"),
     getById(ServiceMessage)
 ], _ServiceMessages);
@@ -3383,7 +3026,7 @@ const ServiceMessageAttachment = graphInvokableFactory(_ServiceMessageAttachment
  */
 let _ServiceMessageAttachments = class _ServiceMessageAttachments extends _GraphCollection {
 };
-_ServiceMessageAttachments = tslib_es6_decorate([
+_ServiceMessageAttachments = __decorate([
     defaultPath("attachments"),
     getById(ServiceMessageAttachment)
 ], _ServiceMessageAttachments);
@@ -3399,7 +3042,7 @@ let _SharePointAdmin = class _SharePointAdmin extends _GraphInstance {
         return SharePointSettings(this);
     }
 };
-_SharePointAdmin = tslib_es6_decorate([
+_SharePointAdmin = __decorate([
     defaultPath("sharepoint")
 ], _SharePointAdmin);
 
@@ -3409,7 +3052,7 @@ const SharePointAdmin = graphInvokableFactory(_SharePointAdmin);
  */
 let _SharePointSettings = class _SharePointSettings extends _GraphInstance {
 };
-_SharePointSettings = tslib_es6_decorate([
+_SharePointSettings = __decorate([
     defaultPath("settings"),
     updateable()
 ], _SharePointSettings);
@@ -3599,7 +3242,7 @@ let _Drive = class _Drive extends _GraphInstance {
         return DriveItem(this, combine("root:/", `${path}:`));
     }
 };
-_Drive = tslib_es6_decorate([
+_Drive = __decorate([
     defaultPath("drive")
 ], _Drive);
 
@@ -3610,7 +3253,7 @@ const Drive = graphInvokableFactory(_Drive);
  */
 let _Drives = class _Drives extends _GraphCollection {
 };
-_Drives = tslib_es6_decorate([
+_Drives = __decorate([
     defaultPath("drives"),
     getById(Drive)
 ], _Drives);
@@ -3652,7 +3295,7 @@ let _Root = class _Root extends _GraphInstance {
         return Reflect.apply(driveItemUpload, this, [fileOptions]);
     }
 };
-_Root = tslib_es6_decorate([
+_Root = __decorate([
     defaultPath("root"),
     hasDelta()
 ], _Root);
@@ -3851,7 +3494,7 @@ let _DriveItem = class _DriveItem extends _GraphInstance {
         return graphPost(DriveItem(this, "checkout"));
     }
 };
-_DriveItem = tslib_es6_decorate([
+_DriveItem = __decorate([
     deleteable(),
     updateable()
 ], _DriveItem);
@@ -3896,7 +3539,7 @@ let _DriveItems = class _DriveItems extends _GraphCollection {
         return await graphPost(this, body(postBody));
     }
 };
-_DriveItems = tslib_es6_decorate([
+_DriveItems = __decorate([
     getById(DriveItem)
 ], _DriveItems);
 
@@ -3930,7 +3573,7 @@ let _ListItem = class _ListItem extends _GraphInstance {
         return graphqueryable_GraphCollection(this, "versions");
     }
 };
-_ListItem = tslib_es6_decorate([
+_ListItem = __decorate([
     deleteable(),
     updateable()
 ], _ListItem);
@@ -3942,7 +3585,7 @@ const ListItem = graphInvokableFactory(_ListItem);
  */
 let _ListItems = class _ListItems extends _GraphCollection {
 };
-_ListItems = tslib_es6_decorate([
+_ListItems = __decorate([
     defaultPath("items"),
     getById(ListItem),
     addable()
@@ -3961,7 +3604,7 @@ let _DocumentSetVersion = class _DocumentSetVersion extends _GraphInstance {
         return graphPost(DocumentSetVersion(this, "restore"));
     }
 };
-_DocumentSetVersion = tslib_es6_decorate([
+_DocumentSetVersion = __decorate([
     deleteable()
 ], _DocumentSetVersion);
 
@@ -3972,7 +3615,7 @@ const DocumentSetVersion = graphInvokableFactory(_DocumentSetVersion);
  */
 let _DocumentSetVersions = class _DocumentSetVersions extends _GraphCollection {
 };
-_DocumentSetVersions = tslib_es6_decorate([
+_DocumentSetVersions = __decorate([
     defaultPath("documentSetVersions"),
     getById(DocumentSetVersion),
     addable()
@@ -4022,7 +3665,7 @@ let _Sites = class _Sites extends _GraphCollection {
         return Sites(this, "getAllSites");
     }
 };
-_Sites = tslib_es6_decorate([
+_Sites = __decorate([
     defaultPath("sites")
 ], _Sites);
 
@@ -4067,7 +3710,7 @@ let _FollowedSites = class _FollowedSites extends _GraphCollection {
         return graphPost(FollowedSites(this, "remove"), body({ value: siteIds.map(id => ({ id })) }));
     }
 };
-_FollowedSites = tslib_es6_decorate([
+_FollowedSites = __decorate([
     defaultPath("followedsites")
 ], _FollowedSites);
 
@@ -4100,7 +3743,7 @@ let _AppCatalog = class _AppCatalog extends _GraphInstance {
         return TeamsApps(this);
     }
 };
-_AppCatalog = tslib_es6_decorate([
+_AppCatalog = __decorate([
     defaultPath("appCatalogs")
 ], _AppCatalog);
 
@@ -4123,7 +3766,7 @@ const AppDefinition = graphInvokableFactory(_AppDefinition);
  */
 let _AppDefinitions = class _AppDefinitions extends _GraphCollection {
 };
-_AppDefinitions = tslib_es6_decorate([
+_AppDefinitions = __decorate([
     defaultPath("appDefinitions"),
     getById(AppDefinition)
 ], _AppDefinitions);
@@ -4185,7 +3828,7 @@ let _TeamsApps = class _TeamsApps extends _GraphCollection {
         return graphPost(q, { body: zip });
     }
 };
-_TeamsApps = tslib_es6_decorate([
+_TeamsApps = __decorate([
     defaultPath("teamsApps"),
     getById(TeamsApp)
 ], _TeamsApps);
@@ -4220,7 +3863,7 @@ let _Conversation = class _Conversation extends _GraphInstance {
         return Threads(this);
     }
 };
-_Conversation = tslib_es6_decorate([
+_Conversation = __decorate([
     updateable(),
     deleteable()
 ], _Conversation);
@@ -4231,7 +3874,7 @@ const Conversation = graphInvokableFactory(_Conversation);
  */
 let _Conversations = class _Conversations extends _GraphCollection {
 };
-_Conversations = tslib_es6_decorate([
+_Conversations = __decorate([
     defaultPath("conversations"),
     addable(),
     getById(Conversation)
@@ -4257,7 +3900,7 @@ let _Thread = class _Thread extends _GraphInstance {
         return graphPost(Thread(this, "reply"), body(post));
     }
 };
-_Thread = tslib_es6_decorate([
+_Thread = __decorate([
     deleteable()
 ], _Thread);
 
@@ -4267,7 +3910,7 @@ const Thread = graphInvokableFactory(_Thread);
  */
 let _Threads = class _Threads extends _GraphCollection {
 };
-_Threads = tslib_es6_decorate([
+_Threads = __decorate([
     defaultPath("threads"),
     addable(),
     getById(Thread)
@@ -4298,7 +3941,7 @@ let _Post = class _Post extends _GraphInstance {
         return graphPost(Post(this, "reply"), body(params));
     }
 };
-_Post = tslib_es6_decorate([
+_Post = __decorate([
     deleteable()
 ], _Post);
 
@@ -4308,7 +3951,7 @@ const Post = graphInvokableFactory(_Post);
  */
 let _Posts = class _Posts extends _GraphCollection {
 };
-_Posts = tslib_es6_decorate([
+_Posts = __decorate([
     defaultPath("posts"),
     addable(),
     getById(Post)
@@ -4355,7 +3998,7 @@ function type(n, a) {
  */
 let _Attachment = class _Attachment extends _GraphInstance {
 };
-_Attachment = tslib_es6_decorate([
+_Attachment = __decorate([
     deleteable()
 ], _Attachment);
 
@@ -4378,7 +4021,7 @@ let _Attachments = class _Attachments extends _GraphCollection {
         })));
     }
 };
-_Attachments = tslib_es6_decorate([
+_Attachments = __decorate([
     defaultPath("attachments"),
     getById(Attachment)
 ], _Attachments);
@@ -4523,7 +4166,7 @@ let _Message = class _Message extends _GraphInstance {
         return (await mailResponse(this, "forward", forward, timeZone));
     }
 };
-_Message = tslib_es6_decorate([
+_Message = __decorate([
     updateable(),
     deleteable()
 ], _Message);
@@ -4534,7 +4177,7 @@ const Message = graphInvokableFactory(_Message);
  */
 let _Messages = class _Messages extends _GraphCollection {
 };
-_Messages = tslib_es6_decorate([
+_Messages = __decorate([
     defaultPath("messages"),
     getById(Message),
     addable(),
@@ -4547,7 +4190,7 @@ const Messages = graphInvokableFactory(_Messages);
  */
 let _MessageRule = class _MessageRule extends _GraphInstance {
 };
-_MessageRule = tslib_es6_decorate([
+_MessageRule = __decorate([
     updateable(),
     deleteable()
 ], _MessageRule);
@@ -4558,7 +4201,7 @@ const MessageRule = graphInvokableFactory(_MessageRule);
  */
 let _MessageRules = class _MessageRules extends _GraphCollection {
 };
-_MessageRules = tslib_es6_decorate([
+_MessageRules = __decorate([
     defaultPath("messageRules"),
     getById(MessageRule),
     addable()
@@ -4665,7 +4308,7 @@ let _Calendar = class _Calendar extends _GraphInstance {
         return graphPost(Calendar(this, "getSchedule"), body(properties));
     }
 };
-_Calendar = tslib_es6_decorate([
+_Calendar = __decorate([
     deleteable(),
     updateable()
 ], _Calendar);
@@ -4676,7 +4319,7 @@ const Calendar = graphInvokableFactory(_Calendar);
  */
 let _Calendars = class _Calendars extends _GraphCollection {
 };
-_Calendars = tslib_es6_decorate([
+_Calendars = __decorate([
     defaultPath("calendars"),
     getById(Calendar),
     addable()
@@ -4733,7 +4376,7 @@ let _Event = class _Event extends _GraphInstance {
         return graphPost(Event(this, "tentativelyAccept"), body({ comment, sendResponse, proposedNewTime }));
     }
 };
-_Event = tslib_es6_decorate([
+_Event = __decorate([
     deleteable(),
     updateable()
 ], _Event);
@@ -4744,7 +4387,7 @@ const Event = graphInvokableFactory(_Event);
  */
 let _Events = class _Events extends _GraphCollection {
 };
-_Events = tslib_es6_decorate([
+_Events = __decorate([
     defaultPath("events"),
     getById(Event),
     addable()
@@ -4759,7 +4402,7 @@ let _CalendarGroup = class _CalendarGroup extends _GraphInstance {
         return Calendars(this);
     }
 };
-_CalendarGroup = tslib_es6_decorate([
+_CalendarGroup = __decorate([
     deleteable(),
     updateable()
 ], _CalendarGroup);
@@ -4770,7 +4413,7 @@ const CalendarGroup = graphInvokableFactory(_CalendarGroup);
  */
 let _CalendarGroups = class _CalendarGroups extends _GraphCollection {
 };
-_CalendarGroups = tslib_es6_decorate([
+_CalendarGroups = __decorate([
     defaultPath("calendarGroups"),
     getById(CalendarGroup),
     addable()
@@ -4782,7 +4425,7 @@ const CalendarGroups = graphInvokableFactory(_CalendarGroups);
  */
 let _CalendarPermission = class _CalendarPermission extends _GraphInstance {
 };
-_CalendarPermission = tslib_es6_decorate([
+_CalendarPermission = __decorate([
     updateable(),
     deleteable()
 ], _CalendarPermission);
@@ -4793,7 +4436,7 @@ const CalendarPermission = graphInvokableFactory(_CalendarPermission);
  */
 let _CalendarPermissions = class _CalendarPermissions extends _GraphCollection {
 };
-_CalendarPermissions = tslib_es6_decorate([
+_CalendarPermissions = __decorate([
     defaultPath("calendarPermissions"),
     getById(CalendarPermission),
     addable()
@@ -4848,7 +4491,7 @@ const BookingCurrency = graphInvokableFactory(_BookingCurrency);
  */
 let _BookingCurrencies = class _BookingCurrencies extends _GraphCollection {
 };
-_BookingCurrencies = tslib_es6_decorate([
+_BookingCurrencies = __decorate([
     defaultPath("solutions/bookingCurrencies"),
     getById(BookingCurrency)
 ], _BookingCurrencies);
@@ -4908,7 +4551,7 @@ let _BookingBusiness = class _BookingBusiness extends _GraphInstance {
         return BookingCustomQuestions(this);
     }
 };
-_BookingBusiness = tslib_es6_decorate([
+_BookingBusiness = __decorate([
     deleteable(),
     updateable()
 ], _BookingBusiness);
@@ -4937,7 +4580,7 @@ let _BookingBusinesses = class _BookingBusinesses extends _GraphCollection {
         };
     }
 };
-_BookingBusinesses = tslib_es6_decorate([
+_BookingBusinesses = __decorate([
     defaultPath("solutions/bookingBusinesses"),
     getById(BookingBusiness)
 ], _BookingBusinesses);
@@ -4955,7 +4598,7 @@ let _BookingApointment = class _BookingApointment extends _GraphInstance {
         return graphPost(BookingAppointment(this, "cancel"), body(postBody));
     }
 };
-_BookingApointment = tslib_es6_decorate([
+_BookingApointment = __decorate([
     deleteable(),
     updateable()
 ], _BookingApointment);
@@ -4979,7 +4622,7 @@ let _BookingAppointments = class _BookingAppointments extends _GraphCollection {
         };
     }
 };
-_BookingAppointments = tslib_es6_decorate([
+_BookingAppointments = __decorate([
     defaultPath("appointments"),
     getById(BookingAppointment)
 ], _BookingAppointments);
@@ -4990,7 +4633,7 @@ const BookingAppointments = graphInvokableFactory(_BookingAppointments);
  */
 let _BookingCustomer = class _BookingCustomer extends _GraphInstance {
 };
-_BookingCustomer = tslib_es6_decorate([
+_BookingCustomer = __decorate([
     deleteable(),
     updateable()
 ], _BookingCustomer);
@@ -5014,7 +4657,7 @@ let _BookingCustomers = class _BookingCustomers extends _GraphCollection {
         };
     }
 };
-_BookingCustomers = tslib_es6_decorate([
+_BookingCustomers = __decorate([
     defaultPath("customers"),
     getById(BookingCustomer)
 ], _BookingCustomers);
@@ -5025,7 +4668,7 @@ const BookingCustomers = graphInvokableFactory(_BookingCustomers);
  */
 let _BookingService = class _BookingService extends _GraphInstance {
 };
-_BookingService = tslib_es6_decorate([
+_BookingService = __decorate([
     deleteable(),
     updateable()
 ], _BookingService);
@@ -5049,7 +4692,7 @@ let _BookingServices = class _BookingServices extends _GraphCollection {
         };
     }
 };
-_BookingServices = tslib_es6_decorate([
+_BookingServices = __decorate([
     defaultPath("services"),
     getById(BookingService)
 ], _BookingServices);
@@ -5060,7 +4703,7 @@ const BookingServices = graphInvokableFactory(_BookingServices);
  */
 let _BookingStaffMember = class _BookingStaffMember extends _GraphInstance {
 };
-_BookingStaffMember = tslib_es6_decorate([
+_BookingStaffMember = __decorate([
     deleteable(),
     updateable()
 ], _BookingStaffMember);
@@ -5084,7 +4727,7 @@ let _BookingStaffMembers = class _BookingStaffMembers extends _GraphCollection {
         };
     }
 };
-_BookingStaffMembers = tslib_es6_decorate([
+_BookingStaffMembers = __decorate([
     defaultPath("staffMembers"),
     getById(BookingStaffMember)
 ], _BookingStaffMembers);
@@ -5095,7 +4738,7 @@ const BookingStaffMembers = graphInvokableFactory(_BookingStaffMembers);
  */
 let _BookingCustomQuestion = class _BookingCustomQuestion extends _GraphInstance {
 };
-_BookingCustomQuestion = tslib_es6_decorate([
+_BookingCustomQuestion = __decorate([
     deleteable(),
     updateable()
 ], _BookingCustomQuestion);
@@ -5119,7 +4762,7 @@ let _BookingCustomQuestions = class _BookingCustomQuestions extends _GraphCollec
         };
     }
 };
-_BookingCustomQuestions = tslib_es6_decorate([
+_BookingCustomQuestions = __decorate([
     defaultPath("customquestions"),
     getById(BookingCustomQuestion)
 ], _BookingCustomQuestions);
@@ -5180,7 +4823,7 @@ let _DirectoryObject = class _DirectoryObject extends _GraphInstance {
         return graphPost(DirectoryObject(this, "checkMemberGroups"), body({ groupIds }));
     }
 };
-_DirectoryObject = tslib_es6_decorate([
+_DirectoryObject = __decorate([
     deleteable()
 ], _DirectoryObject);
 
@@ -5208,7 +4851,7 @@ let _DirectoryObjects = class _DirectoryObjects extends _GraphCollection {
         return Count(this);
     }
 };
-_DirectoryObjects = tslib_es6_decorate([
+_DirectoryObjects = __decorate([
     defaultPath("directoryObjects"),
     getById(DirectoryObject)
 ], _DirectoryObjects);
@@ -5307,7 +4950,7 @@ let _Group = class _Group extends _DirectoryObject {
         return view();
     }
 };
-_Group = tslib_es6_decorate([
+_Group = __decorate([
     deleteable(),
     updateable()
 ], _Group);
@@ -5344,7 +4987,7 @@ let _Groups = class _Groups extends _DirectoryObjects {
         return graphPost(this, body(postBody));
     }
 };
-_Groups = tslib_es6_decorate([
+_Groups = __decorate([
     defaultPath("groups"),
     getById(Group)
 ], _Groups);
@@ -5397,7 +5040,7 @@ let _User = class _User extends _DirectoryObject {
         return User(this, "manager");
     }
 };
-_User = tslib_es6_decorate([
+_User = __decorate([
     updateable(),
     deleteable()
 ], _User);
@@ -5405,7 +5048,7 @@ _User = tslib_es6_decorate([
 const User = graphInvokableFactory(_User);
 let _Users = class _Users extends _DirectoryObjects {
 };
-_Users = tslib_es6_decorate([
+_Users = __decorate([
     defaultPath("users"),
     getById(User)
 ], _Users);
@@ -5413,7 +5056,7 @@ _Users = tslib_es6_decorate([
 const Users = graphInvokableFactory(_Users);
 let _People = class _People extends _DirectoryObjects {
 };
-_People = tslib_es6_decorate([
+_People = __decorate([
     defaultPath("people")
 ], _People);
 
@@ -5489,7 +5132,7 @@ let _Presence = class _Presence extends _GraphInstance {
         return graphPost(Presence(this, "setStatusMessage"), body(postBody));
     }
 };
-_Presence = tslib_es6_decorate([
+_Presence = __decorate([
     defaultPath("presence")
 ], _Presence);
 
@@ -5505,7 +5148,7 @@ let _Communications = class _Communications extends _GraphCollection {
         return graphPost(Communications(this, "getPresencesByUserId"), body(postBody));
     }
 };
-_Communications = tslib_es6_decorate([
+_Communications = __decorate([
     defaultPath("communications")
 ], _Communications);
 
@@ -5539,7 +5182,7 @@ Reflect.defineProperty(GraphFI.prototype, "communications", {
  */
 let _List = class _List extends _GraphInstance {
 };
-_List = tslib_es6_decorate([
+_List = __decorate([
     deleteable(),
     updateable()
 ], _List);
@@ -5551,7 +5194,7 @@ const List = graphInvokableFactory(_List);
  */
 let _Lists = class _Lists extends _GraphCollection {
 };
-_Lists = tslib_es6_decorate([
+_Lists = __decorate([
     defaultPath("lists"),
     getById(List),
     addable()
@@ -5580,7 +5223,7 @@ const addColumn = async function (column) {
  */
 let _Column = class _Column extends _GraphInstance {
 };
-_Column = tslib_es6_decorate([
+_Column = __decorate([
     deleteable(),
     updateable()
 ], _Column);
@@ -5591,7 +5234,7 @@ const Column = graphInvokableFactory(_Column);
  */
 let _Columns = class _Columns extends _GraphCollection {
 };
-_Columns = tslib_es6_decorate([
+_Columns = __decorate([
     defaultPath("columns"),
     getById(Column)
 ], _Columns);
@@ -5670,7 +5313,7 @@ let _ContentType = class _ContentType extends _GraphInstance {
         return graphPost(ContentType(this, "copyToDefaultContentLocation"), body(postBody));
     }
 };
-_ContentType = tslib_es6_decorate([
+_ContentType = __decorate([
     deleteable(),
     updateable()
 ], _ContentType);
@@ -5689,11 +5332,11 @@ let _ContentTypes = class _ContentTypes extends _GraphCollection {
     async addCopyFromContentTypeHub(contentTypeId) {
         var _a;
         const creator = ContentType(this, "addCopyFromContentTypeHub").using(JSONHeaderParse());
-        const data = await graphPost(creator, body({ contentTypeId }));
-        const pendingLocation = ((_a = data === null || data === void 0 ? void 0 : data.headers) === null || _a === void 0 ? void 0 : _a.location) || null;
+        const result = await graphPost(creator, body({ contentTypeId }));
+        const pendingLocation = ((_a = result === null || result === void 0 ? void 0 : result.headers) === null || _a === void 0 ? void 0 : _a.get("location")) || null;
         return {
-            data: data.data,
-            contentType: this.getById(data.id),
+            data: result.data,
+            contentType: this.getById(result.data.id),
             pendingLocation,
         };
     }
@@ -5705,7 +5348,7 @@ let _ContentTypes = class _ContentTypes extends _GraphCollection {
         return graphGet(ContentTypes(this, "getCompatibleHubContentTypes"));
     }
 };
-_ContentTypes = tslib_es6_decorate([
+_ContentTypes = __decorate([
     defaultPath("contenttypes"),
     getById(ContentType)
 ], _ContentTypes);
@@ -5752,7 +5395,7 @@ let _Compliance = class _Compliance extends _GraphQueryable {
         return SubjectRightsRequests(this);
     }
 };
-_Compliance = tslib_es6_decorate([
+_Compliance = __decorate([
     defaultPath("security")
 ], _Compliance);
 
@@ -5780,7 +5423,7 @@ let _SubjectRightsRequest = class _SubjectRightsRequest extends _GraphInstance {
         return Notes(this);
     }
 };
-_SubjectRightsRequest = tslib_es6_decorate([
+_SubjectRightsRequest = __decorate([
     defaultPath("/"),
     updateable()
 ], _SubjectRightsRequest);
@@ -5791,7 +5434,7 @@ const SubjectRightsRequest = graphInvokableFactory(_SubjectRightsRequest);
  */
 let _SubjectRightsRequests = class _SubjectRightsRequests extends _GraphCollection {
 };
-_SubjectRightsRequests = tslib_es6_decorate([
+_SubjectRightsRequests = __decorate([
     defaultPath("subjectRightsRequests"),
     getById(SubjectRightsRequest),
     addable()
@@ -5803,7 +5446,7 @@ const SubjectRightsRequests = graphInvokableFactory(_SubjectRightsRequests);
  */
 let _Notes = class _Notes extends _GraphCollection {
 };
-_Notes = tslib_es6_decorate([
+_Notes = __decorate([
     defaultPath("notes"),
     addable()
 ], _Notes);
@@ -5832,7 +5475,7 @@ Reflect.defineProperty(GraphFI.prototype, "compliance", {
  */
 let _Contact = class _Contact extends _GraphInstance {
 };
-_Contact = tslib_es6_decorate([
+_Contact = __decorate([
     updateable(),
     deleteable()
 ], _Contact);
@@ -5862,7 +5505,7 @@ let _Contacts = class _Contacts extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_Contacts = tslib_es6_decorate([
+_Contacts = __decorate([
     defaultPath("contacts"),
     getById(Contact)
 ], _Contacts);
@@ -5885,7 +5528,7 @@ let _ContactFolder = class _ContactFolder extends _GraphInstance {
         return ContactFolders(this, "childFolders");
     }
 };
-_ContactFolder = tslib_es6_decorate([
+_ContactFolder = __decorate([
     deleteable(),
     updateable()
 ], _ContactFolder);
@@ -5909,7 +5552,7 @@ let _ContactFolders = class _ContactFolders extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_ContactFolders = tslib_es6_decorate([
+_ContactFolders = __decorate([
     defaultPath("contactFolders"),
     getById(ContactFolder)
 ], _ContactFolders);
@@ -6093,7 +5736,7 @@ let _Bundle = class _Bundle extends _GraphInstance {
         return graphDelete(GraphQueryable(this, `/children/${id}`));
     }
 };
-_Bundle = tslib_es6_decorate([
+_Bundle = __decorate([
     deleteable(),
     updateable()
 ], _Bundle);
@@ -6113,7 +5756,7 @@ let _Bundles = class _Bundles extends _GraphCollection {
         return graphPost(this, body(bundleDef));
     }
 };
-_Bundles = tslib_es6_decorate([
+_Bundles = __decorate([
     defaultPath("bundles"),
     getById(Bundle)
 ], _Bundles);
@@ -6170,7 +5813,7 @@ let _Insights = class _Insights extends _GraphInstance {
         return SharedInsights(this);
     }
 };
-_Insights = tslib_es6_decorate([
+_Insights = __decorate([
     defaultPath("insights")
 ], _Insights);
 
@@ -6190,7 +5833,7 @@ const TrendingInsight = graphInvokableFactory(_TrendingInsight);
  */
 let _TrendingInsights = class _TrendingInsights extends _GraphCollection {
 };
-_TrendingInsights = tslib_es6_decorate([
+_TrendingInsights = __decorate([
     defaultPath("trending"),
     getById(TrendingInsight)
 ], _TrendingInsights);
@@ -6211,7 +5854,7 @@ const UsedInsight = graphInvokableFactory(_UsedInsight);
  */
 let _UsedInsights = class _UsedInsights extends _GraphCollection {
 };
-_UsedInsights = tslib_es6_decorate([
+_UsedInsights = __decorate([
     defaultPath("used"),
     getById(UsedInsight)
 ], _UsedInsights);
@@ -6232,7 +5875,7 @@ const SharedInsight = graphInvokableFactory(_SharedInsight);
  */
 let _SharedInsights = class _SharedInsights extends _GraphCollection {
 };
-_SharedInsights = tslib_es6_decorate([
+_SharedInsights = __decorate([
     defaultPath("shared"),
     getById(SharedInsight)
 ], _SharedInsights);
@@ -6243,7 +5886,7 @@ const SharedInsights = graphInvokableFactory(_SharedInsights);
  */
 let _Resource = class _Resource extends _GraphInstance {
 };
-_Resource = tslib_es6_decorate([
+_Resource = __decorate([
     defaultPath("resource")
 ], _Resource);
 
@@ -6285,7 +5928,7 @@ let _Invitations = class _Invitations extends _GraphCollection {
         return { data };
     }
 };
-_Invitations = tslib_es6_decorate([
+_Invitations = __decorate([
     defaultPath("invitations")
 ], _Invitations);
 
@@ -6387,7 +6030,7 @@ let _MailFolder = class _MailFolder extends _GraphInstance {
         return await graphPost(MailFolder(this, "move"), body({ destinationId: destinationFolderId }));
     }
 };
-_MailFolder = tslib_es6_decorate([
+_MailFolder = __decorate([
     updateable(),
     deleteable()
 ], _MailFolder);
@@ -6403,7 +6046,7 @@ let _MailFolders = class _MailFolders extends _GraphCollection {
         return q;
     }
 };
-_MailFolders = tslib_es6_decorate([
+_MailFolders = __decorate([
     defaultPath("mailFolders"),
     getById(MailFolder),
     addable(),
@@ -6432,7 +6075,7 @@ const Outlook = graphInvokableFactory(_Outlook);
  */
 let _OutlookCategory = class _OutlookCategory extends _GraphInstance {
 };
-_OutlookCategory = tslib_es6_decorate([
+_OutlookCategory = __decorate([
     deleteable(),
     updateable()
 ], _OutlookCategory);
@@ -6443,7 +6086,7 @@ const OutlookCategory = graphInvokableFactory(_OutlookCategory);
  */
 let _MasterCategories = class _MasterCategories extends _GraphCollection {
 };
-_MasterCategories = tslib_es6_decorate([
+_MasterCategories = __decorate([
     defaultPath("masterCategories"),
     getById(OutlookCategory),
     addable()
@@ -6517,7 +6160,7 @@ let _MailboxSettings = class _MailboxSettings extends _GraphInstance {
         return graphGet(GraphQueryable(this, "userPurpose"));
     }
 };
-_MailboxSettings = tslib_es6_decorate([
+_MailboxSettings = __decorate([
     defaultPath("mailboxSettings"),
     updateable()
 ], _MailboxSettings);
@@ -6528,7 +6171,7 @@ const MailboxSettings = graphInvokableFactory(_MailboxSettings);
  */
 let _FocusedInboxOverride = class _FocusedInboxOverride extends _GraphInstance {
 };
-_FocusedInboxOverride = tslib_es6_decorate([
+_FocusedInboxOverride = __decorate([
     defaultPath("inferenceClassification/overrides"),
     updateable(),
     deleteable()
@@ -6540,7 +6183,7 @@ const FocusedInboxOverride = graphInvokableFactory(_FocusedInboxOverride);
  */
 let _FocusedInboxOverrides = class _FocusedInboxOverrides extends _GraphCollection {
 };
-_FocusedInboxOverrides = tslib_es6_decorate([
+_FocusedInboxOverrides = __decorate([
     defaultPath("inferenceClassification/overrides"),
     getById(FocusedInboxOverride),
     addable()
@@ -6611,7 +6254,7 @@ let _Members = class _Members extends _GraphCollection {
         return graphPost(Members(this, "$ref"), body({ "@odata.id": id }));
     }
 };
-_Members = tslib_es6_decorate([
+_Members = __decorate([
     defaultPath("members"),
     getById(Member)
 ], _Members);
@@ -6654,7 +6297,7 @@ let _OneNote = class _OneNote extends _GraphInstance {
         return SectionGroups(this);
     }
 };
-_OneNote = tslib_es6_decorate([
+_OneNote = __decorate([
     defaultPath("onenote")
 ], _OneNote);
 
@@ -6700,7 +6343,7 @@ let _Notebooks = class _Notebooks extends _GraphCollection {
         return graphGet(GraphQueryable(this, `getRecentNotebooks(includePersonalNotebooks=${includePersonalNotebooks})`));
     }
 };
-_Notebooks = tslib_es6_decorate([
+_Notebooks = __decorate([
     defaultPath("notebooks"),
     getById(Notebook)
 ], _Notebooks);
@@ -6743,7 +6386,7 @@ let _Sections = class _Sections extends _GraphCollection {
         return graphPost(this, body({ displayName }));
     }
 };
-_Sections = tslib_es6_decorate([
+_Sections = __decorate([
     defaultPath("sections"),
     getById(Section)
 ], _Sections);
@@ -6774,7 +6417,7 @@ let _SectionGroups = class _SectionGroups extends _GraphCollection {
         return Sections(this);
     }
 };
-_SectionGroups = tslib_es6_decorate([
+_SectionGroups = __decorate([
     defaultPath("sectiongroups"),
     getById(SectionGroup)
 ], _SectionGroups);
@@ -6808,7 +6451,7 @@ let _OnenotePage = class _OnenotePage extends _GraphInstance {
         return graphPatch(GraphQueryable(this, "content"), body(props));
     }
 };
-_OnenotePage = tslib_es6_decorate([
+_OnenotePage = __decorate([
     deleteable()
 ], _OnenotePage);
 
@@ -6831,7 +6474,7 @@ let _OnenotePages = class _OnenotePages extends _GraphCollection {
         return graphPost(q, { body: html });
     }
 };
-_OnenotePages = tslib_es6_decorate([
+_OnenotePages = __decorate([
     defaultPath("pages"),
     getById(OnenotePage)
 ], _OnenotePages);
@@ -6851,7 +6494,7 @@ let _Resources = class _Resources extends _GraphInstance {
         return GraphQueryable(this, `${id}/content`).using(BlobParse());
     }
 };
-_Resources = tslib_es6_decorate([
+_Resources = __decorate([
     defaultPath("resources")
 ], _Resources);
 
@@ -6894,7 +6537,7 @@ let _OpenExtension = class _OpenExtension extends _GraphCollection {
         return graphPatch(this, body(extension));
     }
 };
-_OpenExtension = tslib_es6_decorate([
+_OpenExtension = __decorate([
     deleteable()
 ], _OpenExtension);
 
@@ -6910,7 +6553,7 @@ let _OpenExtensions = class _OpenExtensions extends _GraphCollection {
         return graphPost(this, body(extension));
     }
 };
-_OpenExtensions = tslib_es6_decorate([
+_OpenExtensions = __decorate([
     defaultPath("extensions"),
     getById(OpenExtension)
 ], _OpenExtensions);
@@ -6936,7 +6579,7 @@ addProp(_Site, "extensions", OpenExtensions);
  */
 let _Operations = class _Operations extends _GraphCollection {
 };
-_Operations = tslib_es6_decorate([
+_Operations = __decorate([
     defaultPath("operations")
 ], _Operations);
 
@@ -6970,7 +6613,7 @@ addProp(_List, "operations", Operations);
  */
 let _Page = class _Page extends _GraphInstance {
 };
-_Page = tslib_es6_decorate([
+_Page = __decorate([
     deleteable(),
     updateable()
 ], _Page);
@@ -6984,7 +6627,7 @@ let _Pages = class _Pages extends _GraphCollection {
         return SitePages(this);
     }
 };
-_Pages = tslib_es6_decorate([
+_Pages = __decorate([
     defaultPath("pages"),
     getById(Page)
 ], _Pages);
@@ -7036,7 +6679,7 @@ let _SitePage = class _SitePage extends _GraphInstance {
         return null;
     }
 };
-_SitePage = tslib_es6_decorate([
+_SitePage = __decorate([
     deleteable(),
     updateable()
 ], _SitePage);
@@ -7058,7 +6701,7 @@ let _SitePages = class _SitePages extends _GraphCollection {
         return graphPost(this._pages, body({ "@odata.type": SitePageTypeString, ...pageInfo }));
     }
 };
-_SitePages = tslib_es6_decorate([
+_SitePages = __decorate([
     defaultPath(SitePageTypeString)
 ], _SitePages);
 
@@ -7068,7 +6711,7 @@ let _HorizontalSection = class _HorizontalSection extends _GraphInstance {
         return HorizontalSectionColumns(this);
     }
 };
-_HorizontalSection = tslib_es6_decorate([
+_HorizontalSection = __decorate([
     updateable(),
     deleteable()
 ], _HorizontalSection);
@@ -7083,7 +6726,7 @@ let _HorizontalSections = class _HorizontalSections extends _GraphCollection {
         return section.concat(`('${id}')`);
     }
 };
-_HorizontalSections = tslib_es6_decorate([
+_HorizontalSections = __decorate([
     defaultPath("canvasLayout/horizontalSections")
 ], _HorizontalSections);
 
@@ -7100,7 +6743,7 @@ let _HorizontalSectionColumns = class _HorizontalSectionColumns extends _GraphCo
         return column.concat(`('${id}')`);
     }
 };
-_HorizontalSectionColumns = tslib_es6_decorate([
+_HorizontalSectionColumns = __decorate([
     defaultPath("columns")
 ], _HorizontalSectionColumns);
 
@@ -7113,7 +6756,7 @@ let _VerticalSection = class _VerticalSection extends _GraphInstance {
         return Webparts(this);
     }
 };
-_VerticalSection = tslib_es6_decorate([
+_VerticalSection = __decorate([
     updateable(),
     deleteable(),
     defaultPath("canvasLayout/verticalSection")
@@ -7135,7 +6778,7 @@ let _Webparts = class _Webparts extends _GraphCollection {
         return Webpart([this, base], `webparts/${id}`);
     }
 };
-_Webparts = tslib_es6_decorate([
+_Webparts = __decorate([
     defaultPath("webparts")
 ], _Webparts);
 
@@ -7161,7 +6804,7 @@ addProp(_Site, "pages", Pages);
  */
 let _Permission = class _Permission extends _GraphInstance {
 };
-_Permission = tslib_es6_decorate([
+_Permission = __decorate([
     deleteable(),
     updateable()
 ], _Permission);
@@ -7172,7 +6815,7 @@ const Permission = graphInvokableFactory(_Permission);
  */
 let _Permissions = class _Permissions extends _GraphCollection {
 };
-_Permissions = tslib_es6_decorate([
+_Permissions = __decorate([
     defaultPath("permissions"),
     getById(Permission)
 ], _Permissions);
@@ -7236,7 +6879,7 @@ let _Photo = class _Photo extends _GraphInstance {
         return graphPatch(Photo(this, "$value"), { body: content });
     }
 };
-_Photo = tslib_es6_decorate([
+_Photo = __decorate([
     defaultPath("photo")
 ], _Photo);
 
@@ -7249,7 +6892,7 @@ let _Photos = class _Photos extends _GraphCollection {
         return Photo(this, `/${size}`);
     }
 };
-_Photos = tslib_es6_decorate([
+_Photos = __decorate([
     defaultPath("photos")
 ], _Photos);
 
@@ -7341,7 +6984,7 @@ let _Team = class _Team extends _GraphInstance {
         return GraphInstance(this, `operations/${id}`)();
     }
 };
-_Team = tslib_es6_decorate([
+_Team = __decorate([
     defaultPath("team"),
     updateable()
 ], _Team);
@@ -7366,7 +7009,7 @@ let _Teams = class _Teams extends _GraphCollection {
         return result;
     }
 };
-_Teams = tslib_es6_decorate([
+_Teams = __decorate([
     defaultPath("teams"),
     getById(Team)
 ], _Teams);
@@ -7406,7 +7049,7 @@ let _Channels = class _Channels extends _GraphCollection {
         };
     }
 };
-_Channels = tslib_es6_decorate([
+_Channels = __decorate([
     defaultPath("channels"),
     getById(Channel)
 ], _Channels);
@@ -7435,7 +7078,7 @@ let types_Messages = class _Messages extends _GraphCollection {
         };
     }
 };
-types_Messages = tslib_es6_decorate([
+types_Messages = __decorate([
     defaultPath("messages"),
     getById(teams_types_Message)
 ], types_Messages);
@@ -7446,7 +7089,7 @@ const teams_types_Messages = graphInvokableFactory(types_Messages);
  */
 let _Tab = class _Tab extends _GraphInstance {
 };
-_Tab = tslib_es6_decorate([
+_Tab = __decorate([
     defaultPath("tab"),
     updateable(),
     deleteable()
@@ -7476,7 +7119,7 @@ let _Tabs = class _Tabs extends _GraphCollection {
         };
     }
 };
-_Tabs = tslib_es6_decorate([
+_Tabs = __decorate([
     defaultPath("tabs"),
     getById(Tab)
 ], _Tabs);
@@ -7490,7 +7133,7 @@ let _InstalledApp = class _InstalledApp extends _GraphInstance {
         return graphPost(InstalledApp(this, "upgrade"));
     }
 };
-_InstalledApp = tslib_es6_decorate([
+_InstalledApp = __decorate([
     deleteable()
 ], _InstalledApp);
 
@@ -7513,7 +7156,7 @@ let _InstalledApps = class _InstalledApps extends _GraphCollection {
         };
     }
 };
-_InstalledApps = tslib_es6_decorate([
+_InstalledApps = __decorate([
     defaultPath("installedApps"),
     getById(InstalledApp)
 ], _InstalledApps);
@@ -7541,7 +7184,7 @@ addProp(_Team, "photo", Photo);
  */
 let _Place = class _Place extends _GraphInstance {
 };
-_Place = tslib_es6_decorate([
+_Place = __decorate([
     updateable()
 ], _Place);
 
@@ -7563,7 +7206,7 @@ let _Places = class _Places extends _GraphInstance {
         return RoomLists(this);
     }
 };
-_Places = tslib_es6_decorate([
+_Places = __decorate([
     defaultPath("places"),
     getById(Place)
 ], _Places);
@@ -7586,7 +7229,7 @@ const RoomList = graphInvokableFactory(_RoomList);
  */
 let _RoomLists = class _RoomLists extends _GraphCollection {
 };
-_RoomLists = tslib_es6_decorate([
+_RoomLists = __decorate([
     defaultPath("microsoft.graph.roomList"),
     getById(RoomList)
 ], _RoomLists);
@@ -7603,7 +7246,7 @@ const Room = graphInvokableFactory(_Room);
  */
 let _Rooms = class _Rooms extends _GraphCollection {
 };
-_Rooms = tslib_es6_decorate([
+_Rooms = __decorate([
     defaultPath("microsoft.graph.room"),
     getById(Room)
 ], _Rooms);
@@ -7644,7 +7287,7 @@ let _Planner = class _Planner extends _GraphInstance {
         return Buckets(this);
     }
 };
-_Planner = tslib_es6_decorate([
+_Planner = __decorate([
     defaultPath("planner")
 ], _Planner);
 
@@ -7654,7 +7297,7 @@ const Planner = graphInvokableFactory(_Planner);
  */
 let _PlanDetails = class _PlanDetails extends _GraphInstance {
 };
-_PlanDetails = tslib_es6_decorate([
+_PlanDetails = __decorate([
     defaultPath("details"),
     updateableWithETag()
 ], _PlanDetails);
@@ -7674,7 +7317,7 @@ let _Plan = class _Plan extends _GraphInstance {
         return PlanDetails(this);
     }
 };
-_Plan = tslib_es6_decorate([
+_Plan = __decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Plan);
@@ -7682,7 +7325,7 @@ _Plan = tslib_es6_decorate([
 const Plan = graphInvokableFactory(_Plan);
 let _Plans = class _Plans extends _GraphCollection {
 };
-_Plans = tslib_es6_decorate([
+_Plans = __decorate([
     defaultPath("plans"),
     getById(Plan),
     addable()
@@ -7694,7 +7337,7 @@ const Plans = graphInvokableFactory(_Plans);
  */
 let _TaskDetails = class _TaskDetails extends _GraphInstance {
 };
-_TaskDetails = tslib_es6_decorate([
+_TaskDetails = __decorate([
     defaultPath("details"),
     updateableWithETag()
 ], _TaskDetails);
@@ -7705,7 +7348,7 @@ const TaskDetails = graphInvokableFactory(_TaskDetails);
  */
 let _AssignedToTaskBoardFormat = class _AssignedToTaskBoardFormat extends _GraphInstance {
 };
-_AssignedToTaskBoardFormat = tslib_es6_decorate([
+_AssignedToTaskBoardFormat = __decorate([
     defaultPath("assignedToTaskBoardFormat"),
     updateableWithETag()
 ], _AssignedToTaskBoardFormat);
@@ -7716,7 +7359,7 @@ const AssignedToTaskBoardFormat = graphInvokableFactory(_AssignedToTaskBoardForm
  */
 let _BucketTaskBoardFormat = class _BucketTaskBoardFormat extends _GraphInstance {
 };
-_BucketTaskBoardFormat = tslib_es6_decorate([
+_BucketTaskBoardFormat = __decorate([
     defaultPath("bucketTaskBoardFormat"),
     updateableWithETag()
 ], _BucketTaskBoardFormat);
@@ -7727,7 +7370,7 @@ const BucketTaskBoardFormat = graphInvokableFactory(_BucketTaskBoardFormat);
  */
 let _ProgressTaskBoardFormat = class _ProgressTaskBoardFormat extends _GraphInstance {
 };
-_ProgressTaskBoardFormat = tslib_es6_decorate([
+_ProgressTaskBoardFormat = __decorate([
     defaultPath("progressTaskBoardFormat"),
     updateableWithETag()
 ], _ProgressTaskBoardFormat);
@@ -7750,7 +7393,7 @@ let _Task = class _Task extends _GraphInstance {
         return ProgressTaskBoardFormat(this);
     }
 };
-_Task = tslib_es6_decorate([
+_Task = __decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Task);
@@ -7761,7 +7404,7 @@ const Task = graphInvokableFactory(_Task);
  */
 let _Tasks = class _Tasks extends _GraphCollection {
 };
-_Tasks = tslib_es6_decorate([
+_Tasks = __decorate([
     defaultPath("tasks"),
     getById(Task),
     addable()
@@ -7776,7 +7419,7 @@ let _Bucket = class _Bucket extends _GraphInstance {
         return Tasks(this);
     }
 };
-_Bucket = tslib_es6_decorate([
+_Bucket = __decorate([
     updateableWithETag(),
     deleteableWithETag()
 ], _Bucket);
@@ -7787,7 +7430,7 @@ const Bucket = graphInvokableFactory(_Bucket);
  */
 let _Buckets = class _Buckets extends _GraphCollection {
 };
-_Buckets = tslib_es6_decorate([
+_Buckets = __decorate([
     defaultPath("buckets"),
     getById(Bucket),
     addable()
@@ -7834,7 +7477,7 @@ let _Search = class _Search extends _GraphInstance {
         return graphPost(Search(this, "query"), body(request));
     }
 };
-_Search = tslib_es6_decorate([
+_Search = __decorate([
     defaultPath("search")
 ], _Search);
 
@@ -7899,7 +7542,7 @@ let _Shares = class _Shares extends _GraphCollection {
         return graphPost(q, body(shareLinkAccess));
     }
 };
-_Shares = tslib_es6_decorate([
+_Shares = __decorate([
     defaultPath("shares"),
     getById(Share)
 ], _Shares);
@@ -7968,7 +7611,7 @@ Reflect.defineProperty(GraphFI.prototype, "sites", {
  */
 let _Subscription = class _Subscription extends _GraphInstance {
 };
-_Subscription = tslib_es6_decorate([
+_Subscription = __decorate([
     deleteable(),
     updateable()
 ], _Subscription);
@@ -8003,7 +7646,7 @@ let _Subscriptions = class _Subscriptions extends _GraphCollection {
         };
     }
 };
-_Subscriptions = tslib_es6_decorate([
+_Subscriptions = __decorate([
     defaultPath("subscriptions"),
     getById(Subscription)
 ], _Subscriptions);
@@ -8044,7 +7687,7 @@ let _TermStore = class _TermStore extends _GraphInstance {
         return TermSets(this);
     }
 };
-_TermStore = tslib_es6_decorate([
+_TermStore = __decorate([
     defaultPath("termstore"),
     updateable()
 ], _TermStore);
@@ -8058,14 +7701,14 @@ let _TermGroup = class _TermGroup extends _GraphInstance {
         return TermSets(this, "sets");
     }
 };
-_TermGroup = tslib_es6_decorate([
+_TermGroup = __decorate([
     deleteable()
 ], _TermGroup);
 
 const TermGroup = graphInvokableFactory(_TermGroup);
 let _TermGroups = class _TermGroups extends _GraphCollection {
 };
-_TermGroups = tslib_es6_decorate([
+_TermGroups = __decorate([
     defaultPath("groups"),
     getById(TermGroup),
     addable()
@@ -8117,7 +7760,7 @@ let _TermSet = class _TermSet extends _GraphInstance {
         return tree;
     }
 };
-_TermSet = tslib_es6_decorate([
+_TermSet = __decorate([
     deleteable(),
     updateable()
 ], _TermSet);
@@ -8125,7 +7768,7 @@ _TermSet = tslib_es6_decorate([
 const TermSet = graphInvokableFactory(_TermSet);
 let _TermSets = class _TermSets extends _GraphCollection {
 };
-_TermSets = tslib_es6_decorate([
+_TermSets = __decorate([
     defaultPath("sets"),
     getById(TermSet),
     addable()
@@ -8134,7 +7777,7 @@ _TermSets = tslib_es6_decorate([
 const TermSets = graphInvokableFactory(_TermSets);
 let _Children = class _Children extends _GraphCollection {
 };
-_Children = tslib_es6_decorate([
+_Children = __decorate([
     defaultPath("children"),
     addable()
 ], _Children);
@@ -8151,7 +7794,7 @@ let _Term = class _Term extends _GraphInstance {
         return TermSet(this, "set");
     }
 };
-_Term = tslib_es6_decorate([
+_Term = __decorate([
     updateable(),
     deleteable()
 ], _Term);
@@ -8159,7 +7802,7 @@ _Term = tslib_es6_decorate([
 const Term = graphInvokableFactory(_Term);
 let _Terms = class _Terms extends _GraphCollection {
 };
-_Terms = tslib_es6_decorate([
+_Terms = __decorate([
     defaultPath("terms"),
     getById(Term)
 ], _Terms);
@@ -8167,7 +7810,7 @@ _Terms = tslib_es6_decorate([
 const Terms = graphInvokableFactory(_Terms);
 let _Relations = class _Relations extends _GraphCollection {
 };
-_Relations = tslib_es6_decorate([
+_Relations = __decorate([
     defaultPath("relations"),
     addable()
 ], _Relations);
@@ -8238,7 +7881,7 @@ let _Todo = class _Todo extends _GraphInstance {
         return TaskLists(this);
     }
 };
-_Todo = tslib_es6_decorate([
+_Todo = __decorate([
     defaultPath("todo")
 ], _Todo);
 
@@ -8251,7 +7894,7 @@ let _TaskList = class _TaskList extends _GraphInstance {
         return TodoTasks(this);
     }
 };
-_TaskList = tslib_es6_decorate([
+_TaskList = __decorate([
     deleteable(),
     updateable()
 ], _TaskList);
@@ -8262,7 +7905,7 @@ const TaskList = graphInvokableFactory(_TaskList);
  */
 let _TaskLists = class _TaskLists extends _GraphCollection {
 };
-_TaskLists = tslib_es6_decorate([
+_TaskLists = __decorate([
     defaultPath("lists"),
     getById(TaskList),
     addable(),
@@ -8284,7 +7927,7 @@ let _TodoTask = class _TodoTask extends _GraphInstance {
         return LinkedResources(this);
     }
 };
-_TodoTask = tslib_es6_decorate([
+_TodoTask = __decorate([
     deleteable(),
     updateable()
 ], _TodoTask);
@@ -8295,7 +7938,7 @@ const TodoTask = graphInvokableFactory(_TodoTask);
  */
 let _TodoTasks = class _TodoTasks extends _GraphCollection {
 };
-_TodoTasks = tslib_es6_decorate([
+_TodoTasks = __decorate([
     defaultPath("tasks"),
     getById(TodoTask),
     addable(),
@@ -8311,7 +7954,7 @@ let _TodoAttachment = class _TodoAttachment extends _GraphInstance {
         return TodoAttachments(this);
     }
 };
-_TodoAttachment = tslib_es6_decorate([
+_TodoAttachment = __decorate([
     deleteable()
 ], _TodoAttachment);
 
@@ -8328,7 +7971,7 @@ let _TodoAttachments = class _TodoAttachments extends _GraphCollection {
         return graphPost(this, body(postBody));
     }
 };
-_TodoAttachments = tslib_es6_decorate([
+_TodoAttachments = __decorate([
     defaultPath("attachments"),
     getById(TodoAttachment)
 ], _TodoAttachments);
@@ -8339,7 +7982,7 @@ const TodoAttachments = graphInvokableFactory(_TodoAttachments);
  */
 let _ChecklistItem = class _ChecklistItem extends _GraphInstance {
 };
-_ChecklistItem = tslib_es6_decorate([
+_ChecklistItem = __decorate([
     deleteable(),
     updateable()
 ], _ChecklistItem);
@@ -8350,7 +7993,7 @@ const ChecklistItem = graphInvokableFactory(_ChecklistItem);
  */
 let _ChecklistItems = class _ChecklistItems extends _GraphCollection {
 };
-_ChecklistItems = tslib_es6_decorate([
+_ChecklistItems = __decorate([
     defaultPath("checklistItems"),
     getById(ChecklistItem),
     addable()
@@ -8362,7 +8005,7 @@ const ChecklistItems = graphInvokableFactory(_ChecklistItems);
  */
 let _LinkedResource = class _LinkedResource extends _GraphInstance {
 };
-_LinkedResource = tslib_es6_decorate([
+_LinkedResource = __decorate([
     deleteable(),
     updateable()
 ], _LinkedResource);
@@ -8373,7 +8016,7 @@ const LinkedResource = graphInvokableFactory(_LinkedResource);
  */
 let _LinkedResources = class _LinkedResources extends _GraphCollection {
 };
-_LinkedResources = tslib_es6_decorate([
+_LinkedResources = __decorate([
     defaultPath("linkedResources"),
     getById(LinkedResource),
     addable()
@@ -8436,7 +8079,7 @@ let _Workbook = class _Workbook extends _GraphInstance {
         return Application(this);
     }
 };
-_Workbook = tslib_es6_decorate([
+_Workbook = __decorate([
     defaultPath("workbook")
 ], _Workbook);
 
@@ -8533,7 +8176,7 @@ let _Range = class _Range extends _GraphInstance {
         return graphPost(GraphQueryable(this, "delete"), body({ shift }));
     }
 };
-_Range = tslib_es6_decorate([
+_Range = __decorate([
     updateable()
 ], _Range);
 
@@ -8549,7 +8192,7 @@ class _RangeView extends _GraphInstance {
 const RangeView = graphInvokableFactory(_RangeView);
 let _RangeViews = class _RangeViews extends _GraphCollection {
 };
-_RangeViews = tslib_es6_decorate([
+_RangeViews = __decorate([
     getItemAt(RangeView)
 ], _RangeViews);
 
@@ -8559,7 +8202,7 @@ let _RangeSort = class _RangeSort extends _GraphInstance {
         return graphPost(GraphQueryable(this, "apply"), body(params));
     }
 };
-_RangeSort = tslib_es6_decorate([
+_RangeSort = __decorate([
     defaultPath("sort")
 ], _RangeSort);
 
@@ -8584,7 +8227,7 @@ let _RangeFormat = class _RangeFormat extends _GraphInstance {
         return graphPost(GraphQueryable(this, "autofitRows"));
     }
 };
-_RangeFormat = tslib_es6_decorate([
+_RangeFormat = __decorate([
     updateable(),
     defaultPath("format")
 ], _RangeFormat);
@@ -8592,7 +8235,7 @@ _RangeFormat = tslib_es6_decorate([
 const RangeFormat = graphInvokableFactory(_RangeFormat);
 let _RangeFont = class _RangeFont extends _GraphInstance {
 };
-_RangeFont = tslib_es6_decorate([
+_RangeFont = __decorate([
     defaultPath("font"),
     updateable()
 ], _RangeFont);
@@ -8603,7 +8246,7 @@ let _RangeFill = class _RangeFill extends _GraphInstance {
         return graphPost(GraphQueryable(this, "clear"));
     }
 };
-_RangeFill = tslib_es6_decorate([
+_RangeFill = __decorate([
     defaultPath("fill"),
     updateable()
 ], _RangeFill);
@@ -8611,7 +8254,7 @@ _RangeFill = tslib_es6_decorate([
 const RangeFill = graphInvokableFactory(_RangeFill);
 let _RangeFormatProtection = class _RangeFormatProtection extends _GraphInstance {
 };
-_RangeFormatProtection = tslib_es6_decorate([
+_RangeFormatProtection = __decorate([
     defaultPath("protection"),
     updateable()
 ], _RangeFormatProtection);
@@ -8619,7 +8262,7 @@ _RangeFormatProtection = tslib_es6_decorate([
 const RangeFormatProtection = graphInvokableFactory(_RangeFormatProtection);
 let _RangeBorder = class _RangeBorder extends _GraphInstance {
 };
-_RangeBorder = tslib_es6_decorate([
+_RangeBorder = __decorate([
     updateable()
 ], _RangeBorder);
 
@@ -8629,7 +8272,7 @@ let _RangeBorders = class _RangeBorders extends _GraphCollection {
         return RangeBorder(this, sideIndex);
     }
 };
-_RangeBorders = tslib_es6_decorate([
+_RangeBorders = __decorate([
     defaultPath("borders")
     // @addable()
     /**
@@ -8678,7 +8321,7 @@ let _Worksheet = class _Worksheet extends _GraphInstance {
         return WorksheetProtection(this, "protection");
     }
 };
-_Worksheet = tslib_es6_decorate([
+_Worksheet = __decorate([
     updateable(),
     deleteable()
 ], _Worksheet);
@@ -8686,7 +8329,7 @@ _Worksheet = tslib_es6_decorate([
 const Worksheet = graphInvokableFactory(_Worksheet);
 let _Worksheets = class _Worksheets extends _GraphCollection {
 };
-_Worksheets = tslib_es6_decorate([
+_Worksheets = __decorate([
     defaultPath("worksheets"),
     addable(),
     getById(Worksheet)
@@ -8737,7 +8380,7 @@ let _Table = class _Table extends _GraphInstance {
         return graphPost(GraphQueryable(this, "convertToRange"));
     }
 };
-_Table = tslib_es6_decorate([
+_Table = __decorate([
     getRange(),
     updateable(),
     deleteable()
@@ -8752,7 +8395,7 @@ let _Tables = class _Tables extends _GraphCollection {
         return graphPost(GraphQueryable(this, "add"), body({ address, hasHeaders }));
     }
 };
-_Tables = tslib_es6_decorate([
+_Tables = __decorate([
     defaultPath("tables"),
     getById(Table)
 ], _Tables);
@@ -8760,7 +8403,7 @@ _Tables = tslib_es6_decorate([
 const Tables = graphInvokableFactory(_Tables);
 let _TableRow = class _TableRow extends _GraphInstance {
 };
-_TableRow = tslib_es6_decorate([
+_TableRow = __decorate([
     getRange(),
     deleteable(),
     updateable()
@@ -8769,7 +8412,7 @@ _TableRow = tslib_es6_decorate([
 const TableRow = graphInvokableFactory(_TableRow);
 let _TableRows = class _TableRows extends _GraphCollection {
 };
-_TableRows = tslib_es6_decorate([
+_TableRows = __decorate([
     defaultPath("rows"),
     addable(),
     getItemAt(TableRow)
@@ -8790,7 +8433,7 @@ let _TableColumn = class _TableColumn extends _GraphInstance {
         return Range(this, "totalRowRange");
     }
 };
-_TableColumn = tslib_es6_decorate([
+_TableColumn = __decorate([
     getRange(),
     deleteable(),
     updateable()
@@ -8802,7 +8445,7 @@ let _TableColumns = class _TableColumns extends _GraphCollection {
         return TableColumn(this, name);
     }
 };
-_TableColumns = tslib_es6_decorate([
+_TableColumns = __decorate([
     defaultPath("columns"),
     addable(),
     getItemAt(TableColumn)
@@ -8825,7 +8468,7 @@ let _WorkbookFilter = class _WorkbookFilter extends _GraphInstance {
         return graphPost(GraphQueryable(this, "clear"));
     }
 };
-_WorkbookFilter = tslib_es6_decorate([
+_WorkbookFilter = __decorate([
     defaultPath("filter")
 ], _WorkbookFilter);
 
@@ -8841,7 +8484,7 @@ let _TableSort = class _TableSort extends _GraphInstance {
         return graphPost(GraphQueryable(this, "reapply"));
     }
 };
-_TableSort = tslib_es6_decorate([
+_TableSort = __decorate([
     defaultPath("sort")
 ], _TableSort);
 
@@ -8867,7 +8510,7 @@ let _PivotTables = class _PivotTables extends _GraphCollection {
         return graphPost(GraphQueryable(this, "refreshAll"));
     }
 };
-_PivotTables = tslib_es6_decorate([
+_PivotTables = __decorate([
     getById(PivotTable)
 ], _PivotTables);
 
@@ -8877,7 +8520,7 @@ let _NamedItem = class _NamedItem extends _GraphInstance {
         return Range(this, "range");
     }
 };
-_NamedItem = tslib_es6_decorate([
+_NamedItem = __decorate([
     updateable()
 ], _NamedItem);
 
@@ -8909,7 +8552,7 @@ let _NamedItems = class _NamedItems extends _GraphCollection {
         return q;
     }
 };
-_NamedItems = tslib_es6_decorate([
+_NamedItems = __decorate([
     defaultPath("names")
     // @getById(NamedItem)
 ], _NamedItems);
@@ -8923,7 +8566,7 @@ class _Comment extends _GraphInstance {
 const Comment = graphInvokableFactory(_Comment);
 let _Comments = class _Comments extends _GraphCollection {
 };
-_Comments = tslib_es6_decorate([
+_Comments = __decorate([
     getById(Comment),
     defaultPath("comments")
 ], _Comments);
@@ -8934,7 +8577,7 @@ class _CommentReply extends _GraphInstance {
 const CommentReply = graphInvokableFactory(_CommentReply);
 let _CommentReplies = class _CommentReplies extends _GraphInstance {
 };
-_CommentReplies = tslib_es6_decorate([
+_CommentReplies = __decorate([
     defaultPath("replies"),
     getById(CommentReply),
     addable()
@@ -8946,7 +8589,7 @@ let _Application = class _Application extends _GraphInstance {
         return graphPost(GraphQueryable(this, "calculate"), body({ calculationType }));
     }
 };
-_Application = tslib_es6_decorate([
+_Application = __decorate([
     defaultPath("application")
 ], _Application);
 
@@ -8956,7 +8599,7 @@ class _Operation extends _GraphInstance {
 const Operation = graphInvokableFactory(_Operation);
 let types_Operations = class _Operations extends _GraphCollection {
 };
-types_Operations = tslib_es6_decorate([
+types_Operations = __decorate([
     defaultPath("operations"),
     getById(Operation)
 ], types_Operations);
@@ -8964,7 +8607,7 @@ types_Operations = tslib_es6_decorate([
 const workbooks_types_Operations = graphInvokableFactory(types_Operations);
 let _Icon = class _Icon extends _GraphInstance {
 };
-_Icon = tslib_es6_decorate([
+_Icon = __decorate([
     updateable()
 ], _Icon);
 

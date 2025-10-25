@@ -51,6 +51,19 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         newWTab={false}
       />
       <QuickLinkButton
+        text={'Load SPFx 1.21+ debug manifest to current url'}
+        iconName={'Code'}
+        disabled={!ctx || !ctx.webAbsoluteUrl || !tabUrl}
+        url={
+          tabUrl
+            ? tabUrl +
+              (tabUrl.indexOf('?') > -1 ? '&' : '?') +
+              'loadSPFX=true&debugManifestsFile=https://localhost:4321/temp/build/manifests.js'
+            : ''
+        }
+        newWTab={false}
+      />
+      <QuickLinkButton
         text={'Remote workbench'}
         iconName={'Code'}
         disabled={!ctx || !ctx.webAbsoluteUrl}

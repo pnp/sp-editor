@@ -130,29 +130,19 @@ export const createCustomAction = (values: any, extPath: string) => {
         source: 'chrome-sp-editor',
       }
   }
-
-  return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
-    if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
-      return {
-        success: false,
-        result: null,
-        errorMessage: 'No script is enabled, cannot edit Custom Actions',
-        source: 'chrome-sp-editor',
-      }
+return sp.web.select('Id, EffectiveBasePermissions')().then((web: any) => {
+  /*if (!sp.web.hasPermissions(web.EffectiveBasePermissions, pnpsp.PermissionKind.AddAndCustomizePages)) {
+    return {
+      success: false,
+      result: null,
+      errorMessage: 'No script is enabled, cannot edit Custom Actions',
+      source: 'chrome-sp-editor',
     }
+  }*/
 
-    if (values.Scope === 2) {
-      return sp.site.userCustomActions.add(payload).then(() => {
-        return {
-          success: true,
-          result: null,
-          errorMessage: '',
-          source: 'chrome-sp-editor',
-        }
-      
-      })
-    } else {
-      return sp.web.userCustomActions.add(payload).then(() => {
+  if (values.Scope === 2) {
+    return sp.site.userCustomActions.add(payload)
+      .then(() => {
         return {
           success: true,
           result: null,
@@ -160,9 +150,45 @@ export const createCustomAction = (values: any, extPath: string) => {
           source: 'chrome-sp-editor',
         }
       })
-    }
-
-  })
+      .catch((error: any) => {
+        console.error('Error adding custom action to site collection:', error);
+        return {
+          success: false,
+          result: null,
+          errorMessage: error?.message || 'Failed to add custom action to site collection',
+          source: 'chrome-sp-editor',
+        }
+      })
+  } else {
+    return sp.web.userCustomActions.add(payload)
+      .then(() => {
+        return {
+          success: true,
+          result: null,
+          errorMessage: '',
+          source: 'chrome-sp-editor',
+        }
+      })
+      .catch((error: any) => {
+        console.error('Error adding custom action to web:', error);
+        return {
+          success: false,
+          result: null,
+          errorMessage: error?.message || 'Failed to add custom action to web',
+          source: 'chrome-sp-editor',
+        }
+      })
+  }
+})
+.catch((error: any) => {
+  console.error('Error getting web permissions:', error);
+  return {
+    success: false,
+    result: null,
+    errorMessage: error?.message || 'Failed to get web permissions',
+    source: 'chrome-sp-editor',
+  }
+})
 
   });
 
