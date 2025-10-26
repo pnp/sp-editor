@@ -8,8 +8,8 @@
     "npm": ">=10"
   },
   "dependencies": {
-    "@azure/msal-browser": "^4.4.0",
-    "@azure/msal-react": "^3.0.5",
+    "@azure/msal-browser": "^4.25.1",
+    "@azure/msal-react": "^3.0.20",
     "@craco/craco": "^7.1.0",
     "@fluentui/date-time-utilities": "^8.6.11",
     "@fluentui/react": "^8.125.0",
@@ -33,7 +33,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@vscode/codicons": "^0.0.41",
     "gsap": "^3.13.0",
-    "mgwdev-m365-helpers": "^0.2.19",
+    "mgwdev-m365-helpers": "^0.2.21",
     "monaco-editor": "^0.52.2",
     "nth-check": "^2.1.1",
     "react": "^18.3.1",

@@ -9,13 +9,13 @@ import { runRestCall } from '../../spshooter/chrome/chrome-actions';
 import { setBody, setMethod, setPath } from '../../../store/spshoot/actions';
 import { useNavigate } from 'react-router';
 import { IQueryField, LogicalOperator } from '../../../store/queryBuilder/types';
+import { current } from '@reduxjs/toolkit';
 
 export type ODataComparer =
   | 'BeginsWith'
   | 'Contains'
   | 'DateRangesOverlap'
   | 'Eq'
-  | 'IDEq'
   | 'Geq'
   | 'Gt'
   | 'Includes'
@@ -24,28 +24,21 @@ export type ODataComparer =
   | 'Leq'
   | 'Lt'
   | 'Neq'
-  | 'NotIncludes'
-  | 'Values'
-  | 'CurrentUserGroups';
+  | 'NotIncludes';
 
 const oDatacomparers: ODataComparer[] = [
+  'Eq',
+  'Neq',
+  'Gt',
+  'Geq',
+  'Lt',
+  'Leq',
   'BeginsWith',
   'Contains',
-  'DateRangesOverlap',
-  'Eq',
-  'IDEq',
-  'Geq',
-  'Gt',
-  'Includes',
-  'IsNotNull',
   'IsNull',
-  'Leq',
-  'Lt',
-  'Neq',
-  'NotIncludes',
-  'Values',
-  'CurrentUserGroups',
+  'IsNotNull',
 ];
+
 
 export default function SPQueryBuilder() {
   const { listFields, configuredQueryFields, selectedListId, context, query, camlQuery, selectedViewFields } =
@@ -83,10 +76,12 @@ export default function SPQueryBuilder() {
   // Build queries with AND/OR support
   const buildQuery = React.useCallback(() => {
     try {
-      const validFields = configuredQueryFields.filter(
-        (queryFld) => queryFld.comparer && queryFld.name && queryFld.value && queryFld.type
-      );
-
+      const validFields = configuredQueryFields.filter((queryFld) => {
+        // For IsNull/IsNotNull operators, we don't need a value
+        const needsValue = queryFld.comparer !== 'IsNull' && queryFld.comparer !== 'IsNotNull';
+        return queryFld.comparer && queryFld.name && queryFld.type;
+      });
+console.log('Building query with fields:', validFields);
       if (validFields.length === 0) {
         dispatch(actions.setQuery(''));
         dispatch(actions.setCamlQuery(''));
@@ -102,9 +97,15 @@ export default function SPQueryBuilder() {
 
         validFields.forEach((queryFld) => {
           const builder = new ODataQueryBuilder();
+          console.log('Building OData part for field:', {
+            name: queryFld.name,
+            value: queryFld.comparer === 'IsNull' || queryFld.comparer === 'IsNotNull' ? 'null' : queryFld.value,
+            type: queryFld.type,
+            comparer: queryFld.comparer,
+          });
           builder.withFieldQuery({
             name: queryFld.name,
-            value: queryFld.value,
+            value: queryFld.comparer === 'IsNull' || queryFld.comparer === 'IsNotNull' ? 'null' : queryFld.value,
             type: queryFld.type,
             comparer: queryFld.comparer,
           });
@@ -410,6 +411,7 @@ export default function SPQueryBuilder() {
             }}
             multiline
             label={'Caml Query'}
+            autoAdjustHeight
             value={fullCaml}
             readOnly
             rows={camlRows}
@@ -664,7 +666,7 @@ function FieldQueryBuilder(props: { index: number }) {
 
   const handleAddOrUpdate = () => {
     const { name, comparer, value } = currentField;
-    if (!name || !comparer || !value) return;
+    if (!name || !comparer) return;
 
     const fieldType = listFields.find((fld) => fld.InternalName === name)?.TypeAsString || '';
 
@@ -723,12 +725,12 @@ function FieldQueryBuilder(props: { index: number }) {
           handleValueChange(data || '');
         }}
       />
-      <PrimaryButton
+        <PrimaryButton
         text={isNewRow ? 'Add' : 'Update'}
-        disabled={!isListSelected || !currentField.name || !currentField.comparer || !currentField.value}
+        disabled={!isListSelected || !currentField.name || !currentField.comparer || (currentField.comparer !== 'IsNull' && currentField.comparer !== 'IsNotNull' && !currentField.value)}
         onClick={handleAddOrUpdate}
         style={{ minWidth: '100px' }}
-      />
+        />
       {!isNewRow && (
         <DefaultButton
           text="Remove"

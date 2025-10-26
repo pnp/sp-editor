@@ -1,4 +1,4 @@
-/*! @azure/msal-browser v4.4.0 2025-02-20 */
+/*! @azure/msal-browser v4.25.1 2025-10-17 */
 'use strict';
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -6,7 +6,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.msal = {}));
 })(this, (function (exports) { 'use strict';
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -14,8 +14,6 @@
     const Constants = {
         LIBRARY_NAME: "MSAL.JS",
         SKU: "msal.js.common",
-        // Prefix for all library cache entries
-        CACHE_PREFIX: "msal",
         // default authority
         DEFAULT_AUTHORITY: "https://login.microsoftonline.com/common/",
         DEFAULT_AUTHORITY_HOST: "login.microsoftonline.com",
@@ -41,11 +39,8 @@
         PROFILE_SCOPE: "profile",
         OFFLINE_ACCESS_SCOPE: "offline_access",
         EMAIL_SCOPE: "email",
-        // Default response type for authorization code flow
-        CODE_RESPONSE_TYPE: "code",
         CODE_GRANT_TYPE: "authorization_code",
         RT_GRANT_TYPE: "refresh_token",
-        FRAGMENT_RESPONSE_MODE: "fragment",
         S256_CODE_CHALLENGE_METHOD: "S256",
         URL_FORM_CONTENT_TYPE: "application/x-www-form-urlencoded;charset=utf-8",
         AUTHORIZATION_PENDING: "authorization_pending",
@@ -65,8 +60,6 @@
             "login.microsoft.com",
             "sts.windows.net",
         ],
-        TOKEN_RESPONSE_TYPE: "token",
-        ID_TOKEN_RESPONSE_TYPE: "id_token",
         SHR_NONCE_VALIDITY: 240,
         INVALID_INSTANCE: "invalid_instance",
     };
@@ -81,6 +74,7 @@
         UNAUTHORIZED: 401,
         NOT_FOUND: 404,
         REQUEST_TIMEOUT: 408,
+        GONE: 410,
         TOO_MANY_REQUESTS: 429,
         CLIENT_ERROR_RANGE_END: 499,
         SERVER_ERROR: 500,
@@ -89,6 +83,10 @@
         GATEWAY_TIMEOUT: 504,
         SERVER_ERROR_RANGE_END: 599,
         MULTI_SIDED_ERROR: 600,
+    };
+    const HttpMethod = {
+        GET: "GET",
+        POST: "POST",
     };
     const OIDC_DEFAULT_SCOPES = [
         Constants.OPENID_SCOPE,
@@ -144,14 +142,15 @@
         NO_SESSION: "no_session",
     };
     /**
-     * allowed values for codeVerifier
+     * Allowed values for response_type
      */
-    const CodeChallengeMethodValues = {
-        PLAIN: "plain",
-        S256: "S256",
+    const OAuthResponseType = {
+        CODE: "code",
+        IDTOKEN_TOKEN_REFRESHTOKEN: "id_token token refresh_token",
     };
     /**
      * allowed values for server response type
+     * @deprecated Use ResponseMode instead
      */
     const ServerResponseType = {
         QUERY: "query",
@@ -161,28 +160,19 @@
      * allowed values for response_mode
      */
     const ResponseMode = {
-        ...ServerResponseType,
-        FORM_POST: "form_post",
-    };
+        QUERY: "query"};
     /**
      * allowed grant_type
      */
     const GrantType = {
-        IMPLICIT_GRANT: "implicit",
         AUTHORIZATION_CODE_GRANT: "authorization_code",
-        CLIENT_CREDENTIALS_GRANT: "client_credentials",
-        RESOURCE_OWNER_PASSWORD_GRANT: "password",
-        REFRESH_TOKEN_GRANT: "refresh_token",
-        DEVICE_CODE_GRANT: "device_code",
-        JWT_BEARER: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-    };
+        REFRESH_TOKEN_GRANT: "refresh_token"};
     /**
      * Account types in Cache
      */
     const CacheAccountType = {
         MSSTS_ACCOUNT_TYPE: "MSSTS",
         ADFS_ACCOUNT_TYPE: "ADFS",
-        MSAV1_ACCOUNT_TYPE: "MSA",
         GENERIC_ACCOUNT_TYPE: "Generic", // NTLM, Kerberos, FBA, Basic etc
     };
     /**
@@ -219,7 +209,6 @@
     };
     const SERVER_TELEM_CONSTANTS = {
         SCHEMA_VERSION: 5,
-        MAX_CUR_HEADER_BYTES: 80,
         MAX_LAST_HEADER_BYTES: 330,
         MAX_CACHED_ERRORS: 50,
         CACHE_KEY: "server-telemetry",
@@ -255,20 +244,6 @@
         CLIENT_MISMATCH_ERROR: "client_mismatch",
     };
     /**
-     * Password grant parameters
-     */
-    const PasswordGrantConstants = {
-        username: "username",
-        password: "password",
-    };
-    /**
-     * Response codes
-     */
-    const ResponseCodes = {
-        httpSuccess: 200,
-        httpBadRequest: 400,
-    };
-    /**
      * Region Discovery Sources
      */
     const RegionDiscoverySources = {
@@ -281,9 +256,7 @@
      * Region Discovery Outcomes
      */
     const RegionDiscoveryOutcomes = {
-        CONFIGURED_MATCHES_DETECTED: "1",
         CONFIGURED_NO_AUTO_DETECTION: "2",
-        CONFIGURED_NOT_DETECTED: "3",
         AUTO_DETECTION_REQUESTED_SUCCESSFUL: "4",
         AUTO_DETECTION_REQUESTED_FAILED: "5",
     };
@@ -310,7 +283,7 @@
     // Token renewal offset default in seconds
     const DEFAULT_TOKEN_RENEWAL_OFFSET_SEC = 300;
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -327,7 +300,7 @@
         unexpectedError: unexpectedError
     });
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -376,7 +349,7 @@
             : AuthErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -474,7 +447,7 @@
         userTimeoutReached: userTimeoutReached
     });
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -726,7 +699,7 @@
         return new ClientAuthError(errorCode, additionalMessage);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -765,7 +738,7 @@
         },
     };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -956,12 +929,12 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /* eslint-disable header/header */
     const name$1 = "@azure/msal-common";
-    const version$1 = "15.2.0";
+    const version$1 = "15.13.0";
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -981,432 +954,7 @@
         AzureUsGovernment: "https://login.microsoftonline.us",
     };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Extract token by decoding the rawToken
-     *
-     * @param encodedToken
-     */
-    function extractTokenClaims(encodedToken, base64Decode) {
-        const jswPayload = getJWSPayload(encodedToken);
-        // token will be decoded to get the username
-        try {
-            // base64Decode() should throw an error if there is an issue
-            const base64Decoded = base64Decode(jswPayload);
-            return JSON.parse(base64Decoded);
-        }
-        catch (err) {
-            throw createClientAuthError(tokenParsingError);
-        }
-    }
-    /**
-     * decode a JWT
-     *
-     * @param authToken
-     */
-    function getJWSPayload(authToken) {
-        if (!authToken) {
-            throw createClientAuthError(nullOrEmptyToken);
-        }
-        const tokenPartsRegex = /^([^\.\s]*)\.([^\.\s]+)\.([^\.\s]*)$/;
-        const matches = tokenPartsRegex.exec(authToken);
-        if (!matches || matches.length < 4) {
-            throw createClientAuthError(tokenParsingError);
-        }
-        /**
-         * const crackedToken = {
-         *  header: matches[1],
-         *  JWSPayload: matches[2],
-         *  JWSSig: matches[3],
-         * };
-         */
-        return matches[2];
-    }
-    /**
-     * Determine if the token's max_age has transpired
-     */
-    function checkMaxAge(authTime, maxAge) {
-        /*
-         * per https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest
-         * To force an immediate re-authentication: If an app requires that a user re-authenticate prior to access,
-         * provide a value of 0 for the max_age parameter and the AS will force a fresh login.
-         */
-        const fiveMinuteSkew = 300000; // five minutes in milliseconds
-        if (maxAge === 0 || Date.now() - fiveMinuteSkew > authTime + maxAge) {
-            throw createClientAuthError(maxAgeTranspired);
-        }
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Utility functions for managing date and time operations.
-     */
-    /**
-     * return the current time in Unix time (seconds).
-     */
-    function nowSeconds() {
-        // Date.getTime() returns in milliseconds.
-        return Math.round(new Date().getTime() / 1000.0);
-    }
-    /**
-     * check if a token is expired based on given UTC time in seconds.
-     * @param expiresOn
-     */
-    function isTokenExpired(expiresOn, offset) {
-        // check for access token expiry
-        const expirationSec = Number(expiresOn) || 0;
-        const offsetCurrentTimeSec = nowSeconds() + offset;
-        // If current time + offset is greater than token expiration time, then token is expired.
-        return offsetCurrentTimeSec > expirationSec;
-    }
-    /**
-     * If the current time is earlier than the time that a token was cached at, we must discard the token
-     * i.e. The system clock was turned back after acquiring the cached token
-     * @param cachedAt
-     * @param offset
-     */
-    function wasClockTurnedBack(cachedAt) {
-        const cachedAtSec = Number(cachedAt);
-        return cachedAtSec > nowSeconds();
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Cache Key: <home_account_id>-<environment>-<credential_type>-<client_id or familyId>-<realm>-<scopes>-<claims hash>-<scheme>
-     * IdToken Example: uid.utid-login.microsoftonline.com-idtoken-app_client_id-contoso.com
-     * AccessToken Example: uid.utid-login.microsoftonline.com-accesstoken-app_client_id-contoso.com-scope1 scope2--pop
-     * RefreshToken Example: uid.utid-login.microsoftonline.com-refreshtoken-1-contoso.com
-     * @param credentialEntity
-     * @returns
-     */
-    function generateCredentialKey(credentialEntity) {
-        const credentialKey = [
-            generateAccountId(credentialEntity),
-            generateCredentialId(credentialEntity),
-            generateTarget(credentialEntity),
-            generateClaimsHash(credentialEntity),
-            generateScheme(credentialEntity),
-        ];
-        return credentialKey.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
-    }
-    /**
-     * Create IdTokenEntity
-     * @param homeAccountId
-     * @param authenticationResult
-     * @param clientId
-     * @param authority
-     */
-    function createIdTokenEntity(homeAccountId, environment, idToken, clientId, tenantId) {
-        const idTokenEntity = {
-            credentialType: CredentialType.ID_TOKEN,
-            homeAccountId: homeAccountId,
-            environment: environment,
-            clientId: clientId,
-            secret: idToken,
-            realm: tenantId,
-        };
-        return idTokenEntity;
-    }
-    /**
-     * Create AccessTokenEntity
-     * @param homeAccountId
-     * @param environment
-     * @param accessToken
-     * @param clientId
-     * @param tenantId
-     * @param scopes
-     * @param expiresOn
-     * @param extExpiresOn
-     */
-    function createAccessTokenEntity(homeAccountId, environment, accessToken, clientId, tenantId, scopes, expiresOn, extExpiresOn, base64Decode, refreshOn, tokenType, userAssertionHash, keyId, requestedClaims, requestedClaimsHash) {
-        const atEntity = {
-            homeAccountId: homeAccountId,
-            credentialType: CredentialType.ACCESS_TOKEN,
-            secret: accessToken,
-            cachedAt: nowSeconds().toString(),
-            expiresOn: expiresOn.toString(),
-            extendedExpiresOn: extExpiresOn.toString(),
-            environment: environment,
-            clientId: clientId,
-            realm: tenantId,
-            target: scopes,
-            tokenType: tokenType || AuthenticationScheme.BEARER,
-        };
-        if (userAssertionHash) {
-            atEntity.userAssertionHash = userAssertionHash;
-        }
-        if (refreshOn) {
-            atEntity.refreshOn = refreshOn.toString();
-        }
-        if (requestedClaims) {
-            atEntity.requestedClaims = requestedClaims;
-            atEntity.requestedClaimsHash = requestedClaimsHash;
-        }
-        /*
-         * Create Access Token With Auth Scheme instead of regular access token
-         * Cast to lower to handle "bearer" from ADFS
-         */
-        if (atEntity.tokenType?.toLowerCase() !==
-            AuthenticationScheme.BEARER.toLowerCase()) {
-            atEntity.credentialType = CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME;
-            switch (atEntity.tokenType) {
-                case AuthenticationScheme.POP:
-                    // Make sure keyId is present and add it to credential
-                    const tokenClaims = extractTokenClaims(accessToken, base64Decode);
-                    if (!tokenClaims?.cnf?.kid) {
-                        throw createClientAuthError(tokenClaimsCnfRequiredForSignedJwt);
-                    }
-                    atEntity.keyId = tokenClaims.cnf.kid;
-                    break;
-                case AuthenticationScheme.SSH:
-                    atEntity.keyId = keyId;
-            }
-        }
-        return atEntity;
-    }
-    /**
-     * Create RefreshTokenEntity
-     * @param homeAccountId
-     * @param authenticationResult
-     * @param clientId
-     * @param authority
-     */
-    function createRefreshTokenEntity(homeAccountId, environment, refreshToken, clientId, familyId, userAssertionHash, expiresOn) {
-        const rtEntity = {
-            credentialType: CredentialType.REFRESH_TOKEN,
-            homeAccountId: homeAccountId,
-            environment: environment,
-            clientId: clientId,
-            secret: refreshToken,
-        };
-        if (userAssertionHash) {
-            rtEntity.userAssertionHash = userAssertionHash;
-        }
-        if (familyId) {
-            rtEntity.familyId = familyId;
-        }
-        if (expiresOn) {
-            rtEntity.expiresOn = expiresOn.toString();
-        }
-        return rtEntity;
-    }
-    function isCredentialEntity(entity) {
-        return (entity.hasOwnProperty("homeAccountId") &&
-            entity.hasOwnProperty("environment") &&
-            entity.hasOwnProperty("credentialType") &&
-            entity.hasOwnProperty("clientId") &&
-            entity.hasOwnProperty("secret"));
-    }
-    /**
-     * Validates an entity: checks for all expected params
-     * @param entity
-     */
-    function isAccessTokenEntity(entity) {
-        if (!entity) {
-            return false;
-        }
-        return (isCredentialEntity(entity) &&
-            entity.hasOwnProperty("realm") &&
-            entity.hasOwnProperty("target") &&
-            (entity["credentialType"] === CredentialType.ACCESS_TOKEN ||
-                entity["credentialType"] ===
-                    CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME));
-    }
-    /**
-     * Validates an entity: checks for all expected params
-     * @param entity
-     */
-    function isIdTokenEntity(entity) {
-        if (!entity) {
-            return false;
-        }
-        return (isCredentialEntity(entity) &&
-            entity.hasOwnProperty("realm") &&
-            entity["credentialType"] === CredentialType.ID_TOKEN);
-    }
-    /**
-     * Validates an entity: checks for all expected params
-     * @param entity
-     */
-    function isRefreshTokenEntity(entity) {
-        if (!entity) {
-            return false;
-        }
-        return (isCredentialEntity(entity) &&
-            entity["credentialType"] === CredentialType.REFRESH_TOKEN);
-    }
-    /**
-     * Generate Account Id key component as per the schema: <home_account_id>-<environment>
-     */
-    function generateAccountId(credentialEntity) {
-        const accountId = [
-            credentialEntity.homeAccountId,
-            credentialEntity.environment,
-        ];
-        return accountId.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
-    }
-    /**
-     * Generate Credential Id key component as per the schema: <credential_type>-<client_id>-<realm>
-     */
-    function generateCredentialId(credentialEntity) {
-        const clientOrFamilyId = credentialEntity.credentialType === CredentialType.REFRESH_TOKEN
-            ? credentialEntity.familyId || credentialEntity.clientId
-            : credentialEntity.clientId;
-        const credentialId = [
-            credentialEntity.credentialType,
-            clientOrFamilyId,
-            credentialEntity.realm || "",
-        ];
-        return credentialId.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
-    }
-    /**
-     * Generate target key component as per schema: <target>
-     */
-    function generateTarget(credentialEntity) {
-        return (credentialEntity.target || "").toLowerCase();
-    }
-    /**
-     * Generate requested claims key component as per schema: <requestedClaims>
-     */
-    function generateClaimsHash(credentialEntity) {
-        return (credentialEntity.requestedClaimsHash || "").toLowerCase();
-    }
-    /**
-     * Generate scheme key componenet as per schema: <scheme>
-     */
-    function generateScheme(credentialEntity) {
-        /*
-         * PoP Tokens and SSH certs include scheme in cache key
-         * Cast to lowercase to handle "bearer" from ADFS
-         */
-        return credentialEntity.tokenType &&
-            credentialEntity.tokenType.toLowerCase() !==
-                AuthenticationScheme.BEARER.toLowerCase()
-            ? credentialEntity.tokenType.toLowerCase()
-            : "";
-    }
-    /**
-     * validates if a given cache entry is "Telemetry", parses <key,value>
-     * @param key
-     * @param entity
-     */
-    function isServerTelemetryEntity(key, entity) {
-        const validateKey = key.indexOf(SERVER_TELEM_CONSTANTS.CACHE_KEY) === 0;
-        let validateEntity = true;
-        if (entity) {
-            validateEntity =
-                entity.hasOwnProperty("failedRequests") &&
-                    entity.hasOwnProperty("errors") &&
-                    entity.hasOwnProperty("cacheHits");
-        }
-        return validateKey && validateEntity;
-    }
-    /**
-     * validates if a given cache entry is "Throttling", parses <key,value>
-     * @param key
-     * @param entity
-     */
-    function isThrottlingEntity(key, entity) {
-        let validateKey = false;
-        if (key) {
-            validateKey = key.indexOf(ThrottlingConstants.THROTTLING_PREFIX) === 0;
-        }
-        let validateEntity = true;
-        if (entity) {
-            validateEntity = entity.hasOwnProperty("throttleTime");
-        }
-        return validateKey && validateEntity;
-    }
-    /**
-     * Generate AppMetadata Cache Key as per the schema: appmetadata-<environment>-<client_id>
-     */
-    function generateAppMetadataKey({ environment, clientId, }) {
-        const appMetaDataKeyArray = [
-            APP_METADATA,
-            environment,
-            clientId,
-        ];
-        return appMetaDataKeyArray
-            .join(Separators.CACHE_KEY_SEPARATOR)
-            .toLowerCase();
-    }
-    /*
-     * Validates an entity: checks for all expected params
-     * @param entity
-     */
-    function isAppMetadataEntity(key, entity) {
-        if (!entity) {
-            return false;
-        }
-        return (key.indexOf(APP_METADATA) === 0 &&
-            entity.hasOwnProperty("clientId") &&
-            entity.hasOwnProperty("environment"));
-    }
-    /**
-     * Validates an entity: checks for all expected params
-     * @param entity
-     */
-    function isAuthorityMetadataEntity(key, entity) {
-        if (!entity) {
-            return false;
-        }
-        return (key.indexOf(AUTHORITY_METADATA_CONSTANTS.CACHE_KEY) === 0 &&
-            entity.hasOwnProperty("aliases") &&
-            entity.hasOwnProperty("preferred_cache") &&
-            entity.hasOwnProperty("preferred_network") &&
-            entity.hasOwnProperty("canonical_authority") &&
-            entity.hasOwnProperty("authorization_endpoint") &&
-            entity.hasOwnProperty("token_endpoint") &&
-            entity.hasOwnProperty("issuer") &&
-            entity.hasOwnProperty("aliasesFromNetwork") &&
-            entity.hasOwnProperty("endpointsFromNetwork") &&
-            entity.hasOwnProperty("expiresAt") &&
-            entity.hasOwnProperty("jwks_uri"));
-    }
-    /**
-     * Reset the exiresAt value
-     */
-    function generateAuthorityMetadataExpiresAt() {
-        return (nowSeconds() +
-            AUTHORITY_METADATA_CONSTANTS.REFRESH_TIME_SECONDS);
-    }
-    function updateAuthorityEndpointMetadata(authorityMetadata, updatedValues, fromNetwork) {
-        authorityMetadata.authorization_endpoint =
-            updatedValues.authorization_endpoint;
-        authorityMetadata.token_endpoint = updatedValues.token_endpoint;
-        authorityMetadata.end_session_endpoint = updatedValues.end_session_endpoint;
-        authorityMetadata.issuer = updatedValues.issuer;
-        authorityMetadata.endpointsFromNetwork = fromNetwork;
-        authorityMetadata.jwks_uri = updatedValues.jwks_uri;
-    }
-    function updateCloudDiscoveryMetadata(authorityMetadata, updatedValues, fromNetwork) {
-        authorityMetadata.aliases = updatedValues.aliases;
-        authorityMetadata.preferred_cache = updatedValues.preferred_cache;
-        authorityMetadata.preferred_network = updatedValues.preferred_network;
-        authorityMetadata.aliasesFromNetwork = fromNetwork;
-    }
-    /**
-     * Returns whether or not the data needs to be refreshed
-     */
-    function isAuthorityMetadataExpired(metadata) {
-        return metadata.expiresAt <= nowSeconds();
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1417,7 +965,6 @@
     const urlParseError = "url_parse_error";
     const urlEmptyError = "empty_url_error";
     const emptyInputScopesError = "empty_input_scopes_error";
-    const invalidPromptValue = "invalid_prompt_value";
     const invalidClaims = "invalid_claims";
     const tokenRequestEmpty = "token_request_empty";
     const logoutRequestEmpty = "logout_request_empty";
@@ -1433,6 +980,8 @@
     const cannotSetOIDCOptions = "cannot_set_OIDCOptions";
     const cannotAllowPlatformBroker = "cannot_allow_platform_broker";
     const authorityMismatch = "authority_mismatch";
+    const invalidRequestMethodForEAR = "invalid_request_method_for_EAR";
+    const invalidAuthorizePostBodyParameters = "invalid_authorize_post_body_parameters";
 
     var ClientConfigurationErrorCodes = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -1444,10 +993,11 @@
         emptyInputScopesError: emptyInputScopesError,
         invalidAuthenticationHeader: invalidAuthenticationHeader,
         invalidAuthorityMetadata: invalidAuthorityMetadata,
+        invalidAuthorizePostBodyParameters: invalidAuthorizePostBodyParameters,
         invalidClaims: invalidClaims,
         invalidCloudDiscoveryMetadata: invalidCloudDiscoveryMetadata,
         invalidCodeChallengeMethod: invalidCodeChallengeMethod,
-        invalidPromptValue: invalidPromptValue,
+        invalidRequestMethodForEAR: invalidRequestMethodForEAR,
         logoutRequestEmpty: logoutRequestEmpty,
         missingNonceAuthenticationHeader: missingNonceAuthenticationHeader,
         missingSshJwk: missingSshJwk,
@@ -1460,7 +1010,7 @@
         urlParseError: urlParseError
     });
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1473,7 +1023,6 @@
         [urlParseError]: "URL could not be parsed into appropriate segments.",
         [urlEmptyError]: "URL was empty or null.",
         [emptyInputScopesError]: "Scopes cannot be passed as null, undefined or empty array because they are required to obtain an access token.",
-        [invalidPromptValue]: "Please see here for valid configuration options: https://azuread.github.io/microsoft-authentication-library-for-js/ref/modules/_azure_msal_common.html#commonauthorizationurlrequest",
         [invalidClaims]: "Given claims parameter must be a stringified JSON object.",
         [tokenRequestEmpty]: "Token request was empty and not found in cache.",
         [logoutRequestEmpty]: "The logout request was null or undefined.",
@@ -1489,6 +1038,8 @@
         [cannotSetOIDCOptions]: "Cannot set OIDCOptions parameter. Please change the protocol mode to OIDC or use a non-Microsoft authority.",
         [cannotAllowPlatformBroker]: "Cannot set allowPlatformBroker parameter to true when not in AAD protocol mode.",
         [authorityMismatch]: "Authority mismatch error. Authority provided in login request or PublicClientApplication config does not match the environment of the provided account. Please use a matching account or make an interactive request to login to this authority.",
+        [invalidAuthorizePostBodyParameters]: "Invalid authorize post body parameters provided. If you are using authorizePostBodyParameters, the request method must be POST. Please check the request method and parameters.",
+        [invalidRequestMethodForEAR]: "Invalid request method for EAR protocol mode. The request method cannot be GET when using EAR protocol mode. Please change the request method to POST.",
     };
     /**
      * ClientConfigurationErrorMessage class containing string constants used by error codes and messages.
@@ -1518,10 +1069,6 @@
         emptyScopesError: {
             code: emptyInputScopesError,
             desc: ClientConfigurationErrorMessages[emptyInputScopesError],
-        },
-        invalidPrompt: {
-            code: invalidPromptValue,
-            desc: ClientConfigurationErrorMessages[invalidPromptValue],
         },
         invalidClaimsRequest: {
             code: invalidClaims,
@@ -1583,6 +1130,14 @@
             code: authorityMismatch,
             desc: ClientConfigurationErrorMessages[authorityMismatch],
         },
+        invalidAuthorizePostBodyParameters: {
+            code: invalidAuthorizePostBodyParameters,
+            desc: ClientConfigurationErrorMessages[invalidAuthorizePostBodyParameters],
+        },
+        invalidRequestMethodForEAR: {
+            code: invalidRequestMethodForEAR,
+            desc: ClientConfigurationErrorMessages[invalidRequestMethodForEAR],
+        },
     };
     /**
      * Error thrown when there is an error in configuration of the MSAL.js library.
@@ -1598,7 +1153,7 @@
         return new ClientConfigurationError(errorCode);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1695,7 +1250,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1739,7 +1294,11 @@
          * @returns
          */
         static createSearchScopes(inputScopeString) {
-            const scopeSet = new ScopeSet(inputScopeString);
+            // Handle empty scopes by using default OIDC scopes for cache lookup
+            const scopesToUse = inputScopeString && inputScopeString.length > 0
+                ? inputScopeString
+                : [...OIDC_DEFAULT_SCOPES];
+            const scopeSet = new ScopeSet(scopesToUse);
             if (!scopeSet.containsOnlyOIDCScopes()) {
                 scopeSet.removeOIDCScopes();
             }
@@ -1886,47 +1445,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Function to build a client info object from server clientInfo string
-     * @param rawClientInfo
-     * @param crypto
-     */
-    function buildClientInfo(rawClientInfo, base64Decode) {
-        if (!rawClientInfo) {
-            throw createClientAuthError(clientInfoEmptyError);
-        }
-        try {
-            const decodedClientInfo = base64Decode(rawClientInfo);
-            return JSON.parse(decodedClientInfo);
-        }
-        catch (e) {
-            throw createClientAuthError(clientInfoDecodingError);
-        }
-    }
-    /**
-     * Function to build a client info object from cached homeAccountId string
-     * @param homeAccountId
-     */
-    function buildClientInfoFromHomeAccountId(homeAccountId) {
-        if (!homeAccountId) {
-            throw createClientAuthError(clientInfoDecodingError);
-        }
-        const clientInfoParts = homeAccountId.split(Separators.CLIENT_INFO_SEPARATOR, 2);
-        return {
-            uid: clientInfoParts[0],
-            utid: clientInfoParts.length < 2
-                ? Constants.EMPTY_STRING
-                : clientInfoParts[1],
-        };
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -1952,7 +1471,7 @@
      */
     function buildTenantProfile(homeAccountId, localAccountId, tenantId, idTokenClaims) {
         if (idTokenClaims) {
-            const { oid, sub, tid, name, tfp, acr } = idTokenClaims;
+            const { oid, sub, tid, name, tfp, acr, preferred_username, upn, login_hint, } = idTokenClaims;
             /**
              * Since there is no way to determine if the authority is AAD or B2C, we exhaust all the possible claims that can serve as tenant ID with the following precedence:
              * tid - TenantID claim that identifies the tenant that issued the token in AAD. Expected in all AAD ID tokens, not present in B2C ID Tokens.
@@ -1964,6 +1483,8 @@
                 tenantId: tenantId,
                 localAccountId: oid || sub || "",
                 name: name,
+                username: preferred_username || upn || "",
+                loginHint: login_hint,
                 isHomeTenant: tenantIdMatchesHomeTenant(tenantId, homeAccountId),
             };
         }
@@ -1971,6 +1492,7 @@
             return {
                 tenantId,
                 localAccountId,
+                username: "",
                 isHomeTenant: tenantIdMatchesHomeTenant(tenantId, homeAccountId),
             };
         }
@@ -2005,305 +1527,95 @@
         return updatedAccountInfo;
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Authority types supported by MSAL.
-     */
-    const AuthorityType = {
-        Default: 0,
-        Adfs: 1,
-        Dsts: 2,
-        Ciam: 3,
-    };
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
     /**
-     * Gets tenantId from available ID token claims to set as credential realm with the following precedence:
-     * 1. tid - if the token is acquired from an Azure AD tenant tid will be present
-     * 2. tfp - if the token is acquired from a modern B2C tenant tfp should be present
-     * 3. acr - if the token is acquired from a legacy B2C tenant acr should be present
-     * Downcased to match the realm case-insensitive comparison requirements
-     * @param idTokenClaims
-     * @returns
+     * Extract token by decoding the rawToken
+     *
+     * @param encodedToken
      */
-    function getTenantIdFromIdTokenClaims(idTokenClaims) {
-        if (idTokenClaims) {
-            const tenantId = idTokenClaims.tid || idTokenClaims.tfp || idTokenClaims.acr;
-            return tenantId || null;
+    function extractTokenClaims(encodedToken, base64Decode) {
+        const jswPayload = getJWSPayload(encodedToken);
+        // token will be decoded to get the username
+        try {
+            // base64Decode() should throw an error if there is an issue
+            const base64Decoded = base64Decode(jswPayload);
+            return JSON.parse(base64Decoded);
         }
-        return null;
+        catch (err) {
+            throw createClientAuthError(tokenParsingError);
+        }
     }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
     /**
-     * Protocol modes supported by MSAL.
+     * decode a JWT
+     *
+     * @param authToken
      */
-    const ProtocolMode = {
-        AAD: "AAD",
-        OIDC: "OIDC",
-    };
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
+    function getJWSPayload(authToken) {
+        if (!authToken) {
+            throw createClientAuthError(nullOrEmptyToken);
+        }
+        const tokenPartsRegex = /^([^\.\s]*)\.([^\.\s]+)\.([^\.\s]*)$/;
+        const matches = tokenPartsRegex.exec(authToken);
+        if (!matches || matches.length < 4) {
+            throw createClientAuthError(tokenParsingError);
+        }
+        /**
+         * const crackedToken = {
+         *  header: matches[1],
+         *  JWSPayload: matches[2],
+         *  JWSSig: matches[3],
+         * };
+         */
+        return matches[2];
+    }
     /**
-     * Type that defines required and optional parameters for an Account field (based on universal cache schema implemented by all MSALs).
-     *
-     * Key : Value Schema
-     *
-     * Key: <home_account_id>-<environment>-<realm*>
-     *
-     * Value Schema:
-     * {
-     *      homeAccountId: home account identifier for the auth scheme,
-     *      environment: entity that issued the token, represented as a full host
-     *      realm: Full tenant or organizational identifier that the account belongs to
-     *      localAccountId: Original tenant-specific accountID, usually used for legacy cases
-     *      username: primary username that represents the user, usually corresponds to preferred_username in the v2 endpt
-     *      authorityType: Accounts authority type as a string
-     *      name: Full name for the account, including given name and family name,
-     *      lastModificationTime: last time this entity was modified in the cache
-     *      lastModificationApp:
-     *      nativeAccountId: Account identifier on the native device
-     *      tenantProfiles: Array of tenant profile objects for each tenant that the account has authenticated with in the browser
-     * }
-     * @internal
+     * Determine if the token's max_age has transpired
      */
-    class AccountEntity {
-        /**
-         * Generate Account Id key component as per the schema: <home_account_id>-<environment>
+    function checkMaxAge(authTime, maxAge) {
+        /*
+         * per https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest
+         * To force an immediate re-authentication: If an app requires that a user re-authenticate prior to access,
+         * provide a value of 0 for the max_age parameter and the AS will force a fresh login.
          */
-        generateAccountId() {
-            const accountId = [this.homeAccountId, this.environment];
-            return accountId.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
-        }
-        /**
-         * Generate Account Cache Key as per the schema: <home_account_id>-<environment>-<realm*>
-         */
-        generateAccountKey() {
-            return AccountEntity.generateAccountCacheKey({
-                homeAccountId: this.homeAccountId,
-                environment: this.environment,
-                tenantId: this.realm,
-                username: this.username,
-                localAccountId: this.localAccountId,
-            });
-        }
-        /**
-         * Returns the AccountInfo interface for this account.
-         */
-        getAccountInfo() {
-            return {
-                homeAccountId: this.homeAccountId,
-                environment: this.environment,
-                tenantId: this.realm,
-                username: this.username,
-                localAccountId: this.localAccountId,
-                name: this.name,
-                nativeAccountId: this.nativeAccountId,
-                authorityType: this.authorityType,
-                // Deserialize tenant profiles array into a Map
-                tenantProfiles: new Map((this.tenantProfiles || []).map((tenantProfile) => {
-                    return [tenantProfile.tenantId, tenantProfile];
-                })),
-            };
-        }
-        /**
-         * Returns true if the account entity is in single tenant format (outdated), false otherwise
-         */
-        isSingleTenant() {
-            return !this.tenantProfiles;
-        }
-        /**
-         * Generates account key from interface
-         * @param accountInterface
-         */
-        static generateAccountCacheKey(accountInterface) {
-            const homeTenantId = accountInterface.homeAccountId.split(".")[1];
-            const accountKey = [
-                accountInterface.homeAccountId,
-                accountInterface.environment || "",
-                homeTenantId || accountInterface.tenantId || "",
-            ];
-            return accountKey.join(Separators.CACHE_KEY_SEPARATOR).toLowerCase();
-        }
-        /**
-         * Build Account cache from IdToken, clientInfo and authority/policy. Associated with AAD.
-         * @param accountDetails
-         */
-        static createAccount(accountDetails, authority, base64Decode) {
-            const account = new AccountEntity();
-            if (authority.authorityType === AuthorityType.Adfs) {
-                account.authorityType = CacheAccountType.ADFS_ACCOUNT_TYPE;
-            }
-            else if (authority.protocolMode === ProtocolMode.AAD) {
-                account.authorityType = CacheAccountType.MSSTS_ACCOUNT_TYPE;
-            }
-            else {
-                account.authorityType = CacheAccountType.GENERIC_ACCOUNT_TYPE;
-            }
-            let clientInfo;
-            if (accountDetails.clientInfo && base64Decode) {
-                clientInfo = buildClientInfo(accountDetails.clientInfo, base64Decode);
-            }
-            account.clientInfo = accountDetails.clientInfo;
-            account.homeAccountId = accountDetails.homeAccountId;
-            account.nativeAccountId = accountDetails.nativeAccountId;
-            const env = accountDetails.environment ||
-                (authority && authority.getPreferredCache());
-            if (!env) {
-                throw createClientAuthError(invalidCacheEnvironment);
-            }
-            account.environment = env;
-            // non AAD scenarios can have empty realm
-            account.realm =
-                clientInfo?.utid ||
-                    getTenantIdFromIdTokenClaims(accountDetails.idTokenClaims) ||
-                    "";
-            // How do you account for MSA CID here?
-            account.localAccountId =
-                clientInfo?.uid ||
-                    accountDetails.idTokenClaims?.oid ||
-                    accountDetails.idTokenClaims?.sub ||
-                    "";
-            /*
-             * In B2C scenarios the emails claim is used instead of preferred_username and it is an array.
-             * In most cases it will contain a single email. This field should not be relied upon if a custom
-             * policy is configured to return more than 1 email.
-             */
-            const preferredUsername = accountDetails.idTokenClaims?.preferred_username ||
-                accountDetails.idTokenClaims?.upn;
-            const email = accountDetails.idTokenClaims?.emails
-                ? accountDetails.idTokenClaims.emails[0]
-                : null;
-            account.username = preferredUsername || email || "";
-            account.name = accountDetails.idTokenClaims?.name || "";
-            account.cloudGraphHostName = accountDetails.cloudGraphHostName;
-            account.msGraphHost = accountDetails.msGraphHost;
-            if (accountDetails.tenantProfiles) {
-                account.tenantProfiles = accountDetails.tenantProfiles;
-            }
-            else {
-                const tenantProfile = buildTenantProfile(accountDetails.homeAccountId, account.localAccountId, account.realm, accountDetails.idTokenClaims);
-                account.tenantProfiles = [tenantProfile];
-            }
-            return account;
-        }
-        /**
-         * Creates an AccountEntity object from AccountInfo
-         * @param accountInfo
-         * @param cloudGraphHostName
-         * @param msGraphHost
-         * @returns
-         */
-        static createFromAccountInfo(accountInfo, cloudGraphHostName, msGraphHost) {
-            const account = new AccountEntity();
-            account.authorityType =
-                accountInfo.authorityType || CacheAccountType.GENERIC_ACCOUNT_TYPE;
-            account.homeAccountId = accountInfo.homeAccountId;
-            account.localAccountId = accountInfo.localAccountId;
-            account.nativeAccountId = accountInfo.nativeAccountId;
-            account.realm = accountInfo.tenantId;
-            account.environment = accountInfo.environment;
-            account.username = accountInfo.username;
-            account.name = accountInfo.name;
-            account.cloudGraphHostName = cloudGraphHostName;
-            account.msGraphHost = msGraphHost;
-            // Serialize tenant profiles map into an array
-            account.tenantProfiles = Array.from(accountInfo.tenantProfiles?.values() || []);
-            return account;
-        }
-        /**
-         * Generate HomeAccountId from server response
-         * @param serverClientInfo
-         * @param authType
-         */
-        static generateHomeAccountId(serverClientInfo, authType, logger, cryptoObj, idTokenClaims) {
-            // since ADFS/DSTS do not have tid and does not set client_info
-            if (!(authType === AuthorityType.Adfs ||
-                authType === AuthorityType.Dsts)) {
-                // for cases where there is clientInfo
-                if (serverClientInfo) {
-                    try {
-                        const clientInfo = buildClientInfo(serverClientInfo, cryptoObj.base64Decode);
-                        if (clientInfo.uid && clientInfo.utid) {
-                            return `${clientInfo.uid}.${clientInfo.utid}`;
-                        }
-                    }
-                    catch (e) { }
-                }
-                logger.warning("No client info in response");
-            }
-            // default to "sub" claim
-            return idTokenClaims?.sub || "";
-        }
-        /**
-         * Validates an entity: checks for all expected params
-         * @param entity
-         */
-        static isAccountEntity(entity) {
-            if (!entity) {
-                return false;
-            }
-            return (entity.hasOwnProperty("homeAccountId") &&
-                entity.hasOwnProperty("environment") &&
-                entity.hasOwnProperty("realm") &&
-                entity.hasOwnProperty("localAccountId") &&
-                entity.hasOwnProperty("username") &&
-                entity.hasOwnProperty("authorityType"));
-        }
-        /**
-         * Helper function to determine whether 2 accountInfo objects represent the same account
-         * @param accountA
-         * @param accountB
-         * @param compareClaims - If set to true idTokenClaims will also be compared to determine account equality
-         */
-        static accountInfoIsEqual(accountA, accountB, compareClaims) {
-            if (!accountA || !accountB) {
-                return false;
-            }
-            let claimsMatch = true; // default to true so as to not fail comparison below if compareClaims: false
-            if (compareClaims) {
-                const accountAClaims = (accountA.idTokenClaims ||
-                    {});
-                const accountBClaims = (accountB.idTokenClaims ||
-                    {});
-                // issued at timestamp and nonce are expected to change each time a new id token is acquired
-                claimsMatch =
-                    accountAClaims.iat === accountBClaims.iat &&
-                        accountAClaims.nonce === accountBClaims.nonce;
-            }
-            return (accountA.homeAccountId === accountB.homeAccountId &&
-                accountA.localAccountId === accountB.localAccountId &&
-                accountA.username === accountB.username &&
-                accountA.tenantId === accountB.tenantId &&
-                accountA.environment === accountB.environment &&
-                accountA.nativeAccountId === accountB.nativeAccountId &&
-                claimsMatch);
+        const fiveMinuteSkew = 300000; // five minutes in milliseconds
+        if (maxAge === 0 || Date.now() - fiveMinuteSkew > authTime + maxAge) {
+            throw createClientAuthError(maxAgeTranspired);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    /**
+     * Canonicalizes a URL by making it lowercase and ensuring it ends with /
+     * Inlined version of UrlString.canonicalizeUri to avoid circular dependency
+     * @param url - URL to canonicalize
+     * @returns Canonicalized URL
+     */
+    function canonicalizeUrl(url) {
+        if (!url) {
+            return url;
+        }
+        let lowerCaseUrl = url.toLowerCase();
+        if (StringUtils.endsWith(lowerCaseUrl, "?")) {
+            lowerCaseUrl = lowerCaseUrl.slice(0, -1);
+        }
+        else if (StringUtils.endsWith(lowerCaseUrl, "?/")) {
+            lowerCaseUrl = lowerCaseUrl.slice(0, -2);
+        }
+        if (!StringUtils.endsWith(lowerCaseUrl, "/")) {
+            lowerCaseUrl += "/";
+        }
+        return lowerCaseUrl;
+    }
     /**
      * Parses hash string from given string. Returns empty string if no hash symbol is found.
      * @param hashString
@@ -2333,6 +1645,7 @@
             const deserializedHash = Object.fromEntries(new URLSearchParams(normalizedResponse));
             // Check for known response properties
             if (deserializedHash.code ||
+                deserializedHash.ear_jwe ||
                 deserializedHash.error ||
                 deserializedHash.error_description ||
                 deserializedHash.state) {
@@ -2344,8 +1657,54 @@
         }
         return null;
     }
+    /**
+     * Utility to create a URL from the params map
+     */
+    function mapToQueryString(parameters, encodeExtraParams = true, extraQueryParameters) {
+        const queryParameterArray = new Array();
+        parameters.forEach((value, key) => {
+            if (!encodeExtraParams &&
+                extraQueryParameters &&
+                key in extraQueryParameters) {
+                queryParameterArray.push(`${key}=${value}`);
+            }
+            else {
+                queryParameterArray.push(`${key}=${encodeURIComponent(value)}`);
+            }
+        });
+        return queryParameterArray.join("&");
+    }
+    /**
+     * Normalizes URLs for comparison by removing hash, canonicalizing,
+     * and ensuring consistent URL encoding in query parameters.
+     * This fixes redirect loops when URLs contain encoded characters like apostrophes (%27).
+     * @param url - URL to normalize
+     * @returns Normalized URL string for comparison
+     */
+    function normalizeUrlForComparison(url) {
+        if (!url) {
+            return url;
+        }
+        // Remove hash first
+        const urlWithoutHash = url.split("#")[0];
+        try {
+            // Parse the URL to handle encoding consistently
+            const urlObj = new URL(urlWithoutHash);
+            /*
+             * Reconstruct the URL with properly decoded query parameters
+             * This ensures that %27 and ' are treated as equivalent
+             */
+            const normalizedUrl = urlObj.origin + urlObj.pathname + urlObj.search;
+            // Apply canonicalization logic inline to avoid circular dependency
+            return canonicalizeUrl(normalizedUrl);
+        }
+        catch (e) {
+            // Fallback to original logic if URL parsing fails
+            return canonicalizeUrl(urlWithoutHash);
+        }
+    }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2509,7 +1868,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2540,7 +1899,6 @@
             },
         },
         instanceDiscoveryMetadata: {
-            tenant_discovery_endpoint: "https://{canonicalAuthority}/v2.0/.well-known/openid-configuration",
             metadata: [
                 {
                     preferred_network: "login.microsoftonline.com",
@@ -2649,33 +2007,33 @@
         return null;
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    const cacheQuotaExceededErrorCode = "cache_quota_exceeded";
-    const cacheUnknownErrorCode = "cache_error_unknown";
+    const cacheQuotaExceeded = "cache_quota_exceeded";
+    const cacheErrorUnknown = "cache_error_unknown";
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
     const CacheErrorMessages = {
-        [cacheQuotaExceededErrorCode]: "Exceeded cache storage capacity.",
-        [cacheUnknownErrorCode]: "Unexpected error occurred when using cache storage.",
+        [cacheQuotaExceeded]: "Exceeded cache storage capacity.",
+        [cacheErrorUnknown]: "Unexpected error occurred when using cache storage.",
     };
     /**
      * Error thrown when there is an error with the cache
      */
-    class CacheError extends Error {
+    class CacheError extends AuthError {
         constructor(errorCode, errorMessage) {
             const message = errorMessage ||
                 (CacheErrorMessages[errorCode]
                     ? CacheErrorMessages[errorCode]
-                    : CacheErrorMessages[cacheUnknownErrorCode]);
+                    : CacheErrorMessages[cacheErrorUnknown]);
             super(`${errorCode}: ${message}`);
             Object.setPrototypeOf(this, CacheError.prototype);
             this.name = "CacheError";
@@ -2683,8 +2041,26 @@
             this.errorMessage = message;
         }
     }
+    /**
+     * Helper function to wrap browser errors in a CacheError object
+     * @param e
+     * @returns
+     */
+    function createCacheError(e) {
+        if (!(e instanceof Error)) {
+            return new CacheError(cacheErrorUnknown);
+        }
+        if (e.name === "QuotaExceededError" ||
+            e.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+            e.message.includes("exceeded the quota")) {
+            return new CacheError(cacheQuotaExceeded);
+        }
+        else {
+            return new CacheError(e.name, e.message);
+        }
+    }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2695,25 +2071,31 @@
      * @internal
      */
     class CacheManager {
-        constructor(clientId, cryptoImpl, logger, staticAuthorityOptions) {
+        constructor(clientId, cryptoImpl, logger, performanceClient, staticAuthorityOptions) {
             this.clientId = clientId;
             this.cryptoImpl = cryptoImpl;
             this.commonLogger = logger.clone(name$1, version$1);
             this.staticAuthorityOptions = staticAuthorityOptions;
+            this.performanceClient = performanceClient;
         }
         /**
          * Returns all the accounts in the cache that match the optional filter. If no filter is provided, all accounts are returned.
          * @param accountFilter - (Optional) filter to narrow down the accounts returned
          * @returns Array of AccountInfo objects in cache
          */
-        getAllAccounts(accountFilter) {
-            return this.buildTenantProfiles(this.getAccountsFilteredBy(accountFilter || {}), accountFilter);
+        getAllAccounts(accountFilter, correlationId) {
+            return this.buildTenantProfiles(this.getAccountsFilteredBy(accountFilter, correlationId), correlationId, accountFilter);
         }
         /**
          * Gets first tenanted AccountInfo object found based on provided filters
          */
-        getAccountInfoFilteredBy(accountFilter) {
-            const allAccounts = this.getAllAccounts(accountFilter);
+        getAccountInfoFilteredBy(accountFilter, correlationId) {
+            if (Object.keys(accountFilter).length === 0 ||
+                Object.values(accountFilter).every((value) => !value)) {
+                this.commonLogger.warning("getAccountInfoFilteredBy: Account filter is empty or invalid, returning null");
+                return null;
+            }
+            const allAccounts = this.getAllAccounts(accountFilter, correlationId);
             if (allAccounts.length > 1) {
                 // If one or more accounts are found, prioritize accounts that have an ID token
                 const sortedAccounts = allAccounts.sort((account) => {
@@ -2734,8 +2116,8 @@
          * @param accountFilter
          * @returns
          */
-        getBaseAccountInfo(accountFilter) {
-            const accountEntities = this.getAccountsFilteredBy(accountFilter);
+        getBaseAccountInfo(accountFilter, correlationId) {
+            const accountEntities = this.getAccountsFilteredBy(accountFilter, correlationId);
             if (accountEntities.length > 0) {
                 return accountEntities[0].getAccountInfo();
             }
@@ -2750,12 +2132,12 @@
          * @param accountFilter
          * @returns Array of AccountInfo objects that match account and tenant profile filters
          */
-        buildTenantProfiles(cachedAccounts, accountFilter) {
+        buildTenantProfiles(cachedAccounts, correlationId, accountFilter) {
             return cachedAccounts.flatMap((accountEntity) => {
-                return this.getTenantProfilesFromAccountEntity(accountEntity, accountFilter?.tenantId, accountFilter);
+                return this.getTenantProfilesFromAccountEntity(accountEntity, correlationId, accountFilter?.tenantId, accountFilter);
             });
         }
-        getTenantedAccountInfoByFilter(accountInfo, tokenKeys, tenantProfile, tenantProfileFilter) {
+        getTenantedAccountInfoByFilter(accountInfo, tokenKeys, tenantProfile, correlationId, tenantProfileFilter) {
             let tenantedAccountInfo = null;
             let idTokenClaims;
             if (tenantProfileFilter) {
@@ -2763,7 +2145,7 @@
                     return null;
                 }
             }
-            const idToken = this.getIdToken(accountInfo, tokenKeys, tenantProfile.tenantId);
+            const idToken = this.getIdToken(accountInfo, correlationId, tokenKeys, tenantProfile.tenantId);
             if (idToken) {
                 idTokenClaims = extractTokenClaims(idToken.secret, this.cryptoImpl.base64Decode);
                 if (!this.idTokenClaimsMatchTenantProfileFilter(idTokenClaims, tenantProfileFilter)) {
@@ -2775,7 +2157,7 @@
             tenantedAccountInfo = updateAccountTenantProfileData(accountInfo, tenantProfile, idTokenClaims, idToken?.secret);
             return tenantedAccountInfo;
         }
-        getTenantProfilesFromAccountEntity(accountEntity, targetTenantId, tenantProfileFilter) {
+        getTenantProfilesFromAccountEntity(accountEntity, correlationId, targetTenantId, tenantProfileFilter) {
             const accountInfo = accountEntity.getAccountInfo();
             let searchTenantProfiles = accountInfo.tenantProfiles || new Map();
             const tokenKeys = this.getTokenKeys();
@@ -2795,7 +2177,7 @@
             }
             const matchingTenantProfiles = [];
             searchTenantProfiles.forEach((tenantProfile) => {
-                const tenantedAccountInfo = this.getTenantedAccountInfoByFilter(accountInfo, tokenKeys, tenantProfile, tenantProfileFilter);
+                const tenantedAccountInfo = this.getTenantedAccountInfoByFilter(accountInfo, tokenKeys, tenantProfile, correlationId, tenantProfileFilter);
                 if (tenantedAccountInfo) {
                     matchingTenantProfiles.push(tenantedAccountInfo);
                 }
@@ -2869,26 +2251,16 @@
                     await this.setRefreshTokenCredential(cacheRecord.refreshToken, correlationId);
                 }
                 if (!!cacheRecord.appMetadata) {
-                    this.setAppMetadata(cacheRecord.appMetadata);
+                    this.setAppMetadata(cacheRecord.appMetadata, correlationId);
                 }
             }
             catch (e) {
                 this.commonLogger?.error(`CacheManager.saveCacheRecord: failed`);
-                if (e instanceof Error) {
-                    this.commonLogger?.errorPii(`CacheManager.saveCacheRecord: ${e.message}`, correlationId);
-                    if (e.name === "QuotaExceededError" ||
-                        e.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
-                        e.message.includes("exceeded the quota")) {
-                        this.commonLogger?.error(`CacheManager.saveCacheRecord: exceeded storage quota`, correlationId);
-                        throw new CacheError(cacheQuotaExceededErrorCode);
-                    }
-                    else {
-                        throw new CacheError(e.name, e.message);
-                    }
+                if (e instanceof AuthError) {
+                    throw e;
                 }
                 else {
-                    this.commonLogger?.errorPii(`CacheManager.saveCacheRecord: ${e}`, correlationId);
-                    throw new CacheError(cacheUnknownErrorCode);
+                    throw createCacheError(e);
                 }
             }
         }
@@ -2908,21 +2280,19 @@
             };
             const tokenKeys = this.getTokenKeys();
             const currentScopes = ScopeSet.fromString(credential.target);
-            const removedAccessTokens = [];
             tokenKeys.accessToken.forEach((key) => {
                 if (!this.accessTokenKeyMatchesFilter(key, accessTokenFilter, false)) {
                     return;
                 }
-                const tokenEntity = this.getAccessTokenCredential(key);
+                const tokenEntity = this.getAccessTokenCredential(key, correlationId);
                 if (tokenEntity &&
                     this.credentialMatchesFilter(tokenEntity, accessTokenFilter)) {
                     const tokenScopeSet = ScopeSet.fromString(tokenEntity.target);
                     if (tokenScopeSet.intersectingScopeSets(currentScopes)) {
-                        removedAccessTokens.push(this.removeAccessToken(key));
+                        this.removeAccessToken(key, correlationId);
                     }
                 }
             });
-            await Promise.all(removedAccessTokens);
             await this.setAccessTokenCredential(credential, correlationId);
         }
         /**
@@ -2930,15 +2300,11 @@
          * Not checking for casing as keys are all generated in lower case, remember to convert to lower case if object properties are compared
          * @param accountFilter - An object containing Account properties to filter by
          */
-        getAccountsFilteredBy(accountFilter) {
+        getAccountsFilteredBy(accountFilter, correlationId) {
             const allAccountKeys = this.getAccountKeys();
             const matchingAccounts = [];
             allAccountKeys.forEach((cacheKey) => {
-                if (!this.isAccountKey(cacheKey, accountFilter.homeAccountId)) {
-                    // Don't parse value if the key doesn't match the account filters
-                    return;
-                }
-                const entity = this.getAccount(cacheKey, this.commonLogger);
+                const entity = this.getAccount(cacheKey, correlationId);
                 // Match base account fields
                 if (!entity) {
                     return;
@@ -2982,64 +2348,6 @@
                 matchingAccounts.push(entity);
             });
             return matchingAccounts;
-        }
-        /**
-         * Returns true if the given key matches our account key schema. Also matches homeAccountId and/or tenantId if provided
-         * @param key
-         * @param homeAccountId
-         * @param tenantId
-         * @returns
-         */
-        isAccountKey(key, homeAccountId, tenantId) {
-            if (key.split(Separators.CACHE_KEY_SEPARATOR).length < 3) {
-                // Account cache keys contain 3 items separated by '-' (each item may also contain '-')
-                return false;
-            }
-            if (homeAccountId &&
-                !key.toLowerCase().includes(homeAccountId.toLowerCase())) {
-                return false;
-            }
-            if (tenantId && !key.toLowerCase().includes(tenantId.toLowerCase())) {
-                return false;
-            }
-            // Do not check environment as aliasing can cause false negatives
-            return true;
-        }
-        /**
-         * Returns true if the given key matches our credential key schema.
-         * @param key
-         */
-        isCredentialKey(key) {
-            if (key.split(Separators.CACHE_KEY_SEPARATOR).length < 6) {
-                // Credential cache keys contain 6 items separated by '-' (each item may also contain '-')
-                return false;
-            }
-            const lowerCaseKey = key.toLowerCase();
-            // Credential keys must indicate what credential type they represent
-            if (lowerCaseKey.indexOf(CredentialType.ID_TOKEN.toLowerCase()) ===
-                -1 &&
-                lowerCaseKey.indexOf(CredentialType.ACCESS_TOKEN.toLowerCase()) ===
-                    -1 &&
-                lowerCaseKey.indexOf(CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME.toLowerCase()) === -1 &&
-                lowerCaseKey.indexOf(CredentialType.REFRESH_TOKEN.toLowerCase()) ===
-                    -1) {
-                return false;
-            }
-            if (lowerCaseKey.indexOf(CredentialType.REFRESH_TOKEN.toLowerCase()) >
-                -1) {
-                // Refresh tokens must contain the client id or family id
-                const clientIdValidation = `${CredentialType.REFRESH_TOKEN}${Separators.CACHE_KEY_SEPARATOR}${this.clientId}${Separators.CACHE_KEY_SEPARATOR}`;
-                const familyIdValidation = `${CredentialType.REFRESH_TOKEN}${Separators.CACHE_KEY_SEPARATOR}${THE_FAMILY_ID}${Separators.CACHE_KEY_SEPARATOR}`;
-                if (lowerCaseKey.indexOf(clientIdValidation.toLowerCase()) === -1 &&
-                    lowerCaseKey.indexOf(familyIdValidation.toLowerCase()) === -1) {
-                    return false;
-                }
-            }
-            else if (lowerCaseKey.indexOf(this.clientId.toLowerCase()) === -1) {
-                // Tokens must contain the clientId
-                return false;
-            }
-            return true;
         }
         /**
          * Returns whether or not the given credential entity matches the filter
@@ -3164,97 +2472,84 @@
         /**
          * Removes all accounts and related tokens from cache.
          */
-        async removeAllAccounts() {
-            const allAccountKeys = this.getAccountKeys();
-            const removedAccounts = [];
-            allAccountKeys.forEach((cacheKey) => {
-                removedAccounts.push(this.removeAccount(cacheKey));
+        removeAllAccounts(correlationId) {
+            const accounts = this.getAllAccounts({}, correlationId);
+            accounts.forEach((account) => {
+                this.removeAccount(account, correlationId);
             });
-            await Promise.all(removedAccounts);
         }
         /**
          * Removes the account and related tokens for a given account key
          * @param account
          */
-        async removeAccount(accountKey) {
-            const account = this.getAccount(accountKey, this.commonLogger);
-            if (!account) {
-                return;
-            }
-            await this.removeAccountContext(account);
-            this.removeItem(accountKey);
+        removeAccount(account, correlationId) {
+            this.removeAccountContext(account, correlationId);
+            const accountKeys = this.getAccountKeys();
+            const keyFilter = (key) => {
+                return (key.includes(account.homeAccountId) &&
+                    key.includes(account.environment));
+            };
+            accountKeys.filter(keyFilter).forEach((key) => {
+                this.removeItem(key, correlationId);
+                this.performanceClient.incrementFields({ accountsRemoved: 1 }, correlationId);
+            });
         }
         /**
          * Removes credentials associated with the provided account
          * @param account
          */
-        async removeAccountContext(account) {
+        removeAccountContext(account, correlationId) {
             const allTokenKeys = this.getTokenKeys();
-            const accountId = account.generateAccountId();
-            const removedCredentials = [];
-            allTokenKeys.idToken.forEach((key) => {
-                if (key.indexOf(accountId) === 0) {
-                    this.removeIdToken(key);
-                }
+            const keyFilter = (key) => {
+                return (key.includes(account.homeAccountId) &&
+                    key.includes(account.environment));
+            };
+            allTokenKeys.idToken.filter(keyFilter).forEach((key) => {
+                this.removeIdToken(key, correlationId);
             });
-            allTokenKeys.accessToken.forEach((key) => {
-                if (key.indexOf(accountId) === 0) {
-                    removedCredentials.push(this.removeAccessToken(key));
-                }
+            allTokenKeys.accessToken.filter(keyFilter).forEach((key) => {
+                this.removeAccessToken(key, correlationId);
             });
-            allTokenKeys.refreshToken.forEach((key) => {
-                if (key.indexOf(accountId) === 0) {
-                    this.removeRefreshToken(key);
-                }
+            allTokenKeys.refreshToken.filter(keyFilter).forEach((key) => {
+                this.removeRefreshToken(key, correlationId);
             });
-            await Promise.all(removedCredentials);
         }
         /**
-         * returns a boolean if the given credential is removed
-         * @param credential
+         * Removes accessToken from the cache
+         * @param key
+         * @param correlationId
          */
-        async removeAccessToken(key) {
-            const credential = this.getAccessTokenCredential(key);
-            if (!credential) {
+        removeAccessToken(key, correlationId) {
+            const credential = this.getAccessTokenCredential(key, correlationId);
+            this.removeItem(key, correlationId);
+            this.performanceClient.incrementFields({ accessTokensRemoved: 1 }, correlationId);
+            if (!credential ||
+                credential.credentialType.toLowerCase() !==
+                    CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME.toLowerCase() ||
+                credential.tokenType !== AuthenticationScheme.POP) {
+                // If the credential is not a PoP token, we can return
                 return;
             }
             // Remove Token Binding Key from key store for PoP Tokens Credentials
-            if (credential.credentialType.toLowerCase() ===
-                CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME.toLowerCase()) {
-                if (credential.tokenType === AuthenticationScheme.POP) {
-                    const accessTokenWithAuthSchemeEntity = credential;
-                    const kid = accessTokenWithAuthSchemeEntity.keyId;
-                    if (kid) {
-                        try {
-                            await this.cryptoImpl.removeTokenBindingKey(kid);
-                        }
-                        catch (error) {
-                            throw createClientAuthError(bindingKeyNotRemoved);
-                        }
-                    }
-                }
+            const kid = credential.keyId;
+            if (kid) {
+                void this.cryptoImpl.removeTokenBindingKey(kid).catch(() => {
+                    this.commonLogger.error(`Failed to remove token binding key ${kid}`, correlationId);
+                    this.performanceClient?.incrementFields({ removeTokenBindingKeyFailure: 1 }, correlationId);
+                });
             }
-            return this.removeItem(key);
         }
         /**
          * Removes all app metadata objects from cache.
          */
-        removeAppMetadata() {
+        removeAppMetadata(correlationId) {
             const allCacheKeys = this.getKeys();
             allCacheKeys.forEach((cacheKey) => {
                 if (this.isAppMetadata(cacheKey)) {
-                    this.removeItem(cacheKey);
+                    this.removeItem(cacheKey, correlationId);
                 }
             });
             return true;
-        }
-        /**
-         * Retrieve AccountEntity from cache
-         * @param account
-         */
-        readAccountFromCache(account) {
-            const accountKey = AccountEntity.generateAccountCacheKey(account);
-            return this.getAccount(accountKey, this.commonLogger);
         }
         /**
          * Retrieve IdTokenEntity from cache
@@ -3264,7 +2559,7 @@
          * @param performanceClient {?IPerformanceClient}
          * @param correlationId {?string}
          */
-        getIdToken(account, tokenKeys, targetRealm, performanceClient, correlationId) {
+        getIdToken(account, correlationId, tokenKeys, targetRealm, performanceClient) {
             this.commonLogger.trace("CacheManager - getIdToken called");
             const idTokenFilter = {
                 homeAccountId: account.homeAccountId,
@@ -3273,7 +2568,7 @@
                 clientId: this.clientId,
                 realm: targetRealm,
             };
-            const idTokenMap = this.getIdTokensByFilter(idTokenFilter, tokenKeys);
+            const idTokenMap = this.getIdTokensByFilter(idTokenFilter, correlationId, tokenKeys);
             const numIdTokens = idTokenMap.size;
             if (numIdTokens < 1) {
                 this.commonLogger.info("CacheManager:getIdToken - No token found");
@@ -3306,7 +2601,7 @@
                 // Multiple tokens for a single tenant profile, remove all and return null
                 this.commonLogger.info("CacheManager:getIdToken - Multiple matching ID tokens found, clearing them");
                 tokensToBeRemoved.forEach((idToken, key) => {
-                    this.removeIdToken(key);
+                    this.removeIdToken(key, correlationId);
                 });
                 if (performanceClient && correlationId) {
                     performanceClient.addFields({ multiMatchedID: idTokenMap.size }, correlationId);
@@ -3321,7 +2616,7 @@
          * @param filter
          * @returns
          */
-        getIdTokensByFilter(filter, tokenKeys) {
+        getIdTokensByFilter(filter, correlationId, tokenKeys) {
             const idTokenKeys = (tokenKeys && tokenKeys.idToken) || this.getTokenKeys().idToken;
             const idTokens = new Map();
             idTokenKeys.forEach((key) => {
@@ -3331,7 +2626,7 @@
                 })) {
                     return;
                 }
-                const idToken = this.getIdTokenCredential(key);
+                const idToken = this.getIdTokenCredential(key, correlationId);
                 if (idToken && this.credentialMatchesFilter(idToken, filter)) {
                     idTokens.set(key, idToken);
                 }
@@ -3360,26 +2655,27 @@
          * Removes idToken from the cache
          * @param key
          */
-        removeIdToken(key) {
-            this.removeItem(key);
+        removeIdToken(key, correlationId) {
+            this.removeItem(key, correlationId);
         }
         /**
          * Removes refresh token from the cache
          * @param key
          */
-        removeRefreshToken(key) {
-            this.removeItem(key);
+        removeRefreshToken(key, correlationId) {
+            this.removeItem(key, correlationId);
         }
         /**
          * Retrieve AccessTokenEntity from cache
          * @param account {AccountInfo}
          * @param request {BaseAuthRequest}
+         * @param correlationId {?string}
          * @param tokenKeys {?TokenKeys}
          * @param performanceClient {?IPerformanceClient}
-         * @param correlationId {?string}
          */
-        getAccessToken(account, request, tokenKeys, targetRealm, performanceClient, correlationId) {
-            this.commonLogger.trace("CacheManager - getAccessToken called");
+        getAccessToken(account, request, tokenKeys, targetRealm) {
+            const correlationId = request.correlationId;
+            this.commonLogger.trace("CacheManager - getAccessToken called", correlationId);
             const scopes = ScopeSet.createSearchScopes(request.scopes);
             const authScheme = request.authenticationScheme || AuthenticationScheme.BEARER;
             /*
@@ -3408,7 +2704,7 @@
             accessTokenKeys.forEach((key) => {
                 // Validate key
                 if (this.accessTokenKeyMatchesFilter(key, accessTokenFilter, true)) {
-                    const accessToken = this.getAccessTokenCredential(key);
+                    const accessToken = this.getAccessTokenCredential(key, correlationId);
                     // Validate value
                     if (accessToken &&
                         this.credentialMatchesFilter(accessToken, accessTokenFilter)) {
@@ -3418,20 +2714,18 @@
             });
             const numAccessTokens = accessTokens.length;
             if (numAccessTokens < 1) {
-                this.commonLogger.info("CacheManager:getAccessToken - No token found");
+                this.commonLogger.info("CacheManager:getAccessToken - No token found", correlationId);
                 return null;
             }
             else if (numAccessTokens > 1) {
-                this.commonLogger.info("CacheManager:getAccessToken - Multiple access tokens found, clearing them");
+                this.commonLogger.info("CacheManager:getAccessToken - Multiple access tokens found, clearing them", correlationId);
                 accessTokens.forEach((accessToken) => {
-                    void this.removeAccessToken(generateCredentialKey(accessToken));
+                    this.removeAccessToken(this.generateCredentialKey(accessToken), correlationId);
                 });
-                if (performanceClient && correlationId) {
-                    performanceClient.addFields({ multiMatchedAT: accessTokens.length }, correlationId);
-                }
+                this.performanceClient.addFields({ multiMatchedAT: accessTokens.length }, correlationId);
                 return null;
             }
-            this.commonLogger.info("CacheManager:getAccessToken - Returning access token");
+            this.commonLogger.info("CacheManager:getAccessToken - Returning access token", correlationId);
             return accessTokens[0];
         }
         /**
@@ -3480,14 +2774,14 @@
          * @param filter
          * @returns
          */
-        getAccessTokensByFilter(filter) {
+        getAccessTokensByFilter(filter, correlationId) {
             const tokenKeys = this.getTokenKeys();
             const accessTokens = [];
             tokenKeys.accessToken.forEach((key) => {
                 if (!this.accessTokenKeyMatchesFilter(key, filter, true)) {
                     return;
                 }
-                const accessToken = this.getAccessTokenCredential(key);
+                const accessToken = this.getAccessTokenCredential(key, correlationId);
                 if (accessToken &&
                     this.credentialMatchesFilter(accessToken, filter)) {
                     accessTokens.push(accessToken);
@@ -3499,11 +2793,11 @@
          * Helper to retrieve the appropriate refresh token from cache
          * @param account {AccountInfo}
          * @param familyRT {boolean}
+         * @param correlationId {?string}
          * @param tokenKeys {?TokenKeys}
          * @param performanceClient {?IPerformanceClient}
-         * @param correlationId {?string}
          */
-        getRefreshToken(account, familyRT, tokenKeys, performanceClient, correlationId) {
+        getRefreshToken(account, familyRT, correlationId, tokenKeys, performanceClient) {
             this.commonLogger.trace("CacheManager - getRefreshToken called");
             const id = familyRT ? THE_FAMILY_ID : undefined;
             const refreshTokenFilter = {
@@ -3519,7 +2813,7 @@
             refreshTokenKeys.forEach((key) => {
                 // Validate key
                 if (this.refreshTokenKeyMatchesFilter(key, refreshTokenFilter)) {
-                    const refreshToken = this.getRefreshTokenCredential(key);
+                    const refreshToken = this.getRefreshTokenCredential(key, correlationId);
                     // Validate value
                     if (refreshToken &&
                         this.credentialMatchesFilter(refreshToken, refreshTokenFilter)) {
@@ -3867,675 +3161,39 @@
         getTokenKeys() {
             throw createClientAuthError(methodNotImplemented);
         }
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const DEFAULT_SYSTEM_OPTIONS = {
-        tokenRenewalOffsetSeconds: DEFAULT_TOKEN_RENEWAL_OFFSET_SEC,
-        preventCorsPreflight: false,
-    };
-    const DEFAULT_LOGGER_IMPLEMENTATION = {
-        loggerCallback: () => {
-            // allow users to not set loggerCallback
-        },
-        piiLoggingEnabled: false,
-        logLevel: exports.LogLevel.Info,
-        correlationId: Constants.EMPTY_STRING,
-    };
-    const DEFAULT_CACHE_OPTIONS = {
-        claimsBasedCachingEnabled: false,
-    };
-    const DEFAULT_NETWORK_IMPLEMENTATION = {
-        async sendGetRequestAsync() {
+        generateCredentialKey() {
             throw createClientAuthError(methodNotImplemented);
-        },
-        async sendPostRequestAsync() {
+        }
+        generateAccountKey() {
             throw createClientAuthError(methodNotImplemented);
-        },
-    };
-    const DEFAULT_LIBRARY_INFO = {
-        sku: Constants.SKU,
-        version: version$1,
-        cpu: Constants.EMPTY_STRING,
-        os: Constants.EMPTY_STRING,
-    };
-    const DEFAULT_CLIENT_CREDENTIALS = {
-        clientSecret: Constants.EMPTY_STRING,
-        clientAssertion: undefined,
-    };
-    const DEFAULT_AZURE_CLOUD_OPTIONS = {
-        azureCloudInstance: AzureCloudInstance.None,
-        tenant: `${Constants.DEFAULT_COMMON_TENANT}`,
-    };
-    const DEFAULT_TELEMETRY_OPTIONS = {
-        application: {
-            appName: "",
-            appVersion: "",
-        },
-    };
-    /**
-     * Function that sets the default options when not explicitly configured from app developer
-     *
-     * @param Configuration
-     *
-     * @returns Configuration
-     */
-    function buildClientConfiguration({ authOptions: userAuthOptions, systemOptions: userSystemOptions, loggerOptions: userLoggerOption, cacheOptions: userCacheOptions, storageInterface: storageImplementation, networkInterface: networkImplementation, cryptoInterface: cryptoImplementation, clientCredentials: clientCredentials, libraryInfo: libraryInfo, telemetry: telemetry, serverTelemetryManager: serverTelemetryManager, persistencePlugin: persistencePlugin, serializableCache: serializableCache, }) {
-        const loggerOptions = {
-            ...DEFAULT_LOGGER_IMPLEMENTATION,
-            ...userLoggerOption,
-        };
-        return {
-            authOptions: buildAuthOptions(userAuthOptions),
-            systemOptions: { ...DEFAULT_SYSTEM_OPTIONS, ...userSystemOptions },
-            loggerOptions: loggerOptions,
-            cacheOptions: { ...DEFAULT_CACHE_OPTIONS, ...userCacheOptions },
-            storageInterface: storageImplementation ||
-                new DefaultStorageClass(userAuthOptions.clientId, DEFAULT_CRYPTO_IMPLEMENTATION, new Logger(loggerOptions)),
-            networkInterface: networkImplementation || DEFAULT_NETWORK_IMPLEMENTATION,
-            cryptoInterface: cryptoImplementation || DEFAULT_CRYPTO_IMPLEMENTATION,
-            clientCredentials: clientCredentials || DEFAULT_CLIENT_CREDENTIALS,
-            libraryInfo: { ...DEFAULT_LIBRARY_INFO, ...libraryInfo },
-            telemetry: { ...DEFAULT_TELEMETRY_OPTIONS, ...telemetry },
-            serverTelemetryManager: serverTelemetryManager || null,
-            persistencePlugin: persistencePlugin || null,
-            serializableCache: serializableCache || null,
-        };
-    }
-    /**
-     * Construct authoptions from the client and platform passed values
-     * @param authOptions
-     */
-    function buildAuthOptions(authOptions) {
-        return {
-            clientCapabilities: [],
-            azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS,
-            skipAuthorityMetadataCache: false,
-            instanceAware: false,
-            ...authOptions,
-        };
-    }
-    /**
-     * Returns true if config has protocolMode set to ProtocolMode.OIDC, false otherwise
-     * @param ClientConfiguration
-     */
-    function isOidcProtocolMode(config) {
-        return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
+        }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const CcsCredentialType = {
-        HOME_ACCOUNT_ID: "home_account_id",
-        UPN: "UPN",
-    };
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const CLIENT_ID = "client_id";
-    const REDIRECT_URI = "redirect_uri";
-    const RESPONSE_TYPE = "response_type";
-    const RESPONSE_MODE = "response_mode";
-    const GRANT_TYPE = "grant_type";
-    const CLAIMS = "claims";
-    const SCOPE = "scope";
-    const REFRESH_TOKEN = "refresh_token";
-    const STATE = "state";
-    const NONCE = "nonce";
-    const PROMPT = "prompt";
-    const CODE = "code";
-    const CODE_CHALLENGE = "code_challenge";
-    const CODE_CHALLENGE_METHOD = "code_challenge_method";
-    const CODE_VERIFIER = "code_verifier";
-    const CLIENT_REQUEST_ID = "client-request-id";
-    const X_CLIENT_SKU = "x-client-SKU";
-    const X_CLIENT_VER = "x-client-VER";
-    const X_CLIENT_OS = "x-client-OS";
-    const X_CLIENT_CPU = "x-client-CPU";
-    const X_CLIENT_CURR_TELEM = "x-client-current-telemetry";
-    const X_CLIENT_LAST_TELEM = "x-client-last-telemetry";
-    const X_MS_LIB_CAPABILITY = "x-ms-lib-capability";
-    const X_APP_NAME = "x-app-name";
-    const X_APP_VER = "x-app-ver";
-    const POST_LOGOUT_URI = "post_logout_redirect_uri";
-    const ID_TOKEN_HINT = "id_token_hint";
-    const DEVICE_CODE = "device_code";
-    const CLIENT_SECRET = "client_secret";
-    const CLIENT_ASSERTION = "client_assertion";
-    const CLIENT_ASSERTION_TYPE = "client_assertion_type";
-    const TOKEN_TYPE = "token_type";
-    const REQ_CNF = "req_cnf";
-    const OBO_ASSERTION = "assertion";
-    const REQUESTED_TOKEN_USE = "requested_token_use";
-    const RETURN_SPA_CODE = "return_spa_code";
-    const NATIVE_BROKER = "nativebroker";
-    const LOGOUT_HINT = "logout_hint";
-    const SID = "sid";
-    const LOGIN_HINT = "login_hint";
-    const DOMAIN_HINT = "domain_hint";
-    const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
-    const BROKER_CLIENT_ID = "brk_client_id";
-    const BROKER_REDIRECT_URI = "brk_redirect_uri";
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
     /**
-     * Validates server consumable params from the "request" objects
+     * Protocol modes supported by MSAL.
      */
-    class RequestValidator {
+    const ProtocolMode = {
         /**
-         * Utility to check if the `redirectUri` in the request is a non-null value
-         * @param redirectUri
+         * Auth Code + PKCE with Entra ID (formerly AAD) specific optimizations and features
          */
-        static validateRedirectUri(redirectUri) {
-            if (!redirectUri) {
-                throw createClientConfigurationError(redirectUriEmpty);
-            }
-        }
+        AAD: "AAD",
         /**
-         * Utility to validate prompt sent by the user in the request
-         * @param prompt
+         * Auth Code + PKCE without Entra ID specific optimizations and features. For use only with non-Microsoft owned authorities.
+         * Support is limited for this mode.
          */
-        static validatePrompt(prompt) {
-            const promptValues = [];
-            for (const value in PromptValue) {
-                promptValues.push(PromptValue[value]);
-            }
-            if (promptValues.indexOf(prompt) < 0) {
-                throw createClientConfigurationError(invalidPromptValue);
-            }
-        }
-        static validateClaims(claims) {
-            try {
-                JSON.parse(claims);
-            }
-            catch (e) {
-                throw createClientConfigurationError(invalidClaims);
-            }
-        }
+        OIDC: "OIDC",
         /**
-         * Utility to validate code_challenge and code_challenge_method
-         * @param codeChallenge
-         * @param codeChallengeMethod
+         * Encrypted Authorize Response (EAR) with Entra ID specific optimizations and features
          */
-        static validateCodeChallengeParams(codeChallenge, codeChallengeMethod) {
-            if (!codeChallenge || !codeChallengeMethod) {
-                throw createClientConfigurationError(pkceParamsMissing);
-            }
-            else {
-                this.validateCodeChallengeMethod(codeChallengeMethod);
-            }
-        }
-        /**
-         * Utility to validate code_challenge_method
-         * @param codeChallengeMethod
-         */
-        static validateCodeChallengeMethod(codeChallengeMethod) {
-            if ([
-                CodeChallengeMethodValues.PLAIN,
-                CodeChallengeMethodValues.S256,
-            ].indexOf(codeChallengeMethod) < 0) {
-                throw createClientConfigurationError(invalidCodeChallengeMethod);
-            }
-        }
-    }
+        EAR: "EAR",
+    };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function instrumentBrokerParams(parameters, correlationId, performanceClient) {
-        if (!correlationId) {
-            return;
-        }
-        const clientId = parameters.get(CLIENT_ID);
-        if (clientId && parameters.has(BROKER_CLIENT_ID)) {
-            performanceClient?.addFields({
-                embeddedClientId: clientId,
-                embeddedRedirectUri: parameters.get(REDIRECT_URI),
-            }, correlationId);
-        }
-    }
-    /** @internal */
-    class RequestParameterBuilder {
-        constructor(correlationId, performanceClient) {
-            this.parameters = new Map();
-            this.performanceClient = performanceClient;
-            this.correlationId = correlationId;
-        }
-        /**
-         * add response_type = code
-         */
-        addResponseTypeCode() {
-            this.parameters.set(RESPONSE_TYPE, encodeURIComponent(Constants.CODE_RESPONSE_TYPE));
-        }
-        /**
-         * add response_type = token id_token
-         */
-        addResponseTypeForTokenAndIdToken() {
-            this.parameters.set(RESPONSE_TYPE, encodeURIComponent(`${Constants.TOKEN_RESPONSE_TYPE} ${Constants.ID_TOKEN_RESPONSE_TYPE}`));
-        }
-        /**
-         * add response_mode. defaults to query.
-         * @param responseMode
-         */
-        addResponseMode(responseMode) {
-            this.parameters.set(RESPONSE_MODE, encodeURIComponent(responseMode ? responseMode : ResponseMode.QUERY));
-        }
-        /**
-         * Add flag to indicate STS should attempt to use WAM if available
-         */
-        addNativeBroker() {
-            this.parameters.set(NATIVE_BROKER, encodeURIComponent("1"));
-        }
-        /**
-         * add scopes. set addOidcScopes to false to prevent default scopes in non-user scenarios
-         * @param scopeSet
-         * @param addOidcScopes
-         */
-        addScopes(scopes, addOidcScopes = true, defaultScopes = OIDC_DEFAULT_SCOPES) {
-            // Always add openid to the scopes when adding OIDC scopes
-            if (addOidcScopes &&
-                !defaultScopes.includes("openid") &&
-                !scopes.includes("openid")) {
-                defaultScopes.push("openid");
-            }
-            const requestScopes = addOidcScopes
-                ? [...(scopes || []), ...defaultScopes]
-                : scopes || [];
-            const scopeSet = new ScopeSet(requestScopes);
-            this.parameters.set(SCOPE, encodeURIComponent(scopeSet.printScopes()));
-        }
-        /**
-         * add clientId
-         * @param clientId
-         */
-        addClientId(clientId) {
-            this.parameters.set(CLIENT_ID, encodeURIComponent(clientId));
-        }
-        /**
-         * add redirect_uri
-         * @param redirectUri
-         */
-        addRedirectUri(redirectUri) {
-            RequestValidator.validateRedirectUri(redirectUri);
-            this.parameters.set(REDIRECT_URI, encodeURIComponent(redirectUri));
-        }
-        /**
-         * add post logout redirectUri
-         * @param redirectUri
-         */
-        addPostLogoutRedirectUri(redirectUri) {
-            RequestValidator.validateRedirectUri(redirectUri);
-            this.parameters.set(POST_LOGOUT_URI, encodeURIComponent(redirectUri));
-        }
-        /**
-         * add id_token_hint to logout request
-         * @param idTokenHint
-         */
-        addIdTokenHint(idTokenHint) {
-            this.parameters.set(ID_TOKEN_HINT, encodeURIComponent(idTokenHint));
-        }
-        /**
-         * add domain_hint
-         * @param domainHint
-         */
-        addDomainHint(domainHint) {
-            this.parameters.set(DOMAIN_HINT, encodeURIComponent(domainHint));
-        }
-        /**
-         * add login_hint
-         * @param loginHint
-         */
-        addLoginHint(loginHint) {
-            this.parameters.set(LOGIN_HINT, encodeURIComponent(loginHint));
-        }
-        /**
-         * Adds the CCS (Cache Credential Service) query parameter for login_hint
-         * @param loginHint
-         */
-        addCcsUpn(loginHint) {
-            this.parameters.set(HeaderNames.CCS_HEADER, encodeURIComponent(`UPN:${loginHint}`));
-        }
-        /**
-         * Adds the CCS (Cache Credential Service) query parameter for account object
-         * @param loginHint
-         */
-        addCcsOid(clientInfo) {
-            this.parameters.set(HeaderNames.CCS_HEADER, encodeURIComponent(`Oid:${clientInfo.uid}@${clientInfo.utid}`));
-        }
-        /**
-         * add sid
-         * @param sid
-         */
-        addSid(sid) {
-            this.parameters.set(SID, encodeURIComponent(sid));
-        }
-        /**
-         * add claims
-         * @param claims
-         */
-        addClaims(claims, clientCapabilities) {
-            const mergedClaims = this.addClientCapabilitiesToClaims(claims, clientCapabilities);
-            RequestValidator.validateClaims(mergedClaims);
-            this.parameters.set(CLAIMS, encodeURIComponent(mergedClaims));
-        }
-        /**
-         * add correlationId
-         * @param correlationId
-         */
-        addCorrelationId(correlationId) {
-            this.parameters.set(CLIENT_REQUEST_ID, encodeURIComponent(correlationId));
-        }
-        /**
-         * add library info query params
-         * @param libraryInfo
-         */
-        addLibraryInfo(libraryInfo) {
-            // Telemetry Info
-            this.parameters.set(X_CLIENT_SKU, libraryInfo.sku);
-            this.parameters.set(X_CLIENT_VER, libraryInfo.version);
-            if (libraryInfo.os) {
-                this.parameters.set(X_CLIENT_OS, libraryInfo.os);
-            }
-            if (libraryInfo.cpu) {
-                this.parameters.set(X_CLIENT_CPU, libraryInfo.cpu);
-            }
-        }
-        /**
-         * Add client telemetry parameters
-         * @param appTelemetry
-         */
-        addApplicationTelemetry(appTelemetry) {
-            if (appTelemetry?.appName) {
-                this.parameters.set(X_APP_NAME, appTelemetry.appName);
-            }
-            if (appTelemetry?.appVersion) {
-                this.parameters.set(X_APP_VER, appTelemetry.appVersion);
-            }
-        }
-        /**
-         * add prompt
-         * @param prompt
-         */
-        addPrompt(prompt) {
-            RequestValidator.validatePrompt(prompt);
-            this.parameters.set(`${PROMPT}`, encodeURIComponent(prompt));
-        }
-        /**
-         * add state
-         * @param state
-         */
-        addState(state) {
-            if (state) {
-                this.parameters.set(STATE, encodeURIComponent(state));
-            }
-        }
-        /**
-         * add nonce
-         * @param nonce
-         */
-        addNonce(nonce) {
-            this.parameters.set(NONCE, encodeURIComponent(nonce));
-        }
-        /**
-         * add code_challenge and code_challenge_method
-         * - throw if either of them are not passed
-         * @param codeChallenge
-         * @param codeChallengeMethod
-         */
-        addCodeChallengeParams(codeChallenge, codeChallengeMethod) {
-            RequestValidator.validateCodeChallengeParams(codeChallenge, codeChallengeMethod);
-            if (codeChallenge && codeChallengeMethod) {
-                this.parameters.set(CODE_CHALLENGE, encodeURIComponent(codeChallenge));
-                this.parameters.set(CODE_CHALLENGE_METHOD, encodeURIComponent(codeChallengeMethod));
-            }
-            else {
-                throw createClientConfigurationError(pkceParamsMissing);
-            }
-        }
-        /**
-         * add the `authorization_code` passed by the user to exchange for a token
-         * @param code
-         */
-        addAuthorizationCode(code) {
-            this.parameters.set(CODE, encodeURIComponent(code));
-        }
-        /**
-         * add the `authorization_code` passed by the user to exchange for a token
-         * @param code
-         */
-        addDeviceCode(code) {
-            this.parameters.set(DEVICE_CODE, encodeURIComponent(code));
-        }
-        /**
-         * add the `refreshToken` passed by the user
-         * @param refreshToken
-         */
-        addRefreshToken(refreshToken) {
-            this.parameters.set(REFRESH_TOKEN, encodeURIComponent(refreshToken));
-        }
-        /**
-         * add the `code_verifier` passed by the user to exchange for a token
-         * @param codeVerifier
-         */
-        addCodeVerifier(codeVerifier) {
-            this.parameters.set(CODE_VERIFIER, encodeURIComponent(codeVerifier));
-        }
-        /**
-         * add client_secret
-         * @param clientSecret
-         */
-        addClientSecret(clientSecret) {
-            this.parameters.set(CLIENT_SECRET, encodeURIComponent(clientSecret));
-        }
-        /**
-         * add clientAssertion for confidential client flows
-         * @param clientAssertion
-         */
-        addClientAssertion(clientAssertion) {
-            if (clientAssertion) {
-                this.parameters.set(CLIENT_ASSERTION, encodeURIComponent(clientAssertion));
-            }
-        }
-        /**
-         * add clientAssertionType for confidential client flows
-         * @param clientAssertionType
-         */
-        addClientAssertionType(clientAssertionType) {
-            if (clientAssertionType) {
-                this.parameters.set(CLIENT_ASSERTION_TYPE, encodeURIComponent(clientAssertionType));
-            }
-        }
-        /**
-         * add OBO assertion for confidential client flows
-         * @param clientAssertion
-         */
-        addOboAssertion(oboAssertion) {
-            this.parameters.set(OBO_ASSERTION, encodeURIComponent(oboAssertion));
-        }
-        /**
-         * add grant type
-         * @param grantType
-         */
-        addRequestTokenUse(tokenUse) {
-            this.parameters.set(REQUESTED_TOKEN_USE, encodeURIComponent(tokenUse));
-        }
-        /**
-         * add grant type
-         * @param grantType
-         */
-        addGrantType(grantType) {
-            this.parameters.set(GRANT_TYPE, encodeURIComponent(grantType));
-        }
-        /**
-         * add client info
-         *
-         */
-        addClientInfo() {
-            this.parameters.set(CLIENT_INFO, "1");
-        }
-        /**
-         * add extraQueryParams
-         * @param eQParams
-         */
-        addExtraQueryParameters(eQParams) {
-            Object.entries(eQParams).forEach(([key, value]) => {
-                if (!this.parameters.has(key) && value) {
-                    this.parameters.set(key, value);
-                }
-            });
-        }
-        addClientCapabilitiesToClaims(claims, clientCapabilities) {
-            let mergedClaims;
-            // Parse provided claims into JSON object or initialize empty object
-            if (!claims) {
-                mergedClaims = {};
-            }
-            else {
-                try {
-                    mergedClaims = JSON.parse(claims);
-                }
-                catch (e) {
-                    throw createClientConfigurationError(invalidClaims);
-                }
-            }
-            if (clientCapabilities && clientCapabilities.length > 0) {
-                if (!mergedClaims.hasOwnProperty(ClaimsRequestKeys.ACCESS_TOKEN)) {
-                    // Add access_token key to claims object
-                    mergedClaims[ClaimsRequestKeys.ACCESS_TOKEN] = {};
-                }
-                // Add xms_cc claim with provided clientCapabilities to access_token key
-                mergedClaims[ClaimsRequestKeys.ACCESS_TOKEN][ClaimsRequestKeys.XMS_CC] = {
-                    values: clientCapabilities,
-                };
-            }
-            return JSON.stringify(mergedClaims);
-        }
-        /**
-         * adds `username` for Password Grant flow
-         * @param username
-         */
-        addUsername(username) {
-            this.parameters.set(PasswordGrantConstants.username, encodeURIComponent(username));
-        }
-        /**
-         * adds `password` for Password Grant flow
-         * @param password
-         */
-        addPassword(password) {
-            this.parameters.set(PasswordGrantConstants.password, encodeURIComponent(password));
-        }
-        /**
-         * add pop_jwk to query params
-         * @param cnfString
-         */
-        addPopToken(cnfString) {
-            if (cnfString) {
-                this.parameters.set(TOKEN_TYPE, AuthenticationScheme.POP);
-                this.parameters.set(REQ_CNF, encodeURIComponent(cnfString));
-            }
-        }
-        /**
-         * add SSH JWK and key ID to query params
-         */
-        addSshJwk(sshJwkString) {
-            if (sshJwkString) {
-                this.parameters.set(TOKEN_TYPE, AuthenticationScheme.SSH);
-                this.parameters.set(REQ_CNF, encodeURIComponent(sshJwkString));
-            }
-        }
-        /**
-         * add server telemetry fields
-         * @param serverTelemetryManager
-         */
-        addServerTelemetry(serverTelemetryManager) {
-            this.parameters.set(X_CLIENT_CURR_TELEM, serverTelemetryManager.generateCurrentRequestHeaderValue());
-            this.parameters.set(X_CLIENT_LAST_TELEM, serverTelemetryManager.generateLastRequestHeaderValue());
-        }
-        /**
-         * Adds parameter that indicates to the server that throttling is supported
-         */
-        addThrottling() {
-            this.parameters.set(X_MS_LIB_CAPABILITY, ThrottlingConstants.X_MS_LIB_CAPABILITY_VALUE);
-        }
-        /**
-         * Adds logout_hint parameter for "silent" logout which prevent server account picker
-         */
-        addLogoutHint(logoutHint) {
-            this.parameters.set(LOGOUT_HINT, encodeURIComponent(logoutHint));
-        }
-        addBrokerParameters(params) {
-            const brokerParams = {};
-            brokerParams[BROKER_CLIENT_ID] =
-                params.brokerClientId;
-            brokerParams[BROKER_REDIRECT_URI] =
-                params.brokerRedirectUri;
-            this.addExtraQueryParameters(brokerParams);
-        }
-        /**
-         * Utility to create a URL from the params map
-         */
-        createQueryString() {
-            const queryParameterArray = new Array();
-            this.parameters.forEach((value, key) => {
-                queryParameterArray.push(`${key}=${value}`);
-            });
-            instrumentBrokerParams(this.parameters, this.correlationId, this.performanceClient);
-            return queryParameterArray.join("&");
-        }
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isOpenIdConfigResponse(response) {
-        return (response.hasOwnProperty("authorization_endpoint") &&
-            response.hasOwnProperty("token_endpoint") &&
-            response.hasOwnProperty("issuer") &&
-            response.hasOwnProperty("jwks_uri"));
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isCloudInstanceDiscoveryResponse(response) {
-        return (response.hasOwnProperty("tenant_discovery_endpoint") &&
-            response.hasOwnProperty("metadata"));
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    function isCloudInstanceDiscoveryErrorResponse(response) {
-        return (response.hasOwnProperty("error") &&
-            response.hasOwnProperty("error_description"));
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -4711,16 +3369,19 @@
         StandardInteractionClientCreateAuthCodeClient: "standardInteractionClientCreateAuthCodeClient",
         StandardInteractionClientGetClientConfiguration: "standardInteractionClientGetClientConfiguration",
         StandardInteractionClientInitializeAuthorizationRequest: "standardInteractionClientInitializeAuthorizationRequest",
-        StandardInteractionClientInitializeAuthorizationCodeRequest: "standardInteractionClientInitializeAuthorizationCodeRequest",
         /**
          * getAuthCodeUrl API (msal-browser and msal-node).
          */
         GetAuthCodeUrl: "getAuthCodeUrl",
+        GetStandardParams: "getStandardParams",
         /**
          * Functions from InteractionHandler (msal-browser)
          */
         HandleCodeResponseFromServer: "handleCodeResponseFromServer",
         HandleCodeResponse: "handleCodeResponse",
+        HandleResponseEar: "handleResponseEar",
+        HandleResponsePlatformBroker: "handleResponsePlatformBroker",
+        HandleResponseCode: "handleResponseCode",
         UpdateTokenEndpointAuthority: "updateTokenEndpointAuthority",
         /**
          * APIs in Authorization Code Client (msal-common)
@@ -4728,7 +3389,6 @@
         AuthClientAcquireToken: "authClientAcquireToken",
         AuthClientExecuteTokenRequest: "authClientExecuteTokenRequest",
         AuthClientCreateTokenRequestBody: "authClientCreateTokenRequestBody",
-        AuthClientCreateQueryString: "authClientCreateQueryString",
         /**
          * Generate functions in PopTokenGenerator (msal-common)
          */
@@ -4788,6 +3448,8 @@
         UrlEncodeArr: "urlEncodeArr",
         Encrypt: "encrypt",
         Decrypt: "decrypt",
+        GenerateEarKey: "generateEarKey",
+        DecryptEarResponse: "decryptEarResponse",
     };
     const PerformanceEventAbbreviations = new Map([
         [PerformanceEvents.AcquireTokenByCode, "ATByCode"],
@@ -4899,26 +3561,24 @@
             PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest,
             "StdIntClientInitAuthReq",
         ],
-        [
-            PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest,
-            "StdIntClientInitAuthCodeReq",
-        ],
         [PerformanceEvents.GetAuthCodeUrl, "GetAuthCodeUrl"],
         [
             PerformanceEvents.HandleCodeResponseFromServer,
             "HandleCodeResFromServer",
         ],
         [PerformanceEvents.HandleCodeResponse, "HandleCodeResp"],
+        [PerformanceEvents.HandleResponseEar, "HandleRespEar"],
+        [PerformanceEvents.HandleResponseCode, "HandleRespCode"],
+        [
+            PerformanceEvents.HandleResponsePlatformBroker,
+            "HandleRespPlatBroker",
+        ],
         [PerformanceEvents.UpdateTokenEndpointAuthority, "UpdTEndpointAuth"],
         [PerformanceEvents.AuthClientAcquireToken, "AuthClientAT"],
         [PerformanceEvents.AuthClientExecuteTokenRequest, "AuthClientExecTReq"],
         [
             PerformanceEvents.AuthClientCreateTokenRequestBody,
             "AuthClientCreateTReqBody",
-        ],
-        [
-            PerformanceEvents.AuthClientCreateQueryString,
-            "AuthClientCreateQueryStr",
         ],
         [PerformanceEvents.PopTokenGenerateCnf, "PopTGenCnf"],
         [PerformanceEvents.PopTokenGenerateKid, "PopTGenKid"],
@@ -5015,6 +3675,8 @@
         [PerformanceEvents.UrlEncodeArr, "urlEncArr"],
         [PerformanceEvents.Encrypt, "encrypt"],
         [PerformanceEvents.Decrypt, "decrypt"],
+        [PerformanceEvents.GenerateEarKey, "genEarKey"],
+        [PerformanceEvents.DecryptEarResponse, "decryptEarResp"],
     ]);
     /**
      * State of the performance event.
@@ -5023,7 +3685,6 @@
      * @enum {number}
      */
     const PerformanceEventStatus = {
-        NotStarted: 0,
         InProgress: 1,
         Completed: 2,
     };
@@ -5042,9 +3703,725 @@
         "multiMatchedRT",
         "unencryptedCacheCount",
         "encryptedCacheExpiredCount",
+        "oldAccountCount",
+        "oldAccessCount",
+        "oldIdCount",
+        "oldRefreshCount",
+        "currAccountCount",
+        "currAccessCount",
+        "currIdCount",
+        "currRefreshCount",
+        "expiredCacheRemovedCount",
+        "upgradedCacheCount",
     ]);
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class StubPerformanceMeasurement {
+        startMeasurement() {
+            return;
+        }
+        endMeasurement() {
+            return;
+        }
+        flushMeasurement() {
+            return null;
+        }
+    }
+    class StubPerformanceClient {
+        generateId() {
+            return "callback-id";
+        }
+        startMeasurement(measureName, correlationId) {
+            return {
+                end: () => null,
+                discard: () => { },
+                add: () => { },
+                increment: () => { },
+                event: {
+                    eventId: this.generateId(),
+                    status: PerformanceEventStatus.InProgress,
+                    authority: "",
+                    libraryName: "",
+                    libraryVersion: "",
+                    clientId: "",
+                    name: measureName,
+                    startTimeMs: Date.now(),
+                    correlationId: correlationId || "",
+                },
+                measurement: new StubPerformanceMeasurement(),
+            };
+        }
+        startPerformanceMeasurement() {
+            return new StubPerformanceMeasurement();
+        }
+        calculateQueuedTime() {
+            return 0;
+        }
+        addQueueMeasurement() {
+            return;
+        }
+        setPreQueueTime() {
+            return;
+        }
+        endMeasurement() {
+            return null;
+        }
+        discardMeasurements() {
+            return;
+        }
+        removePerformanceCallback() {
+            return true;
+        }
+        addPerformanceCallback() {
+            return "";
+        }
+        emitEvents() {
+            return;
+        }
+        addFields() {
+            return;
+        }
+        incrementFields() {
+            return;
+        }
+        cacheEventByCorrelationId() {
+            return;
+        }
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const DEFAULT_SYSTEM_OPTIONS = {
+        tokenRenewalOffsetSeconds: DEFAULT_TOKEN_RENEWAL_OFFSET_SEC,
+        preventCorsPreflight: false,
+    };
+    const DEFAULT_LOGGER_IMPLEMENTATION = {
+        loggerCallback: () => {
+            // allow users to not set loggerCallback
+        },
+        piiLoggingEnabled: false,
+        logLevel: exports.LogLevel.Info,
+        correlationId: Constants.EMPTY_STRING,
+    };
+    const DEFAULT_CACHE_OPTIONS = {
+        claimsBasedCachingEnabled: false,
+    };
+    const DEFAULT_NETWORK_IMPLEMENTATION = {
+        async sendGetRequestAsync() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+        async sendPostRequestAsync() {
+            throw createClientAuthError(methodNotImplemented);
+        },
+    };
+    const DEFAULT_LIBRARY_INFO = {
+        sku: Constants.SKU,
+        version: version$1,
+        cpu: Constants.EMPTY_STRING,
+        os: Constants.EMPTY_STRING,
+    };
+    const DEFAULT_CLIENT_CREDENTIALS = {
+        clientSecret: Constants.EMPTY_STRING,
+        clientAssertion: undefined,
+    };
+    const DEFAULT_AZURE_CLOUD_OPTIONS = {
+        azureCloudInstance: AzureCloudInstance.None,
+        tenant: `${Constants.DEFAULT_COMMON_TENANT}`,
+    };
+    const DEFAULT_TELEMETRY_OPTIONS = {
+        application: {
+            appName: "",
+            appVersion: "",
+        },
+    };
+    /**
+     * Function that sets the default options when not explicitly configured from app developer
+     *
+     * @param Configuration
+     *
+     * @returns Configuration
+     */
+    function buildClientConfiguration({ authOptions: userAuthOptions, systemOptions: userSystemOptions, loggerOptions: userLoggerOption, cacheOptions: userCacheOptions, storageInterface: storageImplementation, networkInterface: networkImplementation, cryptoInterface: cryptoImplementation, clientCredentials: clientCredentials, libraryInfo: libraryInfo, telemetry: telemetry, serverTelemetryManager: serverTelemetryManager, persistencePlugin: persistencePlugin, serializableCache: serializableCache, }) {
+        const loggerOptions = {
+            ...DEFAULT_LOGGER_IMPLEMENTATION,
+            ...userLoggerOption,
+        };
+        return {
+            authOptions: buildAuthOptions(userAuthOptions),
+            systemOptions: { ...DEFAULT_SYSTEM_OPTIONS, ...userSystemOptions },
+            loggerOptions: loggerOptions,
+            cacheOptions: { ...DEFAULT_CACHE_OPTIONS, ...userCacheOptions },
+            storageInterface: storageImplementation ||
+                new DefaultStorageClass(userAuthOptions.clientId, DEFAULT_CRYPTO_IMPLEMENTATION, new Logger(loggerOptions), new StubPerformanceClient()),
+            networkInterface: networkImplementation || DEFAULT_NETWORK_IMPLEMENTATION,
+            cryptoInterface: cryptoImplementation || DEFAULT_CRYPTO_IMPLEMENTATION,
+            clientCredentials: clientCredentials || DEFAULT_CLIENT_CREDENTIALS,
+            libraryInfo: { ...DEFAULT_LIBRARY_INFO, ...libraryInfo },
+            telemetry: { ...DEFAULT_TELEMETRY_OPTIONS, ...telemetry },
+            serverTelemetryManager: serverTelemetryManager || null,
+            persistencePlugin: persistencePlugin || null,
+            serializableCache: serializableCache || null,
+        };
+    }
+    /**
+     * Construct authoptions from the client and platform passed values
+     * @param authOptions
+     */
+    function buildAuthOptions(authOptions) {
+        return {
+            clientCapabilities: [],
+            azureCloudOptions: DEFAULT_AZURE_CLOUD_OPTIONS,
+            skipAuthorityMetadataCache: false,
+            instanceAware: false,
+            encodeExtraQueryParams: false,
+            ...authOptions,
+        };
+    }
+    /**
+     * Returns true if config has protocolMode set to ProtocolMode.OIDC, false otherwise
+     * @param ClientConfiguration
+     */
+    function isOidcProtocolMode(config) {
+        return (config.authOptions.authority.options.protocolMode === ProtocolMode.OIDC);
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const CcsCredentialType = {
+        HOME_ACCOUNT_ID: "home_account_id",
+        UPN: "UPN",
+    };
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Function to build a client info object from server clientInfo string
+     * @param rawClientInfo
+     * @param crypto
+     */
+    function buildClientInfo(rawClientInfo, base64Decode) {
+        if (!rawClientInfo) {
+            throw createClientAuthError(clientInfoEmptyError);
+        }
+        try {
+            const decodedClientInfo = base64Decode(rawClientInfo);
+            return JSON.parse(decodedClientInfo);
+        }
+        catch (e) {
+            throw createClientAuthError(clientInfoDecodingError);
+        }
+    }
+    /**
+     * Function to build a client info object from cached homeAccountId string
+     * @param homeAccountId
+     */
+    function buildClientInfoFromHomeAccountId(homeAccountId) {
+        if (!homeAccountId) {
+            throw createClientAuthError(clientInfoDecodingError);
+        }
+        const clientInfoParts = homeAccountId.split(Separators.CLIENT_INFO_SEPARATOR, 2);
+        return {
+            uid: clientInfoParts[0],
+            utid: clientInfoParts.length < 2
+                ? Constants.EMPTY_STRING
+                : clientInfoParts[1],
+        };
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const CLIENT_ID = "client_id";
+    const REDIRECT_URI = "redirect_uri";
+    const RESPONSE_TYPE = "response_type";
+    const RESPONSE_MODE = "response_mode";
+    const GRANT_TYPE = "grant_type";
+    const CLAIMS = "claims";
+    const SCOPE = "scope";
+    const REFRESH_TOKEN = "refresh_token";
+    const STATE = "state";
+    const NONCE = "nonce";
+    const PROMPT = "prompt";
+    const CODE = "code";
+    const CODE_CHALLENGE = "code_challenge";
+    const CODE_CHALLENGE_METHOD = "code_challenge_method";
+    const CODE_VERIFIER = "code_verifier";
+    const CLIENT_REQUEST_ID = "client-request-id";
+    const X_CLIENT_SKU = "x-client-SKU";
+    const X_CLIENT_VER = "x-client-VER";
+    const X_CLIENT_OS = "x-client-OS";
+    const X_CLIENT_CPU = "x-client-CPU";
+    const X_CLIENT_CURR_TELEM = "x-client-current-telemetry";
+    const X_CLIENT_LAST_TELEM = "x-client-last-telemetry";
+    const X_MS_LIB_CAPABILITY = "x-ms-lib-capability";
+    const X_APP_NAME = "x-app-name";
+    const X_APP_VER = "x-app-ver";
+    const POST_LOGOUT_URI = "post_logout_redirect_uri";
+    const ID_TOKEN_HINT = "id_token_hint";
+    const CLIENT_SECRET = "client_secret";
+    const CLIENT_ASSERTION = "client_assertion";
+    const CLIENT_ASSERTION_TYPE = "client_assertion_type";
+    const TOKEN_TYPE = "token_type";
+    const REQ_CNF = "req_cnf";
+    const RETURN_SPA_CODE = "return_spa_code";
+    const NATIVE_BROKER = "nativebroker";
+    const LOGOUT_HINT = "logout_hint";
+    const SID = "sid";
+    const LOGIN_HINT = "login_hint";
+    const DOMAIN_HINT = "domain_hint";
+    const X_CLIENT_EXTRA_SKU = "x-client-xtra-sku";
+    const BROKER_CLIENT_ID = "brk_client_id";
+    const BROKER_REDIRECT_URI = "brk_redirect_uri";
+    const INSTANCE_AWARE = "instance_aware";
+    const EAR_JWK = "ear_jwk";
+    const EAR_JWE_CRYPTO = "ear_jwe_crypto";
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function instrumentBrokerParams(parameters, correlationId, performanceClient) {
+        if (!correlationId) {
+            return;
+        }
+        const clientId = parameters.get(CLIENT_ID);
+        if (clientId && parameters.has(BROKER_CLIENT_ID)) {
+            performanceClient?.addFields({
+                embeddedClientId: clientId,
+                embeddedRedirectUri: parameters.get(REDIRECT_URI),
+            }, correlationId);
+        }
+    }
+    /**
+     * Add the given response_type
+     * @param parameters
+     * @param responseType
+     */
+    function addResponseType(parameters, responseType) {
+        parameters.set(RESPONSE_TYPE, responseType);
+    }
+    /**
+     * add response_mode. defaults to query.
+     * @param responseMode
+     */
+    function addResponseMode(parameters, responseMode) {
+        parameters.set(RESPONSE_MODE, responseMode ? responseMode : ResponseMode.QUERY);
+    }
+    /**
+     * Add flag to indicate STS should attempt to use WAM if available
+     */
+    function addNativeBroker(parameters) {
+        parameters.set(NATIVE_BROKER, "1");
+    }
+    /**
+     * add scopes. set addOidcScopes to false to prevent default scopes in non-user scenarios
+     * @param scopeSet
+     * @param addOidcScopes
+     */
+    function addScopes(parameters, scopes, addOidcScopes = true, defaultScopes = OIDC_DEFAULT_SCOPES) {
+        // Always add openid to the scopes when adding OIDC scopes
+        if (addOidcScopes &&
+            !defaultScopes.includes("openid") &&
+            !scopes.includes("openid")) {
+            defaultScopes.push("openid");
+        }
+        const requestScopes = addOidcScopes
+            ? [...(scopes || []), ...defaultScopes]
+            : scopes || [];
+        const scopeSet = new ScopeSet(requestScopes);
+        parameters.set(SCOPE, scopeSet.printScopes());
+    }
+    /**
+     * add clientId
+     * @param clientId
+     */
+    function addClientId(parameters, clientId) {
+        parameters.set(CLIENT_ID, clientId);
+    }
+    /**
+     * add redirect_uri
+     * @param redirectUri
+     */
+    function addRedirectUri(parameters, redirectUri) {
+        parameters.set(REDIRECT_URI, redirectUri);
+    }
+    /**
+     * add post logout redirectUri
+     * @param redirectUri
+     */
+    function addPostLogoutRedirectUri(parameters, redirectUri) {
+        parameters.set(POST_LOGOUT_URI, redirectUri);
+    }
+    /**
+     * add id_token_hint to logout request
+     * @param idTokenHint
+     */
+    function addIdTokenHint(parameters, idTokenHint) {
+        parameters.set(ID_TOKEN_HINT, idTokenHint);
+    }
+    /**
+     * add domain_hint
+     * @param domainHint
+     */
+    function addDomainHint(parameters, domainHint) {
+        parameters.set(DOMAIN_HINT, domainHint);
+    }
+    /**
+     * add login_hint
+     * @param loginHint
+     */
+    function addLoginHint(parameters, loginHint) {
+        parameters.set(LOGIN_HINT, loginHint);
+    }
+    /**
+     * Adds the CCS (Cache Credential Service) query parameter for login_hint
+     * @param loginHint
+     */
+    function addCcsUpn(parameters, loginHint) {
+        parameters.set(HeaderNames.CCS_HEADER, `UPN:${loginHint}`);
+    }
+    /**
+     * Adds the CCS (Cache Credential Service) query parameter for account object
+     * @param loginHint
+     */
+    function addCcsOid(parameters, clientInfo) {
+        parameters.set(HeaderNames.CCS_HEADER, `Oid:${clientInfo.uid}@${clientInfo.utid}`);
+    }
+    /**
+     * add sid
+     * @param sid
+     */
+    function addSid(parameters, sid) {
+        parameters.set(SID, sid);
+    }
+    /**
+     * add claims
+     * @param claims
+     */
+    function addClaims(parameters, claims, clientCapabilities) {
+        const mergedClaims = addClientCapabilitiesToClaims$1(claims, clientCapabilities);
+        try {
+            JSON.parse(mergedClaims);
+        }
+        catch (e) {
+            throw createClientConfigurationError(invalidClaims);
+        }
+        parameters.set(CLAIMS, mergedClaims);
+    }
+    /**
+     * add correlationId
+     * @param correlationId
+     */
+    function addCorrelationId(parameters, correlationId) {
+        parameters.set(CLIENT_REQUEST_ID, correlationId);
+    }
+    /**
+     * add library info query params
+     * @param libraryInfo
+     */
+    function addLibraryInfo(parameters, libraryInfo) {
+        // Telemetry Info
+        parameters.set(X_CLIENT_SKU, libraryInfo.sku);
+        parameters.set(X_CLIENT_VER, libraryInfo.version);
+        if (libraryInfo.os) {
+            parameters.set(X_CLIENT_OS, libraryInfo.os);
+        }
+        if (libraryInfo.cpu) {
+            parameters.set(X_CLIENT_CPU, libraryInfo.cpu);
+        }
+    }
+    /**
+     * Add client telemetry parameters
+     * @param appTelemetry
+     */
+    function addApplicationTelemetry(parameters, appTelemetry) {
+        if (appTelemetry?.appName) {
+            parameters.set(X_APP_NAME, appTelemetry.appName);
+        }
+        if (appTelemetry?.appVersion) {
+            parameters.set(X_APP_VER, appTelemetry.appVersion);
+        }
+    }
+    /**
+     * add prompt
+     * @param prompt
+     */
+    function addPrompt(parameters, prompt) {
+        parameters.set(PROMPT, prompt);
+    }
+    /**
+     * add state
+     * @param state
+     */
+    function addState(parameters, state) {
+        if (state) {
+            parameters.set(STATE, state);
+        }
+    }
+    /**
+     * add nonce
+     * @param nonce
+     */
+    function addNonce(parameters, nonce) {
+        parameters.set(NONCE, nonce);
+    }
+    /**
+     * add code_challenge and code_challenge_method
+     * - throw if either of them are not passed
+     * @param codeChallenge
+     * @param codeChallengeMethod
+     */
+    function addCodeChallengeParams(parameters, codeChallenge, codeChallengeMethod) {
+        if (codeChallenge && codeChallengeMethod) {
+            parameters.set(CODE_CHALLENGE, codeChallenge);
+            parameters.set(CODE_CHALLENGE_METHOD, codeChallengeMethod);
+        }
+        else {
+            throw createClientConfigurationError(pkceParamsMissing);
+        }
+    }
+    /**
+     * add the `authorization_code` passed by the user to exchange for a token
+     * @param code
+     */
+    function addAuthorizationCode(parameters, code) {
+        parameters.set(CODE, code);
+    }
+    /**
+     * add the `refreshToken` passed by the user
+     * @param refreshToken
+     */
+    function addRefreshToken(parameters, refreshToken) {
+        parameters.set(REFRESH_TOKEN, refreshToken);
+    }
+    /**
+     * add the `code_verifier` passed by the user to exchange for a token
+     * @param codeVerifier
+     */
+    function addCodeVerifier(parameters, codeVerifier) {
+        parameters.set(CODE_VERIFIER, codeVerifier);
+    }
+    /**
+     * add client_secret
+     * @param clientSecret
+     */
+    function addClientSecret(parameters, clientSecret) {
+        parameters.set(CLIENT_SECRET, clientSecret);
+    }
+    /**
+     * add clientAssertion for confidential client flows
+     * @param clientAssertion
+     */
+    function addClientAssertion(parameters, clientAssertion) {
+        if (clientAssertion) {
+            parameters.set(CLIENT_ASSERTION, clientAssertion);
+        }
+    }
+    /**
+     * add clientAssertionType for confidential client flows
+     * @param clientAssertionType
+     */
+    function addClientAssertionType(parameters, clientAssertionType) {
+        if (clientAssertionType) {
+            parameters.set(CLIENT_ASSERTION_TYPE, clientAssertionType);
+        }
+    }
+    /**
+     * add grant type
+     * @param grantType
+     */
+    function addGrantType(parameters, grantType) {
+        parameters.set(GRANT_TYPE, grantType);
+    }
+    /**
+     * add client info
+     *
+     */
+    function addClientInfo(parameters) {
+        parameters.set(CLIENT_INFO, "1");
+    }
+    function addInstanceAware(parameters) {
+        if (!parameters.has(INSTANCE_AWARE)) {
+            parameters.set(INSTANCE_AWARE, "true");
+        }
+    }
+    /**
+     * add extraQueryParams
+     * @param eQParams
+     */
+    function addExtraQueryParameters(parameters, eQParams) {
+        Object.entries(eQParams).forEach(([key, value]) => {
+            if (!parameters.has(key) && value) {
+                parameters.set(key, value);
+            }
+        });
+    }
+    function addClientCapabilitiesToClaims$1(claims, clientCapabilities) {
+        let mergedClaims;
+        // Parse provided claims into JSON object or initialize empty object
+        if (!claims) {
+            mergedClaims = {};
+        }
+        else {
+            try {
+                mergedClaims = JSON.parse(claims);
+            }
+            catch (e) {
+                throw createClientConfigurationError(invalidClaims);
+            }
+        }
+        if (clientCapabilities && clientCapabilities.length > 0) {
+            if (!mergedClaims.hasOwnProperty(ClaimsRequestKeys.ACCESS_TOKEN)) {
+                // Add access_token key to claims object
+                mergedClaims[ClaimsRequestKeys.ACCESS_TOKEN] = {};
+            }
+            // Add xms_cc claim with provided clientCapabilities to access_token key
+            mergedClaims[ClaimsRequestKeys.ACCESS_TOKEN][ClaimsRequestKeys.XMS_CC] =
+                {
+                    values: clientCapabilities,
+                };
+        }
+        return JSON.stringify(mergedClaims);
+    }
+    /**
+     * add pop_jwk to query params
+     * @param cnfString
+     */
+    function addPopToken(parameters, cnfString) {
+        if (cnfString) {
+            parameters.set(TOKEN_TYPE, AuthenticationScheme.POP);
+            parameters.set(REQ_CNF, cnfString);
+        }
+    }
+    /**
+     * add SSH JWK and key ID to query params
+     */
+    function addSshJwk(parameters, sshJwkString) {
+        if (sshJwkString) {
+            parameters.set(TOKEN_TYPE, AuthenticationScheme.SSH);
+            parameters.set(REQ_CNF, sshJwkString);
+        }
+    }
+    /**
+     * add server telemetry fields
+     * @param serverTelemetryManager
+     */
+    function addServerTelemetry(parameters, serverTelemetryManager) {
+        parameters.set(X_CLIENT_CURR_TELEM, serverTelemetryManager.generateCurrentRequestHeaderValue());
+        parameters.set(X_CLIENT_LAST_TELEM, serverTelemetryManager.generateLastRequestHeaderValue());
+    }
+    /**
+     * Adds parameter that indicates to the server that throttling is supported
+     */
+    function addThrottling(parameters) {
+        parameters.set(X_MS_LIB_CAPABILITY, ThrottlingConstants.X_MS_LIB_CAPABILITY_VALUE);
+    }
+    /**
+     * Adds logout_hint parameter for "silent" logout which prevent server account picker
+     */
+    function addLogoutHint(parameters, logoutHint) {
+        parameters.set(LOGOUT_HINT, logoutHint);
+    }
+    function addBrokerParameters(parameters, brokerClientId, brokerRedirectUri) {
+        if (!parameters.has(BROKER_CLIENT_ID)) {
+            parameters.set(BROKER_CLIENT_ID, brokerClientId);
+        }
+        if (!parameters.has(BROKER_REDIRECT_URI)) {
+            parameters.set(BROKER_REDIRECT_URI, brokerRedirectUri);
+        }
+    }
+    /**
+     * Add EAR (Encrypted Authorize Response) request parameters
+     * @param parameters
+     * @param jwk
+     */
+    function addEARParameters(parameters, jwk) {
+        parameters.set(EAR_JWK, encodeURIComponent(jwk));
+        // ear_jwe_crypto will always have value: {"alg":"dir","enc":"A256GCM"} so we can hardcode this
+        const jweCryptoB64Encoded = "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0";
+        parameters.set(EAR_JWE_CRYPTO, jweCryptoB64Encoded);
+    }
+    /**
+     * Adds authorize body parameters to the request parameters
+     * @param parameters
+     * @param bodyParameters
+     */
+    function addPostBodyParameters(parameters, bodyParameters) {
+        Object.entries(bodyParameters).forEach(([key, value]) => {
+            if (value) {
+                parameters.set(key, value);
+            }
+        });
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Authority types supported by MSAL.
+     */
+    const AuthorityType = {
+        Default: 0,
+        Adfs: 1,
+        Dsts: 2,
+        Ciam: 3,
+    };
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isOpenIdConfigResponse(response) {
+        return (response.hasOwnProperty("authorization_endpoint") &&
+            response.hasOwnProperty("token_endpoint") &&
+            response.hasOwnProperty("issuer") &&
+            response.hasOwnProperty("jwks_uri"));
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isCloudInstanceDiscoveryResponse(response) {
+        return (response.hasOwnProperty("tenant_discovery_endpoint") &&
+            response.hasOwnProperty("metadata"));
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isCloudInstanceDiscoveryErrorResponse(response) {
+        return (response.hasOwnProperty("error") &&
+            response.hasOwnProperty("error_description"));
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -5140,7 +4517,7 @@
         };
     };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5167,15 +4544,13 @@
                 const options = RegionDiscovery.IMDS_OPTIONS;
                 try {
                     const localIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(Constants.IMDS_VERSION, options);
-                    if (localIMDSVersionResponse.status ===
-                        ResponseCodes.httpSuccess) {
+                    if (localIMDSVersionResponse.status === HttpStatus.SUCCESS) {
                         autodetectedRegionName = localIMDSVersionResponse.body;
                         regionDiscoveryMetadata.region_source =
                             RegionDiscoverySources.IMDS;
                     }
                     // If the response using the local IMDS version failed, try to fetch the current version of IMDS and retry.
-                    if (localIMDSVersionResponse.status ===
-                        ResponseCodes.httpBadRequest) {
+                    if (localIMDSVersionResponse.status === HttpStatus.BAD_REQUEST) {
                         const currentIMDSVersion = await invokeAsync(this.getCurrentVersion.bind(this), PerformanceEvents.RegionDiscoveryGetCurrentVersion, this.logger, this.performanceClient, this.correlationId)(options);
                         if (!currentIMDSVersion) {
                             regionDiscoveryMetadata.region_source =
@@ -5183,8 +4558,7 @@
                             return null;
                         }
                         const currentIMDSVersionResponse = await invokeAsync(this.getRegionFromIMDS.bind(this), PerformanceEvents.RegionDiscoveryGetRegionFromIMDS, this.logger, this.performanceClient, this.correlationId)(currentIMDSVersion, options);
-                        if (currentIMDSVersionResponse.status ===
-                            ResponseCodes.httpSuccess) {
+                        if (currentIMDSVersionResponse.status === HttpStatus.SUCCESS) {
                             autodetectedRegionName =
                                 currentIMDSVersionResponse.body;
                             regionDiscoveryMetadata.region_source =
@@ -5229,7 +4603,7 @@
             try {
                 const response = await this.networkInterface.sendGetRequestAsync(`${Constants.IMDS_ENDPOINT}?format=json`, options);
                 // When IMDS endpoint is called without the api version query param, bad request response comes back with latest version.
-                if (response.status === ResponseCodes.httpBadRequest &&
+                if (response.status === HttpStatus.BAD_REQUEST &&
                     response.body &&
                     response.body["newest-versions"] &&
                     response.body["newest-versions"].length > 0) {
@@ -5249,7 +4623,334 @@
         },
     };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Utility functions for managing date and time operations.
+     */
+    /**
+     * return the current time in Unix time (seconds).
+     */
+    function nowSeconds() {
+        // Date.getTime() returns in milliseconds.
+        return Math.round(new Date().getTime() / 1000.0);
+    }
+    /**
+     * Converts JS Date object to seconds
+     * @param date Date
+     */
+    function toSecondsFromDate(date) {
+        // Convert date to seconds
+        return date.getTime() / 1000;
+    }
+    /**
+     * Convert seconds to JS Date object. Seconds can be in a number or string format or undefined (will still return a date).
+     * @param seconds
+     */
+    function toDateFromSeconds(seconds) {
+        if (seconds) {
+            return new Date(Number(seconds) * 1000);
+        }
+        return new Date();
+    }
+    /**
+     * check if a token is expired based on given UTC time in seconds.
+     * @param expiresOn
+     */
+    function isTokenExpired(expiresOn, offset) {
+        // check for access token expiry
+        const expirationSec = Number(expiresOn) || 0;
+        const offsetCurrentTimeSec = nowSeconds() + offset;
+        // If current time + offset is greater than token expiration time, then token is expired.
+        return offsetCurrentTimeSec > expirationSec;
+    }
+    /**
+     * Checks if a cache entry is expired based on the last updated time and cache retention days.
+     * @param lastUpdatedAt
+     * @param cacheRetentionDays
+     * @returns
+     */
+    function isCacheExpired(lastUpdatedAt, cacheRetentionDays) {
+        const cacheExpirationTimestamp = Number(lastUpdatedAt) + cacheRetentionDays * 24 * 60 * 60 * 1000;
+        return Date.now() > cacheExpirationTimestamp;
+    }
+    /**
+     * If the current time is earlier than the time that a token was cached at, we must discard the token
+     * i.e. The system clock was turned back after acquiring the cached token
+     * @param cachedAt
+     * @param offset
+     */
+    function wasClockTurnedBack(cachedAt) {
+        const cachedAtSec = Number(cachedAt);
+        return cachedAtSec > nowSeconds();
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Create IdTokenEntity
+     * @param homeAccountId
+     * @param authenticationResult
+     * @param clientId
+     * @param authority
+     */
+    function createIdTokenEntity(homeAccountId, environment, idToken, clientId, tenantId) {
+        const idTokenEntity = {
+            credentialType: CredentialType.ID_TOKEN,
+            homeAccountId: homeAccountId,
+            environment: environment,
+            clientId: clientId,
+            secret: idToken,
+            realm: tenantId,
+            lastUpdatedAt: Date.now().toString(), // Set the last updated time to now
+        };
+        return idTokenEntity;
+    }
+    /**
+     * Create AccessTokenEntity
+     * @param homeAccountId
+     * @param environment
+     * @param accessToken
+     * @param clientId
+     * @param tenantId
+     * @param scopes
+     * @param expiresOn
+     * @param extExpiresOn
+     */
+    function createAccessTokenEntity(homeAccountId, environment, accessToken, clientId, tenantId, scopes, expiresOn, extExpiresOn, base64Decode, refreshOn, tokenType, userAssertionHash, keyId, requestedClaims, requestedClaimsHash) {
+        const atEntity = {
+            homeAccountId: homeAccountId,
+            credentialType: CredentialType.ACCESS_TOKEN,
+            secret: accessToken,
+            cachedAt: nowSeconds().toString(),
+            expiresOn: expiresOn.toString(),
+            extendedExpiresOn: extExpiresOn.toString(),
+            environment: environment,
+            clientId: clientId,
+            realm: tenantId,
+            target: scopes,
+            tokenType: tokenType || AuthenticationScheme.BEARER,
+            lastUpdatedAt: Date.now().toString(), // Set the last updated time to now
+        };
+        if (userAssertionHash) {
+            atEntity.userAssertionHash = userAssertionHash;
+        }
+        if (refreshOn) {
+            atEntity.refreshOn = refreshOn.toString();
+        }
+        if (requestedClaims) {
+            atEntity.requestedClaims = requestedClaims;
+            atEntity.requestedClaimsHash = requestedClaimsHash;
+        }
+        /*
+         * Create Access Token With Auth Scheme instead of regular access token
+         * Cast to lower to handle "bearer" from ADFS
+         */
+        if (atEntity.tokenType?.toLowerCase() !==
+            AuthenticationScheme.BEARER.toLowerCase()) {
+            atEntity.credentialType = CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME;
+            switch (atEntity.tokenType) {
+                case AuthenticationScheme.POP:
+                    // Make sure keyId is present and add it to credential
+                    const tokenClaims = extractTokenClaims(accessToken, base64Decode);
+                    if (!tokenClaims?.cnf?.kid) {
+                        throw createClientAuthError(tokenClaimsCnfRequiredForSignedJwt);
+                    }
+                    atEntity.keyId = tokenClaims.cnf.kid;
+                    break;
+                case AuthenticationScheme.SSH:
+                    atEntity.keyId = keyId;
+            }
+        }
+        return atEntity;
+    }
+    /**
+     * Create RefreshTokenEntity
+     * @param homeAccountId
+     * @param authenticationResult
+     * @param clientId
+     * @param authority
+     */
+    function createRefreshTokenEntity(homeAccountId, environment, refreshToken, clientId, familyId, userAssertionHash, expiresOn) {
+        const rtEntity = {
+            credentialType: CredentialType.REFRESH_TOKEN,
+            homeAccountId: homeAccountId,
+            environment: environment,
+            clientId: clientId,
+            secret: refreshToken,
+            lastUpdatedAt: Date.now().toString(),
+        };
+        if (userAssertionHash) {
+            rtEntity.userAssertionHash = userAssertionHash;
+        }
+        if (familyId) {
+            rtEntity.familyId = familyId;
+        }
+        if (expiresOn) {
+            rtEntity.expiresOn = expiresOn.toString();
+        }
+        return rtEntity;
+    }
+    function isCredentialEntity(entity) {
+        return (entity.hasOwnProperty("homeAccountId") &&
+            entity.hasOwnProperty("environment") &&
+            entity.hasOwnProperty("credentialType") &&
+            entity.hasOwnProperty("clientId") &&
+            entity.hasOwnProperty("secret"));
+    }
+    /**
+     * Validates an entity: checks for all expected params
+     * @param entity
+     */
+    function isAccessTokenEntity(entity) {
+        if (!entity) {
+            return false;
+        }
+        return (isCredentialEntity(entity) &&
+            entity.hasOwnProperty("realm") &&
+            entity.hasOwnProperty("target") &&
+            (entity["credentialType"] === CredentialType.ACCESS_TOKEN ||
+                entity["credentialType"] ===
+                    CredentialType.ACCESS_TOKEN_WITH_AUTH_SCHEME));
+    }
+    /**
+     * Validates an entity: checks for all expected params
+     * @param entity
+     */
+    function isIdTokenEntity(entity) {
+        if (!entity) {
+            return false;
+        }
+        return (isCredentialEntity(entity) &&
+            entity.hasOwnProperty("realm") &&
+            entity["credentialType"] === CredentialType.ID_TOKEN);
+    }
+    /**
+     * Validates an entity: checks for all expected params
+     * @param entity
+     */
+    function isRefreshTokenEntity(entity) {
+        if (!entity) {
+            return false;
+        }
+        return (isCredentialEntity(entity) &&
+            entity["credentialType"] === CredentialType.REFRESH_TOKEN);
+    }
+    /**
+     * validates if a given cache entry is "Telemetry", parses <key,value>
+     * @param key
+     * @param entity
+     */
+    function isServerTelemetryEntity(key, entity) {
+        const validateKey = key.indexOf(SERVER_TELEM_CONSTANTS.CACHE_KEY) === 0;
+        let validateEntity = true;
+        if (entity) {
+            validateEntity =
+                entity.hasOwnProperty("failedRequests") &&
+                    entity.hasOwnProperty("errors") &&
+                    entity.hasOwnProperty("cacheHits");
+        }
+        return validateKey && validateEntity;
+    }
+    /**
+     * validates if a given cache entry is "Throttling", parses <key,value>
+     * @param key
+     * @param entity
+     */
+    function isThrottlingEntity(key, entity) {
+        let validateKey = false;
+        if (key) {
+            validateKey = key.indexOf(ThrottlingConstants.THROTTLING_PREFIX) === 0;
+        }
+        let validateEntity = true;
+        if (entity) {
+            validateEntity = entity.hasOwnProperty("throttleTime");
+        }
+        return validateKey && validateEntity;
+    }
+    /**
+     * Generate AppMetadata Cache Key as per the schema: appmetadata-<environment>-<client_id>
+     */
+    function generateAppMetadataKey({ environment, clientId, }) {
+        const appMetaDataKeyArray = [
+            APP_METADATA,
+            environment,
+            clientId,
+        ];
+        return appMetaDataKeyArray
+            .join(Separators.CACHE_KEY_SEPARATOR)
+            .toLowerCase();
+    }
+    /*
+     * Validates an entity: checks for all expected params
+     * @param entity
+     */
+    function isAppMetadataEntity(key, entity) {
+        if (!entity) {
+            return false;
+        }
+        return (key.indexOf(APP_METADATA) === 0 &&
+            entity.hasOwnProperty("clientId") &&
+            entity.hasOwnProperty("environment"));
+    }
+    /**
+     * Validates an entity: checks for all expected params
+     * @param entity
+     */
+    function isAuthorityMetadataEntity(key, entity) {
+        if (!entity) {
+            return false;
+        }
+        return (key.indexOf(AUTHORITY_METADATA_CONSTANTS.CACHE_KEY) === 0 &&
+            entity.hasOwnProperty("aliases") &&
+            entity.hasOwnProperty("preferred_cache") &&
+            entity.hasOwnProperty("preferred_network") &&
+            entity.hasOwnProperty("canonical_authority") &&
+            entity.hasOwnProperty("authorization_endpoint") &&
+            entity.hasOwnProperty("token_endpoint") &&
+            entity.hasOwnProperty("issuer") &&
+            entity.hasOwnProperty("aliasesFromNetwork") &&
+            entity.hasOwnProperty("endpointsFromNetwork") &&
+            entity.hasOwnProperty("expiresAt") &&
+            entity.hasOwnProperty("jwks_uri"));
+    }
+    /**
+     * Reset the exiresAt value
+     */
+    function generateAuthorityMetadataExpiresAt() {
+        return (nowSeconds() +
+            AUTHORITY_METADATA_CONSTANTS.REFRESH_TIME_SECONDS);
+    }
+    function updateAuthorityEndpointMetadata(authorityMetadata, updatedValues, fromNetwork) {
+        authorityMetadata.authorization_endpoint =
+            updatedValues.authorization_endpoint;
+        authorityMetadata.token_endpoint = updatedValues.token_endpoint;
+        authorityMetadata.end_session_endpoint = updatedValues.end_session_endpoint;
+        authorityMetadata.issuer = updatedValues.issuer;
+        authorityMetadata.endpointsFromNetwork = fromNetwork;
+        authorityMetadata.jwks_uri = updatedValues.jwks_uri;
+    }
+    function updateCloudDiscoveryMetadata(authorityMetadata, updatedValues, fromNetwork) {
+        authorityMetadata.aliases = updatedValues.aliases;
+        authorityMetadata.preferred_cache = updatedValues.preferred_cache;
+        authorityMetadata.preferred_network = updatedValues.preferred_network;
+        authorityMetadata.aliasesFromNetwork = fromNetwork;
+    }
+    /**
+     * Returns whether or not the data needs to be refreshed
+     */
+    function isAuthorityMetadataExpired(metadata) {
+        return metadata.expiresAt <= nowSeconds();
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -5427,7 +5128,7 @@
             return (authorityUri.PathSegments.length === 1 &&
                 !Authority.reservedTenantDomains.has(authorityUri.PathSegments[0]) &&
                 this.getAuthorityType(authorityUri) === AuthorityType.Default &&
-                this.protocolMode === ProtocolMode.AAD);
+                this.protocolMode !== ProtocolMode.OIDC);
         }
         /**
          * Replaces tenant in url path with current tenant. Defaults to common.
@@ -5474,7 +5175,7 @@
             const canonicalAuthorityHost = this.hostnameAndPort;
             if (this.canonicalAuthority.endsWith("v2.0/") ||
                 this.authorityType === AuthorityType.Adfs ||
-                (this.protocolMode !== ProtocolMode.AAD &&
+                (this.protocolMode === ProtocolMode.OIDC &&
                     !this.isAliasOfKnownMicrosoftAuthority(canonicalAuthorityHost))) {
                 return `${this.canonicalAuthority}.well-known/openid-configuration`;
             }
@@ -6088,7 +5789,7 @@
         };
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6119,7 +5820,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6138,7 +5839,28 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function getRequestThumbprint(clientId, request, homeAccountId) {
+        return {
+            clientId: clientId,
+            authority: request.authority,
+            scopes: request.scopes,
+            homeAccountIdentifier: homeAccountId,
+            claims: request.claims,
+            authenticationScheme: request.authenticationScheme,
+            resourceRequestMethod: request.resourceRequestMethod,
+            resourceRequestUri: request.resourceRequestUri,
+            shrClaims: request.shrClaims,
+            sshKid: request.sshKid,
+            embeddedClientId: request.embeddedClientId || request.tokenBodyParameters?.clientId,
+        };
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6158,12 +5880,12 @@
          * @param cacheManager
          * @param thumbprint
          */
-        static preProcess(cacheManager, thumbprint) {
+        static preProcess(cacheManager, thumbprint, correlationId) {
             const key = ThrottlingUtils.generateThrottlingStorageKey(thumbprint);
             const value = cacheManager.getThrottlingCache(key);
             if (value) {
                 if (value.throttleTime < Date.now()) {
-                    cacheManager.removeItem(key);
+                    cacheManager.removeItem(key, correlationId);
                     return;
                 }
                 throw new ServerError(value.errorCodes?.join(" ") || Constants.EMPTY_STRING, value.errorMessage, value.subError);
@@ -6175,7 +5897,7 @@
          * @param thumbprint
          * @param response
          */
-        static postProcess(cacheManager, thumbprint, response) {
+        static postProcess(cacheManager, thumbprint, response, correlationId) {
             if (ThrottlingUtils.checkResponseStatus(response) ||
                 ThrottlingUtils.checkResponseForRetryAfter(response)) {
                 const thumbprintValue = {
@@ -6185,7 +5907,7 @@
                     errorMessage: response.body.error_description,
                     subError: response.body.suberror,
                 };
-                cacheManager.setThrottlingCache(ThrottlingUtils.generateThrottlingStorageKey(thumbprint), thumbprintValue);
+                cacheManager.setThrottlingCache(ThrottlingUtils.generateThrottlingStorageKey(thumbprint), thumbprintValue, correlationId);
             }
         }
         /**
@@ -6219,24 +5941,13 @@
                 ThrottlingConstants.DEFAULT_MAX_THROTTLE_TIME_SECONDS) * 1000);
         }
         static removeThrottle(cacheManager, clientId, request, homeAccountIdentifier) {
-            const thumbprint = {
-                clientId: clientId,
-                authority: request.authority,
-                scopes: request.scopes,
-                homeAccountIdentifier: homeAccountIdentifier,
-                claims: request.claims,
-                authenticationScheme: request.authenticationScheme,
-                resourceRequestMethod: request.resourceRequestMethod,
-                resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims,
-                sshKid: request.sshKid,
-            };
+            const thumbprint = getRequestThumbprint(clientId, request, homeAccountIdentifier);
             const key = this.generateThrottlingStorageKey(thumbprint);
-            cacheManager.removeItem(key);
+            cacheManager.removeItem(key, request.correlationId);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6262,11 +5973,12 @@
      * @param responseHeaders - Response headers of the network request, when available
      * @returns NetworkError object
      */
-    function createNetworkError(error, httpStatus, responseHeaders) {
+    function createNetworkError(error, httpStatus, responseHeaders, additionalError) {
+        error.errorMessage = `${error.errorMessage}, additionalErrorInfo: error.name:${additionalError?.name}, error.message:${additionalError?.message}`;
         return new NetworkError(error, httpStatus, responseHeaders);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6348,7 +6060,7 @@
          * @param correlationId - CorrelationId for telemetry
          */
         async sendPostRequest(thumbprint, tokenEndpoint, options, correlationId) {
-            ThrottlingUtils.preProcess(this.cacheManager, thumbprint);
+            ThrottlingUtils.preProcess(this.cacheManager, thumbprint, correlationId);
             let response;
             try {
                 response = await invokeAsync((this.networkClient.sendPostRequestAsync.bind(this.networkClient)), PerformanceEvents.NetworkClientSendPostRequestAsync, this.logger, this.performanceClient, correlationId)(tokenEndpoint, options);
@@ -6383,7 +6095,7 @@
                     throw createClientAuthError(networkError);
                 }
             }
-            ThrottlingUtils.postProcess(this.cacheManager, thumbprint, response);
+            ThrottlingUtils.postProcess(this.cacheManager, thumbprint, response, correlationId);
             return response;
         }
         /**
@@ -6401,22 +6113,263 @@
          * @param request
          */
         createTokenQueryParameters(request) {
-            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
+            const parameters = new Map();
             if (request.embeddedClientId) {
-                parameterBuilder.addBrokerParameters({
-                    brokerClientId: this.config.authOptions.clientId,
-                    brokerRedirectUri: this.config.authOptions.redirectUri,
-                });
+                addBrokerParameters(parameters, this.config.authOptions.clientId, this.config.authOptions.redirectUri);
             }
             if (request.tokenQueryParameters) {
-                parameterBuilder.addExtraQueryParameters(request.tokenQueryParameters);
+                addExtraQueryParameters(parameters, request.tokenQueryParameters);
             }
-            parameterBuilder.addCorrelationId(request.correlationId);
-            return parameterBuilder.createQueryString();
+            addCorrelationId(parameters, request.correlationId);
+            instrumentBrokerParams(parameters, request.correlationId, this.performanceClient);
+            return mapToQueryString(parameters);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Gets tenantId from available ID token claims to set as credential realm with the following precedence:
+     * 1. tid - if the token is acquired from an Azure AD tenant tid will be present
+     * 2. tfp - if the token is acquired from a modern B2C tenant tfp should be present
+     * 3. acr - if the token is acquired from a legacy B2C tenant acr should be present
+     * Downcased to match the realm case-insensitive comparison requirements
+     * @param idTokenClaims
+     * @returns
+     */
+    function getTenantIdFromIdTokenClaims(idTokenClaims) {
+        if (idTokenClaims) {
+            const tenantId = idTokenClaims.tid || idTokenClaims.tfp || idTokenClaims.acr;
+            return tenantId || null;
+        }
+        return null;
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Type that defines required and optional parameters for an Account field (based on universal cache schema implemented by all MSALs).
+     *
+     * Key : Value Schema
+     *
+     * Key: <home_account_id>-<environment>-<realm*>
+     *
+     * Value Schema:
+     * {
+     *      homeAccountId: home account identifier for the auth scheme,
+     *      environment: entity that issued the token, represented as a full host
+     *      realm: Full tenant or organizational identifier that the account belongs to
+     *      localAccountId: Original tenant-specific accountID, usually used for legacy cases
+     *      username: primary username that represents the user, usually corresponds to preferred_username in the v2 endpt
+     *      authorityType: Accounts authority type as a string
+     *      name: Full name for the account, including given name and family name,
+     *      lastModificationTime: last time this entity was modified in the cache
+     *      lastModificationApp:
+     *      nativeAccountId: Account identifier on the native device
+     *      tenantProfiles: Array of tenant profile objects for each tenant that the account has authenticated with in the browser
+     * }
+     * @internal
+     */
+    class AccountEntity {
+        /**
+         * Returns the AccountInfo interface for this account.
+         */
+        getAccountInfo() {
+            return {
+                homeAccountId: this.homeAccountId,
+                environment: this.environment,
+                tenantId: this.realm,
+                username: this.username,
+                localAccountId: this.localAccountId,
+                loginHint: this.loginHint,
+                name: this.name,
+                nativeAccountId: this.nativeAccountId,
+                authorityType: this.authorityType,
+                // Deserialize tenant profiles array into a Map
+                tenantProfiles: new Map((this.tenantProfiles || []).map((tenantProfile) => {
+                    return [tenantProfile.tenantId, tenantProfile];
+                })),
+                dataBoundary: this.dataBoundary,
+            };
+        }
+        /**
+         * Returns true if the account entity is in single tenant format (outdated), false otherwise
+         */
+        isSingleTenant() {
+            return !this.tenantProfiles;
+        }
+        /**
+         * Build Account cache from IdToken, clientInfo and authority/policy. Associated with AAD.
+         * @param accountDetails
+         */
+        static createAccount(accountDetails, authority, base64Decode) {
+            const account = new AccountEntity();
+            if (authority.authorityType === AuthorityType.Adfs) {
+                account.authorityType = CacheAccountType.ADFS_ACCOUNT_TYPE;
+            }
+            else if (authority.protocolMode === ProtocolMode.OIDC) {
+                account.authorityType = CacheAccountType.GENERIC_ACCOUNT_TYPE;
+            }
+            else {
+                account.authorityType = CacheAccountType.MSSTS_ACCOUNT_TYPE;
+            }
+            let clientInfo;
+            if (accountDetails.clientInfo && base64Decode) {
+                clientInfo = buildClientInfo(accountDetails.clientInfo, base64Decode);
+                if (clientInfo.xms_tdbr) {
+                    account.dataBoundary =
+                        clientInfo.xms_tdbr === "EU" ? "EU" : "None";
+                }
+            }
+            account.clientInfo = accountDetails.clientInfo;
+            account.homeAccountId = accountDetails.homeAccountId;
+            account.nativeAccountId = accountDetails.nativeAccountId;
+            const env = accountDetails.environment ||
+                (authority && authority.getPreferredCache());
+            if (!env) {
+                throw createClientAuthError(invalidCacheEnvironment);
+            }
+            account.environment = env;
+            // non AAD scenarios can have empty realm
+            account.realm =
+                clientInfo?.utid ||
+                    getTenantIdFromIdTokenClaims(accountDetails.idTokenClaims) ||
+                    "";
+            // How do you account for MSA CID here?
+            account.localAccountId =
+                clientInfo?.uid ||
+                    accountDetails.idTokenClaims?.oid ||
+                    accountDetails.idTokenClaims?.sub ||
+                    "";
+            /*
+             * In B2C scenarios the emails claim is used instead of preferred_username and it is an array.
+             * In most cases it will contain a single email. This field should not be relied upon if a custom
+             * policy is configured to return more than 1 email.
+             */
+            const preferredUsername = accountDetails.idTokenClaims?.preferred_username ||
+                accountDetails.idTokenClaims?.upn;
+            const email = accountDetails.idTokenClaims?.emails
+                ? accountDetails.idTokenClaims.emails[0]
+                : null;
+            account.username = preferredUsername || email || "";
+            account.loginHint = accountDetails.idTokenClaims?.login_hint;
+            account.name = accountDetails.idTokenClaims?.name || "";
+            account.cloudGraphHostName = accountDetails.cloudGraphHostName;
+            account.msGraphHost = accountDetails.msGraphHost;
+            if (accountDetails.tenantProfiles) {
+                account.tenantProfiles = accountDetails.tenantProfiles;
+            }
+            else {
+                const tenantProfile = buildTenantProfile(accountDetails.homeAccountId, account.localAccountId, account.realm, accountDetails.idTokenClaims);
+                account.tenantProfiles = [tenantProfile];
+            }
+            return account;
+        }
+        /**
+         * Creates an AccountEntity object from AccountInfo
+         * @param accountInfo
+         * @param cloudGraphHostName
+         * @param msGraphHost
+         * @returns
+         */
+        static createFromAccountInfo(accountInfo, cloudGraphHostName, msGraphHost) {
+            const account = new AccountEntity();
+            account.authorityType =
+                accountInfo.authorityType || CacheAccountType.GENERIC_ACCOUNT_TYPE;
+            account.homeAccountId = accountInfo.homeAccountId;
+            account.localAccountId = accountInfo.localAccountId;
+            account.nativeAccountId = accountInfo.nativeAccountId;
+            account.realm = accountInfo.tenantId;
+            account.environment = accountInfo.environment;
+            account.username = accountInfo.username;
+            account.name = accountInfo.name;
+            account.loginHint = accountInfo.loginHint;
+            account.cloudGraphHostName = cloudGraphHostName;
+            account.msGraphHost = msGraphHost;
+            // Serialize tenant profiles map into an array
+            account.tenantProfiles = Array.from(accountInfo.tenantProfiles?.values() || []);
+            account.dataBoundary = accountInfo.dataBoundary;
+            return account;
+        }
+        /**
+         * Generate HomeAccountId from server response
+         * @param serverClientInfo
+         * @param authType
+         */
+        static generateHomeAccountId(serverClientInfo, authType, logger, cryptoObj, idTokenClaims) {
+            // since ADFS/DSTS do not have tid and does not set client_info
+            if (!(authType === AuthorityType.Adfs ||
+                authType === AuthorityType.Dsts)) {
+                // for cases where there is clientInfo
+                if (serverClientInfo) {
+                    try {
+                        const clientInfo = buildClientInfo(serverClientInfo, cryptoObj.base64Decode);
+                        if (clientInfo.uid && clientInfo.utid) {
+                            return `${clientInfo.uid}.${clientInfo.utid}`;
+                        }
+                    }
+                    catch (e) { }
+                }
+                logger.warning("No client info in response");
+            }
+            // default to "sub" claim
+            return idTokenClaims?.sub || "";
+        }
+        /**
+         * Validates an entity: checks for all expected params
+         * @param entity
+         */
+        static isAccountEntity(entity) {
+            if (!entity) {
+                return false;
+            }
+            return (entity.hasOwnProperty("homeAccountId") &&
+                entity.hasOwnProperty("environment") &&
+                entity.hasOwnProperty("realm") &&
+                entity.hasOwnProperty("localAccountId") &&
+                entity.hasOwnProperty("username") &&
+                entity.hasOwnProperty("authorityType"));
+        }
+        /**
+         * Helper function to determine whether 2 accountInfo objects represent the same account
+         * @param accountA
+         * @param accountB
+         * @param compareClaims - If set to true idTokenClaims will also be compared to determine account equality
+         */
+        static accountInfoIsEqual(accountA, accountB, compareClaims) {
+            if (!accountA || !accountB) {
+                return false;
+            }
+            let claimsMatch = true; // default to true so as to not fail comparison below if compareClaims: false
+            if (compareClaims) {
+                const accountAClaims = (accountA.idTokenClaims ||
+                    {});
+                const accountBClaims = (accountB.idTokenClaims ||
+                    {});
+                // issued at timestamp and nonce are expected to change each time a new id token is acquired
+                claimsMatch =
+                    accountAClaims.iat === accountBClaims.iat &&
+                        accountAClaims.nonce === accountBClaims.nonce;
+            }
+            return (accountA.homeAccountId === accountB.homeAccountId &&
+                accountA.localAccountId === accountB.localAccountId &&
+                accountA.username === accountB.username &&
+                accountA.tenantId === accountB.tenantId &&
+                accountA.loginHint === accountB.loginHint &&
+                accountA.environment === accountB.environment &&
+                accountA.nativeAccountId === accountB.nativeAccountId &&
+                claimsMatch);
+        }
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6425,6 +6378,7 @@
     const noTokensFound = "no_tokens_found";
     const nativeAccountUnavailable = "native_account_unavailable";
     const refreshTokenExpired = "refresh_token_expired";
+    const uxNotAllowed = "ux_not_allowed";
     // Codes potentially returned by server
     const interactionRequired = "interaction_required";
     const consentRequired = "consent_required";
@@ -6439,10 +6393,11 @@
         loginRequired: loginRequired,
         nativeAccountUnavailable: nativeAccountUnavailable,
         noTokensFound: noTokensFound,
-        refreshTokenExpired: refreshTokenExpired
+        refreshTokenExpired: refreshTokenExpired,
+        uxNotAllowed: uxNotAllowed
     });
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6456,6 +6411,7 @@
         consentRequired,
         loginRequired,
         badToken,
+        uxNotAllowed,
     ];
     const InteractionRequiredAuthSubErrorMessage = [
         "message_only",
@@ -6470,6 +6426,7 @@
         [nativeAccountUnavailable]: "The requested account is not available in the native broker. It may have been deleted or logged out. Please sign-in again using an interactive API.",
         [refreshTokenExpired]: "Refresh token has expired.",
         [badToken]: "Identity provider returned bad_token due to an expired or invalid refresh token. Please invoke an interactive API to resolve.",
+        [uxNotAllowed]: "`canShowUI` flag in Edge was set to false. User interaction required on web page. Please invoke an interactive API to resolve.",
     };
     /**
      * Interaction required errors defined by the SDK
@@ -6530,7 +6487,7 @@
         return new InteractionRequiredAuthError(errorCode, InteractionRequiredAuthErrorMessages[errorCode]);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -6602,16 +6559,14 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
     const KeyLocation = {
-        SW: "sw",
-        UHW: "uhw",
-    };
+        SW: "sw"};
     /** @internal */
     class PopTokenGenerator {
         constructor(cryptoUtils, performanceClient) {
@@ -6686,7 +6641,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -6713,19 +6668,12 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    function parseServerErrorNo(serverResponse) {
-        const errorCodePrefix = "code=";
-        const errorCodePrefixIndex = serverResponse.error_uri?.lastIndexOf(errorCodePrefix);
-        return errorCodePrefixIndex && errorCodePrefixIndex >= 0
-            ? serverResponse.error_uri?.substring(errorCodePrefixIndex + errorCodePrefix.length)
-            : undefined;
-    }
     /**
      * Class that handles response parsing.
      * @internal
@@ -6739,46 +6687,6 @@
             this.serializableCache = serializableCache;
             this.persistencePlugin = persistencePlugin;
             this.performanceClient = performanceClient;
-        }
-        /**
-         * Function which validates server authorization code response.
-         * @param serverResponseHash
-         * @param requestState
-         * @param cryptoObj
-         */
-        validateServerAuthorizationCodeResponse(serverResponse, requestState) {
-            if (!serverResponse.state || !requestState) {
-                throw serverResponse.state
-                    ? createClientAuthError(stateNotFound, "Cached State")
-                    : createClientAuthError(stateNotFound, "Server State");
-            }
-            let decodedServerResponseState;
-            let decodedRequestState;
-            try {
-                decodedServerResponseState = decodeURIComponent(serverResponse.state);
-            }
-            catch (e) {
-                throw createClientAuthError(invalidState, serverResponse.state);
-            }
-            try {
-                decodedRequestState = decodeURIComponent(requestState);
-            }
-            catch (e) {
-                throw createClientAuthError(invalidState, serverResponse.state);
-            }
-            if (decodedServerResponseState !== decodedRequestState) {
-                throw createClientAuthError(stateMismatch);
-            }
-            // Check for error
-            if (serverResponse.error ||
-                serverResponse.error_description ||
-                serverResponse.suberror) {
-                const serverErrorNo = parseServerErrorNo(serverResponse);
-                if (isInteractionRequiredError(serverResponse.error, serverResponse.error_description, serverResponse.suberror)) {
-                    throw new InteractionRequiredAuthError(serverResponse.error || "", serverResponse.error_description, serverResponse.suberror, serverResponse.timestamp || "", serverResponse.trace_id || "", serverResponse.correlation_id || "", serverResponse.claims || "", serverErrorNo);
-                }
-                throw new ServerError(serverResponse.error || "", serverResponse.error_description, serverResponse.suberror, serverErrorNo);
-            }
         }
         /**
          * Function which validates server authorization token response.
@@ -6872,8 +6780,8 @@
                 if (handlingRefreshTokenResponse &&
                     !forceCacheRefreshTokenResponse &&
                     cacheRecord.account) {
-                    const key = cacheRecord.account.generateAccountKey();
-                    const account = this.cacheStorage.getAccount(key);
+                    const key = this.cacheStorage.generateAccountKey(cacheRecord.account.getAccountInfo());
+                    const account = this.cacheStorage.getAccount(key, request.correlationId);
                     if (!account) {
                         this.logger.warning("Account used to refresh tokens not in persistence, refreshed tokens will not be stored in the cache");
                         return await ResponseHandler.generateAuthenticationResult(this.cryptoObj, authority, cacheRecord, false, request, idTokenClaims, requestStateObj, undefined, serverRequestId);
@@ -6908,7 +6816,7 @@
             let cachedAccount;
             if (serverTokenResponse.id_token && !!idTokenClaims) {
                 cachedIdToken = createIdTokenEntity(this.homeAccountIdentifier, env, serverTokenResponse.id_token, this.clientId, claimsTenantId || "");
-                cachedAccount = buildAccountToCache(this.cacheStorage, authority, this.homeAccountIdentifier, this.cryptoObj.base64Decode, idTokenClaims, serverTokenResponse.client_info, env, claimsTenantId, authCodePayload, undefined, // nativeAccountId
+                cachedAccount = buildAccountToCache(this.cacheStorage, authority, this.homeAccountIdentifier, this.cryptoObj.base64Decode, request.correlationId, idTokenClaims, serverTokenResponse.client_info, env, claimsTenantId, authCodePayload, undefined, // nativeAccountId
                 this.logger);
             }
             // AccessToken
@@ -7005,10 +6913,11 @@
                     accessToken = cacheRecord.accessToken.secret;
                 }
                 responseScopes = ScopeSet.fromString(cacheRecord.accessToken.target).asArray();
-                expiresOn = new Date(Number(cacheRecord.accessToken.expiresOn) * 1000);
-                extExpiresOn = new Date(Number(cacheRecord.accessToken.extendedExpiresOn) * 1000);
+                // Access token expiresOn cached in seconds, converting to Date for AuthenticationResult
+                expiresOn = toDateFromSeconds(cacheRecord.accessToken.expiresOn);
+                extExpiresOn = toDateFromSeconds(cacheRecord.accessToken.extendedExpiresOn);
                 if (cacheRecord.accessToken.refreshOn) {
-                    refreshOn = new Date(Number(cacheRecord.accessToken.refreshOn) * 1000);
+                    refreshOn = toDateFromSeconds(cacheRecord.accessToken.refreshOn);
                 }
             }
             if (cacheRecord.appMetadata) {
@@ -7056,7 +6965,7 @@
             };
         }
     }
-    function buildAccountToCache(cacheStorage, authority, homeAccountId, base64Decode, idTokenClaims, clientInfo, environment, claimsTenantId, authCodePayload, nativeAccountId, logger) {
+    function buildAccountToCache(cacheStorage, authority, homeAccountId, base64Decode, correlationId, idTokenClaims, clientInfo, environment, claimsTenantId, authCodePayload, nativeAccountId, logger) {
         logger?.verbose("setCachedAccount called");
         // Check if base account is already cached
         const accountKeys = cacheStorage.getAccountKeys();
@@ -7065,7 +6974,7 @@
         });
         let cachedAccount = null;
         if (baseAccountKey) {
-            cachedAccount = cacheStorage.getAccount(baseAccountKey);
+            cachedAccount = cacheStorage.getAccount(baseAccountKey, correlationId);
         }
         const baseAccount = cachedAccount ||
             AccountEntity.createAccount({
@@ -7090,7 +6999,7 @@
         return baseAccount;
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -7108,7 +7017,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7125,21 +7034,6 @@
             this.includeRedirectUri = true;
             this.oidcDefaultScopes =
                 this.config.authOptions.authority.options.OIDCOptions?.defaultScopes;
-        }
-        /**
-         * Creates the URL of the authorization request letting the user input credentials and consent to the
-         * application. The URL target the /authorize endpoint of the authority configured in the
-         * application object.
-         *
-         * Once the user inputs their credentials and consents, the authority will send a response to the redirect URI
-         * sent in the request and should contain an authorization code, which can then be used to acquire tokens via
-         * acquireToken(AuthorizationCodeRequest)
-         * @param request
-         */
-        async getAuthCodeUrl(request) {
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.GetAuthCodeUrl, request.correlationId);
-            const queryString = await invokeAsync(this.createAuthCodeUrlQueryString.bind(this), PerformanceEvents.AuthClientCreateQueryString, this.logger, this.performanceClient, request.correlationId)(request);
-            return UrlString.appendQueryString(this.authority.authorizationEndpoint, queryString);
         }
         /**
          * API to acquire a token in exchange of 'authorization_code` acquired by the user in the first leg of the
@@ -7159,22 +7053,6 @@
             // Validate response. This function throws a server error if an error is returned by the server.
             responseHandler.validateTokenResponse(response.body);
             return invokeAsync(responseHandler.handleServerTokenResponse.bind(responseHandler), PerformanceEvents.HandleServerTokenResponse, this.logger, this.performanceClient, request.correlationId)(response.body, this.authority, reqTimestamp, request, authCodePayload, undefined, undefined, undefined, requestId);
-        }
-        /**
-         * Handles the hash fragment response from public client code request. Returns a code response used by
-         * the client to exchange for a token in acquireToken.
-         * @param hashFragment
-         */
-        handleFragmentResponse(serverParams, cachedState) {
-            // Handle responses.
-            const responseHandler = new ResponseHandler(this.config.authOptions.clientId, this.cacheManager, this.cryptoUtils, this.logger, null, null);
-            // Get code response
-            responseHandler.validateServerAuthorizationCodeResponse(serverParams, cachedState);
-            // throw when there is no auth code in the response
-            if (!serverParams.code) {
-                throw createClientAuthError(authorizationCodeMissingFromServerResponse);
-            }
-            return serverParams;
         }
         /**
          * Used to log out the current user, and redirect the user to the postLogoutRedirectUri.
@@ -7214,18 +7092,7 @@
                 }
             }
             const headers = this.createTokenRequestHeaders(ccsCredential || request.ccsCredential);
-            const thumbprint = {
-                clientId: request.tokenBodyParameters?.clientId ||
-                    this.config.authOptions.clientId,
-                authority: authority.canonicalAuthority,
-                scopes: request.scopes,
-                claims: request.claims,
-                authenticationScheme: request.authenticationScheme,
-                resourceRequestMethod: request.resourceRequestMethod,
-                resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims,
-                sshKid: request.sshKid,
-            };
+            const thumbprint = getRequestThumbprint(this.config.authOptions.clientId, request);
             return invokeAsync(this.executePostToTokenEndpoint.bind(this), PerformanceEvents.AuthorizationCodeClientExecutePostToTokenEndpoint, this.logger, this.performanceClient, request.correlationId)(endpoint, requestBody, headers, thumbprint, request.correlationId, PerformanceEvents.AuthorizationCodeClientExecutePostToTokenEndpoint);
         }
         /**
@@ -7234,8 +7101,8 @@
          */
         async createTokenRequestBody(request) {
             this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthClientCreateTokenRequestBody, request.correlationId);
-            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
-            parameterBuilder.addClientId(request.embeddedClientId ||
+            const parameters = new Map();
+            addClientId(parameters, request.embeddedClientId ||
                 request.tokenBodyParameters?.[CLIENT_ID] ||
                 this.config.authOptions.clientId);
             /*
@@ -7244,37 +7111,39 @@
              */
             if (!this.includeRedirectUri) {
                 // Just validate
-                RequestValidator.validateRedirectUri(request.redirectUri);
+                if (!request.redirectUri) {
+                    throw createClientConfigurationError(redirectUriEmpty);
+                }
             }
             else {
                 // Validate and include redirect uri
-                parameterBuilder.addRedirectUri(request.redirectUri);
+                addRedirectUri(parameters, request.redirectUri);
             }
             // Add scope array, parameter builder will add default scopes and dedupe
-            parameterBuilder.addScopes(request.scopes, true, this.oidcDefaultScopes);
+            addScopes(parameters, request.scopes, true, this.oidcDefaultScopes);
             // add code: user set, not validated
-            parameterBuilder.addAuthorizationCode(request.code);
+            addAuthorizationCode(parameters, request.code);
             // Add library metadata
-            parameterBuilder.addLibraryInfo(this.config.libraryInfo);
-            parameterBuilder.addApplicationTelemetry(this.config.telemetry.application);
-            parameterBuilder.addThrottling();
+            addLibraryInfo(parameters, this.config.libraryInfo);
+            addApplicationTelemetry(parameters, this.config.telemetry.application);
+            addThrottling(parameters);
             if (this.serverTelemetryManager && !isOidcProtocolMode(this.config)) {
-                parameterBuilder.addServerTelemetry(this.serverTelemetryManager);
+                addServerTelemetry(parameters, this.serverTelemetryManager);
             }
             // add code_verifier if passed
             if (request.codeVerifier) {
-                parameterBuilder.addCodeVerifier(request.codeVerifier);
+                addCodeVerifier(parameters, request.codeVerifier);
             }
             if (this.config.clientCredentials.clientSecret) {
-                parameterBuilder.addClientSecret(this.config.clientCredentials.clientSecret);
+                addClientSecret(parameters, this.config.clientCredentials.clientSecret);
             }
             if (this.config.clientCredentials.clientAssertion) {
                 const clientAssertion = this.config.clientCredentials.clientAssertion;
-                parameterBuilder.addClientAssertion(await getClientAssertion(clientAssertion.assertion, this.config.authOptions.clientId, request.resourceRequestUri));
-                parameterBuilder.addClientAssertionType(clientAssertion.assertionType);
+                addClientAssertion(parameters, await getClientAssertion(clientAssertion.assertion, this.config.authOptions.clientId, request.resourceRequestUri));
+                addClientAssertionType(parameters, clientAssertion.assertionType);
             }
-            parameterBuilder.addGrantType(GrantType.AUTHORIZATION_CODE_GRANT);
-            parameterBuilder.addClientInfo();
+            addGrantType(parameters, GrantType.AUTHORIZATION_CODE_GRANT);
+            addClientInfo(parameters);
             if (request.authenticationScheme === AuthenticationScheme.POP) {
                 const popTokenGenerator = new PopTokenGenerator(this.cryptoUtils, this.performanceClient);
                 let reqCnfData;
@@ -7286,11 +7155,11 @@
                     reqCnfData = this.cryptoUtils.encodeKid(request.popKid);
                 }
                 // SPA PoP requires full Base64Url encoded req_cnf string (unhashed)
-                parameterBuilder.addPopToken(reqCnfData);
+                addPopToken(parameters, reqCnfData);
             }
             else if (request.authenticationScheme === AuthenticationScheme.SSH) {
                 if (request.sshJwk) {
-                    parameterBuilder.addSshJwk(request.sshJwk);
+                    addSshJwk(parameters, request.sshJwk);
                 }
                 else {
                     throw createClientConfigurationError(missingSshJwk);
@@ -7299,7 +7168,7 @@
             if (!StringUtils.isEmptyObj(request.claims) ||
                 (this.config.authOptions.clientCapabilities &&
                     this.config.authOptions.clientCapabilities.length > 0)) {
-                parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
+                addClaims(parameters, request.claims, this.config.authOptions.clientCapabilities);
             }
             let ccsCred = undefined;
             if (request.clientInfo) {
@@ -7323,7 +7192,7 @@
                     case CcsCredentialType.HOME_ACCOUNT_ID:
                         try {
                             const clientInfo = buildClientInfoFromHomeAccountId(ccsCred.credential);
-                            parameterBuilder.addCcsOid(clientInfo);
+                            addCcsOid(parameters, clientInfo);
                         }
                         catch (e) {
                             this.logger.verbose("Could not parse home account ID for CCS Header: " +
@@ -7331,234 +7200,59 @@
                         }
                         break;
                     case CcsCredentialType.UPN:
-                        parameterBuilder.addCcsUpn(ccsCred.credential);
+                        addCcsUpn(parameters, ccsCred.credential);
                         break;
                 }
             }
             if (request.embeddedClientId) {
-                parameterBuilder.addBrokerParameters({
-                    brokerClientId: this.config.authOptions.clientId,
-                    brokerRedirectUri: this.config.authOptions.redirectUri,
-                });
+                addBrokerParameters(parameters, this.config.authOptions.clientId, this.config.authOptions.redirectUri);
             }
             if (request.tokenBodyParameters) {
-                parameterBuilder.addExtraQueryParameters(request.tokenBodyParameters);
+                addExtraQueryParameters(parameters, request.tokenBodyParameters);
             }
             // Add hybrid spa parameters if not already provided
             if (request.enableSpaAuthorizationCode &&
                 (!request.tokenBodyParameters ||
                     !request.tokenBodyParameters[RETURN_SPA_CODE])) {
-                parameterBuilder.addExtraQueryParameters({
+                addExtraQueryParameters(parameters, {
                     [RETURN_SPA_CODE]: "1",
                 });
             }
-            return parameterBuilder.createQueryString();
-        }
-        /**
-         * This API validates the `AuthorizationCodeUrlRequest` and creates a URL
-         * @param request
-         */
-        async createAuthCodeUrlQueryString(request) {
-            // generate the correlationId if not set by the user and add
-            const correlationId = request.correlationId ||
-                this.config.cryptoInterface.createNewGuid();
-            this.performanceClient?.addQueueMeasurement(PerformanceEvents.AuthClientCreateQueryString, correlationId);
-            const parameterBuilder = new RequestParameterBuilder(correlationId, this.performanceClient);
-            parameterBuilder.addClientId(request.embeddedClientId ||
-                request.extraQueryParameters?.[CLIENT_ID] ||
-                this.config.authOptions.clientId);
-            const requestScopes = [
-                ...(request.scopes || []),
-                ...(request.extraScopesToConsent || []),
-            ];
-            parameterBuilder.addScopes(requestScopes, true, this.oidcDefaultScopes);
-            // validate the redirectUri (to be a non null value)
-            parameterBuilder.addRedirectUri(request.redirectUri);
-            parameterBuilder.addCorrelationId(correlationId);
-            // add response_mode. If not passed in it defaults to query.
-            parameterBuilder.addResponseMode(request.responseMode);
-            // add response_type = code
-            parameterBuilder.addResponseTypeCode();
-            // add library info parameters
-            parameterBuilder.addLibraryInfo(this.config.libraryInfo);
-            if (!isOidcProtocolMode(this.config)) {
-                parameterBuilder.addApplicationTelemetry(this.config.telemetry.application);
-            }
-            // add client_info=1
-            parameterBuilder.addClientInfo();
-            if (request.codeChallenge && request.codeChallengeMethod) {
-                parameterBuilder.addCodeChallengeParams(request.codeChallenge, request.codeChallengeMethod);
-            }
-            if (request.prompt) {
-                parameterBuilder.addPrompt(request.prompt);
-            }
-            if (request.domainHint) {
-                parameterBuilder.addDomainHint(request.domainHint);
-                this.performanceClient?.addFields({ domainHintFromRequest: true }, correlationId);
-            }
-            this.performanceClient?.addFields({ prompt: request.prompt }, correlationId);
-            // Add sid or loginHint with preference for login_hint claim (in request) -> sid -> loginHint (upn/email) -> username of AccountInfo object
-            if (request.prompt !== PromptValue.SELECT_ACCOUNT) {
-                // AAD will throw if prompt=select_account is passed with an account hint
-                if (request.sid && request.prompt === PromptValue.NONE) {
-                    // SessionID is only used in silent calls
-                    this.logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from request");
-                    parameterBuilder.addSid(request.sid);
-                    this.performanceClient?.addFields({ sidFromRequest: true }, correlationId);
-                }
-                else if (request.account) {
-                    const accountSid = this.extractAccountSid(request.account);
-                    let accountLoginHintClaim = this.extractLoginHint(request.account);
-                    if (accountLoginHintClaim && request.domainHint) {
-                        this.logger.warning(`AuthorizationCodeClient.createAuthCodeUrlQueryString: "domainHint" param is set, skipping opaque "login_hint" claim. Please consider not passing domainHint`);
-                        accountLoginHintClaim = null;
-                    }
-                    // If login_hint claim is present, use it over sid/username
-                    if (accountLoginHintClaim) {
-                        this.logger.verbose("createAuthCodeUrlQueryString: login_hint claim present on account");
-                        parameterBuilder.addLoginHint(accountLoginHintClaim);
-                        this.performanceClient?.addFields({ loginHintFromClaim: true }, correlationId);
-                        try {
-                            const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
-                            parameterBuilder.addCcsOid(clientInfo);
-                        }
-                        catch (e) {
-                            this.logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
-                        }
-                    }
-                    else if (accountSid && request.prompt === PromptValue.NONE) {
-                        /*
-                         * If account and loginHint are provided, we will check account first for sid before adding loginHint
-                         * SessionId is only used in silent calls
-                         */
-                        this.logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from account");
-                        parameterBuilder.addSid(accountSid);
-                        this.performanceClient?.addFields({ sidFromClaim: true }, correlationId);
-                        try {
-                            const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
-                            parameterBuilder.addCcsOid(clientInfo);
-                        }
-                        catch (e) {
-                            this.logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
-                        }
-                    }
-                    else if (request.loginHint) {
-                        this.logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from request");
-                        parameterBuilder.addLoginHint(request.loginHint);
-                        parameterBuilder.addCcsUpn(request.loginHint);
-                        this.performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
-                    }
-                    else if (request.account.username) {
-                        // Fallback to account username if provided
-                        this.logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from account");
-                        parameterBuilder.addLoginHint(request.account.username);
-                        this.performanceClient?.addFields({ loginHintFromUpn: true }, correlationId);
-                        try {
-                            const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
-                            parameterBuilder.addCcsOid(clientInfo);
-                        }
-                        catch (e) {
-                            this.logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
-                        }
-                    }
-                }
-                else if (request.loginHint) {
-                    this.logger.verbose("createAuthCodeUrlQueryString: No account, adding login_hint from request");
-                    parameterBuilder.addLoginHint(request.loginHint);
-                    parameterBuilder.addCcsUpn(request.loginHint);
-                    this.performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
-                }
-            }
-            else {
-                this.logger.verbose("createAuthCodeUrlQueryString: Prompt is select_account, ignoring account hints");
-            }
-            if (request.nonce) {
-                parameterBuilder.addNonce(request.nonce);
-            }
-            if (request.state) {
-                parameterBuilder.addState(request.state);
-            }
-            if (request.claims ||
-                (this.config.authOptions.clientCapabilities &&
-                    this.config.authOptions.clientCapabilities.length > 0)) {
-                parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
-            }
-            if (request.embeddedClientId) {
-                parameterBuilder.addBrokerParameters({
-                    brokerClientId: this.config.authOptions.clientId,
-                    brokerRedirectUri: this.config.authOptions.redirectUri,
-                });
-            }
-            this.addExtraQueryParams(request, parameterBuilder);
-            if (request.platformBroker) {
-                // signal ests that this is a WAM call
-                parameterBuilder.addNativeBroker();
-                // pass the req_cnf for POP
-                if (request.authenticationScheme === AuthenticationScheme.POP) {
-                    const popTokenGenerator = new PopTokenGenerator(this.cryptoUtils);
-                    // req_cnf is always sent as a string for SPAs
-                    let reqCnfData;
-                    if (!request.popKid) {
-                        const generatedReqCnfData = await invokeAsync(popTokenGenerator.generateCnf.bind(popTokenGenerator), PerformanceEvents.PopTokenGenerateCnf, this.logger, this.performanceClient, request.correlationId)(request, this.logger);
-                        reqCnfData = generatedReqCnfData.reqCnfString;
-                    }
-                    else {
-                        reqCnfData = this.cryptoUtils.encodeKid(request.popKid);
-                    }
-                    parameterBuilder.addPopToken(reqCnfData);
-                }
-            }
-            return parameterBuilder.createQueryString();
+            instrumentBrokerParams(parameters, request.correlationId, this.performanceClient);
+            return mapToQueryString(parameters);
         }
         /**
          * This API validates the `EndSessionRequest` and creates a URL
          * @param request
          */
         createLogoutUrlQueryString(request) {
-            const parameterBuilder = new RequestParameterBuilder(request.correlationId, this.performanceClient);
+            const parameters = new Map();
             if (request.postLogoutRedirectUri) {
-                parameterBuilder.addPostLogoutRedirectUri(request.postLogoutRedirectUri);
+                addPostLogoutRedirectUri(parameters, request.postLogoutRedirectUri);
             }
             if (request.correlationId) {
-                parameterBuilder.addCorrelationId(request.correlationId);
+                addCorrelationId(parameters, request.correlationId);
             }
             if (request.idTokenHint) {
-                parameterBuilder.addIdTokenHint(request.idTokenHint);
+                addIdTokenHint(parameters, request.idTokenHint);
             }
             if (request.state) {
-                parameterBuilder.addState(request.state);
+                addState(parameters, request.state);
             }
             if (request.logoutHint) {
-                parameterBuilder.addLogoutHint(request.logoutHint);
-            }
-            this.addExtraQueryParams(request, parameterBuilder);
-            return parameterBuilder.createQueryString();
-        }
-        addExtraQueryParams(request, parameterBuilder) {
-            const hasRequestInstanceAware = request.extraQueryParameters &&
-                request.extraQueryParameters.hasOwnProperty("instance_aware");
-            // Set instance_aware flag if config auth param is set
-            if (!hasRequestInstanceAware && this.config.authOptions.instanceAware) {
-                request.extraQueryParameters = request.extraQueryParameters || {};
-                request.extraQueryParameters["instance_aware"] = "true";
+                addLogoutHint(parameters, request.logoutHint);
             }
             if (request.extraQueryParameters) {
-                parameterBuilder.addExtraQueryParameters(request.extraQueryParameters);
+                addExtraQueryParameters(parameters, request.extraQueryParameters);
             }
-        }
-        /**
-         * Helper to get sid from account. Returns null if idTokenClaims are not present or sid is not present.
-         * @param account
-         */
-        extractAccountSid(account) {
-            return account.idTokenClaims?.sid || null;
-        }
-        extractLoginHint(account) {
-            return account.idTokenClaims?.login_hint || null;
+            if (this.config.authOptions.instanceAware) {
+                addInstanceAware(parameters);
+            }
+            return mapToQueryString(parameters, this.config.authOptions.encodeExtraQueryParams, request.extraQueryParameters);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7631,7 +7325,7 @@
         async acquireTokenWithCachedRefreshToken(request, foci) {
             this.performanceClient?.addQueueMeasurement(PerformanceEvents.RefreshTokenClientAcquireTokenWithCachedRefreshToken, request.correlationId);
             // fetches family RT or application RT based on FOCI value
-            const refreshToken = invoke(this.cacheManager.getRefreshToken.bind(this.cacheManager), PerformanceEvents.CacheManagerGetRefreshToken, this.logger, this.performanceClient, request.correlationId)(request.account, foci, undefined, this.performanceClient, request.correlationId);
+            const refreshToken = invoke(this.cacheManager.getRefreshToken.bind(this.cacheManager), PerformanceEvents.CacheManagerGetRefreshToken, this.logger, this.performanceClient, request.correlationId)(request.account, foci, request.correlationId, undefined, this.performanceClient);
             if (!refreshToken) {
                 throw createInteractionRequiredAuthError(noTokensFound);
             }
@@ -7660,8 +7354,8 @@
                     if (e.subError === badToken) {
                         // Remove bad refresh token from cache
                         this.logger.verbose("acquireTokenWithRefreshToken: bad refresh token, removing from cache");
-                        const badRefreshTokenKey = generateCredentialKey(refreshToken);
-                        this.cacheManager.removeRefreshToken(badRefreshTokenKey);
+                        const badRefreshTokenKey = this.cacheManager.generateCredentialKey(refreshToken);
+                        this.cacheManager.removeRefreshToken(badRefreshTokenKey, request.correlationId);
                     }
                 }
                 throw e;
@@ -7678,18 +7372,7 @@
             const endpoint = UrlString.appendQueryString(authority.tokenEndpoint, queryParametersString);
             const requestBody = await invokeAsync(this.createTokenRequestBody.bind(this), PerformanceEvents.RefreshTokenClientCreateTokenRequestBody, this.logger, this.performanceClient, request.correlationId)(request);
             const headers = this.createTokenRequestHeaders(request.ccsCredential);
-            const thumbprint = {
-                clientId: request.tokenBodyParameters?.clientId ||
-                    this.config.authOptions.clientId,
-                authority: authority.canonicalAuthority,
-                scopes: request.scopes,
-                claims: request.claims,
-                authenticationScheme: request.authenticationScheme,
-                resourceRequestMethod: request.resourceRequestMethod,
-                resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims,
-                sshKid: request.sshKid,
-            };
+            const thumbprint = getRequestThumbprint(this.config.authOptions.clientId, request);
             return invokeAsync(this.executePostToTokenEndpoint.bind(this), PerformanceEvents.RefreshTokenClientExecutePostToTokenEndpoint, this.logger, this.performanceClient, request.correlationId)(endpoint, requestBody, headers, thumbprint, request.correlationId, PerformanceEvents.RefreshTokenClientExecutePostToTokenEndpoint);
         }
         /**
@@ -7698,31 +7381,30 @@
          */
         async createTokenRequestBody(request) {
             this.performanceClient?.addQueueMeasurement(PerformanceEvents.RefreshTokenClientCreateTokenRequestBody, request.correlationId);
-            const correlationId = request.correlationId;
-            const parameterBuilder = new RequestParameterBuilder(correlationId, this.performanceClient);
-            parameterBuilder.addClientId(request.embeddedClientId ||
+            const parameters = new Map();
+            addClientId(parameters, request.embeddedClientId ||
                 request.tokenBodyParameters?.[CLIENT_ID] ||
                 this.config.authOptions.clientId);
             if (request.redirectUri) {
-                parameterBuilder.addRedirectUri(request.redirectUri);
+                addRedirectUri(parameters, request.redirectUri);
             }
-            parameterBuilder.addScopes(request.scopes, true, this.config.authOptions.authority.options.OIDCOptions?.defaultScopes);
-            parameterBuilder.addGrantType(GrantType.REFRESH_TOKEN_GRANT);
-            parameterBuilder.addClientInfo();
-            parameterBuilder.addLibraryInfo(this.config.libraryInfo);
-            parameterBuilder.addApplicationTelemetry(this.config.telemetry.application);
-            parameterBuilder.addThrottling();
+            addScopes(parameters, request.scopes, true, this.config.authOptions.authority.options.OIDCOptions?.defaultScopes);
+            addGrantType(parameters, GrantType.REFRESH_TOKEN_GRANT);
+            addClientInfo(parameters);
+            addLibraryInfo(parameters, this.config.libraryInfo);
+            addApplicationTelemetry(parameters, this.config.telemetry.application);
+            addThrottling(parameters);
             if (this.serverTelemetryManager && !isOidcProtocolMode(this.config)) {
-                parameterBuilder.addServerTelemetry(this.serverTelemetryManager);
+                addServerTelemetry(parameters, this.serverTelemetryManager);
             }
-            parameterBuilder.addRefreshToken(request.refreshToken);
+            addRefreshToken(parameters, request.refreshToken);
             if (this.config.clientCredentials.clientSecret) {
-                parameterBuilder.addClientSecret(this.config.clientCredentials.clientSecret);
+                addClientSecret(parameters, this.config.clientCredentials.clientSecret);
             }
             if (this.config.clientCredentials.clientAssertion) {
                 const clientAssertion = this.config.clientCredentials.clientAssertion;
-                parameterBuilder.addClientAssertion(await getClientAssertion(clientAssertion.assertion, this.config.authOptions.clientId, request.resourceRequestUri));
-                parameterBuilder.addClientAssertionType(clientAssertion.assertionType);
+                addClientAssertion(parameters, await getClientAssertion(clientAssertion.assertion, this.config.authOptions.clientId, request.resourceRequestUri));
+                addClientAssertionType(parameters, clientAssertion.assertionType);
             }
             if (request.authenticationScheme === AuthenticationScheme.POP) {
                 const popTokenGenerator = new PopTokenGenerator(this.cryptoUtils, this.performanceClient);
@@ -7735,11 +7417,11 @@
                     reqCnfData = this.cryptoUtils.encodeKid(request.popKid);
                 }
                 // SPA PoP requires full Base64Url encoded req_cnf string (unhashed)
-                parameterBuilder.addPopToken(reqCnfData);
+                addPopToken(parameters, reqCnfData);
             }
             else if (request.authenticationScheme === AuthenticationScheme.SSH) {
                 if (request.sshJwk) {
-                    parameterBuilder.addSshJwk(request.sshJwk);
+                    addSshJwk(parameters, request.sshJwk);
                 }
                 else {
                     throw createClientConfigurationError(missingSshJwk);
@@ -7748,7 +7430,7 @@
             if (!StringUtils.isEmptyObj(request.claims) ||
                 (this.config.authOptions.clientCapabilities &&
                     this.config.authOptions.clientCapabilities.length > 0)) {
-                parameterBuilder.addClaims(request.claims, this.config.authOptions.clientCapabilities);
+                addClaims(parameters, request.claims, this.config.authOptions.clientCapabilities);
             }
             if (this.config.systemOptions.preventCorsPreflight &&
                 request.ccsCredential) {
@@ -7756,7 +7438,7 @@
                     case CcsCredentialType.HOME_ACCOUNT_ID:
                         try {
                             const clientInfo = buildClientInfoFromHomeAccountId(request.ccsCredential.credential);
-                            parameterBuilder.addCcsOid(clientInfo);
+                            addCcsOid(parameters, clientInfo);
                         }
                         catch (e) {
                             this.logger.verbose("Could not parse home account ID for CCS Header: " +
@@ -7764,24 +7446,22 @@
                         }
                         break;
                     case CcsCredentialType.UPN:
-                        parameterBuilder.addCcsUpn(request.ccsCredential.credential);
+                        addCcsUpn(parameters, request.ccsCredential.credential);
                         break;
                 }
             }
             if (request.embeddedClientId) {
-                parameterBuilder.addBrokerParameters({
-                    brokerClientId: this.config.authOptions.clientId,
-                    brokerRedirectUri: this.config.authOptions.redirectUri,
-                });
+                addBrokerParameters(parameters, this.config.authOptions.clientId, this.config.authOptions.redirectUri);
             }
             if (request.tokenBodyParameters) {
-                parameterBuilder.addExtraQueryParameters(request.tokenBodyParameters);
+                addExtraQueryParameters(parameters, request.tokenBodyParameters);
             }
-            return parameterBuilder.createQueryString();
+            instrumentBrokerParams(parameters, request.correlationId, this.performanceClient);
+            return mapToQueryString(parameters);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7813,7 +7493,7 @@
             const requestTenantId = request.account.tenantId ||
                 getTenantFromAuthorityString(request.authority);
             const tokenKeys = this.cacheManager.getTokenKeys();
-            const cachedAccessToken = this.cacheManager.getAccessToken(request.account, request, tokenKeys, requestTenantId, this.performanceClient, request.correlationId);
+            const cachedAccessToken = this.cacheManager.getAccessToken(request.account, request, tokenKeys, requestTenantId);
             if (!cachedAccessToken) {
                 // must refresh due to non-existent access_token
                 this.setCacheOutcome(CacheOutcome.NO_CACHED_ACCESS_TOKEN, request.correlationId);
@@ -7833,9 +7513,9 @@
             }
             const environment = request.authority || this.authority.getPreferredCache();
             const cacheRecord = {
-                account: this.cacheManager.readAccountFromCache(request.account),
+                account: this.cacheManager.getAccount(this.cacheManager.generateAccountKey(request.account), request.correlationId),
                 accessToken: cachedAccessToken,
-                idToken: this.cacheManager.getIdToken(request.account, tokenKeys, requestTenantId, this.performanceClient, request.correlationId),
+                idToken: this.cacheManager.getIdToken(request.account, request.correlationId, tokenKeys, requestTenantId, this.performanceClient),
                 refreshToken: null,
                 appMetadata: this.cacheManager.readAppMetadataFromCache(environment),
             };
@@ -7879,7 +7559,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7894,7 +7574,231 @@
         },
     };
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Returns map of parameters that are applicable to all calls to /authorize whether using PKCE or EAR
+     * @param config
+     * @param request
+     * @param logger
+     * @param performanceClient
+     * @returns
+     */
+    function getStandardAuthorizeRequestParameters(authOptions, request, logger, performanceClient) {
+        // generate the correlationId if not set by the user and add
+        const correlationId = request.correlationId;
+        const parameters = new Map();
+        addClientId(parameters, request.embeddedClientId ||
+            request.extraQueryParameters?.[CLIENT_ID] ||
+            authOptions.clientId);
+        const requestScopes = [
+            ...(request.scopes || []),
+            ...(request.extraScopesToConsent || []),
+        ];
+        addScopes(parameters, requestScopes, true, authOptions.authority.options.OIDCOptions?.defaultScopes);
+        addRedirectUri(parameters, request.redirectUri);
+        addCorrelationId(parameters, correlationId);
+        // add response_mode. If not passed in it defaults to query.
+        addResponseMode(parameters, request.responseMode);
+        // add client_info=1
+        addClientInfo(parameters);
+        if (request.prompt) {
+            addPrompt(parameters, request.prompt);
+            performanceClient?.addFields({ prompt: request.prompt }, correlationId);
+        }
+        if (request.domainHint) {
+            addDomainHint(parameters, request.domainHint);
+            performanceClient?.addFields({ domainHintFromRequest: true }, correlationId);
+        }
+        // Add sid or loginHint with preference for login_hint claim (in request) -> sid -> loginHint (upn/email) -> username of AccountInfo object
+        if (request.prompt !== PromptValue.SELECT_ACCOUNT) {
+            // AAD will throw if prompt=select_account is passed with an account hint
+            if (request.sid && request.prompt === PromptValue.NONE) {
+                // SessionID is only used in silent calls
+                logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from request");
+                addSid(parameters, request.sid);
+                performanceClient?.addFields({ sidFromRequest: true }, correlationId);
+            }
+            else if (request.account) {
+                const accountSid = extractAccountSid(request.account);
+                let accountLoginHintClaim = extractLoginHint(request.account);
+                if (accountLoginHintClaim && request.domainHint) {
+                    logger.warning(`AuthorizationCodeClient.createAuthCodeUrlQueryString: "domainHint" param is set, skipping opaque "login_hint" claim. Please consider not passing domainHint`);
+                    accountLoginHintClaim = null;
+                }
+                // If login_hint claim is present, use it over sid/username
+                if (accountLoginHintClaim) {
+                    logger.verbose("createAuthCodeUrlQueryString: login_hint claim present on account");
+                    addLoginHint(parameters, accountLoginHintClaim);
+                    performanceClient?.addFields({ loginHintFromClaim: true }, correlationId);
+                    try {
+                        const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
+                        addCcsOid(parameters, clientInfo);
+                    }
+                    catch (e) {
+                        logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
+                    }
+                }
+                else if (accountSid && request.prompt === PromptValue.NONE) {
+                    /*
+                     * If account and loginHint are provided, we will check account first for sid before adding loginHint
+                     * SessionId is only used in silent calls
+                     */
+                    logger.verbose("createAuthCodeUrlQueryString: Prompt is none, adding sid from account");
+                    addSid(parameters, accountSid);
+                    performanceClient?.addFields({ sidFromClaim: true }, correlationId);
+                    try {
+                        const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
+                        addCcsOid(parameters, clientInfo);
+                    }
+                    catch (e) {
+                        logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
+                    }
+                }
+                else if (request.loginHint) {
+                    logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from request");
+                    addLoginHint(parameters, request.loginHint);
+                    addCcsUpn(parameters, request.loginHint);
+                    performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
+                }
+                else if (request.account.username) {
+                    // Fallback to account username if provided
+                    logger.verbose("createAuthCodeUrlQueryString: Adding login_hint from account");
+                    addLoginHint(parameters, request.account.username);
+                    performanceClient?.addFields({ loginHintFromUpn: true }, correlationId);
+                    try {
+                        const clientInfo = buildClientInfoFromHomeAccountId(request.account.homeAccountId);
+                        addCcsOid(parameters, clientInfo);
+                    }
+                    catch (e) {
+                        logger.verbose("createAuthCodeUrlQueryString: Could not parse home account ID for CCS Header");
+                    }
+                }
+            }
+            else if (request.loginHint) {
+                logger.verbose("createAuthCodeUrlQueryString: No account, adding login_hint from request");
+                addLoginHint(parameters, request.loginHint);
+                addCcsUpn(parameters, request.loginHint);
+                performanceClient?.addFields({ loginHintFromRequest: true }, correlationId);
+            }
+        }
+        else {
+            logger.verbose("createAuthCodeUrlQueryString: Prompt is select_account, ignoring account hints");
+        }
+        if (request.nonce) {
+            addNonce(parameters, request.nonce);
+        }
+        if (request.state) {
+            addState(parameters, request.state);
+        }
+        if (request.claims ||
+            (authOptions.clientCapabilities &&
+                authOptions.clientCapabilities.length > 0)) {
+            addClaims(parameters, request.claims, authOptions.clientCapabilities);
+        }
+        if (request.embeddedClientId) {
+            addBrokerParameters(parameters, authOptions.clientId, authOptions.redirectUri);
+        }
+        // If extraQueryParameters includes instance_aware its value will be added when extraQueryParameters are added
+        if (authOptions.instanceAware &&
+            (!request.extraQueryParameters ||
+                !Object.keys(request.extraQueryParameters).includes(INSTANCE_AWARE))) {
+            addInstanceAware(parameters);
+        }
+        return parameters;
+    }
+    /**
+     * Returns authorize endpoint with given request parameters in the query string
+     * @param authority
+     * @param requestParameters
+     * @returns
+     */
+    function getAuthorizeUrl(authority, requestParameters, encodeParams, extraQueryParameters) {
+        const queryString = mapToQueryString(requestParameters, encodeParams, extraQueryParameters);
+        return UrlString.appendQueryString(authority.authorizationEndpoint, queryString);
+    }
+    /**
+     * Handles the hash fragment response from public client code request. Returns a code response used by
+     * the client to exchange for a token in acquireToken.
+     * @param serverParams
+     * @param cachedState
+     */
+    function getAuthorizationCodePayload(serverParams, cachedState) {
+        // Get code response
+        validateAuthorizationResponse(serverParams, cachedState);
+        // throw when there is no auth code in the response
+        if (!serverParams.code) {
+            throw createClientAuthError(authorizationCodeMissingFromServerResponse);
+        }
+        return serverParams;
+    }
+    /**
+     * Function which validates server authorization code response.
+     * @param serverResponseHash
+     * @param requestState
+     */
+    function validateAuthorizationResponse(serverResponse, requestState) {
+        if (!serverResponse.state || !requestState) {
+            throw serverResponse.state
+                ? createClientAuthError(stateNotFound, "Cached State")
+                : createClientAuthError(stateNotFound, "Server State");
+        }
+        let decodedServerResponseState;
+        let decodedRequestState;
+        try {
+            decodedServerResponseState = decodeURIComponent(serverResponse.state);
+        }
+        catch (e) {
+            throw createClientAuthError(invalidState, serverResponse.state);
+        }
+        try {
+            decodedRequestState = decodeURIComponent(requestState);
+        }
+        catch (e) {
+            throw createClientAuthError(invalidState, serverResponse.state);
+        }
+        if (decodedServerResponseState !== decodedRequestState) {
+            throw createClientAuthError(stateMismatch);
+        }
+        // Check for error
+        if (serverResponse.error ||
+            serverResponse.error_description ||
+            serverResponse.suberror) {
+            const serverErrorNo = parseServerErrorNo(serverResponse);
+            if (isInteractionRequiredError(serverResponse.error, serverResponse.error_description, serverResponse.suberror)) {
+                throw new InteractionRequiredAuthError(serverResponse.error || "", serverResponse.error_description, serverResponse.suberror, serverResponse.timestamp || "", serverResponse.trace_id || "", serverResponse.correlation_id || "", serverResponse.claims || "", serverErrorNo);
+            }
+            throw new ServerError(serverResponse.error || "", serverResponse.error_description, serverResponse.suberror, serverErrorNo);
+        }
+    }
+    /**
+     * Get server error No from the error_uri
+     * @param serverResponse
+     * @returns
+     */
+    function parseServerErrorNo(serverResponse) {
+        const errorCodePrefix = "code=";
+        const errorCodePrefixIndex = serverResponse.error_uri?.lastIndexOf(errorCodePrefix);
+        return errorCodePrefixIndex && errorCodePrefixIndex >= 0
+            ? serverResponse.error_uri?.substring(errorCodePrefixIndex + errorCodePrefix.length)
+            : undefined;
+    }
+    /**
+     * Helper to get sid from account. Returns null if idTokenClaims are not present or sid is not present.
+     * @param account
+     */
+    function extractAccountSid(account) {
+        return account.idTokenClaims?.sid || null;
+    }
+    function extractLoginHint(account) {
+        return account.loginHint || account.idTokenClaims?.login_hint || null;
+    }
+
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7952,7 +7856,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8091,7 +7995,7 @@
             else {
                 lastRequests.errors.push(SERVER_TELEM_CONSTANTS.UNKNOWN_ERROR);
             }
-            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests);
+            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests, this.correlationId);
             return;
         }
         /**
@@ -8100,7 +8004,7 @@
         incrementCacheHits() {
             const lastRequests = this.getLastRequests();
             lastRequests.cacheHits += 1;
-            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests);
+            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests, this.correlationId);
             return lastRequests.cacheHits;
         }
         /**
@@ -8124,7 +8028,7 @@
             const errorCount = lastRequests.errors.length;
             if (numErrorsFlushed === errorCount) {
                 // All errors were sent on last request, clear Telemetry cache
-                this.cacheManager.removeItem(this.telemetryCacheKey);
+                this.cacheManager.removeItem(this.telemetryCacheKey, this.correlationId);
             }
             else {
                 // Partial data was flushed to server, construct a new telemetry cache item with errors that were not flushed
@@ -8133,7 +8037,7 @@
                     errors: lastRequests.errors.slice(numErrorsFlushed),
                     cacheHits: 0,
                 };
-                this.cacheManager.setServerTelemetry(this.telemetryCacheKey, serverTelemEntity);
+                this.cacheManager.setServerTelemetry(this.telemetryCacheKey, serverTelemEntity, this.correlationId);
             }
         }
         /**
@@ -8200,7 +8104,7 @@
         setNativeBrokerErrorCode(errorCode) {
             const lastRequests = this.getLastRequests();
             lastRequests.nativeBrokerErrorCode = errorCode;
-            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests);
+            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests, this.correlationId);
         }
         getNativeBrokerErrorCode() {
             return this.getLastRequests().nativeBrokerErrorCode;
@@ -8208,14 +8112,14 @@
         clearNativeBrokerErrorCode() {
             const lastRequests = this.getLastRequests();
             delete lastRequests.nativeBrokerErrorCode;
-            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests);
+            this.cacheManager.setServerTelemetry(this.telemetryCacheKey, lastRequests, this.correlationId);
         }
         static makeExtraSkuString(params) {
             return makeExtraSkuString(params);
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
@@ -8223,7 +8127,7 @@
     const missingKidError = "missing_kid_error";
     const missingAlgError = "missing_alg_error";
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8248,7 +8152,7 @@
         return new JoseHeaderError(code, JoseHeaderErrorMessages[code]);
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8288,86 +8192,7 @@
         }
     }
 
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    class StubPerformanceMeasurement {
-        startMeasurement() {
-            return;
-        }
-        endMeasurement() {
-            return;
-        }
-        flushMeasurement() {
-            return null;
-        }
-    }
-    class StubPerformanceClient {
-        generateId() {
-            return "callback-id";
-        }
-        startMeasurement(measureName, correlationId) {
-            return {
-                end: () => null,
-                discard: () => { },
-                add: () => { },
-                increment: () => { },
-                event: {
-                    eventId: this.generateId(),
-                    status: PerformanceEventStatus.InProgress,
-                    authority: "",
-                    libraryName: "",
-                    libraryVersion: "",
-                    clientId: "",
-                    name: measureName,
-                    startTimeMs: Date.now(),
-                    correlationId: correlationId || "",
-                },
-                measurement: new StubPerformanceMeasurement(),
-            };
-        }
-        startPerformanceMeasurement() {
-            return new StubPerformanceMeasurement();
-        }
-        calculateQueuedTime() {
-            return 0;
-        }
-        addQueueMeasurement() {
-            return;
-        }
-        setPreQueueTime() {
-            return;
-        }
-        endMeasurement() {
-            return null;
-        }
-        discardMeasurements() {
-            return;
-        }
-        removePerformanceCallback() {
-            return true;
-        }
-        addPerformanceCallback() {
-            return "";
-        }
-        emitEvents() {
-            return;
-        }
-        addFields() {
-            return;
-        }
-        incrementFields() {
-            return;
-        }
-        cacheEventByCorrelationId() {
-            return;
-        }
-    }
-
-    /*! @azure/msal-common v15.2.0 2025-02-20 */
+    /*! @azure/msal-common v15.13.0 2025-10-17 */
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8549,6 +8374,19 @@
         }
         return line.trimStart();
     }
+    function getAccountType(account) {
+        const idTokenClaims = account?.idTokenClaims;
+        if (idTokenClaims?.tfp || idTokenClaims?.acr) {
+            return "B2C";
+        }
+        if (!idTokenClaims?.tid) {
+            return undefined;
+        }
+        else if (idTokenClaims?.tid === "9188040d-6c67-4c5b-b112-36a304b66dad") {
+            return "MSA";
+        }
+        return "AAD";
+    }
     class PerformanceClient {
         /**
          * Creates an instance of PerformanceClient,
@@ -8716,13 +8554,13 @@
             startContext(inProgressEvent, this.abbreviations, this.eventStack.get(eventCorrelationId));
             // Return the event and functions the caller can use to properly end/flush the measurement
             return {
-                end: (event, error) => {
+                end: (event, error, account) => {
                     return this.endMeasurement({
                         // Initial set of event properties
                         ...inProgressEvent,
                         // Properties set when event ends
                         ...event,
-                    }, error);
+                    }, error, account);
                 },
                 discard: () => {
                     return this.discardMeasurements(inProgressEvent.correlationId);
@@ -8745,9 +8583,10 @@
          *
          * @param {PerformanceEvent} event
          * @param {unknown} error
+         * @param {AccountInfo?} account
          * @returns {(PerformanceEvent | null)}
          */
-        endMeasurement(event, error) {
+        endMeasurement(event, error, account) {
             const rootEvent = this.eventsByCorrelationId.get(event.correlationId);
             if (!rootEvent) {
                 this.logger.trace(`PerformanceClient: Measurement not found for ${event.eventId}`, event.correlationId);
@@ -8801,6 +8640,10 @@
                 incompleteSubsCount,
                 context,
             };
+            if (account) {
+                finalEvent.accountType = getAccountType(account);
+                finalEvent.dataBoundary = account.dataBoundary;
+            }
             this.truncateIntegralFields(finalEvent);
             this.emitEvents([finalEvent], event.correlationId);
             return finalEvent;
@@ -8981,6 +8824,8 @@
      * Licensed under the MIT License.
      */
     const pkceNotCreated = "pkce_not_created";
+    const earJwkEmpty = "ear_jwk_empty";
+    const earJweEmpty = "ear_jwe_empty";
     const cryptoNonExistent = "crypto_nonexistent";
     const emptyNavigateUri = "empty_navigate_uri";
     const hashEmptyError = "hash_empty_error";
@@ -9003,7 +8848,6 @@
     const silentPromptValueError = "silent_prompt_value_error";
     const noTokenRequestCacheError = "no_token_request_cache_error";
     const unableToParseTokenRequestCacheError = "unable_to_parse_token_request_cache_error";
-    const noCachedAuthorityError = "no_cached_authority_error";
     const authRequestNotSetError = "auth_request_not_set_error";
     const invalidCacheType = "invalid_cache_type";
     const nonBrowserEnvironment = "non_browser_environment";
@@ -9028,6 +8872,8 @@
     const invalidPopTokenRequest = "invalid_pop_token_request";
     const failedToBuildHeaders = "failed_to_build_headers";
     const failedToParseHeaders = "failed_to_parse_headers";
+    const failedToDecryptEarResponse = "failed_to_decrypt_ear_response";
+    const timedOut = "timed_out";
 
     var BrowserAuthErrorCodes = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -9040,9 +8886,12 @@
         cryptoNonExistent: cryptoNonExistent,
         databaseNotOpen: databaseNotOpen,
         databaseUnavailable: databaseUnavailable,
+        earJweEmpty: earJweEmpty,
+        earJwkEmpty: earJwkEmpty,
         emptyNavigateUri: emptyNavigateUri,
         emptyWindowError: emptyWindowError,
         failedToBuildHeaders: failedToBuildHeaders,
+        failedToDecryptEarResponse: failedToDecryptEarResponse,
         failedToParseHeaders: failedToParseHeaders,
         failedToParseResponse: failedToParseResponse,
         getRequestFailed: getRequestFailed,
@@ -9060,7 +8909,6 @@
         nativeHandshakeTimeout: nativeHandshakeTimeout,
         nativePromptNotSupported: nativePromptNotSupported,
         noAccountError: noAccountError,
-        noCachedAuthorityError: noCachedAuthorityError,
         noNetworkConnectivity: noNetworkConnectivity,
         noStateInHash: noStateInHash,
         noTokenRequestCacheError: noTokenRequestCacheError,
@@ -9073,6 +8921,7 @@
         silentPromptValueError: silentPromptValueError,
         spaCodeAndNativeAccountIdPresent: spaCodeAndNativeAccountIdPresent,
         stateInteractionTypeMismatch: stateInteractionTypeMismatch,
+        timedOut: timedOut,
         unableToAcquireTokenFromNativePlatform: unableToAcquireTokenFromNativePlatform,
         unableToLoadToken: unableToLoadToken,
         unableToParseState: unableToParseState,
@@ -9091,6 +8940,8 @@
      */
     const BrowserAuthErrorMessages = {
         [pkceNotCreated]: "The PKCE code challenge and verifier could not be generated.",
+        [earJwkEmpty]: "No EAR encryption key provided. This is unexpected.",
+        [earJweEmpty]: "Server response does not contain ear_jwe property. This is unexpected.",
         [cryptoNonExistent]: "The crypto object or function is not available.",
         [emptyNavigateUri]: "Navigation URI is empty. Please check stack trace for more info.",
         [hashEmptyError]: `Hash value cannot be processed because it is empty. Please verify that your redirectUri is not clearing the hash. ${ErrorLink}`,
@@ -9113,7 +8964,6 @@
         [silentPromptValueError]: "The value given for the prompt value is not valid for silent requests - must be set to 'none' or 'no_session'.",
         [noTokenRequestCacheError]: "No token request found in cache.",
         [unableToParseTokenRequestCacheError]: "The cached token request could not be parsed.",
-        [noCachedAuthorityError]: "No cached authority found.",
         [authRequestNotSetError]: "Auth Request not set. Please ensure initiateAuthRequest was called from the InteractionHandler",
         [invalidCacheType]: "Invalid cache type",
         [nonBrowserEnvironment]: "Login and token requests are not supported in non-browser environments.",
@@ -9138,6 +8988,8 @@
         [invalidPopTokenRequest]: "Invalid PoP token request. The request should not have both a popKid value and signPopToken set to true.",
         [failedToBuildHeaders]: "Failed to build request headers object.",
         [failedToParseHeaders]: "Failed to parse response headers",
+        [failedToDecryptEarResponse]: "Failed to decrypt ear response",
+        [timedOut]: "The request timed out.",
     };
     /**
      * BrowserAuthErrorMessage class containing string constants used by error codes and messages.
@@ -9239,10 +9091,6 @@
         unableToParseTokenRequestCacheError: {
             code: unableToParseTokenRequestCacheError,
             desc: BrowserAuthErrorMessages[unableToParseTokenRequestCacheError],
-        },
-        noCachedAuthorityError: {
-            code: noCachedAuthorityError,
-            desc: BrowserAuthErrorMessages[noCachedAuthorityError],
         },
         authRequestNotSet: {
             code: authRequestNotSetError,
@@ -9356,10 +9204,6 @@
      */
     const BrowserConstants = {
         /**
-         * Interaction in progress cache value
-         */
-        INTERACTION_IN_PROGRESS_VALUE: "interaction_in_progress",
-        /**
          * Invalid grant error code
          */
         INVALID_GRANT_ERROR: "invalid_grant",
@@ -9384,10 +9228,15 @@
          */
         MSAL_SKU: "msal.js.browser",
     };
-    const NativeConstants = {
+    const PlatformAuthConstants = {
         CHANNEL_ID: "53ee284d-920a-4b59-9d30-a60315b26836",
         PREFERRED_EXTENSION_ID: "ppnbnpeolgkicgegkbkbjmhlideopiji",
         MATS_TELEMETRY: "MATS",
+        MICROSOFT_ENTRA_BROKERID: "MicrosoftEntra",
+        DOM_API_NAME: "DOM API",
+        PLATFORM_DOM_APIS: "get-token-and-sign-out",
+        PLATFORM_DOM_PROVIDER: "PlatformAuthDOMHandler",
+        PLATFORM_EXTENSION_PROVIDER: "PlatformAuthExtensionHandler",
     };
     const NativeExtensionMethod = {
         HandshakeRequest: "Handshake",
@@ -9407,29 +9256,20 @@
         GET: "GET",
         POST: "POST",
     };
+    const INTERACTION_TYPE = {
+        SIGNIN: "signin",
+        SIGNOUT: "signout",
+    };
     /**
      * Temporary cache keys for MSAL, deleted after any request.
      */
     const TemporaryCacheKeys = {
-        AUTHORITY: "authority",
-        ACQUIRE_TOKEN_ACCOUNT: "acquireToken.account",
-        SESSION_STATE: "session.state",
-        REQUEST_STATE: "request.state",
-        NONCE_IDTOKEN: "nonce.id_token",
         ORIGIN_URI: "request.origin",
-        RENEW_STATUS: "token.renew.status",
         URL_HASH: "urlHash",
         REQUEST_PARAMS: "request.params",
-        SCOPES: "scopes",
+        VERIFIER: "code.verifier",
         INTERACTION_STATUS_KEY: "interaction.status",
-        CCS_CREDENTIAL: "ccs.credential",
-        CORRELATION_ID: "request.correlationId",
         NATIVE_REQUEST: "request.native",
-        REDIRECT_CONTEXT: "request.redirect.context",
-    };
-    const StaticCacheKeys = {
-        ACCOUNT_KEYS: "msal.account.keys",
-        TOKEN_KEYS: "msal.token.keys",
     };
     /**
      * Cache keys stored in-memory
@@ -9556,9 +9396,6 @@
         CacheLookupPolicy.Skip,
         CacheLookupPolicy.RefreshTokenAndNetwork,
     ];
-    const LOG_LEVEL_CACHE_KEY = "msal.browser.log.level";
-    const LOG_PII_CACHE_KEY = "msal.browser.log.pii";
-    const BROWSER_PERF_ENABLED_KEY = "msal.browser.performance.enabled";
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9794,6 +9631,69 @@
      */
     async function sign(key, data) {
         return window.crypto.subtle.sign(keygenAlgorithmOptions, key, data);
+    }
+    /**
+     * Generates Base64 encoded jwk used in the Encrypted Authorize Response (EAR) flow
+     */
+    async function generateEarKey() {
+        const key = await generateBaseKey();
+        const keyStr = urlEncodeArr(new Uint8Array(key));
+        const jwk = {
+            alg: "dir",
+            kty: "oct",
+            k: keyStr,
+        };
+        return base64Encode(JSON.stringify(jwk));
+    }
+    /**
+     * Parses earJwk for encryption key and returns CryptoKey object
+     * @param earJwk
+     * @returns
+     */
+    async function importEarKey(earJwk) {
+        const b64DecodedJwk = base64Decode(earJwk);
+        const jwkJson = JSON.parse(b64DecodedJwk);
+        const rawKey = jwkJson.k;
+        const keyBuffer = base64DecToArr(rawKey);
+        return window.crypto.subtle.importKey(RAW, keyBuffer, AES_GCM, false, [
+            DECRYPT,
+        ]);
+    }
+    /**
+     * Decrypt ear_jwe response returned in the Encrypted Authorize Response (EAR) flow
+     * @param earJwk
+     * @param earJwe
+     * @returns
+     */
+    async function decryptEarResponse(earJwk, earJwe) {
+        const earJweParts = earJwe.split(".");
+        if (earJweParts.length !== 5) {
+            throw createBrowserAuthError(failedToDecryptEarResponse, "jwe_length");
+        }
+        const key = await importEarKey(earJwk).catch(() => {
+            throw createBrowserAuthError(failedToDecryptEarResponse, "import_key");
+        });
+        try {
+            const header = new TextEncoder().encode(earJweParts[0]);
+            const iv = base64DecToArr(earJweParts[2]);
+            const ciphertext = base64DecToArr(earJweParts[3]);
+            const tag = base64DecToArr(earJweParts[4]);
+            const tagLengthBits = tag.byteLength * 8;
+            // Concat ciphertext and tag
+            const encryptedData = new Uint8Array(ciphertext.length + tag.length);
+            encryptedData.set(ciphertext);
+            encryptedData.set(tag, ciphertext.length);
+            const decryptedData = await window.crypto.subtle.decrypt({
+                name: AES_GCM,
+                iv: iv,
+                tagLength: tagLengthBits,
+                additionalData: header,
+            }, key, encryptedData);
+            return new TextDecoder().decode(decryptedData);
+        }
+        catch (e) {
+            throw createBrowserAuthError(failedToDecryptEarResponse, "decrypt");
+        }
     }
     /**
      * Generates symmetric base encryption key. This may be stored as all encryption/decryption keys will be derived from this one.
@@ -10090,9 +9990,11 @@
     function createGuid() {
         return createNewGuid();
     }
+    const addClientCapabilitiesToClaims = addClientCapabilitiesToClaims$1;
 
     var BrowserUtils = /*#__PURE__*/Object.freeze({
         __proto__: null,
+        addClientCapabilitiesToClaims: addClientCapabilitiesToClaims,
         blockAPICallsBeforeInitialize: blockAPICallsBeforeInitialize,
         blockAcquireTokenInPopups: blockAcquireTokenInPopups,
         blockNonBrowserEnvironment: blockNonBrowserEnvironment,
@@ -10140,14 +10042,14 @@
          */
         static defaultNavigateWindow(url, options) {
             if (options.noHistory) {
-                window.location.replace(url);
+                window.location.replace(url); // CodeQL [SM03712] Application owner controls the URL. User can't change it.
             }
             else {
-                window.location.assign(url);
+                window.location.assign(url); // CodeQL [SM03712] Application owner controls the URL. User can't change it.
             }
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve(true);
+                    reject(createBrowserAuthError(timedOut, "failed_to_redirect"));
                 }, options.timeout);
             });
         }
@@ -10179,9 +10081,9 @@
                 });
             }
             catch (e) {
-                throw createBrowserAuthError(window.navigator.onLine
+                throw createNetworkError(createBrowserAuthError(window.navigator.onLine
                     ? getRequestFailed
-                    : noNetworkConnectivity);
+                    : noNetworkConnectivity), undefined, undefined, e);
             }
             responseHeaders = getHeaderDict(response.headers);
             try {
@@ -10193,7 +10095,7 @@
                 };
             }
             catch (e) {
-                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders);
+                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders, e);
             }
         }
         /**
@@ -10216,9 +10118,9 @@
                 });
             }
             catch (e) {
-                throw createBrowserAuthError(window.navigator.onLine
+                throw createNetworkError(createBrowserAuthError(window.navigator.onLine
                     ? postRequestFailed
-                    : noNetworkConnectivity);
+                    : noNetworkConnectivity), undefined, undefined, e);
             }
             responseHeaders = getHeaderDict(response.headers);
             try {
@@ -10230,7 +10132,7 @@
                 };
             }
             catch (e) {
-                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders);
+                throw createNetworkError(createBrowserAuthError(failedToParseResponse), responseStatus, responseHeaders, e);
             }
         }
     }
@@ -10251,7 +10153,7 @@
             return headers;
         }
         catch (e) {
-            throw createBrowserAuthError(failedToBuildHeaders);
+            throw createNetworkError(createBrowserAuthError(failedToBuildHeaders), undefined, undefined, e);
         }
     }
     /**
@@ -10318,10 +10220,12 @@
             skipAuthorityMetadataCache: false,
             supportsNestedAppAuth: false,
             instanceAware: false,
+            encodeExtraQueryParams: false,
         };
         // Default cache options for browser
         const DEFAULT_CACHE_OPTIONS = {
             cacheLocation: BrowserCacheLocation.SessionStorage,
+            cacheRetentionDays: 5,
             temporaryCacheLocation: BrowserCacheLocation.SessionStorage,
             storeAuthStateInCookie: false,
             secureCookies: false,
@@ -10380,9 +10284,9 @@
             const logger = new Logger(providedSystemOptions.loggerOptions);
             logger.warning(JSON.stringify(createClientConfigurationError(cannotSetOIDCOptions)));
         }
-        // Throw an error if user has set allowPlatformBroker to true without being in AAD protocol mode
+        // Throw an error if user has set allowPlatformBroker to true with OIDC protocol mode
         if (userInputAuth?.protocolMode &&
-            userInputAuth.protocolMode !== ProtocolMode.AAD &&
+            userInputAuth.protocolMode === ProtocolMode.OIDC &&
             providedSystemOptions?.allowPlatformBroker) {
             throw createClientConfigurationError(cannotAllowPlatformBroker);
         }
@@ -10404,7 +10308,36 @@
 
     /* eslint-disable header/header */
     const name = "@azure/msal-browser";
-    const version = "4.4.0";
+    const version = "4.25.1";
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const PREFIX = "msal";
+    const BROWSER_PREFIX = "browser";
+    const CACHE_KEY_SEPARATOR = "-";
+    const CREDENTIAL_SCHEMA_VERSION = 1;
+    const ACCOUNT_SCHEMA_VERSION = 1;
+    const LOG_LEVEL_CACHE_KEY = `${PREFIX}.${BROWSER_PREFIX}.log.level`;
+    const LOG_PII_CACHE_KEY = `${PREFIX}.${BROWSER_PREFIX}.log.pii`;
+    const BROWSER_PERF_ENABLED_KEY = `${PREFIX}.${BROWSER_PREFIX}.performance.enabled`;
+    const PLATFORM_AUTH_DOM_SUPPORT = `${PREFIX}.${BROWSER_PREFIX}.platform.auth.dom`;
+    const VERSION_CACHE_KEY = `${PREFIX}.version`;
+    const ACCOUNT_KEYS = "account.keys";
+    const TOKEN_KEYS = "token.keys";
+    function getAccountKeysCacheKey(schema = ACCOUNT_SCHEMA_VERSION) {
+        if (schema < 1) {
+            return `${PREFIX}.${ACCOUNT_KEYS}`;
+        }
+        return `${PREFIX}.${schema}.${ACCOUNT_KEYS}`;
+    }
+    function getTokenKeysCacheKey(clientId, schema = CREDENTIAL_SCHEMA_VERSION) {
+        if (schema < 1) {
+            return `${PREFIX}.${TOKEN_KEYS}.${clientId}`;
+        }
+        return `${PREFIX}.${schema}.${TOKEN_KEYS}.${clientId}`;
+    }
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11020,6 +10953,10 @@
         clear() {
             this.cache.clear();
         }
+        decryptData() {
+            // Memory storage does not support encryption, so this method is a no-op
+            return Promise.resolve(null);
+        }
     }
 
     /*
@@ -11248,7 +11185,9 @@
         async removeTokenBindingKey(kid) {
             await this.cache.removeItem(kid);
             const keyFound = await this.cache.containsKey(kid);
-            return !keyFound;
+            if (keyFound) {
+                throw createClientAuthError(bindingKeyNotRemoved);
+            }
         }
         /**
          * Removes all cryptographic keys from IndexedDB storage
@@ -11392,6 +11331,10 @@
         containsKey(key) {
             return this.getKeys().includes(key);
         }
+        decryptData() {
+            // Cookie storage does not support encryption, so this method is a no-op
+            return Promise.resolve(null);
+        }
     }
     /**
      * Get cookie expiration time
@@ -11412,8 +11355,8 @@
      * @param storage
      * @returns
      */
-    function getAccountKeys(storage) {
-        const accountKeys = storage.getItem(StaticCacheKeys.ACCOUNT_KEYS);
+    function getAccountKeys(storage, schemaVersion) {
+        const accountKeys = storage.getItem(getAccountKeysCacheKey(schemaVersion));
         if (accountKeys) {
             return JSON.parse(accountKeys);
         }
@@ -11425,8 +11368,8 @@
      * @param storage
      * @returns
      */
-    function getTokenKeys(clientId, storage) {
-        const item = storage.getItem(`${StaticCacheKeys.TOKEN_KEYS}.${clientId}`);
+    function getTokenKeys(clientId, storage, schemaVersion) {
+        const item = storage.getItem(getTokenKeysCacheKey(clientId, schemaVersion));
         if (item) {
             const tokenKeys = JSON.parse(item);
             if (tokenKeys &&
@@ -11441,6 +11384,16 @@
             accessToken: [],
             refreshToken: [],
         };
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function isEncrypted(data) {
+        return (data.hasOwnProperty("id") &&
+            data.hasOwnProperty("nonce") &&
+            data.hasOwnProperty("data"));
     }
 
     /*
@@ -11462,7 +11415,6 @@
             this.broadcast = new BroadcastChannel(BROADCAST_CHANNEL_NAME$1);
         }
         async initialize(correlationId) {
-            this.initialized = true;
             const cookies = new CookieStorage();
             const cookieString = cookies.getItem(ENCRYPTION_KEY);
             let parsedCookie = { key: "", id: "" };
@@ -11479,11 +11431,9 @@
                     id: parsedCookie.id,
                     key: await invokeAsync(generateHKDF, PerformanceEvents.GenerateHKDF, this.logger, this.performanceClient, correlationId)(baseKey),
                 };
-                await invokeAsync(this.importExistingCache.bind(this), PerformanceEvents.ImportExistingCache, this.logger, this.performanceClient, correlationId)(correlationId);
             }
             else {
-                // Encryption key doesn't exist or is invalid, generate a new one and clear existing cache
-                this.clear();
+                // Encryption key doesn't exist or is invalid, generate a new one
                 const id = createNewGuid();
                 const baseKey = await invokeAsync(generateBaseKey, PerformanceEvents.GenerateBaseKey, this.logger, this.performanceClient, correlationId)();
                 const keyStr = invoke(urlEncodeArr, PerformanceEvents.UrlEncodeArr, this.logger, this.performanceClient, correlationId)(new Uint8Array(baseKey));
@@ -11500,8 +11450,10 @@
                 SameSiteOptions.None // SameSite must be None to support iframed apps
                 );
             }
+            await invokeAsync(this.importExistingCache.bind(this), PerformanceEvents.ImportExistingCache, this.logger, this.performanceClient, correlationId)(correlationId);
             // Register listener for cache updates in other tabs
             this.broadcast.addEventListener("message", this.updateCache.bind(this));
+            this.initialized = true;
         }
         getItem(key) {
             return window.localStorage.getItem(key);
@@ -11512,10 +11464,31 @@
             }
             return this.memoryStorage.getItem(key);
         }
+        async decryptData(key, data, correlationId) {
+            if (!this.initialized || !this.encryptionCookie) {
+                throw createBrowserAuthError(uninitializedPublicClientApplication);
+            }
+            if (data.id !== this.encryptionCookie.id) {
+                // Data was encrypted with a different key. It must be removed because it is from a previous session.
+                this.performanceClient.incrementFields({ encryptedCacheExpiredCount: 1 }, correlationId);
+                return null;
+            }
+            const decryptedData = await invokeAsync(decrypt, PerformanceEvents.Decrypt, this.logger, this.performanceClient, correlationId)(this.encryptionCookie.key, data.nonce, this.getContext(key), data.data);
+            if (!decryptedData) {
+                return null;
+            }
+            try {
+                return JSON.parse(decryptedData);
+            }
+            catch (e) {
+                this.performanceClient.incrementFields({ encryptedCacheCorruptionCount: 1 }, correlationId);
+                return null;
+            }
+        }
         setItem(key, value) {
             window.localStorage.setItem(key, value);
         }
-        async setUserData(key, value, correlationId) {
+        async setUserData(key, value, correlationId, timestamp) {
             if (!this.initialized || !this.encryptionCookie) {
                 throw createBrowserAuthError(uninitializedPublicClientApplication);
             }
@@ -11524,6 +11497,7 @@
                 id: this.encryptionCookie.id,
                 nonce: nonce,
                 data: data,
+                lastUpdatedAt: timestamp,
             };
             this.memoryStorage.setItem(key, value);
             this.setItem(key, JSON.stringify(encryptedData));
@@ -11565,7 +11539,7 @@
             tokenKeys.refreshToken.forEach((key) => this.removeItem(key));
             // Clean up anything left
             this.getKeys().forEach((cacheKey) => {
-                if (cacheKey.startsWith(Constants.CACHE_PREFIX) ||
+                if (cacheKey.startsWith(PREFIX) ||
                     cacheKey.indexOf(this.clientId) !== -1) {
                     this.removeItem(cacheKey);
                 }
@@ -11582,13 +11556,25 @@
             let accountKeys = getAccountKeys(this);
             accountKeys = await this.importArray(accountKeys, correlationId);
             // Write valid account keys back to map
-            this.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+            if (accountKeys.length) {
+                this.setItem(getAccountKeysCacheKey(), JSON.stringify(accountKeys));
+            }
+            else {
+                this.removeItem(getAccountKeysCacheKey());
+            }
             const tokenKeys = getTokenKeys(this.clientId, this);
             tokenKeys.idToken = await this.importArray(tokenKeys.idToken, correlationId);
             tokenKeys.accessToken = await this.importArray(tokenKeys.accessToken, correlationId);
             tokenKeys.refreshToken = await this.importArray(tokenKeys.refreshToken, correlationId);
             // Write valid token keys back to map
-            this.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
+            if (tokenKeys.idToken.length ||
+                tokenKeys.accessToken.length ||
+                tokenKeys.refreshToken.length) {
+                this.setItem(getTokenKeysCacheKey(this.clientId), JSON.stringify(tokenKeys));
+            }
+            else {
+                this.removeItem(getTokenKeysCacheKey(this.clientId));
+            }
         }
         /**
          * Helper to decrypt and save cache entries
@@ -11611,10 +11597,10 @@
                 // Not a valid encrypted object, remove
                 return null;
             }
-            if (!encObj.id || !encObj.nonce || !encObj.data) {
-                // Data is not encrypted, likely from old version of MSAL. It must be removed because we don't know how old it is.
+            if (!isEncrypted(encObj)) {
+                // Data is not encrypted
                 this.performanceClient.incrementFields({ unencryptedCacheCount: 1 }, correlationId);
-                return null;
+                return encObj;
             }
             if (encObj.id !== this.encryptionCookie.id) {
                 // Data was encrypted with a different key. It must be removed because it is from a previous session.
@@ -11723,27 +11709,9 @@
         containsKey(key) {
             return window.sessionStorage.hasOwnProperty(key);
         }
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    /**
-     * Extracts the BrowserStateObject from the state string.
-     * @param browserCrypto
-     * @param state
-     */
-    function extractBrowserRequestState(browserCrypto, state) {
-        if (!state) {
-            return null;
-        }
-        try {
-            const requestStateObj = ProtocolUtils.parseRequestState(browserCrypto, state);
-            return requestStateObj.libraryState.meta;
-        }
-        catch (e) {
-            throw createClientAuthError(invalidState);
+        decryptData() {
+            // Session storage does not support encryption, so this method is a no-op
+            return Promise.resolve(null);
         }
     }
 
@@ -11778,7 +11746,24 @@
         LOGOUT_FAILURE: "msal:logoutFailure",
         LOGOUT_END: "msal:logoutEnd",
         RESTORE_FROM_BFCACHE: "msal:restoreFromBFCache",
+        BROKER_CONNECTION_ESTABLISHED: "msal:brokerConnectionEstablished",
     };
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Utility function to remove an element from an array in place.
+     * @param array - The array from which to remove the element.
+     * @param element - The element to remove from the array.
+     */
+    function removeElementFromArray(array, element) {
+        const index = array.indexOf(element);
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+    }
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -11791,24 +11776,152 @@
      */
     class BrowserCacheManager extends CacheManager {
         constructor(clientId, cacheConfig, cryptoImpl, logger, performanceClient, eventHandler, staticAuthorityOptions) {
-            super(clientId, cryptoImpl, logger, staticAuthorityOptions);
+            super(clientId, cryptoImpl, logger, performanceClient, staticAuthorityOptions);
             this.cacheConfig = cacheConfig;
             this.logger = logger;
             this.internalStorage = new MemoryStorage();
             this.browserStorage = getStorageImplementation(clientId, cacheConfig.cacheLocation, logger, performanceClient);
             this.temporaryCacheStorage = getStorageImplementation(clientId, cacheConfig.temporaryCacheLocation, logger, performanceClient);
             this.cookieStorage = new CookieStorage();
-            this.performanceClient = performanceClient;
             this.eventHandler = eventHandler;
         }
         async initialize(correlationId) {
+            this.performanceClient.addFields({
+                cacheLocation: this.cacheConfig.cacheLocation,
+                cacheRetentionDays: this.cacheConfig.cacheRetentionDays,
+            }, correlationId);
             await this.browserStorage.initialize(correlationId);
+            await this.migrateExistingCache(correlationId);
+            this.trackVersionChanges(correlationId);
+        }
+        /**
+         * Migrates any existing cache data from previous versions of MSAL.js into the current cache structure.
+         */
+        async migrateExistingCache(correlationId) {
+            const accountKeys0 = getAccountKeys(this.browserStorage, 0);
+            const tokenKeys0 = getTokenKeys(this.clientId, this.browserStorage, 0);
+            this.performanceClient.addFields({
+                oldAccountCount: accountKeys0.length,
+                oldAccessCount: tokenKeys0.accessToken.length,
+                oldIdCount: tokenKeys0.idToken.length,
+                oldRefreshCount: tokenKeys0.refreshToken.length,
+            }, correlationId);
+            const accountKeys1 = getAccountKeys(this.browserStorage, 1);
+            const tokenKeys1 = getTokenKeys(this.clientId, this.browserStorage, 1);
+            this.performanceClient.addFields({
+                currAccountCount: accountKeys1.length,
+                currAccessCount: tokenKeys1.accessToken.length,
+                currIdCount: tokenKeys1.idToken.length,
+                currRefreshCount: tokenKeys1.refreshToken.length,
+            }, correlationId);
+            await Promise.all([
+                this.updateV0ToCurrent(ACCOUNT_SCHEMA_VERSION, accountKeys0, accountKeys1, correlationId),
+                this.updateV0ToCurrent(CREDENTIAL_SCHEMA_VERSION, tokenKeys0.idToken, tokenKeys1.idToken, correlationId),
+                this.updateV0ToCurrent(CREDENTIAL_SCHEMA_VERSION, tokenKeys0.accessToken, tokenKeys1.accessToken, correlationId),
+                this.updateV0ToCurrent(CREDENTIAL_SCHEMA_VERSION, tokenKeys0.refreshToken, tokenKeys1.refreshToken, correlationId),
+            ]);
+            if (accountKeys0.length > 0) {
+                this.browserStorage.setItem(getAccountKeysCacheKey(0), JSON.stringify(accountKeys0));
+            }
+            else {
+                this.browserStorage.removeItem(getAccountKeysCacheKey(0));
+            }
+            if (accountKeys1.length > 0) {
+                this.browserStorage.setItem(getAccountKeysCacheKey(1), JSON.stringify(accountKeys1));
+            }
+            else {
+                this.browserStorage.removeItem(getAccountKeysCacheKey(1));
+            }
+            this.setTokenKeys(tokenKeys0, correlationId, 0);
+            this.setTokenKeys(tokenKeys1, correlationId, 1);
+        }
+        async updateV0ToCurrent(currentSchema, v0Keys, v1Keys, correlationId) {
+            const upgradePromises = [];
+            for (const v0Key of [...v0Keys]) {
+                const rawV0Value = this.browserStorage.getItem(v0Key);
+                const parsedV0Value = this.validateAndParseJson(rawV0Value || "");
+                if (!parsedV0Value) {
+                    removeElementFromArray(v0Keys, v0Key);
+                    continue;
+                }
+                if (!parsedV0Value.lastUpdatedAt) {
+                    // Add lastUpdatedAt to the existing v0 entry if it doesnt exist so we know when it's safe to remove it
+                    parsedV0Value.lastUpdatedAt = Date.now().toString();
+                    this.setItem(v0Key, JSON.stringify(parsedV0Value), correlationId);
+                }
+                const decryptedData = isEncrypted(parsedV0Value)
+                    ? await this.browserStorage.decryptData(v0Key, parsedV0Value, correlationId)
+                    : parsedV0Value;
+                let expirationTime;
+                if (decryptedData) {
+                    if (isAccessTokenEntity(decryptedData)) {
+                        expirationTime = decryptedData.expiresOn;
+                    }
+                    else if (isRefreshTokenEntity(decryptedData)) {
+                        expirationTime = decryptedData.expiresOn;
+                    }
+                }
+                if (!decryptedData ||
+                    isCacheExpired(parsedV0Value.lastUpdatedAt, this.cacheConfig.cacheRetentionDays) ||
+                    (expirationTime &&
+                        isTokenExpired(expirationTime, DEFAULT_TOKEN_RENEWAL_OFFSET_SEC))) {
+                    this.browserStorage.removeItem(v0Key);
+                    removeElementFromArray(v0Keys, v0Key);
+                    this.performanceClient.incrementFields({ expiredCacheRemovedCount: 1 }, correlationId);
+                    continue;
+                }
+                if (this.cacheConfig.cacheLocation !==
+                    BrowserCacheLocation.LocalStorage ||
+                    isEncrypted(parsedV0Value)) {
+                    const v1Key = `${PREFIX}.${currentSchema}${CACHE_KEY_SEPARATOR}${v0Key}`;
+                    const rawV1Entry = this.browserStorage.getItem(v1Key);
+                    if (!rawV1Entry) {
+                        upgradePromises.push(this.setUserData(v1Key, JSON.stringify(decryptedData), correlationId, parsedV0Value.lastUpdatedAt).then(() => {
+                            v1Keys.push(v1Key);
+                            this.performanceClient.incrementFields({ upgradedCacheCount: 1 }, correlationId);
+                        }));
+                        continue;
+                    }
+                    else {
+                        const parsedV1Entry = this.validateAndParseJson(rawV1Entry);
+                        // If the entry already exists but is older than the v0 entry, replace it
+                        if (Number(parsedV0Value.lastUpdatedAt) >
+                            Number(parsedV1Entry.lastUpdatedAt)) {
+                            upgradePromises.push(this.setUserData(v1Key, JSON.stringify(decryptedData), correlationId, parsedV0Value.lastUpdatedAt).then(() => {
+                                this.performanceClient.incrementFields({ updatedCacheFromV0Count: 1 }, correlationId);
+                            }));
+                            continue;
+                        }
+                    }
+                }
+                /*
+                 * Note: If we reach here for unencrypted localStorage data, we continue without migrating
+                 * as we can't migrate unencrypted localStorage data right now since we can't guarantee KMSI=no
+                 */
+            }
+            return Promise.all(upgradePromises);
+        }
+        /**
+         * Tracks upgrades and downgrades for telemetry and debugging purposes
+         */
+        trackVersionChanges(correlationId) {
+            const previousVersion = this.browserStorage.getItem(VERSION_CACHE_KEY);
+            if (previousVersion) {
+                this.logger.info(`MSAL.js was last initialized by version: ${previousVersion}`);
+                this.performanceClient.addFields({ previousLibraryVersion: previousVersion }, correlationId);
+            }
+            if (previousVersion !== version) {
+                this.setItem(VERSION_CACHE_KEY, version, correlationId);
+            }
         }
         /**
          * Parses passed value as JSON object, JSON.parse() will throw an error.
          * @param input
          */
         validateAndParseJson(jsonValue) {
+            if (!jsonValue) {
+                return null;
+            }
             try {
                 const parsedJson = JSON.parse(jsonValue);
                 /**
@@ -11826,21 +11939,128 @@
             }
         }
         /**
+         * Helper to setItem in browser storage, with cleanup in case of quota errors
+         * @param key
+         * @param value
+         */
+        setItem(key, value, correlationId) {
+            let tokenKeysV0Count = 0;
+            let accessTokenKeys = [];
+            const maxRetries = 20;
+            for (let i = 0; i <= maxRetries; i++) {
+                try {
+                    this.browserStorage.setItem(key, value);
+                    if (i > 0) {
+                        // Finally update the token keys array with the tokens removed
+                        if (i <= tokenKeysV0Count) {
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(0, i), correlationId, 0);
+                        }
+                        else {
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(0, tokenKeysV0Count), correlationId, 0);
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(tokenKeysV0Count, i), correlationId);
+                        }
+                    }
+                    break; // If setItem succeeds, exit the loop
+                }
+                catch (e) {
+                    const cacheError = createCacheError(e);
+                    if (cacheError.errorCode ===
+                        cacheQuotaExceeded &&
+                        i < maxRetries) {
+                        if (!accessTokenKeys.length) {
+                            // If we are currently trying to set the token keys, use the value we're trying to set
+                            const tokenKeys0 = key ===
+                                getTokenKeysCacheKey(this.clientId, 0)
+                                ? JSON.parse(value).accessToken
+                                : this.getTokenKeys(0).accessToken;
+                            const tokenKeys1 = key ===
+                                getTokenKeysCacheKey(this.clientId)
+                                ? JSON.parse(value).accessToken
+                                : this.getTokenKeys().accessToken;
+                            accessTokenKeys = [...tokenKeys0, ...tokenKeys1];
+                            tokenKeysV0Count = tokenKeys0.length;
+                        }
+                        if (accessTokenKeys.length <= i) {
+                            // Nothing to remove, rethrow the error
+                            throw cacheError;
+                        }
+                        // When cache quota is exceeded, start removing access tokens until we can successfully set the item
+                        this.removeAccessToken(accessTokenKeys[i], correlationId, false // Don't save token keys yet, do it at the end
+                        );
+                    }
+                    else {
+                        // If the error is not a quota exceeded error, rethrow it
+                        throw cacheError;
+                    }
+                }
+            }
+        }
+        /**
+         * Helper to setUserData in browser storage, with cleanup in case of quota errors
+         * @param key
+         * @param value
+         * @param correlationId
+         */
+        async setUserData(key, value, correlationId, timestamp) {
+            let tokenKeysV0Count = 0;
+            let accessTokenKeys = [];
+            const maxRetries = 20;
+            for (let i = 0; i <= maxRetries; i++) {
+                try {
+                    await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(key, value, correlationId, timestamp);
+                    if (i > 0) {
+                        // Finally update the token keys array with the tokens removed
+                        if (i <= tokenKeysV0Count) {
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(0, i), correlationId, 0);
+                        }
+                        else {
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(0, tokenKeysV0Count), correlationId, 0);
+                            this.removeAccessTokenKeys(accessTokenKeys.slice(tokenKeysV0Count, i), correlationId);
+                        }
+                    }
+                    break; // If setItem succeeds, exit the loop
+                }
+                catch (e) {
+                    const cacheError = createCacheError(e);
+                    if (cacheError.errorCode ===
+                        cacheQuotaExceeded &&
+                        i < maxRetries) {
+                        if (!accessTokenKeys.length) {
+                            const tokenKeys0 = this.getTokenKeys(0).accessToken;
+                            const tokenKeys1 = this.getTokenKeys().accessToken;
+                            accessTokenKeys = [...tokenKeys0, ...tokenKeys1];
+                            tokenKeysV0Count = tokenKeys0.length;
+                        }
+                        if (accessTokenKeys.length <= i) {
+                            // Nothing left to remove, rethrow the error
+                            throw cacheError;
+                        }
+                        // When cache quota is exceeded, start removing access tokens until we can successfully set the item
+                        this.removeAccessToken(accessTokenKeys[i], correlationId, false // Don't save token keys yet, do it at the end
+                        );
+                    }
+                    else {
+                        // If the error is not a quota exceeded error, rethrow it
+                        throw cacheError;
+                    }
+                }
+            }
+        }
+        /**
          * Reads account from cache, deserializes it into an account entity and returns it.
          * If account is not found from the key, returns null and removes key from map.
          * @param accountKey
          * @returns
          */
-        getAccount(accountKey) {
+        getAccount(accountKey, correlationId) {
             this.logger.trace("BrowserCacheManager.getAccount called");
             const serializedAccount = this.browserStorage.getUserData(accountKey);
             if (!serializedAccount) {
-                this.removeAccountKeyFromMap(accountKey);
+                this.removeAccountKeyFromMap(accountKey, correlationId);
                 return null;
             }
             const parsedAccount = this.validateAndParseJson(serializedAccount);
             if (!parsedAccount || !AccountEntity.isAccountEntity(parsedAccount)) {
-                this.removeAccountKeyFromMap(accountKey);
                 return null;
             }
             return CacheManager.toObject(new AccountEntity(), parsedAccount);
@@ -11851,9 +12071,11 @@
          */
         async setAccount(account, correlationId) {
             this.logger.trace("BrowserCacheManager.setAccount called");
-            const key = account.generateAccountKey();
-            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(key, JSON.stringify(account), correlationId);
-            const wasAdded = this.addAccountKeyToMap(key);
+            const key = this.generateAccountKey(account.getAccountInfo());
+            const timestamp = Date.now().toString();
+            account.lastUpdatedAt = timestamp;
+            await this.setUserData(key, JSON.stringify(account), correlationId, timestamp);
+            const wasAdded = this.addAccountKeyToMap(key, correlationId);
             /**
              * @deprecated - Remove this in next major version in favor of more consistent LOGIN event
              */
@@ -11874,14 +12096,14 @@
          * Add a new account to the key map
          * @param key
          */
-        addAccountKeyToMap(key) {
+        addAccountKeyToMap(key, correlationId) {
             this.logger.trace("BrowserCacheManager.addAccountKeyToMap called");
             this.logger.tracePii(`BrowserCacheManager.addAccountKeyToMap called with key: ${key}`);
             const accountKeys = this.getAccountKeys();
             if (accountKeys.indexOf(key) === -1) {
                 // Only add key if it does not already exist in the map
                 accountKeys.push(key);
-                this.browserStorage.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+                this.setItem(getAccountKeysCacheKey(), JSON.stringify(accountKeys), correlationId);
                 this.logger.verbose("BrowserCacheManager.addAccountKeyToMap account key added");
                 return true;
             }
@@ -11894,14 +12116,21 @@
          * Remove an account from the key map
          * @param key
          */
-        removeAccountKeyFromMap(key) {
+        removeAccountKeyFromMap(key, correlationId) {
             this.logger.trace("BrowserCacheManager.removeAccountKeyFromMap called");
             this.logger.tracePii(`BrowserCacheManager.removeAccountKeyFromMap called with key: ${key}`);
             const accountKeys = this.getAccountKeys();
             const removalIndex = accountKeys.indexOf(key);
             if (removalIndex > -1) {
                 accountKeys.splice(removalIndex, 1);
-                this.browserStorage.setItem(StaticCacheKeys.ACCOUNT_KEYS, JSON.stringify(accountKeys));
+                if (accountKeys.length === 0) {
+                    // If no keys left, remove the map
+                    this.removeItem(getAccountKeysCacheKey());
+                    return;
+                }
+                else {
+                    this.setItem(getAccountKeysCacheKey(), JSON.stringify(accountKeys), correlationId);
+                }
                 this.logger.trace("BrowserCacheManager.removeAccountKeyFromMap account key removed");
             }
             else {
@@ -11912,150 +12141,126 @@
          * Extends inherited removeAccount function to include removal of the account key from the map
          * @param key
          */
-        async removeAccount(key) {
-            void super.removeAccount(key);
-            this.removeAccountKeyFromMap(key);
-        }
-        /**
-         * Removes credentials associated with the provided account
-         * @param account
-         */
-        async removeAccountContext(account) {
-            await super.removeAccountContext(account);
+        removeAccount(account, correlationId) {
+            const activeAccount = this.getActiveAccount(correlationId);
+            if (activeAccount?.homeAccountId === account.homeAccountId &&
+                activeAccount?.environment === account.environment) {
+                this.setActiveAccount(null, correlationId);
+            }
+            super.removeAccount(account, correlationId);
+            this.removeAccountKeyFromMap(this.generateAccountKey(account), correlationId);
+            // Remove all other associated cache items
+            this.browserStorage.getKeys().forEach((key) => {
+                if (key.includes(account.homeAccountId) &&
+                    key.includes(account.environment)) {
+                    this.browserStorage.removeItem(key);
+                }
+            });
             /**
              * @deprecated - Remove this in next major version in favor of more consistent LOGOUT event
              */
             if (this.cacheConfig.cacheLocation === BrowserCacheLocation.LocalStorage) {
-                this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, account.getAccountInfo());
+                this.eventHandler.emitEvent(EventType.ACCOUNT_REMOVED, undefined, account);
             }
         }
         /**
          * Removes given idToken from the cache and from the key map
          * @param key
          */
-        removeIdToken(key) {
-            super.removeIdToken(key);
-            this.removeTokenKey(key, CredentialType.ID_TOKEN);
+        removeIdToken(key, correlationId) {
+            super.removeIdToken(key, correlationId);
+            const tokenKeys = this.getTokenKeys();
+            const idRemoval = tokenKeys.idToken.indexOf(key);
+            if (idRemoval > -1) {
+                this.logger.info("idToken removed from tokenKeys map");
+                tokenKeys.idToken.splice(idRemoval, 1);
+                this.setTokenKeys(tokenKeys, correlationId);
+            }
         }
         /**
          * Removes given accessToken from the cache and from the key map
          * @param key
          */
-        async removeAccessToken(key) {
-            void super.removeAccessToken(key);
-            this.removeTokenKey(key, CredentialType.ACCESS_TOKEN);
+        removeAccessToken(key, correlationId, updateTokenKeys = true) {
+            super.removeAccessToken(key, correlationId);
+            updateTokenKeys && this.removeAccessTokenKeys([key], correlationId);
+        }
+        /**
+         * Remove access token key from the key map
+         * @param key
+         * @param correlationId
+         * @param tokenKeys
+         */
+        removeAccessTokenKeys(keys, correlationId, schemaVersion = CREDENTIAL_SCHEMA_VERSION) {
+            this.logger.trace("removeAccessTokenKey called");
+            const tokenKeys = this.getTokenKeys(schemaVersion);
+            let keysRemoved = 0;
+            keys.forEach((key) => {
+                const accessRemoval = tokenKeys.accessToken.indexOf(key);
+                if (accessRemoval > -1) {
+                    tokenKeys.accessToken.splice(accessRemoval, 1);
+                    keysRemoved++;
+                }
+            });
+            if (keysRemoved > 0) {
+                this.logger.info(`removed ${keysRemoved} accessToken keys from tokenKeys map`);
+                this.setTokenKeys(tokenKeys, correlationId, schemaVersion);
+                return;
+            }
         }
         /**
          * Removes given refreshToken from the cache and from the key map
          * @param key
          */
-        removeRefreshToken(key) {
-            super.removeRefreshToken(key);
-            this.removeTokenKey(key, CredentialType.REFRESH_TOKEN);
+        removeRefreshToken(key, correlationId) {
+            super.removeRefreshToken(key, correlationId);
+            const tokenKeys = this.getTokenKeys();
+            const refreshRemoval = tokenKeys.refreshToken.indexOf(key);
+            if (refreshRemoval > -1) {
+                this.logger.info("refreshToken removed from tokenKeys map");
+                tokenKeys.refreshToken.splice(refreshRemoval, 1);
+                this.setTokenKeys(tokenKeys, correlationId);
+            }
         }
         /**
          * Gets the keys for the cached tokens associated with this clientId
          * @returns
          */
-        getTokenKeys() {
-            return getTokenKeys(this.clientId, this.browserStorage);
+        getTokenKeys(schemaVersion = CREDENTIAL_SCHEMA_VERSION) {
+            return getTokenKeys(this.clientId, this.browserStorage, schemaVersion);
         }
         /**
-         * Adds the given key to the token key map
-         * @param key
-         * @param type
+         * Stores the token keys in the cache
+         * @param tokenKeys
+         * @param correlationId
+         * @returns
          */
-        addTokenKey(key, type) {
-            this.logger.trace("BrowserCacheManager addTokenKey called");
-            const tokenKeys = this.getTokenKeys();
-            switch (type) {
-                case CredentialType.ID_TOKEN:
-                    if (tokenKeys.idToken.indexOf(key) === -1) {
-                        this.logger.info("BrowserCacheManager: addTokenKey - idToken added to map");
-                        tokenKeys.idToken.push(key);
-                    }
-                    break;
-                case CredentialType.ACCESS_TOKEN:
-                    if (tokenKeys.accessToken.indexOf(key) === -1) {
-                        this.logger.info("BrowserCacheManager: addTokenKey - accessToken added to map");
-                        tokenKeys.accessToken.push(key);
-                    }
-                    break;
-                case CredentialType.REFRESH_TOKEN:
-                    if (tokenKeys.refreshToken.indexOf(key) === -1) {
-                        this.logger.info("BrowserCacheManager: addTokenKey - refreshToken added to map");
-                        tokenKeys.refreshToken.push(key);
-                    }
-                    break;
-                default:
-                    this.logger.error(`BrowserCacheManager:addTokenKey - CredentialType provided invalid. CredentialType: ${type}`);
-                    throw createClientAuthError(unexpectedCredentialType);
+        setTokenKeys(tokenKeys, correlationId, schemaVersion = CREDENTIAL_SCHEMA_VERSION) {
+            if (tokenKeys.idToken.length === 0 &&
+                tokenKeys.accessToken.length === 0 &&
+                tokenKeys.refreshToken.length === 0) {
+                // If no keys left, remove the map
+                this.removeItem(getTokenKeysCacheKey(this.clientId, schemaVersion));
+                return;
             }
-            this.browserStorage.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
-        }
-        /**
-         * Removes the given key from the token key map
-         * @param key
-         * @param type
-         */
-        removeTokenKey(key, type) {
-            this.logger.trace("BrowserCacheManager removeTokenKey called");
-            const tokenKeys = this.getTokenKeys();
-            switch (type) {
-                case CredentialType.ID_TOKEN:
-                    this.logger.infoPii(`BrowserCacheManager: removeTokenKey - attempting to remove idToken with key: ${key} from map`);
-                    const idRemoval = tokenKeys.idToken.indexOf(key);
-                    if (idRemoval > -1) {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - idToken removed from map");
-                        tokenKeys.idToken.splice(idRemoval, 1);
-                    }
-                    else {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - idToken does not exist in map. Either it was previously removed or it was never added.");
-                    }
-                    break;
-                case CredentialType.ACCESS_TOKEN:
-                    this.logger.infoPii(`BrowserCacheManager: removeTokenKey - attempting to remove accessToken with key: ${key} from map`);
-                    const accessRemoval = tokenKeys.accessToken.indexOf(key);
-                    if (accessRemoval > -1) {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - accessToken removed from map");
-                        tokenKeys.accessToken.splice(accessRemoval, 1);
-                    }
-                    else {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - accessToken does not exist in map. Either it was previously removed or it was never added.");
-                    }
-                    break;
-                case CredentialType.REFRESH_TOKEN:
-                    this.logger.infoPii(`BrowserCacheManager: removeTokenKey - attempting to remove refreshToken with key: ${key} from map`);
-                    const refreshRemoval = tokenKeys.refreshToken.indexOf(key);
-                    if (refreshRemoval > -1) {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - refreshToken removed from map");
-                        tokenKeys.refreshToken.splice(refreshRemoval, 1);
-                    }
-                    else {
-                        this.logger.info("BrowserCacheManager: removeTokenKey - refreshToken does not exist in map. Either it was previously removed or it was never added.");
-                    }
-                    break;
-                default:
-                    this.logger.error(`BrowserCacheManager:removeTokenKey - CredentialType provided invalid. CredentialType: ${type}`);
-                    throw createClientAuthError(unexpectedCredentialType);
+            else {
+                this.setItem(getTokenKeysCacheKey(this.clientId, schemaVersion), JSON.stringify(tokenKeys), correlationId);
             }
-            this.browserStorage.setItem(`${StaticCacheKeys.TOKEN_KEYS}.${this.clientId}`, JSON.stringify(tokenKeys));
         }
         /**
          * generates idToken entity from a string
          * @param idTokenKey
          */
-        getIdTokenCredential(idTokenKey) {
+        getIdTokenCredential(idTokenKey, correlationId) {
             const value = this.browserStorage.getUserData(idTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getIdTokenCredential: called, no cache hit");
-                this.removeTokenKey(idTokenKey, CredentialType.ID_TOKEN);
+                this.removeIdToken(idTokenKey, correlationId);
                 return null;
             }
             const parsedIdToken = this.validateAndParseJson(value);
             if (!parsedIdToken || !isIdTokenEntity(parsedIdToken)) {
                 this.logger.trace("BrowserCacheManager.getIdTokenCredential: called, no cache hit");
-                this.removeTokenKey(idTokenKey, CredentialType.ID_TOKEN);
                 return null;
             }
             this.logger.trace("BrowserCacheManager.getIdTokenCredential: cache hit");
@@ -12067,26 +12272,32 @@
          */
         async setIdTokenCredential(idToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setIdTokenCredential called");
-            const idTokenKey = generateCredentialKey(idToken);
-            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(idTokenKey, JSON.stringify(idToken), correlationId);
-            this.addTokenKey(idTokenKey, CredentialType.ID_TOKEN);
+            const idTokenKey = this.generateCredentialKey(idToken);
+            const timestamp = Date.now().toString();
+            idToken.lastUpdatedAt = timestamp;
+            await this.setUserData(idTokenKey, JSON.stringify(idToken), correlationId, timestamp);
+            const tokenKeys = this.getTokenKeys();
+            if (tokenKeys.idToken.indexOf(idTokenKey) === -1) {
+                this.logger.info("BrowserCacheManager: addTokenKey - idToken added to map");
+                tokenKeys.idToken.push(idTokenKey);
+                this.setTokenKeys(tokenKeys, correlationId);
+            }
         }
         /**
          * generates accessToken entity from a string
          * @param key
          */
-        getAccessTokenCredential(accessTokenKey) {
+        getAccessTokenCredential(accessTokenKey, correlationId) {
             const value = this.browserStorage.getUserData(accessTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getAccessTokenCredential: called, no cache hit");
-                this.removeTokenKey(accessTokenKey, CredentialType.ACCESS_TOKEN);
+                this.removeAccessTokenKeys([accessTokenKey], correlationId);
                 return null;
             }
             const parsedAccessToken = this.validateAndParseJson(value);
             if (!parsedAccessToken ||
                 !isAccessTokenEntity(parsedAccessToken)) {
                 this.logger.trace("BrowserCacheManager.getAccessTokenCredential: called, no cache hit");
-                this.removeTokenKey(accessTokenKey, CredentialType.ACCESS_TOKEN);
                 return null;
             }
             this.logger.trace("BrowserCacheManager.getAccessTokenCredential: cache hit");
@@ -12098,26 +12309,34 @@
          */
         async setAccessTokenCredential(accessToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setAccessTokenCredential called");
-            const accessTokenKey = generateCredentialKey(accessToken);
-            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(accessTokenKey, JSON.stringify(accessToken), correlationId);
-            this.addTokenKey(accessTokenKey, CredentialType.ACCESS_TOKEN);
+            const accessTokenKey = this.generateCredentialKey(accessToken);
+            const timestamp = Date.now().toString();
+            accessToken.lastUpdatedAt = timestamp;
+            await this.setUserData(accessTokenKey, JSON.stringify(accessToken), correlationId, timestamp);
+            const tokenKeys = this.getTokenKeys();
+            const index = tokenKeys.accessToken.indexOf(accessTokenKey);
+            if (index !== -1) {
+                tokenKeys.accessToken.splice(index, 1); // Remove existing key before pushing to the end
+            }
+            this.logger.trace(`access token ${index === -1 ? "added to" : "updated in"} map`);
+            tokenKeys.accessToken.push(accessTokenKey);
+            this.setTokenKeys(tokenKeys, correlationId);
         }
         /**
          * generates refreshToken entity from a string
          * @param refreshTokenKey
          */
-        getRefreshTokenCredential(refreshTokenKey) {
+        getRefreshTokenCredential(refreshTokenKey, correlationId) {
             const value = this.browserStorage.getUserData(refreshTokenKey);
             if (!value) {
                 this.logger.trace("BrowserCacheManager.getRefreshTokenCredential: called, no cache hit");
-                this.removeTokenKey(refreshTokenKey, CredentialType.REFRESH_TOKEN);
+                this.removeRefreshToken(refreshTokenKey, correlationId);
                 return null;
             }
             const parsedRefreshToken = this.validateAndParseJson(value);
             if (!parsedRefreshToken ||
                 !isRefreshTokenEntity(parsedRefreshToken)) {
                 this.logger.trace("BrowserCacheManager.getRefreshTokenCredential: called, no cache hit");
-                this.removeTokenKey(refreshTokenKey, CredentialType.REFRESH_TOKEN);
                 return null;
             }
             this.logger.trace("BrowserCacheManager.getRefreshTokenCredential: cache hit");
@@ -12129,9 +12348,16 @@
          */
         async setRefreshTokenCredential(refreshToken, correlationId) {
             this.logger.trace("BrowserCacheManager.setRefreshTokenCredential called");
-            const refreshTokenKey = generateCredentialKey(refreshToken);
-            await invokeAsync(this.browserStorage.setUserData.bind(this.browserStorage), PerformanceEvents.SetUserData, this.logger, this.performanceClient)(refreshTokenKey, JSON.stringify(refreshToken), correlationId);
-            this.addTokenKey(refreshTokenKey, CredentialType.REFRESH_TOKEN);
+            const refreshTokenKey = this.generateCredentialKey(refreshToken);
+            const timestamp = Date.now().toString();
+            refreshToken.lastUpdatedAt = timestamp;
+            await this.setUserData(refreshTokenKey, JSON.stringify(refreshToken), correlationId, timestamp);
+            const tokenKeys = this.getTokenKeys();
+            if (tokenKeys.refreshToken.indexOf(refreshTokenKey) === -1) {
+                this.logger.info("BrowserCacheManager: addTokenKey - refreshToken added to map");
+                tokenKeys.refreshToken.push(refreshTokenKey);
+                this.setTokenKeys(tokenKeys, correlationId);
+            }
         }
         /**
          * fetch appMetadata entity from the platform cache
@@ -12156,10 +12382,10 @@
          * set appMetadata entity to the platform cache
          * @param appMetadata
          */
-        setAppMetadata(appMetadata) {
+        setAppMetadata(appMetadata, correlationId) {
             this.logger.trace("BrowserCacheManager.setAppMetadata called");
             const appMetadataKey = generateAppMetadataKey(appMetadata);
-            this.browserStorage.setItem(appMetadataKey, JSON.stringify(appMetadata));
+            this.setItem(appMetadataKey, JSON.stringify(appMetadata), correlationId);
         }
         /**
          * fetch server telemetry entity from the platform cache
@@ -12185,9 +12411,9 @@
          * @param serverTelemetryKey
          * @param serverTelemetry
          */
-        setServerTelemetry(serverTelemetryKey, serverTelemetry) {
+        setServerTelemetry(serverTelemetryKey, serverTelemetry, correlationId) {
             this.logger.trace("BrowserCacheManager.setServerTelemetry called");
-            this.browserStorage.setItem(serverTelemetryKey, JSON.stringify(serverTelemetry));
+            this.setItem(serverTelemetryKey, JSON.stringify(serverTelemetry), correlationId);
         }
         /**
          *
@@ -12245,7 +12471,7 @@
         /**
          * Gets the active account
          */
-        getActiveAccount() {
+        getActiveAccount(correlationId) {
             const activeAccountKeyFilters = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS);
             const activeAccountValueFilters = this.browserStorage.getItem(activeAccountKeyFilters);
             if (!activeAccountValueFilters) {
@@ -12259,7 +12485,7 @@
                     homeAccountId: activeAccountValueObj.homeAccountId,
                     localAccountId: activeAccountValueObj.localAccountId,
                     tenantId: activeAccountValueObj.tenantId,
-                });
+                }, correlationId);
             }
             this.logger.trace("BrowserCacheManager.getActiveAccount: No active account found");
             return null;
@@ -12268,7 +12494,7 @@
          * Sets the active account's localAccountId in cache
          * @param account
          */
-        setActiveAccount(account) {
+        setActiveAccount(account, correlationId) {
             const activeAccountKey = this.generateCacheKey(PersistentCacheKeys.ACTIVE_ACCOUNT_FILTERS);
             if (account) {
                 this.logger.verbose("setActiveAccount: Active account set");
@@ -12276,8 +12502,9 @@
                     homeAccountId: account.homeAccountId,
                     localAccountId: account.localAccountId,
                     tenantId: account.tenantId,
+                    lastUpdatedAt: nowSeconds().toString(),
                 };
-                this.browserStorage.setItem(activeAccountKey, JSON.stringify(activeAccountValue));
+                this.setItem(activeAccountKey, JSON.stringify(activeAccountValue), correlationId);
             }
             else {
                 this.logger.verbose("setActiveAccount: No account passed, active account not set");
@@ -12309,9 +12536,9 @@
          * @param throttlingCacheKey
          * @param throttlingCache
          */
-        setThrottlingCache(throttlingCacheKey, throttlingCache) {
+        setThrottlingCache(throttlingCacheKey, throttlingCache, correlationId) {
             this.logger.trace("BrowserCacheManager.setThrottlingCache called");
-            this.browserStorage.setItem(throttlingCacheKey, JSON.stringify(throttlingCache));
+            this.setItem(throttlingCacheKey, JSON.stringify(throttlingCache), correlationId);
         }
         /**
          * Gets cache item with given key.
@@ -12387,20 +12614,20 @@
         /**
          * Clears all cache entries created by MSAL.
          */
-        async clear() {
+        clear(correlationId) {
             // Removes all accounts and their credentials
-            await this.removeAllAccounts();
-            this.removeAppMetadata();
+            this.removeAllAccounts(correlationId);
+            this.removeAppMetadata(correlationId);
             // Remove temp storage first to make sure any cookies are cleared
             this.temporaryCacheStorage.getKeys().forEach((cacheKey) => {
-                if (cacheKey.indexOf(Constants.CACHE_PREFIX) !== -1 ||
+                if (cacheKey.indexOf(PREFIX) !== -1 ||
                     cacheKey.indexOf(this.clientId) !== -1) {
                     this.removeTemporaryItem(cacheKey);
                 }
             });
             // Removes all remaining MSAL cache items
             this.browserStorage.getKeys().forEach((cacheKey) => {
-                if (cacheKey.indexOf(Constants.CACHE_PREFIX) !== -1 ||
+                if (cacheKey.indexOf(PREFIX) !== -1 ||
                     cacheKey.indexOf(this.clientId) !== -1) {
                     this.browserStorage.removeItem(cacheKey);
                 }
@@ -12413,210 +12640,127 @@
          * @param correlationId {string} correlation id
          * @returns
          */
-        async clearTokensAndKeysWithClaims(performanceClient, correlationId) {
-            performanceClient.addQueueMeasurement(PerformanceEvents.ClearTokensAndKeysWithClaims, correlationId);
+        clearTokensAndKeysWithClaims(correlationId) {
+            this.performanceClient.addQueueMeasurement(PerformanceEvents.ClearTokensAndKeysWithClaims, correlationId);
             const tokenKeys = this.getTokenKeys();
-            const removedAccessTokens = [];
+            let removedAccessTokens = 0;
             tokenKeys.accessToken.forEach((key) => {
                 // if the access token has claims in its key, remove the token key and the token
-                const credential = this.getAccessTokenCredential(key);
+                const credential = this.getAccessTokenCredential(key, correlationId);
                 if (credential?.requestedClaimsHash &&
                     key.includes(credential.requestedClaimsHash.toLowerCase())) {
-                    removedAccessTokens.push(this.removeAccessToken(key));
+                    this.removeAccessToken(key, correlationId);
+                    removedAccessTokens++;
                 }
             });
-            await Promise.all(removedAccessTokens);
             // warn if any access tokens are removed
-            if (removedAccessTokens.length > 0) {
-                this.logger.warning(`${removedAccessTokens.length} access tokens with claims in the cache keys have been removed from the cache.`);
+            if (removedAccessTokens > 0) {
+                this.logger.warning(`${removedAccessTokens} access tokens with claims in the cache keys have been removed from the cache.`);
             }
         }
         /**
-         * Prepend msal.<client-id> to each key; Skip for any JSON object as Key (defined schemas do not need the key appended: AccessToken Keys or the upcoming schema)
+         * Prepend msal.<client-id> to each key
          * @param key
          * @param addInstanceId
          */
         generateCacheKey(key) {
-            const generatedKey = this.validateAndParseJson(key);
-            if (!generatedKey) {
-                if (StringUtils.startsWith(key, Constants.CACHE_PREFIX)) {
-                    return key;
-                }
-                return `${Constants.CACHE_PREFIX}.${this.clientId}.${key}`;
+            if (StringUtils.startsWith(key, PREFIX)) {
+                return key;
             }
-            return JSON.stringify(key);
+            return `${PREFIX}.${this.clientId}.${key}`;
         }
         /**
-         * Create authorityKey to cache authority
-         * @param state
+         * Cache Key: msal.<schema_version>-<home_account_id>-<environment>-<credential_type>-<client_id or familyId>-<realm>-<scopes>-<claims hash>-<scheme>
+         * IdToken Example: uid.utid-login.microsoftonline.com-idtoken-app_client_id-contoso.com
+         * AccessToken Example: uid.utid-login.microsoftonline.com-accesstoken-app_client_id-contoso.com-scope1 scope2--pop
+         * RefreshToken Example: uid.utid-login.microsoftonline.com-refreshtoken-1-contoso.com
+         * @param credentialEntity
+         * @returns
          */
-        generateAuthorityKey(stateString) {
-            const { libraryState: { id: stateId }, } = ProtocolUtils.parseRequestState(this.cryptoImpl, stateString);
-            return this.generateCacheKey(`${TemporaryCacheKeys.AUTHORITY}.${stateId}`);
+        generateCredentialKey(credential) {
+            const familyId = (credential.credentialType === CredentialType.REFRESH_TOKEN &&
+                credential.familyId) ||
+                credential.clientId;
+            const scheme = credential.tokenType &&
+                credential.tokenType.toLowerCase() !==
+                    AuthenticationScheme.BEARER.toLowerCase()
+                ? credential.tokenType.toLowerCase()
+                : "";
+            const credentialKey = [
+                `${PREFIX}.${CREDENTIAL_SCHEMA_VERSION}`,
+                credential.homeAccountId,
+                credential.environment,
+                credential.credentialType,
+                familyId,
+                credential.realm || "",
+                credential.target || "",
+                credential.requestedClaimsHash || "",
+                scheme,
+            ];
+            return credentialKey.join(CACHE_KEY_SEPARATOR).toLowerCase();
         }
         /**
-         * Create Nonce key to cache nonce
-         * @param state
-         */
-        generateNonceKey(stateString) {
-            const { libraryState: { id: stateId }, } = ProtocolUtils.parseRequestState(this.cryptoImpl, stateString);
-            return this.generateCacheKey(`${TemporaryCacheKeys.NONCE_IDTOKEN}.${stateId}`);
-        }
-        /**
-         * Creates full cache key for the request state
-         * @param stateString State string for the request
-         */
-        generateStateKey(stateString) {
-            // Use the library state id to key temp storage for uniqueness for multiple concurrent requests
-            const { libraryState: { id: stateId }, } = ProtocolUtils.parseRequestState(this.cryptoImpl, stateString);
-            return this.generateCacheKey(`${TemporaryCacheKeys.REQUEST_STATE}.${stateId}`);
-        }
-        /**
-         * Gets the cached authority based on the cached state. Returns empty if no cached state found.
-         */
-        getCachedAuthority(cachedState) {
-            const stateCacheKey = this.generateStateKey(cachedState);
-            const state = this.getTemporaryCache(stateCacheKey);
-            if (!state) {
-                return null;
-            }
-            const authorityCacheKey = this.generateAuthorityKey(state);
-            return this.getTemporaryCache(authorityCacheKey);
-        }
-        /**
-         * Updates account, authority, and state in cache
-         * @param serverAuthenticationRequest
+         * Cache Key: msal.<schema_version>.<home_account_id>.<environment>.<tenant_id>
          * @param account
+         * @returns
          */
-        updateCacheEntries(state, nonce, authorityInstance, loginHint, account) {
-            this.logger.trace("BrowserCacheManager.updateCacheEntries called");
-            // Cache the request state
-            const stateCacheKey = this.generateStateKey(state);
-            this.setTemporaryCache(stateCacheKey, state, false);
-            // Cache the nonce
-            const nonceCacheKey = this.generateNonceKey(state);
-            this.setTemporaryCache(nonceCacheKey, nonce, false);
-            // Cache authorityKey
-            const authorityCacheKey = this.generateAuthorityKey(state);
-            this.setTemporaryCache(authorityCacheKey, authorityInstance, false);
-            if (account) {
-                const ccsCredential = {
-                    credential: account.homeAccountId,
-                    type: CcsCredentialType.HOME_ACCOUNT_ID,
-                };
-                this.setTemporaryCache(TemporaryCacheKeys.CCS_CREDENTIAL, JSON.stringify(ccsCredential), true);
-            }
-            else if (loginHint) {
-                const ccsCredential = {
-                    credential: loginHint,
-                    type: CcsCredentialType.UPN,
-                };
-                this.setTemporaryCache(TemporaryCacheKeys.CCS_CREDENTIAL, JSON.stringify(ccsCredential), true);
-            }
+        generateAccountKey(account) {
+            const homeTenantId = account.homeAccountId.split(".")[1];
+            const accountKey = [
+                `${PREFIX}.${ACCOUNT_SCHEMA_VERSION}`,
+                account.homeAccountId,
+                account.environment,
+                homeTenantId || account.tenantId || "",
+            ];
+            return accountKey.join(CACHE_KEY_SEPARATOR).toLowerCase();
         }
         /**
          * Reset all temporary cache items
          * @param state
          */
-        resetRequestCache(state) {
+        resetRequestCache() {
             this.logger.trace("BrowserCacheManager.resetRequestCache called");
-            // check state and remove associated cache items
-            if (state) {
-                this.temporaryCacheStorage.getKeys().forEach((key) => {
-                    if (key.indexOf(state) !== -1) {
-                        this.removeTemporaryItem(key);
-                    }
-                });
-                // delete generic interactive request parameters
-                this.removeTemporaryItem(this.generateStateKey(state));
-                this.removeTemporaryItem(this.generateNonceKey(state));
-                this.removeTemporaryItem(this.generateAuthorityKey(state));
-            }
             this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.REQUEST_PARAMS));
+            this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.VERIFIER));
             this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.ORIGIN_URI));
             this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.URL_HASH));
-            this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.CORRELATION_ID));
-            this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.CCS_CREDENTIAL));
             this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.NATIVE_REQUEST));
             this.setInteractionInProgress(false);
         }
-        /**
-         * Removes temporary cache for the provided state
-         * @param stateString
-         */
-        cleanRequestByState(stateString) {
-            this.logger.trace("BrowserCacheManager.cleanRequestByState called");
-            // Interaction is completed - remove interaction status.
-            if (stateString) {
-                const stateKey = this.generateStateKey(stateString);
-                const cachedState = this.temporaryCacheStorage.getItem(stateKey);
-                this.logger.infoPii(`BrowserCacheManager.cleanRequestByState: Removing temporary cache items for state: ${cachedState}`);
-                this.resetRequestCache(cachedState || Constants.EMPTY_STRING);
-            }
-        }
-        /**
-         * Looks in temporary cache for any state values with the provided interactionType and removes all temporary cache items for that state
-         * Used in scenarios where temp cache needs to be cleaned but state is not known, such as clicking browser back button.
-         * @param interactionType
-         */
-        cleanRequestByInteractionType(interactionType) {
-            this.logger.trace("BrowserCacheManager.cleanRequestByInteractionType called");
-            // Loop through all keys to find state key
-            this.temporaryCacheStorage.getKeys().forEach((key) => {
-                // If this key is not the state key, move on
-                if (key.indexOf(TemporaryCacheKeys.REQUEST_STATE) === -1) {
-                    return;
-                }
-                // Retrieve state value, return if not a valid value
-                const stateValue = this.temporaryCacheStorage.getItem(key);
-                if (!stateValue) {
-                    return;
-                }
-                // Extract state and ensure it matches given InteractionType, then clean request cache
-                const parsedState = extractBrowserRequestState(this.cryptoImpl, stateValue);
-                if (parsedState &&
-                    parsedState.interactionType === interactionType) {
-                    this.logger.infoPii(`BrowserCacheManager.cleanRequestByInteractionType: Removing temporary cache items for state: ${stateValue}`);
-                    this.resetRequestCache(stateValue);
-                }
-            });
-            this.setInteractionInProgress(false);
-        }
-        cacheCodeRequest(authCodeRequest) {
-            this.logger.trace("BrowserCacheManager.cacheCodeRequest called");
+        cacheAuthorizeRequest(authCodeRequest, codeVerifier) {
+            this.logger.trace("BrowserCacheManager.cacheAuthorizeRequest called");
             const encodedValue = base64Encode(JSON.stringify(authCodeRequest));
             this.setTemporaryCache(TemporaryCacheKeys.REQUEST_PARAMS, encodedValue, true);
+            if (codeVerifier) {
+                const encodedVerifier = base64Encode(codeVerifier);
+                this.setTemporaryCache(TemporaryCacheKeys.VERIFIER, encodedVerifier, true);
+            }
         }
         /**
          * Gets the token exchange parameters from the cache. Throws an error if nothing is found.
          */
-        getCachedRequest(state) {
+        getCachedRequest() {
             this.logger.trace("BrowserCacheManager.getCachedRequest called");
             // Get token request from cache and parse as TokenExchangeParameters.
             const encodedTokenRequest = this.getTemporaryCache(TemporaryCacheKeys.REQUEST_PARAMS, true);
             if (!encodedTokenRequest) {
                 throw createBrowserAuthError(noTokenRequestCacheError);
             }
+            const encodedVerifier = this.getTemporaryCache(TemporaryCacheKeys.VERIFIER, true);
             let parsedRequest;
+            let verifier = "";
             try {
                 parsedRequest = JSON.parse(base64Decode(encodedTokenRequest));
+                if (encodedVerifier) {
+                    verifier = base64Decode(encodedVerifier);
+                }
             }
             catch (e) {
                 this.logger.errorPii(`Attempted to parse: ${encodedTokenRequest}`);
                 this.logger.error(`Parsing cached token request threw with error: ${e}`);
                 throw createBrowserAuthError(unableToParseTokenRequestCacheError);
             }
-            this.removeTemporaryItem(this.generateCacheKey(TemporaryCacheKeys.REQUEST_PARAMS));
-            // Get cached authority and use if no authority is cached with request.
-            if (!parsedRequest.authority) {
-                const authorityCacheKey = this.generateAuthorityKey(state);
-                const cachedAuthority = this.getTemporaryCache(authorityCacheKey);
-                if (!cachedAuthority) {
-                    throw createBrowserAuthError(noCachedAuthorityError);
-                }
-                parsedRequest.authority = cachedAuthority;
-            }
-            return parsedRequest;
+            return [parsedRequest, verifier];
         }
         /**
          * Gets cached native request for redirect flows
@@ -12636,7 +12780,7 @@
             return parsedRequest;
         }
         isInteractionInProgress(matchClientId) {
-            const clientId = this.getInteractionInProgress();
+            const clientId = this.getInteractionInProgress()?.clientId;
             if (matchClientId) {
                 return clientId === this.clientId;
             }
@@ -12645,23 +12789,34 @@
             }
         }
         getInteractionInProgress() {
-            const key = `${Constants.CACHE_PREFIX}.${TemporaryCacheKeys.INTERACTION_STATUS_KEY}`;
-            return this.getTemporaryCache(key, false);
+            const key = `${PREFIX}.${TemporaryCacheKeys.INTERACTION_STATUS_KEY}`;
+            const value = this.getTemporaryCache(key, false);
+            try {
+                return value ? JSON.parse(value) : null;
+            }
+            catch (e) {
+                // Remove interaction and other temp keys if interaction status can't be parsed
+                this.logger.error(`Cannot parse interaction status. Removing temporary cache items and clearing url hash. Retrying interaction should fix the error`);
+                this.removeTemporaryItem(key);
+                this.resetRequestCache();
+                clearHash(window);
+                return null;
+            }
         }
-        setInteractionInProgress(inProgress) {
+        setInteractionInProgress(inProgress, type = INTERACTION_TYPE.SIGNIN) {
             // Ensure we don't overwrite interaction in progress for a different clientId
-            const key = `${Constants.CACHE_PREFIX}.${TemporaryCacheKeys.INTERACTION_STATUS_KEY}`;
+            const key = `${PREFIX}.${TemporaryCacheKeys.INTERACTION_STATUS_KEY}`;
             if (inProgress) {
                 if (this.getInteractionInProgress()) {
                     throw createBrowserAuthError(interactionInProgress);
                 }
                 else {
                     // No interaction is in progress
-                    this.setTemporaryCache(key, this.clientId, false);
+                    this.setTemporaryCache(key, JSON.stringify({ clientId: this.clientId, type }), false);
                 }
             }
             else if (!inProgress &&
-                this.getInteractionInProgress() === this.clientId) {
+                this.getInteractionInProgress()?.clientId === this.clientId) {
                 this.removeTemporaryItem(key);
             }
         }
@@ -12683,7 +12838,13 @@
              *
              * The next MSAL VFuture should map these both to same value if possible
              */
-            const accessTokenEntity = createAccessTokenEntity(result.account?.homeAccountId, result.account.environment, result.accessToken, this.clientId, result.tenantId, result.scopes.join(" "), result.expiresOn ? result.expiresOn.getTime() / 1000 : 0, result.extExpiresOn ? result.extExpiresOn.getTime() / 1000 : 0, base64Decode, undefined, // refreshOn
+            const accessTokenEntity = createAccessTokenEntity(result.account?.homeAccountId, result.account.environment, result.accessToken, this.clientId, result.tenantId, result.scopes.join(" "), 
+            // Access token expiresOn stored in seconds, converting from AuthenticationResult expiresOn stored as Date
+            result.expiresOn
+                ? toSecondsFromDate(result.expiresOn)
+                : 0, result.extExpiresOn
+                ? toSecondsFromDate(result.extExpiresOn)
+                : 0, base64Decode, undefined, // refreshOn
             result.tokenType, undefined, // userAssertionHash
             request.sshKid, request.claims, claimsHash);
             const cacheRecord = {
@@ -12744,6 +12905,7 @@
     const DEFAULT_BROWSER_CACHE_MANAGER = (clientId, logger, performanceClient, eventHandler) => {
         const cacheOptions = {
             cacheLocation: BrowserCacheLocation.MemoryStorage,
+            cacheRetentionDays: 5,
             temporaryCacheLocation: BrowserCacheLocation.MemoryStorage,
             storeAuthStateInCookie: false,
             secureCookies: false,
@@ -12762,22 +12924,19 @@
      * @param accountFilter - (Optional) filter to narrow down the accounts returned
      * @returns Array of AccountInfo objects in cache
      */
-    function getAllAccounts(logger, browserStorage, isInBrowser, accountFilter) {
+    function getAllAccounts(logger, browserStorage, isInBrowser, correlationId, accountFilter) {
         logger.verbose("getAllAccounts called");
-        return isInBrowser ? browserStorage.getAllAccounts(accountFilter) : [];
+        return isInBrowser
+            ? browserStorage.getAllAccounts(accountFilter || {}, correlationId)
+            : [];
     }
     /**
      * Returns the first account found in the cache that matches the account filter passed in.
      * @param accountFilter
      * @returns The first account found in the cache matching the provided filter or null if no account could be found.
      */
-    function getAccount(accountFilter, logger, browserStorage) {
-        logger.trace("getAccount called");
-        if (Object.keys(accountFilter).length === 0) {
-            logger.warning("getAccount: No accountFilter provided");
-            return null;
-        }
-        const account = browserStorage.getAccountInfoFilteredBy(accountFilter);
+    function getAccount(accountFilter, logger, browserStorage, correlationId) {
+        const account = browserStorage.getAccountInfoFilteredBy(accountFilter, correlationId);
         if (account) {
             logger.verbose("getAccount: Account matching provided filter found, returning");
             return account;
@@ -12795,7 +12954,7 @@
      * @param username
      * @returns The account object stored in MSAL
      */
-    function getAccountByUsername(username, logger, browserStorage) {
+    function getAccountByUsername(username, logger, browserStorage, correlationId) {
         logger.trace("getAccountByUsername called");
         if (!username) {
             logger.warning("getAccountByUsername: No username provided");
@@ -12803,7 +12962,7 @@
         }
         const account = browserStorage.getAccountInfoFilteredBy({
             username,
-        });
+        }, correlationId);
         if (account) {
             logger.verbose("getAccountByUsername: Account matching username found, returning");
             logger.verbosePii(`getAccountByUsername: Returning signed-in accounts matching username: ${username}`);
@@ -12821,7 +12980,7 @@
      * @param homeAccountId
      * @returns The account object stored in MSAL
      */
-    function getAccountByHomeId(homeAccountId, logger, browserStorage) {
+    function getAccountByHomeId(homeAccountId, logger, browserStorage, correlationId) {
         logger.trace("getAccountByHomeId called");
         if (!homeAccountId) {
             logger.warning("getAccountByHomeId: No homeAccountId provided");
@@ -12829,7 +12988,7 @@
         }
         const account = browserStorage.getAccountInfoFilteredBy({
             homeAccountId,
-        });
+        }, correlationId);
         if (account) {
             logger.verbose("getAccountByHomeId: Account matching homeAccountId found, returning");
             logger.verbosePii(`getAccountByHomeId: Returning signed-in accounts matching homeAccountId: ${homeAccountId}`);
@@ -12847,7 +13006,7 @@
      * @param localAccountId
      * @returns The account object stored in MSAL
      */
-    function getAccountByLocalId(localAccountId, logger, browserStorage) {
+    function getAccountByLocalId(localAccountId, logger, browserStorage, correlationId) {
         logger.trace("getAccountByLocalId called");
         if (!localAccountId) {
             logger.warning("getAccountByLocalId: No localAccountId provided");
@@ -12855,7 +13014,7 @@
         }
         const account = browserStorage.getAccountInfoFilteredBy({
             localAccountId,
-        });
+        }, correlationId);
         if (account) {
             logger.verbose("getAccountByLocalId: Account matching localAccountId found, returning");
             logger.verbosePii(`getAccountByLocalId: Returning signed-in accounts matching localAccountId: ${localAccountId}`);
@@ -12870,14 +13029,14 @@
      * Sets the account to use as the active account. If no account is passed to the acquireToken APIs, then MSAL will use this active account.
      * @param account
      */
-    function setActiveAccount(account, browserStorage) {
-        browserStorage.setActiveAccount(account);
+    function setActiveAccount(account, browserStorage, correlationId) {
+        browserStorage.setActiveAccount(account, correlationId);
     }
     /**
      * Gets the currently active account
      */
-    function getActiveAccount(browserStorage) {
-        return browserStorage.getActiveAccount();
+    function getActiveAccount(browserStorage, correlationId) {
+        return browserStorage.getActiveAccount(correlationId);
     }
 
     /*
@@ -12889,7 +13048,9 @@
         constructor(logger) {
             this.eventCallbacks = new Map();
             this.logger = logger || new Logger({});
-            this.broadcastChannel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+            if (typeof BroadcastChannel !== "undefined") {
+                this.broadcastChannel = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
+            }
             this.invokeCrossTabCallbacks = this.invokeCrossTabCallbacks.bind(this);
         }
         /**
@@ -12939,7 +13100,7 @@
                 case EventType.ACCOUNT_REMOVED:
                 case EventType.ACTIVE_ACCOUNT_CHANGED:
                     // Send event to other open tabs / MSAL instances on same domain
-                    this.broadcastChannel.postMessage(message);
+                    this.broadcastChannel?.postMessage(message);
                     break;
                 default:
                     // Emit event to callbacks registered in this instance
@@ -12972,13 +13133,13 @@
          * Listen for events broadcasted from other tabs/instances
          */
         subscribeCrossTab() {
-            this.broadcastChannel.addEventListener("message", this.invokeCrossTabCallbacks);
+            this.broadcastChannel?.addEventListener("message", this.invokeCrossTabCallbacks);
         }
         /**
          * Unsubscribe from broadcast events
          */
         unsubscribeCrossTab() {
-            this.broadcastChannel.removeEventListener("message", this.invokeCrossTabCallbacks);
+            this.broadcastChannel?.removeEventListener("message", this.invokeCrossTabCallbacks);
         }
     }
 
@@ -12987,27 +13148,23 @@
      * Licensed under the MIT License.
      */
     class BaseInteractionClient {
-        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId) {
+        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, platformAuthProvider, correlationId) {
             this.config = config;
             this.browserStorage = storageImpl;
             this.browserCrypto = browserCrypto;
             this.networkClient = this.config.system.networkClient;
             this.eventHandler = eventHandler;
             this.navigationClient = navigationClient;
-            this.nativeMessageHandler = nativeMessageHandler;
+            this.platformAuthProvider = platformAuthProvider;
             this.correlationId = correlationId || createNewGuid();
             this.logger = logger.clone(BrowserConstants.MSAL_SKU, version, this.correlationId);
             this.performanceClient = performanceClient;
         }
-        async clearCacheOnLogout(account) {
+        async clearCacheOnLogout(correlationId, account) {
             if (account) {
-                if (AccountEntity.accountInfoIsEqual(account, this.browserStorage.getActiveAccount(), false)) {
-                    this.logger.verbose("Setting active account to null");
-                    this.browserStorage.setActiveAccount(null);
-                }
                 // Clear given account.
                 try {
-                    await this.browserStorage.removeAccount(AccountEntity.generateAccountCacheKey(account));
+                    this.browserStorage.removeAccount(account, correlationId);
                     this.logger.verbose("Cleared cache items belonging to the account provided in the logout request.");
                 }
                 catch (error) {
@@ -13018,7 +13175,7 @@
                 try {
                     this.logger.verbose("No account provided in logout request, clearing all cache items.", this.correlationId);
                     // Clear all accounts and tokens
-                    await this.browserStorage.clear();
+                    this.browserStorage.clear(correlationId);
                     // Clear any stray keys from IndexedDB
                     await this.browserCrypto.clearKeystore();
                 }
@@ -13104,61 +13261,6 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    // Constant byte array length
-    const RANDOM_BYTE_ARR_LENGTH = 32;
-    /**
-     * This file defines APIs to generate PKCE codes and code verifiers.
-     */
-    /**
-     * Generates PKCE Codes. See the RFC for more information: https://tools.ietf.org/html/rfc7636
-     */
-    async function generatePkceCodes(performanceClient, logger, correlationId) {
-        performanceClient.addQueueMeasurement(PerformanceEvents.GeneratePkceCodes, correlationId);
-        const codeVerifier = invoke(generateCodeVerifier, PerformanceEvents.GenerateCodeVerifier, logger, performanceClient, correlationId)(performanceClient, logger, correlationId);
-        const codeChallenge = await invokeAsync(generateCodeChallengeFromVerifier, PerformanceEvents.GenerateCodeChallengeFromVerifier, logger, performanceClient, correlationId)(codeVerifier, performanceClient, logger, correlationId);
-        return {
-            verifier: codeVerifier,
-            challenge: codeChallenge,
-        };
-    }
-    /**
-     * Generates a random 32 byte buffer and returns the base64
-     * encoded string to be used as a PKCE Code Verifier
-     */
-    function generateCodeVerifier(performanceClient, logger, correlationId) {
-        try {
-            // Generate random values as utf-8
-            const buffer = new Uint8Array(RANDOM_BYTE_ARR_LENGTH);
-            invoke(getRandomValues, PerformanceEvents.GetRandomValues, logger, performanceClient, correlationId)(buffer);
-            // encode verifier as base64
-            const pkceCodeVerifierB64 = urlEncodeArr(buffer);
-            return pkceCodeVerifierB64;
-        }
-        catch (e) {
-            throw createBrowserAuthError(pkceNotCreated);
-        }
-    }
-    /**
-     * Creates a base64 encoded PKCE Code Challenge string from the
-     * hash created from the PKCE Code Verifier supplied
-     */
-    async function generateCodeChallengeFromVerifier(pkceCodeVerifier, performanceClient, logger, correlationId) {
-        performanceClient.addQueueMeasurement(PerformanceEvents.GenerateCodeChallengeFromVerifier, correlationId);
-        try {
-            // hashed verifier
-            const pkceHashedCodeVerifier = await invokeAsync(sha256Digest, PerformanceEvents.Sha256Digest, logger, performanceClient, correlationId)(pkceCodeVerifier, performanceClient, correlationId);
-            // encode hash as base64
-            return urlEncodeArr(new Uint8Array(pkceHashedCodeVerifier));
-        }
-        catch (e) {
-            throw createBrowserAuthError(pkceNotCreated);
-        }
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
     /**
      * Initializer function for all request APIs
      * @param request
@@ -13208,6 +13310,35 @@
             forceRefresh: request.forceRefresh || false,
         };
     }
+    /**
+     * Validates that the combination of request method, protocol mode and authorize body parameters is correct.
+     * Returns the validated or defaulted HTTP method or throws if the configured combination is invalid.
+     * @param interactionRequest
+     * @param protocolMode
+     * @returns
+     */
+    function validateRequestMethod(interactionRequest, protocolMode) {
+        let httpMethod;
+        const requestMethod = interactionRequest.httpMethod;
+        if (protocolMode === ProtocolMode.EAR) {
+            // Don't override httpMethod if it is already set, default to POST if not set
+            httpMethod = requestMethod || HttpMethod.POST;
+            // Validate that method is not GET if protocol mode is EAR
+            if (httpMethod !== HttpMethod.POST) {
+                throw createClientConfigurationError(invalidRequestMethodForEAR);
+            }
+        }
+        else {
+            // For non-EAR protocol modes, default to GET if httpMethod is not set
+            httpMethod = requestMethod || HttpMethod.GET;
+        }
+        // Regardless of protocolMode, if there are authorizePostBodyParameters, validate the request method is POST
+        if (interactionRequest.authorizePostBodyParameters &&
+            httpMethod !== HttpMethod.POST) {
+            throw createClientConfigurationError(invalidAuthorizePostBodyParameters);
+        }
+        return httpMethod;
+    }
 
     /*
      * Copyright (c) Microsoft Corporation. All rights reserved.
@@ -13217,25 +13348,6 @@
      * Defines the class structure and helper functions used by the "standard", non-brokered auth flows (popup, redirect, silent (RT), silent (iframe))
      */
     class StandardInteractionClient extends BaseInteractionClient {
-        /**
-         * Generates an auth code request tied to the url request.
-         * @param request
-         * @param pkceCodes
-         */
-        async initializeAuthorizationCodeRequest(request, pkceCodes) {
-            this.performanceClient.addQueueMeasurement(PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.correlationId);
-            const generatedPkceParams = pkceCodes ||
-                (await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, this.correlationId)(this.performanceClient, this.logger, this.correlationId));
-            const authCodeRequest = {
-                ...request,
-                redirectUri: request.redirectUri,
-                code: Constants.EMPTY_STRING,
-                codeVerifier: generatedPkceParams.verifier,
-            };
-            request.codeChallenge = generatedPkceParams.challenge;
-            request.codeChallengeMethod = Constants.S256_CODE_CHALLENGE_METHOD;
-            return authCodeRequest;
-        }
         /**
          * Initializer for the logout request.
          * @param logoutRequest
@@ -13402,7 +13514,7 @@
             };
             const state = ProtocolUtils.setRequestState(this.browserCrypto, (request && request.state) || Constants.EMPTY_STRING, browserState);
             const baseRequest = await invokeAsync(initializeBaseRequest, PerformanceEvents.InitializeBaseRequest, this.logger, this.performanceClient, this.correlationId)({ ...request, correlationId: this.correlationId }, this.config, this.performanceClient, this.logger);
-            const validatedRequest = {
+            const interactionRequest = {
                 ...baseRequest,
                 redirectUri: redirectUri,
                 state: state,
@@ -13410,11 +13522,16 @@
                 responseMode: this.config.auth.OIDCOptions
                     .serverResponseType,
             };
+            const validatedRequest = {
+                ...interactionRequest,
+                httpMethod: validateRequestMethod(interactionRequest, this.config.auth.protocolMode),
+            };
             // Skip active account lookup if either login hint or session id is set
             if (request.loginHint || request.sid) {
                 return validatedRequest;
             }
-            const account = request.account || this.browserStorage.getActiveAccount();
+            const account = request.account ||
+                this.browserStorage.getActiveAccount(this.correlationId);
             if (account) {
                 this.logger.verbose("Setting validated request account", this.correlationId);
                 this.logger.verbosePii(`Setting validated request account: ${account.homeAccountId}`, this.correlationId);
@@ -13428,765 +13545,21 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    const contentError = "ContentError";
-    const userSwitch = "user_switch";
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    // Status Codes that can be thrown by WAM
-    const USER_INTERACTION_REQUIRED = "USER_INTERACTION_REQUIRED";
-    const USER_CANCEL = "USER_CANCEL";
-    const NO_NETWORK = "NO_NETWORK";
-    const PERSISTENT_ERROR = "PERSISTENT_ERROR";
-    const DISABLED = "DISABLED";
-    const ACCOUNT_UNAVAILABLE = "ACCOUNT_UNAVAILABLE";
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    const INVALID_METHOD_ERROR = -2147186943;
-    const NativeAuthErrorMessages = {
-        [userSwitch]: "User attempted to switch accounts in the native broker, which is not allowed. All new accounts must sign-in through the standard web flow first, please try again.",
-    };
-    class NativeAuthError extends AuthError {
-        constructor(errorCode, description, ext) {
-            super(errorCode, description);
-            Object.setPrototypeOf(this, NativeAuthError.prototype);
-            this.name = "NativeAuthError";
-            this.ext = ext;
-        }
-    }
     /**
-     * These errors should result in a fallback to the 'standard' browser based auth flow.
+     * Extracts the BrowserStateObject from the state string.
+     * @param browserCrypto
+     * @param state
      */
-    function isFatalNativeAuthError(error) {
-        if (error.ext &&
-            error.ext.status &&
-            (error.ext.status === PERSISTENT_ERROR ||
-                error.ext.status === DISABLED)) {
-            return true;
-        }
-        if (error.ext &&
-            error.ext.error &&
-            error.ext.error === INVALID_METHOD_ERROR) {
-            return true;
-        }
-        switch (error.errorCode) {
-            case contentError:
-                return true;
-            default:
-                return false;
-        }
-    }
-    /**
-     * Create the appropriate error object based on the WAM status code.
-     * @param code
-     * @param description
-     * @param ext
-     * @returns
-     */
-    function createNativeAuthError(code, description, ext) {
-        if (ext && ext.status) {
-            switch (ext.status) {
-                case ACCOUNT_UNAVAILABLE:
-                    return createInteractionRequiredAuthError(nativeAccountUnavailable);
-                case USER_INTERACTION_REQUIRED:
-                    return new InteractionRequiredAuthError(code, description);
-                case USER_CANCEL:
-                    return createBrowserAuthError(userCancelled);
-                case NO_NETWORK:
-                    return createBrowserAuthError(noNetworkConnectivity);
-            }
-        }
-        return new NativeAuthError(code, NativeAuthErrorMessages[code] || description, ext);
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    class SilentCacheClient extends StandardInteractionClient {
-        /**
-         * Returns unexpired tokens from the cache, if available
-         * @param silentRequest
-         */
-        async acquireToken(silentRequest) {
-            this.performanceClient.addQueueMeasurement(PerformanceEvents.SilentCacheClientAcquireToken, silentRequest.correlationId);
-            // Telemetry manager only used to increment cacheHits here
-            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
-            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
-                serverTelemetryManager,
-                requestAuthority: silentRequest.authority,
-                requestAzureCloudOptions: silentRequest.azureCloudOptions,
-                account: silentRequest.account,
-            });
-            const silentAuthClient = new SilentFlowClient(clientConfig, this.performanceClient);
-            this.logger.verbose("Silent auth client created");
-            try {
-                const response = await invokeAsync(silentAuthClient.acquireCachedToken.bind(silentAuthClient), PerformanceEvents.SilentFlowClientAcquireCachedToken, this.logger, this.performanceClient, silentRequest.correlationId)(silentRequest);
-                const authResponse = response[0];
-                this.performanceClient.addFields({
-                    fromCache: true,
-                }, silentRequest.correlationId);
-                return authResponse;
-            }
-            catch (error) {
-                if (error instanceof BrowserAuthError &&
-                    error.errorCode === cryptoKeyNotFound) {
-                    this.logger.verbose("Signing keypair for bound access token not found. Refreshing bound access token and generating a new crypto keypair.");
-                }
-                throw error;
-            }
-        }
-        /**
-         * API to silenty clear the browser cache.
-         * @param logoutRequest
-         */
-        logout(logoutRequest) {
-            this.logger.verbose("logoutRedirect called");
-            const validLogoutRequest = this.initializeLogoutRequest(logoutRequest);
-            return this.clearCacheOnLogout(validLogoutRequest?.account);
-        }
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
-    class NativeInteractionClient extends BaseInteractionClient {
-        constructor(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, provider, accountId, nativeStorageImpl, correlationId) {
-            super(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
-            this.apiId = apiId;
-            this.accountId = accountId;
-            this.nativeMessageHandler = provider;
-            this.nativeStorageManager = nativeStorageImpl;
-            this.silentCacheClient = new SilentCacheClient(config, this.nativeStorageManager, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
-            const extensionName = this.nativeMessageHandler.getExtensionId() ===
-                NativeConstants.PREFERRED_EXTENSION_ID
-                ? "chrome"
-                : this.nativeMessageHandler.getExtensionId()?.length
-                    ? "unknown"
-                    : undefined;
-            this.skus = ServerTelemetryManager.makeExtraSkuString({
-                libraryName: BrowserConstants.MSAL_SKU,
-                libraryVersion: version,
-                extensionName: extensionName,
-                extensionVersion: this.nativeMessageHandler.getExtensionVersion(),
-            });
-        }
-        /**
-         * Adds SKUs to request extra query parameters
-         * @param request {NativeTokenRequest}
-         * @private
-         */
-        addRequestSKUs(request) {
-            request.extraParameters = {
-                ...request.extraParameters,
-                [X_CLIENT_EXTRA_SKU]: this.skus,
-            };
-        }
-        /**
-         * Acquire token from native platform via browser extension
-         * @param request
-         */
-        async acquireToken(request) {
-            this.performanceClient.addQueueMeasurement(PerformanceEvents.NativeInteractionClientAcquireToken, request.correlationId);
-            this.logger.trace("NativeInteractionClient - acquireToken called.");
-            // start the perf measurement
-            const nativeATMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.NativeInteractionClientAcquireToken, request.correlationId);
-            const reqTimestamp = nowSeconds();
-            const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
-            try {
-                // initialize native request
-                const nativeRequest = await this.initializeNativeRequest(request);
-                // check if the tokens can be retrieved from internal cache
-                try {
-                    const result = await this.acquireTokensFromCache(this.accountId, nativeRequest);
-                    nativeATMeasurement.end({
-                        success: true,
-                        isNativeBroker: false,
-                        fromCache: true,
-                    });
-                    return result;
-                }
-                catch (e) {
-                    // continue with a native call for any and all errors
-                    this.logger.info("MSAL internal Cache does not contain tokens, proceed to make a native call");
-                }
-                const { ...nativeTokenRequest } = nativeRequest;
-                // fall back to native calls
-                const messageBody = {
-                    method: NativeExtensionMethod.GetToken,
-                    request: nativeTokenRequest,
-                };
-                const response = await this.nativeMessageHandler.sendMessage(messageBody);
-                const validatedResponse = this.validateNativeResponse(response);
-                return await this.handleNativeResponse(validatedResponse, nativeRequest, reqTimestamp)
-                    .then((result) => {
-                    nativeATMeasurement.end({
-                        success: true,
-                        isNativeBroker: true,
-                        requestId: result.requestId,
-                    });
-                    serverTelemetryManager.clearNativeBrokerErrorCode();
-                    return result;
-                })
-                    .catch((error) => {
-                    nativeATMeasurement.end({
-                        success: false,
-                        errorCode: error.errorCode,
-                        subErrorCode: error.subError,
-                        isNativeBroker: true,
-                    });
-                    throw error;
-                });
-            }
-            catch (e) {
-                if (e instanceof NativeAuthError) {
-                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
-                }
-                throw e;
-            }
-        }
-        /**
-         * Creates silent flow request
-         * @param request
-         * @param cachedAccount
-         * @returns CommonSilentFlowRequest
-         */
-        createSilentCacheRequest(request, cachedAccount) {
-            return {
-                authority: request.authority,
-                correlationId: this.correlationId,
-                scopes: ScopeSet.fromString(request.scope).asArray(),
-                account: cachedAccount,
-                forceRefresh: false,
-            };
-        }
-        /**
-         * Fetches the tokens from the cache if un-expired
-         * @param nativeAccountId
-         * @param request
-         * @returns authenticationResult
-         */
-        async acquireTokensFromCache(nativeAccountId, request) {
-            if (!nativeAccountId) {
-                this.logger.warning("NativeInteractionClient:acquireTokensFromCache - No nativeAccountId provided");
-                throw createClientAuthError(noAccountFound);
-            }
-            // fetch the account from browser cache
-            const account = this.browserStorage.getBaseAccountInfo({
-                nativeAccountId,
-            });
-            if (!account) {
-                throw createClientAuthError(noAccountFound);
-            }
-            // leverage silent flow for cached tokens retrieval
-            try {
-                const silentRequest = this.createSilentCacheRequest(request, account);
-                const result = await this.silentCacheClient.acquireToken(silentRequest);
-                const fullAccount = {
-                    ...account,
-                    idTokenClaims: result?.idTokenClaims,
-                    idToken: result?.idToken,
-                };
-                return {
-                    ...result,
-                    account: fullAccount,
-                };
-            }
-            catch (e) {
-                throw e;
-            }
-        }
-        /**
-         * Acquires a token from native platform then redirects to the redirectUri instead of returning the response
-         * @param {RedirectRequest} request
-         * @param {InProgressPerformanceEvent} rootMeasurement
-         */
-        async acquireTokenRedirect(request, rootMeasurement) {
-            this.logger.trace("NativeInteractionClient - acquireTokenRedirect called.");
-            const { ...remainingParameters } = request;
-            delete remainingParameters.onRedirectNavigate;
-            const nativeRequest = await this.initializeNativeRequest(remainingParameters);
-            const messageBody = {
-                method: NativeExtensionMethod.GetToken,
-                request: nativeRequest,
-            };
-            try {
-                const response = await this.nativeMessageHandler.sendMessage(messageBody);
-                this.validateNativeResponse(response);
-            }
-            catch (e) {
-                // Only throw fatal errors here to allow application to fallback to regular redirect. Otherwise proceed and the error will be thrown in handleRedirectPromise
-                if (e instanceof NativeAuthError) {
-                    const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
-                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
-                    if (isFatalNativeAuthError(e)) {
-                        throw e;
-                    }
-                }
-            }
-            this.browserStorage.setTemporaryCache(TemporaryCacheKeys.NATIVE_REQUEST, JSON.stringify(nativeRequest), true);
-            const navigationOptions = {
-                apiId: ApiId.acquireTokenRedirect,
-                timeout: this.config.system.redirectNavigationTimeout,
-                noHistory: false,
-            };
-            const redirectUri = this.config.auth.navigateToLoginRequestUrl
-                ? window.location.href
-                : this.getRedirectUri(request.redirectUri);
-            rootMeasurement.end({ success: true });
-            await this.navigationClient.navigateExternal(redirectUri, navigationOptions); // Need to treat this as external to ensure handleRedirectPromise is run again
-        }
-        /**
-         * If the previous page called native platform for a token using redirect APIs, send the same request again and return the response
-         * @param performanceClient {IPerformanceClient?}
-         * @param correlationId {string?} correlation identifier
-         */
-        async handleRedirectPromise(performanceClient, correlationId) {
-            this.logger.trace("NativeInteractionClient - handleRedirectPromise called.");
-            if (!this.browserStorage.isInteractionInProgress(true)) {
-                this.logger.info("handleRedirectPromise called but there is no interaction in progress, returning null.");
-                return null;
-            }
-            // remove prompt from the request to prevent WAM from prompting twice
-            const cachedRequest = this.browserStorage.getCachedNativeRequest();
-            if (!cachedRequest) {
-                this.logger.verbose("NativeInteractionClient - handleRedirectPromise called but there is no cached request, returning null.");
-                if (performanceClient && correlationId) {
-                    performanceClient?.addFields({ errorCode: "no_cached_request" }, correlationId);
-                }
-                return null;
-            }
-            const { prompt, ...request } = cachedRequest;
-            if (prompt) {
-                this.logger.verbose("NativeInteractionClient - handleRedirectPromise called and prompt was included in the original request, removing prompt from cached request to prevent second interaction with native broker window.");
-            }
-            this.browserStorage.removeItem(this.browserStorage.generateCacheKey(TemporaryCacheKeys.NATIVE_REQUEST));
-            const messageBody = {
-                method: NativeExtensionMethod.GetToken,
-                request: request,
-            };
-            const reqTimestamp = nowSeconds();
-            try {
-                this.logger.verbose("NativeInteractionClient - handleRedirectPromise sending message to native broker.");
-                const response = await this.nativeMessageHandler.sendMessage(messageBody);
-                this.validateNativeResponse(response);
-                const result = this.handleNativeResponse(response, request, reqTimestamp);
-                this.browserStorage.setInteractionInProgress(false);
-                const res = await result;
-                const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
-                serverTelemetryManager.clearNativeBrokerErrorCode();
-                return res;
-            }
-            catch (e) {
-                this.browserStorage.setInteractionInProgress(false);
-                throw e;
-            }
-        }
-        /**
-         * Logout from native platform via browser extension
-         * @param request
-         */
-        logout() {
-            this.logger.trace("NativeInteractionClient - logout called.");
-            return Promise.reject("Logout not implemented yet");
-        }
-        /**
-         * Transform response from native platform into AuthenticationResult object which will be returned to the end user
-         * @param response
-         * @param request
-         * @param reqTimestamp
-         */
-        async handleNativeResponse(response, request, reqTimestamp) {
-            this.logger.trace("NativeInteractionClient - handleNativeResponse called.");
-            // generate identifiers
-            const idTokenClaims = extractTokenClaims(response.id_token, base64Decode);
-            const homeAccountIdentifier = this.createHomeAccountIdentifier(response, idTokenClaims);
-            const cachedhomeAccountId = this.browserStorage.getAccountInfoFilteredBy({
-                nativeAccountId: request.accountId,
-            })?.homeAccountId;
-            if (homeAccountIdentifier !== cachedhomeAccountId &&
-                response.account.id !== request.accountId) {
-                // User switch in native broker prompt is not supported. All users must first sign in through web flow to ensure server state is in sync
-                throw createNativeAuthError(userSwitch);
-            }
-            // Get the preferred_cache domain for the given authority
-            const authority = await this.getDiscoveredAuthority({
-                requestAuthority: request.authority,
-            });
-            const baseAccount = buildAccountToCache(this.browserStorage, authority, homeAccountIdentifier, base64Decode, idTokenClaims, response.client_info, undefined, // environment
-            idTokenClaims.tid, undefined, // auth code payload
-            response.account.id, this.logger);
-            // generate authenticationResult
-            const result = await this.generateAuthenticationResult(response, request, idTokenClaims, baseAccount, authority.canonicalAuthority, reqTimestamp);
-            // cache accounts and tokens in the appropriate storage
-            await this.cacheAccount(baseAccount);
-            await this.cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, response.access_token, result.tenantId, reqTimestamp);
-            return result;
-        }
-        /**
-         * creates an homeAccountIdentifier for the account
-         * @param response
-         * @param idTokenObj
-         * @returns
-         */
-        createHomeAccountIdentifier(response, idTokenClaims) {
-            // Save account in browser storage
-            const homeAccountIdentifier = AccountEntity.generateHomeAccountId(response.client_info || Constants.EMPTY_STRING, AuthorityType.Default, this.logger, this.browserCrypto, idTokenClaims);
-            return homeAccountIdentifier;
-        }
-        /**
-         * Helper to generate scopes
-         * @param response
-         * @param request
-         * @returns
-         */
-        generateScopes(response, request) {
-            return response.scope
-                ? ScopeSet.fromString(response.scope)
-                : ScopeSet.fromString(request.scope);
-        }
-        /**
-         * If PoP token is requesred, records the PoP token if returned from the WAM, else generates one in the browser
-         * @param request
-         * @param response
-         */
-        async generatePopAccessToken(response, request) {
-            if (request.tokenType === AuthenticationScheme.POP &&
-                request.signPopToken) {
-                /**
-                 * This code prioritizes SHR returned from the native layer. In case of error/SHR not calculated from WAM and the AT
-                 * is still received, SHR is calculated locally
-                 */
-                // Check if native layer returned an SHR token
-                if (response.shr) {
-                    this.logger.trace("handleNativeServerResponse: SHR is enabled in native layer");
-                    return response.shr;
-                }
-                // Generate SHR in msal js if WAM does not compute it when POP is enabled
-                const popTokenGenerator = new PopTokenGenerator(this.browserCrypto);
-                const shrParameters = {
-                    resourceRequestMethod: request.resourceRequestMethod,
-                    resourceRequestUri: request.resourceRequestUri,
-                    shrClaims: request.shrClaims,
-                    shrNonce: request.shrNonce,
-                };
-                /**
-                 * KeyID must be present in the native request from when the PoP key was generated in order for
-                 * PopTokenGenerator to query the full key for signing
-                 */
-                if (!request.keyId) {
-                    throw createClientAuthError(keyIdMissing);
-                }
-                return popTokenGenerator.signPopToken(response.access_token, request.keyId, shrParameters);
-            }
-            else {
-                return response.access_token;
-            }
-        }
-        /**
-         * Generates authentication result
-         * @param response
-         * @param request
-         * @param idTokenObj
-         * @param accountEntity
-         * @param authority
-         * @param reqTimestamp
-         * @returns
-         */
-        async generateAuthenticationResult(response, request, idTokenClaims, accountEntity, authority, reqTimestamp) {
-            // Add Native Broker fields to Telemetry
-            const mats = this.addTelemetryFromNativeResponse(response);
-            // If scopes not returned in server response, use request scopes
-            const responseScopes = response.scope
-                ? ScopeSet.fromString(response.scope)
-                : ScopeSet.fromString(request.scope);
-            const accountProperties = response.account.properties || {};
-            const uid = accountProperties["UID"] ||
-                idTokenClaims.oid ||
-                idTokenClaims.sub ||
-                Constants.EMPTY_STRING;
-            const tid = accountProperties["TenantId"] ||
-                idTokenClaims.tid ||
-                Constants.EMPTY_STRING;
-            const accountInfo = updateAccountTenantProfileData(accountEntity.getAccountInfo(), undefined, // tenantProfile optional
-            idTokenClaims, response.id_token);
-            /**
-             * In pairwise broker flows, this check prevents the broker's native account id
-             * from being returned over the embedded app's account id.
-             */
-            if (accountInfo.nativeAccountId !== response.account.id) {
-                accountInfo.nativeAccountId = response.account.id;
-            }
-            // generate PoP token as needed
-            const responseAccessToken = await this.generatePopAccessToken(response, request);
-            const tokenType = request.tokenType === AuthenticationScheme.POP
-                ? AuthenticationScheme.POP
-                : AuthenticationScheme.BEARER;
-            const result = {
-                authority: authority,
-                uniqueId: uid,
-                tenantId: tid,
-                scopes: responseScopes.asArray(),
-                account: accountInfo,
-                idToken: response.id_token,
-                idTokenClaims: idTokenClaims,
-                accessToken: responseAccessToken,
-                fromCache: mats ? this.isResponseFromCache(mats) : false,
-                expiresOn: new Date(Number(reqTimestamp + response.expires_in) * 1000),
-                tokenType: tokenType,
-                correlationId: this.correlationId,
-                state: response.state,
-                fromNativeBroker: true,
-            };
-            return result;
-        }
-        /**
-         * cache the account entity in browser storage
-         * @param accountEntity
-         */
-        async cacheAccount(accountEntity) {
-            // Store the account info and hence `nativeAccountId` in browser cache
-            await this.browserStorage.setAccount(accountEntity, this.correlationId);
-            // Remove any existing cached tokens for this account in browser storage
-            this.browserStorage.removeAccountContext(accountEntity).catch((e) => {
-                this.logger.error(`Error occurred while removing account context from browser storage. ${e}`);
-            });
-        }
-        /**
-         * Stores the access_token and id_token in inmemory storage
-         * @param response
-         * @param request
-         * @param homeAccountIdentifier
-         * @param idTokenObj
-         * @param responseAccessToken
-         * @param tenantId
-         * @param reqTimestamp
-         */
-        cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, responseAccessToken, tenantId, reqTimestamp) {
-            const cachedIdToken = createIdTokenEntity(homeAccountIdentifier, request.authority, response.id_token || "", request.clientId, idTokenClaims.tid || "");
-            // cache accessToken in inmemory storage
-            const expiresIn = request.tokenType === AuthenticationScheme.POP
-                ? Constants.SHR_NONCE_VALIDITY
-                : (typeof response.expires_in === "string"
-                    ? parseInt(response.expires_in, 10)
-                    : response.expires_in) || 0;
-            const tokenExpirationSeconds = reqTimestamp + expiresIn;
-            const responseScopes = this.generateScopes(response, request);
-            const cachedAccessToken = createAccessTokenEntity(homeAccountIdentifier, request.authority, responseAccessToken, request.clientId, idTokenClaims.tid || tenantId, responseScopes.printScopes(), tokenExpirationSeconds, 0, base64Decode, undefined, request.tokenType, undefined, request.keyId);
-            const nativeCacheRecord = {
-                idToken: cachedIdToken,
-                accessToken: cachedAccessToken,
-            };
-            return this.nativeStorageManager.saveCacheRecord(nativeCacheRecord, this.correlationId, request.storeInCache);
-        }
-        addTelemetryFromNativeResponse(response) {
-            const mats = this.getMATSFromResponse(response);
-            if (!mats) {
-                return null;
-            }
-            this.performanceClient.addFields({
-                extensionId: this.nativeMessageHandler.getExtensionId(),
-                extensionVersion: this.nativeMessageHandler.getExtensionVersion(),
-                matsBrokerVersion: mats.broker_version,
-                matsAccountJoinOnStart: mats.account_join_on_start,
-                matsAccountJoinOnEnd: mats.account_join_on_end,
-                matsDeviceJoin: mats.device_join,
-                matsPromptBehavior: mats.prompt_behavior,
-                matsApiErrorCode: mats.api_error_code,
-                matsUiVisible: mats.ui_visible,
-                matsSilentCode: mats.silent_code,
-                matsSilentBiSubCode: mats.silent_bi_sub_code,
-                matsSilentMessage: mats.silent_message,
-                matsSilentStatus: mats.silent_status,
-                matsHttpStatus: mats.http_status,
-                matsHttpEventCount: mats.http_event_count,
-            }, this.correlationId);
-            return mats;
-        }
-        /**
-         * Validates native platform response before processing
-         * @param response
-         */
-        validateNativeResponse(response) {
-            if (response.hasOwnProperty("access_token") &&
-                response.hasOwnProperty("id_token") &&
-                response.hasOwnProperty("client_info") &&
-                response.hasOwnProperty("account") &&
-                response.hasOwnProperty("scope") &&
-                response.hasOwnProperty("expires_in")) {
-                return response;
-            }
-            else {
-                throw createAuthError(unexpectedError, "Response missing expected properties.");
-            }
-        }
-        /**
-         * Gets MATS telemetry from native response
-         * @param response
-         * @returns
-         */
-        getMATSFromResponse(response) {
-            if (response.properties.MATS) {
-                try {
-                    return JSON.parse(response.properties.MATS);
-                }
-                catch (e) {
-                    this.logger.error("NativeInteractionClient - Error parsing MATS telemetry, returning null instead");
-                }
-            }
+    function extractBrowserRequestState(browserCrypto, state) {
+        if (!state) {
             return null;
         }
-        /**
-         * Returns whether or not response came from native cache
-         * @param response
-         * @returns
-         */
-        isResponseFromCache(mats) {
-            if (typeof mats.is_cached === "undefined") {
-                this.logger.verbose("NativeInteractionClient - MATS telemetry does not contain field indicating if response was served from cache. Returning false.");
-                return false;
-            }
-            return !!mats.is_cached;
+        try {
+            const requestStateObj = ProtocolUtils.parseRequestState(browserCrypto, state);
+            return requestStateObj.libraryState.meta;
         }
-        /**
-         * Translates developer provided request object into NativeRequest object
-         * @param request
-         */
-        async initializeNativeRequest(request) {
-            this.logger.trace("NativeInteractionClient - initializeNativeRequest called");
-            const requestAuthority = request.authority || this.config.auth.authority;
-            if (request.account) {
-                // validate authority
-                await this.getDiscoveredAuthority({
-                    requestAuthority,
-                    requestAzureCloudOptions: request.azureCloudOptions,
-                    account: request.account,
-                });
-            }
-            const canonicalAuthority = new UrlString(requestAuthority);
-            canonicalAuthority.validateAsUri();
-            // scopes are expected to be received by the native broker as "scope" and will be added to the request below. Other properties that should be dropped from the request to the native broker can be included in the object destructuring here.
-            const { scopes, ...remainingProperties } = request;
-            const scopeSet = new ScopeSet(scopes || []);
-            scopeSet.appendScopes(OIDC_DEFAULT_SCOPES);
-            const getPrompt = () => {
-                // If request is silent, prompt is always none
-                switch (this.apiId) {
-                    case ApiId.ssoSilent:
-                    case ApiId.acquireTokenSilent_silentFlow:
-                        this.logger.trace("initializeNativeRequest: silent request sets prompt to none");
-                        return PromptValue.NONE;
-                }
-                // Prompt not provided, request may proceed and native broker decides if it needs to prompt
-                if (!request.prompt) {
-                    this.logger.trace("initializeNativeRequest: prompt was not provided");
-                    return undefined;
-                }
-                // If request is interactive, check if prompt provided is allowed to go directly to native broker
-                switch (request.prompt) {
-                    case PromptValue.NONE:
-                    case PromptValue.CONSENT:
-                    case PromptValue.LOGIN:
-                        this.logger.trace("initializeNativeRequest: prompt is compatible with native flow");
-                        return request.prompt;
-                    default:
-                        this.logger.trace(`initializeNativeRequest: prompt = ${request.prompt} is not compatible with native flow`);
-                        throw createBrowserAuthError(nativePromptNotSupported);
-                }
-            };
-            const validatedRequest = {
-                ...remainingProperties,
-                accountId: this.accountId,
-                clientId: this.config.auth.clientId,
-                authority: canonicalAuthority.urlString,
-                scope: scopeSet.printScopes(),
-                redirectUri: this.getRedirectUri(request.redirectUri),
-                prompt: getPrompt(),
-                correlationId: this.correlationId,
-                tokenType: request.authenticationScheme,
-                windowTitleSubstring: document.title,
-                extraParameters: {
-                    ...request.extraQueryParameters,
-                    ...request.tokenQueryParameters,
-                },
-                extendedExpiryToken: false,
-                keyId: request.popKid,
-            };
-            // Check for PoP token requests: signPopToken should only be set to true if popKid is not set
-            if (validatedRequest.signPopToken && !!request.popKid) {
-                throw createBrowserAuthError(invalidPopTokenRequest);
-            }
-            this.handleExtraBrokerParams(validatedRequest);
-            validatedRequest.extraParameters =
-                validatedRequest.extraParameters || {};
-            validatedRequest.extraParameters.telemetry =
-                NativeConstants.MATS_TELEMETRY;
-            if (request.authenticationScheme === AuthenticationScheme.POP) {
-                // add POP request type
-                const shrParameters = {
-                    resourceRequestUri: request.resourceRequestUri,
-                    resourceRequestMethod: request.resourceRequestMethod,
-                    shrClaims: request.shrClaims,
-                    shrNonce: request.shrNonce,
-                };
-                const popTokenGenerator = new PopTokenGenerator(this.browserCrypto);
-                // generate reqCnf if not provided in the request
-                let reqCnfData;
-                if (!validatedRequest.keyId) {
-                    const generatedReqCnfData = await invokeAsync(popTokenGenerator.generateCnf.bind(popTokenGenerator), PerformanceEvents.PopTokenGenerateCnf, this.logger, this.performanceClient, request.correlationId)(shrParameters, this.logger);
-                    reqCnfData = generatedReqCnfData.reqCnfString;
-                    validatedRequest.keyId = generatedReqCnfData.kid;
-                    validatedRequest.signPopToken = true;
-                }
-                else {
-                    reqCnfData = this.browserCrypto.base64UrlEncode(JSON.stringify({ kid: validatedRequest.keyId }));
-                    validatedRequest.signPopToken = false;
-                }
-                // SPAs require whole string to be passed to broker
-                validatedRequest.reqCnf = reqCnfData;
-            }
-            this.addRequestSKUs(validatedRequest);
-            return validatedRequest;
-        }
-        /**
-         * Handles extra broker request parameters
-         * @param request {NativeTokenRequest}
-         * @private
-         */
-        handleExtraBrokerParams(request) {
-            const hasExtraBrokerParams = request.extraParameters &&
-                request.extraParameters.hasOwnProperty(BROKER_CLIENT_ID) &&
-                request.extraParameters.hasOwnProperty(BROKER_REDIRECT_URI) &&
-                request.extraParameters.hasOwnProperty(CLIENT_ID);
-            if (!request.embeddedClientId && !hasExtraBrokerParams) {
-                return;
-            }
-            let child_client_id = "";
-            const child_redirect_uri = request.redirectUri;
-            if (request.embeddedClientId) {
-                request.redirectUri = this.config.auth.redirectUri;
-                child_client_id = request.embeddedClientId;
-            }
-            else if (request.extraParameters) {
-                request.redirectUri =
-                    request.extraParameters[BROKER_REDIRECT_URI];
-                child_client_id =
-                    request.extraParameters[CLIENT_ID];
-            }
-            request.extraParameters = {
-                child_client_id,
-                child_redirect_uri,
-            };
-            this.performanceClient?.addFields({
-                embeddedClientId: child_client_id,
-                embeddedRedirectUri: child_redirect_uri,
-            }, request.correlationId);
+        catch (e) {
+            throw createClientAuthError(invalidState);
         }
     }
 
@@ -14194,254 +13567,36 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    class NativeMessageHandler {
-        constructor(logger, handshakeTimeoutMs, performanceClient, extensionId) {
-            this.logger = logger;
-            this.handshakeTimeoutMs = handshakeTimeoutMs;
-            this.extensionId = extensionId;
-            this.resolvers = new Map(); // Used for non-handshake messages
-            this.handshakeResolvers = new Map(); // Used for handshake messages
-            this.messageChannel = new MessageChannel();
-            this.windowListener = this.onWindowMessage.bind(this); // Window event callback doesn't have access to 'this' unless it's bound
-            this.performanceClient = performanceClient;
-            this.handshakeEvent = performanceClient.startMeasurement(PerformanceEvents.NativeMessageHandlerHandshake);
-        }
-        /**
-         * Sends a given message to the extension and resolves with the extension response
-         * @param body
-         */
-        async sendMessage(body) {
-            this.logger.trace("NativeMessageHandler - sendMessage called.");
-            const req = {
-                channel: NativeConstants.CHANNEL_ID,
-                extensionId: this.extensionId,
-                responseId: createNewGuid(),
-                body: body,
-            };
-            this.logger.trace("NativeMessageHandler - Sending request to browser extension");
-            this.logger.tracePii(`NativeMessageHandler - Sending request to browser extension: ${JSON.stringify(req)}`);
-            this.messageChannel.port1.postMessage(req);
-            return new Promise((resolve, reject) => {
-                this.resolvers.set(req.responseId, { resolve, reject });
-            });
-        }
-        /**
-         * Returns an instance of the MessageHandler that has successfully established a connection with an extension
-         * @param {Logger} logger
-         * @param {number} handshakeTimeoutMs
-         * @param {IPerformanceClient} performanceClient
-         * @param {ICrypto} crypto
-         */
-        static async createProvider(logger, handshakeTimeoutMs, performanceClient) {
-            logger.trace("NativeMessageHandler - createProvider called.");
-            try {
-                const preferredProvider = new NativeMessageHandler(logger, handshakeTimeoutMs, performanceClient, NativeConstants.PREFERRED_EXTENSION_ID);
-                await preferredProvider.sendHandshakeRequest();
-                return preferredProvider;
+    function deserializeResponse(responseString, responseLocation, logger) {
+        // Deserialize hash fragment response parameters.
+        const serverParams = getDeserializedResponse(responseString);
+        if (!serverParams) {
+            if (!stripLeadingHashOrQuery(responseString)) {
+                // Hash or Query string is empty
+                logger.error(`The request has returned to the redirectUri but a ${responseLocation} is not present. It's likely that the ${responseLocation} has been removed or the page has been redirected by code running on the redirectUri page.`);
+                throw createBrowserAuthError(hashEmptyError);
             }
-            catch (e) {
-                // If preferred extension fails for whatever reason, fallback to using any installed extension
-                const backupProvider = new NativeMessageHandler(logger, handshakeTimeoutMs, performanceClient);
-                await backupProvider.sendHandshakeRequest();
-                return backupProvider;
+            else {
+                logger.error(`A ${responseLocation} is present in the iframe but it does not contain known properties. It's likely that the ${responseLocation} has been replaced by code running on the redirectUri page.`);
+                logger.errorPii(`The ${responseLocation} detected is: ${responseString}`);
+                throw createBrowserAuthError(hashDoesNotContainKnownProperties);
             }
         }
-        /**
-         * Send handshake request helper.
-         */
-        async sendHandshakeRequest() {
-            this.logger.trace("NativeMessageHandler - sendHandshakeRequest called.");
-            // Register this event listener before sending handshake
-            window.addEventListener("message", this.windowListener, false); // false is important, because content script message processing should work first
-            const req = {
-                channel: NativeConstants.CHANNEL_ID,
-                extensionId: this.extensionId,
-                responseId: createNewGuid(),
-                body: {
-                    method: NativeExtensionMethod.HandshakeRequest,
-                },
-            };
-            this.handshakeEvent.add({
-                extensionId: this.extensionId,
-                extensionHandshakeTimeoutMs: this.handshakeTimeoutMs,
-            });
-            this.messageChannel.port1.onmessage = (event) => {
-                this.onChannelMessage(event);
-            };
-            window.postMessage(req, window.origin, [this.messageChannel.port2]);
-            return new Promise((resolve, reject) => {
-                this.handshakeResolvers.set(req.responseId, { resolve, reject });
-                this.timeoutId = window.setTimeout(() => {
-                    /*
-                     * Throw an error if neither HandshakeResponse nor original Handshake request are received in a reasonable timeframe.
-                     * This typically suggests an event handler stopped propagation of the Handshake request but did not respond to it on the MessageChannel port
-                     */
-                    window.removeEventListener("message", this.windowListener, false);
-                    this.messageChannel.port1.close();
-                    this.messageChannel.port2.close();
-                    this.handshakeEvent.end({
-                        extensionHandshakeTimedOut: true,
-                        success: false,
-                    });
-                    reject(createBrowserAuthError(nativeHandshakeTimeout));
-                    this.handshakeResolvers.delete(req.responseId);
-                }, this.handshakeTimeoutMs); // Use a reasonable timeout in milliseconds here
-            });
+        return serverParams;
+    }
+    /**
+     * Returns the interaction type that the response object belongs to
+     */
+    function validateInteractionType(response, browserCrypto, interactionType) {
+        if (!response.state) {
+            throw createBrowserAuthError(noStateInHash);
         }
-        /**
-         * Invoked when a message is posted to the window. If a handshake request is received it means the extension is not installed.
-         * @param event
-         */
-        onWindowMessage(event) {
-            this.logger.trace("NativeMessageHandler - onWindowMessage called");
-            // We only accept messages from ourselves
-            if (event.source !== window) {
-                return;
-            }
-            const request = event.data;
-            if (!request.channel ||
-                request.channel !== NativeConstants.CHANNEL_ID) {
-                return;
-            }
-            if (request.extensionId && request.extensionId !== this.extensionId) {
-                return;
-            }
-            if (request.body.method === NativeExtensionMethod.HandshakeRequest) {
-                const handshakeResolver = this.handshakeResolvers.get(request.responseId);
-                /*
-                 * Filter out responses with no matched resolvers sooner to keep channel ports open while waiting for
-                 * the proper response.
-                 */
-                if (!handshakeResolver) {
-                    this.logger.trace(`NativeMessageHandler.onWindowMessage - resolver can't be found for request ${request.responseId}`);
-                    return;
-                }
-                // If we receive this message back it means no extension intercepted the request, meaning no extension supporting handshake protocol is installed
-                this.logger.verbose(request.extensionId
-                    ? `Extension with id: ${request.extensionId} not installed`
-                    : "No extension installed");
-                clearTimeout(this.timeoutId);
-                this.messageChannel.port1.close();
-                this.messageChannel.port2.close();
-                window.removeEventListener("message", this.windowListener, false);
-                this.handshakeEvent.end({
-                    success: false,
-                    extensionInstalled: false,
-                });
-                handshakeResolver.reject(createBrowserAuthError(nativeExtensionNotInstalled));
-            }
+        const platformStateObj = extractBrowserRequestState(browserCrypto, response.state);
+        if (!platformStateObj) {
+            throw createBrowserAuthError(unableToParseState);
         }
-        /**
-         * Invoked when a message is received from the extension on the MessageChannel port
-         * @param event
-         */
-        onChannelMessage(event) {
-            this.logger.trace("NativeMessageHandler - onChannelMessage called.");
-            const request = event.data;
-            const resolver = this.resolvers.get(request.responseId);
-            const handshakeResolver = this.handshakeResolvers.get(request.responseId);
-            try {
-                const method = request.body.method;
-                if (method === NativeExtensionMethod.Response) {
-                    if (!resolver) {
-                        return;
-                    }
-                    const response = request.body.response;
-                    this.logger.trace("NativeMessageHandler - Received response from browser extension");
-                    this.logger.tracePii(`NativeMessageHandler - Received response from browser extension: ${JSON.stringify(response)}`);
-                    if (response.status !== "Success") {
-                        resolver.reject(createNativeAuthError(response.code, response.description, response.ext));
-                    }
-                    else if (response.result) {
-                        if (response.result["code"] &&
-                            response.result["description"]) {
-                            resolver.reject(createNativeAuthError(response.result["code"], response.result["description"], response.result["ext"]));
-                        }
-                        else {
-                            resolver.resolve(response.result);
-                        }
-                    }
-                    else {
-                        throw createAuthError(unexpectedError, "Event does not contain result.");
-                    }
-                    this.resolvers.delete(request.responseId);
-                }
-                else if (method === NativeExtensionMethod.HandshakeResponse) {
-                    if (!handshakeResolver) {
-                        this.logger.trace(`NativeMessageHandler.onChannelMessage - resolver can't be found for request ${request.responseId}`);
-                        return;
-                    }
-                    clearTimeout(this.timeoutId); // Clear setTimeout
-                    window.removeEventListener("message", this.windowListener, false); // Remove 'No extension' listener
-                    this.extensionId = request.extensionId;
-                    this.extensionVersion = request.body.version;
-                    this.logger.verbose(`NativeMessageHandler - Received HandshakeResponse from extension: ${this.extensionId}`);
-                    this.handshakeEvent.end({
-                        extensionInstalled: true,
-                        success: true,
-                    });
-                    handshakeResolver.resolve();
-                    this.handshakeResolvers.delete(request.responseId);
-                }
-                // Do nothing if method is not Response or HandshakeResponse
-            }
-            catch (err) {
-                this.logger.error("Error parsing response from WAM Extension");
-                this.logger.errorPii(`Error parsing response from WAM Extension: ${err}`);
-                this.logger.errorPii(`Unable to parse ${event}`);
-                if (resolver) {
-                    resolver.reject(err);
-                }
-                else if (handshakeResolver) {
-                    handshakeResolver.reject(err);
-                }
-            }
-        }
-        /**
-         * Returns the Id for the browser extension this handler is communicating with
-         * @returns
-         */
-        getExtensionId() {
-            return this.extensionId;
-        }
-        /**
-         * Returns the version for the browser extension this handler is communicating with
-         * @returns
-         */
-        getExtensionVersion() {
-            return this.extensionVersion;
-        }
-        /**
-         * Returns boolean indicating whether or not the request should attempt to use native broker
-         * @param logger
-         * @param config
-         * @param nativeExtensionProvider
-         * @param authenticationScheme
-         */
-        static isPlatformBrokerAvailable(config, logger, nativeExtensionProvider, authenticationScheme) {
-            logger.trace("isPlatformBrokerAvailable called");
-            if (!config.system.allowPlatformBroker) {
-                logger.trace("isPlatformBrokerAvailable: allowPlatformBroker is not enabled, returning false");
-                // Developer disabled WAM
-                return false;
-            }
-            if (!nativeExtensionProvider) {
-                logger.trace("isPlatformBrokerAvailable: Platform extension provider is not initialized, returning false");
-                // Extension is not available
-                return false;
-            }
-            if (authenticationScheme) {
-                switch (authenticationScheme) {
-                    case AuthenticationScheme.BEARER:
-                    case AuthenticationScheme.POP:
-                        logger.trace("isPlatformBrokerAvailable: authenticationScheme is supported, returning true");
-                        return true;
-                    default:
-                        logger.trace("isPlatformBrokerAvailable: authenticationScheme is not supported, returning false");
-                        return false;
-                }
-            }
-            return true;
+        if (platformStateObj.interactionType !== interactionType) {
+            throw createBrowserAuthError(stateInteractionTypeMismatch);
         }
     }
 
@@ -14468,7 +13623,7 @@
             this.performanceClient.addQueueMeasurement(PerformanceEvents.HandleCodeResponse, request.correlationId);
             let authCodeResponse;
             try {
-                authCodeResponse = this.authModule.handleFragmentResponse(response, request.state);
+                authCodeResponse = getAuthorizationCodePayload(response, request.state);
             }
             catch (e) {
                 if (e instanceof ServerError &&
@@ -14543,36 +13698,130 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    function deserializeResponse(responseString, responseLocation, logger) {
-        // Deserialize hash fragment response parameters.
-        const serverParams = getDeserializedResponse(responseString);
-        if (!serverParams) {
-            if (!stripLeadingHashOrQuery(responseString)) {
-                // Hash or Query string is empty
-                logger.error(`The request has returned to the redirectUri but a ${responseLocation} is not present. It's likely that the ${responseLocation} has been removed or the page has been redirected by code running on the redirectUri page.`);
-                throw createBrowserAuthError(hashEmptyError);
-            }
-            else {
-                logger.error(`A ${responseLocation} is present in the iframe but it does not contain known properties. It's likely that the ${responseLocation} has been replaced by code running on the redirectUri page.`);
-                logger.errorPii(`The ${responseLocation} detected is: ${responseString}`);
-                throw createBrowserAuthError(hashDoesNotContainKnownProperties);
-            }
+    const contentError = "ContentError";
+    const pageException = "PageException";
+    const userSwitch = "user_switch";
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    // Status Codes that can be thrown by WAM
+    const USER_INTERACTION_REQUIRED = "USER_INTERACTION_REQUIRED";
+    const USER_CANCEL = "USER_CANCEL";
+    const NO_NETWORK = "NO_NETWORK";
+    const DISABLED = "DISABLED";
+    const ACCOUNT_UNAVAILABLE = "ACCOUNT_UNAVAILABLE";
+    const UX_NOT_ALLOWED = "UX_NOT_ALLOWED";
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    const INVALID_METHOD_ERROR = -2147186943;
+    const NativeAuthErrorMessages = {
+        [userSwitch]: "User attempted to switch accounts in the native broker, which is not allowed. All new accounts must sign-in through the standard web flow first, please try again.",
+    };
+    class NativeAuthError extends AuthError {
+        constructor(errorCode, description, ext) {
+            super(errorCode, description);
+            Object.setPrototypeOf(this, NativeAuthError.prototype);
+            this.name = "NativeAuthError";
+            this.ext = ext;
         }
-        return serverParams;
     }
     /**
-     * Returns the interaction type that the response object belongs to
+     * These errors should result in a fallback to the 'standard' browser based auth flow.
      */
-    function validateInteractionType(response, browserCrypto, interactionType) {
-        if (!response.state) {
-            throw createBrowserAuthError(noStateInHash);
+    function isFatalNativeAuthError(error) {
+        if (error.ext &&
+            error.ext.status &&
+            error.ext.status === DISABLED) {
+            return true;
         }
-        const platformStateObj = extractBrowserRequestState(browserCrypto, response.state);
-        if (!platformStateObj) {
-            throw createBrowserAuthError(unableToParseState);
+        if (error.ext &&
+            error.ext.error &&
+            error.ext.error === INVALID_METHOD_ERROR) {
+            return true;
         }
-        if (platformStateObj.interactionType !== interactionType) {
-            throw createBrowserAuthError(stateInteractionTypeMismatch);
+        switch (error.errorCode) {
+            case contentError:
+            case pageException:
+                return true;
+            default:
+                return false;
+        }
+    }
+    /**
+     * Create the appropriate error object based on the WAM status code.
+     * @param code
+     * @param description
+     * @param ext
+     * @returns
+     */
+    function createNativeAuthError(code, description, ext) {
+        if (ext && ext.status) {
+            switch (ext.status) {
+                case ACCOUNT_UNAVAILABLE:
+                    return createInteractionRequiredAuthError(nativeAccountUnavailable);
+                case USER_INTERACTION_REQUIRED:
+                    return new InteractionRequiredAuthError(code, description);
+                case USER_CANCEL:
+                    return createBrowserAuthError(userCancelled);
+                case NO_NETWORK:
+                    return createBrowserAuthError(noNetworkConnectivity);
+                case UX_NOT_ALLOWED:
+                    return createInteractionRequiredAuthError(uxNotAllowed);
+            }
+        }
+        return new NativeAuthError(code, NativeAuthErrorMessages[code] || description, ext);
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class SilentCacheClient extends StandardInteractionClient {
+        /**
+         * Returns unexpired tokens from the cache, if available
+         * @param silentRequest
+         */
+        async acquireToken(silentRequest) {
+            this.performanceClient.addQueueMeasurement(PerformanceEvents.SilentCacheClientAcquireToken, silentRequest.correlationId);
+            // Telemetry manager only used to increment cacheHits here
+            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenSilent_silentFlow);
+            const clientConfig = await invokeAsync(this.getClientConfiguration.bind(this), PerformanceEvents.StandardInteractionClientGetClientConfiguration, this.logger, this.performanceClient, this.correlationId)({
+                serverTelemetryManager,
+                requestAuthority: silentRequest.authority,
+                requestAzureCloudOptions: silentRequest.azureCloudOptions,
+                account: silentRequest.account,
+            });
+            const silentAuthClient = new SilentFlowClient(clientConfig, this.performanceClient);
+            this.logger.verbose("Silent auth client created");
+            try {
+                const response = await invokeAsync(silentAuthClient.acquireCachedToken.bind(silentAuthClient), PerformanceEvents.SilentFlowClientAcquireCachedToken, this.logger, this.performanceClient, silentRequest.correlationId)(silentRequest);
+                const authResponse = response[0];
+                this.performanceClient.addFields({
+                    fromCache: true,
+                }, silentRequest.correlationId);
+                return authResponse;
+            }
+            catch (error) {
+                if (error instanceof BrowserAuthError &&
+                    error.errorCode === cryptoKeyNotFound) {
+                    this.logger.verbose("Signing keypair for bound access token not found. Refreshing bound access token and generating a new crypto keypair.");
+                }
+                throw error;
+            }
+        }
+        /**
+         * API to silenty clear the browser cache.
+         * @param logoutRequest
+         */
+        logout(logoutRequest) {
+            this.logger.verbose("logoutRedirect called");
+            const validLogoutRequest = this.initializeLogoutRequest(logoutRequest);
+            return this.clearCacheOnLogout(validLogoutRequest.correlationId, validLogoutRequest?.account);
         }
     }
 
@@ -14580,12 +13829,1408 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
+    class PlatformAuthInteractionClient extends BaseInteractionClient {
+        constructor(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, provider, accountId, nativeStorageImpl, correlationId) {
+            super(config, browserStorage, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
+            this.apiId = apiId;
+            this.accountId = accountId;
+            this.platformAuthProvider = provider;
+            this.nativeStorageManager = nativeStorageImpl;
+            this.silentCacheClient = new SilentCacheClient(config, this.nativeStorageManager, browserCrypto, logger, eventHandler, navigationClient, performanceClient, provider, correlationId);
+            const extensionName = this.platformAuthProvider.getExtensionName();
+            this.skus = ServerTelemetryManager.makeExtraSkuString({
+                libraryName: BrowserConstants.MSAL_SKU,
+                libraryVersion: version,
+                extensionName: extensionName,
+                extensionVersion: this.platformAuthProvider.getExtensionVersion(),
+            });
+        }
+        /**
+         * Adds SKUs to request extra query parameters
+         * @param request {PlatformAuthRequest}
+         * @private
+         */
+        addRequestSKUs(request) {
+            request.extraParameters = {
+                ...request.extraParameters,
+                [X_CLIENT_EXTRA_SKU]: this.skus,
+            };
+        }
+        /**
+         * Acquire token from native platform via browser extension
+         * @param request
+         */
+        async acquireToken(request, cacheLookupPolicy) {
+            this.performanceClient.addQueueMeasurement(PerformanceEvents.NativeInteractionClientAcquireToken, this.correlationId);
+            this.logger.trace("NativeInteractionClient - acquireToken called.");
+            // start the perf measurement
+            const nativeATMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.NativeInteractionClientAcquireToken, this.correlationId);
+            const reqTimestamp = nowSeconds();
+            const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+            try {
+                // initialize native request
+                const nativeRequest = await this.initializeNativeRequest(request);
+                // check if the tokens can be retrieved from internal cache
+                try {
+                    const result = await this.acquireTokensFromCache(this.accountId, nativeRequest);
+                    nativeATMeasurement.end({
+                        success: true,
+                        isNativeBroker: false,
+                        fromCache: true,
+                    });
+                    return result;
+                }
+                catch (e) {
+                    if (cacheLookupPolicy === CacheLookupPolicy.AccessToken) {
+                        this.logger.info("MSAL internal Cache does not contain tokens, return error as per cache policy");
+                        nativeATMeasurement.end({
+                            success: false,
+                            brokerErrorCode: "cache_request_failed",
+                        });
+                        throw e;
+                    }
+                    // continue with a native call for any and all errors
+                    this.logger.info("MSAL internal Cache does not contain tokens, proceed to make a native call");
+                }
+                const validatedResponse = await this.platformAuthProvider.sendMessage(nativeRequest);
+                return await this.handleNativeResponse(validatedResponse, nativeRequest, reqTimestamp)
+                    .then((result) => {
+                    nativeATMeasurement.end({
+                        success: true,
+                        isNativeBroker: true,
+                        requestId: result.requestId,
+                    });
+                    serverTelemetryManager.clearNativeBrokerErrorCode();
+                    return result;
+                })
+                    .catch((error) => {
+                    nativeATMeasurement.end({
+                        success: false,
+                        errorCode: error.errorCode,
+                        subErrorCode: error.subError,
+                    });
+                    throw error;
+                });
+            }
+            catch (e) {
+                if (e instanceof NativeAuthError) {
+                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
+                }
+                nativeATMeasurement.end({
+                    success: false,
+                });
+                throw e;
+            }
+        }
+        /**
+         * Creates silent flow request
+         * @param request
+         * @param cachedAccount
+         * @returns CommonSilentFlowRequest
+         */
+        createSilentCacheRequest(request, cachedAccount) {
+            return {
+                authority: request.authority,
+                correlationId: this.correlationId,
+                scopes: ScopeSet.fromString(request.scope).asArray(),
+                account: cachedAccount,
+                forceRefresh: false,
+            };
+        }
+        /**
+         * Fetches the tokens from the cache if un-expired
+         * @param nativeAccountId
+         * @param request
+         * @returns authenticationResult
+         */
+        async acquireTokensFromCache(nativeAccountId, request) {
+            if (!nativeAccountId) {
+                this.logger.warning("NativeInteractionClient:acquireTokensFromCache - No nativeAccountId provided");
+                throw createClientAuthError(noAccountFound);
+            }
+            // fetch the account from browser cache
+            const account = this.browserStorage.getBaseAccountInfo({
+                nativeAccountId,
+            }, this.correlationId);
+            if (!account) {
+                throw createClientAuthError(noAccountFound);
+            }
+            // leverage silent flow for cached tokens retrieval
+            try {
+                const silentRequest = this.createSilentCacheRequest(request, account);
+                const result = await this.silentCacheClient.acquireToken(silentRequest);
+                const fullAccount = {
+                    ...account,
+                    idTokenClaims: result?.idTokenClaims,
+                    idToken: result?.idToken,
+                };
+                return {
+                    ...result,
+                    account: fullAccount,
+                };
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+        /**
+         * Acquires a token from native platform then redirects to the redirectUri instead of returning the response
+         * @param {RedirectRequest} request
+         * @param {InProgressPerformanceEvent} rootMeasurement
+         */
+        async acquireTokenRedirect(request, rootMeasurement) {
+            this.logger.trace("NativeInteractionClient - acquireTokenRedirect called.");
+            const { ...remainingParameters } = request;
+            delete remainingParameters.onRedirectNavigate;
+            const nativeRequest = await this.initializeNativeRequest(remainingParameters);
+            try {
+                await this.platformAuthProvider.sendMessage(nativeRequest);
+            }
+            catch (e) {
+                // Only throw fatal errors here to allow application to fallback to regular redirect. Otherwise proceed and the error will be thrown in handleRedirectPromise
+                if (e instanceof NativeAuthError) {
+                    const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                    serverTelemetryManager.setNativeBrokerErrorCode(e.errorCode);
+                    if (isFatalNativeAuthError(e)) {
+                        throw e;
+                    }
+                }
+            }
+            this.browserStorage.setTemporaryCache(TemporaryCacheKeys.NATIVE_REQUEST, JSON.stringify(nativeRequest), true);
+            const navigationOptions = {
+                apiId: ApiId.acquireTokenRedirect,
+                timeout: this.config.system.redirectNavigationTimeout,
+                noHistory: false,
+            };
+            const redirectUri = this.config.auth.navigateToLoginRequestUrl
+                ? window.location.href
+                : this.getRedirectUri(request.redirectUri);
+            rootMeasurement.end({ success: true });
+            await this.navigationClient.navigateExternal(redirectUri, navigationOptions); // Need to treat this as external to ensure handleRedirectPromise is run again
+        }
+        /**
+         * If the previous page called native platform for a token using redirect APIs, send the same request again and return the response
+         * @param performanceClient {IPerformanceClient?}
+         * @param correlationId {string?} correlation identifier
+         */
+        async handleRedirectPromise(performanceClient, correlationId) {
+            this.logger.trace("NativeInteractionClient - handleRedirectPromise called.");
+            if (!this.browserStorage.isInteractionInProgress(true)) {
+                this.logger.info("handleRedirectPromise called but there is no interaction in progress, returning null.");
+                return null;
+            }
+            // remove prompt from the request to prevent WAM from prompting twice
+            const cachedRequest = this.browserStorage.getCachedNativeRequest();
+            if (!cachedRequest) {
+                this.logger.verbose("NativeInteractionClient - handleRedirectPromise called but there is no cached request, returning null.");
+                if (performanceClient && correlationId) {
+                    performanceClient?.addFields({ errorCode: "no_cached_request" }, correlationId);
+                }
+                return null;
+            }
+            const { prompt, ...request } = cachedRequest;
+            if (prompt) {
+                this.logger.verbose("NativeInteractionClient - handleRedirectPromise called and prompt was included in the original request, removing prompt from cached request to prevent second interaction with native broker window.");
+            }
+            this.browserStorage.removeItem(this.browserStorage.generateCacheKey(TemporaryCacheKeys.NATIVE_REQUEST));
+            const reqTimestamp = nowSeconds();
+            try {
+                this.logger.verbose("NativeInteractionClient - handleRedirectPromise sending message to native broker.");
+                const response = await this.platformAuthProvider.sendMessage(request);
+                const authResult = await this.handleNativeResponse(response, request, reqTimestamp);
+                const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+                serverTelemetryManager.clearNativeBrokerErrorCode();
+                if (performanceClient && this.correlationId) {
+                    this.performanceClient.addFields({ isNativeBroker: true }, this.correlationId);
+                }
+                return authResult;
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+        /**
+         * Logout from native platform via browser extension
+         * @param request
+         */
+        logout() {
+            this.logger.trace("NativeInteractionClient - logout called.");
+            return Promise.reject("Logout not implemented yet");
+        }
+        /**
+         * Transform response from native platform into AuthenticationResult object which will be returned to the end user
+         * @param response
+         * @param request
+         * @param reqTimestamp
+         */
+        async handleNativeResponse(response, request, reqTimestamp) {
+            this.logger.trace("NativeInteractionClient - handleNativeResponse called.");
+            // generate identifiers
+            const idTokenClaims = extractTokenClaims(response.id_token, base64Decode);
+            const homeAccountIdentifier = this.createHomeAccountIdentifier(response, idTokenClaims);
+            const cachedhomeAccountId = this.browserStorage.getAccountInfoFilteredBy({
+                nativeAccountId: request.accountId,
+            }, this.correlationId)?.homeAccountId;
+            // add exception for double brokering, please note this is temporary and will be fortified in future
+            if (request.extraParameters?.child_client_id &&
+                response.account.id !== request.accountId) {
+                this.logger.info("handleNativeServerResponse: Double broker flow detected, ignoring accountId mismatch");
+            }
+            else if (homeAccountIdentifier !== cachedhomeAccountId &&
+                response.account.id !== request.accountId) {
+                // User switch in native broker prompt is not supported. All users must first sign in through web flow to ensure server state is in sync
+                throw createNativeAuthError(userSwitch);
+            }
+            // Get the preferred_cache domain for the given authority
+            const authority = await this.getDiscoveredAuthority({
+                requestAuthority: request.authority,
+            });
+            const baseAccount = buildAccountToCache(this.browserStorage, authority, homeAccountIdentifier, base64Decode, this.correlationId, idTokenClaims, response.client_info, undefined, // environment
+            idTokenClaims.tid, undefined, // auth code payload
+            response.account.id, this.logger);
+            // Ensure expires_in is in number format
+            response.expires_in = Number(response.expires_in);
+            // generate authenticationResult
+            const result = await this.generateAuthenticationResult(response, request, idTokenClaims, baseAccount, authority.canonicalAuthority, reqTimestamp);
+            // cache accounts and tokens in the appropriate storage
+            await this.cacheAccount(baseAccount, this.correlationId);
+            await this.cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, response.access_token, result.tenantId, reqTimestamp);
+            return result;
+        }
+        /**
+         * creates an homeAccountIdentifier for the account
+         * @param response
+         * @param idTokenObj
+         * @returns
+         */
+        createHomeAccountIdentifier(response, idTokenClaims) {
+            // Save account in browser storage
+            const homeAccountIdentifier = AccountEntity.generateHomeAccountId(response.client_info || Constants.EMPTY_STRING, AuthorityType.Default, this.logger, this.browserCrypto, idTokenClaims);
+            return homeAccountIdentifier;
+        }
+        /**
+         * Helper to generate scopes
+         * @param response
+         * @param request
+         * @returns
+         */
+        generateScopes(requestScopes, responseScopes) {
+            return responseScopes
+                ? ScopeSet.fromString(responseScopes)
+                : ScopeSet.fromString(requestScopes);
+        }
+        /**
+         * If PoP token is requesred, records the PoP token if returned from the WAM, else generates one in the browser
+         * @param request
+         * @param response
+         */
+        async generatePopAccessToken(response, request) {
+            if (request.tokenType === AuthenticationScheme.POP &&
+                request.signPopToken) {
+                /**
+                 * This code prioritizes SHR returned from the native layer. In case of error/SHR not calculated from WAM and the AT
+                 * is still received, SHR is calculated locally
+                 */
+                // Check if native layer returned an SHR token
+                if (response.shr) {
+                    this.logger.trace("handleNativeServerResponse: SHR is enabled in native layer");
+                    return response.shr;
+                }
+                // Generate SHR in msal js if WAM does not compute it when POP is enabled
+                const popTokenGenerator = new PopTokenGenerator(this.browserCrypto);
+                const shrParameters = {
+                    resourceRequestMethod: request.resourceRequestMethod,
+                    resourceRequestUri: request.resourceRequestUri,
+                    shrClaims: request.shrClaims,
+                    shrNonce: request.shrNonce,
+                };
+                /**
+                 * KeyID must be present in the native request from when the PoP key was generated in order for
+                 * PopTokenGenerator to query the full key for signing
+                 */
+                if (!request.keyId) {
+                    throw createClientAuthError(keyIdMissing);
+                }
+                return popTokenGenerator.signPopToken(response.access_token, request.keyId, shrParameters);
+            }
+            else {
+                return response.access_token;
+            }
+        }
+        /**
+         * Generates authentication result
+         * @param response
+         * @param request
+         * @param idTokenObj
+         * @param accountEntity
+         * @param authority
+         * @param reqTimestamp
+         * @returns
+         */
+        async generateAuthenticationResult(response, request, idTokenClaims, accountEntity, authority, reqTimestamp) {
+            // Add Native Broker fields to Telemetry
+            const mats = this.addTelemetryFromNativeResponse(response.properties.MATS);
+            // If scopes not returned in server response, use request scopes
+            const responseScopes = this.generateScopes(request.scope, response.scope);
+            const accountProperties = response.account.properties || {};
+            const uid = accountProperties["UID"] ||
+                idTokenClaims.oid ||
+                idTokenClaims.sub ||
+                Constants.EMPTY_STRING;
+            const tid = accountProperties["TenantId"] ||
+                idTokenClaims.tid ||
+                Constants.EMPTY_STRING;
+            const accountInfo = updateAccountTenantProfileData(accountEntity.getAccountInfo(), undefined, // tenantProfile optional
+            idTokenClaims, response.id_token);
+            /**
+             * In pairwise broker flows, this check prevents the broker's native account id
+             * from being returned over the embedded app's account id.
+             */
+            if (accountInfo.nativeAccountId !== response.account.id) {
+                accountInfo.nativeAccountId = response.account.id;
+            }
+            // generate PoP token as needed
+            const responseAccessToken = await this.generatePopAccessToken(response, request);
+            const tokenType = request.tokenType === AuthenticationScheme.POP
+                ? AuthenticationScheme.POP
+                : AuthenticationScheme.BEARER;
+            const result = {
+                authority: authority,
+                uniqueId: uid,
+                tenantId: tid,
+                scopes: responseScopes.asArray(),
+                account: accountInfo,
+                idToken: response.id_token,
+                idTokenClaims: idTokenClaims,
+                accessToken: responseAccessToken,
+                fromCache: mats ? this.isResponseFromCache(mats) : false,
+                // Request timestamp and NativeResponse expires_in are in seconds, converting to Date for AuthenticationResult
+                expiresOn: toDateFromSeconds(reqTimestamp + response.expires_in),
+                tokenType: tokenType,
+                correlationId: this.correlationId,
+                state: response.state,
+                fromNativeBroker: true,
+            };
+            return result;
+        }
+        /**
+         * cache the account entity in browser storage
+         * @param accountEntity
+         */
+        async cacheAccount(accountEntity, correlationId) {
+            // Store the account info and hence `nativeAccountId` in browser cache
+            await this.browserStorage.setAccount(accountEntity, this.correlationId);
+            // Remove any existing cached tokens for this account in browser storage
+            this.browserStorage.removeAccountContext(accountEntity.getAccountInfo(), correlationId);
+        }
+        /**
+         * Stores the access_token and id_token in inmemory storage
+         * @param response
+         * @param request
+         * @param homeAccountIdentifier
+         * @param idTokenObj
+         * @param responseAccessToken
+         * @param tenantId
+         * @param reqTimestamp
+         */
+        cacheNativeTokens(response, request, homeAccountIdentifier, idTokenClaims, responseAccessToken, tenantId, reqTimestamp) {
+            const cachedIdToken = createIdTokenEntity(homeAccountIdentifier, request.authority, response.id_token || "", request.clientId, idTokenClaims.tid || "");
+            // cache accessToken in inmemory storage
+            const expiresIn = request.tokenType === AuthenticationScheme.POP
+                ? Constants.SHR_NONCE_VALIDITY
+                : (typeof response.expires_in === "string"
+                    ? parseInt(response.expires_in, 10)
+                    : response.expires_in) || 0;
+            const tokenExpirationSeconds = reqTimestamp + expiresIn;
+            const responseScopes = this.generateScopes(response.scope, request.scope);
+            const cachedAccessToken = createAccessTokenEntity(homeAccountIdentifier, request.authority, responseAccessToken, request.clientId, idTokenClaims.tid || tenantId, responseScopes.printScopes(), tokenExpirationSeconds, 0, base64Decode, undefined, request.tokenType, undefined, request.keyId);
+            const nativeCacheRecord = {
+                idToken: cachedIdToken,
+                accessToken: cachedAccessToken,
+            };
+            return this.nativeStorageManager.saveCacheRecord(nativeCacheRecord, this.correlationId, request.storeInCache);
+        }
+        getExpiresInValue(tokenType, expiresIn) {
+            return tokenType === AuthenticationScheme.POP
+                ? Constants.SHR_NONCE_VALIDITY
+                : (typeof expiresIn === "string"
+                    ? parseInt(expiresIn, 10)
+                    : expiresIn) || 0;
+        }
+        addTelemetryFromNativeResponse(matsResponse) {
+            const mats = this.getMATSFromResponse(matsResponse);
+            if (!mats) {
+                return null;
+            }
+            this.performanceClient.addFields({
+                extensionId: this.platformAuthProvider.getExtensionId(),
+                extensionVersion: this.platformAuthProvider.getExtensionVersion(),
+                matsBrokerVersion: mats.broker_version,
+                matsAccountJoinOnStart: mats.account_join_on_start,
+                matsAccountJoinOnEnd: mats.account_join_on_end,
+                matsDeviceJoin: mats.device_join,
+                matsPromptBehavior: mats.prompt_behavior,
+                matsApiErrorCode: mats.api_error_code,
+                matsUiVisible: mats.ui_visible,
+                matsSilentCode: mats.silent_code,
+                matsSilentBiSubCode: mats.silent_bi_sub_code,
+                matsSilentMessage: mats.silent_message,
+                matsSilentStatus: mats.silent_status,
+                matsHttpStatus: mats.http_status,
+                matsHttpEventCount: mats.http_event_count,
+            }, this.correlationId);
+            return mats;
+        }
+        /**
+         * Gets MATS telemetry from native response
+         * @param response
+         * @returns
+         */
+        getMATSFromResponse(matsResponse) {
+            if (matsResponse) {
+                try {
+                    return JSON.parse(matsResponse);
+                }
+                catch (e) {
+                    this.logger.error("NativeInteractionClient - Error parsing MATS telemetry, returning null instead");
+                }
+            }
+            return null;
+        }
+        /**
+         * Returns whether or not response came from native cache
+         * @param response
+         * @returns
+         */
+        isResponseFromCache(mats) {
+            if (typeof mats.is_cached === "undefined") {
+                this.logger.verbose("NativeInteractionClient - MATS telemetry does not contain field indicating if response was served from cache. Returning false.");
+                return false;
+            }
+            return !!mats.is_cached;
+        }
+        /**
+         * Translates developer provided request object into NativeRequest object
+         * @param request
+         */
+        async initializeNativeRequest(request) {
+            this.logger.trace("NativeInteractionClient - initializeNativeRequest called");
+            const canonicalAuthority = await this.getCanonicalAuthority(request);
+            // scopes are expected to be received by the native broker as "scope" and will be added to the request below. Other properties that should be dropped from the request to the native broker can be included in the object destructuring here.
+            const { scopes, ...remainingProperties } = request;
+            const scopeSet = new ScopeSet(scopes || []);
+            scopeSet.appendScopes(OIDC_DEFAULT_SCOPES);
+            const validatedRequest = {
+                ...remainingProperties,
+                accountId: this.accountId,
+                clientId: this.config.auth.clientId,
+                authority: canonicalAuthority.urlString,
+                scope: scopeSet.printScopes(),
+                redirectUri: this.getRedirectUri(request.redirectUri),
+                prompt: this.getPrompt(request.prompt),
+                correlationId: this.correlationId,
+                tokenType: request.authenticationScheme,
+                windowTitleSubstring: document.title,
+                extraParameters: {
+                    ...request.extraQueryParameters,
+                    ...request.tokenQueryParameters,
+                },
+                extendedExpiryToken: false,
+                keyId: request.popKid,
+            };
+            // Check for PoP token requests: signPopToken should only be set to true if popKid is not set
+            if (validatedRequest.signPopToken && !!request.popKid) {
+                throw createBrowserAuthError(invalidPopTokenRequest);
+            }
+            this.handleExtraBrokerParams(validatedRequest);
+            validatedRequest.extraParameters =
+                validatedRequest.extraParameters || {};
+            validatedRequest.extraParameters.telemetry =
+                PlatformAuthConstants.MATS_TELEMETRY;
+            if (request.authenticationScheme === AuthenticationScheme.POP) {
+                // add POP request type
+                const shrParameters = {
+                    resourceRequestUri: request.resourceRequestUri,
+                    resourceRequestMethod: request.resourceRequestMethod,
+                    shrClaims: request.shrClaims,
+                    shrNonce: request.shrNonce,
+                };
+                const popTokenGenerator = new PopTokenGenerator(this.browserCrypto);
+                // generate reqCnf if not provided in the request
+                let reqCnfData;
+                if (!validatedRequest.keyId) {
+                    const generatedReqCnfData = await invokeAsync(popTokenGenerator.generateCnf.bind(popTokenGenerator), PerformanceEvents.PopTokenGenerateCnf, this.logger, this.performanceClient, this.correlationId)(shrParameters, this.logger);
+                    reqCnfData = generatedReqCnfData.reqCnfString;
+                    validatedRequest.keyId = generatedReqCnfData.kid;
+                    validatedRequest.signPopToken = true;
+                }
+                else {
+                    reqCnfData = this.browserCrypto.base64UrlEncode(JSON.stringify({ kid: validatedRequest.keyId }));
+                    validatedRequest.signPopToken = false;
+                }
+                // SPAs require whole string to be passed to broker
+                validatedRequest.reqCnf = reqCnfData;
+            }
+            this.addRequestSKUs(validatedRequest);
+            return validatedRequest;
+        }
+        async getCanonicalAuthority(request) {
+            const requestAuthority = request.authority || this.config.auth.authority;
+            if (request.account) {
+                // validate authority
+                await this.getDiscoveredAuthority({
+                    requestAuthority,
+                    requestAzureCloudOptions: request.azureCloudOptions,
+                    account: request.account,
+                });
+            }
+            const canonicalAuthority = new UrlString(requestAuthority);
+            canonicalAuthority.validateAsUri();
+            return canonicalAuthority;
+        }
+        getPrompt(prompt) {
+            // If request is silent, prompt is always none
+            switch (this.apiId) {
+                case ApiId.ssoSilent:
+                case ApiId.acquireTokenSilent_silentFlow:
+                    this.logger.trace("initializeNativeRequest: silent request sets prompt to none");
+                    return PromptValue.NONE;
+            }
+            // Prompt not provided, request may proceed and native broker decides if it needs to prompt
+            if (!prompt) {
+                this.logger.trace("initializeNativeRequest: prompt was not provided");
+                return undefined;
+            }
+            // If request is interactive, check if prompt provided is allowed to go directly to native broker
+            switch (prompt) {
+                case PromptValue.NONE:
+                case PromptValue.CONSENT:
+                case PromptValue.LOGIN:
+                case PromptValue.SELECT_ACCOUNT:
+                    this.logger.trace("initializeNativeRequest: prompt is compatible with native flow");
+                    return prompt;
+                default:
+                    this.logger.trace(`initializeNativeRequest: prompt = ${prompt} is not compatible with native flow`);
+                    throw createBrowserAuthError(nativePromptNotSupported);
+            }
+        }
+        /**
+         * Handles extra broker request parameters
+         * @param request {PlatformAuthRequest}
+         * @private
+         */
+        handleExtraBrokerParams(request) {
+            const hasExtraBrokerParams = request.extraParameters &&
+                request.extraParameters.hasOwnProperty(BROKER_CLIENT_ID) &&
+                request.extraParameters.hasOwnProperty(BROKER_REDIRECT_URI) &&
+                request.extraParameters.hasOwnProperty(CLIENT_ID);
+            if (!request.embeddedClientId && !hasExtraBrokerParams) {
+                return;
+            }
+            let child_client_id = "";
+            const child_redirect_uri = request.redirectUri;
+            if (request.embeddedClientId) {
+                request.redirectUri = this.config.auth.redirectUri;
+                child_client_id = request.embeddedClientId;
+            }
+            else if (request.extraParameters) {
+                request.redirectUri =
+                    request.extraParameters[BROKER_REDIRECT_URI];
+                child_client_id =
+                    request.extraParameters[CLIENT_ID];
+            }
+            request.extraParameters = {
+                child_client_id,
+                child_redirect_uri,
+            };
+            this.performanceClient?.addFields({
+                embeddedClientId: child_client_id,
+                embeddedRedirectUri: child_redirect_uri,
+            }, this.correlationId);
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Returns map of parameters that are applicable to all calls to /authorize whether using PKCE or EAR
+     * @param config
+     * @param authority
+     * @param request
+     * @param logger
+     * @param performanceClient
+     * @returns
+     */
+    async function getStandardParameters(config, authority, request, logger, performanceClient) {
+        const parameters = getStandardAuthorizeRequestParameters({ ...config.auth, authority: authority }, request, logger, performanceClient);
+        addLibraryInfo(parameters, {
+            sku: BrowserConstants.MSAL_SKU,
+            version: version,
+            os: "",
+            cpu: "",
+        });
+        if (config.auth.protocolMode !== ProtocolMode.OIDC) {
+            addApplicationTelemetry(parameters, config.telemetry.application);
+        }
+        if (request.platformBroker) {
+            // signal ests that this is a WAM call
+            addNativeBroker(parameters);
+            // instrument JS-platform bridge specific fields
+            performanceClient.addFields({
+                isPlatformAuthorizeRequest: true,
+            }, request.correlationId);
+            // pass the req_cnf for POP
+            if (request.authenticationScheme === AuthenticationScheme.POP) {
+                const cryptoOps = new CryptoOps(logger, performanceClient);
+                const popTokenGenerator = new PopTokenGenerator(cryptoOps);
+                // req_cnf is always sent as a string for SPAs
+                let reqCnfData;
+                if (!request.popKid) {
+                    const generatedReqCnfData = await invokeAsync(popTokenGenerator.generateCnf.bind(popTokenGenerator), PerformanceEvents.PopTokenGenerateCnf, logger, performanceClient, request.correlationId)(request, logger);
+                    reqCnfData = generatedReqCnfData.reqCnfString;
+                }
+                else {
+                    reqCnfData = cryptoOps.encodeKid(request.popKid);
+                }
+                addPopToken(parameters, reqCnfData);
+            }
+        }
+        instrumentBrokerParams(parameters, request.correlationId, performanceClient);
+        return parameters;
+    }
+    /**
+     * Gets the full /authorize URL with request parameters when using Auth Code + PKCE
+     * @param config
+     * @param authority
+     * @param request
+     * @param logger
+     * @param performanceClient
+     * @returns
+     */
+    async function getAuthCodeRequestUrl(config, authority, request, logger, performanceClient) {
+        if (!request.codeChallenge) {
+            throw createClientConfigurationError(pkceParamsMissing);
+        }
+        const parameters = await invokeAsync(getStandardParameters, PerformanceEvents.GetStandardParams, logger, performanceClient, request.correlationId)(config, authority, request, logger, performanceClient);
+        addResponseType(parameters, OAuthResponseType.CODE);
+        addCodeChallengeParams(parameters, request.codeChallenge, Constants.S256_CODE_CHALLENGE_METHOD);
+        addExtraQueryParameters(parameters, request.extraQueryParameters || {});
+        return getAuthorizeUrl(authority, parameters, config.auth.encodeExtraQueryParams, request.extraQueryParameters);
+    }
+    /**
+     * Gets the form that will be posted to /authorize with request parameters when using EAR
+     */
+    async function getEARForm(frame, config, authority, request, logger, performanceClient) {
+        if (!request.earJwk) {
+            throw createBrowserAuthError(earJwkEmpty);
+        }
+        const parameters = await getStandardParameters(config, authority, request, logger, performanceClient);
+        addResponseType(parameters, OAuthResponseType.IDTOKEN_TOKEN_REFRESHTOKEN);
+        addEARParameters(parameters, request.earJwk);
+        const queryParams = new Map();
+        addExtraQueryParameters(queryParams, request.extraQueryParameters || {});
+        const url = getAuthorizeUrl(authority, queryParams, config.auth.encodeExtraQueryParams, request.extraQueryParameters);
+        return createForm(frame, url, parameters);
+    }
+    /**
+     * Gets the form that will be posted to /authorize with request parameters when using POST method
+     */
+    async function getCodeForm(frame, config, authority, request, logger, performanceClient) {
+        const parameters = await getStandardParameters(config, authority, request, logger, performanceClient);
+        addResponseType(parameters, OAuthResponseType.CODE);
+        addCodeChallengeParams(parameters, request.codeChallenge, request.codeChallengeMethod || Constants.S256_CODE_CHALLENGE_METHOD);
+        addPostBodyParameters(parameters, request.authorizePostBodyParameters || {});
+        const queryParams = new Map();
+        addExtraQueryParameters(queryParams, request.extraQueryParameters || {});
+        const url = getAuthorizeUrl(authority, queryParams, config.auth.encodeExtraQueryParams, request.extraQueryParameters);
+        return createForm(frame, url, parameters);
+    }
+    /**
+     * Creates form element in the provided document with auth parameters in the post body
+     * @param frame
+     * @param authorizeUrl
+     * @param parameters
+     * @returns
+     */
+    function createForm(frame, authorizeUrl, parameters) {
+        const form = frame.createElement("form");
+        form.method = "post";
+        form.action = authorizeUrl;
+        parameters.forEach((value, key) => {
+            const param = frame.createElement("input");
+            param.hidden = true;
+            param.name = key;
+            param.value = value;
+            form.appendChild(param);
+        });
+        frame.body.appendChild(form);
+        return form;
+    }
+    /**
+     * Response handler when server returns accountId on the /authorize request
+     * @param request
+     * @param accountId
+     * @param apiId
+     * @param config
+     * @param browserStorage
+     * @param nativeStorage
+     * @param eventHandler
+     * @param logger
+     * @param performanceClient
+     * @param nativeMessageHandler
+     * @returns
+     */
+    async function handleResponsePlatformBroker(request, accountId, apiId, config, browserStorage, nativeStorage, eventHandler, logger, performanceClient, platformAuthProvider) {
+        logger.verbose("Account id found, calling WAM for token");
+        if (!platformAuthProvider) {
+            throw createBrowserAuthError(nativeConnectionNotEstablished);
+        }
+        const browserCrypto = new CryptoOps(logger, performanceClient);
+        const nativeInteractionClient = new PlatformAuthInteractionClient(config, browserStorage, browserCrypto, logger, eventHandler, config.system.navigationClient, apiId, performanceClient, platformAuthProvider, accountId, nativeStorage, request.correlationId);
+        const { userRequestState } = ProtocolUtils.parseRequestState(browserCrypto, request.state);
+        return invokeAsync(nativeInteractionClient.acquireToken.bind(nativeInteractionClient), PerformanceEvents.NativeInteractionClientAcquireToken, logger, performanceClient, request.correlationId)({
+            ...request,
+            state: userRequestState,
+            prompt: undefined, // Server should handle the prompt, ideally native broker can do this part silently
+        });
+    }
+    /**
+     * Response handler when server returns code on the /authorize request
+     * @param request
+     * @param response
+     * @param codeVerifier
+     * @param authClient
+     * @param browserStorage
+     * @param logger
+     * @param performanceClient
+     * @returns
+     */
+    async function handleResponseCode(request, response, codeVerifier, apiId, config, authClient, browserStorage, nativeStorage, eventHandler, logger, performanceClient, platformAuthProvider) {
+        // Remove throttle if it exists
+        ThrottlingUtils.removeThrottle(browserStorage, config.auth.clientId, request);
+        if (response.accountId) {
+            return invokeAsync(handleResponsePlatformBroker, PerformanceEvents.HandleResponsePlatformBroker, logger, performanceClient, request.correlationId)(request, response.accountId, apiId, config, browserStorage, nativeStorage, eventHandler, logger, performanceClient, platformAuthProvider);
+        }
+        const authCodeRequest = {
+            ...request,
+            code: response.code || "",
+            codeVerifier: codeVerifier,
+        };
+        // Create popup interaction handler.
+        const interactionHandler = new InteractionHandler(authClient, browserStorage, authCodeRequest, logger, performanceClient);
+        // Handle response from hash string.
+        const result = await invokeAsync(interactionHandler.handleCodeResponse.bind(interactionHandler), PerformanceEvents.HandleCodeResponse, logger, performanceClient, request.correlationId)(response, request);
+        return result;
+    }
+    /**
+     * Response handler when server returns ear_jwe on the /authorize request
+     * @param request
+     * @param response
+     * @param apiId
+     * @param config
+     * @param authority
+     * @param browserStorage
+     * @param nativeStorage
+     * @param eventHandler
+     * @param logger
+     * @param performanceClient
+     * @param nativeMessageHandler
+     * @returns
+     */
+    async function handleResponseEAR(request, response, apiId, config, authority, browserStorage, nativeStorage, eventHandler, logger, performanceClient, platformAuthProvider) {
+        // Remove throttle if it exists
+        ThrottlingUtils.removeThrottle(browserStorage, config.auth.clientId, request);
+        // Validate state & check response for errors
+        validateAuthorizationResponse(response, request.state);
+        if (!response.ear_jwe) {
+            throw createBrowserAuthError(earJweEmpty);
+        }
+        if (!request.earJwk) {
+            throw createBrowserAuthError(earJwkEmpty);
+        }
+        const decryptedData = JSON.parse(await invokeAsync(decryptEarResponse, PerformanceEvents.DecryptEarResponse, logger, performanceClient, request.correlationId)(request.earJwk, response.ear_jwe));
+        if (decryptedData.accountId) {
+            return invokeAsync(handleResponsePlatformBroker, PerformanceEvents.HandleResponsePlatformBroker, logger, performanceClient, request.correlationId)(request, decryptedData.accountId, apiId, config, browserStorage, nativeStorage, eventHandler, logger, performanceClient, platformAuthProvider);
+        }
+        const responseHandler = new ResponseHandler(config.auth.clientId, browserStorage, new CryptoOps(logger, performanceClient), logger, null, null, performanceClient);
+        // Validate response. This function throws a server error if an error is returned by the server.
+        responseHandler.validateTokenResponse(decryptedData);
+        // Temporary until response handler is refactored to be more flow agnostic.
+        const additionalData = {
+            code: "",
+            state: request.state,
+            nonce: request.nonce,
+            client_info: decryptedData.client_info,
+            cloud_graph_host_name: decryptedData.cloud_graph_host_name,
+            cloud_instance_host_name: decryptedData.cloud_instance_host_name,
+            cloud_instance_name: decryptedData.cloud_instance_name,
+            msgraph_host: decryptedData.msgraph_host,
+        };
+        return (await invokeAsync(responseHandler.handleServerTokenResponse.bind(responseHandler), PerformanceEvents.HandleServerTokenResponse, logger, performanceClient, request.correlationId)(decryptedData, authority, nowSeconds(), request, additionalData, undefined, undefined, undefined, undefined));
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    // Constant byte array length
+    const RANDOM_BYTE_ARR_LENGTH = 32;
+    /**
+     * This file defines APIs to generate PKCE codes and code verifiers.
+     */
+    /**
+     * Generates PKCE Codes. See the RFC for more information: https://tools.ietf.org/html/rfc7636
+     */
+    async function generatePkceCodes(performanceClient, logger, correlationId) {
+        performanceClient.addQueueMeasurement(PerformanceEvents.GeneratePkceCodes, correlationId);
+        const codeVerifier = invoke(generateCodeVerifier, PerformanceEvents.GenerateCodeVerifier, logger, performanceClient, correlationId)(performanceClient, logger, correlationId);
+        const codeChallenge = await invokeAsync(generateCodeChallengeFromVerifier, PerformanceEvents.GenerateCodeChallengeFromVerifier, logger, performanceClient, correlationId)(codeVerifier, performanceClient, logger, correlationId);
+        return {
+            verifier: codeVerifier,
+            challenge: codeChallenge,
+        };
+    }
+    /**
+     * Generates a random 32 byte buffer and returns the base64
+     * encoded string to be used as a PKCE Code Verifier
+     */
+    function generateCodeVerifier(performanceClient, logger, correlationId) {
+        try {
+            // Generate random values as utf-8
+            const buffer = new Uint8Array(RANDOM_BYTE_ARR_LENGTH);
+            invoke(getRandomValues, PerformanceEvents.GetRandomValues, logger, performanceClient, correlationId)(buffer);
+            // encode verifier as base64
+            const pkceCodeVerifierB64 = urlEncodeArr(buffer);
+            return pkceCodeVerifierB64;
+        }
+        catch (e) {
+            throw createBrowserAuthError(pkceNotCreated);
+        }
+    }
+    /**
+     * Creates a base64 encoded PKCE Code Challenge string from the
+     * hash created from the PKCE Code Verifier supplied
+     */
+    async function generateCodeChallengeFromVerifier(pkceCodeVerifier, performanceClient, logger, correlationId) {
+        performanceClient.addQueueMeasurement(PerformanceEvents.GenerateCodeChallengeFromVerifier, correlationId);
+        try {
+            // hashed verifier
+            const pkceHashedCodeVerifier = await invokeAsync(sha256Digest, PerformanceEvents.Sha256Digest, logger, performanceClient, correlationId)(pkceCodeVerifier, performanceClient, correlationId);
+            // encode hash as base64
+            return urlEncodeArr(new Uint8Array(pkceHashedCodeVerifier));
+        }
+        catch (e) {
+            throw createBrowserAuthError(pkceNotCreated);
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class PlatformAuthExtensionHandler {
+        constructor(logger, handshakeTimeoutMs, performanceClient, extensionId) {
+            this.logger = logger;
+            this.handshakeTimeoutMs = handshakeTimeoutMs;
+            this.extensionId = extensionId;
+            this.resolvers = new Map(); // Used for non-handshake messages
+            this.handshakeResolvers = new Map(); // Used for handshake messages
+            this.messageChannel = new MessageChannel();
+            this.windowListener = this.onWindowMessage.bind(this); // Window event callback doesn't have access to 'this' unless it's bound
+            this.performanceClient = performanceClient;
+            this.handshakeEvent = performanceClient.startMeasurement(PerformanceEvents.NativeMessageHandlerHandshake);
+            this.platformAuthType =
+                PlatformAuthConstants.PLATFORM_EXTENSION_PROVIDER;
+        }
+        /**
+         * Sends a given message to the extension and resolves with the extension response
+         * @param request
+         */
+        async sendMessage(request) {
+            this.logger.trace(this.platformAuthType + " - sendMessage called.");
+            // fall back to native calls
+            const messageBody = {
+                method: NativeExtensionMethod.GetToken,
+                request: request,
+            };
+            const req = {
+                channel: PlatformAuthConstants.CHANNEL_ID,
+                extensionId: this.extensionId,
+                responseId: createNewGuid(),
+                body: messageBody,
+            };
+            this.logger.trace(this.platformAuthType + " - Sending request to browser extension");
+            this.logger.tracePii(this.platformAuthType +
+                ` - Sending request to browser extension: ${JSON.stringify(req)}`);
+            this.messageChannel.port1.postMessage(req);
+            const response = await new Promise((resolve, reject) => {
+                this.resolvers.set(req.responseId, { resolve, reject });
+            });
+            const validatedResponse = this.validatePlatformBrokerResponse(response);
+            return validatedResponse;
+        }
+        /**
+         * Returns an instance of the MessageHandler that has successfully established a connection with an extension
+         * @param {Logger} logger
+         * @param {number} handshakeTimeoutMs
+         * @param {IPerformanceClient} performanceClient
+         * @param {ICrypto} crypto
+         */
+        static async createProvider(logger, handshakeTimeoutMs, performanceClient) {
+            logger.trace("PlatformAuthExtensionHandler - createProvider called.");
+            try {
+                const preferredProvider = new PlatformAuthExtensionHandler(logger, handshakeTimeoutMs, performanceClient, PlatformAuthConstants.PREFERRED_EXTENSION_ID);
+                await preferredProvider.sendHandshakeRequest();
+                return preferredProvider;
+            }
+            catch (e) {
+                // If preferred extension fails for whatever reason, fallback to using any installed extension
+                const backupProvider = new PlatformAuthExtensionHandler(logger, handshakeTimeoutMs, performanceClient);
+                await backupProvider.sendHandshakeRequest();
+                return backupProvider;
+            }
+        }
+        /**
+         * Send handshake request helper.
+         */
+        async sendHandshakeRequest() {
+            this.logger.trace(this.platformAuthType + " - sendHandshakeRequest called.");
+            // Register this event listener before sending handshake
+            window.addEventListener("message", this.windowListener, false); // false is important, because content script message processing should work first
+            const req = {
+                channel: PlatformAuthConstants.CHANNEL_ID,
+                extensionId: this.extensionId,
+                responseId: createNewGuid(),
+                body: {
+                    method: NativeExtensionMethod.HandshakeRequest,
+                },
+            };
+            this.handshakeEvent.add({
+                extensionId: this.extensionId,
+                extensionHandshakeTimeoutMs: this.handshakeTimeoutMs,
+            });
+            this.messageChannel.port1.onmessage = (event) => {
+                this.onChannelMessage(event);
+            };
+            window.postMessage(req, window.origin, [this.messageChannel.port2]);
+            return new Promise((resolve, reject) => {
+                this.handshakeResolvers.set(req.responseId, { resolve, reject });
+                this.timeoutId = window.setTimeout(() => {
+                    /*
+                     * Throw an error if neither HandshakeResponse nor original Handshake request are received in a reasonable timeframe.
+                     * This typically suggests an event handler stopped propagation of the Handshake request but did not respond to it on the MessageChannel port
+                     */
+                    window.removeEventListener("message", this.windowListener, false);
+                    this.messageChannel.port1.close();
+                    this.messageChannel.port2.close();
+                    this.handshakeEvent.end({
+                        extensionHandshakeTimedOut: true,
+                        success: false,
+                    });
+                    reject(createBrowserAuthError(nativeHandshakeTimeout));
+                    this.handshakeResolvers.delete(req.responseId);
+                }, this.handshakeTimeoutMs); // Use a reasonable timeout in milliseconds here
+            });
+        }
+        /**
+         * Invoked when a message is posted to the window. If a handshake request is received it means the extension is not installed.
+         * @param event
+         */
+        onWindowMessage(event) {
+            this.logger.trace(this.platformAuthType + " - onWindowMessage called");
+            // We only accept messages from ourselves
+            if (event.source !== window) {
+                return;
+            }
+            const request = event.data;
+            if (!request.channel ||
+                request.channel !== PlatformAuthConstants.CHANNEL_ID) {
+                return;
+            }
+            if (request.extensionId && request.extensionId !== this.extensionId) {
+                return;
+            }
+            if (request.body.method === NativeExtensionMethod.HandshakeRequest) {
+                const handshakeResolver = this.handshakeResolvers.get(request.responseId);
+                /*
+                 * Filter out responses with no matched resolvers sooner to keep channel ports open while waiting for
+                 * the proper response.
+                 */
+                if (!handshakeResolver) {
+                    this.logger.trace(this.platformAuthType +
+                        `.onWindowMessage - resolver can't be found for request ${request.responseId}`);
+                    return;
+                }
+                // If we receive this message back it means no extension intercepted the request, meaning no extension supporting handshake protocol is installed
+                this.logger.verbose(request.extensionId
+                    ? `Extension with id: ${request.extensionId} not installed`
+                    : "No extension installed");
+                clearTimeout(this.timeoutId);
+                this.messageChannel.port1.close();
+                this.messageChannel.port2.close();
+                window.removeEventListener("message", this.windowListener, false);
+                this.handshakeEvent.end({
+                    success: false,
+                    extensionInstalled: false,
+                });
+                handshakeResolver.reject(createBrowserAuthError(nativeExtensionNotInstalled));
+            }
+        }
+        /**
+         * Invoked when a message is received from the extension on the MessageChannel port
+         * @param event
+         */
+        onChannelMessage(event) {
+            this.logger.trace(this.platformAuthType + " - onChannelMessage called.");
+            const request = event.data;
+            const resolver = this.resolvers.get(request.responseId);
+            const handshakeResolver = this.handshakeResolvers.get(request.responseId);
+            try {
+                const method = request.body.method;
+                if (method === NativeExtensionMethod.Response) {
+                    if (!resolver) {
+                        return;
+                    }
+                    const response = request.body.response;
+                    this.logger.trace(this.platformAuthType +
+                        " - Received response from browser extension");
+                    this.logger.tracePii(this.platformAuthType +
+                        ` - Received response from browser extension: ${JSON.stringify(response)}`);
+                    if (response.status !== "Success") {
+                        resolver.reject(createNativeAuthError(response.code, response.description, response.ext));
+                    }
+                    else if (response.result) {
+                        if (response.result["code"] &&
+                            response.result["description"]) {
+                            resolver.reject(createNativeAuthError(response.result["code"], response.result["description"], response.result["ext"]));
+                        }
+                        else {
+                            resolver.resolve(response.result);
+                        }
+                    }
+                    else {
+                        throw createAuthError(unexpectedError, "Event does not contain result.");
+                    }
+                    this.resolvers.delete(request.responseId);
+                }
+                else if (method === NativeExtensionMethod.HandshakeResponse) {
+                    if (!handshakeResolver) {
+                        this.logger.trace(this.platformAuthType +
+                            `.onChannelMessage - resolver can't be found for request ${request.responseId}`);
+                        return;
+                    }
+                    clearTimeout(this.timeoutId); // Clear setTimeout
+                    window.removeEventListener("message", this.windowListener, false); // Remove 'No extension' listener
+                    this.extensionId = request.extensionId;
+                    this.extensionVersion = request.body.version;
+                    this.logger.verbose(this.platformAuthType +
+                        ` - Received HandshakeResponse from extension: ${this.extensionId}`);
+                    this.handshakeEvent.end({
+                        extensionInstalled: true,
+                        success: true,
+                    });
+                    handshakeResolver.resolve();
+                    this.handshakeResolvers.delete(request.responseId);
+                }
+                // Do nothing if method is not Response or HandshakeResponse
+            }
+            catch (err) {
+                this.logger.error("Error parsing response from WAM Extension");
+                this.logger.errorPii(`Error parsing response from WAM Extension: ${err}`);
+                this.logger.errorPii(`Unable to parse ${event}`);
+                if (resolver) {
+                    resolver.reject(err);
+                }
+                else if (handshakeResolver) {
+                    handshakeResolver.reject(err);
+                }
+            }
+        }
+        /**
+         * Validates native platform response before processing
+         * @param response
+         */
+        validatePlatformBrokerResponse(response) {
+            if (response.hasOwnProperty("access_token") &&
+                response.hasOwnProperty("id_token") &&
+                response.hasOwnProperty("client_info") &&
+                response.hasOwnProperty("account") &&
+                response.hasOwnProperty("scope") &&
+                response.hasOwnProperty("expires_in")) {
+                return response;
+            }
+            else {
+                throw createAuthError(unexpectedError, "Response missing expected properties.");
+            }
+        }
+        /**
+         * Returns the Id for the browser extension this handler is communicating with
+         * @returns
+         */
+        getExtensionId() {
+            return this.extensionId;
+        }
+        /**
+         * Returns the version for the browser extension this handler is communicating with
+         * @returns
+         */
+        getExtensionVersion() {
+            return this.extensionVersion;
+        }
+        getExtensionName() {
+            return this.getExtensionId() ===
+                PlatformAuthConstants.PREFERRED_EXTENSION_ID
+                ? "chrome"
+                : this.getExtensionId()?.length
+                    ? "unknown"
+                    : undefined;
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    class PlatformAuthDOMHandler {
+        constructor(logger, performanceClient, correlationId) {
+            this.logger = logger;
+            this.performanceClient = performanceClient;
+            this.correlationId = correlationId;
+            this.platformAuthType = PlatformAuthConstants.PLATFORM_DOM_PROVIDER;
+        }
+        static async createProvider(logger, performanceClient, correlationId) {
+            logger.trace("PlatformAuthDOMHandler: createProvider called");
+            // @ts-ignore
+            if (window.navigator?.platformAuthentication) {
+                const supportedContracts = 
+                // @ts-ignore
+                await window.navigator.platformAuthentication.getSupportedContracts(PlatformAuthConstants.MICROSOFT_ENTRA_BROKERID);
+                if (supportedContracts?.includes(PlatformAuthConstants.PLATFORM_DOM_APIS)) {
+                    logger.trace("Platform auth api available in DOM");
+                    return new PlatformAuthDOMHandler(logger, performanceClient, correlationId);
+                }
+            }
+            return undefined;
+        }
+        /**
+         * Returns the Id for the broker extension this handler is communicating with
+         * @returns
+         */
+        getExtensionId() {
+            return PlatformAuthConstants.MICROSOFT_ENTRA_BROKERID;
+        }
+        getExtensionVersion() {
+            return "";
+        }
+        getExtensionName() {
+            return PlatformAuthConstants.DOM_API_NAME;
+        }
+        /**
+         * Send token request to platform broker via browser DOM API
+         * @param request
+         * @returns
+         */
+        async sendMessage(request) {
+            this.logger.trace(this.platformAuthType + " - Sending request to browser DOM API");
+            try {
+                const platformDOMRequest = this.initializePlatformDOMRequest(request);
+                const response = 
+                // @ts-ignore
+                await window.navigator.platformAuthentication.executeGetToken(platformDOMRequest);
+                return this.validatePlatformBrokerResponse(response);
+            }
+            catch (e) {
+                this.logger.error(this.platformAuthType + " - executeGetToken DOM API error");
+                throw e;
+            }
+        }
+        initializePlatformDOMRequest(request) {
+            this.logger.trace(this.platformAuthType + " - initializeNativeDOMRequest called");
+            const { accountId, clientId, authority, scope, redirectUri, correlationId, state, storeInCache, embeddedClientId, extraParameters, ...remainingProperties } = request;
+            const validExtraParameters = this.getDOMExtraParams(remainingProperties);
+            const platformDOMRequest = {
+                accountId: accountId,
+                brokerId: this.getExtensionId(),
+                authority: authority,
+                clientId: clientId,
+                correlationId: correlationId || this.correlationId,
+                extraParameters: { ...extraParameters, ...validExtraParameters },
+                isSecurityTokenService: false,
+                redirectUri: redirectUri,
+                scope: scope,
+                state: state,
+                storeInCache: storeInCache,
+                embeddedClientId: embeddedClientId,
+            };
+            return platformDOMRequest;
+        }
+        validatePlatformBrokerResponse(response) {
+            if (response.hasOwnProperty("isSuccess")) {
+                if (response.hasOwnProperty("accessToken") &&
+                    response.hasOwnProperty("idToken") &&
+                    response.hasOwnProperty("clientInfo") &&
+                    response.hasOwnProperty("account") &&
+                    response.hasOwnProperty("scopes") &&
+                    response.hasOwnProperty("expiresIn")) {
+                    this.logger.trace(this.platformAuthType +
+                        " - platform broker returned successful and valid response");
+                    return this.convertToPlatformBrokerResponse(response);
+                }
+                else if (response.hasOwnProperty("error")) {
+                    const errorResponse = response;
+                    if (errorResponse.isSuccess === false &&
+                        errorResponse.error &&
+                        errorResponse.error.code) {
+                        this.logger.trace(this.platformAuthType +
+                            " - platform broker returned error response");
+                        throw createNativeAuthError(errorResponse.error.code, errorResponse.error.description, {
+                            error: parseInt(errorResponse.error.errorCode),
+                            protocol_error: errorResponse.error.protocolError,
+                            status: errorResponse.error.status,
+                            properties: errorResponse.error.properties,
+                        });
+                    }
+                }
+            }
+            throw createAuthError(unexpectedError, "Response missing expected properties.");
+        }
+        convertToPlatformBrokerResponse(response) {
+            this.logger.trace(this.platformAuthType + " - convertToNativeResponse called");
+            const nativeResponse = {
+                access_token: response.accessToken,
+                id_token: response.idToken,
+                client_info: response.clientInfo,
+                account: response.account,
+                expires_in: response.expiresIn,
+                scope: response.scopes,
+                state: response.state || "",
+                properties: response.properties || {},
+                extendedLifetimeToken: response.extendedLifetimeToken ?? false,
+                shr: response.proofOfPossessionPayload,
+            };
+            return nativeResponse;
+        }
+        getDOMExtraParams(extraParameters) {
+            const stringifiedParams = Object.entries(extraParameters).reduce((record, [key, value]) => {
+                record[key] = String(value);
+                return record;
+            }, {});
+            const validExtraParams = {
+                ...stringifiedParams,
+            };
+            return validExtraParams;
+        }
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    /**
+     * Checks if the platform broker is available in the current environment.
+     * @param loggerOptions
+     * @param perfClient
+     * @returns
+     */
+    async function isPlatformBrokerAvailable(loggerOptions, perfClient, correlationId) {
+        const logger = new Logger(loggerOptions || {}, name, version);
+        logger.trace("isPlatformBrokerAvailable called");
+        const performanceClient = perfClient || new StubPerformanceClient();
+        if (typeof window === "undefined") {
+            logger.trace("Non-browser environment detected, returning false");
+            return false;
+        }
+        return !!(await getPlatformAuthProvider(logger, performanceClient, correlationId || createNewGuid()));
+    }
+    async function getPlatformAuthProvider(logger, performanceClient, correlationId, nativeBrokerHandshakeTimeout) {
+        logger.trace("getPlatformAuthProvider called", correlationId);
+        const enablePlatformBrokerDOMSupport = isDomEnabledForPlatformAuth();
+        logger.trace("Has client allowed platform auth via DOM API: " +
+            enablePlatformBrokerDOMSupport);
+        let platformAuthProvider;
+        try {
+            if (enablePlatformBrokerDOMSupport) {
+                // Check if DOM platform API is supported first
+                platformAuthProvider = await PlatformAuthDOMHandler.createProvider(logger, performanceClient, correlationId);
+            }
+            if (!platformAuthProvider) {
+                logger.trace("Platform auth via DOM API not available, checking for extension");
+                /*
+                 * If DOM APIs are not available, check if browser extension is available.
+                 * Platform authentication via DOM APIs is preferred over extension APIs.
+                 */
+                platformAuthProvider =
+                    await PlatformAuthExtensionHandler.createProvider(logger, nativeBrokerHandshakeTimeout ||
+                        DEFAULT_NATIVE_BROKER_HANDSHAKE_TIMEOUT_MS, performanceClient);
+            }
+        }
+        catch (e) {
+            logger.trace("Platform auth not available", e);
+        }
+        return platformAuthProvider;
+    }
+    /**
+     * Returns true if the DOM API support for platform auth is enabled in session storage
+     * @returns boolean
+     * @deprecated
+     */
+    function isDomEnabledForPlatformAuth() {
+        let sessionStorage;
+        try {
+            sessionStorage = window[BrowserCacheLocation.SessionStorage];
+            // Mute errors if it's a non-browser environment or cookies are blocked.
+            return sessionStorage?.getItem(PLATFORM_AUTH_DOM_SUPPORT) === "true";
+        }
+        catch (e) {
+            return false;
+        }
+    }
+    /**
+     * Returns boolean indicating whether or not the request should attempt to use native broker
+     * @param logger
+     * @param config
+     * @param platformAuthProvider
+     * @param authenticationScheme
+     */
+    function isPlatformAuthAllowed(config, logger, platformAuthProvider, authenticationScheme) {
+        logger.trace("isPlatformAuthAllowed called");
+        if (!config.system.allowPlatformBroker) {
+            logger.trace("isPlatformAuthAllowed: allowPlatformBroker is not enabled, returning false");
+            // Developer disabled WAM
+            return false;
+        }
+        if (!platformAuthProvider) {
+            logger.trace("isPlatformAuthAllowed: Platform auth provider is not initialized, returning false");
+            // Platform broker auth providers are not available
+            return false;
+        }
+        if (authenticationScheme) {
+            switch (authenticationScheme) {
+                case AuthenticationScheme.BEARER:
+                case AuthenticationScheme.POP:
+                    logger.trace("isPlatformAuthAllowed: authenticationScheme is supported, returning true");
+                    return true;
+                default:
+                    logger.trace("isPlatformAuthAllowed: authenticationScheme is not supported, returning false");
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
     class PopupClient extends StandardInteractionClient {
-        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, nativeMessageHandler, correlationId) {
-            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
+        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, platformAuthHandler, correlationId) {
+            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, platformAuthHandler, correlationId);
             // Properly sets this reference for the unload event.
             this.unloadWindow = this.unloadWindow.bind(this);
             this.nativeStorage = nativeStorageImpl;
+            this.eventHandler = eventHandler;
         }
         /**
          * Acquires tokens by opening a popup window to the /authorize endpoint of the authority
@@ -14593,9 +15238,10 @@
          * @param pkceCodes
          */
         acquireToken(request, pkceCodes) {
+            let popupParams = undefined;
             try {
                 const popupName = this.generatePopupName(request.scopes || OIDC_DEFAULT_SCOPES, request.authority || this.config.auth.authority);
-                const popupParams = {
+                popupParams = {
                     popupName,
                     popupWindowAttributes: request.popupWindowAttributes || {},
                     popupWindowParent: request.popupWindowParent ?? window,
@@ -14608,10 +15254,15 @@
                     return this.acquireTokenPopupAsync(request, popupParams, pkceCodes);
                 }
                 else {
+                    // Pre-validate request method to avoid opening popup if the request is invalid
+                    const validatedRequest = {
+                        ...request,
+                        httpMethod: validateRequestMethod(request, this.config.auth.protocolMode),
+                    };
                     // asyncPopups flag is set to false. Opens popup before acquiring token.
                     this.logger.verbose("asyncPopup set to false, opening popup before acquiring token");
                     popupParams.popup = this.openSizedPopup("about:blank", popupParams);
-                    return this.acquireTokenPopupAsync(request, popupParams, pkceCodes);
+                    return this.acquireTokenPopupAsync(validatedRequest, popupParams, pkceCodes);
                 }
             }
             catch (e) {
@@ -14661,7 +15312,6 @@
          */
         async acquireTokenPopupAsync(request, popupParams, pkceCodes) {
             this.logger.verbose("acquireTokenPopupAsync called");
-            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenPopup);
             const validRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, this.correlationId)(request, exports.InteractionType.Popup);
             /*
              * Skip pre-connect for async popups to reduce time between user interaction and popup window creation to avoid
@@ -14670,62 +15320,54 @@
             if (popupParams.popup) {
                 preconnect(validRequest.authority);
             }
+            const isPlatformBroker = isPlatformAuthAllowed(this.config, this.logger, this.platformAuthProvider, request.authenticationScheme);
+            validRequest.platformBroker = isPlatformBroker;
+            if (this.config.auth.protocolMode === ProtocolMode.EAR) {
+                return this.executeEarFlow(validRequest, popupParams);
+            }
+            else {
+                return this.executeCodeFlow(validRequest, popupParams, pkceCodes);
+            }
+        }
+        /**
+         * Executes auth code + PKCE flow
+         * @param request
+         * @param popupParams
+         * @param pkceCodes
+         * @returns
+         */
+        async executeCodeFlow(request, popupParams, pkceCodes) {
+            const correlationId = request.correlationId;
+            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenPopup);
+            const pkce = pkceCodes ||
+                (await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, correlationId)(this.performanceClient, this.logger, correlationId));
+            const popupRequest = {
+                ...request,
+                codeChallenge: pkce.challenge,
+            };
             try {
-                // Create auth code request and generate PKCE params
-                const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest, pkceCodes);
                 // Initialize the client
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, correlationId)({
                     serverTelemetryManager,
-                    requestAuthority: validRequest.authority,
-                    requestAzureCloudOptions: validRequest.azureCloudOptions,
-                    requestExtraQueryParameters: validRequest.extraQueryParameters,
-                    account: validRequest.account,
+                    requestAuthority: popupRequest.authority,
+                    requestAzureCloudOptions: popupRequest.azureCloudOptions,
+                    requestExtraQueryParameters: popupRequest.extraQueryParameters,
+                    account: popupRequest.account,
                 });
-                const isPlatformBroker = NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme);
-                // Start measurement for server calls with native brokering enabled
-                let fetchNativeAccountIdMeasurement;
-                if (isPlatformBroker) {
-                    fetchNativeAccountIdMeasurement =
-                        this.performanceClient.startMeasurement(PerformanceEvents.FetchAccountIdWithNativeBroker, request.correlationId);
+                if (popupRequest.httpMethod === HttpMethod.POST) {
+                    return await this.executeCodeFlowWithPost(popupRequest, popupParams, authClient, pkce.verifier);
                 }
-                // Create acquire token url.
-                const navigateUrl = await authClient.getAuthCodeUrl({
-                    ...validRequest,
-                    platformBroker: isPlatformBroker,
-                });
-                // Create popup interaction handler.
-                const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
-                // Show the UI once the url has been created. Get the window handle for the popup.
-                const popupWindow = this.initiateAuthRequest(navigateUrl, popupParams);
-                this.eventHandler.emitEvent(EventType.POPUP_OPENED, exports.InteractionType.Popup, { popupWindow }, null);
-                // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
-                const responseString = await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent);
-                const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
-                // Remove throttle if it exists
-                ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, authCodeRequest);
-                if (serverParams.accountId) {
-                    this.logger.verbose("Account id found in hash, calling WAM for token");
-                    // end measurement for server call with native brokering enabled
-                    if (fetchNativeAccountIdMeasurement) {
-                        fetchNativeAccountIdMeasurement.end({
-                            success: true,
-                            isNativeBroker: true,
-                        });
-                    }
-                    if (!this.nativeMessageHandler) {
-                        throw createBrowserAuthError(nativeConnectionNotEstablished);
-                    }
-                    const nativeInteractionClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenPopup, this.performanceClient, this.nativeMessageHandler, serverParams.accountId, this.nativeStorage, validRequest.correlationId);
-                    const { userRequestState } = ProtocolUtils.parseRequestState(this.browserCrypto, validRequest.state);
-                    return await nativeInteractionClient.acquireToken({
-                        ...validRequest,
-                        state: userRequestState,
-                        prompt: undefined, // Server should handle the prompt, ideally native broker can do this part silently
-                    });
+                else {
+                    // Create acquire token url.
+                    const navigateUrl = await invokeAsync(getAuthCodeRequestUrl, PerformanceEvents.GetAuthCodeUrl, this.logger, this.performanceClient, correlationId)(this.config, authClient.authority, popupRequest, this.logger, this.performanceClient);
+                    // Show the UI once the url has been created. Get the window handle for the popup.
+                    const popupWindow = this.initiateAuthRequest(navigateUrl, popupParams);
+                    this.eventHandler.emitEvent(EventType.POPUP_OPENED, exports.InteractionType.Popup, { popupWindow }, null);
+                    // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
+                    const responseString = await this.monitorPopupForHash(popupWindow, popupParams.popupWindowParent);
+                    const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
+                    return await invokeAsync(handleResponseCode, PerformanceEvents.HandleResponseCode, this.logger, this.performanceClient, correlationId)(request, serverParams, pkce.verifier, ApiId.acquireTokenPopup, this.config, authClient, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
                 }
-                // Handle response from hash string.
-                const result = await interactionHandler.handleCodeResponse(serverParams, validRequest);
-                return result;
             }
             catch (e) {
                 // Close the synchronous popup if an error is thrown before the window unload event is registered
@@ -14736,6 +15378,49 @@
                 }
                 throw e;
             }
+        }
+        /**
+         * Executes EAR flow
+         * @param request
+         */
+        async executeEarFlow(request, popupParams) {
+            const correlationId = request.correlationId;
+            // Get the frame handle for the silent request
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, correlationId)({
+                requestAuthority: request.authority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                requestExtraQueryParameters: request.extraQueryParameters,
+                account: request.account,
+            });
+            const earJwk = await invokeAsync(generateEarKey, PerformanceEvents.GenerateEarKey, this.logger, this.performanceClient, correlationId)();
+            const popupRequest = {
+                ...request,
+                earJwk: earJwk,
+            };
+            const popupWindow = popupParams.popup || this.openPopup("about:blank", popupParams);
+            const form = await getEARForm(popupWindow.document, this.config, discoveredAuthority, popupRequest, this.logger, this.performanceClient);
+            form.submit();
+            // Monitor the popup for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
+            const responseString = await invokeAsync(this.monitorPopupForHash.bind(this), PerformanceEvents.SilentHandlerMonitorIframeForHash, this.logger, this.performanceClient, correlationId)(popupWindow, popupParams.popupWindowParent);
+            const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
+            return invokeAsync(handleResponseEAR, PerformanceEvents.HandleResponseEar, this.logger, this.performanceClient, correlationId)(popupRequest, serverParams, ApiId.acquireTokenPopup, this.config, discoveredAuthority, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
+        }
+        async executeCodeFlowWithPost(request, popupParams, authClient, pkceVerifier) {
+            const correlationId = request.correlationId;
+            // Get the frame handle for the silent request
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, correlationId)({
+                requestAuthority: request.authority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                requestExtraQueryParameters: request.extraQueryParameters,
+                account: request.account,
+            });
+            const popupWindow = popupParams.popup || this.openPopup("about:blank", popupParams);
+            const form = await getCodeForm(popupWindow.document, this.config, discoveredAuthority, request, this.logger, this.performanceClient);
+            form.submit();
+            // Monitor the popup for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
+            const responseString = await invokeAsync(this.monitorPopupForHash.bind(this), PerformanceEvents.SilentHandlerMonitorIframeForHash, this.logger, this.performanceClient, correlationId)(popupWindow, popupParams.popupWindowParent);
+            const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, this.config.auth.OIDCOptions.serverResponseType, this.logger);
+            return invokeAsync(handleResponseCode, PerformanceEvents.HandleResponseCode, this.logger, this.performanceClient, correlationId)(request, serverParams, pkceVerifier, ApiId.acquireTokenPopup, this.config, authClient, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
         }
         /**
          *
@@ -14752,7 +15437,7 @@
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.logoutPopup);
             try {
                 // Clear cache on logout
-                await this.clearCacheOnLogout(validRequest.account);
+                await this.clearCacheOnLogout(this.correlationId, validRequest.account);
                 // Initialize the client
                 const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
                     serverTelemetryManager,
@@ -14766,7 +15451,6 @@
                     if (validRequest.account?.homeAccountId &&
                         validRequest.postLogoutRedirectUri &&
                         authClient.authority.protocolMode === ProtocolMode.OIDC) {
-                        void this.browserStorage.removeAccount(validRequest.account?.homeAccountId);
                         this.eventHandler.emitEvent(EventType.LOGOUT_SUCCESS, exports.InteractionType.Popup, validRequest);
                         if (mainWindowRedirectUri) {
                             const navigationOptions = {
@@ -14812,7 +15496,6 @@
                     e.setCorrelationId(this.correlationId);
                     serverTelemetryManager.cacheFailedRequest(e);
                 }
-                this.browserStorage.setInteractionInProgress(false);
                 this.eventHandler.emitEvent(EventType.LOGOUT_FAILURE, exports.InteractionType.Popup, null, e);
                 this.eventHandler.emitEvent(EventType.LOGOUT_END, exports.InteractionType.Popup);
                 throw e;
@@ -14924,7 +15607,6 @@
             }
             catch (e) {
                 this.logger.error("error opening popup " + e.message);
-                this.browserStorage.setInteractionInProgress(false);
                 throw createBrowserAuthError(popupWindowError);
             }
         }
@@ -14982,7 +15664,6 @@
          * Event callback to unload main window.
          */
         unloadWindow(e) {
-            this.browserStorage.cleanRequestByInteractionType(exports.InteractionType.Popup);
             if (this.currentWindow) {
                 this.currentWindow.close();
             }
@@ -14998,8 +15679,6 @@
             popupWindow.close();
             // Remove window unload function
             popupWindowParent.removeEventListener("beforeunload", this.unloadWindow);
-            // Interaction is completed - remove interaction status.
-            this.browserStorage.setInteractionInProgress(false);
         }
         /**
          * Generates the name for the popup based on the client id and request
@@ -15024,141 +15703,6 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    class RedirectHandler {
-        constructor(authCodeModule, storageImpl, authCodeRequest, logger, performanceClient) {
-            this.authModule = authCodeModule;
-            this.browserStorage = storageImpl;
-            this.authCodeRequest = authCodeRequest;
-            this.logger = logger;
-            this.performanceClient = performanceClient;
-        }
-        /**
-         * Redirects window to given URL.
-         * @param urlNavigate
-         */
-        async initiateAuthRequest(requestUrl, params) {
-            this.logger.verbose("RedirectHandler.initiateAuthRequest called");
-            // Navigate if valid URL
-            if (requestUrl) {
-                // Cache start page, returns to this page after redirectUri if navigateToLoginRequestUrl is true
-                if (params.redirectStartPage) {
-                    this.logger.verbose("RedirectHandler.initiateAuthRequest: redirectStartPage set, caching start page");
-                    this.browserStorage.setTemporaryCache(TemporaryCacheKeys.ORIGIN_URI, params.redirectStartPage, true);
-                }
-                // Set interaction status in the library.
-                this.browserStorage.setTemporaryCache(TemporaryCacheKeys.CORRELATION_ID, this.authCodeRequest.correlationId, true);
-                this.browserStorage.cacheCodeRequest(this.authCodeRequest);
-                this.logger.infoPii(`RedirectHandler.initiateAuthRequest: Navigate to: ${requestUrl}`);
-                const navigationOptions = {
-                    apiId: ApiId.acquireTokenRedirect,
-                    timeout: params.redirectTimeout,
-                    noHistory: false,
-                };
-                // If onRedirectNavigate is implemented, invoke it and provide requestUrl
-                if (typeof params.onRedirectNavigate === "function") {
-                    this.logger.verbose("RedirectHandler.initiateAuthRequest: Invoking onRedirectNavigate callback");
-                    const navigate = params.onRedirectNavigate(requestUrl);
-                    // Returning false from onRedirectNavigate will stop navigation
-                    if (navigate !== false) {
-                        this.logger.verbose("RedirectHandler.initiateAuthRequest: onRedirectNavigate did not return false, navigating");
-                        await params.navigationClient.navigateExternal(requestUrl, navigationOptions);
-                        return;
-                    }
-                    else {
-                        this.logger.verbose("RedirectHandler.initiateAuthRequest: onRedirectNavigate returned false, stopping navigation");
-                        return;
-                    }
-                }
-                else {
-                    // Navigate window to request URL
-                    this.logger.verbose("RedirectHandler.initiateAuthRequest: Navigating window to navigate url");
-                    await params.navigationClient.navigateExternal(requestUrl, navigationOptions);
-                    return;
-                }
-            }
-            else {
-                // Throw error if request URL is empty.
-                this.logger.info("RedirectHandler.initiateAuthRequest: Navigate url is empty");
-                throw createBrowserAuthError(emptyNavigateUri);
-            }
-        }
-        /**
-         * Handle authorization code response in the window.
-         * @param hash
-         */
-        async handleCodeResponse(response, state) {
-            this.logger.verbose("RedirectHandler.handleCodeResponse called");
-            // Interaction is completed - remove interaction status.
-            this.browserStorage.setInteractionInProgress(false);
-            // Handle code response.
-            const stateKey = this.browserStorage.generateStateKey(state);
-            const requestState = this.browserStorage.getTemporaryCache(stateKey);
-            if (!requestState) {
-                throw createClientAuthError(stateNotFound, "Cached State");
-            }
-            let authCodeResponse;
-            try {
-                authCodeResponse = this.authModule.handleFragmentResponse(response, requestState);
-            }
-            catch (e) {
-                if (e instanceof ServerError &&
-                    e.subError === userCancelled) {
-                    // Translate server error caused by user closing native prompt to corresponding first class MSAL error
-                    throw createBrowserAuthError(userCancelled);
-                }
-                else {
-                    throw e;
-                }
-            }
-            // Get cached items
-            const nonceKey = this.browserStorage.generateNonceKey(requestState);
-            const cachedNonce = this.browserStorage.getTemporaryCache(nonceKey);
-            // Assign code to request
-            this.authCodeRequest.code = authCodeResponse.code;
-            // Check for new cloud instance
-            if (authCodeResponse.cloud_instance_host_name) {
-                await invokeAsync(this.authModule.updateAuthority.bind(this.authModule), PerformanceEvents.UpdateTokenEndpointAuthority, this.logger, this.performanceClient, this.authCodeRequest.correlationId)(authCodeResponse.cloud_instance_host_name, this.authCodeRequest.correlationId);
-            }
-            authCodeResponse.nonce = cachedNonce || undefined;
-            authCodeResponse.state = requestState;
-            // Add CCS parameters if available
-            if (authCodeResponse.client_info) {
-                this.authCodeRequest.clientInfo = authCodeResponse.client_info;
-            }
-            else {
-                const cachedCcsCred = this.checkCcsCredentials();
-                if (cachedCcsCred) {
-                    this.authCodeRequest.ccsCredential = cachedCcsCred;
-                }
-            }
-            // Acquire token with retrieved code.
-            const tokenResponse = (await this.authModule.acquireToken(this.authCodeRequest, authCodeResponse));
-            this.browserStorage.cleanRequestByState(state);
-            return tokenResponse;
-        }
-        /**
-         * Looks up ccs creds in the cache
-         */
-        checkCcsCredentials() {
-            // Look up ccs credential in temp cache
-            const cachedCcsCred = this.browserStorage.getTemporaryCache(TemporaryCacheKeys.CCS_CREDENTIAL, true);
-            if (cachedCcsCred) {
-                try {
-                    return JSON.parse(cachedCcsCred);
-                }
-                catch (e) {
-                    this.authModule.logger.error("Cache credential could not be parsed");
-                    this.authModule.logger.errorPii(`Cache credential could not be parsed: ${cachedCcsCred}`);
-                }
-            }
-            return null;
-        }
-    }
-
-    /*
-     * Copyright (c) Microsoft Corporation. All rights reserved.
-     * Licensed under the MIT License.
-     */
     function getNavigationType() {
         if (typeof window === "undefined" ||
             typeof window.performance === "undefined" ||
@@ -15172,8 +15716,8 @@
         return navigation?.type;
     }
     class RedirectClient extends StandardInteractionClient {
-        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, nativeMessageHandler, correlationId) {
-            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
+        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeStorageImpl, platformAuthHandler, correlationId) {
+            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, platformAuthHandler, correlationId);
             this.nativeStorage = nativeStorageImpl;
         }
         /**
@@ -15182,56 +15726,126 @@
          */
         async acquireToken(request) {
             const validRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, this.correlationId)(request, exports.InteractionType.Redirect);
-            this.browserStorage.updateCacheEntries(validRequest.state, validRequest.nonce, validRequest.authority, validRequest.loginHint || "", validRequest.account || null);
-            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenRedirect);
+            validRequest.platformBroker = isPlatformAuthAllowed(this.config, this.logger, this.platformAuthProvider, request.authenticationScheme);
             const handleBackButton = (event) => {
                 // Clear temporary cache if the back button is clicked during the redirect flow.
                 if (event.persisted) {
                     this.logger.verbose("Page was restored from back/forward cache. Clearing temporary cache.");
-                    this.browserStorage.cleanRequestByState(validRequest.state);
+                    this.browserStorage.resetRequestCache();
                     this.eventHandler.emitEvent(EventType.RESTORE_FROM_BFCACHE, exports.InteractionType.Redirect);
                 }
             };
+            const redirectStartPage = this.getRedirectStartPage(request.redirectStartPage);
+            this.logger.verbosePii(`Redirect start page: ${redirectStartPage}`);
+            // Cache start page, returns to this page after redirectUri if navigateToLoginRequestUrl is true
+            this.browserStorage.setTemporaryCache(TemporaryCacheKeys.ORIGIN_URI, redirectStartPage, true);
+            // Clear temporary cache if the back button is clicked during the redirect flow.
+            window.addEventListener("pageshow", handleBackButton);
             try {
-                // Create auth code request and generate PKCE params
-                const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, this.correlationId)(validRequest);
-                // Initialize the client
-                const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
-                    serverTelemetryManager,
-                    requestAuthority: validRequest.authority,
-                    requestAzureCloudOptions: validRequest.azureCloudOptions,
-                    requestExtraQueryParameters: validRequest.extraQueryParameters,
-                    account: validRequest.account,
-                });
-                // Create redirect interaction handler.
-                const interactionHandler = new RedirectHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
-                // Create acquire token url.
-                const navigateUrl = await authClient.getAuthCodeUrl({
-                    ...validRequest,
-                    platformBroker: NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, request.authenticationScheme),
-                });
-                const redirectStartPage = this.getRedirectStartPage(request.redirectStartPage);
-                this.logger.verbosePii(`Redirect start page: ${redirectStartPage}`);
-                // Clear temporary cache if the back button is clicked during the redirect flow.
-                window.addEventListener("pageshow", handleBackButton);
-                // Show the UI once the url has been created. Response will come back in the hash, which will be handled in the handleRedirectCallback function.
-                return await interactionHandler.initiateAuthRequest(navigateUrl, {
-                    navigationClient: this.navigationClient,
-                    redirectTimeout: this.config.system.redirectNavigationTimeout,
-                    redirectStartPage: redirectStartPage,
-                    onRedirectNavigate: request.onRedirectNavigate ||
-                        this.config.auth.onRedirectNavigate,
-                });
+                if (this.config.auth.protocolMode === ProtocolMode.EAR) {
+                    await this.executeEarFlow(validRequest);
+                }
+                else {
+                    await this.executeCodeFlow(validRequest, request.onRedirectNavigate);
+                }
+            }
+            catch (e) {
+                if (e instanceof AuthError) {
+                    e.setCorrelationId(this.correlationId);
+                }
+                window.removeEventListener("pageshow", handleBackButton);
+                throw e;
+            }
+        }
+        /**
+         * Executes auth code + PKCE flow
+         * @param request
+         * @returns
+         */
+        async executeCodeFlow(request, onRedirectNavigate) {
+            const correlationId = request.correlationId;
+            const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.acquireTokenRedirect);
+            const pkceCodes = await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, correlationId)(this.performanceClient, this.logger, correlationId);
+            const redirectRequest = {
+                ...request,
+                codeChallenge: pkceCodes.challenge,
+            };
+            this.browserStorage.cacheAuthorizeRequest(redirectRequest, pkceCodes.verifier);
+            try {
+                if (redirectRequest.httpMethod === HttpMethod.POST) {
+                    return await this.executeCodeFlowWithPost(redirectRequest);
+                }
+                else {
+                    // Initialize the client
+                    const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({
+                        serverTelemetryManager,
+                        requestAuthority: redirectRequest.authority,
+                        requestAzureCloudOptions: redirectRequest.azureCloudOptions,
+                        requestExtraQueryParameters: redirectRequest.extraQueryParameters,
+                        account: redirectRequest.account,
+                    });
+                    // Create acquire token url.
+                    const navigateUrl = await invokeAsync(getAuthCodeRequestUrl, PerformanceEvents.GetAuthCodeUrl, this.logger, this.performanceClient, request.correlationId)(this.config, authClient.authority, redirectRequest, this.logger, this.performanceClient);
+                    // Show the UI once the url has been created. Response will come back in the hash, which will be handled in the handleRedirectCallback function.
+                    return await this.initiateAuthRequest(navigateUrl, onRedirectNavigate);
+                }
             }
             catch (e) {
                 if (e instanceof AuthError) {
                     e.setCorrelationId(this.correlationId);
                     serverTelemetryManager.cacheFailedRequest(e);
                 }
-                window.removeEventListener("pageshow", handleBackButton);
-                this.browserStorage.cleanRequestByState(validRequest.state);
                 throw e;
             }
+        }
+        /**
+         * Executes EAR flow
+         * @param request
+         */
+        async executeEarFlow(request) {
+            const correlationId = request.correlationId;
+            // Get the frame handle for the silent request
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, correlationId)({
+                requestAuthority: request.authority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                requestExtraQueryParameters: request.extraQueryParameters,
+                account: request.account,
+            });
+            const earJwk = await invokeAsync(generateEarKey, PerformanceEvents.GenerateEarKey, this.logger, this.performanceClient, correlationId)();
+            const redirectRequest = {
+                ...request,
+                earJwk: earJwk,
+            };
+            this.browserStorage.cacheAuthorizeRequest(redirectRequest);
+            const form = await getEARForm(document, this.config, discoveredAuthority, redirectRequest, this.logger, this.performanceClient);
+            form.submit();
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    reject(createBrowserAuthError(timedOut, "failed_to_redirect"));
+                }, this.config.system.redirectNavigationTimeout);
+            });
+        }
+        /**
+         * Executes classic Authorization Code flow with a POST request.
+         * @param request
+         */
+        async executeCodeFlowWithPost(request) {
+            const correlationId = request.correlationId;
+            // Get the frame handle for the silent request
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, correlationId)({
+                requestAuthority: request.authority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                requestExtraQueryParameters: request.extraQueryParameters,
+                account: request.account,
+            });
+            this.browserStorage.cacheAuthorizeRequest(request);
+            const form = await getCodeForm(document, this.config, discoveredAuthority, request, this.logger, this.performanceClient);
+            form.submit();
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    reject(createBrowserAuthError(timedOut, "failed_to_redirect"));
+                }, this.config.system.redirectNavigationTimeout);
+            });
         }
         /**
          * Checks if navigateToLoginRequestUrl is set, and:
@@ -15240,18 +15854,14 @@
          * @param hash {string} url hash
          * @param parentMeasurement {InProgressPerformanceEvent} parent measurement
          */
-        async handleRedirectPromise(hash = "", parentMeasurement) {
+        async handleRedirectPromise(hash = "", request, pkceVerifier, parentMeasurement) {
             const serverTelemetryManager = this.initializeServerTelemetryManager(ApiId.handleRedirectPromise);
             try {
-                if (!this.browserStorage.isInteractionInProgress(true)) {
-                    this.logger.info("handleRedirectPromise called but there is no interaction in progress, returning null.");
-                    return null;
-                }
                 const [serverParams, responseString] = this.getRedirectResponse(hash || "");
                 if (!serverParams) {
                     // Not a recognized server response hash or hash not associated with a redirect request
                     this.logger.info("handleRedirectPromise did not detect a response as a result of a redirect. Cleaning temporary cache.");
-                    this.browserStorage.cleanRequestByInteractionType(exports.InteractionType.Redirect);
+                    this.browserStorage.resetRequestCache();
                     // Do not instrument "no_server_response" if user clicked back button
                     if (getNavigationType() !== "back_forward") {
                         parentMeasurement.event.errorCode = "no_server_response";
@@ -15263,8 +15873,8 @@
                 }
                 // If navigateToLoginRequestUrl is true, get the url where the redirect request was initiated
                 const loginRequestUrl = this.browserStorage.getTemporaryCache(TemporaryCacheKeys.ORIGIN_URI, true) || Constants.EMPTY_STRING;
-                const loginRequestUrlNormalized = UrlString.removeHashFromUrl(loginRequestUrl);
-                const currentUrlNormalized = UrlString.removeHashFromUrl(window.location.href);
+                const loginRequestUrlNormalized = normalizeUrlForComparison(loginRequestUrl);
+                const currentUrlNormalized = normalizeUrlForComparison(window.location.href);
                 if (loginRequestUrlNormalized === currentUrlNormalized &&
                     this.config.auth.navigateToLoginRequestUrl) {
                     // We are on the page we need to navigate to - handle hash
@@ -15273,12 +15883,12 @@
                         // Replace current hash with non-msal hash, if present
                         replaceHash(loginRequestUrl);
                     }
-                    const handleHashResult = await this.handleResponse(serverParams, serverTelemetryManager);
+                    const handleHashResult = await this.handleResponse(serverParams, request, pkceVerifier, serverTelemetryManager);
                     return handleHashResult;
                 }
                 else if (!this.config.auth.navigateToLoginRequestUrl) {
                     this.logger.verbose("NavigateToLoginRequestUrl set to false, handling response");
-                    return await this.handleResponse(serverParams, serverTelemetryManager);
+                    return await this.handleResponse(serverParams, request, pkceVerifier, serverTelemetryManager);
                 }
                 else if (!isInIframe() ||
                     this.config.system.allowRedirectInIframe) {
@@ -15314,7 +15924,7 @@
                     }
                     // If navigateInternal implementation returns false, handle the hash now
                     if (!processHashOnRedirect) {
-                        return await this.handleResponse(serverParams, serverTelemetryManager);
+                        return await this.handleResponse(serverParams, request, pkceVerifier, serverTelemetryManager);
                     }
                 }
                 return null;
@@ -15324,7 +15934,6 @@
                     e.setCorrelationId(this.correlationId);
                     serverTelemetryManager.cacheFailedRequest(e);
                 }
-                this.browserStorage.cleanRequestByInteractionType(exports.InteractionType.Redirect);
                 throw e;
             }
         }
@@ -15377,39 +15986,67 @@
          * @param hash
          * @param state
          */
-        async handleResponse(serverParams, serverTelemetryManager) {
+        async handleResponse(serverParams, request, codeVerifier, serverTelemetryManager) {
             const state = serverParams.state;
             if (!state) {
                 throw createBrowserAuthError(noStateInHash);
             }
-            const cachedRequest = this.browserStorage.getCachedRequest(state);
-            this.logger.verbose("handleResponse called, retrieved cached request");
-            if (serverParams.accountId) {
-                this.logger.verbose("Account id found in hash, calling WAM for token");
-                if (!this.nativeMessageHandler) {
-                    throw createBrowserAuthError(nativeConnectionNotEstablished);
-                }
-                const nativeInteractionClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenPopup, this.performanceClient, this.nativeMessageHandler, serverParams.accountId, this.nativeStorage, cachedRequest.correlationId);
-                const { userRequestState } = ProtocolUtils.parseRequestState(this.browserCrypto, state);
-                return nativeInteractionClient
-                    .acquireToken({
-                    ...cachedRequest,
-                    state: userRequestState,
-                    prompt: undefined, // Server should handle the prompt, ideally native broker can do this part silently
-                })
-                    .finally(() => {
-                    this.browserStorage.cleanRequestByState(state);
+            if (serverParams.ear_jwe) {
+                const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, request.correlationId)({
+                    requestAuthority: request.authority,
+                    requestAzureCloudOptions: request.azureCloudOptions,
+                    requestExtraQueryParameters: request.extraQueryParameters,
+                    account: request.account,
                 });
+                return invokeAsync(handleResponseEAR, PerformanceEvents.HandleResponseEar, this.logger, this.performanceClient, request.correlationId)(request, serverParams, ApiId.acquireTokenRedirect, this.config, discoveredAuthority, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
             }
-            // Hash contains known properties - handle and return in callback
-            const currentAuthority = this.browserStorage.getCachedAuthority(state);
-            if (!currentAuthority) {
-                throw createBrowserAuthError(noCachedAuthorityError);
+            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({ serverTelemetryManager, requestAuthority: request.authority });
+            return invokeAsync(handleResponseCode, PerformanceEvents.HandleResponseCode, this.logger, this.performanceClient, request.correlationId)(request, serverParams, codeVerifier, ApiId.acquireTokenRedirect, this.config, authClient, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
+        }
+        /**
+         * Redirects window to given URL.
+         * @param urlNavigate
+         * @param onRedirectNavigateRequest - onRedirectNavigate callback provided on the request
+         */
+        async initiateAuthRequest(requestUrl, onRedirectNavigateRequest) {
+            this.logger.verbose("RedirectHandler.initiateAuthRequest called");
+            // Navigate if valid URL
+            if (requestUrl) {
+                this.logger.infoPii(`RedirectHandler.initiateAuthRequest: Navigate to: ${requestUrl}`);
+                const navigationOptions = {
+                    apiId: ApiId.acquireTokenRedirect,
+                    timeout: this.config.system.redirectNavigationTimeout,
+                    noHistory: false,
+                };
+                const onRedirectNavigate = onRedirectNavigateRequest ||
+                    this.config.auth.onRedirectNavigate;
+                // If onRedirectNavigate is implemented, invoke it and provide requestUrl
+                if (typeof onRedirectNavigate === "function") {
+                    this.logger.verbose("RedirectHandler.initiateAuthRequest: Invoking onRedirectNavigate callback");
+                    const navigate = onRedirectNavigate(requestUrl);
+                    // Returning false from onRedirectNavigate will stop navigation
+                    if (navigate !== false) {
+                        this.logger.verbose("RedirectHandler.initiateAuthRequest: onRedirectNavigate did not return false, navigating");
+                        await this.navigationClient.navigateExternal(requestUrl, navigationOptions);
+                        return;
+                    }
+                    else {
+                        this.logger.verbose("RedirectHandler.initiateAuthRequest: onRedirectNavigate returned false, stopping navigation");
+                        return;
+                    }
+                }
+                else {
+                    // Navigate window to request URL
+                    this.logger.verbose("RedirectHandler.initiateAuthRequest: Navigating window to navigate url");
+                    await this.navigationClient.navigateExternal(requestUrl, navigationOptions);
+                    return;
+                }
             }
-            const authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, this.correlationId)({ serverTelemetryManager, requestAuthority: currentAuthority });
-            ThrottlingUtils.removeThrottle(this.browserStorage, this.config.auth.clientId, cachedRequest);
-            const interactionHandler = new RedirectHandler(authClient, this.browserStorage, cachedRequest, this.logger, this.performanceClient);
-            return interactionHandler.handleCodeResponse(serverParams, state);
+            else {
+                // Throw error if request URL is empty.
+                this.logger.info("RedirectHandler.initiateAuthRequest: Navigate url is empty");
+                throw createBrowserAuthError(emptyNavigateUri);
+            }
         }
         /**
          * Use to log out the current user, and redirect the user to the postLogoutRedirectUri.
@@ -15423,7 +16060,7 @@
             try {
                 this.eventHandler.emitEvent(EventType.LOGOUT_START, exports.InteractionType.Redirect, logoutRequest);
                 // Clear cache on logout
-                await this.clearCacheOnLogout(validLogoutRequest.account);
+                await this.clearCacheOnLogout(this.correlationId, validLogoutRequest.account);
                 const navigationOptions = {
                     apiId: ApiId.logout,
                     timeout: this.config.system.redirectNavigationTimeout,
@@ -15441,7 +16078,6 @@
                     }
                     catch {
                         if (validLogoutRequest.account?.homeAccountId) {
-                            void this.browserStorage.removeAccount(validLogoutRequest.account?.homeAccountId);
                             this.eventHandler.emitEvent(EventType.LOGOUT_SUCCESS, exports.InteractionType.Redirect, validLogoutRequest);
                             return;
                         }
@@ -15458,7 +16094,7 @@
                         this.logger.verbose("Logout onRedirectNavigate did not return false, navigating");
                         // Ensure interaction is in progress
                         if (!this.browserStorage.getInteractionInProgress()) {
-                            this.browserStorage.setInteractionInProgress(true);
+                            this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNOUT);
                         }
                         await this.navigationClient.navigateExternal(logoutUri, navigationOptions);
                         return;
@@ -15472,7 +16108,7 @@
                 else {
                     // Ensure interaction is in progress
                     if (!this.browserStorage.getInteractionInProgress()) {
-                        this.browserStorage.setInteractionInProgress(true);
+                        this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNOUT);
                     }
                     await this.navigationClient.navigateExternal(logoutUri, navigationOptions);
                     return;
@@ -15508,7 +16144,7 @@
      * @param urlNavigate
      * @param userRequestScopes
      */
-    async function initiateAuthRequest(requestUrl, performanceClient, logger, correlationId, navigateFrameWait) {
+    async function initiateCodeRequest(requestUrl, performanceClient, logger, correlationId, navigateFrameWait) {
         performanceClient.addQueueMeasurement(PerformanceEvents.SilentHandlerInitiateAuthRequest, correlationId);
         if (!requestUrl) {
             // Throw error if request URL is empty.
@@ -15519,6 +16155,24 @@
             return invokeAsync(loadFrame, PerformanceEvents.SilentHandlerLoadFrame, logger, performanceClient, correlationId)(requestUrl, navigateFrameWait, performanceClient, correlationId);
         }
         return invoke(loadFrameSync, PerformanceEvents.SilentHandlerLoadFrameSync, logger, performanceClient, correlationId)(requestUrl);
+    }
+    async function initiateCodeFlowWithPost(config, authority, request, logger, performanceClient) {
+        const frame = createHiddenIframe();
+        if (!frame.contentDocument) {
+            throw "No document associated with iframe!";
+        }
+        const form = await getCodeForm(frame.contentDocument, config, authority, request, logger, performanceClient);
+        form.submit();
+        return frame;
+    }
+    async function initiateEarRequest(config, authority, request, logger, performanceClient) {
+        const frame = createHiddenIframe();
+        if (!frame.contentDocument) {
+            throw "No document associated with iframe!";
+        }
+        const form = await getEARForm(frame.contentDocument, config, authority, request, logger, performanceClient);
+        form.submit();
+        return frame;
     }
     /**
      * Monitors an iframe content window until it loads a url with a known hash, or hits a specified timeout.
@@ -15639,8 +16293,8 @@
      * Licensed under the MIT License.
      */
     class SilentIframeClient extends StandardInteractionClient {
-        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, nativeStorageImpl, nativeMessageHandler, correlationId) {
-            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
+        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, nativeStorageImpl, platformAuthProvider, correlationId) {
+            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, platformAuthProvider, correlationId);
             this.apiId = apiId;
             this.nativeStorage = nativeStorageImpl;
         }
@@ -15670,19 +16324,33 @@
             }
             // Create silent request
             const silentRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, request.correlationId)(inputRequest, exports.InteractionType.Silent);
+            silentRequest.platformBroker = isPlatformAuthAllowed(this.config, this.logger, this.platformAuthProvider, silentRequest.authenticationScheme);
             preconnect(silentRequest.authority);
-            const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
+            if (this.config.auth.protocolMode === ProtocolMode.EAR) {
+                return this.executeEarFlow(silentRequest);
+            }
+            else {
+                return this.executeCodeFlow(silentRequest);
+            }
+        }
+        /**
+         * Executes auth code + PKCE flow
+         * @param request
+         * @returns
+         */
+        async executeCodeFlow(request) {
             let authClient;
+            const serverTelemetryManager = this.initializeServerTelemetryManager(this.apiId);
             try {
                 // Initialize the client
                 authClient = await invokeAsync(this.createAuthCodeClient.bind(this), PerformanceEvents.StandardInteractionClientCreateAuthCodeClient, this.logger, this.performanceClient, request.correlationId)({
                     serverTelemetryManager,
-                    requestAuthority: silentRequest.authority,
-                    requestAzureCloudOptions: silentRequest.azureCloudOptions,
-                    requestExtraQueryParameters: silentRequest.extraQueryParameters,
-                    account: silentRequest.account,
+                    requestAuthority: request.authority,
+                    requestAzureCloudOptions: request.azureCloudOptions,
+                    requestExtraQueryParameters: request.extraQueryParameters,
+                    account: request.account,
                 });
-                return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, request.correlationId)(authClient, silentRequest);
+                return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, request.correlationId)(authClient, request);
             }
             catch (e) {
                 if (e instanceof AuthError) {
@@ -15697,9 +16365,32 @@
                 this.performanceClient.addFields({
                     retryError: e.errorCode,
                 }, this.correlationId);
-                const retrySilentRequest = await invokeAsync(this.initializeAuthorizationRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationRequest, this.logger, this.performanceClient, request.correlationId)(inputRequest, exports.InteractionType.Silent);
-                return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, this.correlationId)(authClient, retrySilentRequest);
+                return await invokeAsync(this.silentTokenHelper.bind(this), PerformanceEvents.SilentIframeClientTokenHelper, this.logger, this.performanceClient, this.correlationId)(authClient, request);
             }
+        }
+        /**
+         * Executes EAR flow
+         * @param request
+         */
+        async executeEarFlow(request) {
+            const correlationId = request.correlationId;
+            const discoveredAuthority = await invokeAsync(this.getDiscoveredAuthority.bind(this), PerformanceEvents.StandardInteractionClientGetDiscoveredAuthority, this.logger, this.performanceClient, correlationId)({
+                requestAuthority: request.authority,
+                requestAzureCloudOptions: request.azureCloudOptions,
+                requestExtraQueryParameters: request.extraQueryParameters,
+                account: request.account,
+            });
+            const earJwk = await invokeAsync(generateEarKey, PerformanceEvents.GenerateEarKey, this.logger, this.performanceClient, correlationId)();
+            const silentRequest = {
+                ...request,
+                earJwk: earJwk,
+            };
+            const msalFrame = await invokeAsync(initiateEarRequest, PerformanceEvents.SilentHandlerInitiateAuthRequest, this.logger, this.performanceClient, correlationId)(this.config, discoveredAuthority, silentRequest, this.logger, this.performanceClient);
+            const responseType = this.config.auth.OIDCOptions.serverResponseType;
+            // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
+            const responseString = await invokeAsync(monitorIframeForHash, PerformanceEvents.SilentHandlerMonitorIframeForHash, this.logger, this.performanceClient, correlationId)(msalFrame, this.config.system.iframeHashTimeout, this.config.system.pollIntervalMilliseconds, this.performanceClient, this.logger, correlationId, responseType);
+            const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, correlationId)(responseString, responseType, this.logger);
+            return invokeAsync(handleResponseEAR, PerformanceEvents.HandleResponseEar, this.logger, this.performanceClient, correlationId)(silentRequest, serverParams, this.apiId, this.config, discoveredAuthority, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
         }
         /**
          * Currently Unsupported
@@ -15714,39 +16405,29 @@
          * @param navigateUrl
          * @param userRequestScopes
          */
-        async silentTokenHelper(authClient, silentRequest) {
-            const correlationId = silentRequest.correlationId;
+        async silentTokenHelper(authClient, request) {
+            const correlationId = request.correlationId;
             this.performanceClient.addQueueMeasurement(PerformanceEvents.SilentIframeClientTokenHelper, correlationId);
-            // Create auth code request and generate PKCE params
-            const authCodeRequest = await invokeAsync(this.initializeAuthorizationCodeRequest.bind(this), PerformanceEvents.StandardInteractionClientInitializeAuthorizationCodeRequest, this.logger, this.performanceClient, correlationId)(silentRequest);
-            // Create authorize request url
-            const navigateUrl = await invokeAsync(authClient.getAuthCodeUrl.bind(authClient), PerformanceEvents.GetAuthCodeUrl, this.logger, this.performanceClient, correlationId)({
-                ...silentRequest,
-                platformBroker: NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeMessageHandler, silentRequest.authenticationScheme),
-            });
-            // Create silent handler
-            const interactionHandler = new InteractionHandler(authClient, this.browserStorage, authCodeRequest, this.logger, this.performanceClient);
-            // Get the frame handle for the silent request
-            const msalFrame = await invokeAsync(initiateAuthRequest, PerformanceEvents.SilentHandlerInitiateAuthRequest, this.logger, this.performanceClient, correlationId)(navigateUrl, this.performanceClient, this.logger, correlationId, this.config.system.navigateFrameWait);
+            const pkceCodes = await invokeAsync(generatePkceCodes, PerformanceEvents.GeneratePkceCodes, this.logger, this.performanceClient, correlationId)(this.performanceClient, this.logger, correlationId);
+            const silentRequest = {
+                ...request,
+                codeChallenge: pkceCodes.challenge,
+            };
+            let msalFrame;
+            if (request.httpMethod === HttpMethod.POST) {
+                msalFrame = await invokeAsync(initiateCodeFlowWithPost, PerformanceEvents.SilentHandlerInitiateAuthRequest, this.logger, this.performanceClient, correlationId)(this.config, authClient.authority, silentRequest, this.logger, this.performanceClient);
+            }
+            else {
+                // Create authorize request url
+                const navigateUrl = await invokeAsync(getAuthCodeRequestUrl, PerformanceEvents.GetAuthCodeUrl, this.logger, this.performanceClient, correlationId)(this.config, authClient.authority, silentRequest, this.logger, this.performanceClient);
+                // Get the frame handle for the silent request
+                msalFrame = await invokeAsync(initiateCodeRequest, PerformanceEvents.SilentHandlerInitiateAuthRequest, this.logger, this.performanceClient, correlationId)(navigateUrl, this.performanceClient, this.logger, correlationId, this.config.system.navigateFrameWait);
+            }
             const responseType = this.config.auth.OIDCOptions.serverResponseType;
             // Monitor the window for the hash. Return the string value and close the popup when the hash is received. Default timeout is 60 seconds.
             const responseString = await invokeAsync(monitorIframeForHash, PerformanceEvents.SilentHandlerMonitorIframeForHash, this.logger, this.performanceClient, correlationId)(msalFrame, this.config.system.iframeHashTimeout, this.config.system.pollIntervalMilliseconds, this.performanceClient, this.logger, correlationId, responseType);
-            const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, this.correlationId)(responseString, responseType, this.logger);
-            if (serverParams.accountId) {
-                this.logger.verbose("Account id found in hash, calling WAM for token");
-                if (!this.nativeMessageHandler) {
-                    throw createBrowserAuthError(nativeConnectionNotEstablished);
-                }
-                const nativeInteractionClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.apiId, this.performanceClient, this.nativeMessageHandler, serverParams.accountId, this.browserStorage, correlationId);
-                const { userRequestState } = ProtocolUtils.parseRequestState(this.browserCrypto, silentRequest.state);
-                return invokeAsync(nativeInteractionClient.acquireToken.bind(nativeInteractionClient), PerformanceEvents.NativeInteractionClientAcquireToken, this.logger, this.performanceClient, correlationId)({
-                    ...silentRequest,
-                    state: userRequestState,
-                    prompt: silentRequest.prompt || PromptValue.NONE,
-                });
-            }
-            // Handle response from hash string
-            return invokeAsync(interactionHandler.handleCodeResponse.bind(interactionHandler), PerformanceEvents.HandleCodeResponse, this.logger, this.performanceClient, correlationId)(serverParams, silentRequest);
+            const serverParams = invoke(deserializeResponse, PerformanceEvents.DeserializeResponse, this.logger, this.performanceClient, correlationId)(responseString, responseType, this.logger);
+            return invokeAsync(handleResponseCode, PerformanceEvents.HandleResponseCode, this.logger, this.performanceClient, correlationId)(request, serverParams, pkceCodes.verifier, this.apiId, this.config, authClient, this.browserStorage, this.nativeStorage, this.eventHandler, this.logger, this.performanceClient, this.platformAuthProvider);
         }
     }
 
@@ -15888,7 +16569,7 @@
             }
             const homeAccountId = AccountEntity.generateHomeAccountId(clientInfo, authority.authorityType, this.logger, this.cryptoObj, idTokenClaims);
             const claimsTenantId = idTokenClaims?.tid;
-            const cachedAccount = buildAccountToCache(this.storage, authority, homeAccountId, base64Decode, idTokenClaims, clientInfo, authority.hostnameAndPort, claimsTenantId, undefined, // authCodePayload
+            const cachedAccount = buildAccountToCache(this.storage, authority, homeAccountId, base64Decode, correlationId, idTokenClaims, clientInfo, authority.hostnameAndPort, claimsTenantId, undefined, // authCodePayload
             undefined, // nativeAccountId
             this.logger);
             await this.storage.setAccount(cachedAccount, correlationId);
@@ -15939,11 +16620,10 @@
             const scopes = response.scope
                 ? ScopeSet.fromString(response.scope)
                 : new ScopeSet(request.scopes);
-            const expiresOn = options.expiresOn ||
-                response.expires_in + new Date().getTime() / 1000;
+            const expiresOn = options.expiresOn || response.expires_in + nowSeconds();
             const extendedExpiresOn = options.extendedExpiresOn ||
                 (response.ext_expires_in || response.expires_in) +
-                    new Date().getTime() / 1000;
+                    nowSeconds();
             const accessTokenEntity = createAccessTokenEntity(homeAccountId, environment, response.access_token, this.config.auth.clientId, tenantId, scopes.printScopes(), expiresOn, extendedExpiresOn, base64Decode);
             await this.storage.setAccessTokenCredential(accessTokenEntity, correlationId);
             return accessTokenEntity;
@@ -15983,8 +16663,9 @@
             if (cacheRecord?.accessToken) {
                 accessToken = cacheRecord.accessToken.secret;
                 responseScopes = ScopeSet.fromString(cacheRecord.accessToken.target).asArray();
-                expiresOn = new Date(Number(cacheRecord.accessToken.expiresOn) * 1000);
-                extExpiresOn = new Date(Number(cacheRecord.accessToken.extendedExpiresOn) * 1000);
+                // Access token expiresOn stored in seconds, converting to Date for AuthenticationResult
+                expiresOn = toDateFromSeconds(cacheRecord.accessToken.expiresOn);
+                extExpiresOn = toDateFromSeconds(cacheRecord.accessToken.extendedExpiresOn);
             }
             const accountEntity = cacheRecord.account;
             return {
@@ -16027,8 +16708,8 @@
      * Licensed under the MIT License.
      */
     class SilentAuthCodeClient extends StandardInteractionClient {
-        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, nativeMessageHandler, correlationId) {
-            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, nativeMessageHandler, correlationId);
+        constructor(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, apiId, performanceClient, platformAuthProvider, correlationId) {
+            super(config, storageImpl, browserCrypto, logger, eventHandler, navigationClient, performanceClient, platformAuthProvider, correlationId);
             this.apiId = apiId;
         }
         /**
@@ -16090,25 +16771,31 @@
      * Copyright (c) Microsoft Corporation. All rights reserved.
      * Licensed under the MIT License.
      */
-    function getAccountType(account) {
-        const idTokenClaims = account?.idTokenClaims;
-        if (idTokenClaims?.tfp || idTokenClaims?.acr) {
-            return "B2C";
+    function collectInstanceStats(currentClientId, performanceEvent, logger) {
+        const frameInstances = 
+        // @ts-ignore
+        window.msal?.clientIds || [];
+        const msalInstanceCount = frameInstances.length;
+        const sameClientIdInstanceCount = frameInstances.filter((i) => i === currentClientId).length;
+        if (sameClientIdInstanceCount > 1) {
+            logger.warning("There is already an instance of MSAL.js in the window with the same client id.");
         }
-        if (!idTokenClaims?.tid) {
-            return undefined;
-        }
-        else if (idTokenClaims?.tid === "9188040d-6c67-4c5b-b112-36a304b66dad") {
-            return "MSA";
-        }
-        return "AAD";
+        performanceEvent.add({
+            msalInstanceCount: msalInstanceCount,
+            sameClientIdInstanceCount: sameClientIdInstanceCount,
+        });
     }
-    function preflightCheck(initialized, performanceEvent) {
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License.
+     */
+    function preflightCheck(initialized, performanceEvent, account) {
         try {
             preflightCheck$1(initialized);
         }
         catch (e) {
-            performanceEvent.end({ success: false }, e);
+            performanceEvent.end({ success: false }, e, account);
             throw e;
         }
     }
@@ -16165,6 +16852,7 @@
             // initialize in memory storage for native flows
             const nativeCacheOptions = {
                 cacheLocation: BrowserCacheLocation.MemoryStorage,
+                cacheRetentionDays: 5,
                 temporaryCacheLocation: BrowserCacheLocation.MemoryStorage,
                 storeAuthStateInCookie: false,
                 secureCookies: false,
@@ -16197,7 +16885,7 @@
          * Initializer function to perform async startup tasks such as connecting to WAM extension
          * @param request {?InitializeApplicationRequest} correlation id
          */
-        async initialize(request) {
+        async initialize(request, isBroker) {
             this.logger.trace("initialize called");
             if (this.initialized) {
                 this.logger.info("initialize has already been called, exiting early.");
@@ -16213,11 +16901,18 @@
             const allowPlatformBroker = this.config.system.allowPlatformBroker;
             const initMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.InitializeClientApplication, initCorrelationId);
             this.eventHandler.emitEvent(EventType.INITIALIZE_START);
+            // Broker applications are initialized twice, so we avoid double-counting it
+            if (!isBroker) {
+                try {
+                    this.logMultipleInstances(initMeasurement);
+                }
+                catch { }
+            }
             await invokeAsync(this.browserStorage.initialize.bind(this.browserStorage), PerformanceEvents.InitializeCache, this.logger, this.performanceClient, initCorrelationId)(initCorrelationId);
             if (allowPlatformBroker) {
                 try {
-                    this.nativeExtensionProvider =
-                        await NativeMessageHandler.createProvider(this.logger, this.config.system.nativeBrokerHandshakeTimeout, this.performanceClient);
+                    // check if platform authentication is available via DOM or browser extension and create relevant handlers
+                    this.platformAuthProvider = await getPlatformAuthProvider(this.logger, this.performanceClient, initCorrelationId, this.config.system.nativeBrokerHandshakeTimeout);
                 }
                 catch (e) {
                     this.logger.verbose(e);
@@ -16225,7 +16920,7 @@
             }
             if (!this.config.cache.claimsBasedCachingEnabled) {
                 this.logger.verbose("Claims-based caching is disabled. Clearing the previous cache with claims");
-                await invokeAsync(this.browserStorage.clearTokensAndKeysWithClaims.bind(this.browserStorage), PerformanceEvents.ClearTokensAndKeysWithClaims, this.logger, this.performanceClient, initCorrelationId)(this.performanceClient, initCorrelationId);
+                invoke(this.browserStorage.clearTokensAndKeysWithClaims.bind(this.browserStorage), PerformanceEvents.ClearTokensAndKeysWithClaims, this.logger, this.performanceClient, initCorrelationId)(initCorrelationId);
             }
             this.config.system.asyncPopups &&
                 (await this.preGeneratePkceCodes(initCorrelationId));
@@ -16275,31 +16970,50 @@
          * @returns
          */
         async handleRedirectPromiseInternal(hash) {
+            if (!this.browserStorage.isInteractionInProgress(true)) {
+                this.logger.info("handleRedirectPromise called but there is no interaction in progress, returning null.");
+                return null;
+            }
+            const interactionType = this.browserStorage.getInteractionInProgress()?.type;
+            if (interactionType === INTERACTION_TYPE.SIGNOUT) {
+                this.logger.verbose("handleRedirectPromise removing interaction_in_progress flag and returning null after sign-out");
+                this.browserStorage.setInteractionInProgress(false);
+                return Promise.resolve(null);
+            }
             const loggedInAccounts = this.getAllAccounts();
-            const request = this.browserStorage.getCachedNativeRequest();
-            const useNative = request &&
-                NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider) &&
-                this.nativeExtensionProvider &&
-                !hash;
-            const correlationId = useNative
-                ? request?.correlationId
-                : this.browserStorage.getTemporaryCache(TemporaryCacheKeys.CORRELATION_ID, true) || "";
-            const rootMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenRedirect, correlationId);
+            const platformBrokerRequest = this.browserStorage.getCachedNativeRequest();
+            const useNative = platformBrokerRequest && this.platformAuthProvider && !hash;
+            let rootMeasurement;
             this.eventHandler.emitEvent(EventType.HANDLE_REDIRECT_START, exports.InteractionType.Redirect);
             let redirectResponse;
-            if (useNative && this.nativeExtensionProvider) {
-                this.logger.trace("handleRedirectPromise - acquiring token from native platform");
-                const nativeClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.handleRedirectPromise, this.performanceClient, this.nativeExtensionProvider, request.accountId, this.nativeInternalStorage, request.correlationId);
-                redirectResponse = invokeAsync(nativeClient.handleRedirectPromise.bind(nativeClient), PerformanceEvents.HandleNativeRedirectPromiseMeasurement, this.logger, this.performanceClient, rootMeasurement.event.correlationId)(this.performanceClient, rootMeasurement.event.correlationId);
+            try {
+                if (useNative && this.platformAuthProvider) {
+                    rootMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenRedirect, platformBrokerRequest?.correlationId || "");
+                    this.logger.trace("handleRedirectPromise - acquiring token from native platform");
+                    rootMeasurement.add({
+                        isPlatformBrokerRequest: true,
+                    });
+                    const nativeClient = new PlatformAuthInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.handleRedirectPromise, this.performanceClient, this.platformAuthProvider, platformBrokerRequest.accountId, this.nativeInternalStorage, platformBrokerRequest.correlationId);
+                    redirectResponse = invokeAsync(nativeClient.handleRedirectPromise.bind(nativeClient), PerformanceEvents.HandleNativeRedirectPromiseMeasurement, this.logger, this.performanceClient, rootMeasurement.event.correlationId)(this.performanceClient, rootMeasurement.event.correlationId);
+                }
+                else {
+                    const [standardRequest, codeVerifier] = this.browserStorage.getCachedRequest();
+                    const correlationId = standardRequest.correlationId;
+                    // Reset rootMeasurement now that we have correlationId
+                    rootMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenRedirect, correlationId);
+                    this.logger.trace("handleRedirectPromise - acquiring token from web flow");
+                    const redirectClient = this.createRedirectClient(correlationId);
+                    redirectResponse = invokeAsync(redirectClient.handleRedirectPromise.bind(redirectClient), PerformanceEvents.HandleRedirectPromiseMeasurement, this.logger, this.performanceClient, rootMeasurement.event.correlationId)(hash, standardRequest, codeVerifier, rootMeasurement);
+                }
             }
-            else {
-                this.logger.trace("handleRedirectPromise - acquiring token from web flow");
-                const redirectClient = this.createRedirectClient(correlationId);
-                redirectResponse = invokeAsync(redirectClient.handleRedirectPromise.bind(redirectClient), PerformanceEvents.HandleRedirectPromiseMeasurement, this.logger, this.performanceClient, rootMeasurement.event.correlationId)(hash, rootMeasurement);
+            catch (e) {
+                this.browserStorage.resetRequestCache();
+                throw e;
             }
             return redirectResponse
                 .then((result) => {
                 if (result) {
+                    this.browserStorage.resetRequestCache();
                     // Emit login event if number of accounts change
                     const isLoggingIn = loggedInAccounts.length < this.getAllAccounts().length;
                     if (isLoggingIn) {
@@ -16312,8 +17026,7 @@
                     }
                     rootMeasurement.end({
                         success: true,
-                        accountType: getAccountType(result.account),
-                    });
+                    }, undefined, result.account);
                 }
                 else {
                     /*
@@ -16321,7 +17034,7 @@
                      * is empty and the error code is missing.
                      */
                     if (rootMeasurement.event.errorCode) {
-                        rootMeasurement.end({ success: false });
+                        rootMeasurement.end({ success: false }, undefined);
                     }
                     else {
                         rootMeasurement.discard();
@@ -16331,6 +17044,7 @@
                 return result;
             })
                 .catch((e) => {
+                this.browserStorage.resetRequestCache();
                 const eventError = e;
                 // Emit login event if there is an account
                 if (loggedInAccounts.length > 0) {
@@ -16361,7 +17075,6 @@
             this.logger.verbose("acquireTokenRedirect called", correlationId);
             const atrMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenPreRedirect, correlationId);
             atrMeasurement.add({
-                accountType: getAccountType(request.account),
                 scenarioId: request.scenarioId,
             });
             // Override on request only if set, as onRedirectNavigate field is deprecated
@@ -16371,12 +17084,11 @@
                     const navigate = typeof onRedirectNavigateCb === "function"
                         ? onRedirectNavigateCb(url)
                         : undefined;
-                    if (navigate !== false) {
-                        atrMeasurement.end({ success: true });
-                    }
-                    else {
-                        atrMeasurement.discard();
-                    }
+                    atrMeasurement.add({
+                        navigateCallbackResult: navigate !== false,
+                    });
+                    atrMeasurement.event =
+                        atrMeasurement.end({ success: true }, undefined, request.account) || atrMeasurement.event;
                     return navigate;
                 };
             }
@@ -16386,12 +17098,11 @@
                     const navigate = typeof configOnRedirectNavigateCb === "function"
                         ? configOnRedirectNavigateCb(url)
                         : undefined;
-                    if (navigate !== false) {
-                        atrMeasurement.end({ success: true });
-                    }
-                    else {
-                        atrMeasurement.discard();
-                    }
+                    atrMeasurement.add({
+                        navigateCallbackResult: navigate !== false,
+                    });
+                    atrMeasurement.event =
+                        atrMeasurement.end({ success: true }, undefined, request.account) || atrMeasurement.event;
                     return navigate;
                 };
             }
@@ -16399,7 +17110,7 @@
             const isLoggedIn = this.getAllAccounts().length > 0;
             try {
                 redirectPreflightCheck(this.initialized, this.config);
-                this.browserStorage.setInteractionInProgress(true);
+                this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNIN);
                 if (isLoggedIn) {
                     this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_START, exports.InteractionType.Redirect, request);
                 }
@@ -16407,15 +17118,19 @@
                     this.eventHandler.emitEvent(EventType.LOGIN_START, exports.InteractionType.Redirect, request);
                 }
                 let result;
-                if (this.nativeExtensionProvider &&
+                if (this.platformAuthProvider &&
                     this.canUsePlatformBroker(request)) {
-                    const nativeClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenRedirect, this.performanceClient, this.nativeExtensionProvider, this.getNativeAccountId(request), this.nativeInternalStorage, correlationId);
+                    const nativeClient = new PlatformAuthInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenRedirect, this.performanceClient, this.platformAuthProvider, this.getNativeAccountId(request), this.nativeInternalStorage, correlationId);
                     result = nativeClient
                         .acquireTokenRedirect(request, atrMeasurement)
                         .catch((e) => {
+                        atrMeasurement.add({
+                            brokerErrorName: e.name,
+                            brokerErrorCode: e.errorCode,
+                        });
                         if (e instanceof NativeAuthError &&
                             isFatalNativeAuthError(e)) {
-                            this.nativeExtensionProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
+                            this.platformAuthProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt platform broker calls
                             const redirectClient = this.createRedirectClient(correlationId);
                             return redirectClient.acquireToken(request);
                         }
@@ -16424,7 +17139,6 @@
                             const redirectClient = this.createRedirectClient(correlationId);
                             return redirectClient.acquireToken(request);
                         }
-                        this.browserStorage.setInteractionInProgress(false);
                         throw e;
                     });
                 }
@@ -16435,7 +17149,19 @@
                 return await result;
             }
             catch (e) {
-                atrMeasurement.end({ success: false }, e);
+                this.browserStorage.resetRequestCache();
+                /*
+                 * Pre-redirect event completes before navigation occurs.
+                 * Timed out navigation needs to be instrumented separately as a post-redirect event.
+                 */
+                if (atrMeasurement.event.status === 2) {
+                    this.performanceClient
+                        .startMeasurement(PerformanceEvents.AcquireTokenRedirect, correlationId)
+                        .end({ success: false }, e, request.account);
+                }
+                else {
+                    atrMeasurement.end({ success: false }, e, request.account);
+                }
                 if (isLoggedIn) {
                     this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Redirect, null, e);
                 }
@@ -16459,12 +17185,11 @@
             const atPopupMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenPopup, correlationId);
             atPopupMeasurement.add({
                 scenarioId: request.scenarioId,
-                accountType: getAccountType(request.account),
             });
             try {
                 this.logger.verbose("acquireTokenPopup called", correlationId);
-                preflightCheck(this.initialized, atPopupMeasurement);
-                this.browserStorage.setInteractionInProgress(true);
+                preflightCheck(this.initialized, atPopupMeasurement, request.account);
+                this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNIN);
             }
             catch (e) {
                 // Since this function is syncronous we need to reject
@@ -16481,23 +17206,27 @@
             let result;
             const pkce = this.getPreGeneratedPkceCodes(correlationId);
             if (this.canUsePlatformBroker(request)) {
+                atPopupMeasurement.add({
+                    isPlatformBrokerRequest: true,
+                });
                 result = this.acquireTokenNative({
                     ...request,
                     correlationId,
                 }, ApiId.acquireTokenPopup)
                     .then((response) => {
-                    this.browserStorage.setInteractionInProgress(false);
                     atPopupMeasurement.end({
                         success: true,
-                        isNativeBroker: true,
-                        accountType: getAccountType(response.account),
-                    });
+                    }, undefined, response.account);
                     return response;
                 })
                     .catch((e) => {
+                    atPopupMeasurement.add({
+                        brokerErrorName: e.name,
+                        brokerErrorCode: e.errorCode,
+                    });
                     if (e instanceof NativeAuthError &&
                         isFatalNativeAuthError(e)) {
-                        this.nativeExtensionProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
+                        this.platformAuthProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to continuing to attempt platform broker calls
                         const popupClient = this.createPopupClient(correlationId);
                         return popupClient.acquireToken(request, pkce);
                     }
@@ -16506,7 +17235,6 @@
                         const popupClient = this.createPopupClient(correlationId);
                         return popupClient.acquireToken(request, pkce);
                     }
-                    this.browserStorage.setInteractionInProgress(false);
                     throw e;
                 });
             }
@@ -16530,8 +17258,7 @@
                     success: true,
                     accessTokenSize: result.accessToken.length,
                     idTokenSize: result.idToken.length,
-                    accountType: getAccountType(result.account),
-                });
+                }, undefined, result.account);
                 return result;
             })
                 .catch((e) => {
@@ -16543,12 +17270,16 @@
                 }
                 atPopupMeasurement.end({
                     success: false,
-                }, e);
+                }, e, request.account);
                 // Since this function is syncronous we need to reject
                 return Promise.reject(e);
             })
-                .finally(() => this.config.system.asyncPopups &&
-                this.preGeneratePkceCodes(correlationId));
+                .finally(async () => {
+                this.browserStorage.setInteractionInProgress(false);
+                if (this.config.system.asyncPopups) {
+                    await this.preGeneratePkceCodes(correlationId);
+                }
+            });
         }
         trackPageVisibilityWithMeasurement() {
             const measurement = this.ssoSilentMeasurement ||
@@ -16589,9 +17320,8 @@
             this.ssoSilentMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.SsoSilent, correlationId);
             this.ssoSilentMeasurement?.add({
                 scenarioId: request.scenarioId,
-                accountType: getAccountType(request.account),
             });
-            preflightCheck(this.initialized, this.ssoSilentMeasurement);
+            preflightCheck(this.initialized, this.ssoSilentMeasurement, request.account);
             this.ssoSilentMeasurement?.increment({
                 visibilityChangeCount: 0,
             });
@@ -16600,10 +17330,17 @@
             this.eventHandler.emitEvent(EventType.SSO_SILENT_START, exports.InteractionType.Silent, validRequest);
             let result;
             if (this.canUsePlatformBroker(validRequest)) {
+                this.ssoSilentMeasurement?.add({
+                    isPlatformBrokerRequest: true,
+                });
                 result = this.acquireTokenNative(validRequest, ApiId.ssoSilent).catch((e) => {
+                    this.ssoSilentMeasurement?.add({
+                        brokerErrorName: e.name,
+                        brokerErrorCode: e.errorCode,
+                    });
                     // If native token acquisition fails for availability reasons fallback to standard flow
                     if (e instanceof NativeAuthError && isFatalNativeAuthError(e)) {
-                        this.nativeExtensionProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
+                        this.platformAuthProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
                         const silentIframeClient = this.createSilentIframeClient(validRequest.correlationId);
                         return silentIframeClient.acquireToken(validRequest);
                     }
@@ -16619,18 +17356,16 @@
                 this.eventHandler.emitEvent(EventType.SSO_SILENT_SUCCESS, exports.InteractionType.Silent, response);
                 this.ssoSilentMeasurement?.end({
                     success: true,
-                    isNativeBroker: response.fromNativeBroker,
                     accessTokenSize: response.accessToken.length,
                     idTokenSize: response.idToken.length,
-                    accountType: getAccountType(response.account),
-                });
+                }, undefined, response.account);
                 return response;
             })
                 .catch((e) => {
                 this.eventHandler.emitEvent(EventType.SSO_SILENT_FAILURE, exports.InteractionType.Silent, null, e);
                 this.ssoSilentMeasurement?.end({
                     success: false,
-                }, e);
+                }, e, request.account);
                 throw e;
             })
                 .finally(() => {
@@ -16673,11 +17408,9 @@
                             this.hybridAuthCodeResponses.delete(hybridAuthCode);
                             atbcMeasurement.end({
                                 success: true,
-                                isNativeBroker: result.fromNativeBroker,
                                 accessTokenSize: result.accessToken.length,
                                 idTokenSize: result.idToken.length,
-                                accountType: getAccountType(result.account),
-                            });
+                            }, undefined, result.account);
                             return result;
                         })
                             .catch((error) => {
@@ -16698,6 +17431,9 @@
                 }
                 else if (request.nativeAccountId) {
                     if (this.canUsePlatformBroker(request, request.nativeAccountId)) {
+                        atbcMeasurement.add({
+                            isPlatformBrokerRequest: true,
+                        });
                         const result = await this.acquireTokenNative({
                             ...request,
                             correlationId,
@@ -16705,14 +17441,17 @@
                             // If native token acquisition fails for availability reasons fallback to standard flow
                             if (e instanceof NativeAuthError &&
                                 isFatalNativeAuthError(e)) {
-                                this.nativeExtensionProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
+                                this.platformAuthProvider = undefined; // If extension gets uninstalled during session prevent future requests from continuing to attempt
                             }
+                            atbcMeasurement.add({
+                                brokerErrorName: e.name,
+                                brokerErrorCode: e.errorCode,
+                            });
                             throw e;
                         });
                         atbcMeasurement.end({
-                            accountType: getAccountType(result.account),
                             success: true,
-                        });
+                        }, undefined, result.account);
                         return result;
                     }
                     else {
@@ -16751,7 +17490,6 @@
                 this.acquireTokenByCodeAsyncMeasurement?.end({
                     success: true,
                     fromCache: response.fromCache,
-                    isNativeBroker: response.fromNativeBroker,
                 });
                 return response;
             })
@@ -16837,7 +17575,7 @@
         async logoutRedirect(logoutRequest) {
             const correlationId = this.getRequestCorrelationId(logoutRequest);
             redirectPreflightCheck(this.initialized, this.config);
-            this.browserStorage.setInteractionInProgress(true);
+            this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNOUT);
             const redirectClient = this.createRedirectClient(correlationId);
             return redirectClient.logout(logoutRequest);
         }
@@ -16849,9 +17587,11 @@
             try {
                 const correlationId = this.getRequestCorrelationId(logoutRequest);
                 preflightCheck$1(this.initialized);
-                this.browserStorage.setInteractionInProgress(true);
+                this.browserStorage.setInteractionInProgress(true, INTERACTION_TYPE.SIGNOUT);
                 const popupClient = this.createPopupClient(correlationId);
-                return popupClient.logout(logoutRequest);
+                return popupClient.logout(logoutRequest).finally(() => {
+                    this.browserStorage.setInteractionInProgress(false);
+                });
             }
             catch (e) {
                 // Since this function is syncronous we need to reject
@@ -16879,7 +17619,8 @@
          * @returns Array of AccountInfo objects in cache
          */
         getAllAccounts(accountFilter) {
-            return getAllAccounts(this.logger, this.browserStorage, this.isBrowserEnvironment, accountFilter);
+            const correlationId = this.getRequestCorrelationId();
+            return getAllAccounts(this.logger, this.browserStorage, this.isBrowserEnvironment, correlationId, accountFilter);
         }
         /**
          * Returns the first account found in the cache that matches the account filter passed in.
@@ -16887,7 +17628,8 @@
          * @returns The first account found in the cache matching the provided filter or null if no account could be found.
          */
         getAccount(accountFilter) {
-            return getAccount(accountFilter, this.logger, this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            return getAccount(accountFilter, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching username.
@@ -16898,7 +17640,8 @@
          * @returns The account object stored in MSAL
          */
         getAccountByUsername(username) {
-            return getAccountByUsername(username, this.logger, this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            return getAccountByUsername(username, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching homeAccountId.
@@ -16908,7 +17651,8 @@
          * @returns The account object stored in MSAL
          */
         getAccountByHomeId(homeAccountId) {
-            return getAccountByHomeId(homeAccountId, this.logger, this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            return getAccountByHomeId(homeAccountId, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching localAccountId.
@@ -16918,20 +17662,23 @@
          * @returns The account object stored in MSAL
          */
         getAccountByLocalId(localAccountId) {
-            return getAccountByLocalId(localAccountId, this.logger, this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            return getAccountByLocalId(localAccountId, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Sets the account to use as the active account. If no account is passed to the acquireToken APIs, then MSAL will use this active account.
          * @param account
          */
         setActiveAccount(account) {
-            setActiveAccount(account, this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            setActiveAccount(account, this.browserStorage, correlationId);
         }
         /**
          * Gets the currently active account
          */
         getActiveAccount() {
-            return getActiveAccount(this.browserStorage);
+            const correlationId = this.getRequestCorrelationId();
+            return getActiveAccount(this.browserStorage, correlationId);
         }
         // #endregion
         /**
@@ -16959,13 +17706,13 @@
          * Acquire a token from native device (e.g. WAM)
          * @param request
          */
-        async acquireTokenNative(request, apiId, accountId) {
+        async acquireTokenNative(request, apiId, accountId, cacheLookupPolicy) {
             this.logger.trace("acquireTokenNative called");
-            if (!this.nativeExtensionProvider) {
+            if (!this.platformAuthProvider) {
                 throw createBrowserAuthError(nativeConnectionNotEstablished);
             }
-            const nativeClient = new NativeInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, apiId, this.performanceClient, this.nativeExtensionProvider, accountId || this.getNativeAccountId(request), this.nativeInternalStorage, request.correlationId);
-            return nativeClient.acquireToken(request);
+            const nativeClient = new PlatformAuthInteractionClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, apiId, this.performanceClient, this.platformAuthProvider, accountId || this.getNativeAccountId(request), this.nativeInternalStorage, request.correlationId);
+            return nativeClient.acquireToken(request, cacheLookupPolicy);
         }
         /**
          * Returns boolean indicating if this request can use the platform broker
@@ -16973,8 +17720,12 @@
          */
         canUsePlatformBroker(request, accountId) {
             this.logger.trace("canUsePlatformBroker called");
-            if (!NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider, request.authenticationScheme)) {
-                this.logger.trace("canUsePlatformBroker: isPlatformBrokerAvailable returned false, returning false");
+            if (!this.platformAuthProvider) {
+                this.logger.trace("canUsePlatformBroker: platform broker unavilable, returning false");
+                return false;
+            }
+            if (!isPlatformAuthAllowed(this.config, this.logger, this.platformAuthProvider, request.authenticationScheme)) {
+                this.logger.trace("canUsePlatformBroker: isBrokerAvailable returned false, returning false");
                 return false;
             }
             if (request.prompt) {
@@ -16982,6 +17733,7 @@
                     case PromptValue.NONE:
                     case PromptValue.CONSENT:
                     case PromptValue.LOGIN:
+                    case PromptValue.SELECT_ACCOUNT:
                         this.logger.trace("canUsePlatformBroker: prompt is compatible with platform broker flow");
                         break;
                     default:
@@ -17014,39 +17766,39 @@
          * @param correlationId
          */
         createPopupClient(correlationId) {
-            return new PopupClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeInternalStorage, this.nativeExtensionProvider, correlationId);
+            return new PopupClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeInternalStorage, this.platformAuthProvider, correlationId);
         }
         /**
          * Returns new instance of the Redirect Interaction Client
          * @param correlationId
          */
         createRedirectClient(correlationId) {
-            return new RedirectClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeInternalStorage, this.nativeExtensionProvider, correlationId);
+            return new RedirectClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeInternalStorage, this.platformAuthProvider, correlationId);
         }
         /**
          * Returns new instance of the Silent Iframe Interaction Client
          * @param correlationId
          */
         createSilentIframeClient(correlationId) {
-            return new SilentIframeClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.ssoSilent, this.performanceClient, this.nativeInternalStorage, this.nativeExtensionProvider, correlationId);
+            return new SilentIframeClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.ssoSilent, this.performanceClient, this.nativeInternalStorage, this.platformAuthProvider, correlationId);
         }
         /**
          * Returns new instance of the Silent Cache Interaction Client
          */
         createSilentCacheClient(correlationId) {
-            return new SilentCacheClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeExtensionProvider, correlationId);
+            return new SilentCacheClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.platformAuthProvider, correlationId);
         }
         /**
          * Returns new instance of the Silent Refresh Interaction Client
          */
         createSilentRefreshClient(correlationId) {
-            return new SilentRefreshClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.nativeExtensionProvider, correlationId);
+            return new SilentRefreshClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, this.performanceClient, this.platformAuthProvider, correlationId);
         }
         /**
          * Returns new instance of the Silent AuthCode Interaction Client
          */
         createSilentAuthCodeClient(correlationId) {
-            return new SilentAuthCodeClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenByCode, this.performanceClient, this.nativeExtensionProvider, correlationId);
+            return new SilentAuthCodeClient(this.config, this.browserStorage, this.browserCrypto, this.logger, this.eventHandler, this.navigationClient, ApiId.acquireTokenByCode, this.performanceClient, this.platformAuthProvider, correlationId);
         }
         /**
          * Adds event callbacks to array
@@ -17224,67 +17976,66 @@
                 cacheLookupPolicy: request.cacheLookupPolicy,
                 scenarioId: request.scenarioId,
             });
-            preflightCheck(this.initialized, atsMeasurement);
+            preflightCheck(this.initialized, atsMeasurement, request.account);
             this.logger.verbose("acquireTokenSilent called", correlationId);
             const account = request.account || this.getActiveAccount();
             if (!account) {
                 throw createBrowserAuthError(noAccountError);
             }
-            atsMeasurement.add({ accountType: getAccountType(account) });
-            const thumbprint = {
-                clientId: this.config.auth.clientId,
-                authority: request.authority || Constants.EMPTY_STRING,
-                scopes: request.scopes,
-                homeAccountIdentifier: account.homeAccountId,
-                claims: request.claims,
-                authenticationScheme: request.authenticationScheme,
-                resourceRequestMethod: request.resourceRequestMethod,
-                resourceRequestUri: request.resourceRequestUri,
-                shrClaims: request.shrClaims,
-                sshKid: request.sshKid,
-                shrOptions: request.shrOptions,
-            };
+            return this.acquireTokenSilentDeduped(request, account, correlationId)
+                .then((result) => {
+                atsMeasurement.end({
+                    success: true,
+                    fromCache: result.fromCache,
+                    accessTokenSize: result.accessToken.length,
+                    idTokenSize: result.idToken.length,
+                }, undefined, result.account);
+                return {
+                    ...result,
+                    state: request.state,
+                    correlationId: correlationId, // Ensures PWB scenarios can correctly match request to response
+                };
+            })
+                .catch((error) => {
+                if (error instanceof AuthError) {
+                    // Ensures PWB scenarios can correctly match request to response
+                    error.setCorrelationId(correlationId);
+                }
+                atsMeasurement.end({
+                    success: false,
+                }, error, account);
+                throw error;
+            });
+        }
+        /**
+         * Checks if identical request is already in flight and returns reference to the existing promise or fires off a new one if this is the first
+         * @param request
+         * @param account
+         * @param correlationId
+         * @returns
+         */
+        async acquireTokenSilentDeduped(request, account, correlationId) {
+            const thumbprint = getRequestThumbprint(this.config.auth.clientId, {
+                ...request,
+                authority: request.authority || this.config.auth.authority}, account.homeAccountId);
             const silentRequestKey = JSON.stringify(thumbprint);
-            const cachedResponse = this.activeSilentTokenRequests.get(silentRequestKey);
-            if (typeof cachedResponse === "undefined") {
+            const inProgressRequest = this.activeSilentTokenRequests.get(silentRequestKey);
+            if (typeof inProgressRequest === "undefined") {
                 this.logger.verbose("acquireTokenSilent called for the first time, storing active request", correlationId);
-                const response = invokeAsync(this.acquireTokenSilentAsync.bind(this), PerformanceEvents.AcquireTokenSilentAsync, this.logger, this.performanceClient, correlationId)({
+                this.performanceClient.addFields({ deduped: false }, correlationId);
+                const activeRequest = invokeAsync(this.acquireTokenSilentAsync.bind(this), PerformanceEvents.AcquireTokenSilentAsync, this.logger, this.performanceClient, correlationId)({
                     ...request,
                     correlationId,
-                }, account)
-                    .then((result) => {
+                }, account);
+                this.activeSilentTokenRequests.set(silentRequestKey, activeRequest);
+                return activeRequest.finally(() => {
                     this.activeSilentTokenRequests.delete(silentRequestKey);
-                    atsMeasurement.end({
-                        success: true,
-                        fromCache: result.fromCache,
-                        isNativeBroker: result.fromNativeBroker,
-                        cacheLookupPolicy: request.cacheLookupPolicy,
-                        accessTokenSize: result.accessToken.length,
-                        idTokenSize: result.idToken.length,
-                    });
-                    return result;
-                })
-                    .catch((error) => {
-                    this.activeSilentTokenRequests.delete(silentRequestKey);
-                    atsMeasurement.end({
-                        success: false,
-                    }, error);
-                    throw error;
                 });
-                this.activeSilentTokenRequests.set(silentRequestKey, response);
-                return {
-                    ...(await response),
-                    state: request.state,
-                };
             }
             else {
                 this.logger.verbose("acquireTokenSilent has been called previously, returning the result from the first call", correlationId);
-                // Discard measurements for memoized calls, as they are usually only a couple of ms and will artificially deflate metrics
-                atsMeasurement.discard();
-                return {
-                    ...(await cachedResponse),
-                    state: request.state,
-                };
+                this.performanceClient.addFields({ deduped: true }, correlationId);
+                return inProgressRequest;
             }
         }
         /**
@@ -17365,12 +18116,9 @@
             return result
                 .then((response) => {
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, response);
-                if (request.correlationId) {
-                    this.performanceClient.addFields({
-                        fromCache: response.fromCache,
-                        isNativeBroker: response.fromNativeBroker,
-                    }, request.correlationId);
-                }
+                this.performanceClient.addFields({
+                    fromCache: response.fromCache,
+                }, request.correlationId);
                 return response;
             })
                 .catch((tokenRenewalError) => {
@@ -17388,14 +18136,20 @@
          * @returns
          */
         async acquireTokenSilentNoIframe(silentRequest, cacheLookupPolicy) {
-            if (NativeMessageHandler.isPlatformBrokerAvailable(this.config, this.logger, this.nativeExtensionProvider, silentRequest.authenticationScheme) &&
+            // if the cache policy is set to access_token only, we should not be hitting the native layer yet
+            if (isPlatformAuthAllowed(this.config, this.logger, this.platformAuthProvider, silentRequest.authenticationScheme) &&
                 silentRequest.account.nativeAccountId) {
                 this.logger.verbose("acquireTokenSilent - attempting to acquire token from native platform");
-                return this.acquireTokenNative(silentRequest, ApiId.acquireTokenSilent_silentFlow).catch(async (e) => {
+                this.performanceClient.addFields({ isPlatformBrokerRequest: true }, silentRequest.correlationId);
+                return this.acquireTokenNative(silentRequest, ApiId.acquireTokenSilent_silentFlow, silentRequest.account.nativeAccountId, cacheLookupPolicy).catch(async (e) => {
+                    this.performanceClient.addFields({
+                        brokerErrorName: e.name,
+                        brokerErrorCode: e.errorCode,
+                    }, silentRequest.correlationId);
                     // If native token acquisition fails for availability reasons fallback to web flow
                     if (e instanceof NativeAuthError && isFatalNativeAuthError(e)) {
                         this.logger.verbose("acquireTokenSilent - native platform unavailable, falling back to web flow");
-                        this.nativeExtensionProvider = undefined; // Prevent future requests from continuing to attempt
+                        this.platformAuthProvider = undefined; // Prevent future requests from continuing to attempt
                         // Cache will not contain tokens, given that previous WAM requests succeeded. Skip cache and RT renewal and go straight to iframe renewal
                         throw createClientAuthError(tokenRefreshRequired);
                     }
@@ -17404,6 +18158,10 @@
             }
             else {
                 this.logger.verbose("acquireTokenSilent - attempting to acquire token from web flow");
+                // add logs to identify embedded cache retrieval
+                if (cacheLookupPolicy === CacheLookupPolicy.AccessToken) {
+                    this.logger.verbose("acquireTokenSilent - cache lookup policy set to AccessToken, attempting to acquire token from local cache");
+                }
                 return invokeAsync(this.acquireTokenFromCache.bind(this), PerformanceEvents.AcquireTokenFromCache, this.logger, this.performanceClient, silentRequest.correlationId)(silentRequest, cacheLookupPolicy).catch((cacheError) => {
                     if (cacheLookupPolicy === CacheLookupPolicy.AccessToken) {
                         throw cacheError;
@@ -17433,6 +18191,23 @@
             this.logger.verbose(`${res ? "Found" : "Did not find"} pre-generated PKCE codes`);
             this.performanceClient.addFields({ usePreGeneratedPkce: !!res }, correlationId);
             return res;
+        }
+        logMultipleInstances(performanceEvent) {
+            const clientId = this.config.auth.clientId;
+            if (!window)
+                return;
+            // @ts-ignore
+            window.msal = window.msal || {};
+            // @ts-ignore
+            window.msal.clientIds = window.msal.clientIds || [];
+            // @ts-ignore
+            const clientIds = window.msal.clientIds;
+            if (clientIds.length > 0) {
+                this.logger.verbose("There is already an instance of MSAL.js in the window.");
+            }
+            // @ts-ignore
+            window.msal.clientIds.push(clientId);
+            collectInstanceStats(clientId, performanceEvent, this.logger);
         }
     }
     /**
@@ -17490,8 +18265,7 @@
                 extraParams = new Map(Object.entries(request.extraQueryParameters));
             }
             const correlationId = request.correlationId || this.crypto.createNewGuid();
-            const requestBuilder = new RequestParameterBuilder(correlationId);
-            const claims = requestBuilder.addClientCapabilitiesToClaims(request.claims, this.clientCapabilities);
+            const claims = addClientCapabilitiesToClaims$1(request.claims, this.clientCapabilities);
             const scopes = request.scopes || OIDC_DEFAULT_SCOPES;
             const tokenRequest = {
                 platformBrokerId: request.account?.homeAccountId,
@@ -17510,7 +18284,8 @@
             if (!response.token.id_token || !response.token.access_token) {
                 throw createClientAuthError(nullOrEmptyToken);
             }
-            const expiresOn = new Date((reqTimestamp + (response.token.expires_in || 0)) * 1000);
+            // Request timestamp and AuthResult expires_in are in seconds, converting to Date for AuthenticationResult
+            const expiresOn = toDateFromSeconds(reqTimestamp + (response.token.expires_in || 0));
             const idTokenClaims = extractTokenClaims(response.token.id_token, this.crypto.base64Decode);
             const account = this.fromNaaAccountInfo(response.account, response.token.id_token, idTokenClaims);
             const scopes = response.token.scope || request.scope;
@@ -17566,6 +18341,7 @@
                 effectiveIdTokenClaims?.preferred_username ||
                 "";
             const name = fromAccount.name || effectiveIdTokenClaims?.name;
+            const loginHint = fromAccount.loginHint || effectiveIdTokenClaims?.login_hint;
             const tenantProfiles = new Map();
             const tenantProfile = buildTenantProfile(homeAccountId, localAccountId, tenantId, effectiveIdTokenClaims);
             tenantProfiles.set(tenantId, tenantProfile);
@@ -17576,6 +18352,7 @@
                 username,
                 localAccountId,
                 name,
+                loginHint,
                 idToken: idToken,
                 idTokenClaims: effectiveIdTokenClaims,
                 tenantProfiles,
@@ -17639,10 +18416,10 @@
                 idTokenClaims: idTokenClaims || {},
                 accessToken: accessToken.secret,
                 fromCache: true,
-                expiresOn: new Date(Number(accessToken.expiresOn) * 1000),
+                expiresOn: toDateFromSeconds(accessToken.expiresOn),
+                extExpiresOn: toDateFromSeconds(accessToken.extendedExpiresOn),
                 tokenType: request.authenticationScheme || AuthenticationScheme.BEARER,
                 correlationId,
-                extExpiresOn: new Date(Number(accessToken.extendedExpiresOn) * 1000),
                 state: request.state,
             };
             return authenticationResult;
@@ -17720,7 +18497,9 @@
          * Specific implementation of initialize function for NestedAppAuthController
          * @returns
          */
-        async initialize(request) {
+        async initialize(request, 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        isBroker) {
             const initCorrelationId = request?.correlationId || createNewGuid();
             await this.browserStorage.initialize(initCorrelationId);
             return Promise.resolve();
@@ -17748,7 +18527,7 @@
             const validRequest = this.ensureValidRequest(request);
             this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_START, exports.InteractionType.Popup, validRequest);
             const atPopupMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.AcquireTokenPopup, validRequest.correlationId);
-            atPopupMeasurement?.add({ nestedAppAuthRequest: true });
+            atPopupMeasurement.add({ nestedAppAuthRequest: true });
             try {
                 const naaRequest = this.nestedAppAuthAdapter.toNaaTokenRequest(validRequest);
                 const reqTimestamp = nowSeconds();
@@ -17757,7 +18536,13 @@
                     ...this.nestedAppAuthAdapter.fromNaaTokenResponse(naaRequest, response, reqTimestamp),
                 };
                 // cache the tokens in the response
-                await this.hydrateCache(result, request);
+                try {
+                    // cache hydration can fail in JS Runtime scenario that doesn't support full crypto API
+                    await this.hydrateCache(result, request);
+                }
+                catch (error) {
+                    this.logger.warningPii(`Failed to hydrate cache. Error: ${error}`, validRequest.correlationId);
+                }
                 // cache the account context in memory after successful token fetch
                 this.currentAccountContext = {
                     homeAccountId: result.account.homeAccountId,
@@ -17772,7 +18557,7 @@
                 atPopupMeasurement.end({
                     success: true,
                     requestId: result.requestId,
-                });
+                }, undefined, result.account);
                 return result;
             }
             catch (e) {
@@ -17782,7 +18567,7 @@
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Popup, null, e);
                 atPopupMeasurement.end({
                     success: false,
-                }, e);
+                }, e, request.account);
                 throw error;
             }
         }
@@ -17802,19 +18587,26 @@
             }
             // proceed with acquiring tokens via the host
             const ssoSilentMeasurement = this.performanceClient.startMeasurement(PerformanceEvents.SsoSilent, validRequest.correlationId);
-            ssoSilentMeasurement?.increment({
+            ssoSilentMeasurement.increment({
                 visibilityChangeCount: 0,
             });
-            ssoSilentMeasurement?.add({
+            ssoSilentMeasurement.add({
                 nestedAppAuthRequest: true,
             });
             try {
                 const naaRequest = this.nestedAppAuthAdapter.toNaaTokenRequest(validRequest);
+                naaRequest.forceRefresh = validRequest.forceRefresh;
                 const reqTimestamp = nowSeconds();
                 const response = await this.bridgeProxy.getTokenSilent(naaRequest);
                 const result = this.nestedAppAuthAdapter.fromNaaTokenResponse(naaRequest, response, reqTimestamp);
                 // cache the tokens in the response
-                await this.hydrateCache(result, request);
+                try {
+                    // cache hydration can fail in JS Runtime scenario that doesn't support full crypto API
+                    await this.hydrateCache(result, request);
+                }
+                catch (error) {
+                    this.logger.warningPii(`Failed to hydrate cache. Error: ${error}`, validRequest.correlationId);
+                }
                 // cache the account context in memory after successful token fetch
                 this.currentAccountContext = {
                     homeAccountId: result.account.homeAccountId,
@@ -17829,7 +18621,7 @@
                 ssoSilentMeasurement?.end({
                     success: true,
                     requestId: result.requestId,
-                });
+                }, undefined, result.account);
                 return result;
             }
             catch (e) {
@@ -17839,7 +18631,7 @@
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null, e);
                 ssoSilentMeasurement?.end({
                     success: false,
-                }, e);
+                }, e, request.account);
                 throw error;
             }
         }
@@ -17879,20 +18671,20 @@
             }
             if (result) {
                 this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_SUCCESS, exports.InteractionType.Silent, result);
-                atsMeasurement?.add({
-                    accessTokenSize: result?.accessToken.length,
-                    idTokenSize: result?.idToken.length,
+                atsMeasurement.add({
+                    accessTokenSize: result.accessToken.length,
+                    idTokenSize: result.idToken.length,
                 });
-                atsMeasurement?.end({
+                atsMeasurement.end({
                     success: true,
-                });
+                }, undefined, result.account);
                 return result;
             }
-            this.logger.error("Cached tokens are not found for the account, proceeding with silent token request.");
+            this.logger.warning("Cached tokens are not found for the account, proceeding with silent token request.");
             this.eventHandler.emitEvent(EventType.ACQUIRE_TOKEN_FAILURE, exports.InteractionType.Silent, null);
-            atsMeasurement?.end({
+            atsMeasurement.end({
                 success: false,
-            });
+            }, undefined, request.account);
             return null;
         }
         /**
@@ -17904,8 +18696,9 @@
             // always prioritize the account context from the bridge
             const accountContext = this.bridgeProxy.getAccountContext() || this.currentAccountContext;
             let currentAccount = null;
+            const correlationId = request.correlationId || this.browserCrypto.createNewGuid();
             if (accountContext) {
-                currentAccount = getAccount(accountContext, this.logger, this.browserStorage);
+                currentAccount = getAccount(accountContext, this.logger, this.browserStorage, correlationId);
             }
             // fall back to brokering if no cached account is found
             if (!currentAccount) {
@@ -17923,7 +18716,7 @@
             };
             // fetch access token and check for expiry
             const tokenKeys = this.browserStorage.getTokenKeys();
-            const cachedAccessToken = this.browserStorage.getAccessToken(currentAccount, authRequest, tokenKeys, currentAccount.tenantId, this.performanceClient, authRequest.correlationId);
+            const cachedAccessToken = this.browserStorage.getAccessToken(currentAccount, authRequest, tokenKeys, currentAccount.tenantId);
             // If there is no access token, log it and return null
             if (!cachedAccessToken) {
                 this.logger.verbose("No cached access token found");
@@ -17934,7 +18727,7 @@
                 this.logger.verbose("Cached access token has expired");
                 return Promise.resolve(null);
             }
-            const cachedIdToken = this.browserStorage.getIdToken(currentAccount, tokenKeys, currentAccount.tenantId, this.performanceClient, authRequest.correlationId);
+            const cachedIdToken = this.browserStorage.getIdToken(currentAccount, authRequest.correlationId, tokenKeys, currentAccount.tenantId, this.performanceClient);
             if (!cachedIdToken) {
                 this.logger.verbose("No cached id token found");
                 return Promise.resolve(null);
@@ -18031,7 +18824,8 @@
          * @returns Array of AccountInfo objects in cache
          */
         getAllAccounts(accountFilter) {
-            return getAllAccounts(this.logger, this.browserStorage, this.isBrowserEnv(), accountFilter);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getAllAccounts(this.logger, this.browserStorage, this.isBrowserEnv(), correlationId, accountFilter);
         }
         /**
          * Returns the first account found in the cache that matches the account filter passed in.
@@ -18039,7 +18833,8 @@
          * @returns The first account found in the cache matching the provided filter or null if no account could be found.
          */
         getAccount(accountFilter) {
-            return getAccount(accountFilter, this.logger, this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getAccount(accountFilter, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching username.
@@ -18050,7 +18845,8 @@
          * @returns The account object stored in MSAL
          */
         getAccountByUsername(username) {
-            return getAccountByUsername(username, this.logger, this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getAccountByUsername(username, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching homeAccountId.
@@ -18060,7 +18856,8 @@
          * @returns The account object stored in MSAL
          */
         getAccountByHomeId(homeAccountId) {
-            return getAccountByHomeId(homeAccountId, this.logger, this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getAccountByHomeId(homeAccountId, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Returns the signed in account matching localAccountId.
@@ -18070,7 +18867,8 @@
          * @returns The account object stored in MSAL
          */
         getAccountByLocalId(localAccountId) {
-            return getAccountByLocalId(localAccountId, this.logger, this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getAccountByLocalId(localAccountId, this.logger, this.browserStorage, correlationId);
         }
         /**
          * Sets the account to use as the active account. If no account is passed to the acquireToken APIs, then MSAL will use this active account.
@@ -18081,13 +18879,15 @@
              * StandardController uses this to allow the developer to set the active account
              * in the nested app auth scenario the active account is controlled by the app hosting the nested app
              */
-            return setActiveAccount(account, this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return setActiveAccount(account, this.browserStorage, correlationId);
         }
         /**
          * Gets the currently active account
          */
         getActiveAccount() {
-            return getActiveAccount(this.browserStorage);
+            const correlationId = this.browserCrypto.createNewGuid();
+            return getActiveAccount(this.browserStorage, correlationId);
         }
         // #endregion
         handleRedirectPromise(hash // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -18242,6 +19042,7 @@
          * @param IController Optional parameter to explictly set the controller. (Will be removed when we remove public constructor)
          */
         constructor(configuration, controller) {
+            this.isBroker = false;
             this.controller =
                 controller ||
                     new StandardController(new StandardOperatingContext(configuration));
@@ -18251,7 +19052,7 @@
          * @param request {?InitializeApplicationRequest}
          */
         async initialize(request) {
-            return this.controller.initialize(request);
+            return this.controller.initialize(request, this.isBroker);
         }
         /**
          * Use when you want to obtain an access_token for your API via opening a popup window in the user's browser
@@ -19435,7 +20236,20 @@
          * @returns If keys are properly deleted
          */
         async removeKeys(publicKeyThumbprint) {
-            return this.cryptoOps.removeTokenBindingKey(publicKeyThumbprint);
+            return this.cryptoOps
+                .removeTokenBindingKey(publicKeyThumbprint)
+                .then(() => true)
+                .catch((error) => {
+                /*
+                 * @deprecated - To maintain public API signature, we return false if the error is due to the key still being present in indexedDB.
+                 */
+                if (error instanceof ClientAuthError &&
+                    error.errorCode ===
+                        bindingKeyNotRemoved) {
+                    return false;
+                }
+                throw error;
+            });
         }
     }
 
@@ -19527,13 +20341,13 @@
             void browserMeasurement?.then((measurement) => measurement.startMeasurement());
             return {
                 ...inProgressEvent,
-                end: (event, error) => {
+                end: (event, error, account) => {
                     const res = inProgressEvent.end({
                         ...event,
                         startPageVisibility,
                         endPageVisibility: this.getPageVisibility(),
                         durationMs: getPerfDurationMs(startTime),
-                    }, error);
+                    }, error, account);
                     void browserMeasurement?.then((measurement) => measurement.endMeasurement());
                     this.deleteIncompleteSubMeasurements(inProgressEvent);
                     return res;
@@ -19754,6 +20568,7 @@
     exports.WrapperSKU = WrapperSKU;
     exports.createNestablePublicClientApplication = createNestablePublicClientApplication;
     exports.createStandardPublicClientApplication = createStandardPublicClientApplication;
+    exports.isPlatformBrokerAvailable = isPlatformBrokerAvailable;
     exports.stubbedPublicClientApplication = stubbedPublicClientApplication;
     exports.version = version;
 

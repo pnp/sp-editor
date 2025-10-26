@@ -19,10 +19,22 @@ export function setSelectedList(list: string){
         selectedListId: list
     })
 }
-export function setListFields(listFields: []){
-    return action(Constants.QB_SET_LIST_FIELDS,{
-        listFields: listFields
-    })
+export function setListFields(listFields: []) {
+  const sortedFields = [...listFields].sort((a: any, b: any) => {
+    const aStartsWithUnderscore = a.InternalName.startsWith('_');
+    const bStartsWithUnderscore = b.InternalName.startsWith('_');
+    
+    // If one starts with underscore and the other doesn't, underscore goes last
+    if (aStartsWithUnderscore && !bStartsWithUnderscore) return 1;
+    if (!aStartsWithUnderscore && bStartsWithUnderscore) return -1;
+    
+    // Both start with underscore or both don't - sort alphabetically
+    return a.InternalName.localeCompare(b.InternalName);
+  });
+  
+  return action(Constants.QB_SET_LIST_FIELDS, {
+    listFields: sortedFields,
+  });
 }
 export function setConfiguredQueryFields(queryFields: IQueryField[]){
     return action(Constants.QB_SET_CONFIGURED_QUERY_FIELDS,{
