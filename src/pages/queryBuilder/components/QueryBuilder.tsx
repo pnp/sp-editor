@@ -9,7 +9,6 @@ import { runRestCall } from '../../spshooter/chrome/chrome-actions';
 import { setBody, setMethod, setPath } from '../../../store/spshoot/actions';
 import { useNavigate } from 'react-router';
 import { IQueryField, LogicalOperator } from '../../../store/queryBuilder/types';
-import { current } from '@reduxjs/toolkit';
 
 export type ODataComparer =
   | 'BeginsWith'
@@ -38,7 +37,6 @@ const oDatacomparers: ODataComparer[] = [
   'IsNull',
   'IsNotNull',
 ];
-
 
 export default function SPQueryBuilder() {
   const { listFields, configuredQueryFields, selectedListId, context, query, camlQuery, selectedViewFields } =
@@ -77,11 +75,9 @@ export default function SPQueryBuilder() {
   const buildQuery = React.useCallback(() => {
     try {
       const validFields = configuredQueryFields.filter((queryFld) => {
-        // For IsNull/IsNotNull operators, we don't need a value
-        const needsValue = queryFld.comparer !== 'IsNull' && queryFld.comparer !== 'IsNotNull';
         return queryFld.comparer && queryFld.name && queryFld.type;
       });
-console.log('Building query with fields:', validFields);
+      console.log('Building query with fields:', validFields);
       if (validFields.length === 0) {
         dispatch(actions.setQuery(''));
         dispatch(actions.setCamlQuery(''));
@@ -170,9 +166,6 @@ console.log('Building query with fields:', validFields);
     buildQuery();
   }, [buildQuery]);
 
-  const formattedCaml = React.useMemo(() => prettyPrintXmlString(camlQuery), [camlQuery]);
-  const camlRows = React.useMemo(() => Math.max(6, formattedCaml.split('\n').length), [formattedCaml]);
-
   const path = `_api/web/lists/getById(guid'${selectedListId}')/RenderListDataAsStream`;
 
   // Build ViewFields XML
@@ -184,6 +177,12 @@ console.log('Building query with fields:', validFields);
   const fullCaml = prettyPrintXmlString(
     `<View Scope="RecursiveAll"><Query><Where>${camlQuery}</Where></Query>${viewFieldsXml}</View>`
   ).replace(/\\n/g, '\n');
+
+  const camlRows = React.useMemo(() => {
+    if (!fullCaml) return 10; // Use fullCaml instead of camlQuery
+    const lines = fullCaml.split('\n').length;
+    return Math.max(10, Math.min(lines + 2, 30));
+  }, [fullCaml]); // Depend on fullCaml, not camlQuery
 
   const body = JSON.stringify(
     {
@@ -407,11 +406,10 @@ console.log('Building query with fields:', validFields);
           <TextField
             styles={{
               root: { width: '100%', maxWidth: 'calc(100vw - 400px)' },
-              field: { maxHeight: '400px', overflowY: 'auto' },
             }}
             multiline
+            resizable
             label={'Caml Query'}
-            autoAdjustHeight
             value={fullCaml}
             readOnly
             rows={camlRows}
@@ -725,12 +723,17 @@ function FieldQueryBuilder(props: { index: number }) {
           handleValueChange(data || '');
         }}
       />
-        <PrimaryButton
+      <PrimaryButton
         text={isNewRow ? 'Add' : 'Update'}
-        disabled={!isListSelected || !currentField.name || !currentField.comparer || (currentField.comparer !== 'IsNull' && currentField.comparer !== 'IsNotNull' && !currentField.value)}
+        disabled={
+          !isListSelected ||
+          !currentField.name ||
+          !currentField.comparer ||
+          (currentField.comparer !== 'IsNull' && currentField.comparer !== 'IsNotNull' && !currentField.value)
+        }
         onClick={handleAddOrUpdate}
         style={{ minWidth: '100px' }}
-        />
+      />
       {!isNewRow && (
         <DefaultButton
           text="Remove"
