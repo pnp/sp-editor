@@ -117,10 +117,6 @@ export default function SPQueryBuilder() {
           return `(${acc})${operator}(${part})`;
         }, '');
 
-        // Add $select if fields are selected
-        if (selectedViewFields && selectedViewFields.length > 0) {
-          oDataResult += `&$select=${selectedViewFields.join(',')}`;
-        }
       } catch (err) {
         console.error('Error building OData query:', err);
       }

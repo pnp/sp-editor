@@ -44,7 +44,7 @@ export async function selectQueryList(dispatch: Dispatch<QueryBuilderActions | H
     target: { tabId: chrome.devtools.inspectedWindow.tabId },
     world: 'MAIN',
     args: [{
-      path: `${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/_api/web/lists/getById(guid'${listId}')/fields?$select=InternalName,TypeAsString,Title,LookupColumn`,
+      path: `${context && context.siteAbsoluteUrl ? context.siteAbsoluteUrl : ''}/_api/web/lists/getById(guid'${listId}')/fields?$select=InternalName,TypeAsString,Title,FieldTypeKind,LookupList,LookupField,Hidden,ReadOnlyField,IsDependentLookup`,
       method: "GET",
       headers: JSON.stringify({
         "accept": "application/json"
