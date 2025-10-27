@@ -103,7 +103,7 @@ const App = () => {
     <IonApp>
       <Fabric>
         <Customizer {...theme}>
-          <HashRouter>
+          <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <FabricNav />
             <IonRouterOutlet id="main">
               <Routes>

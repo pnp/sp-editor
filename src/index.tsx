@@ -114,7 +114,7 @@ if (
 ) {
   root.render(
     <React.StrictMode>
-      <HashRouter>
+      <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <App2 />
       </HashRouter>
     </React.StrictMode>
