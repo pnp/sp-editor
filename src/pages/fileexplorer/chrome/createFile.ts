@@ -101,7 +101,7 @@ export const createFile = (extPath: string, relativeUrl: string, webId: string, 
         .then((w) => {
           return w.web
             .getFolderByServerRelativePath(relativeUrl)
-            .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
+            .files.addUsingPath(filename, '/* File added from SP Editor */', { Overwrite: false })
             .then((r) => {
               const file = {
                 id: r.ServerRelativeUrl,
@@ -124,7 +124,7 @@ export const createFile = (extPath: string, relativeUrl: string, webId: string, 
     } else {
       return sp.web
         .getFolderByServerRelativePath(relativeUrl)
-        .files.addUsingPath(filename, '/* File addded from SP Editor */', { Overwrite: false })
+        .files.addUsingPath(filename, '/* File added from SP Editor */', { Overwrite: false })
         .then((r) => {
           const file = {
             id: r.ServerRelativeUrl,

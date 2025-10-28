@@ -8,6 +8,13 @@ import { unInstallAppFromWeb } from './pages/scriptlinks/chrome/uninstallappfrom
 import { getWebProperties } from './pages/webproperties/chrome/getwebproperties';
 import { createWebProperty } from './pages/webproperties/chrome/createwebproperty';
 import { deleteWebProperties } from './pages/webproperties/chrome/deletewebproperties';
+import { getFiles } from './pages/fileexplorer/chrome/getfiles';
+import { getFileContent } from './pages/fileexplorer/chrome/getFileContent';
+import { updateFile } from './pages/fileexplorer/chrome/updateFile';
+import { createFolder } from './pages/fileexplorer/chrome/createFolder';
+import { deleteFolder } from './pages/fileexplorer/chrome/deleteFolder';
+import { createFile } from './pages/fileexplorer/chrome/createFile';
+import { deleteFile } from './pages/fileexplorer/chrome/deleteFile';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -35,6 +42,7 @@ const removeLivereload = () => {
 
 // Map of function names to actual functions
 const functionMap: Record<string, (...args: any[]) => any> = {
+  // Script Links
   getCustomActions,
   createCustomAction,
   deleteCustomActions,
@@ -42,9 +50,19 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   updateCacheCustomAction,
   addAndInstallApp,
   unInstallAppFromWeb,
+  // Web Properties
   getWebProperties,
   createWebProperty,
   deleteWebProperties,
+  // File Explorer
+  getFiles,
+  getFileContent,
+  updateFile,
+  createFolder,
+  deleteFolder,
+  createFile,
+  deleteFile,
+  // Livereload
   injectLivereload,
   removeLivereload,
 };
