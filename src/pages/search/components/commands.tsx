@@ -1,15 +1,13 @@
-import { ActionButton, CommandBar, DefaultButton, Dialog, DialogFooter, DialogType, Link, Panel, PanelType, PrimaryButton, Stack, Text, TextField } from '@fluentui/react';
+import { ActionButton, CommandBar, DefaultButton, Dialog, DialogFooter, DialogType, Panel, PanelType, PrimaryButton, Stack, TextField } from '@fluentui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
-import { runsearch } from '../chrome/runsearch';
 import { deleteSearchQuery, saveSearchQuery, setAllQueries, setOptionsPanel, setSearchQuery, setSearchResults } from '../../../store/search/actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
-import { currentpageallprops } from '../chrome/currentpageallprops';
-import { reindexweb } from '../chrome/reindexweb';
 import { useEffect, useState } from 'react';
 import { ISearchHistory } from '../../../store/search/types';
 import { replaceDateTokens } from './searchqueryform';
+import { executeScript } from '../../../utilities/utilities';
 
 const SearchCommands = () => {
   const dispatch = useDispatch();
@@ -19,46 +17,180 @@ const SearchCommands = () => {
   const [showSearchHistoryPanel, setShowSearchHistoryPanel] = useState(false);
   const [queryName, setQueryName] = useState('');
 
-   useEffect(() => {
-     const storedQueries = localStorage.getItem('searchHistory');
-     if (storedQueries) {
-       const parsedQueries = JSON.parse(storedQueries);
-       dispatch(setAllQueries(parsedQueries));
-     }
-   }, []);
- 
-  const indexWebOnClick = () => {
+  useEffect(() => {
+    const storedQueries = localStorage.getItem('searchHistory');
+    if (storedQueries) {
+      const parsedQueries = JSON.parse(storedQueries);
+      dispatch(setAllQueries(parsedQueries));
+    }
+  }, []);
+
+  const indexWebOnClick = async () => {
     dispatch(rootActions.setLoading(true));
-    chrome.scripting
-      .executeScript({
-        target: { tabId: chrome.devtools.inspectedWindow.tabId },
-        world: 'MAIN',
-        args: [chrome.runtime.getURL('')],
-        func: reindexweb,
-      })
-      .then((injectionResults) => {
-        if (injectionResults[0].result) {
-          const res = injectionResults[0].result as any;
-          if (res.errorMessage) {
-            dispatch(
-              rootActions.setAppMessage({
-                showMessage: true,
-                message: res.errorMessage,
-                color: MessageBarColors.danger,
-              })
-            );
-          } else {
-            dispatch(
-              rootActions.setAppMessage({
-                showMessage: true,
-                message: 'Reindexing complete',
-                color: MessageBarColors.success,
-              })
-            );
+    
+    try {
+      const res = await executeScript('reindexweb', () => {}, [chrome.runtime.getURL('')]);
+      
+      if (res?.errorMessage) {
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: res.errorMessage,
+            color: MessageBarColors.danger,
+          })
+        );
+      } else {
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: 'Reindexing complete',
+            color: MessageBarColors.success,
+          })
+        );
+      }
+      
+      dispatch(rootActions.setLoading(false));
+    } catch (error) {
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: error instanceof Error ? error.message : 'Failed to reindex web',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  };
+
+  const handleSearch = async () => {
+    dispatch(rootActions.setLoading(true));
+
+    const modifiedQuery = { ...searchQuery };
+    modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
+    modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
+
+    try {
+      const res = await executeScript('runsearch', () => {}, [modifiedQuery, chrome.runtime.getURL('')]);
+      handleSearchResults(res);
+    } catch (error) {
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: error instanceof Error ? error.message : 'Search failed',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  };
+
+  const handleCurrentPageSearch = async () => {
+    dispatch(rootActions.setLoading(true));
+    
+    try {
+      const res = await executeScript('currentpageallprops', () => {}, [chrome.runtime.getURL('')]);
+      handleSearchResults(res);
+    } catch (error) {
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: error instanceof Error ? error.message : 'Failed to search current page',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  };
+
+  const handleSearchResults = (res: any) => {
+    if (res?.errorMessage) {
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: res.errorMessage,
+          color: MessageBarColors.danger,
+        })
+      );
+      dispatch(setSearchResults([], [], [], [], undefined));
+    } else {
+      let items: any[] = [];
+      let groups: any[] = [];
+      let uniqueKey = 0;
+      let startIndex = 0;
+
+      // Map refiners
+      let refinersItems: any[] = [];
+      let refinersGroups: any[] = [];
+      let refinersUniqueKey = 0;
+      let refinersStartIndex = 0;
+
+      if (res.Refiners && res.Refiners.Refiners && res.Refiners.Refiners.results) {
+        res.Refiners.Refiners.results.forEach((refiner: any) => {
+          if (refiner.Entries && refiner.Entries.results) {
+            // Create a group for each refiner
+            refinersGroups.push({
+              key: refiner.Name || `refiner-${refinersStartIndex}`,
+              name: refiner.Name || "Unknown Refiner",
+              startIndex: refinersStartIndex,
+              count: refiner.Entries.results.length,
+              level: 0,
+              isCollapsed: true,
+            });
+
+            // Map each entry in the refiner
+            const refinementItems = refiner.Entries.results.map((entry: any, index: number) => ({
+              key: refinersUniqueKey++,
+              refinementName: entry.RefinementName || "",
+              refinementValue: entry.RefinementValue || "",
+              refinementCount: entry.RefinementCount || "0",
+              refinementToken: entry.RefinementToken || "",
+              refinerName: refiner.Name || "Unknown Refiner",
+              row: index + 1
+            }));
+
+            refinersItems = [...refinersItems, ...refinementItems];
+            refinersStartIndex += refiner.Entries.results.length;
           }
-          dispatch(rootActions.setLoading(false));
-        }
-      });
+        });
+      }
+
+      if (res.PrimarySearchResults && Array.isArray(res.PrimarySearchResults)) {
+        res.PrimarySearchResults.forEach((item: any) => {
+          const temp = Object.keys(item)
+            .map((name) => ({
+              DocId: item.DocId,
+              property: name,
+              value: item[name],
+            }))
+            .sort((a, b) => a.property.toLowerCase().localeCompare(b.property.toLowerCase()));
+
+          const newItems = temp.map((tempItem, i) => ({
+            row: i + 1,
+            key: uniqueKey++,
+            property: tempItem.property,
+            value: tempItem.value,
+            DocId: tempItem.DocId,
+          }));
+
+          items = [...items, ...newItems];
+
+          groups.push({
+            key: item.DocId,
+            name: item.Title,
+            startIndex: startIndex,
+            count: Object.keys(item).length,
+            level: 0,
+            isCollapsed: true,
+          });
+
+          startIndex += Object.keys(item).length;
+        });
+      }
+
+      dispatch(setSearchResults(items, groups, refinersItems, refinersGroups, res));
+    }
+
+    dispatch(rootActions.setLoading(false));
   };
 
   return (
@@ -72,22 +204,7 @@ const SearchCommands = () => {
                 text="Search"
                 allowDisabledFocus
                 styles={{ root: { marginTop: 6, marginRight: 6 } }}
-                onClick={() => {
-                  dispatch(rootActions.setLoading(true));
-
-                  const modifiedQuery = { ...searchQuery };
-                  modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
-                  modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
-
-                  chrome.scripting
-                    .executeScript({
-                      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                      world: 'MAIN',
-                      args: [modifiedQuery, chrome.runtime.getURL('')],
-                      func: runsearch,
-                    })
-                    .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
-                }}
+                onClick={() => { handleSearch(); }}
               />
             ),
           },
@@ -121,23 +238,13 @@ const SearchCommands = () => {
             key: 'SearchPage',
             text: 'Search Current Page',
             iconProps: { iconName: 'SearchAndApps' },
-            onClick: () => {
-              dispatch(rootActions.setLoading(true));
-              chrome.scripting
-                .executeScript({
-                  target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                  world: 'MAIN',
-                  args: [chrome.runtime.getURL('')],
-                  func: currentpageallprops,
-                })
-                .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
-            },
+            onClick: () => { handleCurrentPageSearch(); },
           },
           {
             key: 'IndexWeb',
             text: 'Reindex Current Web',
             iconProps: { iconName: 'SiteScan' },
-            onClick: () => indexWebOnClick(),
+            onClick: () => { indexWebOnClick(); },
           },
         ]}
       />
@@ -167,7 +274,7 @@ const SearchCommands = () => {
             }}
             text="Save"
             disabled={!queryName}
-          />{' '}
+          />
           <DefaultButton
             onClick={() => {
               setShowSaveQueryDialog(false);
@@ -215,100 +322,6 @@ const SearchCommands = () => {
       </Panel>
     </>
   );
-
-  function handleInjectionResults(injectionResults: any, dispatch: Function) {
-    if (injectionResults[0].result) {
-      const res = injectionResults[0].result as any;
-      if (res.errorMessage) {
-        dispatch(
-          rootActions.setAppMessage({
-            showMessage: true,
-            message: res.errorMessage,
-            color: MessageBarColors.danger,
-          })
-        );
-        dispatch(setSearchResults([], [], [], [], undefined));
-      } else {
-        var items: any[] = [];
-        var groups: any[] = [];
-        var uniqueKey = 0;
-        var startIndex = 0;
-        //console.log('Refiners: ', res.Refiners.Refiners.results);
-       
-              // Map refiners
-      var refinersItems: any[] = [];
-      var refinersGroups: any[] = [];
-      var refinersUniqueKey = 0;
-      var refinersStartIndex = 0;
-      
-      if (res.Refiners && res.Refiners.Refiners && res.Refiners.Refiners.results) {
-        res.Refiners.Refiners.results.forEach((refiner: any) => {
-          if (refiner.Entries && refiner.Entries.results) {
-            // Create a group for each refiner
-            refinersGroups.push({
-              key: refiner.Name || `refiner-${refinersStartIndex}`,
-              name: refiner.Name || "Unknown Refiner",
-              startIndex: refinersStartIndex,
-              count: refiner.Entries.results.length,
-              level: 0,
-              isCollapsed: true,
-            });
-            
-            // Map each entry in the refiner
-            const refinementItems = refiner.Entries.results.map((entry: any, index: number) => ({
-              key: refinersUniqueKey++,
-              refinementName: entry.RefinementName || "",
-              refinementValue: entry.RefinementValue || "",
-              refinementCount: entry.RefinementCount || "0",
-              refinementToken: entry.RefinementToken || "",
-              refinerName: refiner.Name || "Unknown Refiner",
-              row: index + 1
-            }));
-            
-            refinersItems = [...refinersItems, ...refinementItems];
-            refinersStartIndex += refiner.Entries.results.length;
-          }
-        });
-      }
-
-        res.PrimarySearchResults.forEach((item: any) => {
-          const temp = Object.keys(item)
-            .map((name) => ({
-              DocId: item.DocId,
-              property: name,
-              value: item[name],
-            }))
-            .sort((a, b) => a.property.toLowerCase().localeCompare(b.property.toLowerCase()));
-
-          const newItems = temp.map((tempItem, i) => ({
-            row: i + 1,
-            key: uniqueKey++,
-            property: tempItem.property,
-            value: tempItem.value,
-            DocId: tempItem.DocId,
-          }));
-
-          items = [...items, ...newItems];
-
-          groups.push({
-            key: item.DocId,
-            name: item.Title,
-            startIndex: startIndex,
-            count: Object.keys(item).length,
-            level: 0,
-            isCollapsed: true,
-          });
-
-          startIndex += Object.keys(item).length;
-        });
-
-        dispatch(setSearchResults(items, groups, refinersItems, refinersGroups, res));
-      }
-    } else {
-      //console.log('Injection failed: ', injectionResults);
-    }
-    dispatch(rootActions.setLoading(false));
-  }
 };
 
 export default SearchCommands;

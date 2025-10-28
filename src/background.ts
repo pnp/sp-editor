@@ -31,6 +31,10 @@ import { getWebHooks } from './pages/webhooks/chrome/getwebhooks';
 import { createWebHook } from './pages/webhooks/chrome/createwebhooks';
 import { deleteWebHook } from './pages/webhooks/chrome/deletewebhooks';
 import { updateSubscription } from './pages/webhooks/chrome/updatesubscription';
+import { runsearch } from './pages/search/chrome/runsearch';
+import { currentpageallprops } from './pages/search/chrome/currentpageallprops';
+import { reindexweb } from './pages/search/chrome/reindexweb';
+import { allprops } from './pages/search/chrome/allprops';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -107,6 +111,12 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   addProxyScript,
   // Query Builder / SP Shooter
   shoot,
+  // Search
+  runsearch,
+  currentpageallprops,
+  reindexweb,
+  allprops,
+  // Context Info
   getContextInfo,
   // Livereload
   injectLivereload,

@@ -20,7 +20,6 @@ import {
   StickyPositionType,
 } from '@fluentui/react';
 import { Text } from '@fluentui/react';
-import { allprops } from '../chrome/allprops';
 import * as rootActions from '../../../store/home/actions';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +28,7 @@ import SearchQueryForm from './searchqueryform';
 import { useEffect, useRef, useState } from 'react';
 import { setSearchResults } from '../../../store/search/actions';
 import { MessageBarColors } from '../../../store/home/types';
+import { executeScript } from '../../../utilities/utilities';
 
 const SearchResults = () => {
   const {
@@ -104,9 +104,9 @@ const SearchResults = () => {
             root: {
               marginLeft: 'auto',
               backgroundColor: 'transparent',
-              height: '6px', // Set a fixed height
-              verticalAlign: 'middle', // Align the button to the center
-              minWidth: 'auto', // Ensure the button width is minimal
+              height: '6px',
+              verticalAlign: 'middle',
+              minWidth: 'auto',
             },
           }}
         ></ActionButton>
@@ -134,9 +134,9 @@ const SearchResults = () => {
             root: {
               marginLeft: 'auto',
               backgroundColor: 'transparent',
-              height: '6px', // Set a fixed height
-              verticalAlign: 'middle', // Align the button to the center
-              minWidth: 'auto', // Ensure the button width is minimal
+              height: '6px',
+              verticalAlign: 'middle',
+              minWidth: 'auto',
             },
           }}
         ></ActionButton>
@@ -144,7 +144,6 @@ const SearchResults = () => {
     },
   ]);
 
-  // Add this near your other useState declarations
   const [refinementColumns] = useState<IColumn[]>([
     {
       key: 'row',
@@ -215,7 +214,6 @@ const SearchResults = () => {
     },
   ]);
 
-  // make columns sticky
   const renderHeader = (headerProps: any, defaultRender: any) => {
     return (
       <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={false}>
@@ -240,7 +238,6 @@ const SearchResults = () => {
     );
   };
 
-  // Non-mutating styles definition
   const queryEditorStackStyles: IStackItemStyles = {
     root: {
       width: 310,
@@ -248,12 +245,9 @@ const SearchResults = () => {
   };
 
   const nonShrinkingStackItemStyles: IStackItemStyles = {
-    root: {
-      // width: "calc(100% - 600px)",
-    },
+    root: {},
   };
 
-  // Mutating styles definition
   const stackStyles: IStackStyles = {
     root: {
       width: `100%`,
@@ -271,6 +265,7 @@ const SearchResults = () => {
     stickyBelowItems: undefined,
     contentContainer: undefined,
   };
+
   const onToggleCollapse = (group?: IGroup) => {
     if (!group) return;
 
@@ -281,9 +276,78 @@ const SearchResults = () => {
       return g;
     });
 
-    setGroups(newGroups); // Update the local groups state
-    //dispatch(rootActions.setSearchQuery({ groups: newGroups })); // Dispatch the updated groups to the root state
+    setGroups(newGroups);
   };
+
+  const handleLoadAllProperties = async (groupKey: string) => {
+    dispatch(rootActions.setLoading(true));
+
+    try {
+      const res = await executeScript('allprops', () => {}, [
+        groupKey,
+        searchQuery.SourceId,
+        chrome.runtime.getURL(''),
+      ]);
+
+      if (res && res.PrimarySearchResults) {
+        // Extract the properties from the search results and sort them alphabetically
+        const temp = res.PrimarySearchResults.flatMap((item: any) =>
+          Object.entries(item).map(([property, value]) => ({
+            DocId: item.DocId,
+            property,
+            value,
+          }))
+        ).sort((a: any, b: any) => {
+          return a.property.toLowerCase().localeCompare(b.property.toLowerCase());
+        });
+
+        // Find the highest key value in the existing items and add 1 to get the next key value
+        const highestKey = items.reduce((maxKey, item) => Math.max(maxKey, parseInt(item.key)), 0) + 1;
+
+        // Add row and key properties to the search results and create a new array
+        const tempWithProps = temp.map((item: any, index: any) => ({
+          row: index + 1,
+          key: highestKey + index,
+          ...item,
+        }));
+
+        // Remove the existing items with the same DocId as the current group and add the new items
+        const newItems = items.filter((item) => item.DocId !== groupKey);
+        const newItems2 = newItems.concat(tempWithProps);
+
+        // Update the groups with the new start index, count, and collapsed state
+        const newGroups = groups.map((group) => ({
+          ...group,
+          startIndex: newItems2.findIndex((item) => item.DocId === group.key),
+          count: newItems2.filter((item) => item.DocId === group.key).length,
+          isCollapsed: group.key === groupKey ? false : group.isCollapsed,
+        }));
+
+        // Update the search results and stop the loading spinner
+        dispatch(setSearchResults(newItems2, newGroups, [], [], searchResults));
+      } else {
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: 'Failed to load all properties',
+            color: MessageBarColors.danger,
+          })
+        );
+      }
+      
+      dispatch(rootActions.setLoading(false));
+    } catch (error) {
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: error instanceof Error ? error.message : 'Failed to load all properties',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  };
+
   return (
     <Stack enableScopedSelectors horizontal styles={stackStyles}>
       <Stack.Item disableShrink styles={queryEditorStackStyles}>
@@ -350,62 +414,7 @@ const SearchResults = () => {
                                     backgroundColor: 'transparent',
                                   }}
                                   onClick={() => {
-                                    dispatch(rootActions.setLoading(true));
-                                    chrome.scripting
-                                      .executeScript({
-                                        target: {
-                                          tabId: chrome.devtools.inspectedWindow.tabId,
-                                        },
-                                        world: 'MAIN',
-                                        args: [props?.group?.key, searchQuery.SourceId, chrome.runtime.getURL('')],
-                                        func: allprops,
-                                      })
-                                      .then((injectionResults) => {
-                                        if (injectionResults[0].result) {
-                                          const res = injectionResults[0].result as any;
-
-                                          // Extract the properties from the search results and sort them alphabetically
-                                          const temp = res.PrimarySearchResults.flatMap((item: any) =>
-                                            Object.entries(item).map(([property, value]) => ({
-                                              DocId: item.DocId,
-                                              property,
-                                              value,
-                                            }))
-                                          ).sort((a: any, b: any) => {
-                                            return a.property.toLowerCase().localeCompare(b.property.toLowerCase());
-                                          });
-
-                                          // Find the highest key value in the existing items and add 1 to get the next key value
-                                          const highestKey =
-                                            items.reduce((maxKey, item) => Math.max(maxKey, parseInt(item.key)), 0) + 1;
-
-                                          // Add row and key properties to the search results and create a new array
-                                          const tempWithProps = temp.map((item: any, index: any) => ({
-                                            row: index + 1,
-                                            key: highestKey + index,
-                                            ...item,
-                                          }));
-
-                                          // Remove the existing items with the same DocId as the current group and add the new items
-                                          const newItems = items.filter((item) => item.DocId !== props?.group?.key);
-                                          const newItems2 = newItems.concat(tempWithProps);
-
-                                          // Update the groups with the new start index, count, and collapsed state
-                                          const newGroups = groups.map((group) => ({
-                                            ...group,
-                                            startIndex: newItems2.findIndex((item) => item.DocId === group.key),
-                                            count: newItems2.filter((item) => item.DocId === group.key).length,
-                                            isCollapsed: group.key === props?.group?.key ? false : group.isCollapsed,
-                                          }));
-
-                                          // Update the search results and stop the loading spinner
-                                          dispatch(setSearchResults(newItems2, newGroups, [], [], searchResults));
-                                          dispatch(rootActions.setLoading(false));
-                                        } else {
-                                          //console.log('Injection failed: ', injectionResults);
-                                          dispatch(rootActions.setLoading(false));
-                                        }
-                                      });
+                                    handleLoadAllProperties(props?.group?.key as string);
                                   }}
                                 />
                               </>
@@ -438,11 +447,6 @@ const SearchResults = () => {
                   groups={refinemenGroups}
                   columns={refinementColumns}
                   onRenderDetailsHeader={renderHeader}
-                  /*groupProps={{
-                      onRenderHeader: (props: IGroupHeaderProps) => (
-                        <GroupHeader {...props} onToggleCollapse={onToggleCollapse} />
-                      ),
-                    }}*/
                 />
               </ScrollablePane>
             </div>
