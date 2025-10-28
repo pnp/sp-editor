@@ -27,6 +27,10 @@ import { getSites } from './pages/siteproperties/chrome/getsites';
 import { getTenantProperties } from './pages/tenantproperties/chrome/gettenantproperties';
 import { createTenantProperty } from './pages/tenantproperties/chrome/createtenantproperty';
 import { deleteTenantProperties } from './pages/tenantproperties/chrome/deletetenantproperties';
+import { getWebHooks } from './pages/webhooks/chrome/getwebhooks';
+import { createWebHook } from './pages/webhooks/chrome/createwebhooks';
+import { deleteWebHook } from './pages/webhooks/chrome/deletewebhooks';
+import { updateSubscription } from './pages/webhooks/chrome/updatesubscription';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -94,6 +98,11 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   getTenantProperties,
   createTenantProperty,
   deleteTenantProperties,
+  // WebHooks
+  getWebHooks,
+  createWebHook,
+  deleteWebHook,
+  updateSubscription,
   // Proxy
   addProxyScript,
   // Query Builder / SP Shooter
