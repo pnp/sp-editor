@@ -1,1 +1,1 @@
-chrome.devtools.panels.create("SharePoint", null, "index.html", null);
+chrome.devtools.panels.create("SharePoint", "", "index.html");

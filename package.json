@@ -70,7 +70,8 @@
   },
   "scripts": {
     "start": "cross-env GENERATE_SOURCEMAP=false craco start",
-    "build": "react-scripts build && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
+    "build": "craco build && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
+    "build:firefox": "craco build && cp public/manifest.firefox.json build/manifest.json && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
     "updatedeps": "node_modules/.bin/webpack && gulp"
   },
   "eslintConfig": {

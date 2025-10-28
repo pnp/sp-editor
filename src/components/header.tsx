@@ -1,6 +1,6 @@
 import { DirectionalHint, FontIcon, Label, mergeStyles, Stack, TeachingBubble } from '@fluentui/react';
 import { IonButtons, IonHeader, IonMenuButton, IonMenuToggle, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import coffee from './default-yellow.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
@@ -8,6 +8,7 @@ import { setLiveReload } from '../store/home/actions';
 
 const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
   const [showInfo, setShowInfo] = React.useState(showOnLoad);
+  const [isChromium, setIsChromium] = useState(false);
   const { livereload } = useSelector((state: IRootState) => state.home)
   const dispatch = useDispatch()
 
@@ -18,7 +19,21 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
   });
   const CalloutProps = { directionalHint: DirectionalHint.leftCenter };
 
+  // Detect if running on Chromium-based browser
   useEffect(() => {
+    const checkChromium = () => {
+      // Check if chrome.scripting is available
+      const hasScriptingAPI = typeof chrome !== 'undefined' && 
+                              typeof chrome.scripting !== 'undefined';
+      setIsChromium(hasScriptingAPI);
+    };
+    checkChromium();
+  }, []);
+
+  useEffect(() => {
+    // Only set up livereload if on Chromium
+    if (!isChromium) return;
+
     const handleTabUpdate = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
       if (changeInfo.status === 'complete' && tab.active) {
         chrome.scripting.executeScript({
@@ -44,7 +59,7 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
     return () => {
       chrome.tabs.onUpdated.removeListener(handleTabUpdate);
     };
-  }, [livereload]);
+  }, [livereload, isChromium]);
 
   return (
     <IonHeader>
@@ -54,55 +69,57 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
             <IonMenuButton />
           </IonMenuToggle>{' '}
           <IonTitle>{title}</IonTitle>
-          <Stack
-            tokens={{ childrenGap: 3 }}
-            style={{ marginTop: '-7px' }}
-            horizontalAlign="center"
-            verticalAlign="start"
-          >
-            <Label style={{ marginRight: '10px', padding: 0 }}>SPFx livereload</Label>
-            <IonToggle
-              style={{
-                marginRight: '10px',
-              }}
-              checked={livereload}
-              onClick={() => {
-                if (!livereload) {
-                  chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
-                    chrome.scripting.executeScript({
-                      target: { tabId: tabs[0].id },
-                      world: 'MAIN',
-                      func: () => {
-                        let script = document.createElement('script');
-                        script.src = "https://localhost:35729/livereload.js?snipver=1";
-                        document.head.appendChild(script);
-                        return true;
-                      },
+          {isChromium && (
+            <Stack
+              tokens={{ childrenGap: 3 }}
+              style={{ marginTop: '-7px' }}
+              horizontalAlign="center"
+              verticalAlign="start"
+            >
+              <Label style={{ marginRight: '10px', padding: 0 }}>SPFx livereload</Label>
+              <IonToggle
+                style={{
+                  marginRight: '10px',
+                }}
+                checked={livereload}
+                onClick={() => {
+                  if (!livereload) {
+                    chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+                      chrome.scripting.executeScript({
+                        target: { tabId: tabs[0].id },
+                        world: 'MAIN',
+                        func: () => {
+                          let script = document.createElement('script');
+                          script.src = "https://localhost:35729/livereload.js?snipver=1";
+                          document.head.appendChild(script);
+                          return true;
+                        },
+                      });
                     });
-                  });
-                } else {
-                  chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
-                    chrome.scripting.executeScript({
-                      target: { tabId: tabs[0].id },
-                      world: 'MAIN',
-                      func: () => {
-                        const script = document.querySelector('script[src="https://localhost:35729/livereload.js?snipver=1"]');
-                        if (script) {
-                          script.remove();
-                        }
-                        if ((window as any).LiveReload) {
-                          (window as any).LiveReload.connector.disconnect()
-                        }
-                        return true;
-                      },
+                  } else {
+                    chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+                      chrome.scripting.executeScript({
+                        target: { tabId: tabs[0].id },
+                        world: 'MAIN',
+                        func: () => {
+                          const script = document.querySelector('script[src="https://localhost:35729/livereload.js?snipver=1"]');
+                          if (script) {
+                            script.remove();
+                          }
+                          if ((window as any).LiveReload) {
+                            (window as any).LiveReload.connector.disconnect()
+                          }
+                          return true;
+                        },
+                      });
                     });
-                  });
-                }
-                dispatch(setLiveReload(!livereload));
-              }}
-              color="success"
-            ></IonToggle>
-          </Stack>
+                  }
+                  dispatch(setLiveReload(!livereload));
+                }}
+                color="success"
+              ></IonToggle>
+            </Stack>
+          )}
           <a href="https://buymeacoffee.com/speditor" target="_blank" rel="noopener noreferrer">
             <img src={coffee} alt="coffee" style={{ marginRight: '10px', height: '40px' }} />
           </a>{' '}
