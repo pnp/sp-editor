@@ -5,42 +5,72 @@ import * as actions from '../../../store/scriptlinks/actions'
 import { INewScriptLink, IScriptLink, ScriptLinksActions } from '../../../store/scriptlinks/types'
 import { spDelay } from '../../../utilities/utilities'
 
-// Helper function to send messages to background script
-async function sendToBackground(funcName: string, args: any[]): Promise<any> {
-  return new Promise((resolve, reject) => {
-    console.log('Sending message to background:', funcName);
+// Import the actual functions for direct execution in Chromium
+import { getCustomActions } from './getscriptlinks';
+import { createCustomAction } from './createscriptlink';
+import { deleteCustomActions } from './deletescriptlinks';
+import { updateCustomAction } from './updatescriptlink';
+import { updateCacheCustomAction } from './updatescriptlinkcache';
+import { addAndInstallApp } from './addandinstallapp';
+import { unInstallAppFromWeb } from './uninstallappfromweb';
+
+// Detect browser capabilities
+const isChromium = typeof chrome !== 'undefined' && typeof chrome.scripting !== 'undefined';
+
+// Helper function to execute scripts - uses direct injection for Chromium, background for Firefox
+async function executeScript(funcName: string, func: Function, args: any[]): Promise<any> {
+  const tabId = chrome.devtools.inspectedWindow.tabId;
+
+  if (isChromium) {
+    // Chromium: Direct injection from DevTools (no background script needed)
+    console.log('📤 Direct injection (Chromium):', funcName);
     
-    chrome.runtime.sendMessage(
-      {
-        type: 'INJECT_SCRIPT',
-        tabId: chrome.devtools.inspectedWindow.tabId,
-        funcName: funcName,
-        args: args,
-      },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          console.error('Chrome runtime error:', chrome.runtime.lastError);
-          reject(chrome.runtime.lastError);
-          return;
+    const injectionResults = await chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: args,
+      func: func as any,
+    });
+    
+    console.log('✅ Direct injection result:', injectionResults);
+    return injectionResults[0]?.result;
+  } else {
+    // Firefox: Must use background script
+    console.log('📤 Sending message to background (Firefox):', funcName);
+    
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage(
+        {
+          type: 'INJECT_SCRIPT',
+          tabId: tabId,
+          funcName: funcName,
+          args: args,
+        },
+        (response) => {
+          if (chrome.runtime.lastError) {
+            console.error('❌ Chrome runtime error:', chrome.runtime.lastError);
+            reject(chrome.runtime.lastError);
+            return;
+          }
+          
+          console.log('📥 Received response from background:', response);
+          
+          if (response.success) {
+            resolve(response.data);
+          } else {
+            reject(new Error(response.error || 'Unknown error'));
+          }
         }
-        
-        console.log('Received response from background:', response);
-        
-        if (response.success) {
-          resolve(response.data);
-        } else {
-          reject(new Error(response.error || 'Unknown error'));
-        }
-      }
-    );
-  });
+      );
+    });
+  }
 }
 
 export async function getAllScriptLinks(dispatch: Dispatch<ScriptLinksActions | HomeActions>) {
   dispatch(rootActions.setLoading(true));
 
   try {
-    const result = await sendToBackground('getCustomActions', [chrome.runtime.getURL('')]);
+    const result = await executeScript('getCustomActions', getCustomActions, [chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
@@ -86,7 +116,7 @@ export async function addScriptLink(dispatch: Dispatch<ScriptLinksActions | Home
   dispatch(actions.setNewPanel(false));
 
   try {
-    const result = await sendToBackground('createCustomAction', [payload, chrome.runtime.getURL('')]);
+    const result = await executeScript('createCustomAction', createCustomAction, [payload, chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
@@ -122,7 +152,7 @@ export async function updateScriptLink(dispatch: Dispatch<ScriptLinksActions | H
   dispatch(actions.setEditPanel(false));
 
   try {
-    const result = await sendToBackground('updateCustomAction', [payload, chrome.runtime.getURL('')]);
+    const result = await executeScript('updateCustomAction', updateCustomAction, [payload, chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
@@ -157,7 +187,7 @@ export async function deleteScriptLinks(dispatch: Dispatch<ScriptLinksActions | 
   dispatch(rootActions.setLoading(true));
 
   try {
-    const result = await sendToBackground('deleteCustomActions', [payload, chrome.runtime.getURL('')]);
+    const result = await executeScript('deleteCustomActions', deleteCustomActions, [payload, chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
@@ -192,7 +222,7 @@ export async function cacheScriptLinks(dispatch: Dispatch<ScriptLinksActions | H
   dispatch(rootActions.setLoading(true));
 
   try {
-    const result = await sendToBackground('updateCacheCustomAction', [payload, chrome.runtime.getURL('')]);
+    const result = await executeScript('updateCacheCustomAction', updateCacheCustomAction, [payload, chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
@@ -226,7 +256,7 @@ export async function installApp(dispatch: Dispatch<ScriptLinksActions | HomeAct
   dispatch(rootActions.setLoading(true));
 
   try {
-    const result = await sendToBackground('addAndInstallApp', [
+    const result = await executeScript('addAndInstallApp', addAndInstallApp, [
       chrome.runtime.getURL('bundles/sp-scriptlinks.sppkg'),
       chrome.runtime.getURL('')
     ]);
@@ -262,7 +292,7 @@ export async function unInstallApp(dispatch: Dispatch<ScriptLinksActions | HomeA
   dispatch(rootActions.setLoading(true));
 
   try {
-    const result = await sendToBackground('unInstallAppFromWeb', [chrome.runtime.getURL('')]);
+    const result = await executeScript('unInstallAppFromWeb', unInstallAppFromWeb, [chrome.runtime.getURL('')]);
     
     if (result && result.success) {
       /* on success */
