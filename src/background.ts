@@ -24,6 +24,9 @@ import { shoot } from './pages/spshooter/chrome/shoot';
 import { getSiteProperties } from './pages/siteproperties/chrome/getsiteproperties';
 import { createSiteProperty } from './pages/siteproperties/chrome/createsiteproperty';
 import { getSites } from './pages/siteproperties/chrome/getsites';
+import { getTenantProperties } from './pages/tenantproperties/chrome/gettenantproperties';
+import { createTenantProperty } from './pages/tenantproperties/chrome/createtenantproperty';
+import { deleteTenantProperties } from './pages/tenantproperties/chrome/deletetenantproperties';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -87,6 +90,10 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   getSiteProperties,
   createSiteProperty,
   getSites,
+  // Tenant Properties
+  getTenantProperties,
+  createTenantProperty,
+  deleteTenantProperties,
   // Proxy
   addProxyScript,
   // Query Builder / SP Shooter
