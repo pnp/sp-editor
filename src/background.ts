@@ -15,6 +15,10 @@ import { createFolder } from './pages/fileexplorer/chrome/createFolder';
 import { deleteFolder } from './pages/fileexplorer/chrome/deleteFolder';
 import { createFile } from './pages/fileexplorer/chrome/createFile';
 import { deleteFile } from './pages/fileexplorer/chrome/deleteFile';
+import { getListProperties } from './pages/listproperties/chrome/getlistproperties';
+import { createListProperty } from './pages/listproperties/chrome/createlistproperty';
+import { deleteListProperty } from './pages/listproperties/chrome/deletelistproperty';
+import { getLists } from './pages/listproperties/chrome/getlists';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -62,6 +66,11 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   deleteFolder,
   createFile,
   deleteFile,
+  // List Properties
+  getListProperties,
+  createListProperty,
+  deleteListProperty,
+  getLists,
   // Livereload
   injectLivereload,
   removeLivereload,
