@@ -21,6 +21,9 @@ import { deleteListProperty } from './pages/listproperties/chrome/deletelistprop
 import { getLists } from './pages/listproperties/chrome/getlists';
 import { addProxyScript } from './pages/proxy/chrome/addproxy';
 import { shoot } from './pages/spshooter/chrome/shoot';
+import { getSiteProperties } from './pages/siteproperties/chrome/getsiteproperties';
+import { createSiteProperty } from './pages/siteproperties/chrome/createsiteproperty';
+import { getSites } from './pages/siteproperties/chrome/getsites';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -80,6 +83,10 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   createListProperty,
   deleteListProperty,
   getLists,
+  // Site Properties
+  getSiteProperties,
+  createSiteProperty,
+  getSites,
   // Proxy
   addProxyScript,
   // Query Builder / SP Shooter

@@ -3,7 +3,7 @@ import * as rootActions from '../../../store/home/actions';
 import { HomeActions, MessageBarColors } from '../../../store/home/types';
 import * as actions from '../../../store/siteproperties/actions';
 import { ISiteProperty, ISite, SitePropertiesActions } from '../../../store/siteproperties/types';
-import { spDelay } from '../../../utilities/utilities';
+import { spDelay, executeScript } from '../../../utilities/utilities';
 import { createSiteProperty } from './createsiteproperty';
 import { getSiteProperties } from './getsiteproperties';
 import { getSites } from './getsites';
@@ -11,39 +11,37 @@ import { getSites } from './getsites';
 export async function getAllSiteProperties(dispatch: Dispatch<SitePropertiesActions | HomeActions>, siteId: string) {
   dispatch(rootActions.setLoading(true));
 
-  chrome.scripting
-    .executeScript({
-      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-      world: 'MAIN',
-      args: [siteId, chrome.runtime.getURL('')],
-      func: getSiteProperties,
-    })
-    .then(async (injectionResults) => {
-      if (injectionResults[0].result) {
-        const res = injectionResults[0].result as any;
-        if (res.success) {
-          /* on success */
-          let siteProperties: ISiteProperty[] = res.result;
+  try {
+    const res = await executeScript('getSiteProperties', getSiteProperties, [siteId, chrome.runtime.getURL('')]);
 
-          // add webproperties to state
-          dispatch(actions.setAllSiteProperties(siteProperties));
-          // hide loading component
-          dispatch(rootActions.setLoading(false));
-        } else {
-          /* on error */
-          // hide loading component
-          dispatch(rootActions.setLoading(false));
-          // show error message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: res.errorMessage,
-              color: MessageBarColors.danger,
-            })
-          );
-        }
-      }
-    });
+    if (res && res.success) {
+      /* on success */
+      let siteProperties: ISiteProperty[] = res.result;
+
+      // add site properties to state
+      dispatch(actions.setAllSiteProperties(siteProperties));
+      dispatch(rootActions.setLoading(false));
+    } else {
+      /* on error */
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: res?.errorMessage || 'Failed to get site properties',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(rootActions.setLoading(false));
+    dispatch(
+      rootActions.setAppMessage({
+        showMessage: true,
+        message: error instanceof Error ? error.message : 'Failed to get site properties',
+        color: MessageBarColors.danger,
+      })
+    );
+  }
 }
 
 export async function addSiteProperty(
@@ -62,45 +60,44 @@ export async function addSiteProperty(
     dispatch(actions.setNewPanel(false));
   }
 
-  chrome.scripting
-    .executeScript({
-      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-      world: 'MAIN',
-      args: [payload, site, chrome.runtime.getURL('')],
-      func: createSiteProperty,
-    })
-    .then(async (injectionResults) => {
-      if (injectionResults[0].result) {
-        const res = injectionResults[0].result as any;
-        if (res.success) {
-          /* on success */
-          // add small delay just be sure SP can process previous requests
-          await spDelay(500);
-          // load all scriptlinks
-          getAllSiteProperties(dispatch, site.key);
-          // set success message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: !update ? 'Site Property added succesfully!' : 'Site Property updated succesfully!',
-              color: MessageBarColors.success,
-            })
-          );
-        } else {
-          /* on error */
-          // hide loading
-          dispatch(rootActions.setLoading(false));
-          // show error message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: res.errorMessage,
-              color: MessageBarColors.danger,
-            })
-          );
-        }
-      }
-    });
+  try {
+    const res = await executeScript('createSiteProperty', createSiteProperty, [payload, site, chrome.runtime.getURL('')]);
+
+    if (res && res.success) {
+      /* on success */
+      // add small delay just be sure SP can process previous requests
+      await spDelay(500);
+      // load all site properties
+      getAllSiteProperties(dispatch, site.key);
+      // set success message
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: !update ? 'Site Property added successfully!' : 'Site Property updated successfully!',
+          color: MessageBarColors.success,
+        })
+      );
+    } else {
+      /* on error */
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: res?.errorMessage || 'Failed to save site property',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(rootActions.setLoading(false));
+    dispatch(
+      rootActions.setAppMessage({
+        showMessage: true,
+        message: error instanceof Error ? error.message : 'Failed to save site property',
+        color: MessageBarColors.danger,
+      })
+    );
+  }
 }
 
 export async function getAllSites(
@@ -110,43 +107,43 @@ export async function getAllSites(
 ) {
   dispatch(rootActions.setLoading(true));
 
-  return chrome.scripting
-    .executeScript({
-      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-      world: 'MAIN',
-      args: [queryText, chrome.runtime.getURL('')],
-      func: getSites,
-    })
-    .then(async (injectionResults) => {
-      if (injectionResults[0].result) {
-        const res = injectionResults[0].result as any;
-        if (res.success) {
-          /* on success */
-          const sites: ISite[] = res.result;
-          if (sites) {
-            dispatch(actions.setAllSites(sites));
-            dispatch(actions.setAllSiteProperties([]));
-          } else {
-            dispatch(actions.setSelectedSite(undefined));
-            dispatch(actions.setAllSiteProperties([]));
-            dispatch(actions.setAllSites([]));
-          }
-          // hide loading component
-          dispatch(rootActions.setLoading(false));
-        } else {
-          /* on error */
-          // hide loading component
-          dispatch(rootActions.setLoading(false));
-          // show error message
-          dispatch(
-            rootActions.setAppMessage({
-              showMessage: true,
-              message: res.errorMessage,
-              color: MessageBarColors.danger,
-            })
-          );
-        }
-        return res.result;
+  try {
+    const res = await executeScript('getSites', getSites, [queryText, chrome.runtime.getURL('')]);
+
+    if (res && res.success) {
+      /* on success */
+      const sites: ISite[] = res.result;
+
+      if (sites) {
+        dispatch(actions.setAllSites(sites));
+        dispatch(actions.setAllSiteProperties([]));
+      } else {
+        dispatch(actions.setSelectedSite(undefined));
+        dispatch(actions.setAllSiteProperties([]));
+        dispatch(actions.setAllSites([]));
       }
-    });
+
+      dispatch(rootActions.setLoading(false));
+      return res.result;
+    } else {
+      /* on error */
+      dispatch(rootActions.setLoading(false));
+      dispatch(
+        rootActions.setAppMessage({
+          showMessage: true,
+          message: res?.errorMessage || 'Failed to get sites',
+          color: MessageBarColors.danger,
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(rootActions.setLoading(false));
+    dispatch(
+      rootActions.setAppMessage({
+        showMessage: true,
+        message: error instanceof Error ? error.message : 'Failed to get sites',
+        color: MessageBarColors.danger,
+      })
+    );
+  }
 }
