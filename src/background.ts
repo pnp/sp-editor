@@ -5,6 +5,9 @@ import { updateCustomAction } from './pages/scriptlinks/chrome/updatescriptlink'
 import { updateCacheCustomAction } from './pages/scriptlinks/chrome/updatescriptlinkcache';
 import { addAndInstallApp } from './pages/scriptlinks/chrome/addandinstallapp';
 import { unInstallAppFromWeb } from './pages/scriptlinks/chrome/uninstallappfromweb';
+import { getWebProperties } from './pages/webproperties/chrome/getwebproperties';
+import { createWebProperty } from './pages/webproperties/chrome/createwebproperty';
+import { deleteWebProperties } from './pages/webproperties/chrome/deletewebproperties';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -39,6 +42,9 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   updateCacheCustomAction,
   addAndInstallApp,
   unInstallAppFromWeb,
+  getWebProperties,
+  createWebProperty,
+  deleteWebProperties,
   injectLivereload,
   removeLivereload,
 };

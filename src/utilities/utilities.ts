@@ -94,3 +94,5 @@ export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
 
 export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
   new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
+
+export * from './script-injection';
