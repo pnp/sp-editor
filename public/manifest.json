@@ -49,8 +49,5 @@
     "pages": [
       "build/index.html"
     ]
-  },
-  "background": {
-    "service_worker": "background.js"
   }
 }
