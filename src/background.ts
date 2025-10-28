@@ -19,6 +19,7 @@ import { getListProperties } from './pages/listproperties/chrome/getlistproperti
 import { createListProperty } from './pages/listproperties/chrome/createlistproperty';
 import { deleteListProperty } from './pages/listproperties/chrome/deletelistproperty';
 import { getLists } from './pages/listproperties/chrome/getlists';
+import { addProxyScript } from './pages/proxy/chrome/addproxy';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -71,6 +72,8 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   createListProperty,
   deleteListProperty,
   getLists,
+  // Proxy
+  addProxyScript,
   // Livereload
   injectLivereload,
   removeLivereload,
