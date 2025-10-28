@@ -20,6 +20,7 @@ import { createListProperty } from './pages/listproperties/chrome/createlistprop
 import { deleteListProperty } from './pages/listproperties/chrome/deletelistproperty';
 import { getLists } from './pages/listproperties/chrome/getlists';
 import { addProxyScript } from './pages/proxy/chrome/addproxy';
+import { shoot } from './pages/spshooter/chrome/shoot';
 
 console.log('🚀 SP Editor background script loaded');
 
@@ -43,6 +44,13 @@ const removeLivereload = () => {
     (window as any).LiveReload.connector.disconnect()
   }
   return true;
+};
+
+// Context info function
+const getContextInfo = () => {
+  return (window as any)._spPageContextInfo || ((window as any).moduleLoaderPromise ? (window as any).moduleLoaderPromise.then((e: any) => {
+    return (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
+  }) : null);
 };
 
 // Map of function names to actual functions
@@ -74,6 +82,9 @@ const functionMap: Record<string, (...args: any[]) => any> = {
   getLists,
   // Proxy
   addProxyScript,
+  // Query Builder / SP Shooter
+  shoot,
+  getContextInfo,
   // Livereload
   injectLivereload,
   removeLivereload,
