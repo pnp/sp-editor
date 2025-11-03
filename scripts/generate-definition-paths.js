@@ -56,7 +56,6 @@ function generateDefinitionPaths(modules, publicDir, outputPath) {
 
   // Create output structure
   const output = {
-    generatedAt: new Date().toISOString(),
     totalFiles: allPaths.length,
     modules: modules,
     paths: allPaths.sort() // Sort for easier debugging
