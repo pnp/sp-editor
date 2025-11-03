@@ -92,7 +92,22 @@ export const readEntries = (dir: DirectoryEntry): Promise<DirectoryEntry[]> => {
   })
 }
 
-export const getExtensionDirectory = (): Promise<DirectoryEntry> =>
-  new Promise(resolve => chrome.runtime.getPackageDirectoryEntry(resolve))
+export const getExtensionDirectory = (): Promise<DirectoryEntry | null> => {
+  return new Promise((resolve) => {
+    // Check if the Chrome-specific API exists
+    if (chrome.runtime.getPackageDirectoryEntry) {
+      try {
+        chrome.runtime.getPackageDirectoryEntry(resolve);
+      } catch (error) {
+        console.warn('getPackageDirectoryEntry failed:', error);
+        resolve(null);
+      }
+    } else {
+      // Firefox doesn't support this API
+      console.log('getPackageDirectoryEntry not supported in this browser (Firefox)');
+      resolve(null);
+    }
+  });
+};
 
 export * from './script-injection';

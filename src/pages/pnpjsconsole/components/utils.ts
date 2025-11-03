@@ -1,32 +1,7 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
 import { IDefinitions } from '../../../store/home/types'
-import { getDirectory, readDirRecursive, resolveFiles } from '../../../utilities/utilities'
-
-export const loadDefinitions = async (
-  directoryEntry: DirectoryEntry,
-  dir: string[],
-) => {
-  return new Promise<IDefinitions[]>(async resolve => {
-    const declarations: IDefinitions[]= []
-    await Promise.all(dir.map(async di => {
-      const subDirectoryEntry = await getDirectory(directoryEntry, di.replace('/crxfs', ''))
-      const entries = await readDirRecursive(subDirectoryEntry)
-      for (const entry of entries) {
-        const fullpath = entry.fullPath.replace('/crxfs/', '')
-        const file = await fetch(fullpath)
-        const content = await file.text()
-        if (fullpath.endsWith('/index.d.ts')) {
-          const newPath = fullpath.replace('/index.d.ts', '.d.ts')
-          const newContent = `export * from "./${newPath.substring(newPath.lastIndexOf('/') + 1).replace('.d.ts', '')}/index";`
-          declarations.push({ content: newContent, filePath: newPath })
-        }
-        declarations.push({ content, filePath: fullpath })
-      }
-    }))
-    resolve(declarations)
-  })
-}
+import { resolveFiles } from '../../../utilities/utilities'
 
 export const pnpjsMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {
@@ -40,7 +15,6 @@ export const pnpjsMonacoConfigs = () => {
     minimap: {
       enabled: true,
     },
-    // automaticLayout: true,
   }
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
     noSemanticValidation: false,
@@ -52,7 +26,6 @@ export const pnpjsMonacoConfigs = () => {
     moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     module: monaco.languages.typescript.ModuleKind.CommonJS,
     noEmit: true,
-    // typeRoots: ['@pnp', '@microsoft'],
     allowSyntheticDefaultImports: true,
   })
   return COMMON_CONFIG
@@ -179,20 +152,33 @@ export const getDefinitionsInUse = (codeWithOutComments: string, definitions: ID
   const initModules = getImportModules(codeWithOutComments)
   const defs = resolveFiles(initModules, definitions)
   const currentLibs: IDefinitions[] = []
-  const parseLibs = (filelist: IDefinitions[]) => {
+  
+  const parseLibs = (filelist: IDefinitions[], depth: number = 0) => {
+    // Prevent infinite recursion
+    if (depth > 10) {
+      console.warn('Max recursion depth reached in getDefinitionsInUse');
+      return;
+    }
+    
     filelist.forEach((file) => {
+      // Skip if already processed
+      if (currentLibs.find(lib => lib.filePath === file.filePath)) {
+        return;
+      }
+      
+      // Add to current libs first to prevent circular dependencies
+      currentLibs.push(file);
+      
       const libs = resolveFiles(getExportRows(file.content, file.filePath), definitions)
       if (libs && libs.length > 0) {
         const newLibs = libs.filter(d => !currentLibs.find(g => d.filePath === g.filePath))
-        newLibs.forEach(lib => currentLibs.push(lib))
-        parseLibs(newLibs)
+        if (newLibs.length > 0) {
+          parseLibs(newLibs, depth + 1)
+        }
       }
     })
-    const initLibs = filelist.filter(file => !currentLibs.find(lib => file.filePath === lib.filePath))
-    if (initLibs && initLibs.length > 0) {
-      initLibs.forEach(lib => currentLibs.push(lib))
-    }
   }
+  
   parseLibs(defs)
   return currentLibs
 }

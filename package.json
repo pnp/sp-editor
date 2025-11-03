@@ -72,7 +72,9 @@
     "start": "cross-env GENERATE_SOURCEMAP=false craco start",
     "build": "craco build && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
     "build:firefox": "craco build && cp public/manifest.firefox.json build/manifest.json && cd iframe-sandbox-app && cross-env BUILD_PATH='../build/build' react-scripts build && cd ..",
-    "updatedeps": "node_modules/.bin/webpack && gulp"
+    "updatedeps": "node_modules/.bin/webpack && gulp",
+    "generate-definitions": "node scripts/generate-definition-paths.js",
+    "prebuild": "npm run generate-definitions"
   },
   "eslintConfig": {
     "extends": [

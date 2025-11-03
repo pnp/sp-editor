@@ -1,51 +1,7 @@
 /// <reference types='../../../../node_modules/monaco-editor/monaco' />
 
-import { IDefinitions } from '../../../store/home/types'
-import {
-  getDirectory,
-  readDirRecursive,
-  resolveFiles,
-} from '../../../utilities/utilities'
-
-export const loadDefinitions = async (
-  directoryEntry: DirectoryEntry,
-  dir: string[],
-) => {
-  return new Promise<IDefinitions[]>(async (resolve) => {
-    const declarations: IDefinitions[] = []
-
-    await Promise.all(
-      dir.map(async (di) => {
-        const subDirectoryEntry = await getDirectory(
-          directoryEntry,
-          di.replace('/crxfs', ''),
-        )
-        const entries = await readDirRecursive(subDirectoryEntry)
-        for (const entry of entries) {
-          const fullpath = entry.fullPath.replace('/crxfs/', '')
-          const file = await fetch(fullpath)
-          const content = await file.text()
-          if (
-            fullpath.endsWith('/index.d.ts') &&
-            fullpath !== 'react/index.d.ts'
-          ) {
-            const newPath = fullpath.replace('/index.d.ts', '.d.ts')
-            const newContent = `export * from "./${newPath
-              .substring(newPath.lastIndexOf('/') + 1)
-              .replace('.d.ts', '')}/index";`
-            declarations.push({ content: newContent, filePath: newPath })
-          } else if (fullpath === 'react/index.d.ts') {
-            const newPath = 'react.d.ts'
-            // const newContent = `import * as React from "react/index"; export default React;`
-            declarations.push({ content, filePath: newPath })
-          }
-          declarations.push({ content, filePath: fullpath })
-        }
-      }),
-    )
-    resolve(declarations)
-  })
-}
+import { IDefinitions } from '../../../store/home/types';
+import { resolveFiles } from '../../../utilities/utilities';
 
 export const MGTPlaygroundMonacoConfigs = () => {
   const COMMON_CONFIG: monaco.editor.IEditorOptions = {

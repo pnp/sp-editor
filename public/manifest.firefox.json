@@ -47,6 +47,8 @@
         "bundles/sp-scriptlinks.sppkg",
         "bundles/graph-sdk.es5.umd.bundle.js",
         "bundles/msal-browser.js",
+        "**/*.d.ts",
+        "definition-paths.json",
         "index.html"
       ],
       "matches": ["<all_urls>"]
