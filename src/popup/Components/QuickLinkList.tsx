@@ -151,6 +151,17 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         disabled={!appCatalogUrl}
         url={appCatalogUrl ? appCatalogUrl + '/AppCatalog/Forms/AllItems.aspx' : ''}
       />
+      <QuickLinkButton
+        text={'ACS Grant App'}
+        iconName={'WebAppBuilderFragmentCreate'}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
+        url={
+          ctx && ctx.isSPO && ctx.portalUrl
+            ? ctx.portalUrl.toLocaleLowerCase().replace('.sharepoint.', '-admin.sharepoint.') +
+              '_layouts/15/appinv.aspx'
+            : ''
+        }
+      />
       <Separator alignContent="start" styles={separatorStyles}>
         Current site
       </Separator>
@@ -197,6 +208,12 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
         iconName={'StackedBarChart'}
         disabled={!ctx || !ctx.webAbsoluteUrl}
         url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/storman.aspx' : ''}
+      />
+      <QuickLinkButton
+        text={'ACS Grant App '}
+        iconName={'WebAppBuilderFragmentCreate'}
+        disabled={!ctx || !ctx.webAbsoluteUrl}
+        url={ctx && ctx.webAbsoluteUrl ? ctx.webAbsoluteUrl + '/_layouts/15/appinv.aspx' : ''}
       />
       <Separator alignContent="start" styles={separatorStyles}>
         Current user
