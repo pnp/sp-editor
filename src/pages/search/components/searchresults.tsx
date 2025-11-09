@@ -29,6 +29,7 @@ import { useEffect, useRef, useState } from 'react';
 import { setSearchResults } from '../../../store/search/actions';
 import { MessageBarColors } from '../../../store/home/types';
 import { executeScript } from '../../../utilities/utilities';
+import { allprops } from '../chrome/allprops';
 
 const SearchResults = () => {
   const {
@@ -283,7 +284,7 @@ const SearchResults = () => {
     dispatch(rootActions.setLoading(true));
 
     try {
-      const res = await executeScript('allprops', () => {}, [
+      const res = await executeScript('allprops', allprops, [
         groupKey,
         searchQuery.SourceId,
         chrome.runtime.getURL(''),
@@ -404,7 +405,22 @@ const SearchResults = () => {
                                     const link = properties.selection._items.find(
                                       (o: any) => o.DocId === props?.group?.key && o.property === 'OriginalPath'
                                     ).value;
-                                    chrome.tabs.create({ url: link });
+                                    
+                                    // Detect if running in Firefox
+                                    const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+                                    
+                                    if (isFirefox) {
+                                      // Firefox: Send message to background script (DevTools panel can't access tabs API)
+                                      chrome.runtime.sendMessage({
+                                        type: 'OPEN_TAB',
+                                        url: link
+                                      }).catch((error) => {
+                                        console.error('Failed to send message to background:', error);
+                                      });
+                                    } else {
+                                      // Chrome: Direct tab creation (works from DevTools panel)
+                                      chrome.tabs.create({ url: link });
+                                    }
                                   }}
                                 />
                                 <ActionButton

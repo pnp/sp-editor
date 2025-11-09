@@ -138,6 +138,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // Listen for messages from DevTools
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  // Handle tab creation requests from DevTools panel
+  if (msg?.type === 'OPEN_TAB' && msg.url) {
+    chrome.tabs.create({ url: msg.url, active: true })
+      .then((tab) => {
+        sendResponse({ success: true, tabId: tab.id });
+      })
+      .catch((error) => {
+        console.error('Failed to open tab:', error);
+        sendResponse({ success: false, error: error.message });
+      });
+    return true; // Keep the message channel open for async response
+  }
+
   // Handle livereload state changes
   if (msg?.type === 'SET_LIVERELOAD') {
     livereloadEnabled = msg.enabled;

@@ -14,17 +14,17 @@ const isChromium = typeof chrome !== 'undefined' && typeof chrome.scripting !== 
  * @returns Promise with the execution result
  */
 export async function executeScript(funcName: string, func: Function, args: any[]): Promise<any> {
-  const tabId = chrome.devtools.inspectedWindow.tabId;
+  const tabId = chrome.devtools?.inspectedWindow?.tabId;
 
   if (isChromium) {
-    // Chromium: Direct injection from DevTools
+
     const injectionResults = await chrome.scripting.executeScript({
       target: { tabId },
       world: 'MAIN',
-      args: args,
+      args,
       func: func as any,
     });
-    
+
     return injectionResults[0]?.result;
   } else {
     // Firefox: Use background script

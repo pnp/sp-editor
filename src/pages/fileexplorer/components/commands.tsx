@@ -60,7 +60,22 @@ const FileEditorCommands = () => {
         onClick: () => {
           if (selectedFolder?.portalUrl && selectedFolder?.ServerRelativeUrl) {
             const url = `${selectedFolder.portalUrl}${selectedFolder.ServerRelativeUrl.replace(/^\//, '')}`;
-            chrome.tabs.create({ url: url });
+            
+            // Detect if running in Firefox
+            const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+            
+            if (isFirefox) {
+              // Firefox: Send message to background script (DevTools panel can't access tabs API)
+              chrome.runtime.sendMessage({
+                type: 'OPEN_TAB',
+                url: url
+              }).catch((error) => {
+                console.error('Failed to send message to background:', error);
+              });
+            } else {
+              // Chrome: Direct tab creation (works from DevTools panel)
+              chrome.tabs.create({ url: url });
+            }
           }
         },
       },

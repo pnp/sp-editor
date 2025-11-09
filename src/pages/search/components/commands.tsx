@@ -8,6 +8,10 @@ import { useEffect, useState } from 'react';
 import { ISearchHistory } from '../../../store/search/types';
 import { replaceDateTokens } from './searchqueryform';
 import { executeScript } from '../../../utilities/utilities';
+import { run } from 'node:test';
+import { runsearch } from '../chrome/runsearch';
+import { currentpageallprops } from '../chrome/currentpageallprops';
+import { reindexweb } from '../chrome/reindexweb';
 
 const SearchCommands = () => {
   const dispatch = useDispatch();
@@ -29,7 +33,7 @@ const SearchCommands = () => {
     dispatch(rootActions.setLoading(true));
     
     try {
-      const res = await executeScript('reindexweb', () => {}, [chrome.runtime.getURL('')]);
+      const res = await executeScript('reindexweb', reindexweb, [chrome.runtime.getURL('')]);
       
       if (res?.errorMessage) {
         dispatch(
@@ -63,6 +67,7 @@ const SearchCommands = () => {
   };
 
   const handleSearch = async () => {
+    console.log("handleSearch called");
     dispatch(rootActions.setLoading(true));
 
     const modifiedQuery = { ...searchQuery };
@@ -70,7 +75,7 @@ const SearchCommands = () => {
     modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
 
     try {
-      const res = await executeScript('runsearch', () => {}, [modifiedQuery, chrome.runtime.getURL('')]);
+      const res = await executeScript('runsearch', runsearch, [modifiedQuery, chrome.runtime.getURL('')]);
       handleSearchResults(res);
     } catch (error) {
       dispatch(rootActions.setLoading(false));
@@ -88,7 +93,7 @@ const SearchCommands = () => {
     dispatch(rootActions.setLoading(true));
     
     try {
-      const res = await executeScript('currentpageallprops', () => {}, [chrome.runtime.getURL('')]);
+      const res = await executeScript('currentpageallprops', currentpageallprops, [chrome.runtime.getURL('')]);
       handleSearchResults(res);
     } catch (error) {
       dispatch(rootActions.setLoading(false));
@@ -204,7 +209,9 @@ const SearchCommands = () => {
                 text="Search"
                 allowDisabledFocus
                 styles={{ root: { marginTop: 6, marginRight: 6 } }}
-                onClick={() => { handleSearch(); }}
+                onClick={() => { 
+                  console.log("Search button clicked");
+                  handleSearch(); }}
               />
             ),
           },
