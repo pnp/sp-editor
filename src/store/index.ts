@@ -35,6 +35,8 @@ import { IQueryBuilderState } from './queryBuilder/types';
 import { queryBuilderReducer } from './queryBuilder/reducers'
 import { fieldCustomizersReducer } from '../pages/customizers/fieldcustomizers/reducer'
 import { IFieldCustomizersState } from '../pages/customizers/fieldcustomizers/types'
+import { formCustomizersReducer } from '../pages/customizers/formcustomizers/reducer'
+import { IFormCustomizersState } from '../pages/customizers/formcustomizers/types'
 
 export interface IRootState {
   home: IHomeState;
@@ -53,6 +55,7 @@ export interface IRootState {
   proxy: IProxyState;
   queryBuilder: IQueryBuilderState;
   fieldCustomizers: IFieldCustomizersState
+  formCustomizers: IFormCustomizersState
 }
 
 const rootReducer = combineReducers({
@@ -72,6 +75,7 @@ const rootReducer = combineReducers({
   proxy: proxyReducer,
   queryBuilder: queryBuilderReducer,
   fieldCustomizers: fieldCustomizersReducer,
+  formCustomizers: formCustomizersReducer,
 });
 
 const initializeStore = async () => {
