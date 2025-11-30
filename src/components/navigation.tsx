@@ -26,6 +26,12 @@ export const FabricNav = () => {
       { name: 'Webhooks', url: '/webhooks', key: 'webhooksKey', disabled: false },
       { name: 'Search', url: '/search', key: 'searchKey', disabled: false },
       { name: 'File Editor', url: '/fileexplorer', key: 'fileexplorerKey', disabled: false },
+      { name: 'Customizers', url: '/customizers', key: 'customizersKey',
+        links: [
+          { name: 'Field Customizers', url: '/customizers/fieldcustomizers', key: 'fieldCustomizersKey' },
+          { name: 'Form Customizers', url: '/customizers/formcustomizers', key: 'formCustomizersKey' },
+        ],
+       },
       { name: 'Proxy', url: '/proxy', key: 'proxyKey', disabled: false },
       { name: 'Tenant Properties', url: '/tenantproperties', key: 'tenantpropertiesKey' },
       {

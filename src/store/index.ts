@@ -33,6 +33,8 @@ import { IProxyState } from './proxy/types';
 import localStorageMiddleware from './localStorageMiddleware';
 import { IQueryBuilderState } from './queryBuilder/types';
 import { queryBuilderReducer } from './queryBuilder/reducers'
+import { fieldCustomizersReducer } from '../pages/customizers/fieldcustomizers/reducer'
+import { IFieldCustomizersState } from '../pages/customizers/fieldcustomizers/types'
 
 export interface IRootState {
   home: IHomeState;
@@ -50,6 +52,7 @@ export interface IRootState {
   search: ISearchState;
   proxy: IProxyState;
   queryBuilder: IQueryBuilderState;
+  fieldCustomizers: IFieldCustomizersState
 }
 
 const rootReducer = combineReducers({
@@ -67,7 +70,8 @@ const rootReducer = combineReducers({
   fileexplorer: fileExplorerReducer,
   search: searchReducer,
   proxy: proxyReducer,
-  queryBuilder: queryBuilderReducer
+  queryBuilder: queryBuilderReducer,
+  fieldCustomizers: fieldCustomizersReducer,
 });
 
 const initializeStore = async () => {
