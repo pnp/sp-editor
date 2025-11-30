@@ -1,4 +1,4 @@
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, INavLink } from '@fluentui/react';
+import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, INavLink, INavLinkGroup } from '@fluentui/react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples';
 import React, { useEffect, useState } from 'react';
@@ -10,8 +10,36 @@ import { setDarkMode, setLoading, setTheme } from '../store/home/actions';
 
 export const FabricNav = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  // Track expanded state for groups - start empty, will auto-expand based on selection
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+
+  const toggleGroup = (key: string) => {
+    setExpandedGroups((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  };
+
+  // Helper to find parent key for a given path
+  const findParentKey = (pathname: string, links: INavLink[]): string | null => {
+    for (const link of links) {
+      if (link.links && link.links.length > 0) {
+        const childMatch = link.links.find((child) => child.url && pathname.startsWith(child.url));
+        if (childMatch) {
+          return link.key || null;
+        }
+      }
+    }
+    return null;
+  };
 
   const navLinks: INavLink[] = React.useMemo(
     () => [
@@ -26,18 +54,23 @@ export const FabricNav = () => {
       { name: 'Webhooks', url: '/webhooks', key: 'webhooksKey', disabled: false },
       { name: 'Search', url: '/search', key: 'searchKey', disabled: false },
       { name: 'File Editor', url: '/fileexplorer', key: 'fileexplorerKey', disabled: false },
-      { name: 'Customizers', url: '/customizers', key: 'customizersKey',
+      { 
+        name: 'Customizers', 
+        url: '', 
+        key: 'customizersKey',
+        isExpanded: expandedGroups.has('customizersKey'),
         links: [
           { name: 'Field Customizers', url: '/customizers/fieldcustomizers', key: 'fieldCustomizersKey' },
           { name: 'Form Customizers', url: '/customizers/formcustomizers', key: 'formCustomizersKey' },
         ],
-       },
+      },
       { name: 'Proxy', url: '/proxy', key: 'proxyKey', disabled: false },
       { name: 'Tenant Properties', url: '/tenantproperties', key: 'tenantpropertiesKey' },
       {
         name: 'Admin section',
         key: 'adminSectionKey',
-        url: '/adminfeatures',
+        url: '',
+        isExpanded: expandedGroups.has('adminSectionKey'),
         links: [
           { name: 'Site Properties', url: '/siteproperties', key: 'sitepropertiesKey' },
         ],
@@ -49,7 +82,7 @@ export const FabricNav = () => {
       { name: 'Site scripts', url: '/sitescripts', key: 'sitescriptsKey', disabled: false },
       { name: 'App catalog', url: '/appcatalog', key: 'appcatalogKey', disabled: false },
     ],
-    []
+    [expandedGroups]
   );
 
   const currentLink = navLinks.find((x) => x.url === document.location.pathname);
@@ -63,18 +96,65 @@ export const FabricNav = () => {
   };
 
   function getKeyFromPath(pathname: string | undefined, navLinks: INavLink[]): string {
-    let matched = navLinks
-      .filter((link) => pathname?.startsWith(link.url))
-      .sort((a, b) => b.url.length - a.url.length)[0];
+    const flattenLinks = (links: INavLink[]): INavLink[] => {
+      return links.reduce<INavLink[]>((acc, link) => {
+        acc.push(link)
+        if (link.links && link.links.length > 0) {
+          acc.push(...flattenLinks(link.links))
+        }
+        return acc
+      }, [])
+    }
 
-    return matched ? matched.key ?? 'homeKey' : navLinks[0]?.key ?? 'homeKey';
+    const allLinks = flattenLinks(navLinks)
+    
+    let matched = allLinks
+      .filter((link) => link.url && pathname?.startsWith(link.url))
+      .sort((a, b) => b.url.length - a.url.length)[0]
+
+    return matched ? matched.key ?? 'homeKey' : navLinks[0]?.key ?? 'homeKey'
   }
 
-  const location = useLocation();
-
+  // Auto-expand parent group when navigating to a child
   useEffect(() => {
+    const parentKey = findParentKey(location.pathname, navLinks);
+    if (parentKey && !expandedGroups.has(parentKey)) {
+      setExpandedGroups((prev) => {
+        const newSet = new Set(Array.from(prev));
+        newSet.add(parentKey);
+        return newSet;
+      });
+    }
     setSelectedKey(getKeyFromPath(location.pathname, navLinks));
-  }, [location.pathname, navLinks]);
+  }, [location.pathname]);
+
+  const onRenderLink = (props?: INavLink, defaultRender?: (props?: INavLink) => JSX.Element | null): JSX.Element | null => {
+    if (!props) return null;
+
+    // If this is a parent item with sub-links and no URL, make the whole thing toggle
+    if (props.links && props.links.length > 0 && !props.url) {
+      return (
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleGroup(props.key!);
+          }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            cursor: 'pointer',
+          }}
+        >
+          <span>{props.name}</span>
+        </div>
+      );
+    }
+
+    // Default rendering for regular links
+    return defaultRender ? defaultRender(props) : null;
+  };
 
   return (
     <IonMenu contentId="main">
@@ -100,11 +180,18 @@ export const FabricNav = () => {
         <ScrollablePane>
           <Nav
             selectedKey={selectedKey}
+            onRenderLink={onRenderLink}
             onLinkClick={(event, element) => {
               if (event && element) {
+                event.preventDefault();
+                
+                // Skip parent items - they're handled by onRenderLink
+                if (element.links && element.links.length > 0 && !element.url) {
+                  return;
+                }
+                
                 const menu = document.querySelector('ion-menu') as any;
                 menu && menu.close();
-                event.preventDefault();
                 if (element.key && selectedKey !== element.key) {
                   dispatch(setLoading(false));
                   navigate(element.url);
