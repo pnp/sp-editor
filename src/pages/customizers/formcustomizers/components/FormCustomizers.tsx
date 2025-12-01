@@ -431,7 +431,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   return (
     <>
       <ScrollablePane styles={{ root: { position: 'relative', height: '100%' } }}>
-        <div style={{ padding: '0 20px 20px 20px' }}>
+        <div>
           {error && (
             <MessageBar messageBarType={MessageBarType.error} onDismiss={() => dispatch(setError(null))}>
               {error}
