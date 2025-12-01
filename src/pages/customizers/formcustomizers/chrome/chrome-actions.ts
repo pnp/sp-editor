@@ -2,12 +2,14 @@ import { Dispatch } from 'redux'
 import {
   setLists,
   setListsWithCustomizers,
-  setLoading,
-  setError,
-} from '../actions'
-import { IListInfo, IFormCustomizerInfo, IListWithFormCustomizers } from '../types'
-
-const EMPTY_GUID = '00000000-0000-0000-0000-000000000000'
+  setAllContentTypesForList,
+} from '../../../../store/formcustomizers/actions'
+import {
+  IListInfo,
+  IContentTypeInfo,
+  IListWithFormCustomizers,
+  IFormCustomizerInfo,
+} from '../../../../store/formcustomizers/types'
 
 // Get all lists - self-contained function for page context
 const getAllLists = (extPath: string) => {
@@ -90,7 +92,10 @@ const getAllLists = (extPath: string) => {
       .orderBy('Title')()
       .then((lists: any) => ({
         success: true,
-        result: lists,
+        result: lists.map((list: any) => ({
+          Id: list.Id,
+          Title: list.Title,
+        })),
         errorMessage: '',
         source: 'chrome-sp-editor',
       }))
@@ -103,8 +108,8 @@ const getAllLists = (extPath: string) => {
   })
 }
 
-// Get form customizers for a specific list via content types
-const getListFormCustomizers = (extPath: string, listId: string) => {
+// Get content types with form customizers for a specific list
+const getListContentTypesWithCustomizers = (extPath: string, listId: string, listTitle: string) => {
   type libTypes = [any, any, any]
 
   const moduleLoader = (extPath: string) => {
@@ -178,7 +183,6 @@ const getListFormCustomizers = (extPath: string, listId: string) => {
         })
       )
 
-    // Get content types with form customizer properties
     return sp.web.lists
       .getById(listId)
       .contentTypes.select(
@@ -191,153 +195,52 @@ const getListFormCustomizers = (extPath: string, listId: string) => {
         'DisplayFormClientSideComponentId',
         'DisplayFormClientSideComponentProperties'
       )()
-      .then((contentTypes: any) => ({
-        success: true,
-        result: contentTypes,
-        errorMessage: '',
-        source: 'chrome-sp-editor',
-      }))
-      .catch((error: any) => ({
-        success: false,
-        result: null,
-        errorMessage: error.message,
-        source: 'chrome-sp-editor',
-      }))
-  })
-}
+      .then((cts: any) => {
+        const formsList: IFormCustomizerInfo[] = []
 
-// Update content type form customizer - self-contained function for page context
-const updateContentTypeFormCustomizer = (
-  extPath: string,
-  listId: string,
-  contentTypeId: string,
-  formType: 'New' | 'Edit' | 'Display',
-  componentId: string | null,
-  componentProperties: string | null
-) => {
-  type libTypes = [any, any, any]
-
-  const moduleLoader = (extPath: string) => {
-    return new Promise<libTypes>((resolve) => {
-      const resolveWithContext = <T>(modules: T, resolve: (value: T) => void) => {
-        if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
-          ;(window as any).moduleLoaderPromise.then((e: any) => {
-            ;(window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext
-            resolve(modules)
-          })
-        } else {
-          resolve(modules)
-        }
-      }
-
-      if ((window as any).SystemJS) {
-        Promise.all<libTypes>([
-          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
-          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
-          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
-        ]).then((modules) => {
-          resolveWithContext(modules, resolve)
-        })
-      } else {
-        const s = document.createElement('script')
-        s.src = extPath + 'bundles/system.js'
-        ;(document.head || document.documentElement).appendChild(s)
-        s.onload = () =>
-          Promise.all<libTypes>([
-            (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
-            (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
-            (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
-          ]).then((modules) => {
-            resolveWithContext(modules, resolve)
-          })
-      }
-    })
-  }
-
-  // Use empty GUID instead of null to clear the customizer
-  const EMPTY_GUID = '00000000-0000-0000-0000-000000000000'
-  const finalComponentId = componentId || EMPTY_GUID
-  const finalComponentProperties = componentProperties || ''
-
-  // Build the update object based on form type
-  const updateObj: any = {}
-  if (formType === 'New') {
-    updateObj.NewFormClientSideComponentId = finalComponentId
-    updateObj.NewFormClientSideComponentProperties = finalComponentProperties
-  } else if (formType === 'Edit') {
-    updateObj.EditFormClientSideComponentId = finalComponentId
-    updateObj.EditFormClientSideComponentProperties = finalComponentProperties
-  } else if (formType === 'Display') {
-    updateObj.DisplayFormClientSideComponentId = finalComponentId
-    updateObj.DisplayFormClientSideComponentProperties = finalComponentProperties
-  }
-
-  return moduleLoader(extPath).then((modules) => {
-    const pnpsp = modules[0]
-    const pnpqueryable = modules[2]
-
-    let digest = ''
-
-    const sp = pnpsp
-      .spfi()
-      .using((instance: any) => {
-        instance.using(
-          pnpsp.DefaultHeaders(),
-          pnpsp.DefaultInit(),
-          pnpqueryable.BrowserFetchWithRetry(),
-          pnpqueryable.DefaultParse()
-        )
-        instance.on.pre.prepend(async (url: string, init: any, result: any) => {
-          url = (window as any)._spPageContextInfo?.webAbsoluteUrl
-            ? new URL(
-                url,
-                (window as any)._spPageContextInfo.webAbsoluteUrl.endsWith('/')
-                  ? (window as any)._spPageContextInfo.webAbsoluteUrl
-                  : (window as any)._spPageContextInfo.webAbsoluteUrl + '/'
-              ).toString()
-            : url
-
-          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
-            if (!digest) {
-              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '')
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
-                method: 'POST',
-                headers: {
-                  accept: 'application/json;odata=verbose',
-                  'content-type': 'application/json;odata=verbose',
-                },
-              })
-              const data = await response.json()
-              digest = data.d.GetContextWebInformation.FormDigestValue
-            }
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
-            }
+        cts.forEach((ct: any) => {
+          if (ct.NewFormClientSideComponentId) {
+            formsList.push({
+              listId,
+              listTitle,
+              contentTypeId: ct.StringId,
+              contentTypeName: ct.Name,
+              formType: 'New',
+              ClientSideComponentId: ct.NewFormClientSideComponentId,
+              ClientSideComponentProperties: ct.NewFormClientSideComponentProperties,
+            })
           }
-
-          return [url, init, result]
+          if (ct.EditFormClientSideComponentId) {
+            formsList.push({
+              listId,
+              listTitle,
+              contentTypeId: ct.StringId,
+              contentTypeName: ct.Name,
+              formType: 'Edit',
+              ClientSideComponentId: ct.EditFormClientSideComponentId,
+              ClientSideComponentProperties: ct.EditFormClientSideComponentProperties,
+            })
+          }
+          if (ct.DisplayFormClientSideComponentId) {
+            formsList.push({
+              listId,
+              listTitle,
+              contentTypeId: ct.StringId,
+              contentTypeName: ct.Name,
+              formType: 'Display',
+              ClientSideComponentId: ct.DisplayFormClientSideComponentId,
+              ClientSideComponentProperties: ct.DisplayFormClientSideComponentProperties,
+            })
+          }
         })
-        return instance
+
+        return {
+          success: true,
+          result: formsList,
+          errorMessage: '',
+          source: 'chrome-sp-editor',
+        }
       })
-      .using(
-        pnpqueryable.InjectHeaders({
-          Accept: 'application/json; odata=verbose',
-          'Cache-Control': 'no-cache',
-          'X-ClientService-ClientTag': 'SPEDITOR',
-        })
-      )
-
-    return sp.web.lists
-      .getById(listId)
-      .contentTypes.getById(contentTypeId)
-      .update(updateObj)
-      .then(() => ({
-        success: true,
-        result: null,
-        errorMessage: '',
-        source: 'chrome-sp-editor',
-      }))
       .catch((error: any) => ({
         success: false,
         result: null,
@@ -347,7 +250,7 @@ const updateContentTypeFormCustomizer = (
   })
 }
 
-// Get content types for a list (for the add panel)
+// Get all content types for a list (for add panel)
 const getListContentTypes = (extPath: string, listId: string) => {
   type libTypes = [any, any, any]
 
@@ -424,11 +327,13 @@ const getListContentTypes = (extPath: string, listId: string) => {
 
     return sp.web.lists
       .getById(listId)
-      .contentTypes.filter('Hidden eq false')
-      .select('StringId', 'Name')()
-      .then((contentTypes: any) => ({
+      .contentTypes.select('StringId', 'Name')()
+      .then((cts: any) => ({
         success: true,
-        result: contentTypes,
+        result: cts.map((ct: any) => ({
+          StringId: ct.StringId,
+          Name: ct.Name,
+        })),
         errorMessage: '',
         source: 'chrome-sp-editor',
       }))
@@ -441,62 +346,153 @@ const getListContentTypes = (extPath: string, listId: string) => {
   })
 }
 
-// Helper to check if a form has a customizer
-function hasFormCustomizer(componentId: string | null): boolean {
-  return !!componentId && componentId !== EMPTY_GUID
+// Update form customizer - now supports multiple form types in one call
+const updateFormCustomizer = (
+  extPath: string,
+  listId: string,
+  contentTypeId: string,
+  formTypes: { New?: boolean; Edit?: boolean; Display?: boolean },
+  componentId: string | null,
+  componentProperties: string | null
+) => {
+  type libTypes = [any, any, any]
+
+  const moduleLoader = (extPath: string) => {
+    return new Promise<libTypes>((resolve) => {
+      const resolveWithContext = <T>(modules: T, resolve: (value: T) => void) => {
+        if (!(window as any)._spPageContextInfo && (window as any).moduleLoaderPromise) {
+          ;(window as any).moduleLoaderPromise.then((e: any) => {
+            ;(window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext
+            resolve(modules)
+          })
+        } else {
+          resolve(modules)
+        }
+      }
+
+      if ((window as any).SystemJS) {
+        Promise.all<libTypes>([
+          (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+          (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
+        ]).then((modules) => {
+          resolveWithContext(modules, resolve)
+        })
+      } else {
+        const s = document.createElement('script')
+        s.src = extPath + 'bundles/system.js'
+        ;(document.head || document.documentElement).appendChild(s)
+        s.onload = () =>
+          Promise.all<libTypes>([
+            (window as any).SystemJS.import(extPath + 'bundles/sp.es5.umd.bundle.js'),
+            (window as any).SystemJS.import(extPath + 'bundles/logging.es5.umd.bundle.js'),
+            (window as any).SystemJS.import(extPath + 'bundles/queryable.es5.umd.bundle.js'),
+          ]).then((modules) => {
+            resolveWithContext(modules, resolve)
+          })
+      }
+    })
+  }
+
+  // For form customizers, use empty string to remove (not empty GUID like field customizers)
+  const finalComponentId = componentId || ''
+  const finalComponentProperties = componentProperties || ''
+
+  return moduleLoader(extPath).then((modules) => {
+    const pnpsp = modules[0]
+    const pnpqueryable = modules[2]
+
+    let digest = ''
+
+    const sp = pnpsp
+      .spfi()
+      .using((instance: any) => {
+        instance.using(
+          pnpsp.DefaultHeaders(),
+          pnpsp.DefaultInit(),
+          pnpqueryable.BrowserFetchWithRetry(),
+          pnpqueryable.DefaultParse()
+        )
+        instance.on.pre.prepend(async (url: string, init: any, result: any) => {
+          url = (window as any)._spPageContextInfo?.webAbsoluteUrl
+            ? new URL(
+                url,
+                (window as any)._spPageContextInfo.webAbsoluteUrl.endsWith('/')
+                  ? (window as any)._spPageContextInfo.webAbsoluteUrl
+                  : (window as any)._spPageContextInfo.webAbsoluteUrl + '/'
+              ).toString()
+            : url
+
+          if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
+            if (!digest) {
+              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '')
+              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+                method: 'POST',
+                headers: {
+                  accept: 'application/json;odata=verbose',
+                  'content-type': 'application/json;odata=verbose',
+                },
+              })
+              const data = await response.json()
+              digest = data.d.GetContextWebInformation.FormDigestValue
+            }
+            init.headers = {
+              'X-RequestDigest': digest,
+              ...init.headers,
+            }
+          }
+
+          return [url, init, result]
+        })
+        return instance
+      })
+      .using(
+        pnpqueryable.InjectHeaders({
+          Accept: 'application/json; odata=verbose',
+          'Cache-Control': 'no-cache',
+          'X-ClientService-ClientTag': 'SPEDITOR',
+        })
+      )
+
+    // Build update props for all selected form types in one call
+    const updateProps: Record<string, string> = {}
+
+    if (formTypes.New) {
+      updateProps['NewFormClientSideComponentId'] = finalComponentId
+      updateProps['NewFormClientSideComponentProperties'] = finalComponentProperties
+    }
+
+    if (formTypes.Edit) {
+      updateProps['EditFormClientSideComponentId'] = finalComponentId
+      updateProps['EditFormClientSideComponentProperties'] = finalComponentProperties
+    }
+
+    if (formTypes.Display) {
+      updateProps['DisplayFormClientSideComponentId'] = finalComponentId
+      updateProps['DisplayFormClientSideComponentProperties'] = finalComponentProperties
+    }
+
+    return sp.web.lists
+      .getById(listId)
+      .contentTypes.getById(contentTypeId)
+      .update(updateProps)
+      .then(() => ({
+        success: true,
+        result: null,
+        errorMessage: '',
+        source: 'chrome-sp-editor',
+      }))
+      .catch((error: any) => ({
+        success: false,
+        result: null,
+        errorMessage: error.message,
+        source: 'chrome-sp-editor',
+      }))
+  })
 }
 
 // Exported chrome action functions
-export const loadLists = async (dispatch: Dispatch, tabId: number) => {
-  try {
-    const extPath = chrome.runtime.getURL('/')
-
-    const results = await chrome.scripting.executeScript({
-      target: { tabId },
-      world: 'MAIN',
-      func: getAllLists,
-      args: [extPath],
-    })
-
-    const response = results?.[0]?.result
-    if (response?.success) {
-      dispatch(setLists(response.result || []))
-    } else {
-      console.error('Failed to load lists:', response?.errorMessage)
-    }
-  } catch (err) {
-    console.error('Failed to load lists:', err)
-  }
-}
-
-export const loadContentTypesForList = async (tabId: number, listId: string) => {
-  try {
-    const extPath = chrome.runtime.getURL('/')
-
-    const result = await chrome.scripting.executeScript({
-      target: { tabId },
-      world: 'MAIN',
-      func: getListContentTypes,
-      args: [extPath, listId],
-    })
-
-    const response = result?.[0]?.result
-    if (response?.success) {
-      return response.result || []
-    } else {
-      console.error('Failed to load content types:', response?.errorMessage)
-      return []
-    }
-  } catch (err) {
-    console.error('Failed to load content types:', err)
-    return []
-  }
-}
-
 export const loadAllFormCustomizers = async (dispatch: Dispatch, tabId: number) => {
-  dispatch(setLoading(true))
-  dispatch(setError(null))
-
   try {
     const extPath = chrome.runtime.getURL('/')
 
@@ -510,66 +506,27 @@ export const loadAllFormCustomizers = async (dispatch: Dispatch, tabId: number) 
 
     const listsResponse = listsResult?.[0]?.result
     if (!listsResponse?.success) {
-      dispatch(setError(listsResponse?.errorMessage || 'Failed to load lists'))
-      dispatch(setLoading(false))
+      console.error('Failed to load lists:', listsResponse?.errorMessage)
       return
     }
 
     const lists: IListInfo[] = listsResponse.result || []
     dispatch(setLists(lists))
 
-    // Now get form customizers for each list via content types
+    // Now get form customizers for each list
     const listsWithCustomizers: IListWithFormCustomizers[] = []
 
     for (const list of lists) {
-      const formResult = await chrome.scripting.executeScript({
+      const formsResult = await chrome.scripting.executeScript({
         target: { tabId },
         world: 'MAIN',
-        func: getListFormCustomizers,
-        args: [extPath, list.Id],
+        func: getListContentTypesWithCustomizers,
+        args: [extPath, list.Id, list.Title],
       })
 
-      const formResponse = formResult?.[0]?.result
-      if (formResponse?.success) {
-        const contentTypes = formResponse.result || []
-        const forms: IFormCustomizerInfo[] = []
-
-        // Check each content type for form customizers
-        for (const ct of contentTypes) {
-          if (hasFormCustomizer(ct.NewFormClientSideComponentId)) {
-            forms.push({
-              listId: list.Id,
-              listTitle: list.Title,
-              contentTypeId: ct.StringId,
-              contentTypeName: ct.Name,
-              formType: 'New',
-              ClientSideComponentId: ct.NewFormClientSideComponentId,
-              ClientSideComponentProperties: ct.NewFormClientSideComponentProperties,
-            })
-          }
-          if (hasFormCustomizer(ct.EditFormClientSideComponentId)) {
-            forms.push({
-              listId: list.Id,
-              listTitle: list.Title,
-              contentTypeId: ct.StringId,
-              contentTypeName: ct.Name,
-              formType: 'Edit',
-              ClientSideComponentId: ct.EditFormClientSideComponentId,
-              ClientSideComponentProperties: ct.EditFormClientSideComponentProperties,
-            })
-          }
-          if (hasFormCustomizer(ct.DisplayFormClientSideComponentId)) {
-            forms.push({
-              listId: list.Id,
-              listTitle: list.Title,
-              contentTypeId: ct.StringId,
-              contentTypeName: ct.Name,
-              formType: 'Display',
-              ClientSideComponentId: ct.DisplayFormClientSideComponentId,
-              ClientSideComponentProperties: ct.DisplayFormClientSideComponentProperties,
-            })
-          }
-        }
+      const formsResponse = formsResult?.[0]?.result
+      if (formsResponse?.success) {
+        const forms: IFormCustomizerInfo[] = formsResponse.result || []
 
         if (forms.length > 0) {
           listsWithCustomizers.push({
@@ -583,9 +540,31 @@ export const loadAllFormCustomizers = async (dispatch: Dispatch, tabId: number) 
     dispatch(setListsWithCustomizers(listsWithCustomizers))
   } catch (err) {
     console.error('Failed to load form customizers:', err)
-    dispatch(setError(err instanceof Error ? err.message : 'Failed to load form customizers'))
-  } finally {
-    dispatch(setLoading(false))
+  }
+}
+
+export const loadContentTypesForList = async (
+  tabId: number,
+  listId: string
+): Promise<IContentTypeInfo[]> => {
+  try {
+    const extPath = chrome.runtime.getURL('/')
+
+    const result = await chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      func: getListContentTypes,
+      args: [extPath, listId],
+    })
+
+    const response = result?.[0]?.result
+    if (response?.success) {
+      return response.result || []
+    }
+    return []
+  } catch (err) {
+    console.error('Failed to load content types:', err)
+    return []
   }
 }
 
@@ -593,17 +572,17 @@ export const saveFormCustomizer = async (
   tabId: number,
   listId: string,
   contentTypeId: string,
-  formType: 'New' | 'Edit' | 'Display',
+  formTypes: { New?: boolean; Edit?: boolean; Display?: boolean },
   componentId: string | null,
   componentProperties: string | null
-) => {
+): Promise<void> => {
   const extPath = chrome.runtime.getURL('/')
 
   const result = await chrome.scripting.executeScript({
     target: { tabId },
     world: 'MAIN',
-    func: updateContentTypeFormCustomizer,
-    args: [extPath, listId, contentTypeId, formType, componentId, componentProperties],
+    func: updateFormCustomizer,
+    args: [extPath, listId, contentTypeId, formTypes, componentId, componentProperties],
   })
 
   const response = result?.[0]?.result

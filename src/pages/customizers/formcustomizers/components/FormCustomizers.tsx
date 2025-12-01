@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   ComboBox,
   DefaultButton,
   DetailsList,
@@ -7,6 +8,7 @@ import {
   GroupHeader,
   IColumn,
   IComboBoxOption,
+  IDetailsFooterProps,
   IDropdownOption,
   IGroup,
   IGroupHeaderProps,
@@ -16,9 +18,12 @@ import {
   Panel,
   PanelType,
   PrimaryButton,
+  ScrollablePane,
   Selection,
   SelectionMode,
   Stack,
+  Sticky,
+  StickyPositionType,
   Text,
   TextField,
 } from '@fluentui/react'
@@ -26,13 +31,13 @@ import { useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../../store'
 import { setLoading } from '../../../../store/home/actions'
-import { setError } from '../actions'
+import { setError } from '../../../../store/formcustomizers/actions'
+import { IFormCustomizerInfo, IListWithFormCustomizers, IContentTypeInfo } from '../../../../store/formcustomizers/types'
 import {
   loadAllFormCustomizers,
   loadContentTypesForList,
   saveFormCustomizer,
 } from '../chrome/chrome-actions'
-import { IFormCustomizerInfo, IListWithFormCustomizers, IContentTypeInfo } from '../types'
 
 // Extended form info for list display
 interface IFormCustomizerInfoWithKey extends IFormCustomizerInfo, IObjectWithKey {}
@@ -48,7 +53,9 @@ interface IAddPanelState {
   isOpen: boolean
   selectedListId: string
   selectedContentTypeId: string
-  selectedFormType: 'New' | 'Edit' | 'Display' | ''
+  applyToNewForm: boolean
+  applyToEditForm: boolean
+  applyToDisplayForm: boolean
   componentId: string
   componentProperties: string
 }
@@ -68,13 +75,17 @@ const isValidGuid = (value: string): boolean => {
 const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }: IFormCustomizersProps) => {
   const dispatch = useDispatch()
   const { loading } = useSelector((state: IRootState) => state.home)
-  const { lists, listsWithCustomizers, error } = useSelector(
-    (state: IRootState) => state.formCustomizers
-  )
+  const formCustomizersState = useSelector((state: IRootState) => state.formCustomizers)
+  
+  const lists = formCustomizersState?.lists || []
+  const listsWithCustomizers = formCustomizersState?.listsWithCustomizers || []
+  const allContentTypesForList = formCustomizersState?.allContentTypesForList || []
+  const error = formCustomizersState?.error || null
 
+  // Track if initial load has completed
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false)
   const [tabId, setTabId] = useState<number | null>(null)
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set())
-  const [contentTypes, setContentTypes] = useState<IContentTypeInfo[]>([])
 
   const [editPanel, setEditPanel] = useState<IEditPanelState>({
     isOpen: false,
@@ -87,7 +98,9 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     isOpen: addPanelOpen,
     selectedListId: '',
     selectedContentTypeId: '',
-    selectedFormType: '',
+    applyToNewForm: true,
+    applyToEditForm: true,
+    applyToDisplayForm: true,
     componentId: '',
     componentProperties: '{}',
   })
@@ -115,11 +128,12 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
         isOpen: true,
         selectedListId: '',
         selectedContentTypeId: '',
-        selectedFormType: '',
+        applyToNewForm: true,
+        applyToEditForm: true,
+        applyToDisplayForm: true,
         componentId: '',
         componentProperties: '{}',
       })
-      setContentTypes([])
     }
   }, [addPanelOpen])
 
@@ -136,20 +150,20 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   useEffect(() => {
     if (!tabId) return
     dispatch(setLoading(true))
-    loadAllFormCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
+    loadAllFormCustomizers(dispatch, tabId).finally(() => {
+      dispatch(setLoading(false))
+      setInitialLoadComplete(true)
+    })
   }, [tabId, dispatch])
 
   // Load content types when list is selected
   useEffect(() => {
-    if (!tabId || !addPanel.selectedListId) {
-      setContentTypes([])
-      return
-    }
+    if (!tabId || !addPanel.selectedListId) return
 
     loadContentTypesForList(tabId, addPanel.selectedListId).then((cts) => {
-      setContentTypes(cts)
+      dispatch({ type: 'formcustomizers/SET_ALL_CONTENT_TYPES_FOR_LIST', payload: { allContentTypesForList: cts } })
     })
-  }, [tabId, addPanel.selectedListId])
+  }, [tabId, addPanel.selectedListId, dispatch])
 
   const handleEdit = (form: IFormCustomizerInfo) => {
     setEditPanel({
@@ -166,21 +180,21 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     loadAllFormCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
   }
 
+  // Update handleSaveEdit to use single call
   const handleSaveEdit = async () => {
     if (!tabId || !editPanel.form) return
 
     try {
       dispatch(setLoading(true))
-      const componentId = editPanel.componentId || null
-      const componentProperties = editPanel.componentProperties || null
 
+      // Single call for the specific form type
       await saveFormCustomizer(
         tabId,
         editPanel.form.listId,
         editPanel.form.contentTypeId,
-        editPanel.form.formType,
-        componentId,
-        componentProperties
+        { [editPanel.form.formType]: true } as { New?: boolean; Edit?: boolean; Display?: boolean },
+        editPanel.componentId || null,
+        editPanel.componentProperties || null
       )
 
       setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })
@@ -191,35 +205,41 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     }
   }
 
+  // Update handleSaveAdd to use single call
   const handleSaveAdd = async () => {
     if (
       !tabId ||
       !addPanel.selectedListId ||
       !addPanel.selectedContentTypeId ||
-      !addPanel.selectedFormType ||
-      !addPanel.componentId
+      !addPanel.componentId ||
+      (!addPanel.applyToNewForm && !addPanel.applyToEditForm && !addPanel.applyToDisplayForm)
     )
       return
 
     try {
       dispatch(setLoading(true))
-      const componentId = addPanel.componentId
-      const componentProperties = addPanel.componentProperties || null
 
+      // Single call with all form types
       await saveFormCustomizer(
         tabId,
         addPanel.selectedListId,
         addPanel.selectedContentTypeId,
-        addPanel.selectedFormType as 'New' | 'Edit' | 'Display',
-        componentId,
-        componentProperties
+        {
+          New: addPanel.applyToNewForm,
+          Edit: addPanel.applyToEditForm,
+          Display: addPanel.applyToDisplayForm,
+        },
+        addPanel.componentId,
+        addPanel.componentProperties || null
       )
 
       setAddPanel({
         isOpen: false,
         selectedListId: '',
         selectedContentTypeId: '',
-        selectedFormType: '',
+        applyToNewForm: true,
+        applyToEditForm: true,
+        applyToDisplayForm: true,
         componentId: '',
         componentProperties: '{}',
       })
@@ -236,11 +256,12 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       isOpen: false,
       selectedListId: '',
       selectedContentTypeId: '',
-      selectedFormType: '',
+      applyToNewForm: true,
+      applyToEditForm: true,
+      applyToDisplayForm: true,
       componentId: '',
       componentProperties: '{}',
     })
-    setContentTypes([])
     onAddPanelDismiss()
   }
 
@@ -264,6 +285,9 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     })
   }
 
+  // Check if at least one form type is selected
+  const hasFormTypeSelected = addPanel.applyToNewForm || addPanel.applyToEditForm || addPanel.applyToDisplayForm
+
   // Flatten items and create groups for the DetailsList
   const { items, groups } = useMemo(() => {
     const flatItems: IFormCustomizerInfoWithKey[] = []
@@ -274,9 +298,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       const listId = listWithCustomizers.list.Id
 
       listWithCustomizers.forms.forEach((form) => {
-        flatItems.push({
-          ...form,
-        })
+        flatItems.push({ ...form })
       })
 
       groupList.push({
@@ -297,27 +319,32 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       name: 'Content Type',
       fieldName: 'contentTypeName',
       minWidth: 120,
-      maxWidth: 180,
+      maxWidth: 300,
       isResizable: true,
       onRender: (item: IFormCustomizerInfoWithKey) => (
-        <Text styles={{ root: { fontWeight: 600 } }}>{item.contentTypeName}</Text>
+        <Stack>
+          <Text styles={{ root: { fontWeight: 600 } }}>{item.contentTypeName}</Text>
+          <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+            {item.contentTypeId}
+          </Text>
+        </Stack>
       ),
     },
     {
       key: 'formType',
-      name: 'Form Type',
+      name: 'Form',
       fieldName: 'formType',
-      minWidth: 80,
-      maxWidth: 100,
+      minWidth: 60,
+      maxWidth: 80,
       isResizable: true,
-      onRender: (item: IFormCustomizerInfoWithKey) => <Text>{item.formType} Form</Text>,
+      onRender: (item: IFormCustomizerInfoWithKey) => <Text>{item.formType}</Text>,
     },
     {
       key: 'componentId',
       name: 'Component ID',
       fieldName: 'ClientSideComponentId',
       minWidth: 200,
-      maxWidth: 300,
+      maxWidth: 280,
       isResizable: true,
       onRender: (item: IFormCustomizerInfoWithKey) => (
         <Text variant="small" styles={{ root: { fontFamily: 'monospace', fontSize: 11 } }}>
@@ -344,16 +371,10 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     text: list.Title,
   }))
 
-  const contentTypeOptions: IDropdownOption[] = contentTypes.map((ct) => ({
+  const contentTypeOptions: IDropdownOption[] = allContentTypesForList.map((ct) => ({
     key: ct.StringId,
     text: ct.Name,
   }))
-
-  const formTypeOptions: IDropdownOption[] = [
-    { key: 'New', text: 'New Form' },
-    { key: 'Edit', text: 'Edit Form' },
-    { key: 'Display', text: 'Display Form' },
-  ]
 
   const onRenderGroupHeader = (props?: IGroupHeaderProps): JSX.Element | null => {
     if (!props || !props.group) return null
@@ -370,40 +391,73 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     )
   }
 
+  // Make columns sticky
+  const onRenderDetailsHeader = (headerProps: any, defaultRender: any) => {
+    return (
+      <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
+        {defaultRender(headerProps)}
+      </Sticky>
+    )
+  }
+
+  // Render empty message when no items
+  const onRenderDetailsFooter = (props?: IDetailsFooterProps): JSX.Element | null => {
+    if (items.length > 0) return null
+
+    return (
+      <Stack
+        horizontalAlign="center"
+        verticalAlign="center"
+        styles={{
+          root: {
+            padding: '40px 20px',
+          },
+        }}
+      >
+        <Text variant="large" styles={{ root: { marginBottom: 8 } }}>
+          No form customizers found
+        </Text>
+        <Text variant="medium">
+          Click "Add" in the command bar to attach a customizer to a content type form.
+        </Text>
+      </Stack>
+    )
+  }
+
   const handleItemInvoked = (item: IFormCustomizerInfoWithKey) => {
     handleEdit(item)
   }
 
   return (
-    <div style={{ padding: '0 20px 20px 20px' }}>
-      {error && (
-        <MessageBar messageBarType={MessageBarType.error} onDismiss={() => dispatch(setError(null))}>
-          {error}
-        </MessageBar>
-      )}
+    <>
+      <ScrollablePane styles={{ root: { position: 'relative', height: '100%' } }}>
+        <div style={{ padding: '0 20px 20px 20px' }}>
+          {error && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => dispatch(setError(null))}>
+              {error}
+            </MessageBar>
+          )}
 
-      {!loading && listsWithCustomizers.length === 0 && (
-        <MessageBar messageBarType={MessageBarType.info}>
-          No form customizers found. Click "Add" to attach one to a content type form.
-        </MessageBar>
-      )}
-
-      {!loading && listsWithCustomizers.length > 0 && (
-        <DetailsList
-          items={items}
-          columns={columns}
-          groups={groups}
-          groupProps={{
-            onRenderHeader: onRenderGroupHeader,
-          }}
-          selection={selection}
-          selectionMode={SelectionMode.single}
-          layoutMode={DetailsListLayoutMode.justified}
-          isHeaderVisible={true}
-          compact={true}
-          onItemInvoked={handleItemInvoked}
-        />
-      )}
+          {initialLoadComplete && (
+            <DetailsList
+              items={items}
+              columns={columns}
+              groups={items.length > 0 ? groups : undefined}
+              groupProps={{
+                onRenderHeader: onRenderGroupHeader,
+              }}
+              selection={selection}
+              selectionMode={SelectionMode.single}
+              layoutMode={DetailsListLayoutMode.justified}
+              isHeaderVisible={true}
+              compact={true}
+              onItemInvoked={handleItemInvoked}
+              onRenderDetailsFooter={onRenderDetailsFooter}
+              onRenderDetailsHeader={onRenderDetailsHeader}
+            />
+          )}
+        </div>
+      </ScrollablePane>
 
       {/* Add Panel */}
       <Panel
@@ -420,7 +474,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
               disabled={
                 !addPanel.selectedListId ||
                 !addPanel.selectedContentTypeId ||
-                !addPanel.selectedFormType ||
+                !hasFormTypeSelected ||
                 !addPanel.componentId ||
                 !isValidGuid(addPanel.componentId)
               }
@@ -441,7 +495,6 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
                 ...prev,
                 selectedListId: (option?.key as string) || '',
                 selectedContentTypeId: '',
-                selectedFormType: '',
               }))
             }}
             allowFreeform={false}
@@ -452,7 +505,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
 
           {addPanel.selectedListId && (
             <>
-              {contentTypes.length === 0 ? (
+              {allContentTypesForList.length === 0 ? (
                 <MessageBar messageBarType={MessageBarType.info}>Loading content types...</MessageBar>
               ) : (
                 <Dropdown
@@ -473,19 +526,39 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
           )}
 
           {addPanel.selectedContentTypeId && (
-            <Dropdown
-              label="Select Form Type"
-              placeholder="Choose a form type..."
-              options={formTypeOptions}
-              selectedKey={addPanel.selectedFormType || undefined}
-              onChange={(_, option) =>
-                setAddPanel((prev) => ({
-                  ...prev,
-                  selectedFormType: (option?.key as 'New' | 'Edit' | 'Display') || '',
-                }))
-              }
-              required
-            />
+            <Stack tokens={{ childrenGap: 8 }}>
+              <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
+                Apply to Form Types
+              </Text>
+              <Stack horizontal tokens={{ childrenGap: 16 }}>
+                <Checkbox
+                  label="New Form"
+                  checked={addPanel.applyToNewForm}
+                  onChange={(_, checked) =>
+                    setAddPanel((prev) => ({ ...prev, applyToNewForm: !!checked }))
+                  }
+                />
+                <Checkbox
+                  label="Edit Form"
+                  checked={addPanel.applyToEditForm}
+                  onChange={(_, checked) =>
+                    setAddPanel((prev) => ({ ...prev, applyToEditForm: !!checked }))
+                  }
+                />
+                <Checkbox
+                  label="Display Form"
+                  checked={addPanel.applyToDisplayForm}
+                  onChange={(_, checked) =>
+                    setAddPanel((prev) => ({ ...prev, applyToDisplayForm: !!checked }))
+                  }
+                />
+              </Stack>
+              {!hasFormTypeSelected && (
+                <Text variant="small" styles={{ root: { color: '#a4262c' } }}>
+                  Please select at least one form type
+                </Text>
+              )}
+            </Stack>
           )}
 
           <TextField
@@ -541,12 +614,18 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
               List
             </Text>
             <Text>{editPanel.form?.listTitle}</Text>
+            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+              {editPanel.form?.listId}
+            </Text>
           </Stack>
           <Stack tokens={{ childrenGap: 4 }}>
             <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
               Content Type
             </Text>
             <Text>{editPanel.form?.contentTypeName}</Text>
+            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+              {editPanel.form?.contentTypeId}
+            </Text>
           </Stack>
           <Stack tokens={{ childrenGap: 4 }}>
             <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
@@ -574,7 +653,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
           />
         </Stack>
       </Panel>
-    </div>
+    </>
   )
 }
 

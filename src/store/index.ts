@@ -33,30 +33,10 @@ import { IProxyState } from './proxy/types';
 import localStorageMiddleware from './localStorageMiddleware';
 import { IQueryBuilderState } from './queryBuilder/types';
 import { queryBuilderReducer } from './queryBuilder/reducers'
-import { fieldCustomizersReducer } from '../pages/customizers/fieldcustomizers/reducer'
-import { IFieldCustomizersState } from '../pages/customizers/fieldcustomizers/types'
-import { formCustomizersReducer } from '../pages/customizers/formcustomizers/reducer'
-import { IFormCustomizersState } from '../pages/customizers/formcustomizers/types'
-
-export interface IRootState {
-  home: IHomeState;
-  scriptLinks: IScriptLinksState;
-  pnpjsconsole: IPnPjsConsoleState;
-  webProperties: IWebPropertiesState;
-  webHooks: IWebHooksState;
-  tenantProperties: ITenantPropertiesState;
-  listProperties: IListPropertiesState;
-  siteProperties: ISitePropertiesState;
-  spshoot: ISPShootState;
-  graphsdkconsole: IGraphSDKConsoleState;
-  mgtconsole: IMGTConsoleState;
-  fileexplorer: IFileExplorerState;
-  search: ISearchState;
-  proxy: IProxyState;
-  queryBuilder: IQueryBuilderState;
-  fieldCustomizers: IFieldCustomizersState
-  formCustomizers: IFormCustomizersState
-}
+import { fieldCustomizersReducer } from './fieldcustomizers/reducers'
+import { formCustomizersReducer } from './formcustomizers/reducers'
+import { IFieldCustomizersState } from './fieldcustomizers/types';
+import { IFormCustomizersState } from './formcustomizers/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -77,6 +57,8 @@ const rootReducer = combineReducers({
   fieldCustomizers: fieldCustomizersReducer,
   formCustomizers: formCustomizersReducer,
 });
+
+export type IRootState = ReturnType<typeof rootReducer>
 
 const initializeStore = async () => {
   const store = configureStore({

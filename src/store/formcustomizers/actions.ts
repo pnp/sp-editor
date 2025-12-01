@@ -1,12 +1,14 @@
 import { Constants } from './constants'
 import {
+  IListInfo,
+  IListWithFormCustomizers,
+  IContentTypeInfo,
   ISetLoading,
   ISetLists,
   ISetListsWithCustomizers,
+  ISetAllContentTypesForList,
   ISetSelectedListId,
   ISetError,
-  IListInfo,
-  IListWithFormCustomizers,
 } from './types'
 
 export const setLoading = (isLoading: boolean): ISetLoading => ({
@@ -24,6 +26,13 @@ export const setListsWithCustomizers = (
 ): ISetListsWithCustomizers => ({
   type: Constants.SET_LISTS_WITH_CUSTOMIZERS,
   payload: { listsWithCustomizers },
+})
+
+export const setAllContentTypesForList = (
+  allContentTypesForList: IContentTypeInfo[]
+): ISetAllContentTypesForList => ({
+  type: Constants.SET_ALL_CONTENT_TYPES_FOR_LIST,
+  payload: { allContentTypesForList },
 })
 
 export const setSelectedListId = (selectedListId: string | null): ISetSelectedListId => ({

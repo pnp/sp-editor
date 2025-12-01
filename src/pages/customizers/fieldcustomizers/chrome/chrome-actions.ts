@@ -1,12 +1,12 @@
 import { Dispatch } from 'redux'
 import {
-  setLoading,
   setLists,
   setListsWithCustomizers,
-  setAllFieldsForList,
+  setLoading,
   setError,
-} from '../actions'
-import { IFieldInfo, IListInfo, IListWithFieldCustomizers } from '../types'
+  setAllFieldsForList,
+} from '../../../../store/fieldcustomizers/actions'
+import { IListInfo, IFieldInfo, IListWithFieldCustomizers } from '../../../../store/fieldcustomizers/types'
 
 const EMPTY_GUID = '00000000-0000-0000-0000-000000000000'
 

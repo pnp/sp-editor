@@ -7,6 +7,7 @@ import {
   GroupHeader,
   IColumn,
   IComboBoxOption,
+  IDetailsFooterProps,
   IDropdownOption,
   IGroup,
   IGroupHeaderProps,
@@ -16,9 +17,12 @@ import {
   Panel,
   PanelType,
   PrimaryButton,
+  ScrollablePane,
   Selection,
   SelectionMode,
   Stack,
+  Sticky,
+  StickyPositionType,
   Text,
   TextField,
 } from '@fluentui/react'
@@ -26,13 +30,13 @@ import { useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../../store'
 import { setLoading } from '../../../../store/home/actions'
-import { setError } from '../actions'
+import { setError } from '../../../../store/fieldcustomizers/actions'
+import { IFieldInfo, IListWithFieldCustomizers } from '../../../../store/fieldcustomizers/types'
 import {
   loadAllFieldCustomizers,
   loadFieldsForList,
   saveListFieldCustomizer,
 } from '../chrome/chrome-actions'
-import { IFieldInfo, IListWithFieldCustomizers } from '../types'
 
 // Extended field info to include listId for actions
 interface IFieldInfoWithList extends IFieldInfo, IObjectWithKey {
@@ -74,6 +78,8 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
   const { lists, listsWithCustomizers, allFieldsForList, error } = useSelector(
     (state: IRootState) => state.fieldCustomizers
   )
+  // Track if initial load has completed
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false)
 
   const [tabId, setTabId] = useState<number | null>(null)
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set())
@@ -136,7 +142,10 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
   useEffect(() => {
     if (!tabId) return
     dispatch(setLoading(true))
-    loadAllFieldCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
+    loadAllFieldCustomizers(dispatch, tabId).finally(() => {
+      dispatch(setLoading(false))
+      setInitialLoadComplete(true)
+    })
   }, [tabId, dispatch])
 
   // Load fields when list is selected in add panel
@@ -282,24 +291,19 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
       name: 'Field',
       fieldName: 'Title',
       minWidth: 120,
-      maxWidth: 180,
+      maxWidth: 300,
       isResizable: true,
       onRender: (item: IFieldInfoWithList) => (
         <Stack>
           <Text styles={{ root: { fontWeight: 600 } }}>{item.Title}</Text>
-          <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
-            {item.InternalName}
+          <Text variant="small">
+            {item.InternalName} ({item.TypeAsString})
+          </Text>
+          <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+            {item.Id}
           </Text>
         </Stack>
       ),
-    },
-    {
-      key: 'type',
-      name: 'Type',
-      fieldName: 'TypeAsString',
-      minWidth: 80,
-      maxWidth: 120,
-      isResizable: true,
     },
     {
       key: 'componentId',
@@ -337,7 +341,11 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
   const fieldOptions: IComboBoxOption[] = allFieldsForList.map((field) => ({
     key: field.Id,
     text: field.Title,
-    data: { secondaryText: `${field.InternalName} (${field.TypeAsString})` },
+    data: { 
+      internalName: field.InternalName,
+      type: field.TypeAsString,
+      id: field.Id 
+    },
   }))
 
   const onRenderGroupHeader = (props?: IGroupHeaderProps): JSX.Element | null => {
@@ -359,36 +367,87 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
     handleEdit(item.listId, item)
   }
 
-  return (
-    <div style={{ padding: '0 20px 20px 20px' }}>
-      {error && (
-        <MessageBar messageBarType={MessageBarType.error} onDismiss={() => dispatch(setError(null))}>
-          {error}
-        </MessageBar>
-      )}
+  // Render empty message when no items
+  const onRenderDetailsFooter = (props?: IDetailsFooterProps): JSX.Element | null => {
+    if (items.length > 0) return null
 
-      {!loading && listsWithCustomizers.length === 0 && (
-        <MessageBar messageBarType={MessageBarType.info}>
-          No field customizers found. Click "Add Field Customizer" to attach one to a list field.
-        </MessageBar>
-      )}
-
-      {!loading && listsWithCustomizers.length > 0 && (
-        <DetailsList
-          items={items}
-          columns={columns}
-          groups={groups}
-          groupProps={{
-            onRenderHeader: onRenderGroupHeader,
+    return (
+      <Stack
+        horizontalAlign="center"
+        verticalAlign="center"
+        styles={{
+          root: {
+            padding: '40px 20px',
+            // backgroundColor: 'var(--neutralLighterAlt, #faf9f8)',
+            // borderTop: '1px solid var(--neutralLight, #edebe9)',
+          },
+        }}
+      >
+        <Text
+          variant="large"
+          styles={{
+            root: {
+              // color: 'var(--neutralSecondary, #605e5c)',
+              marginBottom: 8,
+            },
           }}
-          selection={selection}
-          selectionMode={SelectionMode.single}
-          layoutMode={DetailsListLayoutMode.justified}
-          isHeaderVisible={true}
-          compact={true}
-          onItemInvoked={handleItemInvoked}
-        />
-      )}
+        >
+          No field customizers found
+        </Text>
+        <Text
+          variant="medium"
+          styles={{
+            root: {
+              // color: 'var(--neutralTertiary, #a19f9d)',
+            },
+          }}
+        >
+          Click "Add" in the command bar to attach a customizer to a list field.
+        </Text>
+      </Stack>
+    )
+  }
+
+  // Make columns sticky
+  const onRenderDetailsHeader = (headerProps: any, defaultRender: any) => {
+    return (
+      <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
+        {defaultRender(headerProps)}
+      </Sticky>
+    )
+  }
+
+  return (
+    <>
+      <ScrollablePane styles={{ root: { position: 'relative', height: '100%' } }}>
+        <div>
+          {error && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => dispatch(setError(null))}>
+              {error}
+            </MessageBar>
+          )}
+
+          {/* Always show the list after initial load */}
+          {initialLoadComplete && (
+            <DetailsList
+              items={items}
+              columns={columns}
+              groups={items.length > 0 ? groups : undefined}
+              groupProps={{
+                onRenderHeader: onRenderGroupHeader,
+              }}
+              selection={selection}
+              selectionMode={SelectionMode.single}
+              layoutMode={DetailsListLayoutMode.justified}
+              isHeaderVisible={true}
+              compact={true}
+              onItemInvoked={handleItemInvoked}
+              onRenderDetailsFooter={onRenderDetailsFooter}
+              onRenderDetailsHeader={onRenderDetailsHeader}
+            />
+          )}
+        </div>
+      </ScrollablePane>
 
       {/* Add Panel */}
       <Panel
@@ -455,8 +514,11 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
                     return (
                       <Stack styles={{ root: { padding: '4px 0' } }}>
                         <Text styles={{ root: { fontWeight: 600 } }}>{comboOption?.text}</Text>
-                        <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
-                          {comboOption?.data?.secondaryText}
+                        <Text variant="small">
+                          {comboOption?.data?.internalName} ({comboOption?.data?.type})
+                        </Text>
+                        <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+                          {comboOption?.data?.id}
                         </Text>
                       </Stack>
                     )
@@ -521,8 +583,11 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
             <Text>
               {editPanel.field?.Title} ({editPanel.field?.InternalName})
             </Text>
-            <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
+            <Text variant="small">
               Type: {editPanel.field?.TypeAsString}
+            </Text>
+            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+              {editPanel.field?.Id}
             </Text>
           </Stack>
           <TextField
@@ -545,7 +610,7 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
           />
         </Stack>
       </Panel>
-    </div>
+    </>
   )
 }
 

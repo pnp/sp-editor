@@ -29,6 +29,7 @@ export interface IFormCustomizersState {
   isLoading: boolean
   lists: IListInfo[]
   listsWithCustomizers: IListWithFormCustomizers[]
+  allContentTypesForList: IContentTypeInfo[]
   selectedListId: string | null
   error: string | null
 }
@@ -51,6 +52,12 @@ export interface ISetListsWithCustomizers {
   [key: string]: unknown
 }
 
+export interface ISetAllContentTypesForList {
+  type: typeof Constants.SET_ALL_CONTENT_TYPES_FOR_LIST
+  payload: { allContentTypesForList: IContentTypeInfo[] }
+  [key: string]: unknown
+}
+
 export interface ISetSelectedListId {
   type: typeof Constants.SET_SELECTED_LIST_ID
   payload: { selectedListId: string | null }
@@ -67,5 +74,6 @@ export type FormCustomizersActions =
   | ISetLoading
   | ISetLists
   | ISetListsWithCustomizers
+  | ISetAllContentTypesForList
   | ISetSelectedListId
   | ISetError

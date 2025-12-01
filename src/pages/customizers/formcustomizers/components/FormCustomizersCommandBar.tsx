@@ -30,11 +30,7 @@ const FormCustomizersCommandBar = ({ onAdd, onRefresh, onRemove, hasSelection }:
     },
   ]
 
-  return (
-    <div style={{ padding: '0 8px' }}>
-      <CommandBar items={commandBarItems} />
-    </div>
-  )
+  return <CommandBar items={commandBarItems} />;
 }
 
 export default FormCustomizersCommandBar

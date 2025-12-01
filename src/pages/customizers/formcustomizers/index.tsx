@@ -8,20 +8,13 @@ import FormCustomizersCommandBar from './components/FormCustomizersCommandBar'
 import FormCustomizers from './components/FormCustomizers'
 import { loadAllFormCustomizers, saveFormCustomizer } from './chrome/chrome-actions'
 import Header from '../../../components/header'
-
-interface ISelectedForm {
-  listId: string
-  listTitle: string
-  contentTypeId: string
-  contentTypeName: string
-  formType: 'New' | 'Edit' | 'Display'
-}
+import { IFormCustomizerInfo } from '../../../store/formcustomizers/types'
 
 const FormCustomizersPage = () => {
   const dispatch = useDispatch()
   const [addPanelOpen, setAddPanelOpen] = useState(false)
   const [tabId, setTabId] = useState<number | null>(null)
-  const [selectedForm, setSelectedForm] = useState<ISelectedForm | null>(null)
+  const [selectedForm, setSelectedForm] = useState<IFormCustomizerInfo | null>(null)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   // Get current tab
@@ -39,7 +32,7 @@ const FormCustomizersPage = () => {
     loadAllFormCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
   }
 
-  const handleSelectionChanged = useCallback((item: ISelectedForm | null) => {
+  const handleSelectionChanged = useCallback((item: IFormCustomizerInfo | null) => {
     setSelectedForm(item)
   }, [])
 
@@ -54,11 +47,13 @@ const FormCustomizersPage = () => {
 
     try {
       dispatch(setLoading(true))
+      // Remove form customizer by setting component ID to null
+      // Use the new signature with formTypes object
       await saveFormCustomizer(
         tabId,
         selectedForm.listId,
         selectedForm.contentTypeId,
-        selectedForm.formType,
+        { [selectedForm.formType]: true } as { New?: boolean; Edit?: boolean; Display?: boolean },
         null,
         null
       )
@@ -82,11 +77,13 @@ const FormCustomizersPage = () => {
           onRemove={handleRemoveClick}
           hasSelection={!!selectedForm}
         />
-        <FormCustomizers
-          addPanelOpen={addPanelOpen}
-          onAddPanelDismiss={() => setAddPanelOpen(false)}
-          onSelectionChanged={handleSelectionChanged}
-        />
+        <div style={{ height: 'calc(100vh - 88px)', position: 'relative' }}>
+          <FormCustomizers
+            addPanelOpen={addPanelOpen}
+            onAddPanelDismiss={() => setAddPanelOpen(false)}
+            onSelectionChanged={handleSelectionChanged}
+          />
+        </div>
 
         {/* Delete Confirmation Dialog */}
         <Dialog
@@ -95,7 +92,7 @@ const FormCustomizersPage = () => {
           dialogContentProps={{
             type: DialogType.normal,
             title: 'Remove Form Customizer',
-            subText: `Are you sure you want to remove the ${selectedForm?.formType} form customizer from "${selectedForm?.contentTypeName}" in "${selectedForm?.listTitle}"? This will reset the form to its default rendering.`,
+            subText: `Are you sure you want to remove the ${selectedForm?.formType} form customizer from "${selectedForm?.contentTypeName}" in "${selectedForm?.listTitle}"?`,
           }}
           modalProps={{
             isBlocking: false,

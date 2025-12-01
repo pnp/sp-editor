@@ -19,6 +19,13 @@ export interface IListWithFieldCustomizers {
   fields: IFieldInfo[]
 }
 
+export interface ISpfxExtension {
+  Id: string
+  Title: string
+  ComponentId: string
+  ComponentDescription: string
+}
+
 export interface IFieldCustomizersState {
   isLoading: boolean
   lists: IListInfo[]

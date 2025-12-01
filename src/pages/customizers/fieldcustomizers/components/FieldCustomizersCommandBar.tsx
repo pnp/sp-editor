@@ -31,9 +31,7 @@ const FieldCustomizersCommandBar = ({ onAdd, onRefresh, onRemove, hasSelection }
   ]
 
   return (
-    <div style={{ padding: '0 8px' }}>
       <CommandBar items={commandBarItems} />
-    </div>
   )
 }
 
