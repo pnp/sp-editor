@@ -13,26 +13,24 @@ const FieldCustomizersCommandBar = ({ onAdd, onRefresh, onRemove, hasSelection }
       key: 'add',
       text: 'Add',
       iconProps: { iconName: 'Add' },
-      onClick: onAdd,
+      onClick: () => onAdd(),
     },
     {
       key: 'remove',
       text: 'Remove',
       iconProps: { iconName: 'Delete' },
-      onClick: onRemove,
+      onClick: () => onRemove(),
       disabled: !hasSelection,
     },
     {
       key: 'refresh',
       text: 'Refresh',
       iconProps: { iconName: 'Refresh' },
-      onClick: onRefresh,
+      onClick: () => onRefresh(),
     },
   ]
 
-  return (
-      <CommandBar items={commandBarItems} />
-  )
+  return <CommandBar items={commandBarItems} />
 }
 
 export default FieldCustomizersCommandBar

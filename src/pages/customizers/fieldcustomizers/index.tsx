@@ -5,21 +5,15 @@ import { Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton } from '
 import { setLoading } from '../../../store/home/actions'
 import LoadingSpinner from '../../../components/loadingSpinner'
 import FieldCustomizersCommandBar from './components/FieldCustomizersCommandBar'
-import FieldCustomizers from './components/FieldCustomizers'
-import { loadAllFieldCustomizers, saveListFieldCustomizer } from './chrome/chrome-actions'
+import FieldCustomizers, { IFieldInfoWithList } from './components/FieldCustomizers'
+import { loadAllFieldCustomizers, deleteFieldCustomizer } from './chrome/chrome-actions'
 import Header from '../../../components/header'
-
-interface ISelectedField {
-  Id: string
-  Title: string
-  listId: string
-}
 
 const FieldCustomizersPage = () => {
   const dispatch = useDispatch()
   const [addPanelOpen, setAddPanelOpen] = useState(false)
   const [tabId, setTabId] = useState<number | null>(null)
-  const [selectedField, setSelectedField] = useState<ISelectedField | null>(null)
+  const [selectedField, setSelectedField] = useState<IFieldInfoWithList | null>(null)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   // Get current tab
@@ -34,10 +28,10 @@ const FieldCustomizersPage = () => {
   const handleRefresh = () => {
     if (!tabId) return
     dispatch(setLoading(true))
-    loadAllFieldCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
+    loadAllFieldCustomizers(dispatch, tabId)
   }
 
-  const handleSelectionChanged = useCallback((item: ISelectedField | null) => {
+  const handleSelectionChanged = useCallback((item: IFieldInfoWithList | null) => {
     setSelectedField(item)
   }, [])
 
@@ -47,19 +41,20 @@ const FieldCustomizersPage = () => {
     }
   }
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = () => {
     if (!tabId || !selectedField) return
 
-    try {
-      dispatch(setLoading(true))
-      await saveListFieldCustomizer(tabId, selectedField.listId, selectedField.Id, null, null)
-      setDeleteDialogOpen(false)
-      setSelectedField(null)
-      handleRefresh()
-    } catch (err) {
-      console.error('Failed to remove customizer:', err)
-      dispatch(setLoading(false))
-    }
+    dispatch(setLoading(true))
+    deleteFieldCustomizer(tabId, selectedField.listId, selectedField.Id)
+      .then(() => {
+        setDeleteDialogOpen(false)
+        setSelectedField(null)
+        handleRefresh()
+      })
+      .catch((err) => {
+        console.error('Failed to remove customizer:', err)
+        dispatch(setLoading(false))
+      })
   }
 
   return (
