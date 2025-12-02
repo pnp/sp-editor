@@ -36,6 +36,8 @@ import {
   loadAllFieldCustomizers,
   loadFieldsForList,
   saveListFieldCustomizer,
+  loadFieldCustomizersFromAppCatalog,
+  IAppCatalogFieldCustomizer,
 } from '../chrome/chrome-actions'
 
 // Extended field info to include listId for actions
@@ -83,6 +85,10 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
 
   const [tabId, setTabId] = useState<number | null>(null)
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set())
+
+  // Available field customizers from app catalog
+  const [availableCustomizers, setAvailableCustomizers] = useState<IAppCatalogFieldCustomizer[]>([])
+  const [customizersLoading, setCustomizersLoading] = useState(false)
 
   const [editPanel, setEditPanel] = useState<IEditPanelState>({
     isOpen: false,
@@ -147,6 +153,21 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
       setInitialLoadComplete(true)
     })
   }, [tabId, dispatch])
+
+  // Load available customizers from app catalog when panels open
+  useEffect(() => {
+    if (!tabId || availableCustomizers.length > 0 || customizersLoading) return
+    if (!addPanel.isOpen && !editPanel.isOpen) return
+
+    setCustomizersLoading(true)
+    loadFieldCustomizersFromAppCatalog(tabId)
+      .then((customizers) => {
+        setAvailableCustomizers(customizers)
+      })
+      .finally(() => {
+        setCustomizersLoading(false)
+      })
+  }, [tabId, addPanel.isOpen, editPanel.isOpen, availableCustomizers.length, customizersLoading])
 
   // Load fields when list is selected in add panel
   useEffect(() => {
@@ -236,14 +257,6 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
     onAddPanelDismiss()
   }
 
-  const getComponentIdErrorMessage = (value: string): string => {
-    if (!value) return ''
-    if (!isValidGuid(value)) {
-      return 'Please enter a valid GUID (e.g., 12345678-1234-1234-1234-123456789abc)'
-    }
-    return ''
-  }
-
   const toggleGroupCollapse = (groupKey: string) => {
     setCollapsedGroups((prev) => {
       const newSet = new Set(prev)
@@ -255,6 +268,17 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
       return newSet
     })
   }
+
+  // Build component ID options from available customizers
+  const componentIdOptions: IComboBoxOption[] = useMemo(() => {
+    const options: IComboBoxOption[] = availableCustomizers.map((c) => ({
+      key: c.id,
+      text: `${c.alias} (${c.solutionName})`,
+      title: c.id,
+    }))
+
+    return options
+  }, [availableCustomizers])
 
   // Flatten items and create groups for the DetailsList
   const { items, groups } = useMemo(() => {
@@ -341,10 +365,10 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
   const fieldOptions: IComboBoxOption[] = allFieldsForList.map((field) => ({
     key: field.Id,
     text: field.Title,
-    data: { 
+    data: {
       internalName: field.InternalName,
       type: field.TypeAsString,
-      id: field.Id 
+      id: field.Id,
     },
   }))
 
@@ -378,8 +402,6 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
         styles={{
           root: {
             padding: '40px 20px',
-            // backgroundColor: 'var(--neutralLighterAlt, #faf9f8)',
-            // borderTop: '1px solid var(--neutralLight, #edebe9)',
           },
         }}
       >
@@ -387,21 +409,13 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
           variant="large"
           styles={{
             root: {
-              // color: 'var(--neutralSecondary, #605e5c)',
               marginBottom: 8,
             },
           }}
         >
           No field customizers found
         </Text>
-        <Text
-          variant="medium"
-          styles={{
-            root: {
-              // color: 'var(--neutralTertiary, #a19f9d)',
-            },
-          }}
-        >
+        <Text variant="medium">
           Click "Add" in the command bar to attach a customizer to a list field.
         </Text>
       </Stack>
@@ -416,6 +430,47 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
       </Sticky>
     )
   }
+
+  // Render component ID ComboBox with custom option rendering
+  const renderComponentIdComboBox = (
+    value: string,
+    onChange: (newValue: string) => void,
+    label: string = 'Component ID'
+  ) => (
+    <ComboBox
+      label={label}
+      placeholder={customizersLoading ? 'Loading customizers...' : 'Select or enter a component GUID...'}
+      options={componentIdOptions}
+      selectedKey={componentIdOptions.some((o) => o.key === value) ? value : undefined}
+      text={value}
+      onChange={(_, option, _index, freeformValue) => {
+        const newValue = option ? (option.key as string) : freeformValue || ''
+        onChange(newValue)
+      }}
+      allowFreeform={true}
+      autoComplete="on"
+      required
+      useComboBoxAsMenuWidth
+      disabled={customizersLoading}
+      errorMessage={value && !isValidGuid(value) ? 'Please enter a valid GUID' : undefined}
+      calloutProps={{
+        calloutMaxHeight: 300,
+      }}
+      onRenderOption={(option) => {
+        const comboOption = option as IComboBoxOption
+        const customizer = availableCustomizers.find((c) => c.id === comboOption?.key)
+        return (
+          <Stack styles={{ root: { padding: '4px 0' } }}>
+            <Text styles={{ root: { fontWeight: 600 } }}>{customizer?.alias || comboOption?.text}</Text>
+            <Text variant="small">{customizer?.solutionName}</Text>
+            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+              {comboOption?.key}
+            </Text>
+          </Stack>
+        )
+      }}
+    />
+  )
 
   return (
     <>
@@ -528,16 +583,16 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
             </>
           )}
 
-          <TextField
-            label="Component ID (GUID)"
-            placeholder="e.g., 12345678-1234-1234-1234-123456789abc"
-            value={addPanel.componentId}
-            onChange={(_, value) => setAddPanel((prev) => ({ ...prev, componentId: value || '' }))}
-            required
-            onGetErrorMessage={getComponentIdErrorMessage}
-            validateOnLoad={false}
-            validateOnFocusOut
-          />
+          {renderComponentIdComboBox(addPanel.componentId, (newValue) =>
+            setAddPanel((prev) => ({ ...prev, componentId: newValue }))
+          )}
+
+          {availableCustomizers.length === 0 && !customizersLoading && (
+            <Text variant="small" styles={{ root: { color: '#605e5c', fontStyle: 'italic' } }}>
+              No field customizers found in app catalog. You can still enter a GUID manually.
+            </Text>
+          )}
+
           <TextField
             label="Component Properties (JSON)"
             placeholder='e.g., {"sampleText": "Hello"}'
@@ -583,23 +638,22 @@ const FieldCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged 
             <Text>
               {editPanel.field?.Title} ({editPanel.field?.InternalName})
             </Text>
-            <Text variant="small">
-              Type: {editPanel.field?.TypeAsString}
-            </Text>
+            <Text variant="small">Type: {editPanel.field?.TypeAsString}</Text>
             <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
               {editPanel.field?.Id}
             </Text>
           </Stack>
-          <TextField
-            label="Component ID (GUID)"
-            placeholder="e.g., 12345678-1234-1234-1234-123456789abc"
-            value={editPanel.componentId}
-            onChange={(_, value) => setEditPanel((prev) => ({ ...prev, componentId: value || '' }))}
-            required
-            onGetErrorMessage={getComponentIdErrorMessage}
-            validateOnLoad={false}
-            validateOnFocusOut
-          />
+
+          {renderComponentIdComboBox(editPanel.componentId, (newValue) =>
+            setEditPanel((prev) => ({ ...prev, componentId: newValue }))
+          )}
+
+          {availableCustomizers.length === 0 && !customizersLoading && (
+            <Text variant="small" styles={{ root: { color: '#605e5c', fontStyle: 'italic' } }}>
+              No field customizers found in app catalog. You can still enter a GUID manually.
+            </Text>
+          )}
+
           <TextField
             label="Component Properties (JSON)"
             placeholder='e.g., {"sampleText": "Hello"}'
