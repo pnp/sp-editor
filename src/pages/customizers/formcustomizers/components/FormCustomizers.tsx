@@ -32,10 +32,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../../store'
 import { setLoading } from '../../../../store/home/actions'
 import { setError } from '../../../../store/formcustomizers/actions'
-import { IFormCustomizerInfo, IListWithFormCustomizers, IContentTypeInfo } from '../../../../store/formcustomizers/types'
+import { IFormCustomizerInfo, IListWithFormCustomizers } from '../../../../store/formcustomizers/types'
 import {
   loadAllFormCustomizers,
   loadContentTypesForList,
+  loadAvailableFormCustomizers,
   saveFormCustomizer,
 } from '../chrome/chrome-actions'
 
@@ -76,10 +77,11 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   const dispatch = useDispatch()
   const { loading } = useSelector((state: IRootState) => state.home)
   const formCustomizersState = useSelector((state: IRootState) => state.formCustomizers)
-  
+
   const lists = formCustomizersState?.lists || []
   const listsWithCustomizers = formCustomizersState?.listsWithCustomizers || []
   const allContentTypesForList = formCustomizersState?.allContentTypesForList || []
+  const availableCustomizers = formCustomizersState?.availableCustomizers || []
   const error = formCustomizersState?.error || null
 
   // Track if initial load has completed
@@ -102,7 +104,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     applyToEditForm: true,
     applyToDisplayForm: true,
     componentId: '',
-    componentProperties: '{}',
+    componentProperties: '',
   })
 
   // Selection for the DetailsList
@@ -132,7 +134,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
         applyToEditForm: true,
         applyToDisplayForm: true,
         componentId: '',
-        componentProperties: '{}',
+        componentProperties: '',
       })
     }
   }, [addPanelOpen])
@@ -154,15 +156,15 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       dispatch(setLoading(false))
       setInitialLoadComplete(true)
     })
+    // Also load available customizers
+    loadAvailableFormCustomizers(dispatch, tabId)
   }, [tabId, dispatch])
 
   // Load content types when list is selected
   useEffect(() => {
     if (!tabId || !addPanel.selectedListId) return
 
-    loadContentTypesForList(tabId, addPanel.selectedListId).then((cts) => {
-      dispatch({ type: 'formcustomizers/SET_ALL_CONTENT_TYPES_FOR_LIST', payload: { allContentTypesForList: cts } })
-    })
+    loadContentTypesForList(dispatch, tabId, addPanel.selectedListId)
   }, [tabId, addPanel.selectedListId, dispatch])
 
   const handleEdit = (form: IFormCustomizerInfo) => {
@@ -241,7 +243,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
         applyToEditForm: true,
         applyToDisplayForm: true,
         componentId: '',
-        componentProperties: '{}',
+        componentProperties: '',
       })
       onAddPanelDismiss()
       refreshData()
@@ -260,17 +262,9 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       applyToEditForm: true,
       applyToDisplayForm: true,
       componentId: '',
-      componentProperties: '{}',
+      componentProperties: '',
     })
     onAddPanelDismiss()
-  }
-
-  const getComponentIdErrorMessage = (value: string): string => {
-    if (!value) return ''
-    if (!isValidGuid(value)) {
-      return 'Please enter a valid GUID (e.g., 12345678-1234-1234-1234-123456789abc)'
-    }
-    return ''
   }
 
   const toggleGroupCollapse = (groupKey: string) => {
@@ -366,7 +360,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     },
   ]
 
-  const listOptions: IComboBoxOption[] = lists.map((list) => ({
+  const listOptions: IDropdownOption[] = lists.map((list) => ({
     key: list.Id,
     text: list.Title,
   }))
@@ -375,6 +369,33 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     key: ct.StringId,
     text: ct.Name,
   }))
+
+  // Options for available customizers - ComboBox style like field customizers
+  const availableCustomizerOptions: IComboBoxOption[] = availableCustomizers.map((customizer) => ({
+    key: customizer.id,
+    text: customizer.id,
+    data: customizer,
+  }))
+
+  // Custom render for ComboBox options - shows alias, solution name, and GUID
+  const onRenderOption = (option?: IComboBoxOption): JSX.Element | null => {
+    if (!option) return null
+    const customizer = option.data
+    if (!customizer) {
+      return <span>{option.text}</span>
+    }
+    return (
+      <Stack styles={{ root: { padding: '4px 0' } }}>
+        <Text styles={{ root: { fontWeight: 600 } }}>{customizer.alias}</Text>
+        <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
+          {customizer.solutionName}
+        </Text>
+        <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', color: '#8a8886' } }}>
+          {customizer.id}
+        </Text>
+      </Stack>
+    )
+  }
 
   const onRenderGroupHeader = (props?: IGroupHeaderProps): JSX.Element | null => {
     if (!props || !props.group) return null
@@ -484,10 +505,12 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
         )}
         isFooterAtBottom={true}
       >
-        <Stack tokens={{ childrenGap: 16 }} styles={{ root: { marginTop: 16 } }}>
-          <ComboBox
+        <Stack tokens={{ childrenGap: 12 }} styles={{ root: { marginTop: 16 } }}>
+          {/* Select List */}
+          <Dropdown
             label="Select List"
-            placeholder="Type to search lists..."
+            required
+            placeholder="Select a list..."
             options={listOptions}
             selectedKey={addPanel.selectedListId || undefined}
             onChange={(_, option) => {
@@ -497,87 +520,92 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
                 selectedContentTypeId: '',
               }))
             }}
-            allowFreeform={false}
+          />
+
+          {/* Select Content Type */}
+          <Dropdown
+            label="Select Content Type"
+            required
+            placeholder="Select a content type..."
+            options={contentTypeOptions}
+            selectedKey={addPanel.selectedContentTypeId || undefined}
+            onChange={(_, option) =>
+              setAddPanel((prev) => ({
+                ...prev,
+                selectedContentTypeId: (option?.key as string) || '',
+              }))
+            }
+            disabled={!addPanel.selectedListId || allContentTypesForList.length === 0}
+          />
+
+          {/* Component ID - ComboBox with custom render */}
+          <ComboBox
+            label="Component ID"
+            required
+            placeholder="Select or enter a component GUID..."
+            options={availableCustomizerOptions}
+            selectedKey={addPanel.componentId || undefined}
+            text={addPanel.componentId}
+            allowFreeform={true}
             autoComplete="on"
-            required
             useComboBoxAsMenuWidth
+            onRenderOption={onRenderOption}
+            onChange={(_, option, _index, value) => {
+              if (option) {
+                setAddPanel((prev) => ({ ...prev, componentId: option.key as string }))
+              } else if (value !== undefined) {
+                setAddPanel((prev) => ({ ...prev, componentId: value }))
+              }
+            }}
+            onPendingValueChanged={(option, _index, value) => {
+              if (!option && value !== undefined) {
+                setAddPanel((prev) => ({ ...prev, componentId: value }))
+              }
+            }}
+            errorMessage={
+              addPanel.componentId && !isValidGuid(addPanel.componentId)
+                ? 'Please enter a valid GUID'
+                : undefined
+            }
           />
 
-          {addPanel.selectedListId && (
-            <>
-              {allContentTypesForList.length === 0 ? (
-                <MessageBar messageBarType={MessageBarType.info}>Loading content types...</MessageBar>
-              ) : (
-                <Dropdown
-                  label="Select Content Type"
-                  placeholder="Choose a content type..."
-                  options={contentTypeOptions}
-                  selectedKey={addPanel.selectedContentTypeId || undefined}
-                  onChange={(_, option) =>
-                    setAddPanel((prev) => ({
-                      ...prev,
-                      selectedContentTypeId: (option?.key as string) || '',
-                    }))
-                  }
-                  required
-                />
-              )}
-            </>
-          )}
-
-          {addPanel.selectedContentTypeId && (
-            <Stack tokens={{ childrenGap: 8 }}>
-              <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
-                Apply to Form Types
-              </Text>
-              <Stack horizontal tokens={{ childrenGap: 16 }}>
-                <Checkbox
-                  label="New Form"
-                  checked={addPanel.applyToNewForm}
-                  onChange={(_, checked) =>
-                    setAddPanel((prev) => ({ ...prev, applyToNewForm: !!checked }))
-                  }
-                />
-                <Checkbox
-                  label="Edit Form"
-                  checked={addPanel.applyToEditForm}
-                  onChange={(_, checked) =>
-                    setAddPanel((prev) => ({ ...prev, applyToEditForm: !!checked }))
-                  }
-                />
-                <Checkbox
-                  label="Display Form"
-                  checked={addPanel.applyToDisplayForm}
-                  onChange={(_, checked) =>
-                    setAddPanel((prev) => ({ ...prev, applyToDisplayForm: !!checked }))
-                  }
-                />
-              </Stack>
-              {!hasFormTypeSelected && (
-                <Text variant="small" styles={{ root: { color: '#a4262c' } }}>
-                  Please select at least one form type
-                </Text>
-              )}
+          {/* Form Type Checkboxes */}
+          <Stack tokens={{ childrenGap: 8 }}>
+            <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
+              Apply to Form Types *
+            </Text>
+            <Stack horizontal tokens={{ childrenGap: 16 }}>
+              <Checkbox
+                label="New"
+                checked={addPanel.applyToNewForm}
+                onChange={(_, checked) => setAddPanel((prev) => ({ ...prev, applyToNewForm: !!checked }))}
+              />
+              <Checkbox
+                label="Edit"
+                checked={addPanel.applyToEditForm}
+                onChange={(_, checked) => setAddPanel((prev) => ({ ...prev, applyToEditForm: !!checked }))}
+              />
+              <Checkbox
+                label="Display"
+                checked={addPanel.applyToDisplayForm}
+                onChange={(_, checked) => setAddPanel((prev) => ({ ...prev, applyToDisplayForm: !!checked }))}
+              />
             </Stack>
-          )}
+            {!hasFormTypeSelected && (
+              <Text variant="small" styles={{ root: { color: '#a4262c' } }}>
+                Please select at least one form type
+              </Text>
+            )}
+          </Stack>
 
+          {/* Component Properties */}
           <TextField
-            label="Component ID (GUID)"
-            placeholder="e.g., 12345678-1234-1234-1234-123456789abc"
-            value={addPanel.componentId}
-            onChange={(_, value) => setAddPanel((prev) => ({ ...prev, componentId: value || '' }))}
-            required
-            onGetErrorMessage={getComponentIdErrorMessage}
-            validateOnLoad={false}
-            validateOnFocusOut
-          />
-          <TextField
-            label="Component Properties (JSON)"
-            placeholder='e.g., {"sampleText": "Hello"}'
+            label="Component Properties"
+            placeholder='{"property": "value"}'
             value={addPanel.componentProperties}
             onChange={(_, value) => setAddPanel((prev) => ({ ...prev, componentProperties: value || '' }))}
             multiline
-            rows={6}
+            rows={4}
           />
         </Stack>
       </Panel>
@@ -585,9 +613,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
       {/* Edit Panel */}
       <Panel
         isOpen={editPanel.isOpen}
-        onDismiss={() =>
-          setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })
-        }
+        onDismiss={() => setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })}
         headerText="Edit Form Customizer"
         type={PanelType.medium}
         isLightDismiss={true}
@@ -599,57 +625,77 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
               disabled={!editPanel.componentId || !isValidGuid(editPanel.componentId)}
             />
             <DefaultButton
-              onClick={() =>
-                setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })
-              }
+              onClick={() => setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })}
               text="Cancel"
             />
           </Stack>
         )}
         isFooterAtBottom={true}
       >
-        <Stack tokens={{ childrenGap: 16 }} styles={{ root: { marginTop: 16 } }}>
+        <Stack tokens={{ childrenGap: 12 }} styles={{ root: { marginTop: 16 } }}>
+          {/* List (read-only) */}
           <Stack tokens={{ childrenGap: 4 }}>
             <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
               List
             </Text>
             <Text>{editPanel.form?.listTitle}</Text>
-            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
-              {editPanel.form?.listId}
-            </Text>
           </Stack>
+
+          {/* Content Type (read-only) */}
           <Stack tokens={{ childrenGap: 4 }}>
             <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
               Content Type
             </Text>
             <Text>{editPanel.form?.contentTypeName}</Text>
-            <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
-              {editPanel.form?.contentTypeId}
-            </Text>
           </Stack>
+
+          {/* Form Type (read-only) */}
           <Stack tokens={{ childrenGap: 4 }}>
             <Text variant="medium" styles={{ root: { fontWeight: 600 } }}>
               Form Type
             </Text>
-            <Text>{editPanel.form?.formType} Form</Text>
+            <Text>{editPanel.form?.formType}</Text>
           </Stack>
-          <TextField
-            label="Component ID (GUID)"
-            placeholder="e.g., 12345678-1234-1234-1234-123456789abc"
-            value={editPanel.componentId}
-            onChange={(_, value) => setEditPanel((prev) => ({ ...prev, componentId: value || '' }))}
+
+          {/* Component ID - ComboBox with custom render */}
+          <ComboBox
+            label="Component ID"
             required
-            onGetErrorMessage={getComponentIdErrorMessage}
-            validateOnLoad={false}
-            validateOnFocusOut
+            placeholder="Select or enter a component GUID..."
+            options={availableCustomizerOptions}
+            selectedKey={editPanel.componentId || undefined}
+            text={editPanel.componentId}
+            allowFreeform={true}
+            autoComplete="on"
+            useComboBoxAsMenuWidth
+            onRenderOption={onRenderOption}
+            onChange={(_, option, _index, value) => {
+              if (option) {
+                setEditPanel((prev) => ({ ...prev, componentId: option.key as string }))
+              } else if (value !== undefined) {
+                setEditPanel((prev) => ({ ...prev, componentId: value }))
+              }
+            }}
+            onPendingValueChanged={(option, _index, value) => {
+              if (!option && value !== undefined) {
+                setEditPanel((prev) => ({ ...prev, componentId: value }))
+              }
+            }}
+            errorMessage={
+              editPanel.componentId && !isValidGuid(editPanel.componentId)
+                ? 'Please enter a valid GUID'
+                : undefined
+            }
           />
+
+          {/* Component Properties */}
           <TextField
-            label="Component Properties (JSON)"
-            placeholder='e.g., {"sampleText": "Hello"}'
+            label="Component Properties"
+            placeholder='{"property": "value"}'
             value={editPanel.componentProperties}
             onChange={(_, value) => setEditPanel((prev) => ({ ...prev, componentProperties: value || '' }))}
             multiline
-            rows={6}
+            rows={4}
           />
         </Stack>
       </Panel>

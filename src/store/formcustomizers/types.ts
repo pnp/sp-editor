@@ -16,7 +16,7 @@ export interface IFormCustomizerInfo {
   contentTypeId: string
   contentTypeName: string
   formType: 'New' | 'Edit' | 'Display'
-  ClientSideComponentId: string | null
+  ClientSideComponentId: string
   ClientSideComponentProperties: string | null
 }
 
@@ -25,12 +25,17 @@ export interface IListWithFormCustomizers {
   forms: IFormCustomizerInfo[]
 }
 
+export interface IAvailableFormCustomizer {
+  id: string
+  alias: string
+  solutionName: string
+}
+
 export interface IFormCustomizersState {
-  isLoading: boolean
   lists: IListInfo[]
   listsWithCustomizers: IListWithFormCustomizers[]
   allContentTypesForList: IContentTypeInfo[]
-  selectedListId: string | null
+  availableCustomizers: IAvailableFormCustomizer[]
   error: string | null
 }
 
