@@ -389,16 +389,20 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
       text: list.Title,
     }))
 
-    // ComboBox options for field selection
-    const fieldOptions: IComboBoxOption[] = allFieldsForList.map((field) => ({
-      key: field.Id,
-      text: field.Title,
-      data: {
-        internalName: field.InternalName,
-        type: field.TypeAsString,
-        id: field.Id,
-      },
-    }))
+    // ComboBox options for field selection - sorted alphabetically
+    const fieldOptions: IComboBoxOption[] = useMemo(() => {
+      return [...allFieldsForList]
+        .sort((a, b) => a.Title.localeCompare(b.Title))
+        .map((field) => ({
+          key: field.Id,
+          text: field.Title,
+          data: {
+            internalName: field.InternalName,
+            type: field.TypeAsString,
+            id: field.Id,
+          },
+        }))
+    }, [allFieldsForList])
 
     const onRenderGroupHeader = (props?: IGroupHeaderProps): JSX.Element | null => {
       if (!props || !props.group) return null
@@ -476,7 +480,6 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
           onChange(newValue)
         }}
         allowFreeform={true}
-        autoComplete="on"
         required
         useComboBoxAsMenuWidth
         disabled={customizersLoading}
@@ -582,11 +585,13 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
                     placeholder="Type to search fields..."
                     options={fieldOptions}
                     selectedKey={addPanel.selectedFieldId || undefined}
-                    onChange={(_, option) =>
-                      setAddPanel((prev) => ({ ...prev, selectedFieldId: (option?.key as string) || '' }))
-                    }
+                    onChange={(_, option) => {
+                      if (option) {
+                        setAddPanel((prev) => ({ ...prev, selectedFieldId: option.key as string }))
+                      }
+                    }}
                     allowFreeform={false}
-                    autoComplete="on"
+                    autoComplete="off"   
                     required
                     useComboBoxAsMenuWidth
                     calloutProps={{
