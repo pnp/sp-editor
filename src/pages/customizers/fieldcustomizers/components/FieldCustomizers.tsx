@@ -582,7 +582,7 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
                 ) : (
                   <ComboBox
                     label="Select Field"
-                    placeholder="Type to search fields..."
+                    placeholder="Select field from the list..."
                     options={fieldOptions}
                     selectedKey={addPanel.selectedFieldId || undefined}
                     onChange={(_, option) => {
