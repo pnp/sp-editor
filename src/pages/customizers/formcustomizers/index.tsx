@@ -17,13 +17,19 @@ const FormCustomizersPage = () => {
   const [selectedForm, setSelectedForm] = useState<IFormCustomizerInfo | null>(null)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
-  // Get current tab
+  // Get current tab - use devtools inspectedWindow for DevTools panel context
   useEffect(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        setTabId(tabs[0].id)
-      }
-    })
+    // In DevTools panel, use chrome.devtools.inspectedWindow.tabId
+    if (chrome.devtools?.inspectedWindow?.tabId) {
+      setTabId(chrome.devtools.inspectedWindow.tabId)
+    } else {
+      // Fallback for popup or other contexts
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]?.id) {
+          setTabId(tabs[0].id)
+        }
+      })
+    }
   }, [])
 
   const handleRefresh = () => {
