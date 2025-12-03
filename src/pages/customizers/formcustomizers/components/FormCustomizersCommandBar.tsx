@@ -2,12 +2,11 @@ import { CommandBar, ICommandBarItemProps } from '@fluentui/react'
 
 interface IFormCustomizersCommandBarProps {
   onAdd: () => void
-  onRefresh: () => void
   onRemove: () => void
   hasSelection: boolean
 }
 
-const FormCustomizersCommandBar = ({ onAdd, onRefresh, onRemove, hasSelection }: IFormCustomizersCommandBarProps) => {
+const FormCustomizersCommandBar = ({ onAdd, onRemove, hasSelection }: IFormCustomizersCommandBarProps) => {
   const commandBarItems: ICommandBarItemProps[] = [
     {
       key: 'add',
@@ -21,12 +20,6 @@ const FormCustomizersCommandBar = ({ onAdd, onRefresh, onRemove, hasSelection }:
       iconProps: { iconName: 'Delete' },
       onClick: onRemove,
       disabled: !hasSelection,
-    },
-    {
-      key: 'refresh',
-      text: 'Refresh',
-      iconProps: { iconName: 'Refresh' },
-      onClick: onRefresh,
     },
   ]
 

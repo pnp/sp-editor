@@ -32,12 +32,6 @@ const FormCustomizersPage = () => {
     }
   }, [])
 
-  const handleRefresh = () => {
-    if (!tabId) return
-    dispatch(setLoading(true))
-    loadAllFormCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
-  }
-
   const handleSelectionChanged = useCallback((item: IFormCustomizerInfo | null) => {
     setSelectedForm(item)
   }, [])
@@ -65,7 +59,9 @@ const FormCustomizersPage = () => {
       )
       setDeleteDialogOpen(false)
       setSelectedForm(null)
-      handleRefresh()
+      // Reload the data
+      dispatch(setLoading(true))
+      loadAllFormCustomizers(dispatch, tabId).finally(() => dispatch(setLoading(false)))
     } catch (err) {
       console.error('Failed to remove customizer:', err)
       dispatch(setLoading(false))
@@ -79,7 +75,6 @@ const FormCustomizersPage = () => {
         <Header title={'Form Customizers'} showOnLoad={false} headline="" content="" />
         <FormCustomizersCommandBar
           onAdd={() => setAddPanelOpen(true)}
-          onRefresh={handleRefresh}
           onRemove={handleRemoveClick}
           hasSelection={!!selectedForm}
         />

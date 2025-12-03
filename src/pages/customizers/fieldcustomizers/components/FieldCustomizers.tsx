@@ -6,6 +6,7 @@ import {
   Dropdown,
   GroupHeader,
   IColumn,
+  IComboBox,
   IComboBoxOption,
   IDetailsFooterProps,
   IDropdownOption,
@@ -26,7 +27,7 @@ import {
   Text,
   TextField,
 } from '@fluentui/react'
-import { useEffect, useState, useMemo, useImperativeHandle, forwardRef } from 'react'
+import { useEffect, useState, useMemo, useImperativeHandle, forwardRef, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../../store'
 import { setLoading } from '../../../../store/home/actions'
@@ -96,6 +97,15 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
     // Available field customizers from app catalog
     const [availableCustomizers, setAvailableCustomizers] = useState<IAppCatalogFieldCustomizer[]>([])
     const [customizersLoading, setCustomizersLoading] = useState(false)
+
+    // Ref for ComboBox to open dropdown on focus
+    const componentIdComboBoxRef = useRef<IComboBox>(null)
+    const handleComboBoxFocus = useCallback(() => {
+      // Small delay to ensure the ComboBox is ready
+      setTimeout(() => {
+        componentIdComboBoxRef.current?.focus(true, true)
+      }, 0)
+    }, [])
 
     const [editPanel, setEditPanel] = useState<IEditPanelState>({
       isOpen: false,
@@ -228,20 +238,18 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
     const handleSaveEdit = async () => {
       if (!tabId || !editPanel.field || !editPanel.listId) return
 
+      // Capture values before closing panel
+      const listId = editPanel.listId
+      const fieldId = editPanel.field.Id
+      const componentId = editPanel.componentId || null
+      const componentProperties = editPanel.componentProperties || null
+
+      // Close panel immediately for better UX
+      setEditPanel({ isOpen: false, listId: '', field: null, componentId: '', componentProperties: '' })
+      dispatch(setLoading(true))
+
       try {
-        dispatch(setLoading(true))
-        const componentId = editPanel.componentId || null
-        const componentProperties = editPanel.componentProperties || null
-
-        await saveListFieldCustomizer(
-          tabId,
-          editPanel.listId,
-          editPanel.field.Id,
-          componentId,
-          componentProperties
-        )
-
-        setEditPanel({ isOpen: false, listId: '', field: null, componentId: '', componentProperties: '' })
+        await saveListFieldCustomizer(tabId, listId, fieldId, componentId, componentProperties)
         refreshData()
       } catch (err) {
         dispatch(setError(err instanceof Error ? err.message : 'Failed to save'))
@@ -252,27 +260,25 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
     const handleSaveAdd = async () => {
       if (!tabId || !addPanel.selectedListId || !addPanel.selectedFieldId || !addPanel.componentId) return
 
+      // Capture values before closing panel
+      const listId = addPanel.selectedListId
+      const fieldId = addPanel.selectedFieldId
+      const componentId = addPanel.componentId
+      const componentProperties = addPanel.componentProperties || null
+
+      // Close panel immediately for better UX
+      setAddPanel({
+        isOpen: false,
+        selectedListId: '',
+        selectedFieldId: '',
+        componentId: '',
+        componentProperties: '{}',
+      })
+      onAddPanelDismiss()
+      dispatch(setLoading(true))
+
       try {
-        dispatch(setLoading(true))
-        const componentId = addPanel.componentId
-        const componentProperties = addPanel.componentProperties || null
-
-        await saveListFieldCustomizer(
-          tabId,
-          addPanel.selectedListId,
-          addPanel.selectedFieldId,
-          componentId,
-          componentProperties
-        )
-
-        setAddPanel({
-          isOpen: false,
-          selectedListId: '',
-          selectedFieldId: '',
-          componentId: '',
-          componentProperties: '{}',
-        })
-        onAddPanelDismiss()
+        await saveListFieldCustomizer(tabId, listId, fieldId, componentId, componentProperties)
         refreshData()
       } catch (err) {
         dispatch(setError(err instanceof Error ? err.message : 'Failed to add customizer'))
@@ -476,6 +482,7 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
       label: string = 'Component ID'
     ) => (
       <ComboBox
+        componentRef={componentIdComboBoxRef}
         label={label}
         placeholder={customizersLoading ? 'Loading customizers...' : 'Select or enter a component GUID...'}
         options={componentIdOptions}
@@ -485,6 +492,7 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
           const newValue = option ? (option.key as string) : freeformValue || ''
           onChange(newValue)
         }}
+        onFocus={handleComboBoxFocus}
         allowFreeform={true}
         required
         useComboBoxAsMenuWidth
@@ -581,46 +589,43 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
               required
             />
 
-            {addPanel.selectedListId && (
-              <>
-                {allFieldsForList.length === 0 ? (
-                  <MessageBar messageBarType={MessageBarType.info}>Loading fields...</MessageBar>
-                ) : (
-                  <ComboBox
-                    label="Select Field"
-                    placeholder="Select field from the list..."
-                    options={fieldOptions}
-                    selectedKey={addPanel.selectedFieldId || undefined}
-                    onChange={(_, option) => {
-                      if (option) {
-                        setAddPanel((prev) => ({ ...prev, selectedFieldId: option.key as string }))
-                      }
-                    }}
-                    allowFreeform={false}
-                    autoComplete="off"   
-                    required
-                    useComboBoxAsMenuWidth
-                    calloutProps={{
-                      calloutMaxHeight: 300,
-                    }}
-                    onRenderOption={(option) => {
-                      const comboOption = option as IComboBoxOption
-                      return (
-                        <Stack styles={{ root: { padding: '4px 0' } }}>
-                          <Text styles={{ root: { fontWeight: 600 } }}>{comboOption?.text}</Text>
-                          <Text variant="small">
-                            {comboOption?.data?.internalName} ({comboOption?.data?.type})
-                          </Text>
-                          <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
-                            {comboOption?.data?.id}
-                          </Text>
-                        </Stack>
-                      )
-                    }}
-                  />
-                )}
-              </>
+            {addPanel.selectedListId && allFieldsForList.length === 0 && (
+              <MessageBar messageBarType={MessageBarType.info}>Loading fields...</MessageBar>
             )}
+
+            <ComboBox
+              label="Select Field"
+              placeholder={!addPanel.selectedListId ? 'Select a list first...' : 'Select field from the list...'}
+              options={fieldOptions}
+              selectedKey={addPanel.selectedFieldId || undefined}
+              onChange={(_, option) => {
+                if (option) {
+                  setAddPanel((prev) => ({ ...prev, selectedFieldId: option.key as string }))
+                }
+              }}
+              allowFreeform={false}
+              autoComplete="off"   
+              required
+              useComboBoxAsMenuWidth
+              disabled={!addPanel.selectedListId || allFieldsForList.length === 0}
+              calloutProps={{
+                calloutMaxHeight: 300,
+              }}
+              onRenderOption={(option) => {
+                const comboOption = option as IComboBoxOption
+                return (
+                  <Stack styles={{ root: { padding: '4px 0' } }}>
+                    <Text styles={{ root: { fontWeight: 600 } }}>{comboOption?.text}</Text>
+                    <Text variant="small">
+                      {comboOption?.data?.internalName} ({comboOption?.data?.type})
+                    </Text>
+                    <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
+                      {comboOption?.data?.id}
+                    </Text>
+                  </Stack>
+                )
+              }}
+            />
 
             {renderComponentIdComboBox(addPanel.componentId, (newValue) =>
               setAddPanel((prev) => ({ ...prev, componentId: newValue }))
@@ -634,7 +639,7 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
 
             <TextField
               label="Component Properties (JSON)"
-              placeholder='e.g., {"sampleText": "Hello"}'
+              placeholder='{"sampleText": "Hello"}'
               value={addPanel.componentProperties}
               onChange={(_, value) => setAddPanel((prev) => ({ ...prev, componentProperties: value || '' }))}
               multiline

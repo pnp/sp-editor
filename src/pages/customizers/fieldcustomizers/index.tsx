@@ -31,12 +31,6 @@ const FieldCustomizersPage = () => {
     }
   }, [])
 
-  const handleRefresh = () => {
-    if (!tabId) return
-    dispatch(setLoading(true))
-    loadAllFieldCustomizers(dispatch, tabId)
-  }
-
   const handleSelectionChanged = useCallback((item: IFieldInfoWithList | null) => {
     setSelectedField(item)
   }, [])
@@ -55,7 +49,8 @@ const FieldCustomizersPage = () => {
       .then(() => {
         setDeleteDialogOpen(false)
         setSelectedField(null)
-        handleRefresh()
+        // Reload the data
+        loadAllFieldCustomizers(dispatch, tabId)
       })
       .catch((err) => {
         console.error('Failed to remove customizer:', err)
@@ -70,7 +65,6 @@ const FieldCustomizersPage = () => {
         <Header title={'Field Customizers'} showOnLoad={false} headline="" content="" />
         <FieldCustomizersCommandBar
           onAdd={() => setAddPanelOpen(true)}
-          onRefresh={handleRefresh}
           onRemove={handleRemoveClick}
           hasSelection={!!selectedField}
         />

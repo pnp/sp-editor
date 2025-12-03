@@ -7,6 +7,7 @@ import {
   Dropdown,
   GroupHeader,
   IColumn,
+  IComboBox,
   IComboBoxOption,
   IDetailsFooterProps,
   IDropdownOption,
@@ -27,7 +28,7 @@ import {
   Text,
   TextField,
 } from '@fluentui/react'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../../store'
 import { setLoading } from '../../../../store/home/actions'
@@ -88,6 +89,16 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   const [initialLoadComplete, setInitialLoadComplete] = useState(false)
   const [tabId, setTabId] = useState<number | null>(null)
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set())
+
+  // Refs for ComboBoxes to open dropdown on focus
+  const addPanelComboBoxRef = useRef<IComboBox>(null)
+  const editPanelComboBoxRef = useRef<IComboBox>(null)
+  const handleAddComboBoxFocus = useCallback(() => {
+    setTimeout(() => addPanelComboBoxRef.current?.focus(true, true), 0)
+  }, [])
+  const handleEditComboBoxFocus = useCallback(() => {
+    setTimeout(() => editPanelComboBoxRef.current?.focus(true, true), 0)
+  }, [])
 
   const [editPanel, setEditPanel] = useState<IEditPanelState>({
     isOpen: false,
@@ -192,20 +203,26 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   const handleSaveEdit = async () => {
     if (!tabId || !editPanel.form) return
 
-    try {
-      dispatch(setLoading(true))
+    // Capture values before closing panel
+    const form = editPanel.form
+    const componentId = editPanel.componentId || null
+    const componentProperties = editPanel.componentProperties || null
 
+    // Close panel immediately for better UX
+    setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })
+    dispatch(setLoading(true))
+
+    try {
       // Single call for the specific form type
       await saveFormCustomizer(
         tabId,
-        editPanel.form.listId,
-        editPanel.form.contentTypeId,
-        { [editPanel.form.formType]: true } as { New?: boolean; Edit?: boolean; Display?: boolean },
-        editPanel.componentId || null,
-        editPanel.componentProperties || null
+        form.listId,
+        form.contentTypeId,
+        { [form.formType]: true } as { New?: boolean; Edit?: boolean; Display?: boolean },
+        componentId,
+        componentProperties
       )
 
-      setEditPanel({ isOpen: false, form: null, componentId: '', componentProperties: '' })
       refreshData()
     } catch (err) {
       dispatch(setError(err instanceof Error ? err.message : 'Failed to save'))
@@ -224,34 +241,35 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     )
       return
 
+    // Capture values before closing panel
+    const listId = addPanel.selectedListId
+    const contentTypeId = addPanel.selectedContentTypeId
+    const formTypes = {
+      New: addPanel.applyToNewForm,
+      Edit: addPanel.applyToEditForm,
+      Display: addPanel.applyToDisplayForm,
+    }
+    const componentId = addPanel.componentId
+    const componentProperties = addPanel.componentProperties || null
+
+    // Close panel immediately for better UX
+    setAddPanel({
+      isOpen: false,
+      selectedListId: '',
+      selectedContentTypeId: '',
+      applyToNewForm: true,
+      applyToEditForm: true,
+      applyToDisplayForm: true,
+      componentId: '',
+      componentProperties: '',
+    })
+    onAddPanelDismiss()
+    dispatch(setLoading(true))
+
     try {
-      dispatch(setLoading(true))
-
       // Single call with all form types
-      await saveFormCustomizer(
-        tabId,
-        addPanel.selectedListId,
-        addPanel.selectedContentTypeId,
-        {
-          New: addPanel.applyToNewForm,
-          Edit: addPanel.applyToEditForm,
-          Display: addPanel.applyToDisplayForm,
-        },
-        addPanel.componentId,
-        addPanel.componentProperties || null
-      )
+      await saveFormCustomizer(tabId, listId, contentTypeId, formTypes, componentId, componentProperties)
 
-      setAddPanel({
-        isOpen: false,
-        selectedListId: '',
-        selectedContentTypeId: '',
-        applyToNewForm: true,
-        applyToEditForm: true,
-        applyToDisplayForm: true,
-        componentId: '',
-        componentProperties: '',
-      })
-      onAddPanelDismiss()
       refreshData()
     } catch (err) {
       dispatch(setError(err instanceof Error ? err.message : 'Failed to add customizer'))
@@ -532,7 +550,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
           <Dropdown
             label="Select Content Type"
             required
-            placeholder="Select a content type..."
+            placeholder={!addPanel.selectedListId ? 'Select a list first...' : 'Select a content type...'}
             options={contentTypeOptions}
             selectedKey={addPanel.selectedContentTypeId || undefined}
             onChange={(_, option) =>
@@ -546,15 +564,17 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
 
           {/* Component ID - ComboBox with custom render */}
           <ComboBox
+            componentRef={addPanelComboBoxRef}
             label="Component ID"
             required
             placeholder="Select or enter a component GUID..."
             options={availableCustomizerOptions}
-            selectedKey={addPanel.componentId || undefined}
+            selectedKey={availableCustomizerOptions.some((o) => o.key === addPanel.componentId) ? addPanel.componentId : undefined}
             text={addPanel.componentId}
             allowFreeform={true}
-            autoComplete="on"
+            autoComplete="off"
             useComboBoxAsMenuWidth
+            onFocus={handleAddComboBoxFocus}
             onRenderOption={onRenderOption}
             onChange={(_, option, _index, value) => {
               if (option) {
@@ -665,15 +685,17 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
 
           {/* Component ID - ComboBox with custom render */}
           <ComboBox
+            componentRef={editPanelComboBoxRef}
             label="Component ID"
             required
             placeholder="Select or enter a component GUID..."
             options={availableCustomizerOptions}
-            selectedKey={editPanel.componentId || undefined}
+            selectedKey={availableCustomizerOptions.some((o) => o.key === editPanel.componentId) ? editPanel.componentId : undefined}
             text={editPanel.componentId}
             allowFreeform={true}
-            autoComplete="on"
+            autoComplete="off"
             useComboBoxAsMenuWidth
+            onFocus={handleEditComboBoxFocus}
             onRenderOption={onRenderOption}
             onChange={(_, option, _index, value) => {
               if (option) {
