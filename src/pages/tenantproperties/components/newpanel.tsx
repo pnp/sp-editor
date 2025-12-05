@@ -66,8 +66,7 @@ const TenantPropertiesNewPanel = () => {
           description="The key of the property"
           value={newItem.key}
           onChange={(event, newValue?: string) => {
-            const alphanumericValue = newValue ? newValue.replace(/[^a-z0-9]/gi, '') : '';
-            setNewItem({ ...newItem, key: alphanumericValue });
+            setNewItem({ ...newItem, key: newValue || '' });
           }}
           required
         />
