@@ -2,6 +2,7 @@ export interface IAppCatalogFieldCustomizer {
   id: string
   alias: string
   solutionName: string
+  catalogSource: 'site' | 'tenant'
 }
 
 export const getAvailableCustomizers = (extPath: string) => {
@@ -78,34 +79,9 @@ export const getAvailableCustomizers = (extPath: string) => {
         })
       )
 
-    try {
-      // Get tenant app catalog web
-      const appCatalogWeb = await sp.getTenantAppCatalogWeb()
-
-      // Get the ComponentManifests list
-      const cmListInfo = await appCatalogWeb.lists
-        .filter("EntityTypeName eq 'ComponentManifestsList'")
-        .select('Title', 'Id')()
-
-      if (cmListInfo.length === 0) {
-        return {
-          success: true,
-          result: [],
-          errorMessage: '',
-          source: 'chrome-sp-editor',
-        }
-      }
-
-      const cmListTitle = cmListInfo[0].Title
-
-      // Get all SPFx extensions
-      const items = await appCatalogWeb.lists
-        .getByTitle(cmListTitle)
-        .items.select('ClientComponentId', 'ClientComponentType', 'ClientComponentManifest', 'SolutionName')
-        .filter("ClientComponentType eq 'Extension'")()
-
-      // Parse manifest + filter Field Customizers
-      const fieldCustomizers = items
+    // Helper function to parse extensions from ComponentManifests list items
+    const parseFieldCustomizers = (items: any[], source: 'site' | 'tenant'): IAppCatalogFieldCustomizer[] => {
+      return items
         .map((i: any) => {
           try {
             let manifestString = i.ClientComponentManifest
@@ -118,6 +94,7 @@ export const getAvailableCustomizers = (extPath: string) => {
               alias: manifest.alias || '',
               extensionType: manifest.extensionType || '',
               solutionName: i.SolutionName || '',
+              catalogSource: source,
             }
           } catch {
             return null
@@ -128,11 +105,60 @@ export const getAvailableCustomizers = (extPath: string) => {
           id: x.id,
           alias: x.alias,
           solutionName: x.solutionName,
+          catalogSource: x.catalogSource,
         }))
+    }
+
+    try {
+      const allFieldCustomizers: IAppCatalogFieldCustomizer[] = []
+
+      // 1. Check site-level app catalog first (ComponentManifests list at current site)
+      try {
+        const siteListInfo = await sp.web.lists
+          .filter("EntityTypeName eq 'ComponentManifestsList'")
+          .select('Title', 'Id')()
+
+        if (siteListInfo.length > 0) {
+          const siteListTitle = siteListInfo[0].Title
+          const siteItems = await sp.web.lists
+            .getByTitle(siteListTitle)
+            .items.select('ClientComponentId', 'ClientComponentType', 'ClientComponentManifest', 'SolutionName')
+            .filter("ClientComponentType eq 'Extension'")()
+
+          const siteCustomizers = parseFieldCustomizers(siteItems, 'site')
+          allFieldCustomizers.push(...siteCustomizers)
+        }
+      } catch {
+        // Site app catalog doesn't exist or not accessible, continue to tenant
+      }
+
+      // 2. Check tenant app catalog
+      try {
+        const appCatalogWeb = await sp.getTenantAppCatalogWeb()
+
+        const cmListInfo = await appCatalogWeb.lists
+          .filter("EntityTypeName eq 'ComponentManifestsList'")
+          .select('Title', 'Id')()
+
+        if (cmListInfo.length > 0) {
+          const cmListTitle = cmListInfo[0].Title
+          const tenantItems = await appCatalogWeb.lists
+            .getByTitle(cmListTitle)
+            .items.select('ClientComponentId', 'ClientComponentType', 'ClientComponentManifest', 'SolutionName')
+            .filter("ClientComponentType eq 'Extension'")()
+
+          const tenantCustomizers = parseFieldCustomizers(tenantItems, 'tenant')
+          
+          // Add all tenant customizers (show both site and tenant versions if same component exists)
+          allFieldCustomizers.push(...tenantCustomizers)
+        }
+      } catch {
+        // Tenant app catalog doesn't exist or not accessible
+      }
 
       return {
         success: true,
-        result: fieldCustomizers,
+        result: allFieldCustomizers,
         errorMessage: '',
         source: 'chrome-sp-editor',
       }

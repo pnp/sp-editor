@@ -311,10 +311,11 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
 
     // Build component ID options from available customizers
     const componentIdOptions: IComboBoxOption[] = useMemo(() => {
-      const options: IComboBoxOption[] = availableCustomizers.map((c) => ({
-        key: c.id,
-        text: `${c.alias} (${c.solutionName})`,
+      const options: IComboBoxOption[] = availableCustomizers.map((c, index) => ({
+        key: `${c.id}_${c.catalogSource}`,
+        text: `${c.alias} (${c.solutionName}) [${c.catalogSource === 'site' ? 'Site' : 'Tenant'}]`,
         title: c.id,
+        data: { id: c.id, catalogSource: c.catalogSource, index },
       }))
 
       return options
@@ -486,10 +487,11 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
         label={label}
         placeholder={customizersLoading ? 'Loading customizers...' : 'Select or enter a component GUID...'}
         options={componentIdOptions}
-        selectedKey={componentIdOptions.some((o) => o.key === value) ? value : undefined}
+        selectedKey={componentIdOptions.some((o) => o.data?.id === value) ? componentIdOptions.find((o) => o.data?.id === value)?.key : undefined}
         text={value}
         onChange={(_, option, _index, freeformValue) => {
-          const newValue = option ? (option.key as string) : freeformValue || ''
+          // Extract the actual component ID from the option's data, or use freeform value
+          const newValue = option?.data?.id ? option.data.id : freeformValue || ''
           onChange(newValue)
         }}
         onFocus={handleComboBoxFocus}
@@ -503,13 +505,18 @@ const FieldCustomizers = forwardRef<IFieldCustomizersHandle, IFieldCustomizersPr
         }}
         onRenderOption={(option) => {
           const comboOption = option as IComboBoxOption
-          const customizer = availableCustomizers.find((c) => c.id === comboOption?.key)
+          const customizer = comboOption?.data ? availableCustomizers[comboOption.data.index] : undefined
           return (
             <Stack styles={{ root: { padding: '4px 0' } }}>
-              <Text styles={{ root: { fontWeight: 600 } }}>{customizer?.alias || comboOption?.text}</Text>
+              <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+                <Text styles={{ root: { fontWeight: 600 } }}>{customizer?.alias || comboOption?.text}</Text>
+                <Text variant="small" styles={{ root: { color: customizer?.catalogSource === 'site' ? '#0078d4' : '#107c10', fontWeight: 600 } }}>
+                  [{customizer?.catalogSource === 'site' ? 'Site' : 'Tenant'}]
+                </Text>
+              </Stack>
               <Text variant="small">{customizer?.solutionName}</Text>
               <Text variant="tiny" styles={{ root: { fontFamily: 'monospace', fontSize: 10 } }}>
-                {comboOption?.key}
+                {customizer?.id}
               </Text>
             </Stack>
           )

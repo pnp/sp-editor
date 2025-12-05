@@ -395,10 +395,10 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
   }))
 
   // Options for available customizers - ComboBox style like field customizers
-  const availableCustomizerOptions: IComboBoxOption[] = availableCustomizers.map((customizer) => ({
-    key: customizer.id,
+  const availableCustomizerOptions: IComboBoxOption[] = availableCustomizers.map((customizer, index) => ({
+    key: `${customizer.id}_${customizer.catalogSource}`,
     text: customizer.id,
-    data: customizer,
+    data: { ...customizer, index },
   }))
 
   // Custom render for ComboBox options - shows alias, solution name, and GUID
@@ -410,7 +410,12 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
     }
     return (
       <Stack styles={{ root: { padding: '4px 0' } }}>
-        <Text styles={{ root: { fontWeight: 600 } }}>{customizer.alias}</Text>
+        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+          <Text styles={{ root: { fontWeight: 600 } }}>{customizer.alias}</Text>
+          <Text variant="small" styles={{ root: { color: customizer.catalogSource === 'site' ? '#0078d4' : '#107c10', fontWeight: 600 } }}>
+            [{customizer.catalogSource === 'site' ? 'Site' : 'Tenant'}]
+          </Text>
+        </Stack>
         <Text variant="small" styles={{ root: { color: '#605e5c' } }}>
           {customizer.solutionName}
         </Text>
@@ -569,7 +574,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
             required
             placeholder="Select or enter a component GUID..."
             options={availableCustomizerOptions}
-            selectedKey={availableCustomizerOptions.some((o) => o.key === addPanel.componentId) ? addPanel.componentId : undefined}
+            selectedKey={availableCustomizerOptions.find((o) => o.data?.id === addPanel.componentId)?.key}
             text={addPanel.componentId}
             allowFreeform={true}
             autoComplete="off"
@@ -577,8 +582,8 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
             onFocus={handleAddComboBoxFocus}
             onRenderOption={onRenderOption}
             onChange={(_, option, _index, value) => {
-              if (option) {
-                setAddPanel((prev) => ({ ...prev, componentId: option.key as string }))
+              if (option?.data?.id) {
+                setAddPanel((prev) => ({ ...prev, componentId: option.data.id }))
               } else if (value !== undefined) {
                 setAddPanel((prev) => ({ ...prev, componentId: value }))
               }
@@ -690,7 +695,7 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
             required
             placeholder="Select or enter a component GUID..."
             options={availableCustomizerOptions}
-            selectedKey={availableCustomizerOptions.some((o) => o.key === editPanel.componentId) ? editPanel.componentId : undefined}
+            selectedKey={availableCustomizerOptions.find((o) => o.data?.id === editPanel.componentId)?.key}
             text={editPanel.componentId}
             allowFreeform={true}
             autoComplete="off"
@@ -698,8 +703,8 @@ const FormCustomizers = ({ addPanelOpen, onAddPanelDismiss, onSelectionChanged }
             onFocus={handleEditComboBoxFocus}
             onRenderOption={onRenderOption}
             onChange={(_, option, _index, value) => {
-              if (option) {
-                setEditPanel((prev) => ({ ...prev, componentId: option.key as string }))
+              if (option?.data?.id) {
+                setEditPanel((prev) => ({ ...prev, componentId: option.data.id }))
               } else if (value !== undefined) {
                 setEditPanel((prev) => ({ ...prev, componentId: value }))
               }
