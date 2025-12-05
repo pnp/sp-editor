@@ -33,24 +33,10 @@ import { IProxyState } from './proxy/types';
 import localStorageMiddleware from './localStorageMiddleware';
 import { IQueryBuilderState } from './queryBuilder/types';
 import { queryBuilderReducer } from './queryBuilder/reducers'
-
-export interface IRootState {
-  home: IHomeState;
-  scriptLinks: IScriptLinksState;
-  pnpjsconsole: IPnPjsConsoleState;
-  webProperties: IWebPropertiesState;
-  webHooks: IWebHooksState;
-  tenantProperties: ITenantPropertiesState;
-  listProperties: IListPropertiesState;
-  siteProperties: ISitePropertiesState;
-  spshoot: ISPShootState;
-  graphsdkconsole: IGraphSDKConsoleState;
-  mgtconsole: IMGTConsoleState;
-  fileexplorer: IFileExplorerState;
-  search: ISearchState;
-  proxy: IProxyState;
-  queryBuilder: IQueryBuilderState;
-}
+import { fieldCustomizersReducer } from './fieldcustomizers/reducers'
+import { formCustomizersReducer } from './formcustomizers/reducers'
+import { IFieldCustomizersState } from './fieldcustomizers/types';
+import { IFormCustomizersState } from './formcustomizers/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -67,8 +53,12 @@ const rootReducer = combineReducers({
   fileexplorer: fileExplorerReducer,
   search: searchReducer,
   proxy: proxyReducer,
-  queryBuilder: queryBuilderReducer
+  queryBuilder: queryBuilderReducer,
+  fieldCustomizers: fieldCustomizersReducer,
+  formCustomizers: formCustomizersReducer,
 });
+
+export type IRootState = ReturnType<typeof rootReducer>
 
 const initializeStore = async () => {
   const store = configureStore({

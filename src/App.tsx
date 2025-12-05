@@ -63,6 +63,9 @@ import './index.css';
 import FileExplorer from './pages/fileexplorer';
 import InfoPage from './pages/Info/infoPage';
 import Proxy from './pages/proxy';
+import Customizers from './pages/customizers';
+import FieldCustomizersPage from './pages/customizers/fieldcustomizers';
+import FormCustomizersPage from './pages/customizers/formcustomizers';
 
 setupIonicReact();
 
@@ -124,6 +127,9 @@ const App = () => {
                 <Route path="/fileexplorer" element={<FileExplorer />} />
                 <Route path="/proxy" element={<Proxy />} />
                 <Route path="/queryBuilder" element={<QueryBuilder />} />
+                <Route path="/customizers" element={<Customizers />} />
+                <Route path="/customizers/fieldcustomizers" element={<FieldCustomizersPage />} />
+                <Route path="/customizers/formcustomizers" element={<FormCustomizersPage />} />
                 <Route path="*" element={<InfoPage />} /> {/* Catch-all route */}
               </Routes>
             </IonRouterOutlet>

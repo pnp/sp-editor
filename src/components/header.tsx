@@ -67,10 +67,10 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
               }}
               checked={livereload}
               onClick={() => {
-                if (!livereload) {
-                  chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+                const executeOnTab = (tabId: number) => {
+                  if (!livereload) {
                     chrome.scripting.executeScript({
-                      target: { tabId: tabs[0].id },
+                      target: { tabId },
                       world: 'MAIN',
                       func: () => {
                         let script = document.createElement('script');
@@ -79,11 +79,9 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
                         return true;
                       },
                     });
-                  });
-                } else {
-                  chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+                  } else {
                     chrome.scripting.executeScript({
-                      target: { tabId: tabs[0].id },
+                      target: { tabId },
                       world: 'MAIN',
                       func: () => {
                         const script = document.querySelector('script[src="https://localhost:35729/livereload.js?snipver=1"]');
@@ -96,6 +94,18 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
                         return true;
                       },
                     });
+                  }
+                };
+
+                // In DevTools panel, use chrome.devtools.inspectedWindow.tabId
+                if (chrome.devtools?.inspectedWindow?.tabId) {
+                  executeOnTab(chrome.devtools.inspectedWindow.tabId);
+                } else {
+                  // Fallback for popup or other contexts
+                  chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+                    if (tabs[0]?.id) {
+                      executeOnTab(tabs[0].id);
+                    }
                   });
                 }
                 dispatch(setLiveReload(!livereload));
