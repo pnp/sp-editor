@@ -27,10 +27,10 @@ export default function useSPContext(): ISPContextFetch {
 
   useEffect(() => {
     setStatus(FetchStatus.loading);
-    const fetchTabUrl = () => {
-      chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
-        if (tabs[0]?.url) {
-          setTabUrl(tabs[0].url);
+    const fetchTabUrl = (tabId: number) => {
+      chrome.tabs.get(tabId, (tab: any) => {
+        if (tab?.url) {
+          setTabUrl(tab.url);
         }
       });
     };
@@ -62,12 +62,20 @@ export default function useSPContext(): ISPContextFetch {
         });
     };
 
-    chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
-      if (tabs[0]?.id) {
-        fetchTabUrl();
-        fetchSPContext(tabs[0].id);
-      }
-    });
+    // In DevTools panel, use chrome.devtools.inspectedWindow.tabId
+    if (chrome.devtools?.inspectedWindow?.tabId) {
+      const tabId = chrome.devtools.inspectedWindow.tabId;
+      fetchTabUrl(tabId);
+      fetchSPContext(tabId);
+    } else {
+      // Fallback for popup or other contexts
+      chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+        if (tabs[0]?.id) {
+          fetchTabUrl(tabs[0].id);
+          fetchSPContext(tabs[0].id);
+        }
+      });
+    }
   }, []);
 
   return { adminUrl, isAdminSite, status };
