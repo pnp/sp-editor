@@ -29,6 +29,7 @@ export interface IAvailableFormCustomizer {
   id: string
   alias: string
   solutionName: string
+  catalogSource: 'site' | 'tenant'
 }
 
 export interface IFormCustomizersState {
