@@ -14,7 +14,7 @@ import {
   IIconProps,
   TextField,
 } from '@fluentui/react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setGeneratePanelOpen, setGeneratedJson, setLists } from '../../../store/siteprovisioning/actions'
@@ -30,6 +30,25 @@ const GenerateFromListPanel = () => {
   const { generatePanelOpen, lists, generatedJson, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
+  const { isDark } = useSelector((state: IRootState) => state.home)
+
+  // Monaco editor refs
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const editorDivRef = useRef<HTMLDivElement | null>(null)
+  const [editorInitialized, setEditorInitialized] = useState(false)
+
+  // Monaco editor config
+  const MONACO_CONFIG: monaco.editor.IEditorOptions = useMemo(() => ({
+    lineNumbers: 'on',
+    fontSize: 12,
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    automaticLayout: true,
+    wordWrap: 'on',
+    folding: true,
+    readOnly: true,
+    stickyScroll: { enabled: false },
+  }), [])
 
   const [selectedListId, setSelectedListId] = useState<string>('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -42,6 +61,50 @@ const GenerateFromListPanel = () => {
   const tabId = chrome.devtools?.inspectedWindow?.tabId
 
   const isOpen = generatePanelOpen === 'list'
+
+  // Monaco theme handling
+  useEffect(() => {
+    monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
+  }, [isDark])
+
+  // Initialize editor when panel opens
+  useEffect(() => {
+    if (isOpen && !editorInitialized) {
+      setTimeout(() => {
+        if (editorDivRef.current && !editorRef.current) {
+          const uri = monaco.Uri.parse(`inmemory://generate-list-${Date.now()}.json`)
+          editorRef.current = monaco.editor.create(editorDivRef.current, {
+            model: monaco.editor.createModel(
+              generatedJson || '// Select a list and click "Generate" to create a site script',
+              'json',
+              uri
+            ),
+            ...MONACO_CONFIG,
+          })
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+        }
+        setEditorInitialized(true)
+      }, 100)
+    }
+    if (!isOpen && editorRef.current) {
+      const model = editorRef.current.getModel()
+      if (model) model.dispose()
+      editorRef.current.dispose()
+      editorRef.current = null
+      setEditorInitialized(false)
+    }
+  }, [isOpen, editorInitialized, MONACO_CONFIG, generatedJson])
+
+  // Update editor content when generatedJson changes
+  useEffect(() => {
+    if (editorRef.current && editorInitialized) {
+      const currentValue = editorRef.current.getValue()
+      const newValue = generatedJson || '// Select a list and click "Generate" to create a site script'
+      if (currentValue !== newValue) {
+        editorRef.current.setValue(newValue)
+      }
+    }
+  }, [generatedJson, editorInitialized])
 
   // Load lists when panel opens
   useEffect(() => {
@@ -291,24 +354,14 @@ const GenerateFromListPanel = () => {
               </Stack>
             )}
           </Stack>
-          <TextField
-            multiline
-            rows={20}
-            readOnly
-            value={generatedJson || '// Select a list and click "Generate" to create a site script'}
-            styles={{
-              root: { flex: 1 },
-              wrapper: { height: '100%' },
-              fieldGroup: { 
-                height: showSaveForm ? 'calc(100vh - 580px)' : 'calc(100vh - 420px)',
-                minHeight: '200px',
-                fontFamily: 'Consolas, Monaco, "Courier New", monospace',
-                fontSize: '13px',
-              },
-              field: {
-                height: '100%',
-                resize: 'none',
-              },
+          <div
+            ref={editorDivRef}
+            style={{
+              flex: 1,
+              minHeight: 300,
+              height: showSaveForm ? 'calc(100vh - 580px)' : 'calc(100vh - 420px)',
+              border: '1px solid #ccc',
+              borderRadius: 2,
             }}
           />
         </Stack>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   DetailsList,
@@ -61,6 +61,28 @@ const SiteScripts = ({
   const { siteScripts, selectedScriptId, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
+  const { isDark } = useSelector((state: IRootState) => state.home)
+
+  // Monaco editor refs
+  const addEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const editEditorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const addEditorDivRef = useRef<HTMLDivElement | null>(null)
+  const editEditorDivRef = useRef<HTMLDivElement | null>(null)
+  const [addEditorInitialized, setAddEditorInitialized] = useState(false)
+  const [editEditorInitialized, setEditEditorInitialized] = useState(false)
+
+  // Monaco editor config
+  const MONACO_CONFIG: monaco.editor.IEditorOptions = useMemo(() => ({
+    lineNumbers: 'on',
+    fontSize: 12,
+    minimap: { enabled: false },
+    scrollBeyondLastLine: false,
+    automaticLayout: false,
+    wordWrap: 'on',
+    folding: false,
+    formatOnPaste: true,
+    stickyScroll: { enabled: false },
+  }), [])
 
   // Add panel state
   const [addTitle, setAddTitle] = useState('')
@@ -101,6 +123,103 @@ const SiteScripts = ({
       setAddError(null)
     }
   }, [cloneData, addPanelOpen])
+
+  // Monaco theme handling
+  useEffect(() => {
+    monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
+  }, [isDark])
+
+  // Initialize Add Editor
+  const initAddEditor = useCallback(() => {
+    if (addEditorDivRef.current && !addEditorRef.current) {
+      // Use unique URI to avoid model conflicts
+      const uri = monaco.Uri.parse(`inmemory://add-script-${Date.now()}.json`)
+      addEditorRef.current = monaco.editor.create(addEditorDivRef.current, {
+        model: monaco.editor.createModel(addContent, 'json', uri),
+        ...MONACO_CONFIG,
+        readOnly: false,
+      })
+      addEditorRef.current.onDidChangeModelContent(() => {
+        const value = addEditorRef.current?.getValue() || ''
+        setAddContent(value)
+      })
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+    }
+  }, [MONACO_CONFIG, addContent])
+
+  // Initialize Edit Editor
+  const initEditEditor = useCallback(() => {
+    if (editEditorDivRef.current && !editEditorRef.current) {
+      // Use unique URI to avoid model conflicts
+      const uri = monaco.Uri.parse(`inmemory://edit-script-${Date.now()}.json`)
+      editEditorRef.current = monaco.editor.create(editEditorDivRef.current, {
+        model: monaco.editor.createModel(editContent, 'json', uri),
+        ...MONACO_CONFIG,
+        readOnly: selectedScript?.IsOOTB || false,
+      })
+      editEditorRef.current.onDidChangeModelContent(() => {
+        const value = editEditorRef.current?.getValue() || ''
+        setEditContent(value)
+      })
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 1)
+    }
+  }, [MONACO_CONFIG, editContent, selectedScript?.IsOOTB])
+
+  // Initialize add editor when panel opens
+  useEffect(() => {
+    if (addPanelOpen && !addEditorInitialized) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        initAddEditor()
+        setAddEditorInitialized(true)
+      }, 100)
+    }
+    if (!addPanelOpen && addEditorRef.current) {
+      // Dispose model first, then editor
+      const model = addEditorRef.current.getModel()
+      if (model) model.dispose()
+      addEditorRef.current.dispose()
+      addEditorRef.current = null
+      setAddEditorInitialized(false)
+    }
+  }, [addPanelOpen, addEditorInitialized, initAddEditor])
+
+  // Initialize edit editor when panel opens
+  useEffect(() => {
+    if (editPanelOpen && !editEditorInitialized) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        initEditEditor()
+        setEditEditorInitialized(true)
+      }, 100)
+    }
+    if (!editPanelOpen && editEditorRef.current) {
+      // Dispose model first, then editor
+      const model = editEditorRef.current.getModel()
+      if (model) model.dispose()
+      editEditorRef.current.dispose()
+      editEditorRef.current = null
+      setEditEditorInitialized(false)
+    }
+  }, [editPanelOpen, editEditorInitialized, initEditEditor])
+
+  // Update edit editor content when selected script changes
+  useEffect(() => {
+    if (editEditorRef.current && editEditorInitialized && selectedScript) {
+      const currentValue = editEditorRef.current.getValue()
+      if (currentValue !== selectedScript.Content) {
+        editEditorRef.current.setValue(selectedScript.Content)
+      }
+      editEditorRef.current.updateOptions({ readOnly: selectedScript.IsOOTB || false })
+    }
+  }, [selectedScript, editEditorInitialized])
+
+  // Update add editor content when clone data changes
+  useEffect(() => {
+    if (addEditorRef.current && addEditorInitialized && cloneData) {
+      addEditorRef.current.setValue(cloneData.content)
+    }
+  }, [cloneData, addEditorInitialized])
 
   // Selection handler
   const selection = useMemo(
@@ -292,14 +411,14 @@ const SiteScripts = ({
             value={addDescription}
             onChange={(_, val) => setAddDescription(val || '')}
           />
-          <TextField
-            label="Script Content (JSON)"
-            required
-            multiline
-            rows={15}
-            value={addContent}
-            onChange={(_, val) => setAddContent(val || '')}
-            styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
+          <Label required>Script Content (JSON)</Label>
+          <div
+            ref={addEditorDivRef}
+            style={{
+              height: 300,
+              border: '1px solid #ccc',
+              borderRadius: 2,
+            }}
           />
           <Stack horizontal tokens={{ childrenGap: 10 }}>
             <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
@@ -386,14 +505,13 @@ const SiteScripts = ({
               />
             </Stack>
           </Stack>
-          <TextField
-            required={!selectedScript?.IsOOTB}
-            multiline
-            rows={15}
-            readOnly={selectedScript?.IsOOTB}
-            value={editContent}
-            onChange={(_, val) => setEditContent(val || '')}
-            styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
+          <div
+            ref={editEditorDivRef}
+            style={{
+              height: 300,
+              border: '1px solid #ccc',
+              borderRadius: 2,
+            }}
           />
           {!selectedScript?.IsOOTB && (
             <Stack horizontal tokens={{ childrenGap: 10 }}>
