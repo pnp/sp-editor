@@ -58,7 +58,7 @@ const SiteScripts = ({
   onSelectionChanged,
 }: ISiteScriptsProps) => {
   const dispatch = useDispatch()
-  const { siteScripts, selectedScriptId } = useSelector(
+  const { siteScripts, selectedScriptId, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
 
@@ -182,13 +182,13 @@ const SiteScripts = ({
       setAddTitle('')
       setAddDescription('')
       setAddContent('{\n  "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",\n  "actions": [],\n  "version": 1\n}')
-      loadAllSiteScripts(dispatch, tabId)
+      loadAllSiteScripts(dispatch, tabId, showOOTB)
     } catch (err: any) {
       setAddError(err.message || 'Failed to create site script')
     } finally {
       setAddSaving(false)
     }
-  }, [tabId, addTitle, addDescription, addContent, dispatch, onAddPanelDismiss])
+  }, [tabId, addTitle, addDescription, addContent, dispatch, onAddPanelDismiss, showOOTB])
 
   const handleSaveEdit = useCallback(async () => {
     if (!tabId || !selectedScript) return
@@ -204,13 +204,13 @@ const SiteScripts = ({
       await updateExistingSiteScript(tabId, selectedScript.Id, editTitle, editDescription, editContent)
       // Success - close panel
       onEditPanelDismiss()
-      loadAllSiteScripts(dispatch, tabId)
+      loadAllSiteScripts(dispatch, tabId, showOOTB)
     } catch (err: any) {
       setEditError(err.message || 'Failed to update site script')
     } finally {
       setEditSaving(false)
     }
-  }, [tabId, selectedScript, editTitle, editDescription, editContent, dispatch, onEditPanelDismiss])
+  }, [tabId, selectedScript, editTitle, editDescription, editContent, dispatch, onEditPanelDismiss, showOOTB])
 
   const handleAddPanelDismiss = () => {
     setAddError(null)

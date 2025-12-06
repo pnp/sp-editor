@@ -30,25 +30,49 @@ export async function loadAllSiteScripts(dispatch: Dispatch, tabId: number, incl
   dispatch(setLoading(true))
   dispatch(setError(null))
 
-  chrome.scripting.executeScript({
-    target: { tabId },
-    world: 'MAIN',
-    args: [includeOOTB],
-    func: getSiteScripts,
-  }).then((injectionResults) => {
-    if (injectionResults[0].result) {
-      const res = injectionResults[0].result as any
+  try {
+    // Load custom scripts (always)
+    const customScriptsResult = await chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [false],
+      func: getSiteScripts,
+    })
+
+    let allScripts: ISiteScript[] = []
+    if (customScriptsResult[0].result) {
+      const res = customScriptsResult[0].result as any
       if (res.success) {
-        dispatch(setSiteScripts(res.result as ISiteScript[]))
+        allScripts = res.result as ISiteScript[]
       } else {
         dispatch(setError(res.errorMessage))
       }
     }
+
+    // Load OOTB scripts if toggle is on
+    if (includeOOTB) {
+      const ootbScriptsResult = await chrome.scripting.executeScript({
+        target: { tabId },
+        world: 'MAIN',
+        args: [true],
+        func: getSiteScripts,
+      })
+
+      if (ootbScriptsResult[0].result) {
+        const res = ootbScriptsResult[0].result as any
+        if (res.success) {
+          const ootbScripts = res.result as ISiteScript[]
+          allScripts = [...allScripts, ...ootbScripts]
+        }
+      }
+    }
+
+    dispatch(setSiteScripts(allScripts))
     dispatch(setLoading(false))
-  }).catch((err) => {
+  } catch (err: any) {
     dispatch(setError(err.message))
     dispatch(setLoading(false))
-  })
+  }
 }
 
 // Load all site designs
@@ -56,25 +80,49 @@ export async function loadAllSiteDesigns(dispatch: Dispatch, tabId: number, incl
   dispatch(setLoading(true))
   dispatch(setError(null))
 
-  chrome.scripting.executeScript({
-    target: { tabId },
-    world: 'MAIN',
-    args: [includeOOTB],
-    func: getSiteDesigns,
-  }).then((injectionResults) => {
-    if (injectionResults[0].result) {
-      const res = injectionResults[0].result as any
+  try {
+    // Load custom designs (always)
+    const customDesignsResult = await chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [false],
+      func: getSiteDesigns,
+    })
+
+    let allDesigns: ISiteDesign[] = []
+    if (customDesignsResult[0].result) {
+      const res = customDesignsResult[0].result as any
       if (res.success) {
-        dispatch(setSiteDesigns(res.result as ISiteDesign[]))
+        allDesigns = res.result as ISiteDesign[]
       } else {
         dispatch(setError(res.errorMessage))
       }
     }
+
+    // Load OOTB designs if toggle is on
+    if (includeOOTB) {
+      const ootbDesignsResult = await chrome.scripting.executeScript({
+        target: { tabId },
+        world: 'MAIN',
+        args: [true],
+        func: getSiteDesigns,
+      })
+
+      if (ootbDesignsResult[0].result) {
+        const res = ootbDesignsResult[0].result as any
+        if (res.success) {
+          const ootbDesigns = res.result as ISiteDesign[]
+          allDesigns = [...allDesigns, ...ootbDesigns]
+        }
+      }
+    }
+
+    dispatch(setSiteDesigns(allDesigns))
     dispatch(setLoading(false))
-  }).catch((err) => {
+  } catch (err: any) {
     dispatch(setError(err.message))
     dispatch(setLoading(false))
-  })
+  }
 }
 
 // Load both scripts and designs

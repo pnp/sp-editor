@@ -66,7 +66,7 @@ const SiteDesigns = ({
   onSelectionChanged,
 }: ISiteDesignsProps) => {
   const dispatch = useDispatch()
-  const { siteDesigns, siteScripts, selectedDesignId } = useSelector(
+  const { siteDesigns, siteScripts, selectedDesignId, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
 
@@ -257,7 +257,7 @@ const SiteDesigns = ({
       setAddSelectedScripts([])
       setAddPreviewImageUrl('')
       setAddPreviewImageAltText('')
-      loadAllSiteDesigns(dispatch, tabId)
+      loadAllSiteDesigns(dispatch, tabId, showOOTB)
     } catch (err: any) {
       setAddError(err.message || 'Failed to create site design')
     } finally {
@@ -273,6 +273,7 @@ const SiteDesigns = ({
     addPreviewImageAltText,
     dispatch,
     onAddPanelDismiss,
+    showOOTB,
   ])
 
   const handleSaveEdit = useCallback(async () => {
@@ -299,7 +300,7 @@ const SiteDesigns = ({
       await updateExistingSiteDesign(tabId, info)
       // Success - close panel
       onEditPanelDismiss()
-      loadAllSiteDesigns(dispatch, tabId)
+      loadAllSiteDesigns(dispatch, tabId, showOOTB)
     } catch (err: any) {
       setEditError(err.message || 'Failed to update site design')
     } finally {
@@ -316,6 +317,7 @@ const SiteDesigns = ({
     editPreviewImageAltText,
     dispatch,
     onEditPanelDismiss,
+    showOOTB,
   ])
 
   const handleAddPanelDismiss = () => {
