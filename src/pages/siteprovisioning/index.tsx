@@ -180,7 +180,7 @@ const SiteProvisioningPage = () => {
     <IonPage>
       <IonContent>
         <LoadingSpinner />
-        <Header title="Site Provisioning" showOnLoad={false} headline="" content="" />
+        <Header title="Site Templates" showOnLoad={false} headline="" content="" />
         <Pivot
           selectedKey={activeTab}
           onLinkClick={handleTabChange}

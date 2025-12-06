@@ -14,6 +14,11 @@ import {
   Stack,
   MessageBar,
   MessageBarType,
+  ScrollablePane,
+  Sticky,
+  StickyPositionType,
+  IDetailsHeaderProps,
+  IRenderFunction,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteScript } from '../../../store/siteprovisioning/types'
@@ -116,6 +121,18 @@ const SiteScripts = ({
         isResizable: true,
       },
       {
+        key: 'source',
+        name: 'Source',
+        minWidth: 80,
+        maxWidth: 100,
+        isResizable: true,
+        onRender: (item: ISiteScript) => (
+          <span style={{ color: item.IsOOTB ? '#0078d4' : '#107c10' }}>
+            {item.IsOOTB ? 'Microsoft' : 'Custom'}
+          </span>
+        ),
+      },
+      {
         key: 'id',
         name: 'ID',
         fieldName: 'Id',
@@ -206,19 +223,33 @@ const SiteScripts = ({
     onEditPanelOpen()
   }
 
+  const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defaultRender) => {
+    if (!props || !defaultRender) return null
+    return (
+      <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced>
+        {defaultRender(props)}
+      </Sticky>
+    )
+  }
+
   return (
     <>
-      <DetailsList
-        items={siteScripts}
-        columns={columns}
-        setKey="Id"
-        layoutMode={DetailsListLayoutMode.justified}
-        selection={selection}
-        selectionMode={SelectionMode.single}
-        selectionPreservedOnEmptyClick={true}
-        getKey={(item: ISiteScript) => item.Id}
-        onItemInvoked={handleItemInvoked}
-      />
+      <div style={{ height: 'calc(100vh - 200px)', position: 'relative' }}>
+        <ScrollablePane>
+          <DetailsList
+            items={siteScripts}
+            columns={columns}
+            setKey="Id"
+            layoutMode={DetailsListLayoutMode.justified}
+            selection={selection}
+            selectionMode={SelectionMode.single}
+            selectionPreservedOnEmptyClick={true}
+            getKey={(item: ISiteScript) => item.Id}
+            onItemInvoked={handleItemInvoked}
+            onRenderDetailsHeader={onRenderDetailsHeader}
+          />
+        </ScrollablePane>
+      </div>
 
       {/* Add Script Panel */}
       <Panel

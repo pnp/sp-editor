@@ -18,6 +18,11 @@ import {
   MessageBarType,
   Checkbox,
   Label,
+  ScrollablePane,
+  Sticky,
+  StickyPositionType,
+  IDetailsHeaderProps,
+  IRenderFunction,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteDesign, ISiteScript } from '../../../store/siteprovisioning/types'
@@ -147,6 +152,18 @@ const SiteDesigns = ({
         maxWidth: 80,
         isResizable: true,
         onRender: (item: ISiteDesign) => item.SiteScriptIds?.length || 0,
+      },
+      {
+        key: 'source',
+        name: 'Source',
+        minWidth: 80,
+        maxWidth: 100,
+        isResizable: true,
+        onRender: (item: ISiteDesign) => (
+          <span style={{ color: item.IsOOTB ? '#0078d4' : '#107c10' }}>
+            {item.IsOOTB ? 'Microsoft' : 'Custom'}
+          </span>
+        ),
       },
       {
         key: 'id',
@@ -288,19 +305,33 @@ const SiteDesigns = ({
     onEditPanelOpen()
   }
 
+  const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defaultRender) => {
+    if (!props || !defaultRender) return null
+    return (
+      <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced>
+        {defaultRender(props)}
+      </Sticky>
+    )
+  }
+
   return (
     <>
-      <DetailsList
-        items={siteDesigns}
-        columns={columns}
-        setKey="Id"
-        layoutMode={DetailsListLayoutMode.justified}
-        selection={selection}
-        selectionMode={SelectionMode.single}
-        selectionPreservedOnEmptyClick={true}
-        getKey={(item: ISiteDesign) => item.Id}
-        onItemInvoked={handleItemInvoked}
-      />
+      <div style={{ height: 'calc(100vh - 200px)', position: 'relative' }}>
+        <ScrollablePane>
+          <DetailsList
+            items={siteDesigns}
+            columns={columns}
+            setKey="Id"
+            layoutMode={DetailsListLayoutMode.justified}
+            selection={selection}
+            selectionMode={SelectionMode.single}
+            selectionPreservedOnEmptyClick={true}
+            getKey={(item: ISiteDesign) => item.Id}
+            onItemInvoked={handleItemInvoked}
+            onRenderDetailsHeader={onRenderDetailsHeader}
+          />
+        </ScrollablePane>
+      </div>
 
       {/* Add Design Panel */}
       <Panel
@@ -317,12 +348,7 @@ const SiteDesigns = ({
               {addError}
             </MessageBar>
           )}
-          <TextField
-            label="Title"
-            required
-            value={addTitle}
-            onChange={(_, val) => setAddTitle(val || '')}
-          />
+          <TextField label="Title" required value={addTitle} onChange={(_, val) => setAddTitle(val || '')} />
           <TextField
             label="Description"
             multiline
@@ -413,7 +439,7 @@ const SiteDesigns = ({
         </Stack>
       </Panel>
     </>
-  )
+  );
 }
 
 export default SiteDesigns
