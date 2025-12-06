@@ -362,7 +362,11 @@ const GenerateFromSitePanel = () => {
                 selectedKeys={selectedListKeys}
                 onChange={handleListSelectionChange}
                 disabled={isGenerating}
-                styles={{ dropdown: { maxHeight: 200 } }}
+                styles={{
+                  dropdownOptionText: {
+                    color: isDark ? '#ffffff !important' : undefined,
+                  },
+                }}
               />
 
               <PrimaryButton
