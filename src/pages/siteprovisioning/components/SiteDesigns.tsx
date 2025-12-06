@@ -23,6 +23,9 @@ import {
   StickyPositionType,
   IDetailsHeaderProps,
   IRenderFunction,
+  Overlay,
+  Spinner,
+  SpinnerSize,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteDesign, ISiteScript } from '../../../store/siteprovisioning/types'
@@ -39,6 +42,7 @@ interface ISiteDesignsProps {
   tabId: number | null
   addPanelOpen: boolean
   editPanelOpen: boolean
+  cloneData?: { title: string; description: string; webTemplate: string; scriptIds: string[]; previewImageUrl: string; previewImageAltText: string } | null
   onAddPanelDismiss: () => void
   onEditPanelDismiss: () => void
   onEditPanelOpen: () => void
@@ -55,6 +59,7 @@ const SiteDesigns = ({
   tabId,
   addPanelOpen,
   editPanelOpen,
+  cloneData,
   onAddPanelDismiss,
   onEditPanelDismiss,
   onEditPanelOpen,
@@ -73,6 +78,7 @@ const SiteDesigns = ({
   const [addPreviewImageUrl, setAddPreviewImageUrl] = useState('')
   const [addPreviewImageAltText, setAddPreviewImageAltText] = useState('')
   const [addError, setAddError] = useState<string | null>(null)
+  const [addSaving, setAddSaving] = useState(false)
 
   // Edit panel state
   const [editTitle, setEditTitle] = useState('')
@@ -82,6 +88,7 @@ const SiteDesigns = ({
   const [editPreviewImageUrl, setEditPreviewImageUrl] = useState('')
   const [editPreviewImageAltText, setEditPreviewImageAltText] = useState('')
   const [editError, setEditError] = useState<string | null>(null)
+  const [editSaving, setEditSaving] = useState(false)
 
   // Get selected design
   const selectedDesign = useMemo(
@@ -101,6 +108,19 @@ const SiteDesigns = ({
       setEditError(null)
     }
   }, [selectedDesign, editPanelOpen])
+
+  // Populate add form with clone data when cloning
+  useEffect(() => {
+    if (cloneData && addPanelOpen) {
+      setAddTitle(cloneData.title)
+      setAddDescription(cloneData.description)
+      setAddWebTemplate(cloneData.webTemplate)
+      setAddSelectedScripts(cloneData.scriptIds)
+      setAddPreviewImageUrl(cloneData.previewImageUrl)
+      setAddPreviewImageAltText(cloneData.previewImageAltText)
+      setAddError(null)
+    }
+  }, [cloneData, addPanelOpen])
 
   // Selection handler
   const selection = useMemo(
@@ -189,6 +209,25 @@ const SiteDesigns = ({
     }
   }
 
+  const renderScriptCheckboxes = (selectedScripts: string[], isAdd: boolean) => (
+    <Stack tokens={{ childrenGap: 8 }}>
+      <Label>Site Scripts</Label>
+      {siteScripts.length === 0 ? (
+        <MessageBar>No site scripts available. Create a site script first.</MessageBar>
+      ) : (
+        siteScripts.map((script: ISiteScript) => (
+          <Checkbox
+            key={script.Id}
+            label={script.Title}
+            checked={selectedScripts.includes(script.Id)}
+            disabled={!isAdd && selectedDesign?.IsOOTB}
+            onChange={(_, checked) => handleScriptToggle(script.Id, !!checked, isAdd)}
+          />
+        ))
+      )}
+    </Stack>
+  )
+
   const handleSaveAdd = useCallback(async () => {
     if (!tabId) return
     if (!addTitle.trim()) {
@@ -196,7 +235,9 @@ const SiteDesigns = ({
       return
     }
 
-    // Close panel immediately (optimistic UI)
+    setAddError(null)
+    setAddSaving(true)
+
     const info: ICreateSiteDesignInfo = {
       title: addTitle,
       description: addDescription,
@@ -205,20 +246,22 @@ const SiteDesigns = ({
       previewImageUrl: addPreviewImageUrl,
       previewImageAltText: addPreviewImageAltText,
     }
-    onAddPanelDismiss()
-    setAddTitle('')
-    setAddDescription('')
-    setAddWebTemplate('64')
-    setAddSelectedScripts([])
-    setAddPreviewImageUrl('')
-    setAddPreviewImageAltText('')
-    setAddError(null)
 
     try {
       await createNewSiteDesign(tabId, info)
+      // Success - close panel and reset form
+      onAddPanelDismiss()
+      setAddTitle('')
+      setAddDescription('')
+      setAddWebTemplate('64')
+      setAddSelectedScripts([])
+      setAddPreviewImageUrl('')
+      setAddPreviewImageAltText('')
       loadAllSiteDesigns(dispatch, tabId)
     } catch (err: any) {
-      console.error('Failed to create site design:', err)
+      setAddError(err.message || 'Failed to create site design')
+    } finally {
+      setAddSaving(false)
     }
   }, [
     tabId,
@@ -239,7 +282,9 @@ const SiteDesigns = ({
       return
     }
 
-    // Close panel immediately (optimistic UI)
+    setEditError(null)
+    setEditSaving(true)
+
     const info: IUpdateSiteDesignInfo = {
       id: selectedDesign.Id,
       title: editTitle,
@@ -249,13 +294,16 @@ const SiteDesigns = ({
       previewImageUrl: editPreviewImageUrl,
       previewImageAltText: editPreviewImageAltText,
     }
-    onEditPanelDismiss()
 
     try {
       await updateExistingSiteDesign(tabId, info)
+      // Success - close panel
+      onEditPanelDismiss()
       loadAllSiteDesigns(dispatch, tabId)
     } catch (err: any) {
-      console.error('Failed to update site design:', err)
+      setEditError(err.message || 'Failed to update site design')
+    } finally {
+      setEditSaving(false)
     }
   }, [
     tabId,
@@ -279,25 +327,6 @@ const SiteDesigns = ({
     setEditError(null)
     onEditPanelDismiss()
   }
-
-  const renderScriptCheckboxes = (selectedScripts: string[], isAdd: boolean) => (
-    <Stack tokens={{ childrenGap: 8 }}>
-      <Label>Site Scripts</Label>
-      {siteScripts.length === 0 ? (
-        <MessageBar>No site scripts available. Create a site script first.</MessageBar>
-      ) : (
-        siteScripts.map((script: ISiteScript) => (
-          <Checkbox
-            key={script.Id}
-            label={script.Title}
-            checked={selectedScripts.includes(script.Id)}
-            disabled={!isAdd && selectedDesign?.IsOOTB}
-            onChange={(_, checked) => handleScriptToggle(script.Id, !!checked, isAdd)}
-          />
-        ))
-      )}
-    </Stack>
-  )
 
   const handleItemInvoked = (item: ISiteDesign) => {
     dispatch(setSelectedDesign(item.Id))
@@ -340,8 +369,14 @@ const SiteDesigns = ({
         onDismiss={handleAddPanelDismiss}
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
-        isLightDismiss={true}
+        isLightDismiss={!addSaving}
       >
+        <div style={{ position: 'relative' }}>
+          {addSaving && (
+            <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
+              <Spinner size={SpinnerSize.large} label="Saving..." />
+            </Overlay>
+          )}
         <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
           {addError && (
             <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)}>
@@ -374,10 +409,11 @@ const SiteDesigns = ({
             onChange={(_, val) => setAddPreviewImageAltText(val || '')}
           />
           <Stack horizontal tokens={{ childrenGap: 10 }}>
-            <PrimaryButton text="Create" onClick={handleSaveAdd} />
-            <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} />
+            <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
+            <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
         </Stack>
+        </div>
       </Panel>
 
       {/* Edit/View Design Panel */}
@@ -387,8 +423,14 @@ const SiteDesigns = ({
         onDismiss={handleEditPanelDismiss}
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
-        isLightDismiss={true}
+        isLightDismiss={!editSaving}
       >
+        <div style={{ position: 'relative' }}>
+          {editSaving && (
+            <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
+              <Spinner size={SpinnerSize.large} label="Saving..." />
+            </Overlay>
+          )}
         <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
           {editError && (
             <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)}>
@@ -432,11 +474,12 @@ const SiteDesigns = ({
           />
           {!selectedDesign?.IsOOTB && (
             <Stack horizontal tokens={{ childrenGap: 10 }}>
-              <PrimaryButton text="Save" onClick={handleSaveEdit} />
-              <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} />
+              <PrimaryButton text="Save" onClick={handleSaveEdit} disabled={editSaving} />
+              <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
         </Stack>
+        </div>
       </Panel>
     </>
   );

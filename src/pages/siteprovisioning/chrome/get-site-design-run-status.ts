@@ -1,13 +1,17 @@
-export interface ICreateSiteDesignInfo {
-  title: string
-  description: string
-  webTemplate: string
-  siteScriptIds: string[]
-  previewImageUrl?: string
-  previewImageAltText?: string
+export interface ISiteDesignRunAction {
+  ActionIndex: number
+  ActionKey: string
+  ActionTitle: string
+  LastModified: string
+  OrdinalIndex: string
+  OutcomeCode: number // 0 = Success, other = Failure
+  OutcomeText: string
+  SiteScriptID: string
+  SiteScriptIndex: number
+  SiteScriptTitle: string
 }
 
-export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
+export const getSiteDesignRunStatus = (runId: string, webUrl: string) => {
   // Handle modern pages where _spPageContextInfo may not be immediately available
   const getPageContext = (): Promise<any> => {
     if ((window as any)._spPageContextInfo) {
@@ -41,7 +45,7 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
 
           return fetch(
             siteUrl +
-              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.CreateSiteDesign',
+              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.GetSiteDesignRunStatus',
             {
               method: 'POST',
               credentials: 'include',
@@ -52,42 +56,37 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
                 'X-ClientService-ClientTag': 'SPEDITOR',
               },
               body: JSON.stringify({
-                info: {
-                  Title: info.title,
-                  Description: info.description,
-                  WebTemplate: info.webTemplate,
-                  SiteScriptIds: info.siteScriptIds,
-                  PreviewImageUrl: info.previewImageUrl || '',
-                  PreviewImageAltText: info.previewImageAltText || '',
-                },
+                runId: runId,
               }),
             }
           )
-            .then((res) => res.json().then((data) => ({ status: res.status, data })))
-            .then(({ status, data }) => {
-              // Check for error response
-              if (status >= 400 || data.error) {
-                const errorMsg = data.error?.message?.value || data.error?.message || 'Failed to create site design'
-                return {
-                  success: false,
-                  result: null,
-                  errorMessage: errorMsg,
-                  source: 'chrome-sp-editor',
-                }
-              }
+            .then((res) => res.json())
+            .then((data) => {
+              const actions = data.d?.GetSiteDesignRunStatus?.results || data.d?.results || data.value || []
+
+              const mappedActions: ISiteDesignRunAction[] = actions.map((action: any) => ({
+                ActionIndex: action.ActionIndex || 0,
+                ActionKey: action.ActionKey || '',
+                ActionTitle: action.ActionTitle || '',
+                LastModified: action.LastModified || '',
+                OrdinalIndex: action.OrdinalIndex || '',
+                OutcomeCode: action.OutcomeCode ?? 0,
+                OutcomeText: action.OutcomeText || '',
+                SiteScriptID: action.SiteScriptID || action.SiteScriptId || '',
+                SiteScriptIndex: action.SiteScriptIndex || 0,
+                SiteScriptTitle: action.SiteScriptTitle || '',
+              }))
+
               return {
                 success: true,
-                result: data.d || data,
-                errorMessage: '',
-                source: 'chrome-sp-editor',
+                result: mappedActions,
               }
             })
         })
     })
-    .catch((error: any) => ({
+    .catch((err) => ({
       success: false,
-      result: null,
-      errorMessage: error.message,
-      source: 'chrome-sp-editor',
+      errorMessage: err.message || 'Failed to get site design run status',
+      result: [],
     }))
 }

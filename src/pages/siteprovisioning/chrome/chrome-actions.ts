@@ -3,9 +3,11 @@ import {
   setSiteScripts,
   setSiteDesigns,
   setError,
+  setLists,
+  setGeneratedJson,
 } from '../../../store/siteprovisioning/actions'
 import { setLoading } from '../../../store/home/actions'
-import { ISiteScript, ISiteDesign } from '../../../store/siteprovisioning/types'
+import { ISiteScript, ISiteDesign, IListInfo } from '../../../store/siteprovisioning/types'
 import { getSiteScripts } from './get-site-scripts'
 import { createSiteScript } from './create-site-script'
 import { updateSiteScript } from './update-site-script'
@@ -14,9 +16,14 @@ import { getSiteDesigns } from './get-site-designs'
 import { createSiteDesign, ICreateSiteDesignInfo } from './create-site-design'
 import { updateSiteDesign, IUpdateSiteDesignInfo } from './update-site-design'
 import { deleteSiteDesign } from './delete-site-design'
+import { getLists } from './get-lists'
+import { getSiteScriptFromList } from './get-sitescript-from-list'
+import { getSiteScriptFromWeb, IGetSiteScriptFromWebInfo } from './get-sitescript-from-web'
+import { getSiteDesignRuns, ISiteDesignRun } from './get-site-design-runs'
+import { getSiteDesignRunStatus, ISiteDesignRunAction } from './get-site-design-run-status'
 
 // Re-export types
-export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo }
+export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo, IGetSiteScriptFromWebInfo, ISiteDesignRun, ISiteDesignRunAction }
 
 // Load all site scripts
 export async function loadAllSiteScripts(dispatch: Dispatch, tabId: number, includeOOTB: boolean = false) {
@@ -305,6 +312,153 @@ export async function deleteExistingSiteDesign(tabId: number, id: string): Promi
           resolve()
         } else {
           reject(new Error(res.errorMessage || 'Failed to delete site design'))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch(reject)
+  })
+}
+
+// Load lists for dropdown
+export async function loadLists(dispatch: Dispatch, tabId: number) {
+  dispatch(setLoading(true))
+
+  chrome.scripting.executeScript({
+    target: { tabId },
+    world: 'MAIN',
+    args: [],
+    func: getLists,
+  }).then((injectionResults) => {
+    if (injectionResults[0].result) {
+      const res = injectionResults[0].result as any
+      if (res.success) {
+        dispatch(setLists(res.result as IListInfo[]))
+      } else {
+        dispatch(setError(res.errorMessage))
+      }
+    }
+    dispatch(setLoading(false))
+  }).catch((err) => {
+    dispatch(setError(err.message))
+    dispatch(setLoading(false))
+  })
+}
+
+// Generate site script from list
+export async function generateSiteScriptFromList(dispatch: Dispatch, tabId: number, listUrl: string): Promise<string> {
+  dispatch(setLoading(true))
+  dispatch(setGeneratedJson(''))
+
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [listUrl],
+      func: getSiteScriptFromList,
+    }).then((injectionResults) => {
+      dispatch(setLoading(false))
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          dispatch(setGeneratedJson(res.result))
+          resolve(res.result)
+        } else {
+          dispatch(setError(res.errorMessage))
+          reject(new Error(res.errorMessage))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch((err) => {
+      dispatch(setLoading(false))
+      dispatch(setError(err.message))
+      reject(err)
+    })
+  })
+}
+
+// Generate site script from current web
+export async function generateSiteScriptFromWeb(
+  dispatch: Dispatch,
+  tabId: number,
+  options: IGetSiteScriptFromWebInfo
+): Promise<{ json: string; webUrl: string }> {
+  dispatch(setLoading(true))
+  dispatch(setGeneratedJson(''))
+
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [options],
+      func: getSiteScriptFromWeb,
+    }).then((injectionResults) => {
+      dispatch(setLoading(false))
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          dispatch(setGeneratedJson(res.result))
+          resolve({ json: res.result, webUrl: res.webUrl })
+        } else {
+          dispatch(setError(res.errorMessage))
+          reject(new Error(res.errorMessage))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch((err) => {
+      dispatch(setLoading(false))
+      dispatch(setError(err.message))
+      reject(err)
+    })
+  })
+}
+
+// Get site design runs for current site
+export async function fetchSiteDesignRuns(
+  tabId: number
+): Promise<{ runs: ISiteDesignRun[]; webUrl: string }> {
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [],
+      func: getSiteDesignRuns,
+    }).then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          resolve({ runs: res.result as ISiteDesignRun[], webUrl: res.webUrl })
+        } else {
+          reject(new Error(res.errorMessage || 'Failed to get site design runs'))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch(reject)
+  })
+}
+
+// Get site design run status (action details)
+export async function fetchSiteDesignRunStatus(
+  tabId: number,
+  runId: string,
+  webUrl: string
+): Promise<ISiteDesignRunAction[]> {
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [runId, webUrl],
+      func: getSiteDesignRunStatus,
+    }).then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          resolve(res.result as ISiteDesignRunAction[])
+        } else {
+          reject(new Error(res.errorMessage || 'Failed to get site design run status'))
         }
       } else {
         reject(new Error('No result from script execution'))

@@ -7,9 +7,15 @@ import {
   ISetSiteDesigns,
   ISetSelectedScript,
   ISetSelectedDesign,
+  ISetGeneratePanelOpen,
+  ISetLists,
+  ISetGeneratedJson,
+  ISetShowOOTB,
   ActiveTab,
   ISiteScript,
   ISiteDesign,
+  GeneratePanelType,
+  IListInfo,
 } from './types'
 
 export const setLoading = (isLoading: boolean): ISetLoading => ({
@@ -45,4 +51,24 @@ export const setSelectedScript = (selectedScriptId: string | null): ISetSelected
 export const setSelectedDesign = (selectedDesignId: string | null): ISetSelectedDesign => ({
   type: Constants.SET_SELECTED_DESIGN,
   payload: { selectedDesignId },
+})
+
+export const setGeneratePanelOpen = (generatePanelOpen: GeneratePanelType): ISetGeneratePanelOpen => ({
+  type: Constants.SET_GENERATE_PANEL_OPEN,
+  payload: { generatePanelOpen },
+})
+
+export const setLists = (lists: IListInfo[]): ISetLists => ({
+  type: Constants.SET_LISTS,
+  payload: { lists },
+})
+
+export const setGeneratedJson = (generatedJson: string): ISetGeneratedJson => ({
+  type: Constants.SET_GENERATED_JSON,
+  payload: { generatedJson },
+})
+
+export const setShowOOTB = (showOOTB: boolean): ISetShowOOTB => ({
+  type: Constants.SET_SHOW_OOTB,
+  payload: { showOOTB },
 })

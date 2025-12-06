@@ -11,6 +11,7 @@ import {
   TextField,
   PrimaryButton,
   DefaultButton,
+  IconButton,
   Stack,
   MessageBar,
   MessageBarType,
@@ -19,10 +20,16 @@ import {
   StickyPositionType,
   IDetailsHeaderProps,
   IRenderFunction,
+  Overlay,
+  Spinner,
+  SpinnerSize,
+  Label,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteScript } from '../../../store/siteprovisioning/types'
 import { setSelectedScript } from '../../../store/siteprovisioning/actions'
+import { setAppMessage } from '../../../store/home/actions'
+import { MessageBarColors } from '../../../store/home/types'
 import {
   loadAllSiteScripts,
   createNewSiteScript,
@@ -33,6 +40,7 @@ interface ISiteScriptsProps {
   tabId: number | null
   addPanelOpen: boolean
   editPanelOpen: boolean
+  cloneData?: { title: string; description: string; content: string } | null
   onAddPanelDismiss: () => void
   onEditPanelDismiss: () => void
   onEditPanelOpen: () => void
@@ -43,6 +51,7 @@ const SiteScripts = ({
   tabId,
   addPanelOpen,
   editPanelOpen,
+  cloneData,
   onAddPanelDismiss,
   onEditPanelDismiss,
   onEditPanelOpen,
@@ -58,12 +67,14 @@ const SiteScripts = ({
   const [addDescription, setAddDescription] = useState('')
   const [addContent, setAddContent] = useState('{\n  "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",\n  "actions": [],\n  "version": 1\n}')
   const [addError, setAddError] = useState<string | null>(null)
+  const [addSaving, setAddSaving] = useState(false)
 
   // Edit panel state
   const [editTitle, setEditTitle] = useState('')
   const [editDescription, setEditDescription] = useState('')
   const [editContent, setEditContent] = useState('')
   const [editError, setEditError] = useState<string | null>(null)
+  const [editSaving, setEditSaving] = useState(false)
 
   // Get selected script
   const selectedScript = useMemo(
@@ -80,6 +91,16 @@ const SiteScripts = ({
       setEditError(null)
     }
   }, [selectedScript, editPanelOpen])
+
+  // Populate add form with clone data when cloning
+  useEffect(() => {
+    if (cloneData && addPanelOpen) {
+      setAddTitle(cloneData.title)
+      setAddDescription(cloneData.description)
+      setAddContent(cloneData.content)
+      setAddError(null)
+    }
+  }, [cloneData, addPanelOpen])
 
   // Selection handler
   const selection = useMemo(
@@ -151,29 +172,21 @@ const SiteScripts = ({
       return
     }
 
-    // Validate JSON
-    try {
-      JSON.parse(addContent)
-    } catch {
-      setAddError('Invalid JSON content')
-      return
-    }
-
-    // Close panel immediately (optimistic UI)
-    const title = addTitle
-    const description = addDescription
-    const content = addContent
-    onAddPanelDismiss()
-    setAddTitle('')
-    setAddDescription('')
-    setAddContent('{\n  "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",\n  "actions": [],\n  "version": 1\n}')
     setAddError(null)
+    setAddSaving(true)
 
     try {
-      await createNewSiteScript(tabId, title, description, content)
+      await createNewSiteScript(tabId, addTitle, addDescription, addContent)
+      // Success - close panel and reset form
+      onAddPanelDismiss()
+      setAddTitle('')
+      setAddDescription('')
+      setAddContent('{\n  "$schema": "https://developer.microsoft.com/json-schemas/sp/site-design-script-actions.schema.json",\n  "actions": [],\n  "version": 1\n}')
       loadAllSiteScripts(dispatch, tabId)
     } catch (err: any) {
-      console.error('Failed to create site script:', err)
+      setAddError(err.message || 'Failed to create site script')
+    } finally {
+      setAddSaving(false)
     }
   }, [tabId, addTitle, addDescription, addContent, dispatch, onAddPanelDismiss])
 
@@ -184,26 +197,18 @@ const SiteScripts = ({
       return
     }
 
-    // Validate JSON
-    try {
-      JSON.parse(editContent)
-    } catch {
-      setEditError('Invalid JSON content')
-      return
-    }
-
-    // Close panel immediately (optimistic UI)
-    const id = selectedScript.Id
-    const title = editTitle
-    const description = editDescription
-    const content = editContent
-    onEditPanelDismiss()
+    setEditError(null)
+    setEditSaving(true)
 
     try {
-      await updateExistingSiteScript(tabId, id, title, description, content)
+      await updateExistingSiteScript(tabId, selectedScript.Id, editTitle, editDescription, editContent)
+      // Success - close panel
+      onEditPanelDismiss()
       loadAllSiteScripts(dispatch, tabId)
     } catch (err: any) {
-      console.error('Failed to update site script:', err)
+      setEditError(err.message || 'Failed to update site script')
+    } finally {
+      setEditSaving(false)
     }
   }, [tabId, selectedScript, editTitle, editDescription, editContent, dispatch, onEditPanelDismiss])
 
@@ -258,9 +263,17 @@ const SiteScripts = ({
         onDismiss={handleAddPanelDismiss}
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
-        isLightDismiss={true}
+        isLightDismiss={!addSaving}
       >
-        <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
+        <div style={{ position: 'relative' }}>
+          {addSaving && (
+            <Overlay styles={{ root: { zIndex: 1 } }}>
+              <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
+                <Spinner size={SpinnerSize.large} label="Saving..." />
+              </Stack>
+            </Overlay>
+          )}
+          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
           {addError && (
             <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)}>
               {addError}
@@ -289,10 +302,11 @@ const SiteScripts = ({
             styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
           />
           <Stack horizontal tokens={{ childrenGap: 10 }}>
-            <PrimaryButton text="Create" onClick={handleSaveAdd} />
-            <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} />
+            <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
+            <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
         </Stack>
+        </div>
       </Panel>
 
       {/* Edit/View Script Panel */}
@@ -302,9 +316,17 @@ const SiteScripts = ({
         onDismiss={handleEditPanelDismiss}
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
-        isLightDismiss={true}
+        isLightDismiss={!editSaving}
       >
-        <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
+        <div style={{ position: 'relative' }}>
+          {editSaving && (
+            <Overlay styles={{ root: { zIndex: 1 } }}>
+              <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
+                <Spinner size={SpinnerSize.large} label="Saving..." />
+              </Stack>
+            </Overlay>
+          )}
+          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
           {editError && (
             <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)}>
               {editError}
@@ -325,8 +347,46 @@ const SiteScripts = ({
             value={editDescription}
             onChange={(_, val) => setEditDescription(val || '')}
           />
+          <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+            <Label>Script Content (JSON)</Label>
+            <Stack horizontal tokens={{ childrenGap: 4 }}>
+              <IconButton
+                iconProps={{ iconName: 'Copy' }}
+                title="Copy to clipboard"
+                ariaLabel="Copy to clipboard"
+                onClick={() => {
+                  const textarea = document.createElement('textarea')
+                  textarea.value = editContent
+                  document.body.appendChild(textarea)
+                  textarea.select()
+                  document.execCommand('copy')
+                  document.body.removeChild(textarea)
+                  dispatch(setAppMessage({
+                    showMessage: true,
+                    message: 'Copied to clipboard!',
+                    color: MessageBarColors.success,
+                  }))
+                }}
+              />
+              <IconButton
+                iconProps={{ iconName: 'Download' }}
+                title="Download as JSON"
+                ariaLabel="Download as JSON"
+                onClick={() => {
+                  const blob = new Blob([editContent], { type: 'application/json' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = `${editTitle || 'sitescript'}.json`
+                  document.body.appendChild(a)
+                  a.click()
+                  document.body.removeChild(a)
+                  URL.revokeObjectURL(url)
+                }}
+              />
+            </Stack>
+          </Stack>
           <TextField
-            label="Script Content (JSON)"
             required={!selectedScript?.IsOOTB}
             multiline
             rows={15}
@@ -337,11 +397,12 @@ const SiteScripts = ({
           />
           {!selectedScript?.IsOOTB && (
             <Stack horizontal tokens={{ childrenGap: 10 }}>
-              <PrimaryButton text="Save" onClick={handleSaveEdit} />
-              <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} />
+              <PrimaryButton text="Save" onClick={handleSaveEdit} disabled={editSaving} />
+              <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
         </Stack>
+        </div>
       </Panel>
     </>
   )

@@ -1,13 +1,14 @@
-export interface ICreateSiteDesignInfo {
-  title: string
-  description: string
-  webTemplate: string
-  siteScriptIds: string[]
-  previewImageUrl?: string
-  previewImageAltText?: string
+export interface ISiteDesignRun {
+  ID: string // Run ID - used for GetSiteDesignRunStatus
+  SiteDesignID: string
+  SiteDesignTitle: string
+  SiteDesignVersion: number
+  SiteID: string
+  WebID: string
+  StartTime: string
 }
 
-export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
+export const getSiteDesignRuns = () => {
   // Handle modern pages where _spPageContextInfo may not be immediately available
   const getPageContext = (): Promise<any> => {
     if ((window as any)._spPageContextInfo) {
@@ -24,6 +25,7 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
 
   return getPageContext()
     .then((pageContext) => {
+      const webUrl = pageContext?.webAbsoluteUrl || ''
       const siteUrl = pageContext?.siteAbsoluteUrl || ''
 
       return fetch(siteUrl + '/_api/contextinfo', {
@@ -39,9 +41,10 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
         .then((contextInfo) => {
           const digest = contextInfo.d.GetContextWebInformation.FormDigestValue
 
+          // API is GetSiteDesignRun (singular) with empty body
           return fetch(
             siteUrl +
-              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.CreateSiteDesign',
+              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.GetSiteDesignRun',
             {
               method: 'POST',
               credentials: 'include',
@@ -51,43 +54,33 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
                 'Content-Type': 'application/json',
                 'X-ClientService-ClientTag': 'SPEDITOR',
               },
-              body: JSON.stringify({
-                info: {
-                  Title: info.title,
-                  Description: info.description,
-                  WebTemplate: info.webTemplate,
-                  SiteScriptIds: info.siteScriptIds,
-                  PreviewImageUrl: info.previewImageUrl || '',
-                  PreviewImageAltText: info.previewImageAltText || '',
-                },
-              }),
             }
           )
-            .then((res) => res.json().then((data) => ({ status: res.status, data })))
-            .then(({ status, data }) => {
-              // Check for error response
-              if (status >= 400 || data.error) {
-                const errorMsg = data.error?.message?.value || data.error?.message || 'Failed to create site design'
-                return {
-                  success: false,
-                  result: null,
-                  errorMessage: errorMsg,
-                  source: 'chrome-sp-editor',
-                }
-              }
+            .then((res) => res.json())
+            .then((data) => {
+              const runs = data.d?.GetSiteDesignRun?.results || data.d?.results || data.value || []
+
+              const mappedRuns: ISiteDesignRun[] = runs.map((run: any) => ({
+                ID: run.ID || '',
+                SiteDesignID: run.SiteDesignID || '',
+                SiteDesignTitle: run.SiteDesignTitle || '',
+                SiteDesignVersion: run.SiteDesignVersion || 0,
+                SiteID: run.SiteID || '',
+                WebID: run.WebID || '',
+                StartTime: run.StartTime || '',
+              }))
+
               return {
                 success: true,
-                result: data.d || data,
-                errorMessage: '',
-                source: 'chrome-sp-editor',
+                result: mappedRuns,
+                webUrl: webUrl,
               }
             })
         })
     })
-    .catch((error: any) => ({
+    .catch((err) => ({
       success: false,
-      result: null,
-      errorMessage: error.message,
-      source: 'chrome-sp-editor',
+      errorMessage: err.message || 'Failed to get site design runs',
+      result: [],
     }))
 }

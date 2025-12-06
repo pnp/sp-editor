@@ -8,9 +8,13 @@ interface ISiteProvisioningCommandBarProps {
   showOOTB: boolean
   selectedIsOOTB: boolean
   onNew: () => void
+  onClone: () => void
   onDelete: () => void
   onExport?: () => void
   onToggleOOTB: () => void
+  onGenerateFromList?: () => void
+  onGenerateFromSite?: () => void
+  onViewRunHistory?: () => void
 }
 
 // Fixed button width style for consistent layout
@@ -24,9 +28,13 @@ const SiteProvisioningCommandBar = ({
   showOOTB,
   selectedIsOOTB,
   onNew,
+  onClone,
   onDelete,
   onExport,
   onToggleOOTB,
+  onGenerateFromList,
+  onGenerateFromSite,
+  onViewRunHistory,
 }: ISiteProvisioningCommandBarProps) => {
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
@@ -35,6 +43,14 @@ const SiteProvisioningCommandBar = ({
         text: 'New',
         iconProps: { iconName: 'Add' },
         onClick: onNew,
+        buttonStyles,
+      },
+      {
+        key: 'clone',
+        text: 'Clone',
+        iconProps: { iconName: 'Copy' },
+        onClick: onClone,
+        disabled: !hasSelection,
         buttonStyles,
       },
       {
@@ -57,21 +73,70 @@ const SiteProvisioningCommandBar = ({
       },
     ]
 
+    // Add Generate submenu only on scripts tab
+    if (activeTab === 'scripts') {
+      items.push({
+        key: 'generate',
+        text: 'Generate',
+        iconProps: { iconName: 'Processing' },
+        buttonStyles,
+        subMenuProps: {
+          items: [
+            {
+              key: 'generateFromList',
+              text: 'From List',
+              iconProps: { iconName: 'BulletedList2' },
+              onClick: onGenerateFromList,
+            },
+            {
+              key: 'generateFromSite',
+              text: 'From Site',
+              iconProps: { iconName: 'Globe' },
+              onClick: onGenerateFromSite,
+            },
+          ],
+        },
+      })
+    }
+
+    // Add Run History button on designs tab
+    if (activeTab === 'designs') {
+      items.push({
+        key: 'history',
+        text: 'Run History',
+        iconProps: { iconName: 'History' },
+        onClick: onViewRunHistory,
+        buttonStyles,
+      })
+    }
+
     return items
   }
 
+  const getFarItems = (): ICommandBarItemProps[] => {
+    return [
+      {
+        key: 'toggleOOTB',
+        onRender: () => (
+          <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 5 }} styles={{ root: { paddingRight: 10 } }}>
+            <Label styles={{ root: { margin: 0, padding: 0, fontWeight: 400 } }}>Include Microsoft</Label>
+            <IonToggle
+              checked={showOOTB}
+              onIonChange={() => onToggleOOTB()}
+              color="success"
+            />
+          </Stack>
+        ),
+      },
+    ]
+  }
+
   return (
-    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }}>
-      <CommandBar items={getItems()} styles={{ root: { padding: 0 } }} />
-      <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 5 }} styles={{ root: { marginLeft: 'auto', paddingRight: 10 } }}>
-        <Label styles={{ root: { margin: 0, padding: 0, fontWeight: 400 } }}>Include Microsoft</Label>
-        <IonToggle
-          checked={showOOTB}
-          onIonChange={() => onToggleOOTB()}
-          color="success"
-        />
-      </Stack>
-    </Stack>
+    <CommandBar
+      items={getItems()}
+      farItems={getFarItems()}
+      styles={{ root: { padding: 0 } }}
+    />
   )
 }
 

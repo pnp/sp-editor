@@ -9,6 +9,10 @@ const initialState: ISiteProvisioningState = {
   siteDesigns: [],
   selectedScriptId: null,
   selectedDesignId: null,
+  generatePanelOpen: null,
+  lists: [],
+  generatedJson: '',
+  showOOTB: false,
 }
 
 export const siteProvisioningReducer = (
@@ -30,6 +34,14 @@ export const siteProvisioningReducer = (
       return { ...state, selectedScriptId: action.payload.selectedScriptId }
     case Constants.SET_SELECTED_DESIGN:
       return { ...state, selectedDesignId: action.payload.selectedDesignId }
+    case Constants.SET_GENERATE_PANEL_OPEN:
+      return { ...state, generatePanelOpen: action.payload.generatePanelOpen }
+    case Constants.SET_LISTS:
+      return { ...state, lists: action.payload.lists }
+    case Constants.SET_GENERATED_JSON:
+      return { ...state, generatedJson: action.payload.generatedJson }
+    case Constants.SET_SHOW_OOTB:
+      return { ...state, showOOTB: action.payload.showOOTB }
     default:
       return state
   }

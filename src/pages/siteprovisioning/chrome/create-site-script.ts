@@ -49,13 +49,25 @@ export const createSiteScript = (title: string, description: string, content: st
               body: content,
             }
           )
-            .then((res) => res.json())
-            .then((data) => ({
-              success: true,
-              result: data.d || data,
-              errorMessage: '',
-              source: 'chrome-sp-editor',
-            }))
+            .then((res) => res.json().then((data) => ({ status: res.status, data })))
+            .then(({ status, data }) => {
+              // Check for error response
+              if (status >= 400 || data.error) {
+                const errorMsg = data.error?.message?.value || data.error?.message || 'Failed to create site script'
+                return {
+                  success: false,
+                  result: null,
+                  errorMessage: errorMsg,
+                  source: 'chrome-sp-editor',
+                }
+              }
+              return {
+                success: true,
+                result: data.d || data,
+                errorMessage: '',
+                source: 'chrome-sp-editor',
+              }
+            })
         })
     })
     .catch((error: any) => ({

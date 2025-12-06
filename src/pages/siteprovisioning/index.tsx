@@ -11,7 +11,7 @@ import {
   DefaultButton,
 } from '@fluentui/react'
 import { IRootState } from '../../store'
-import { setActiveTab, setSelectedScript, setSelectedDesign } from '../../store/siteprovisioning/actions'
+import { setActiveTab, setSelectedScript, setSelectedDesign, setGeneratePanelOpen, setShowOOTB } from '../../store/siteprovisioning/actions'
 import { setLoading } from '../../store/home/actions'
 import { ISiteScript, ISiteDesign, ActiveTab } from '../../store/siteprovisioning/types'
 import LoadingSpinner from '../../components/loadingSpinner'
@@ -19,6 +19,9 @@ import Header from '../../components/header'
 import SiteProvisioningCommandBar from './components/SiteProvisioningCommandBar'
 import SiteScripts from './components/SiteScripts'
 import SiteDesigns from './components/SiteDesigns'
+import GenerateFromListPanel from './components/GenerateFromListPanel'
+import GenerateFromSitePanel from './components/GenerateFromSitePanel'
+import SiteDesignRunsPanel from './components/SiteDesignRunsPanel'
 import {
   loadAll,
   deleteExistingSiteScript,
@@ -29,7 +32,7 @@ import {
 
 const SiteProvisioningPage = () => {
   const dispatch = useDispatch()
-  const { activeTab, selectedScriptId, selectedDesignId, siteScripts, siteDesigns } = useSelector(
+  const { activeTab, selectedScriptId, selectedDesignId, siteScripts, siteDesigns, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
 
@@ -41,12 +44,16 @@ const SiteProvisioningPage = () => {
   const [addDesignPanelOpen, setAddDesignPanelOpen] = useState(false)
   const [editDesignPanelOpen, setEditDesignPanelOpen] = useState(false)
 
+  // Clone data states
+  const [scriptCloneData, setScriptCloneData] = useState<{ title: string; description: string; content: string } | null>(null)
+  const [designCloneData, setDesignCloneData] = useState<{ title: string; description: string; webTemplate: string; scriptIds: string[]; previewImageUrl: string; previewImageAltText: string } | null>(null)
+
   // Delete dialog states
   const [deleteScriptDialogOpen, setDeleteScriptDialogOpen] = useState(false)
   const [deleteDesignDialogOpen, setDeleteDesignDialogOpen] = useState(false)
 
-  // Show OOTB (Microsoft) scripts/designs toggle
-  const [showOOTB, setShowOOTB] = useState(false)
+  // Run history panel state
+  const [runHistoryPanelOpen, setRunHistoryPanelOpen] = useState(false)
 
   // Selected items for tracking
   const [selectedScript, setSelectedScriptState] = useState<ISiteScript | null>(null)
@@ -105,8 +112,31 @@ const SiteProvisioningPage = () => {
   // Command bar handlers
   const handleNew = () => {
     if (activeTab === 'scripts') {
+      setScriptCloneData(null)
       setAddScriptPanelOpen(true)
     } else {
+      setDesignCloneData(null)
+      setAddDesignPanelOpen(true)
+    }
+  }
+
+  const handleClone = () => {
+    if (activeTab === 'scripts' && selectedScript) {
+      setScriptCloneData({
+        title: `Copy of ${selectedScript.Title}`,
+        description: selectedScript.Description,
+        content: selectedScript.Content,
+      })
+      setAddScriptPanelOpen(true)
+    } else if (activeTab === 'designs' && selectedDesign) {
+      setDesignCloneData({
+        title: `Copy of ${selectedDesign.Title}`,
+        description: selectedDesign.Description,
+        webTemplate: selectedDesign.WebTemplate,
+        scriptIds: selectedDesign.SiteScriptIds || [],
+        previewImageUrl: selectedDesign.PreviewImageUrl || '',
+        previewImageAltText: selectedDesign.PreviewImageAltText || '',
+      })
       setAddDesignPanelOpen(true)
     }
   }
@@ -115,7 +145,19 @@ const SiteProvisioningPage = () => {
     // Clear selections when toggling
     dispatch(setSelectedScript(null))
     dispatch(setSelectedDesign(null))
-    setShowOOTB(!showOOTB)
+    dispatch(setShowOOTB(!showOOTB))
+  }
+
+  const handleGenerateFromList = () => {
+    dispatch(setGeneratePanelOpen('list'))
+  }
+
+  const handleGenerateFromSite = () => {
+    dispatch(setGeneratePanelOpen('site'))
+  }
+
+  const handleViewRunHistory = () => {
+    setRunHistoryPanelOpen(true)
   }
 
   const handleDelete = () => {
@@ -193,15 +235,22 @@ const SiteProvisioningPage = () => {
               showOOTB={showOOTB}
               selectedIsOOTB={selectedScript?.IsOOTB || false}
               onNew={handleNew}
+              onClone={handleClone}
               onDelete={handleDelete}
               onExport={handleExportScript}
               onToggleOOTB={handleToggleOOTB}
+              onGenerateFromList={handleGenerateFromList}
+              onGenerateFromSite={handleGenerateFromSite}
             />
             <SiteScripts
               tabId={tabId}
               addPanelOpen={addScriptPanelOpen}
               editPanelOpen={editScriptPanelOpen}
-              onAddPanelDismiss={() => setAddScriptPanelOpen(false)}
+              cloneData={scriptCloneData}
+              onAddPanelDismiss={() => {
+                setAddScriptPanelOpen(false)
+                setScriptCloneData(null)
+              }}
               onEditPanelDismiss={() => setEditScriptPanelOpen(false)}
               onEditPanelOpen={() => setEditScriptPanelOpen(true)}
               onSelectionChanged={handleScriptSelectionChanged}
@@ -214,14 +263,20 @@ const SiteProvisioningPage = () => {
               showOOTB={showOOTB}
               selectedIsOOTB={selectedDesign?.IsOOTB || false}
               onNew={handleNew}
+              onClone={handleClone}
               onDelete={handleDelete}
               onToggleOOTB={handleToggleOOTB}
+              onViewRunHistory={handleViewRunHistory}
             />
             <SiteDesigns
               tabId={tabId}
               addPanelOpen={addDesignPanelOpen}
               editPanelOpen={editDesignPanelOpen}
-              onAddPanelDismiss={() => setAddDesignPanelOpen(false)}
+              cloneData={designCloneData}
+              onAddPanelDismiss={() => {
+                setAddDesignPanelOpen(false)
+                setDesignCloneData(null)
+              }}
               onEditPanelDismiss={() => setEditDesignPanelOpen(false)}
               onEditPanelOpen={() => setEditDesignPanelOpen(true)}
               onSelectionChanged={handleDesignSelectionChanged}
@@ -262,6 +317,19 @@ const SiteProvisioningPage = () => {
             <DefaultButton onClick={() => setDeleteDesignDialogOpen(false)} text="Cancel" />
           </DialogFooter>
         </Dialog>
+
+        {/* Generate from List Panel */}
+        <GenerateFromListPanel />
+
+        {/* Generate from Site Panel */}
+        <GenerateFromSitePanel />
+
+        {/* Site Design Runs Panel */}
+        <SiteDesignRunsPanel
+          isOpen={runHistoryPanelOpen}
+          onDismiss={() => setRunHistoryPanelOpen(false)}
+          tabId={tabId}
+        />
       </IonContent>
     </IonPage>
   )

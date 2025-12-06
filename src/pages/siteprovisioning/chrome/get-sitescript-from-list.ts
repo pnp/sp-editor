@@ -1,13 +1,4 @@
-export interface ICreateSiteDesignInfo {
-  title: string
-  description: string
-  webTemplate: string
-  siteScriptIds: string[]
-  previewImageUrl?: string
-  previewImageAltText?: string
-}
-
-export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
+export const getSiteScriptFromList = (listUrl: string) => {
   // Handle modern pages where _spPageContextInfo may not be immediately available
   const getPageContext = (): Promise<any> => {
     if ((window as any)._spPageContextInfo) {
@@ -25,6 +16,7 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
   return getPageContext()
     .then((pageContext) => {
       const siteUrl = pageContext?.siteAbsoluteUrl || ''
+      const webUrl = pageContext?.webAbsoluteUrl || ''
 
       return fetch(siteUrl + '/_api/contextinfo', {
         method: 'POST',
@@ -39,55 +31,63 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
         .then((contextInfo) => {
           const digest = contextInfo.d.GetContextWebInformation.FormDigestValue
 
+          // Build full list URL
+          const fullListUrl = listUrl.startsWith('http') 
+            ? listUrl 
+            : webUrl + (listUrl.startsWith('/') ? listUrl : '/' + listUrl)
+
           return fetch(
             siteUrl +
-              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.CreateSiteDesign',
+              '/_api/Microsoft.Sharepoint.Utilities.WebTemplateExtensions.SiteScriptUtility.GetSiteScriptFromList',
             {
               method: 'POST',
               credentials: 'include',
               headers: {
                 'X-RequestDigest': digest,
-                Accept: 'application/json; odata=verbose',
+                Accept: 'application/json;odata=nometadata',
                 'Content-Type': 'application/json',
                 'X-ClientService-ClientTag': 'SPEDITOR',
               },
-              body: JSON.stringify({
-                info: {
-                  Title: info.title,
-                  Description: info.description,
-                  WebTemplate: info.webTemplate,
-                  SiteScriptIds: info.siteScriptIds,
-                  PreviewImageUrl: info.previewImageUrl || '',
-                  PreviewImageAltText: info.previewImageAltText || '',
-                },
-              }),
+              body: JSON.stringify({ listUrl: fullListUrl }),
             }
           )
-            .then((res) => res.json().then((data) => ({ status: res.status, data })))
-            .then(({ status, data }) => {
-              // Check for error response
-              if (status >= 400 || data.error) {
-                const errorMsg = data.error?.message?.value || data.error?.message || 'Failed to create site design'
-                return {
-                  success: false,
-                  result: null,
-                  errorMessage: errorMsg,
-                  source: 'chrome-sp-editor',
-                }
+            .then((res) => res.json())
+            .then((data) => {
+              // The API returns the script JSON as a string in the value property
+              const scriptJson = data.value || data.d?.GetSiteScriptFromList || '{}'
+              
+              // Try to parse and re-stringify for pretty formatting
+              let formattedJson = scriptJson
+              try {
+                const parsed = JSON.parse(scriptJson)
+                formattedJson = JSON.stringify(parsed, null, 2)
+              } catch {
+                // Keep as-is if parsing fails
               }
+
               return {
                 success: true,
-                result: data.d || data,
+                result: formattedJson,
                 errorMessage: '',
+                source: 'chrome-sp-editor',
+              }
+            })
+            .catch((error) => {
+              return {
+                success: false,
+                result: null,
+                errorMessage: error.message || 'Failed to generate site script from list',
                 source: 'chrome-sp-editor',
               }
             })
         })
     })
-    .catch((error: any) => ({
-      success: false,
-      result: null,
-      errorMessage: error.message,
-      source: 'chrome-sp-editor',
-    }))
+    .catch((error) => {
+      return {
+        success: false,
+        result: null,
+        errorMessage: error.message || 'Failed to get page context',
+        source: 'chrome-sp-editor',
+      }
+    })
 }

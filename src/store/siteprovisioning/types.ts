@@ -2,6 +2,8 @@ import { Constants } from './constants'
 
 export type ActiveTab = 'scripts' | 'designs'
 
+export type GeneratePanelType = 'list' | 'site' | null
+
 export interface ISiteScript {
   Id: string
   Title: string
@@ -24,6 +26,12 @@ export interface ISiteDesign {
   IsOOTB?: boolean
 }
 
+export interface IListInfo {
+  Id: string
+  Title: string
+  BaseTemplate: number
+}
+
 export interface ISiteProvisioningState {
   isLoading: boolean
   error: string | null
@@ -32,6 +40,10 @@ export interface ISiteProvisioningState {
   siteDesigns: ISiteDesign[]
   selectedScriptId: string | null
   selectedDesignId: string | null
+  generatePanelOpen: GeneratePanelType
+  lists: IListInfo[]
+  generatedJson: string
+  showOOTB: boolean
 }
 
 export interface ISetLoading {
@@ -76,6 +88,30 @@ export interface ISetSelectedDesign {
   [key: string]: unknown
 }
 
+export interface ISetGeneratePanelOpen {
+  type: typeof Constants.SET_GENERATE_PANEL_OPEN
+  payload: { generatePanelOpen: GeneratePanelType }
+  [key: string]: unknown
+}
+
+export interface ISetLists {
+  type: typeof Constants.SET_LISTS
+  payload: { lists: IListInfo[] }
+  [key: string]: unknown
+}
+
+export interface ISetGeneratedJson {
+  type: typeof Constants.SET_GENERATED_JSON
+  payload: { generatedJson: string }
+  [key: string]: unknown
+}
+
+export interface ISetShowOOTB {
+  type: typeof Constants.SET_SHOW_OOTB
+  payload: { showOOTB: boolean }
+  [key: string]: unknown
+}
+
 export type SiteProvisioningActions =
   | ISetLoading
   | ISetError
@@ -84,3 +120,7 @@ export type SiteProvisioningActions =
   | ISetSiteDesigns
   | ISetSelectedScript
   | ISetSelectedDesign
+  | ISetGeneratePanelOpen
+  | ISetLists
+  | ISetGeneratedJson
+  | ISetShowOOTB
