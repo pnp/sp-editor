@@ -21,9 +21,10 @@ import { getSiteScriptFromList } from './get-sitescript-from-list'
 import { getSiteScriptFromWeb, IGetSiteScriptFromWebInfo } from './get-sitescript-from-web'
 import { getSiteDesignRuns, ISiteDesignRun } from './get-site-design-runs'
 import { getSiteDesignRunStatus, ISiteDesignRunAction } from './get-site-design-run-status'
+import { getSiteDesignStages, ISiteDesignStage, ISiteDesignStagesResult } from './get-sitescript-stages'
 
 // Re-export types
-export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo, IGetSiteScriptFromWebInfo, ISiteDesignRun, ISiteDesignRunAction }
+export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo, IGetSiteScriptFromWebInfo, ISiteDesignRun, ISiteDesignRunAction, ISiteDesignStage, ISiteDesignStagesResult }
 
 // Load all site scripts
 export async function loadAllSiteScripts(dispatch: Dispatch, tabId: number, includeOOTB: boolean = false) {
@@ -297,7 +298,7 @@ export async function deleteExistingSiteScript(tabId: number, id: string): Promi
 export async function createNewSiteDesign(
   tabId: number,
   info: ICreateSiteDesignInfo
-): Promise<void> {
+): Promise<ISiteDesign> {
   return new Promise((resolve, reject) => {
     chrome.scripting.executeScript({
       target: { tabId },
@@ -308,7 +309,7 @@ export async function createNewSiteDesign(
       if (injectionResults[0].result) {
         const res = injectionResults[0].result as any
         if (res.success) {
-          resolve()
+          resolve(res.result as ISiteDesign)
         } else {
           reject(new Error(res.errorMessage || 'Failed to create site design'))
         }
@@ -514,3 +515,30 @@ export async function fetchSiteDesignRunStatus(
     }).catch(reject)
   })
 }
+
+// Get site script stages/actions preview
+export async function fetchSiteDesignStages(
+  tabId: number,
+  siteDesignId: string
+): Promise<ISiteDesignStagesResult> {
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [siteDesignId],
+      func: getSiteDesignStages,
+    }).then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          resolve(res.result as ISiteDesignStagesResult)
+        } else {
+          reject(new Error(res.errorMessage || 'Failed to get site design stages'))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch(reject)
+  })
+}
+

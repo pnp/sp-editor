@@ -312,7 +312,8 @@ const SiteScripts = ({
 
     try {
       await createNewSiteScript(tabId, addTitle, addDescription, addContent)
-      // Success - close panel and reset form
+      
+      // Close panel and reset form
       onAddPanelDismiss()
       setAddTitle('')
       setAddDescription('')
@@ -337,7 +338,8 @@ const SiteScripts = ({
 
     try {
       await updateExistingSiteScript(tabId, selectedScript.Id, editTitle, editDescription, editContent)
-      // Success - close panel
+      
+      // Close panel
       onEditPanelDismiss()
       loadAllSiteScripts(dispatch, tabId, showOOTB)
     } catch (err: any) {

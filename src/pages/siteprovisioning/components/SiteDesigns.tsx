@@ -26,6 +26,11 @@ import {
   Overlay,
   Spinner,
   SpinnerSize,
+  Dialog,
+  DialogType,
+  DialogFooter,
+  Icon,
+  SearchBox,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteDesign, ISiteScript } from '../../../store/siteprovisioning/types'
@@ -34,8 +39,10 @@ import {
   loadAllSiteDesigns,
   createNewSiteDesign,
   updateExistingSiteDesign,
+  fetchSiteDesignStages,
   ICreateSiteDesignInfo,
   IUpdateSiteDesignInfo,
+  ISiteDesignStage,
 } from '../chrome/chrome-actions'
 
 interface ISiteDesignsProps {
@@ -69,6 +76,14 @@ const SiteDesigns = ({
   const { siteDesigns, siteScripts, selectedDesignId, showOOTB } = useSelector(
     (state: IRootState) => state.siteProvisioning
   )
+  const { isDark } = useSelector((state: IRootState) => state.home)
+
+  // Preview dialog state
+  const [previewDialogOpen, setPreviewDialogOpen] = useState(false)
+  const [previewStages, setPreviewStages] = useState<ISiteDesignStage[]>([])
+  const [previewLoading, setPreviewLoading] = useState(false)
+  const [previewError, setPreviewError] = useState<string | null>(null)
+  const [previewDesignTitle, setPreviewDesignTitle] = useState('')
 
   // Add panel state
   const [addTitle, setAddTitle] = useState('')
@@ -90,11 +105,26 @@ const SiteDesigns = ({
   const [editError, setEditError] = useState<string | null>(null)
   const [editSaving, setEditSaving] = useState(false)
 
+  // Filter state
+  const [filterText, setFilterText] = useState('')
+
   // Get selected design
   const selectedDesign = useMemo(
     () => siteDesigns.find((d) => d.Id === selectedDesignId) || null,
     [siteDesigns, selectedDesignId]
   )
+
+  // Filter designs by title, description, or ID
+  const filteredDesigns = useMemo(() => {
+    if (!filterText.trim()) return siteDesigns
+    const searchLower = filterText.toLowerCase()
+    return siteDesigns.filter(
+      (design) =>
+        design.Title.toLowerCase().includes(searchLower) ||
+        (design.Description && design.Description.toLowerCase().includes(searchLower)) ||
+        design.Id.toLowerCase().includes(searchLower)
+    )
+  }, [siteDesigns, filterText])
 
   // Populate edit form when selected design changes
   useEffect(() => {
@@ -248,7 +278,24 @@ const SiteDesigns = ({
     }
 
     try {
-      await createNewSiteDesign(tabId, info)
+      const result = await createNewSiteDesign(tabId, info)
+      
+      // Show preview dialog with stages
+      setPreviewDesignTitle(addTitle)
+      setPreviewLoading(true)
+      setPreviewError(null)
+      setPreviewDialogOpen(true)
+      
+      try {
+        const stagesResult = await fetchSiteDesignStages(tabId, result.Id)
+        setPreviewStages(stagesResult.stages)
+      } catch (stageErr: any) {
+        setPreviewError(stageErr.message || 'Failed to load preview')
+        setPreviewStages([])
+      } finally {
+        setPreviewLoading(false)
+      }
+      
       // Success - close panel and reset form
       onAddPanelDismiss()
       setAddTitle('')
@@ -298,6 +345,23 @@ const SiteDesigns = ({
 
     try {
       await updateExistingSiteDesign(tabId, info)
+      
+      // Show preview dialog with stages
+      setPreviewDesignTitle(editTitle)
+      setPreviewLoading(true)
+      setPreviewError(null)
+      setPreviewDialogOpen(true)
+      
+      try {
+        const stagesResult = await fetchSiteDesignStages(tabId, selectedDesign.Id)
+        setPreviewStages(stagesResult.stages)
+      } catch (stageErr: any) {
+        setPreviewError(stageErr.message || 'Failed to load preview')
+        setPreviewStages([])
+      } finally {
+        setPreviewLoading(false)
+      }
+      
       // Success - close panel
       onEditPanelDismiss()
       loadAllSiteDesigns(dispatch, tabId, showOOTB)
@@ -348,9 +412,18 @@ const SiteDesigns = ({
   return (
     <>
       <div style={{ height: 'calc(100vh - 200px)', position: 'relative' }}>
-        <ScrollablePane>
+        <div style={{ padding: '0 0 10px 0' }}>
+          <SearchBox
+            placeholder="Filter by title, description, or ID..."
+            value={filterText}
+            onChange={(_, newValue) => setFilterText(newValue || '')}
+            onClear={() => setFilterText('')}
+            styles={{ root: { maxWidth: 400 } }}
+          />
+        </div>
+        <ScrollablePane styles={{ root: { top: 42 } }}>
           <DetailsList
-            items={siteDesigns}
+            items={filteredDesigns}
             columns={columns}
             setKey="Id"
             layoutMode={DetailsListLayoutMode.justified}
@@ -483,6 +556,98 @@ const SiteDesigns = ({
         </Stack>
         </div>
       </Panel>
+
+      {/* Preview Dialog - Shows stages/actions after save */}
+      <Dialog
+        hidden={!previewDialogOpen}
+        onDismiss={() => setPreviewDialogOpen(false)}
+        dialogContentProps={{
+          type: DialogType.largeHeader,
+          title: 'Site Design Saved',
+          subText: `Preview of actions for "${previewDesignTitle}"`,
+        }}
+        modalProps={{
+          isBlocking: false,
+          styles: { 
+            main: { 
+              maxWidth: '700px !important', 
+              minWidth: '500px !important',
+              width: '90vw',
+            } 
+          },
+        }}
+      >
+        <div style={{ maxHeight: 400, overflowY: 'auto' }}>
+          {previewLoading && (
+            <Stack horizontalAlign="center" tokens={{ padding: 20 }}>
+              <Spinner size={SpinnerSize.medium} label="Loading preview..." />
+            </Stack>
+          )}
+          
+          {previewError && (
+            <MessageBar messageBarType={MessageBarType.warning}>
+              {previewError}
+            </MessageBar>
+          )}
+          
+          {!previewLoading && !previewError && previewStages.length === 0 && (
+            <MessageBar messageBarType={MessageBarType.info}>
+              No actions found in this site design, or the preview is not available.
+            </MessageBar>
+          )}
+          
+          {!previewLoading && previewStages.length > 0 && (
+            <Stack tokens={{ childrenGap: 8 }}>
+              <Label>Updates that will be made to your site:</Label>
+              {previewStages.map((stage, index) => (
+                <Stack 
+                  key={index} 
+                  horizontal 
+                  verticalAlign="start" 
+                  tokens={{ childrenGap: 10 }}
+                  styles={{
+                    root: {
+                      padding: '8px 12px',
+                      backgroundColor: isDark ? '#2d2d2d' : '#f3f2f1',
+                      borderRadius: 4,
+                    }
+                  }}
+                >
+                  <Icon 
+                    iconName="CheckMark" 
+                    styles={{ 
+                      root: { 
+                        color: '#107c10',
+                        marginTop: 2,
+                        fontSize: 14
+                      } 
+                    }} 
+                  />
+                  <Stack tokens={{ childrenGap: 2 }}>
+                    <span style={{ 
+                      fontWeight: 500,
+                      color: isDark ? '#ffffff' : '#323130'
+                    }}>
+                      {stage.title}
+                    </span>
+                    {stage.outcome && (
+                      <span style={{ 
+                        fontSize: 12, 
+                        color: isDark ? '#d2d0ce' : '#605e5c' 
+                      }}>
+                        {stage.outcome}
+                      </span>
+                    )}
+                  </Stack>
+                </Stack>
+              ))}
+            </Stack>
+          )}
+        </div>
+        <DialogFooter>
+          <PrimaryButton onClick={() => setPreviewDialogOpen(false)} text="OK" />
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }
