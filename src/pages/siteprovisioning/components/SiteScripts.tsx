@@ -24,6 +24,7 @@ import {
   Spinner,
   SpinnerSize,
   Label,
+  SearchBox,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteScript } from '../../../store/siteprovisioning/types'
@@ -98,11 +99,26 @@ const SiteScripts = ({
   const [editError, setEditError] = useState<string | null>(null)
   const [editSaving, setEditSaving] = useState(false)
 
+  // Filter state
+  const [filterText, setFilterText] = useState('')
+
   // Get selected script
   const selectedScript = useMemo(
     () => siteScripts.find((s) => s.Id === selectedScriptId) || null,
     [siteScripts, selectedScriptId]
   )
+
+  // Filter scripts by title, description, or ID
+  const filteredScripts = useMemo(() => {
+    if (!filterText.trim()) return siteScripts
+    const searchLower = filterText.toLowerCase()
+    return siteScripts.filter(
+      (script) =>
+        script.Title.toLowerCase().includes(searchLower) ||
+        script.Description.toLowerCase().includes(searchLower) ||
+        script.Id.toLowerCase().includes(searchLower)
+    )
+  }, [siteScripts, filterText])
 
   // Populate edit form when selected script changes
   useEffect(() => {
@@ -358,10 +374,19 @@ const SiteScripts = ({
 
   return (
     <>
-      <div style={{ height: 'calc(100vh - 200px)', position: 'relative' }}>
+      <Stack tokens={{ childrenGap: 8 }} styles={{ root: { marginBottom: 8 } }}>
+        <SearchBox
+          placeholder="Filter by title, description, or ID..."
+          value={filterText}
+          onChange={(_, newValue) => setFilterText(newValue || '')}
+          onClear={() => setFilterText('')}
+          styles={{ root: { maxWidth: 400 } }}
+        />
+      </Stack>
+      <div style={{ height: 'calc(100vh - 240px)', position: 'relative' }}>
         <ScrollablePane>
           <DetailsList
-            items={siteScripts}
+            items={filteredScripts}
             columns={columns}
             setKey="Id"
             layoutMode={DetailsListLayoutMode.justified}
