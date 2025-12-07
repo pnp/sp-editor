@@ -502,8 +502,22 @@ const SiteScripts = ({
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
         isLightDismiss={!addSaving}
+        styles={{
+          scrollableContent: { 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%',
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            paddingBottom: 0,
+            overflow: 'hidden',
+          },
+        }}
       >
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {addSaving && (
             <Overlay styles={{ root: { zIndex: 1 } }}>
               <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
@@ -511,39 +525,58 @@ const SiteScripts = ({
               </Stack>
             </Overlay>
           )}
-          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
-          {addError && (
-            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)}>
-              {addError}
-            </MessageBar>
-          )}
-          <TextField
-            label="Title"
-            required
-            value={addTitle}
-            onChange={(_, val) => setAddTitle(val || '')}
-          />
-          <TextField
-            label="Description"
-            multiline
-            rows={2}
-            value={addDescription}
-            onChange={(_, val) => setAddDescription(val || '')}
-          />
-          <Label required>Script Content (JSON)</Label>
-          <div
-            ref={addEditorDivRef}
-            style={{
-              height: 300,
-              border: '1px solid #ccc',
-              borderRadius: 2,
+          {/* Scrollable content area */}
+          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
+            <Stack>
+              {addError && (
+                <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 15 } }}>
+                  {addError}
+                </MessageBar>
+              )}
+              <TextField
+                label="Title"
+                required
+                value={addTitle}
+                onChange={(_, val) => setAddTitle(val || '')}
+                styles={{ root: { marginBottom: 15 } }}
+              />
+              <TextField
+                label="Description"
+                multiline
+                rows={2}
+                value={addDescription}
+                onChange={(_, val) => setAddDescription(val || '')}
+                styles={{ root: { marginBottom: 15 } }}
+              />
+              <Label required>Script Content (JSON)</Label>
+              <div
+                ref={addEditorDivRef}
+                style={{
+                  height: 300,
+                  minHeight: 300,
+                  border: '1px solid #ccc',
+                  borderRadius: 2,
+                }}
+              />
+            </Stack>
+          </div>
+          {/* Sticky footer */}
+          <Stack 
+            horizontal 
+            tokens={{ childrenGap: 10 }} 
+            styles={{ 
+              root: { 
+                marginTop: 16,
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                flexShrink: 0,
+              } 
             }}
-          />
-          <Stack horizontal tokens={{ childrenGap: 10 }}>
+          >
             <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
             <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
-        </Stack>
         </div>
       </Panel>
 
@@ -555,8 +588,22 @@ const SiteScripts = ({
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
         isLightDismiss={!editSaving}
+        styles={{
+          scrollableContent: { 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%',
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            paddingBottom: 0,
+            overflow: 'hidden',
+          },
+        }}
       >
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {editSaving && (
             <Overlay styles={{ root: { zIndex: 1 } }}>
               <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
@@ -564,81 +611,100 @@ const SiteScripts = ({
               </Stack>
             </Overlay>
           )}
-          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
-          {editError && (
-            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)}>
-              {editError}
-            </MessageBar>
-          )}
-          <TextField
-            label="Title"
-            required={!selectedScript?.IsOOTB}
-            readOnly={selectedScript?.IsOOTB}
-            value={editTitle}
-            onChange={(_, val) => setEditTitle(val || '')}
-          />
-          <TextField
-            label="Description"
-            multiline
-            rows={2}
-            readOnly={selectedScript?.IsOOTB}
-            value={editDescription}
-            onChange={(_, val) => setEditDescription(val || '')}
-          />
-          <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-            <Label>Script Content (JSON)</Label>
-            <Stack horizontal tokens={{ childrenGap: 4 }}>
-              <IconButton
-                iconProps={{ iconName: 'Copy' }}
-                title="Copy to clipboard"
-                ariaLabel="Copy to clipboard"
-                onClick={() => {
-                  const textarea = document.createElement('textarea')
-                  textarea.value = editContent
-                  document.body.appendChild(textarea)
-                  textarea.select()
-                  document.execCommand('copy')
-                  document.body.removeChild(textarea)
-                  dispatch(setAppMessage({
-                    showMessage: true,
-                    message: 'Copied to clipboard!',
-                    color: MessageBarColors.success,
-                  }))
-                }}
+          {/* Scrollable content area */}
+          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
+            <Stack>
+              {editError && (
+                <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 15 } }}>
+                  {editError}
+                </MessageBar>
+              )}
+              <TextField
+                label="Title"
+                required={!selectedScript?.IsOOTB}
+                readOnly={selectedScript?.IsOOTB}
+                value={editTitle}
+                onChange={(_, val) => setEditTitle(val || '')}
+                styles={{ root: { marginBottom: 15 } }}
               />
-              <IconButton
-                iconProps={{ iconName: 'Download' }}
-                title="Download as JSON"
-                ariaLabel="Download as JSON"
-                onClick={() => {
-                  const blob = new Blob([editContent], { type: 'application/json' })
-                  const url = URL.createObjectURL(blob)
-                  const a = document.createElement('a')
-                  a.href = url
-                  a.download = `${editTitle || 'sitescript'}.json`
-                  document.body.appendChild(a)
-                  a.click()
-                  document.body.removeChild(a)
-                  URL.revokeObjectURL(url)
+              <TextField
+                label="Description"
+                multiline
+                rows={2}
+                readOnly={selectedScript?.IsOOTB}
+                value={editDescription}
+                onChange={(_, val) => setEditDescription(val || '')}
+                styles={{ root: { marginBottom: 15 } }}
+              />
+              <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                <Label>Script Content (JSON)</Label>
+                <Stack horizontal tokens={{ childrenGap: 4 }}>
+                  <IconButton
+                    iconProps={{ iconName: 'Copy' }}
+                    title="Copy to clipboard"
+                    ariaLabel="Copy to clipboard"
+                    onClick={() => {
+                      const textarea = document.createElement('textarea')
+                      textarea.value = editContent
+                      document.body.appendChild(textarea)
+                      textarea.select()
+                      document.execCommand('copy')
+                      document.body.removeChild(textarea)
+                      dispatch(setAppMessage({
+                        showMessage: true,
+                        message: 'Copied to clipboard!',
+                        color: MessageBarColors.success,
+                      }))
+                    }}
+                  />
+                  <IconButton
+                    iconProps={{ iconName: 'Download' }}
+                    title="Download as JSON"
+                    ariaLabel="Download as JSON"
+                    onClick={() => {
+                      const blob = new Blob([editContent], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `${editTitle || 'sitescript'}.json`
+                      document.body.appendChild(a)
+                      a.click()
+                      document.body.removeChild(a)
+                      URL.revokeObjectURL(url)
+                    }}
+                  />
+                </Stack>
+              </Stack>
+              <div
+                ref={editEditorDivRef}
+                style={{
+                  height: 300,
+                  minHeight: 300,
+                  border: '1px solid #ccc',
+                  borderRadius: 2,
                 }}
               />
             </Stack>
-          </Stack>
-          <div
-            ref={editEditorDivRef}
-            style={{
-              height: 300,
-              border: '1px solid #ccc',
-              borderRadius: 2,
-            }}
-          />
+          </div>
+          {/* Sticky footer */}
           {!selectedScript?.IsOOTB && (
-            <Stack horizontal tokens={{ childrenGap: 10 }}>
+            <Stack 
+              horizontal 
+              tokens={{ childrenGap: 10 }} 
+              styles={{ 
+                root: { 
+                  marginTop: 16,
+                  paddingTop: 16,
+                  paddingBottom: 16,
+                  borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                  flexShrink: 0,
+                } 
+              }}
+            >
               <PrimaryButton text="Save" onClick={handleSaveEdit} disabled={editSaving} />
               <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
-        </Stack>
         </div>
       </Panel>
 
@@ -650,21 +716,37 @@ const SiteScripts = ({
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
         isLightDismiss={!packageUploading}
+        styles={{
+          scrollableContent: { 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%',
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflow: 'hidden',
+            paddingBottom: 0,
+          },
+        }}
       >
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {packageUploading && (
             <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
               <Spinner size={SpinnerSize.large} label="Uploading..." />
             </Overlay>
           )}
-          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
+          
+          {/* Scrollable content area */}
+          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
             {packageError && (
-              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setPackageError(null)}>
+              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setPackageError(null)} styles={{ root: { marginBottom: 15 } }}>
                 {packageError}
               </MessageBar>
             )}
             
-            <MessageBar messageBarType={MessageBarType.info}>
+            <MessageBar messageBarType={MessageBarType.info} styles={{ root: { marginBottom: 15 } }}>
               Upload a ZIP package containing a <strong>manifest.json</strong> site script file and optional assets (images, documents, etc.)
             </MessageBar>
 
@@ -674,6 +756,7 @@ const SiteScripts = ({
               value={packageTitle}
               onChange={(_, val) => setPackageTitle(val || '')}
               placeholder="Enter package title"
+              styles={{ root: { marginBottom: 15 } }}
             />
             <TextField
               label="Description"
@@ -682,9 +765,10 @@ const SiteScripts = ({
               value={packageDescription}
               onChange={(_, val) => setPackageDescription(val || '')}
               placeholder="Optional description"
+              styles={{ root: { marginBottom: 15 } }}
             />
             
-            <Stack tokens={{ childrenGap: 8 }}>
+            <Stack tokens={{ childrenGap: 8 }} styles={{ root: { marginBottom: 15 } }}>
               <Label required>ZIP Package</Label>
               <input
                 ref={fileInputRef}
@@ -715,19 +799,31 @@ const SiteScripts = ({
                 └── assets/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(optional images, files)
               </code>
             </MessageBar>
+          </div>
 
-            <Stack horizontal tokens={{ childrenGap: 10 }}>
-              <PrimaryButton 
-                text="Upload Package" 
-                onClick={handleUploadPackage} 
-                disabled={packageUploading || !packageFile || !packageTitle.trim()} 
-              />
-              <DefaultButton 
-                text="Cancel" 
-                onClick={handleUploadPackagePanelDismiss} 
-                disabled={packageUploading} 
-              />
-            </Stack>
+          {/* Sticky footer */}
+          <Stack 
+            horizontal 
+            tokens={{ childrenGap: 10 }} 
+            styles={{ 
+              root: { 
+                flexShrink: 0,
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+              } 
+            }}
+          >
+            <PrimaryButton 
+              text="Upload Package" 
+              onClick={handleUploadPackage} 
+              disabled={packageUploading || !packageFile || !packageTitle.trim()} 
+            />
+            <DefaultButton 
+              text="Cancel" 
+              onClick={handleUploadPackagePanelDismiss} 
+              disabled={packageUploading} 
+            />
           </Stack>
         </div>
       </Panel>

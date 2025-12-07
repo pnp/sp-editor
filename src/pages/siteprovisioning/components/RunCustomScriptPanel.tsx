@@ -177,31 +177,32 @@ const RunCustomScriptPanel = ({ isOpen, onDismiss, tabId, initialScript }: IRunC
     }
   }
 
-  const onRenderFooterContent = () => (
-    <Stack horizontal tokens={{ childrenGap: 8 }}>
-      <PrimaryButton onClick={handleRun} disabled={isRunning || !scriptContent.trim()}>
-        {isRunning ? <Spinner size={SpinnerSize.small} /> : 'Run Script'}
-      </PrimaryButton>
-      <DefaultButton onClick={handleClear} disabled={isRunning}>
-        Reset
-      </DefaultButton>
-      <DefaultButton onClick={handleDismiss}>Close</DefaultButton>
-    </Stack>
-  )
-
   return (
     <Panel
       isOpen={isOpen}
       onDismiss={handleDismiss}
       headerText="Run Custom Script"
       type={PanelType.large}
-      onRenderFooterContent={onRenderFooterContent}
-      isFooterAtBottom
       isLightDismiss={!isRunning}
-      styles={{ scrollableContent: { display: 'flex', flexDirection: 'column', height: '100%' } }}
+      closeButtonAriaLabel="Close"
+      styles={{
+        scrollableContent: { 
+          display: 'flex', 
+          flexDirection: 'column', 
+          height: '100%',
+          overflow: 'hidden',
+        },
+        content: {
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          overflow: 'hidden',
+          paddingBottom: 0,
+        },
+      }}
     >
-      <Stack tokens={{ childrenGap: 12 }} styles={{ root: { height: '100%', display: 'flex', flexDirection: 'column' } }}>
-        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 16 }}>
+      <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}>
+        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 16 }} styles={{ root: { marginBottom: 12 } }}>
           <MessageBar messageBarType={MessageBarType.info} styles={{ root: { flex: 1 } }}>
             Paste your site script JSON below and click "Run Script" to execute it on the current site.
           </MessageBar>
@@ -214,32 +215,33 @@ const RunCustomScriptPanel = ({ isOpen, onDismiss, tabId, initialScript }: IRunC
           />
         </Stack>
 
-        <Stack horizontal tokens={{ childrenGap: 16 }} styles={{ root: { flex: 1, minHeight: 0 } }}>
+        <Stack horizontal tokens={{ childrenGap: 16 }} styles={{ root: { flex: 1, overflow: 'hidden' } }}>
           {/* Editor - Left side */}
           <div
             ref={containerRef}
             style={{
               flex: 2,
-              minHeight: 300,
+              height: '100%',
               border: '1px solid #ccc',
               borderRadius: 4,
             }}
           />
 
           {/* Results - Right side */}
-          <Stack tokens={{ childrenGap: 8 }} styles={{ root: { flex: 1, minWidth: 300, overflow: 'auto' } }}>
-            <Text variant="large" styles={{ root: { fontWeight: 600 } }}>
+          <Stack styles={{ root: { flex: 1, minWidth: 300, height: '100%', overflow: 'hidden' } }}>
+            <Text variant="large" styles={{ root: { fontWeight: 600, marginBottom: 8 } }}>
               Execution Results
             </Text>
             
-            {error && (
-              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setError(null)}>
-                {error}
-              </MessageBar>
-            )}
+            <Stack styles={{ root: { flex: 1, overflow: 'auto' } }} tokens={{ childrenGap: 8 }}>
+              {error && (
+                <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setError(null)}>
+                  {error}
+                </MessageBar>
+              )}
 
             {result ? (
-              <Stack tokens={{ childrenGap: 8 }} styles={{ root: { overflow: 'auto' } }}>
+              <Stack tokens={{ childrenGap: 8 }}>
                 {result.actionOutcomes?.map((outcome, index) => (
                   <MessageBar
                     key={index}
@@ -287,7 +289,30 @@ const RunCustomScriptPanel = ({ isOpen, onDismiss, tabId, initialScript }: IRunC
                 Click "Run Script" to see results here
               </Text>
             )}
+            </Stack>
           </Stack>
+        </Stack>
+
+        {/* Buttons - Always at bottom */}
+        <Stack 
+          horizontal 
+          tokens={{ childrenGap: 10 }} 
+          styles={{ 
+            root: { 
+              marginTop: 16,
+              paddingTop: 16,
+              paddingBottom: 16,
+              borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+            } 
+          }}
+        >
+          <PrimaryButton onClick={handleRun} disabled={isRunning || !scriptContent.trim()}>
+            {isRunning ? <Spinner size={SpinnerSize.small} /> : 'Run Script'}
+          </PrimaryButton>
+          <DefaultButton onClick={handleClear} disabled={isRunning}>
+            Reset
+          </DefaultButton>
+          <DefaultButton onClick={handleDismiss}>Close</DefaultButton>
         </Stack>
       </Stack>
     </Panel>

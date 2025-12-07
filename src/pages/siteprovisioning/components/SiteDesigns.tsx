@@ -445,49 +445,82 @@ const SiteDesigns = ({
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
         isLightDismiss={!addSaving}
+        styles={{
+          scrollableContent: { 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%',
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflow: 'hidden',
+            paddingBottom: 0,
+          },
+        }}
       >
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {addSaving && (
             <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
               <Spinner size={SpinnerSize.large} label="Saving..." />
             </Overlay>
           )}
-        <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
-          {addError && (
-            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)}>
-              {addError}
-            </MessageBar>
-          )}
-          <TextField label="Title" required value={addTitle} onChange={(_, val) => setAddTitle(val || '')} />
-          <TextField
-            label="Description"
-            multiline
-            rows={2}
-            value={addDescription}
-            onChange={(_, val) => setAddDescription(val || '')}
-          />
-          <Dropdown
-            label="Web Template"
-            selectedKey={addWebTemplate}
-            options={webTemplateOptions}
-            onChange={(_, option) => option && setAddWebTemplate(option.key as string)}
-          />
-          {renderScriptCheckboxes(addSelectedScripts, true)}
-          <TextField
-            label="Preview Image URL"
-            value={addPreviewImageUrl}
-            onChange={(_, val) => setAddPreviewImageUrl(val || '')}
-          />
-          <TextField
-            label="Preview Image Alt Text"
-            value={addPreviewImageAltText}
-            onChange={(_, val) => setAddPreviewImageAltText(val || '')}
-          />
-          <Stack horizontal tokens={{ childrenGap: 10 }}>
+          
+          {/* Scrollable content area */}
+          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
+            {addError && (
+              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 15 } }}>
+                {addError}
+              </MessageBar>
+            )}
+            <TextField label="Title" required value={addTitle} onChange={(_, val) => setAddTitle(val || '')} styles={{ root: { marginBottom: 15 } }} />
+            <TextField
+              label="Description"
+              multiline
+              rows={2}
+              value={addDescription}
+              onChange={(_, val) => setAddDescription(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            <Dropdown
+              label="Web Template"
+              selectedKey={addWebTemplate}
+              options={webTemplateOptions}
+              onChange={(_, option) => option && setAddWebTemplate(option.key as string)}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            {renderScriptCheckboxes(addSelectedScripts, true)}
+            <TextField
+              label="Preview Image URL"
+              value={addPreviewImageUrl}
+              onChange={(_, val) => setAddPreviewImageUrl(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            <TextField
+              label="Preview Image Alt Text"
+              value={addPreviewImageAltText}
+              onChange={(_, val) => setAddPreviewImageAltText(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+          </div>
+          
+          {/* Sticky footer */}
+          <Stack 
+            horizontal 
+            tokens={{ childrenGap: 10 }} 
+            styles={{ 
+              root: { 
+                flexShrink: 0,
+                paddingTop: 16,
+                paddingBottom: 16,
+                borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+              } 
+            }}
+          >
             <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
             <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
-        </Stack>
         </div>
       </Panel>
 
@@ -499,61 +532,95 @@ const SiteDesigns = ({
         type={PanelType.medium}
         closeButtonAriaLabel="Close"
         isLightDismiss={!editSaving}
+        styles={{
+          scrollableContent: { 
+            display: 'flex', 
+            flexDirection: 'column', 
+            height: '100%',
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            overflow: 'hidden',
+            paddingBottom: 0,
+          },
+        }}
       >
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {editSaving && (
             <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
               <Spinner size={SpinnerSize.large} label="Saving..." />
             </Overlay>
           )}
-        <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
-          {editError && (
-            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)}>
-              {editError}
-            </MessageBar>
-          )}
-          <TextField
-            label="Title"
-            required={!selectedDesign?.IsOOTB}
-            readOnly={selectedDesign?.IsOOTB}
-            value={editTitle}
-            onChange={(_, val) => setEditTitle(val || '')}
-          />
-          <TextField
-            label="Description"
-            multiline
-            rows={2}
-            readOnly={selectedDesign?.IsOOTB}
-            value={editDescription}
-            onChange={(_, val) => setEditDescription(val || '')}
-          />
-          <Dropdown
-            label="Web Template"
-            selectedKey={editWebTemplate}
-            options={webTemplateOptions}
-            disabled={selectedDesign?.IsOOTB}
-            onChange={(_, option) => option && setEditWebTemplate(option.key as string)}
-          />
-          {renderScriptCheckboxes(editSelectedScripts, false)}
-          <TextField
-            label="Preview Image URL"
-            readOnly={selectedDesign?.IsOOTB}
-            value={editPreviewImageUrl}
-            onChange={(_, val) => setEditPreviewImageUrl(val || '')}
-          />
-          <TextField
-            label="Preview Image Alt Text"
-            readOnly={selectedDesign?.IsOOTB}
-            value={editPreviewImageAltText}
-            onChange={(_, val) => setEditPreviewImageAltText(val || '')}
-          />
+          
+          {/* Scrollable content area */}
+          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
+            {editError && (
+              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 15 } }}>
+                {editError}
+              </MessageBar>
+            )}
+            <TextField
+              label="Title"
+              required={!selectedDesign?.IsOOTB}
+              readOnly={selectedDesign?.IsOOTB}
+              value={editTitle}
+              onChange={(_, val) => setEditTitle(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            <TextField
+              label="Description"
+              multiline
+              rows={2}
+              readOnly={selectedDesign?.IsOOTB}
+              value={editDescription}
+              onChange={(_, val) => setEditDescription(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            <Dropdown
+              label="Web Template"
+              selectedKey={editWebTemplate}
+              options={webTemplateOptions}
+              disabled={selectedDesign?.IsOOTB}
+              onChange={(_, option) => option && setEditWebTemplate(option.key as string)}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            {renderScriptCheckboxes(editSelectedScripts, false)}
+            <TextField
+              label="Preview Image URL"
+              readOnly={selectedDesign?.IsOOTB}
+              value={editPreviewImageUrl}
+              onChange={(_, val) => setEditPreviewImageUrl(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+            <TextField
+              label="Preview Image Alt Text"
+              readOnly={selectedDesign?.IsOOTB}
+              value={editPreviewImageAltText}
+              onChange={(_, val) => setEditPreviewImageAltText(val || '')}
+              styles={{ root: { marginBottom: 15 } }}
+            />
+          </div>
+          
+          {/* Sticky footer - only show for custom designs */}
           {!selectedDesign?.IsOOTB && (
-            <Stack horizontal tokens={{ childrenGap: 10 }}>
+            <Stack 
+              horizontal 
+              tokens={{ childrenGap: 10 }} 
+              styles={{ 
+                root: { 
+                  flexShrink: 0,
+                  paddingTop: 16,
+                  paddingBottom: 16,
+                  borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                } 
+              }}
+            >
               <PrimaryButton text="Save" onClick={handleSaveEdit} disabled={editSaving} />
               <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
-        </Stack>
         </div>
       </Panel>
 

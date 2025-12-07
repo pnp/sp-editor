@@ -251,8 +251,122 @@ const GenerateFromListPanel = () => {
       headerText="Generate Site Script from List"
       type={PanelType.medium}
       isLightDismiss={!isGenerating && !isSaving}
-      onRenderFooterContent={() => (
-        <Stack horizontal tokens={{ childrenGap: 8 }}>
+      closeButtonAriaLabel="Close"
+      styles={{
+        scrollableContent: { 
+          display: 'flex', 
+          flexDirection: 'column', 
+          height: '100%',
+        },
+        content: {
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          overflow: 'hidden',
+          paddingBottom: 0,
+        },
+      }}
+    >
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {/* Scrollable content area */}
+        <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
+          {/* List selection - hidden when save form is shown */}
+          {!showSaveForm && (
+            <>
+              <Stack tokens={{ childrenGap: 8 }} styles={{ root: { marginBottom: 16 } }}>
+                <Dropdown
+                  label="Select a list"
+                  placeholder="Select a list"
+                  options={listOptions}
+                  selectedKey={selectedListId}
+                  onChange={(_, option) => setSelectedListId(option?.key as string || '')}
+                  disabled={isGenerating}
+                />
+                <PrimaryButton
+                  text={isGenerating ? 'Generating...' : 'Generate'}
+                  onClick={handleGenerate}
+                  disabled={!selectedListId || isGenerating}
+                  iconProps={{ iconName: 'Play' }}
+                />
+              </Stack>
+
+              {/* Info message */}
+              <MessageBar messageBarType={MessageBarType.info} styles={{ root: { marginBottom: 16 } }}>
+                <Text variant="small">
+                  This will generate a site script JSON that recreates the selected list's structure,
+                  including columns and views.
+                </Text>
+              </MessageBar>
+            </>
+          )}
+
+          {/* Save form - shown when user clicks "Save as Site Script" */}
+          {showSaveForm && (
+            <Stack tokens={{ childrenGap: 12 }} styles={{ root: { marginBottom: 16 } }}>
+              <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
+              <TextField
+                label="Title"
+                required
+                value={scriptTitle}
+                onChange={(_, val) => setScriptTitle(val || '')}
+                placeholder="Enter site script title"
+              />
+              <TextField
+                label="Description"
+                multiline
+                rows={2}
+                value={scriptDescription}
+                onChange={(_, val) => setScriptDescription(val || '')}
+                placeholder="Enter site script description (optional)"
+              />
+            </Stack>
+          )}
+
+          {/* Generated JSON section */}
+          <Stack styles={{ root: { marginBottom: 8 } }}>
+            <Stack horizontal horizontalAlign="space-between" verticalAlign="center" styles={{ root: { marginBottom: 8 } }}>
+              <Label>Generated Site Script:</Label>
+              {generatedJson && (
+                <Stack horizontal tokens={{ childrenGap: 4 }}>
+                  <IconButton
+                    iconProps={copyIcon}
+                    title="Copy to clipboard"
+                    ariaLabel="Copy to clipboard"
+                    onClick={handleCopy}
+                  />
+                  <IconButton
+                    iconProps={downloadIcon}
+                    title="Download JSON"
+                    ariaLabel="Download JSON"
+                    onClick={handleDownload}
+                  />
+                </Stack>
+              )}
+            </Stack>
+            <div
+              ref={editorDivRef}
+              style={{
+                height: 300,
+                border: '1px solid #ccc',
+                borderRadius: 2,
+              }}
+            />
+          </Stack>
+        </div>
+
+        {/* Sticky footer buttons */}
+        <Stack 
+          horizontal 
+          tokens={{ childrenGap: 8 }} 
+          styles={{ 
+            root: { 
+              flexShrink: 0,
+              paddingTop: 16,
+              paddingBottom: 16,
+              borderTop: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+            } 
+          }}
+        >
           {!showSaveForm ? (
             <PrimaryButton
               onClick={handleInitiateSave}
@@ -277,95 +391,7 @@ const GenerateFromListPanel = () => {
           )}
           <DefaultButton onClick={handleDismiss} text="Close" />
         </Stack>
-      )}
-      isFooterAtBottom={true}
-    >
-      <Stack tokens={{ childrenGap: 16 }} styles={{ root: { height: '100%' } }}>
-        {/* List selection - hidden when save form is shown */}
-        {!showSaveForm && (
-          <>
-            <Stack tokens={{ childrenGap: 8 }}>
-              <Dropdown
-                label="Select a list"
-                placeholder="Select a list"
-                options={listOptions}
-                selectedKey={selectedListId}
-                onChange={(_, option) => setSelectedListId(option?.key as string || '')}
-                disabled={isGenerating}
-              />
-              <PrimaryButton
-                text={isGenerating ? 'Generating...' : 'Generate'}
-                onClick={handleGenerate}
-                disabled={!selectedListId || isGenerating}
-                iconProps={{ iconName: 'Play' }}
-              />
-            </Stack>
-
-            {/* Info message */}
-            <MessageBar messageBarType={MessageBarType.info}>
-              <Text variant="small">
-                This will generate a site script JSON that recreates the selected list's structure,
-                including columns and views.
-              </Text>
-            </MessageBar>
-          </>
-        )}
-
-        {/* Save form - shown when user clicks "Save as Site Script" */}
-        {showSaveForm && (
-          <Stack tokens={{ childrenGap: 12 }}>
-            <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
-            <TextField
-              label="Title"
-              required
-              value={scriptTitle}
-              onChange={(_, val) => setScriptTitle(val || '')}
-              placeholder="Enter site script title"
-            />
-            <TextField
-              label="Description"
-              multiline
-              rows={2}
-              value={scriptDescription}
-              onChange={(_, val) => setScriptDescription(val || '')}
-              placeholder="Enter site script description (optional)"
-            />
-          </Stack>
-        )}
-
-        {/* Generated JSON section */}
-        <Stack tokens={{ childrenGap: 8 }} styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column' } }}>
-          <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-            <Label>Generated Site Script:</Label>
-            {generatedJson && (
-              <Stack horizontal tokens={{ childrenGap: 4 }}>
-                <IconButton
-                  iconProps={copyIcon}
-                  title="Copy to clipboard"
-                  ariaLabel="Copy to clipboard"
-                  onClick={handleCopy}
-                />
-                <IconButton
-                  iconProps={downloadIcon}
-                  title="Download JSON"
-                  ariaLabel="Download JSON"
-                  onClick={handleDownload}
-                />
-              </Stack>
-            )}
-          </Stack>
-          <div
-            ref={editorDivRef}
-            style={{
-              flex: 1,
-              minHeight: 300,
-              height: showSaveForm ? 'calc(100vh - 580px)' : 'calc(100vh - 420px)',
-              border: '1px solid #ccc',
-              borderRadius: 2,
-            }}
-          />
-        </Stack>
-      </Stack>
+      </div>
     </Panel>
   )
 }
