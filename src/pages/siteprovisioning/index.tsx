@@ -22,6 +22,7 @@ import SiteDesigns from './components/SiteDesigns'
 import GenerateFromListPanel from './components/GenerateFromListPanel'
 import GenerateFromSitePanel from './components/GenerateFromSitePanel'
 import SiteDesignRunsPanel from './components/SiteDesignRunsPanel'
+import RunCustomScriptPanel from './components/RunCustomScriptPanel'
 import {
   loadAll,
   deleteExistingSiteScript,
@@ -43,6 +44,7 @@ const SiteProvisioningPage = () => {
   const [editScriptPanelOpen, setEditScriptPanelOpen] = useState(false)
   const [addDesignPanelOpen, setAddDesignPanelOpen] = useState(false)
   const [editDesignPanelOpen, setEditDesignPanelOpen] = useState(false)
+  const [uploadPackagePanelOpen, setUploadPackagePanelOpen] = useState(false)
 
   // Clone data states
   const [scriptCloneData, setScriptCloneData] = useState<{ title: string; description: string; content: string } | null>(null)
@@ -54,6 +56,10 @@ const SiteProvisioningPage = () => {
 
   // Run history panel state
   const [runHistoryPanelOpen, setRunHistoryPanelOpen] = useState(false)
+
+  // Run custom script panel state
+  const [runCustomScriptPanelOpen, setRunCustomScriptPanelOpen] = useState(false)
+  const [runCustomScriptInitialContent, setRunCustomScriptInitialContent] = useState<string | undefined>(undefined)
 
   // Selected items for tracking
   const [selectedScript, setSelectedScriptState] = useState<ISiteScript | null>(null)
@@ -160,6 +166,13 @@ const SiteProvisioningPage = () => {
     setRunHistoryPanelOpen(true)
   }
 
+  const handleRunScript = () => {
+    if (!selectedScript) return
+    // Open the run custom script panel with the selected script's content
+    setRunCustomScriptInitialContent(selectedScript.Content)
+    setRunCustomScriptPanelOpen(true)
+  }
+
   const handleDelete = () => {
     if (activeTab === 'scripts' && selectedScript) {
       setDeleteScriptDialogOpen(true)
@@ -241,6 +254,9 @@ const SiteProvisioningPage = () => {
               onToggleOOTB={handleToggleOOTB}
               onGenerateFromList={handleGenerateFromList}
               onGenerateFromSite={handleGenerateFromSite}
+              onUploadPackage={() => setUploadPackagePanelOpen(true)}
+              onRunScript={handleRunScript}
+              onRunCustomScript={() => setRunCustomScriptPanelOpen(true)}
             />
             <SiteScripts
               tabId={tabId}
@@ -254,6 +270,8 @@ const SiteProvisioningPage = () => {
               onEditPanelDismiss={() => setEditScriptPanelOpen(false)}
               onEditPanelOpen={() => setEditScriptPanelOpen(true)}
               onSelectionChanged={handleScriptSelectionChanged}
+              uploadPackagePanelOpen={uploadPackagePanelOpen}
+              onUploadPackagePanelDismiss={() => setUploadPackagePanelOpen(false)}
             />
           </PivotItem>
           <PivotItem headerText="Site Designs" itemKey="designs">
@@ -329,6 +347,17 @@ const SiteProvisioningPage = () => {
           isOpen={runHistoryPanelOpen}
           onDismiss={() => setRunHistoryPanelOpen(false)}
           tabId={tabId}
+        />
+
+        {/* Run Custom Script Panel */}
+        <RunCustomScriptPanel
+          isOpen={runCustomScriptPanelOpen}
+          onDismiss={() => {
+            setRunCustomScriptPanelOpen(false)
+            setRunCustomScriptInitialContent(undefined)
+          }}
+          tabId={tabId}
+          initialScript={runCustomScriptInitialContent}
         />
       </IonContent>
     </IonPage>

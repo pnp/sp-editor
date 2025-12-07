@@ -15,6 +15,9 @@ interface ISiteProvisioningCommandBarProps {
   onGenerateFromList?: () => void
   onGenerateFromSite?: () => void
   onViewRunHistory?: () => void
+  onUploadPackage?: () => void
+  onRunScript?: () => void
+  onRunCustomScript?: () => void
 }
 
 // Fixed button width style for consistent layout
@@ -35,6 +38,9 @@ const SiteProvisioningCommandBar = ({
   onGenerateFromList,
   onGenerateFromSite,
   onViewRunHistory,
+  onUploadPackage,
+  onRunScript,
+  onRunCustomScript,
 }: ISiteProvisioningCommandBarProps) => {
   const getItems = (): ICommandBarItemProps[] => {
     const items: ICommandBarItemProps[] = [
@@ -96,6 +102,28 @@ const SiteProvisioningCommandBar = ({
             },
           ],
         },
+      })
+      items.push({
+        key: 'uploadPackage',
+        text: 'Upload Package',
+        iconProps: { iconName: 'CloudUpload' },
+        onClick: onUploadPackage,
+        buttonStyles,
+      })
+      items.push({
+        key: 'runScript',
+        text: 'Run Script',
+        iconProps: { iconName: 'Play' },
+        onClick: onRunScript,
+        disabled: !hasSelection,
+        buttonStyles,
+      })
+      items.push({
+        key: 'runCustomScript',
+        text: 'Run Custom',
+        iconProps: { iconName: 'Code' },
+        onClick: onRunCustomScript,
+        buttonStyles,
       })
     }
 

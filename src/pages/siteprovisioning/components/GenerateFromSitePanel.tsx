@@ -284,7 +284,7 @@ const GenerateFromSitePanel = () => {
       onDismiss={handleDismiss}
       headerText="Generate Site Script from Current Site"
       type={PanelType.medium}
-      isLightDismiss={false}
+      isLightDismiss={!isGenerating && !isSaving}
       onRenderFooterContent={() => (
         <Stack horizontal tokens={{ childrenGap: 8 }}>
           {!showSaveForm ? (

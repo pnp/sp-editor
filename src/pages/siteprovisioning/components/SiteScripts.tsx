@@ -35,6 +35,7 @@ import {
   loadAllSiteScripts,
   createNewSiteScript,
   updateExistingSiteScript,
+  uploadSiteScriptPackage,
 } from '../chrome/chrome-actions'
 
 interface ISiteScriptsProps {
@@ -46,6 +47,8 @@ interface ISiteScriptsProps {
   onEditPanelDismiss: () => void
   onEditPanelOpen: () => void
   onSelectionChanged: (item: ISiteScript | null) => void
+  uploadPackagePanelOpen?: boolean
+  onUploadPackagePanelDismiss?: () => void
 }
 
 const SiteScripts = ({
@@ -57,6 +60,8 @@ const SiteScripts = ({
   onEditPanelDismiss,
   onEditPanelOpen,
   onSelectionChanged,
+  uploadPackagePanelOpen = false,
+  onUploadPackagePanelDismiss,
 }: ISiteScriptsProps) => {
   const dispatch = useDispatch()
   const { siteScripts, selectedScriptId, showOOTB } = useSelector(
@@ -101,6 +106,14 @@ const SiteScripts = ({
 
   // Filter state
   const [filterText, setFilterText] = useState('')
+
+  // Upload package state
+  const [packageTitle, setPackageTitle] = useState('')
+  const [packageDescription, setPackageDescription] = useState('')
+  const [packageFile, setPackageFile] = useState<File | null>(null)
+  const [packageError, setPackageError] = useState<string | null>(null)
+  const [packageUploading, setPackageUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   // Get selected script
   const selectedScript = useMemo(
@@ -359,6 +372,85 @@ const SiteScripts = ({
     onEditPanelDismiss()
   }
 
+  const handleUploadPackagePanelDismiss = () => {
+    setPackageError(null)
+    setPackageTitle('')
+    setPackageDescription('')
+    setPackageFile(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+    onUploadPackagePanelDismiss?.()
+  }
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      if (!file.name.toLowerCase().endsWith('.zip')) {
+        setPackageError('Please select a ZIP file')
+        setPackageFile(null)
+        return
+      }
+      setPackageFile(file)
+      setPackageError(null)
+      // Auto-fill title from filename if empty
+      if (!packageTitle) {
+        setPackageTitle(file.name.replace('.zip', ''))
+      }
+    }
+  }
+
+  const handleUploadPackage = useCallback(async () => {
+    if (!tabId) return
+    if (!packageTitle.trim()) {
+      setPackageError('Title is required')
+      return
+    }
+    if (!packageFile) {
+      setPackageError('Please select a ZIP file')
+      return
+    }
+
+    setPackageError(null)
+    setPackageUploading(true)
+
+    try {
+      // Read file as base64
+      const reader = new FileReader()
+      const base64Content = await new Promise<string>((resolve, reject) => {
+        reader.onload = () => {
+          const result = reader.result as string
+          // Remove data URL prefix (e.g., "data:application/zip;base64,")
+          const base64 = result.split(',')[1]
+          resolve(base64)
+        }
+        reader.onerror = () => reject(new Error('Failed to read file'))
+        reader.readAsDataURL(packageFile)
+      })
+
+      await uploadSiteScriptPackage(tabId, {
+        title: packageTitle,
+        description: packageDescription,
+        content: base64Content,
+      })
+
+      // Success
+      dispatch(setAppMessage({
+        showMessage: true,
+        message: `Package "${packageTitle}" uploaded successfully!`,
+        color: MessageBarColors.success,
+      }))
+
+      handleUploadPackagePanelDismiss()
+      loadAllSiteScripts(dispatch, tabId, showOOTB)
+    } catch (err: any) {
+      setPackageError(err.message || 'Failed to upload package')
+    } finally {
+      setPackageUploading(false)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabId, packageTitle, packageDescription, packageFile, dispatch, showOOTB])
+
   const handleItemInvoked = (item: ISiteScript) => {
     dispatch(setSelectedScript(item.Id))
     onSelectionChanged(item)
@@ -547,6 +639,96 @@ const SiteScripts = ({
             </Stack>
           )}
         </Stack>
+        </div>
+      </Panel>
+
+      {/* Upload Package Panel */}
+      <Panel
+        headerText="Upload Site Script Package"
+        isOpen={uploadPackagePanelOpen}
+        onDismiss={handleUploadPackagePanelDismiss}
+        type={PanelType.medium}
+        closeButtonAriaLabel="Close"
+        isLightDismiss={!packageUploading}
+      >
+        <div style={{ position: 'relative' }}>
+          {packageUploading && (
+            <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
+              <Spinner size={SpinnerSize.large} label="Uploading..." />
+            </Overlay>
+          )}
+          <Stack tokens={{ childrenGap: 15 }} styles={{ root: { marginTop: 20 } }}>
+            {packageError && (
+              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setPackageError(null)}>
+                {packageError}
+              </MessageBar>
+            )}
+            
+            <MessageBar messageBarType={MessageBarType.info}>
+              Upload a ZIP package containing a <strong>manifest.json</strong> site script file and optional assets (images, documents, etc.)
+            </MessageBar>
+
+            <TextField
+              label="Title"
+              required
+              value={packageTitle}
+              onChange={(_, val) => setPackageTitle(val || '')}
+              placeholder="Enter package title"
+            />
+            <TextField
+              label="Description"
+              multiline
+              rows={2}
+              value={packageDescription}
+              onChange={(_, val) => setPackageDescription(val || '')}
+              placeholder="Optional description"
+            />
+            
+            <Stack tokens={{ childrenGap: 8 }}>
+              <Label required>ZIP Package</Label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".zip"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
+              />
+              <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
+                <DefaultButton
+                  text="Select ZIP File"
+                  iconProps={{ iconName: 'Attach' }}
+                  onClick={() => fileInputRef.current?.click()}
+                />
+                {packageFile && (
+                  <span style={{ color: isDark ? '#a19f9d' : '#605e5c' }}>
+                    {packageFile.name} ({(packageFile.size / 1024).toFixed(1)} KB)
+                  </span>
+                )}
+              </Stack>
+            </Stack>
+
+            <MessageBar>
+              <strong>Package structure:</strong><br />
+              <code style={{ fontSize: 12 }}>
+                package.zip<br />
+                ├── manifest.json &nbsp;&nbsp;(site script JSON)<br />
+                └── assets/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(optional images, files)
+              </code>
+            </MessageBar>
+
+            <Stack horizontal tokens={{ childrenGap: 10 }}>
+              <PrimaryButton 
+                text="Upload Package" 
+                onClick={handleUploadPackage} 
+                disabled={packageUploading || !packageFile || !packageTitle.trim()} 
+              />
+              <DefaultButton 
+                text="Cancel" 
+                onClick={handleUploadPackagePanelDismiss} 
+                disabled={packageUploading} 
+              />
+            </Stack>
+          </Stack>
         </div>
       </Panel>
     </>

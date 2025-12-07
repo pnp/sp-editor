@@ -22,9 +22,11 @@ import { getSiteScriptFromWeb, IGetSiteScriptFromWebInfo } from './get-sitescrip
 import { getSiteDesignRuns, ISiteDesignRun } from './get-site-design-runs'
 import { getSiteDesignRunStatus, ISiteDesignRunAction } from './get-site-design-run-status'
 import { getSiteDesignStages, ISiteDesignStage, ISiteDesignStagesResult } from './get-sitescript-stages'
+import { createSiteScriptPackage, ICreateSiteScriptPackageInfo } from './create-sitescript-package'
+import { executeSiteScriptAction, IExecuteSiteScriptResult, IActionOutcome } from './execute-sitescript-action'
 
 // Re-export types
-export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo, IGetSiteScriptFromWebInfo, ISiteDesignRun, ISiteDesignRunAction, ISiteDesignStage, ISiteDesignStagesResult }
+export type { ICreateSiteDesignInfo, IUpdateSiteDesignInfo, IGetSiteScriptFromWebInfo, ISiteDesignRun, ISiteDesignRunAction, ISiteDesignStage, ISiteDesignStagesResult, ICreateSiteScriptPackageInfo, IExecuteSiteScriptResult, IActionOutcome }
 
 // Load all site scripts
 export async function loadAllSiteScripts(dispatch: Dispatch, tabId: number, includeOOTB: boolean = false) {
@@ -542,3 +544,56 @@ export async function fetchSiteDesignStages(
   })
 }
 
+// Upload a site script package (ZIP file)
+export async function uploadSiteScriptPackage(
+  tabId: number,
+  info: ICreateSiteScriptPackageInfo
+): Promise<ISiteScript> {
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [info],
+      func: createSiteScriptPackage,
+    }).then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          resolve(res.result as ISiteScript)
+        } else {
+          reject(new Error(res.errorMessage || 'Failed to upload site script package'))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch(reject)
+  })
+}
+
+// Execute a site script on the current site
+// Parses the script and executes each action via ExecuteSiteScriptAction API
+export async function runSiteScript(
+  tabId: number,
+  scriptContent: string,
+  replaceParameters: boolean = true
+): Promise<IExecuteSiteScriptResult> {
+  return new Promise((resolve, reject) => {
+    chrome.scripting.executeScript({
+      target: { tabId },
+      world: 'MAIN',
+      args: [scriptContent, replaceParameters],
+      func: executeSiteScriptAction,
+    }).then((injectionResults) => {
+      if (injectionResults[0].result) {
+        const res = injectionResults[0].result as any
+        if (res.success) {
+          resolve(res.result as IExecuteSiteScriptResult)
+        } else {
+          reject(new Error(res.errorMessage || 'Failed to execute site script'))
+        }
+      } else {
+        reject(new Error('No result from script execution'))
+      }
+    }).catch(reject)
+  })
+}
