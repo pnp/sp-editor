@@ -145,8 +145,8 @@ const GenerateFromListPanel = () => {
     setIsGenerating(true)
     setShowSaveForm(false) // Reset save form when generating new
     try {
-      // Build the list URL (server-relative)
-      const listUrl = `Lists/${selectedList.Title}`
+      // Use the server-relative URL from the list
+      const listUrl = selectedList.Url
       await generateSiteScriptFromList(dispatch, tabId, listUrl)
     } catch (error: any) {
       dispatch(

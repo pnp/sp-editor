@@ -154,10 +154,10 @@ const GenerateFromSitePanel = () => {
     setIsGenerating(true)
     setShowSaveForm(false) // Reset save form when generating new
     try {
-      // Build list URLs from selected lists
+      // Build list URLs from selected lists (using server-relative URL)
       const selectedListUrls = selectedListKeys.map((key) => {
         const list = lists.find((l) => l.Id === key)
-        return list ? `Lists/${list.Title}` : ''
+        return list?.Url || ''
       }).filter((url) => url !== '')
 
       const options: IGetSiteScriptFromWebInfo = {

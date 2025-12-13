@@ -30,6 +30,7 @@ export interface IListInfo {
   Id: string
   Title: string
   BaseTemplate: number
+  Url: string
 }
 
 export interface ISiteProvisioningState {

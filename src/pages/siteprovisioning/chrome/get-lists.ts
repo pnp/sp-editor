@@ -16,8 +16,9 @@ export const getLists = () => {
   return getPageContext()
     .then((pageContext) => {
       const webUrl = pageContext?.webAbsoluteUrl || ''
+      const webServerRelativeUrl = pageContext?.webServerRelativeUrl || ''
 
-      return fetch(webUrl + '/_api/web/lists?$select=Title,Id,BaseTemplate,Hidden&$filter=Hidden eq false&$orderby=Title', {
+      return fetch(webUrl + '/_api/web/lists?$select=Title,Id,BaseTemplate,Hidden,RootFolder/ServerRelativeUrl&$expand=RootFolder&$filter=Hidden eq false&$orderby=Title', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -31,11 +32,17 @@ export const getLists = () => {
           const lists = data.value || []
           return {
             success: true,
-            result: lists.map((list: any) => ({
-              Id: list.Id,
-              Title: list.Title,
-              BaseTemplate: list.BaseTemplate,
-            })),
+            result: lists.map((list: any) => {
+              // Get site-relative URL by removing the web's server-relative URL
+              const serverRelativeUrl = list.RootFolder?.ServerRelativeUrl || ''
+              const siteRelativeUrl = serverRelativeUrl.replace(webServerRelativeUrl, '').replace(/^\//, '')
+              return {
+                Id: list.Id,
+                Title: list.Title,
+                BaseTemplate: list.BaseTemplate,
+                Url: siteRelativeUrl,
+              }
+            }),
             errorMessage: '',
             source: 'chrome-sp-editor',
           }
