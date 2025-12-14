@@ -35,8 +35,10 @@ import { IQueryBuilderState } from './queryBuilder/types';
 import { queryBuilderReducer } from './queryBuilder/reducers'
 import { fieldCustomizersReducer } from './fieldcustomizers/reducers'
 import { formCustomizersReducer } from './formcustomizers/reducers'
+import { siteProvisioningReducer } from './siteprovisioning/reducers'
 import { IFieldCustomizersState } from './fieldcustomizers/types';
 import { IFormCustomizersState } from './formcustomizers/types';
+import { ISiteProvisioningState } from './siteprovisioning/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -56,6 +58,7 @@ const rootReducer = combineReducers({
   queryBuilder: queryBuilderReducer,
   fieldCustomizers: fieldCustomizersReducer,
   formCustomizers: formCustomizersReducer,
+  siteProvisioning: siteProvisioningReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>

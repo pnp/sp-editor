@@ -162,6 +162,13 @@ const QuickLinkList = ({ ctx, appCatalogUrl, tabUrl }: IQuickLinkListProps) => {
             : ''
         }
       />
+      <QuickLinkButton
+        text={'Create site collection'}
+        iconName={'Add'}
+        disabled={!ctx || !ctx.isSPO || !ctx.portalUrl}
+        url={ctx && ctx.isSPO && ctx.portalUrl ? ctx.portalUrl + '/_layouts/15/CreateGroup.aspx' : ''}
+      />
+      
       <Separator alignContent="start" styles={separatorStyles}>
         Current site
       </Separator>
