@@ -57,7 +57,8 @@ const defaultScript = `{
           "verb": "addSPField",
           "fieldType": "Text",
           "displayName": "Description",
-          "addToDefaultView": true
+          "addToDefaultView": true,
+          "isRequired": false
         }
       ]
     }
