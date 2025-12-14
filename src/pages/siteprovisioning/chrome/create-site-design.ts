@@ -5,6 +5,7 @@ export interface ICreateSiteDesignInfo {
   siteScriptIds: string[]
   previewImageUrl?: string
   previewImageAltText?: string
+  isDefault?: boolean
 }
 
 export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
@@ -59,6 +60,7 @@ export const createSiteDesign = (info: ICreateSiteDesignInfo) => {
                   SiteScriptIds: info.siteScriptIds,
                   PreviewImageUrl: info.previewImageUrl || '',
                   PreviewImageAltText: info.previewImageAltText || '',
+                  IsDefault: info.isDefault || false,
                 },
               }),
             }

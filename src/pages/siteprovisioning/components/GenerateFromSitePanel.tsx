@@ -283,7 +283,7 @@ const GenerateFromSitePanel = () => {
       isOpen={isOpen}
       onDismiss={handleDismiss}
       headerText="Generate Site Script from Current Site"
-      type={PanelType.medium}
+      type={PanelType.large}
       isLightDismiss={!isGenerating && !isSaving}
       closeButtonAriaLabel="Close"
       styles={{
@@ -291,6 +291,7 @@ const GenerateFromSitePanel = () => {
           display: 'flex', 
           flexDirection: 'column', 
           height: '100%',
+          overflow: 'hidden',
         },
         content: {
           display: 'flex',
@@ -301,15 +302,18 @@ const GenerateFromSitePanel = () => {
         },
       }}
     >
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        {/* Scrollable content area */}
-        <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-          {/* Options and Generate - hidden when save form is shown */}
-          {!showSaveForm && (
-            <>
-              <Stack tokens={{ childrenGap: 8 }} styles={{ root: { marginBottom: 16 } }}>
-                <Label>Include in site script:</Label>
-                <Stack tokens={{ childrenGap: 8 }} styles={{ root: { paddingLeft: 8 } }}>
+      <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}>
+        {/* Horizontal layout: Options on left, Editor on right */}
+        <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { flex: 1, overflow: 'hidden' } }}>
+          {/* Left side - Options and form */}
+          <Stack styles={{ root: { width: 300, minWidth: 280, flexShrink: 0, overflow: 'auto' } }} tokens={{ childrenGap: 12 }}>
+            {/* Options and Generate - hidden when save form is shown */}
+            {!showSaveForm && (
+              <>
+                <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                  <Label>Include in site script:</Label>
+                </Stack>
+                <Stack tokens={{ childrenGap: 8 }} styles={{ root: { paddingLeft: 8, marginTop: -4 } }}>
                   <Checkbox
                     label="Branding"
                     checked={includeBranding}
@@ -342,7 +346,6 @@ const GenerateFromSitePanel = () => {
                   />
                 </Stack>
 
-                {/* Lists multi-select dropdown */}
                 <Dropdown
                   label="Include lists (optional)"
                   placeholder="Select lists to include"
@@ -363,45 +366,43 @@ const GenerateFromSitePanel = () => {
                   onClick={handleGenerate}
                   disabled={isGenerating || !hasAtLeastOneOption}
                   iconProps={{ iconName: 'Play' }}
-                  styles={{ root: { marginTop: 8 } }}
                 />
-              </Stack>
 
-              {/* Info message */}
-              <MessageBar messageBarType={MessageBarType.info} styles={{ root: { marginBottom: 16 } }}>
-                <Text variant="small">
-                  Generate a site script from the current site's configuration. 
-                  At least one option must be selected.
-                </Text>
-              </MessageBar>
-            </>
-          )}
+                <MessageBar messageBarType={MessageBarType.info}>
+                  <Text variant="small">
+                    Generate a site script from the current site's configuration. 
+                    At least one option must be selected.
+                  </Text>
+                </MessageBar>
+              </>
+            )}
 
-          {/* Save form - shown when user clicks "Save as Site Script" */}
-          {showSaveForm && (
-            <Stack tokens={{ childrenGap: 12 }} styles={{ root: { marginBottom: 16 } }}>
-              <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
-              <TextField
-                label="Title"
-                required
-                value={scriptTitle}
-                onChange={(_, val) => setScriptTitle(val || '')}
-                placeholder="Enter site script title"
-              />
-              <TextField
-                label="Description"
-                multiline
-                rows={2}
-                value={scriptDescription}
-                onChange={(_, val) => setScriptDescription(val || '')}
-                placeholder="Enter site script description (optional)"
-              />
-            </Stack>
-          )}
+            {/* Save form - shown when user clicks "Save as Site Script" */}
+            {showSaveForm && (
+              <>
+                <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
+                <TextField
+                  label="Title"
+                  required
+                  value={scriptTitle}
+                  onChange={(_, val) => setScriptTitle(val || '')}
+                  placeholder="Enter site script title"
+                />
+                <TextField
+                  label="Description"
+                  multiline
+                  rows={3}
+                  value={scriptDescription}
+                  onChange={(_, val) => setScriptDescription(val || '')}
+                  placeholder="Enter site script description (optional)"
+                />
+              </>
+            )}
+          </Stack>
 
-          {/* Generated JSON section */}
-          <Stack styles={{ root: { marginBottom: 8 } }}>
-            <Stack horizontal horizontalAlign="space-between" verticalAlign="center" styles={{ root: { marginBottom: 8 } }}>
+          {/* Right side - Editor */}
+          <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }} tokens={{ childrenGap: 8 }}>
+            <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
               <Label>Generated Site Script:</Label>
               {generatedJson && (
                 <Stack horizontal tokens={{ childrenGap: 4 }}>
@@ -423,13 +424,14 @@ const GenerateFromSitePanel = () => {
             <div
               ref={editorDivRef}
               style={{
-                height: 300,
+                flex: 1,
+                minHeight: 400,
                 border: '1px solid #ccc',
-                borderRadius: 2,
+                borderRadius: 4,
               }}
             />
           </Stack>
-        </div>
+        </Stack>
 
         {/* Sticky footer buttons */}
         <Stack 
@@ -468,7 +470,7 @@ const GenerateFromSitePanel = () => {
           )}
           <DefaultButton onClick={handleDismiss} text="Close" />
         </Stack>
-      </div>
+      </Stack>
     </Panel>
   )
 }

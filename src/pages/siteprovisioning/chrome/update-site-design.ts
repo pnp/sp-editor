@@ -6,6 +6,7 @@ export interface IUpdateSiteDesignInfo {
   siteScriptIds: string[]
   previewImageUrl?: string
   previewImageAltText?: string
+  isDefault?: boolean
 }
 
 export const updateSiteDesign = (info: IUpdateSiteDesignInfo) => {
@@ -61,6 +62,7 @@ export const updateSiteDesign = (info: IUpdateSiteDesignInfo) => {
                   SiteScriptIds: info.siteScriptIds,
                   PreviewImageUrl: info.previewImageUrl || '',
                   PreviewImageAltText: info.previewImageAltText || '',
+                  IsDefault: info.isDefault || false,
                 },
               }),
             }

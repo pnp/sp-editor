@@ -82,30 +82,66 @@ export const executeSiteScriptAction = (scriptContent: string, replaceParameters
 
       // Get parameters and bindings from the script
       const parameters = parsedScript.parameters || {}
-      const bindings = parsedScript.bindings || {}
+      const rawBindings = parsedScript.bindings || {}
+      
+      // Extract defaultValue from bindings (new format has { source: "Input", defaultValue: "..." })
+      const bindings: { [key: string]: any } = {}
+      for (const key of Object.keys(rawBindings)) {
+        const binding = rawBindings[key]
+        if (binding && typeof binding === 'object' && binding.defaultValue !== undefined) {
+          bindings[key] = binding.defaultValue
+        } else {
+          // Fallback for simple value bindings
+          bindings[key] = binding
+        }
+      }
+
+      // Function to get the value for a placeholder key
+      const getPlaceholderValue = (key: string): any => {
+        if (parameters[key] !== undefined) {
+          return parameters[key]
+        }
+        if (bindings[key] !== undefined) {
+          return bindings[key]
+        }
+        return undefined
+      }
 
       // Function to replace [placeholder] and [[placeholder]] values in a string
       // Supports both single bracket [key] and double bracket [[key]] syntax
-      const replacePlaceholders = (str: string): string => {
+      // If the entire string is a single placeholder and the value is not a string,
+      // returns the actual value (preserves booleans, numbers, etc.)
+      const replacePlaceholders = (str: string): any => {
+        // Check if the entire string is a single [[placeholder]]
+        const singleDoubleBracketMatch = str.match(/^\[\[([^\]]+)\]\]$/)
+        if (singleDoubleBracketMatch) {
+          const value = getPlaceholderValue(singleDoubleBracketMatch[1])
+          if (value !== undefined) {
+            return value // Return actual type (boolean, number, etc.)
+          }
+          return str // Keep original if no replacement found
+        }
+
+        // Check if the entire string is a single [placeholder]
+        const singleBracketMatch = str.match(/^\[([^\[\]]+)\]$/)
+        if (singleBracketMatch) {
+          const value = getPlaceholderValue(singleBracketMatch[1])
+          if (value !== undefined) {
+            return value // Return actual type
+          }
+          return str
+        }
+
+        // For strings with embedded placeholders, do string replacement
         // First replace [[key]] (double brackets)
         let result = str.replace(/\[\[([^\]]+)\]\]/g, (match, key) => {
-          if (parameters[key] !== undefined) {
-            return String(parameters[key])
-          }
-          if (bindings[key] !== undefined) {
-            return String(bindings[key])
-          }
-          return match
+          const value = getPlaceholderValue(key)
+          return value !== undefined ? String(value) : match
         })
         // Then replace [key] (single brackets) - but not if already part of [[]]
         result = result.replace(/(?<!\[)\[([^\[\]]+)\](?!\])/g, (match, key) => {
-          if (parameters[key] !== undefined) {
-            return String(parameters[key])
-          }
-          if (bindings[key] !== undefined) {
-            return String(bindings[key])
-          }
-          return match
+          const value = getPlaceholderValue(key)
+          return value !== undefined ? String(value) : match
         })
         return result
       }
@@ -180,12 +216,30 @@ export const executeSiteScriptAction = (scriptContent: string, replaceParameters
           }
 
           // Map outcomes - Outcome can be a string or number
+          // Based on SharePoint Site Script API:
+          // SharePoint Outcome codes:
+          // 0 = Success (action completed successfully)
+          // 1 = SuccessNoResult (action completed, no specific result)
+          // 2 = Failure
+          // ErrorCode 0 = no error, non-zero = error
           if (Array.isArray(actionResult) && actionResult.length > 0) {
             for (const outcome of actionResult) {
               const outcomeCode = typeof outcome.Outcome === 'string' ? parseInt(outcome.Outcome, 10) : (outcome.Outcome ?? -1)
+              const errorCode = outcome.ErrorCode ?? 0
+              
+              let outcomeText = 'Unknown'
+              if (outcomeCode === 0 || outcomeCode === 1) {
+                // Outcome 0 or 1 with no error = success
+                outcomeText = errorCode === 0 ? 'Success' : 'Failure'
+              } else if (outcomeCode === 2) {
+                outcomeText = 'Failure'
+              } else {
+                outcomeText = errorCode === 0 ? 'Success' : 'Failure'
+              }
+              
               allOutcomes.push({
                 title: outcome.Title || action.verb || 'Action',
-                outcome: outcomeCode === 0 ? 'Success' : outcomeCode === 1 ? 'Failure' : outcomeCode === 2 ? 'Skipped' : 'Unknown',
+                outcome: outcomeText,
                 outcomeCode: outcomeCode,
                 target: outcome.OutcomeText || outcome.Target || '',
               })

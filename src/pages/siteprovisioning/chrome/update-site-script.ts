@@ -2,7 +2,8 @@ export const updateSiteScript = (
   id: string,
   title: string,
   description: string,
-  content: string
+  content: string,
+  version: number
 ) => {
   // Handle modern pages where _spPageContextInfo may not be immediately available
   const getPageContext = (): Promise<any> => {
@@ -52,6 +53,7 @@ export const updateSiteScript = (
                   Id: id,
                   Title: title,
                   Description: description,
+                  Version: version,
                   Content: content,
                 },
               }),

@@ -250,13 +250,14 @@ export async function updateExistingSiteScript(
   id: string,
   title: string,
   description: string,
-  content: string
+  content: string,
+  version: number
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     chrome.scripting.executeScript({
       target: { tabId },
       world: 'MAIN',
-      args: [id, title, description, content],
+      args: [id, title, description, content, version],
       func: updateSiteScript,
     }).then((injectionResults) => {
       if (injectionResults[0].result) {

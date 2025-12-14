@@ -25,6 +25,8 @@ import {
   SpinnerSize,
   Label,
   SearchBox,
+  Text,
+  SpinButton,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteScript } from '../../../store/siteprovisioning/types'
@@ -101,6 +103,7 @@ const SiteScripts = ({
   const [editTitle, setEditTitle] = useState('')
   const [editDescription, setEditDescription] = useState('')
   const [editContent, setEditContent] = useState('')
+  const [editVersion, setEditVersion] = useState(1)
   const [editError, setEditError] = useState<string | null>(null)
   const [editSaving, setEditSaving] = useState(false)
 
@@ -139,6 +142,7 @@ const SiteScripts = ({
       setEditTitle(selectedScript.Title)
       setEditDescription(selectedScript.Description)
       setEditContent(selectedScript.Content)
+      setEditVersion(selectedScript.Version || 1)
       setEditError(null)
     }
   }, [selectedScript, editPanelOpen])
@@ -350,7 +354,7 @@ const SiteScripts = ({
     setEditSaving(true)
 
     try {
-      await updateExistingSiteScript(tabId, selectedScript.Id, editTitle, editDescription, editContent)
+      await updateExistingSiteScript(tabId, selectedScript.Id, editTitle, editDescription, editContent, editVersion)
       
       // Close panel
       onEditPanelDismiss()
@@ -360,7 +364,7 @@ const SiteScripts = ({
     } finally {
       setEditSaving(false)
     }
-  }, [tabId, selectedScript, editTitle, editDescription, editContent, dispatch, onEditPanelDismiss, showOOTB])
+  }, [tabId, selectedScript, editTitle, editDescription, editContent, editVersion, dispatch, onEditPanelDismiss, showOOTB])
 
   const handleAddPanelDismiss = () => {
     setAddError(null)
@@ -499,7 +503,7 @@ const SiteScripts = ({
         headerText="New Site Script"
         isOpen={addPanelOpen}
         onDismiss={handleAddPanelDismiss}
-        type={PanelType.medium}
+        type={PanelType.large}
         closeButtonAriaLabel="Close"
         isLightDismiss={!addSaving}
         styles={{
@@ -507,6 +511,7 @@ const SiteScripts = ({
             display: 'flex', 
             flexDirection: 'column', 
             height: '100%',
+            overflow: 'hidden',
           },
           content: {
             display: 'flex',
@@ -517,7 +522,7 @@ const SiteScripts = ({
           },
         }}
       >
-        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' } }}>
           {addSaving && (
             <Overlay styles={{ root: { zIndex: 1 } }}>
               <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
@@ -525,41 +530,49 @@ const SiteScripts = ({
               </Stack>
             </Overlay>
           )}
-          {/* Scrollable content area */}
-          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-            <Stack>
-              {addError && (
-                <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 15 } }}>
-                  {addError}
-                </MessageBar>
-              )}
+          {addError && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 12 } }}>
+              {addError}
+            </MessageBar>
+          )}
+
+          {/* Horizontal layout: Form fields on left, Editor on right */}
+          <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { flex: 1, overflow: 'hidden' } }}>
+            {/* Left side - Form fields */}
+            <Stack styles={{ root: { width: 300, minWidth: 280, flexShrink: 0 } }} tokens={{ childrenGap: 16 }}>
               <TextField
                 label="Title"
                 required
                 value={addTitle}
                 onChange={(_, val) => setAddTitle(val || '')}
-                styles={{ root: { marginBottom: 15 } }}
               />
               <TextField
                 label="Description"
                 multiline
-                rows={2}
+                rows={4}
                 value={addDescription}
                 onChange={(_, val) => setAddDescription(val || '')}
-                styles={{ root: { marginBottom: 15 } }}
               />
+              <MessageBar messageBarType={MessageBarType.info}>
+                Enter a title and paste or write your site script JSON in the editor.
+              </MessageBar>
+            </Stack>
+
+            {/* Right side - Editor */}
+            <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }} tokens={{ childrenGap: 8 }}>
               <Label required>Script Content (JSON)</Label>
               <div
                 ref={addEditorDivRef}
                 style={{
-                  height: 300,
-                  minHeight: 300,
+                  flex: 1,
+                  minHeight: 400,
                   border: '1px solid #ccc',
-                  borderRadius: 2,
+                  borderRadius: 4,
                 }}
               />
             </Stack>
-          </div>
+          </Stack>
+
           {/* Sticky footer */}
           <Stack 
             horizontal 
@@ -577,7 +590,7 @@ const SiteScripts = ({
             <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
             <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
-        </div>
+        </Stack>
       </Panel>
 
       {/* Edit/View Script Panel */}
@@ -585,7 +598,7 @@ const SiteScripts = ({
         headerText={selectedScript?.IsOOTB ? 'View Site Script (Microsoft)' : 'Edit Site Script'}
         isOpen={editPanelOpen}
         onDismiss={handleEditPanelDismiss}
-        type={PanelType.medium}
+        type={PanelType.large}
         closeButtonAriaLabel="Close"
         isLightDismiss={!editSaving}
         styles={{
@@ -593,6 +606,7 @@ const SiteScripts = ({
             display: 'flex', 
             flexDirection: 'column', 
             height: '100%',
+            overflow: 'hidden',
           },
           content: {
             display: 'flex',
@@ -603,7 +617,7 @@ const SiteScripts = ({
           },
         }}
       >
-        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' } }}>
           {editSaving && (
             <Overlay styles={{ root: { zIndex: 1 } }}>
               <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
@@ -611,31 +625,70 @@ const SiteScripts = ({
               </Stack>
             </Overlay>
           )}
-          {/* Scrollable content area */}
-          <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-            <Stack>
-              {editError && (
-                <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 15 } }}>
-                  {editError}
-                </MessageBar>
-              )}
+          {editError && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 12 } }}>
+              {editError}
+            </MessageBar>
+          )}
+
+          {/* Horizontal layout: Form fields on left, Editor on right */}
+          <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { flex: 1, overflow: 'hidden' } }}>
+            {/* Left side - Form fields */}
+            <Stack styles={{ root: { width: 300, minWidth: 280, flexShrink: 0 } }} tokens={{ childrenGap: 16 }}>
               <TextField
                 label="Title"
                 required={!selectedScript?.IsOOTB}
                 readOnly={selectedScript?.IsOOTB}
                 value={editTitle}
                 onChange={(_, val) => setEditTitle(val || '')}
-                styles={{ root: { marginBottom: 15 } }}
               />
               <TextField
                 label="Description"
                 multiline
-                rows={2}
+                rows={4}
                 readOnly={selectedScript?.IsOOTB}
                 value={editDescription}
                 onChange={(_, val) => setEditDescription(val || '')}
-                styles={{ root: { marginBottom: 15 } }}
               />
+              <Stack tokens={{ childrenGap: 8 }}>
+                <Text variant="small" styles={{ root: { fontWeight: 600, color: isDark ? '#a19f9d' : '#605e5c' } }}>
+                  Script ID
+                </Text>
+                <Text variant="small" styles={{ root: { wordBreak: 'break-all', fontFamily: 'monospace', opacity: 0.8 } }}>
+                  {selectedScript?.Id || '-'}
+                </Text>
+              </Stack>
+              <SpinButton
+                label="Version"
+                min={1}
+                step={1}
+                value={editVersion.toString()}
+                disabled={selectedScript?.IsOOTB}
+                onChange={(_, val) => {
+                  const num = parseInt(val || '1', 10)
+                  if (!isNaN(num) && num >= 1) setEditVersion(num)
+                }}
+                onIncrement={(val) => {
+                  const num = parseInt(val, 10) + 1
+                  setEditVersion(num)
+                  return num.toString()
+                }}
+                onDecrement={(val) => {
+                  const num = Math.max(1, parseInt(val, 10) - 1)
+                  setEditVersion(num)
+                  return num.toString()
+                }}
+                styles={{ root: { width: 120 } }}
+              />
+              {selectedScript?.IsOOTB && (
+                <MessageBar messageBarType={MessageBarType.info}>
+                  This is a Microsoft out-of-the-box site script and cannot be edited.
+                </MessageBar>
+              )}
+            </Stack>
+
+            {/* Right side - Editor */}
+            <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }} tokens={{ childrenGap: 8 }}>
               <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                 <Label>Script Content (JSON)</Label>
                 <Stack horizontal tokens={{ childrenGap: 4 }}>
@@ -678,14 +731,14 @@ const SiteScripts = ({
               <div
                 ref={editEditorDivRef}
                 style={{
-                  height: 300,
-                  minHeight: 300,
+                  flex: 1,
                   border: '1px solid #ccc',
-                  borderRadius: 2,
+                  borderRadius: 4,
                 }}
               />
             </Stack>
-          </div>
+          </Stack>
+
           {/* Sticky footer */}
           {!selectedScript?.IsOOTB && (
             <Stack 
@@ -705,7 +758,7 @@ const SiteScripts = ({
               <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
-        </div>
+        </Stack>
       </Panel>
 
       {/* Upload Package Panel */}

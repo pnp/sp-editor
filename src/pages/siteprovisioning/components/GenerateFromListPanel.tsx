@@ -249,7 +249,7 @@ const GenerateFromListPanel = () => {
       isOpen={isOpen}
       onDismiss={handleDismiss}
       headerText="Generate Site Script from List"
-      type={PanelType.medium}
+      type={PanelType.large}
       isLightDismiss={!isGenerating && !isSaving}
       closeButtonAriaLabel="Close"
       styles={{
@@ -257,6 +257,7 @@ const GenerateFromListPanel = () => {
           display: 'flex', 
           flexDirection: 'column', 
           height: '100%',
+          overflow: 'hidden',
         },
         content: {
           display: 'flex',
@@ -267,20 +268,22 @@ const GenerateFromListPanel = () => {
         },
       }}
     >
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        {/* Scrollable content area */}
-        <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-          {/* List selection - hidden when save form is shown */}
-          {!showSaveForm && (
-            <>
-              <Stack tokens={{ childrenGap: 8 }} styles={{ root: { marginBottom: 16 } }}>
+      <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}>
+        {/* Horizontal layout: Options on left, Editor on right */}
+        <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { flex: 1, overflow: 'hidden' } }}>
+          {/* Left side - Options and form */}
+          <Stack styles={{ root: { width: 300, minWidth: 280, flexShrink: 0, overflow: 'auto' } }} tokens={{ childrenGap: 16 }}>
+            {/* List selection - hidden when save form is shown */}
+            {!showSaveForm && (
+              <>
+                <Label>Select a list</Label>
                 <Dropdown
-                  label="Select a list"
                   placeholder="Select a list"
                   options={listOptions}
                   selectedKey={selectedListId}
                   onChange={(_, option) => setSelectedListId(option?.key as string || '')}
                   disabled={isGenerating}
+                  styles={{ root: { marginTop: -8 } }}
                 />
                 <PrimaryButton
                   text={isGenerating ? 'Generating...' : 'Generate'}
@@ -288,43 +291,41 @@ const GenerateFromListPanel = () => {
                   disabled={!selectedListId || isGenerating}
                   iconProps={{ iconName: 'Play' }}
                 />
-              </Stack>
+                <MessageBar messageBarType={MessageBarType.info}>
+                  <Text variant="small">
+                    This will generate a site script JSON that recreates the selected list's structure,
+                    including columns and views.
+                  </Text>
+                </MessageBar>
+              </>
+            )}
 
-              {/* Info message */}
-              <MessageBar messageBarType={MessageBarType.info} styles={{ root: { marginBottom: 16 } }}>
-                <Text variant="small">
-                  This will generate a site script JSON that recreates the selected list's structure,
-                  including columns and views.
-                </Text>
-              </MessageBar>
-            </>
-          )}
+            {/* Save form - shown when user clicks "Save as Site Script" */}
+            {showSaveForm && (
+              <>
+                <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
+                <TextField
+                  label="Title"
+                  required
+                  value={scriptTitle}
+                  onChange={(_, val) => setScriptTitle(val || '')}
+                  placeholder="Enter site script title"
+                />
+                <TextField
+                  label="Description"
+                  multiline
+                  rows={3}
+                  value={scriptDescription}
+                  onChange={(_, val) => setScriptDescription(val || '')}
+                  placeholder="Enter site script description (optional)"
+                />
+              </>
+            )}
+          </Stack>
 
-          {/* Save form - shown when user clicks "Save as Site Script" */}
-          {showSaveForm && (
-            <Stack tokens={{ childrenGap: 12 }} styles={{ root: { marginBottom: 16 } }}>
-              <Label styles={{ root: { fontWeight: 600 } }}>Save as new Site Script</Label>
-              <TextField
-                label="Title"
-                required
-                value={scriptTitle}
-                onChange={(_, val) => setScriptTitle(val || '')}
-                placeholder="Enter site script title"
-              />
-              <TextField
-                label="Description"
-                multiline
-                rows={2}
-                value={scriptDescription}
-                onChange={(_, val) => setScriptDescription(val || '')}
-                placeholder="Enter site script description (optional)"
-              />
-            </Stack>
-          )}
-
-          {/* Generated JSON section */}
-          <Stack styles={{ root: { marginBottom: 8 } }}>
-            <Stack horizontal horizontalAlign="space-between" verticalAlign="center" styles={{ root: { marginBottom: 8 } }}>
+          {/* Right side - Editor */}
+          <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }} tokens={{ childrenGap: 8 }}>
+            <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
               <Label>Generated Site Script:</Label>
               {generatedJson && (
                 <Stack horizontal tokens={{ childrenGap: 4 }}>
@@ -346,13 +347,14 @@ const GenerateFromListPanel = () => {
             <div
               ref={editorDivRef}
               style={{
-                height: 300,
+                flex: 1,
+                minHeight: 400,
                 border: '1px solid #ccc',
-                borderRadius: 2,
+                borderRadius: 4,
               }}
             />
           </Stack>
-        </div>
+        </Stack>
 
         {/* Sticky footer buttons */}
         <Stack 
@@ -391,7 +393,7 @@ const GenerateFromListPanel = () => {
           )}
           <DefaultButton onClick={handleDismiss} text="Close" />
         </Stack>
-      </div>
+      </Stack>
     </Panel>
   )
 }

@@ -13,11 +13,12 @@ import {
   IDropdownOption,
   PrimaryButton,
   DefaultButton,
+  IconButton,
   Stack,
   MessageBar,
   MessageBarType,
-  Checkbox,
   Label,
+  Text,
   ScrollablePane,
   Sticky,
   StickyPositionType,
@@ -31,6 +32,7 @@ import {
   DialogFooter,
   Icon,
   SearchBox,
+  Toggle,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { ISiteDesign, ISiteScript } from '../../../store/siteprovisioning/types'
@@ -92,6 +94,7 @@ const SiteDesigns = ({
   const [addSelectedScripts, setAddSelectedScripts] = useState<string[]>([])
   const [addPreviewImageUrl, setAddPreviewImageUrl] = useState('')
   const [addPreviewImageAltText, setAddPreviewImageAltText] = useState('')
+  const [addIsDefault, setAddIsDefault] = useState(false)
   const [addError, setAddError] = useState<string | null>(null)
   const [addSaving, setAddSaving] = useState(false)
 
@@ -102,11 +105,20 @@ const SiteDesigns = ({
   const [editSelectedScripts, setEditSelectedScripts] = useState<string[]>([])
   const [editPreviewImageUrl, setEditPreviewImageUrl] = useState('')
   const [editPreviewImageAltText, setEditPreviewImageAltText] = useState('')
+  const [editIsDefault, setEditIsDefault] = useState(false)
   const [editError, setEditError] = useState<string | null>(null)
   const [editSaving, setEditSaving] = useState(false)
 
   // Filter state
   const [filterText, setFilterText] = useState('')
+  
+  // Script picker filter state for each panel
+  const [addScriptFilter, setAddScriptFilter] = useState('')
+  const [editScriptFilter, setEditScriptFilter] = useState('')
+
+  // Drag and drop state
+  const [draggedScriptId, setDraggedScriptId] = useState<string | null>(null)
+  const [dragOverScriptId, setDragOverScriptId] = useState<string | null>(null)
 
   // Get selected design
   const selectedDesign = useMemo(
@@ -135,6 +147,7 @@ const SiteDesigns = ({
       setEditSelectedScripts(selectedDesign.SiteScriptIds || [])
       setEditPreviewImageUrl(selectedDesign.PreviewImageUrl || '')
       setEditPreviewImageAltText(selectedDesign.PreviewImageAltText || '')
+      setEditIsDefault(selectedDesign.IsDefault || false)
       setEditError(null)
     }
   }, [selectedDesign, editPanelOpen])
@@ -204,6 +217,18 @@ const SiteDesigns = ({
         onRender: (item: ISiteDesign) => item.SiteScriptIds?.length || 0,
       },
       {
+        key: 'isDefault',
+        name: 'Default',
+        minWidth: 60,
+        maxWidth: 80,
+        isResizable: true,
+        onRender: (item: ISiteDesign) => (
+          item.IsDefault ? (
+            <Icon iconName="CheckMark" styles={{ root: { color: '#107c10', fontSize: 14 } }} title="Default for this web template" />
+          ) : null
+        ),
+      },
+      {
         key: 'source',
         name: 'Source',
         minWidth: 80,
@@ -239,24 +264,240 @@ const SiteDesigns = ({
     }
   }
 
-  const renderScriptCheckboxes = (selectedScripts: string[], isAdd: boolean) => (
-    <Stack tokens={{ childrenGap: 8 }}>
-      <Label>Site Scripts</Label>
-      {siteScripts.length === 0 ? (
-        <MessageBar>No site scripts available. Create a site script first.</MessageBar>
-      ) : (
-        siteScripts.map((script: ISiteScript) => (
-          <Checkbox
-            key={script.Id}
-            label={script.Title}
-            checked={selectedScripts.includes(script.Id)}
-            disabled={!isAdd && selectedDesign?.IsOOTB}
-            onChange={(_, checked) => handleScriptToggle(script.Id, !!checked, isAdd)}
-          />
-        ))
-      )}
-    </Stack>
-  )
+  // Handle drag and drop reordering
+  const handleDragStart = (e: React.DragEvent, scriptId: string) => {
+    setDraggedScriptId(scriptId)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e: React.DragEvent, scriptId: string) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    if (scriptId !== draggedScriptId) {
+      setDragOverScriptId(scriptId)
+    }
+  }
+
+  const handleDragLeave = () => {
+    setDragOverScriptId(null)
+  }
+
+  const handleDrop = (e: React.DragEvent, targetScriptId: string, isAdd: boolean) => {
+    e.preventDefault()
+    if (!draggedScriptId || draggedScriptId === targetScriptId) {
+      setDraggedScriptId(null)
+      setDragOverScriptId(null)
+      return
+    }
+
+    const setScripts = isAdd ? setAddSelectedScripts : setEditSelectedScripts
+    setScripts((prev) => {
+      const draggedIndex = prev.indexOf(draggedScriptId)
+      const targetIndex = prev.indexOf(targetScriptId)
+      if (draggedIndex === -1 || targetIndex === -1) return prev
+
+      const newArray = [...prev]
+      newArray.splice(draggedIndex, 1)
+      newArray.splice(targetIndex, 0, draggedScriptId)
+      return newArray
+    })
+
+    setDraggedScriptId(null)
+    setDragOverScriptId(null)
+  }
+
+  const handleDragEnd = () => {
+    setDraggedScriptId(null)
+    setDragOverScriptId(null)
+  }
+
+  // Compact script picker with search and selected chips
+  // Render the script picker (2 columns: selected scripts + available scripts with search)
+  const renderScriptPicker = (
+    selectedScripts: string[], 
+    isAdd: boolean, 
+    filterValue: string, 
+    setFilterValue: (val: string) => void,
+    isReadOnly: boolean = false
+  ) => {
+    // Filter available scripts (search by title or ID)
+    const availableScripts = siteScripts.filter((script: ISiteScript) => {
+      const searchLower = filterValue.trim().toLowerCase()
+      const matchesFilter = !searchLower || 
+        script.Title.toLowerCase().includes(searchLower) ||
+        script.Id.toLowerCase().includes(searchLower)
+      const notSelected = !selectedScripts.includes(script.Id)
+      return matchesFilter && notSelected
+    })
+
+    // Get selected script objects
+    const selectedScriptObjects = selectedScripts
+      .map((id) => siteScripts.find((s: ISiteScript) => s.Id === id))
+      .filter(Boolean) as ISiteScript[]
+
+    return (
+      <Stack horizontal tokens={{ childrenGap: 16 }} styles={{ root: { flex: 1 } }}>
+        {/* Middle column - Selected Scripts */}
+        <Stack tokens={{ childrenGap: 8 }} styles={{ root: { flex: 1, minWidth: 0 } }}>
+          <Label>Selected Scripts ({selectedScripts.length})</Label>
+          {selectedScripts.length === 0 ? (
+            <Stack 
+              styles={{ 
+                root: { 
+                  flex: 1,
+                  padding: 16, 
+                  backgroundColor: isDark ? '#1e1e1e' : '#faf9f8',
+                  borderRadius: 4,
+                  border: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                } 
+              }}
+            >
+              <Text variant="small" styles={{ root: { fontStyle: 'italic', opacity: 0.7, textAlign: 'center' } }}>
+                No scripts selected.{!isReadOnly && ' Click a script on the right to add it.'}
+              </Text>
+            </Stack>
+          ) : (
+            <Stack 
+              tokens={{ childrenGap: 4 }} 
+              styles={{ 
+                root: { 
+                  flex: 1,
+                  overflowY: 'auto', 
+                  padding: 8, 
+                  backgroundColor: isDark ? '#1e1e1e' : '#faf9f8',
+                  borderRadius: 4,
+                  border: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                } 
+              }}
+            >
+              {selectedScriptObjects.map((script) => (
+                <Stack 
+                  key={script.Id} 
+                  horizontal 
+                  verticalAlign="center" 
+                  tokens={{ childrenGap: 8 }}
+                  draggable={!isReadOnly}
+                  onDragStart={(e) => handleDragStart(e, script.Id)}
+                  onDragOver={(e) => handleDragOver(e, script.Id)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, script.Id, isAdd)}
+                  onDragEnd={handleDragEnd}
+                  styles={{
+                    root: {
+                      padding: '6px 10px',
+                      backgroundColor: draggedScriptId === script.Id 
+                        ? (isDark ? '#3a3a3a' : '#e1dfdd')
+                        : dragOverScriptId === script.Id
+                          ? (isDark ? '#0078d4' : '#deecf9')
+                          : (isDark ? '#2d2d2d' : '#ffffff'),
+                      borderRadius: 4,
+                      border: dragOverScriptId === script.Id
+                        ? `2px solid ${isDark ? '#4fc3f7' : '#0078d4'}`
+                        : `1px solid ${isDark ? '#444' : '#e1dfdd'}`,
+                      cursor: isReadOnly ? 'default' : 'grab',
+                      opacity: draggedScriptId === script.Id ? 0.5 : 1,
+                      transition: 'background-color 0.15s, border-color 0.15s',
+                    },
+                  }}
+                >
+                  {!isReadOnly && (
+                    <Icon iconName="GripperDotsVertical" styles={{ root: { fontSize: 12, opacity: 0.5, cursor: 'grab' } }} />
+                  )}
+                  <Icon iconName="Script" styles={{ root: { fontSize: 12, opacity: 0.7, flexShrink: 0 } }} />
+                  <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }}>
+                    <Text variant="small" styles={{ root: { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }}>{script.Title}</Text>
+                    <Text variant="tiny" styles={{ root: { opacity: 0.6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }}>{script.Id}</Text>
+                  </Stack>
+                  {!isReadOnly && (
+                    <IconButton
+                      iconProps={{ iconName: 'Cancel' }}
+                      title="Remove"
+                      ariaLabel="Remove script"
+                      styles={{ 
+                        root: { width: 24, height: 24 },
+                        icon: { fontSize: 10 },
+                      }}
+                      onClick={() => handleScriptToggle(script.Id, false, isAdd)}
+                    />
+                  )}
+                </Stack>
+              ))}
+            </Stack>
+          )}
+        </Stack>
+
+        {/* Right column - Available Scripts with search */}
+        {!isReadOnly && (
+          <Stack tokens={{ childrenGap: 8 }} styles={{ root: { flex: 1, minWidth: 0 } }}>
+            <Label>Available Scripts</Label>
+            <SearchBox
+              placeholder="Search by name or ID..."
+              value={filterValue}
+              onChange={(_, val) => setFilterValue(val || '')}
+            />
+            {siteScripts.length === 0 ? (
+              <MessageBar>No site scripts available. Create a site script first.</MessageBar>
+            ) : availableScripts.length === 0 ? (
+              <Stack 
+                styles={{ 
+                  root: { 
+                    flex: 1,
+                    padding: 16, 
+                    backgroundColor: isDark ? '#1e1e1e' : '#faf9f8',
+                    borderRadius: 4,
+                    border: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  } 
+                }}
+              >
+                <Text variant="small" styles={{ root: { fontStyle: 'italic', opacity: 0.7, textAlign: 'center' } }}>
+                  {filterValue ? 'No matching scripts found.' : 'All scripts are selected.'}
+                </Text>
+              </Stack>
+            ) : (
+              <div 
+                style={{ 
+                  flex: 1,
+                  overflowY: 'auto',
+                  border: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                  borderRadius: 4,
+                }}
+              >
+                {availableScripts.map((script: ISiteScript) => (
+                  <Stack
+                    key={script.Id}
+                    horizontal
+                    verticalAlign="center"
+                    tokens={{ childrenGap: 8 }}
+                    styles={{
+                      root: {
+                        padding: '8px 12px',
+                        cursor: 'pointer',
+                        borderBottom: `1px solid ${isDark ? '#333' : '#edebe9'}`,
+                        ':hover': {
+                          backgroundColor: isDark ? '#2d2d2d' : '#f3f2f1',
+                        },
+                      },
+                    }}
+                    onClick={() => handleScriptToggle(script.Id, true, isAdd)}
+                  >
+                    <Icon iconName="Add" styles={{ root: { fontSize: 12, color: isDark ? '#4fc3f7' : '#0078d4', flexShrink: 0 } }} />
+                    <Stack styles={{ root: { flex: 1, minWidth: 0, overflow: 'hidden' } }}>
+                      <Text variant="small" styles={{ root: { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }}>{script.Title}</Text>
+                      <Text variant="tiny" styles={{ root: { opacity: 0.6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }}>{script.Id}</Text>
+                    </Stack>
+                  </Stack>
+                ))}
+              </div>
+            )}
+          </Stack>
+        )}
+      </Stack>
+    )
+  }
 
   const handleSaveAdd = useCallback(async () => {
     if (!tabId) return
@@ -275,26 +516,11 @@ const SiteDesigns = ({
       siteScriptIds: addSelectedScripts,
       previewImageUrl: addPreviewImageUrl,
       previewImageAltText: addPreviewImageAltText,
+      isDefault: addIsDefault,
     }
 
     try {
-      const result = await createNewSiteDesign(tabId, info)
-      
-      // Show preview dialog with stages
-      setPreviewDesignTitle(addTitle)
-      setPreviewLoading(true)
-      setPreviewError(null)
-      setPreviewDialogOpen(true)
-      
-      try {
-        const stagesResult = await fetchSiteDesignStages(tabId, result.Id)
-        setPreviewStages(stagesResult.stages)
-      } catch (stageErr: any) {
-        setPreviewError(stageErr.message || 'Failed to load preview')
-        setPreviewStages([])
-      } finally {
-        setPreviewLoading(false)
-      }
+      await createNewSiteDesign(tabId, info)
       
       // Success - close panel and reset form
       onAddPanelDismiss()
@@ -304,6 +530,7 @@ const SiteDesigns = ({
       setAddSelectedScripts([])
       setAddPreviewImageUrl('')
       setAddPreviewImageAltText('')
+      setAddIsDefault(false)
       loadAllSiteDesigns(dispatch, tabId, showOOTB)
     } catch (err: any) {
       setAddError(err.message || 'Failed to create site design')
@@ -318,6 +545,7 @@ const SiteDesigns = ({
     addSelectedScripts,
     addPreviewImageUrl,
     addPreviewImageAltText,
+    addIsDefault,
     dispatch,
     onAddPanelDismiss,
     showOOTB,
@@ -341,26 +569,11 @@ const SiteDesigns = ({
       siteScriptIds: editSelectedScripts,
       previewImageUrl: editPreviewImageUrl,
       previewImageAltText: editPreviewImageAltText,
+      isDefault: editIsDefault,
     }
 
     try {
       await updateExistingSiteDesign(tabId, info)
-      
-      // Show preview dialog with stages
-      setPreviewDesignTitle(editTitle)
-      setPreviewLoading(true)
-      setPreviewError(null)
-      setPreviewDialogOpen(true)
-      
-      try {
-        const stagesResult = await fetchSiteDesignStages(tabId, selectedDesign.Id)
-        setPreviewStages(stagesResult.stages)
-      } catch (stageErr: any) {
-        setPreviewError(stageErr.message || 'Failed to load preview')
-        setPreviewStages([])
-      } finally {
-        setPreviewLoading(false)
-      }
       
       // Success - close panel
       onEditPanelDismiss()
@@ -379,6 +592,7 @@ const SiteDesigns = ({
     editSelectedScripts,
     editPreviewImageUrl,
     editPreviewImageAltText,
+    editIsDefault,
     dispatch,
     onEditPanelDismiss,
     showOOTB,
@@ -442,7 +656,7 @@ const SiteDesigns = ({
         headerText="New Site Design"
         isOpen={addPanelOpen}
         onDismiss={handleAddPanelDismiss}
-        type={PanelType.medium}
+        type={PanelType.large}
         closeButtonAriaLabel="Close"
         isLightDismiss={!addSaving}
         styles={{
@@ -450,6 +664,7 @@ const SiteDesigns = ({
             display: 'flex', 
             flexDirection: 'column', 
             height: '100%',
+            overflow: 'hidden',
           },
           content: {
             display: 'flex',
@@ -460,51 +675,70 @@ const SiteDesigns = ({
           },
         }}
       >
-        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' } }}>
           {addSaving && (
-            <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
-              <Spinner size={SpinnerSize.large} label="Saving..." />
+            <Overlay styles={{ root: { zIndex: 1 } }}>
+              <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
+                <Spinner size={SpinnerSize.large} label="Saving..." />
+              </Stack>
             </Overlay>
           )}
-          
-          {/* Scrollable content area */}
+          {addError && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 12 } }}>
+              {addError}
+            </MessageBar>
+          )}
+
+          {/* Scrollable content - 3-column horizontal layout */}
           <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-            {addError && (
-              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setAddError(null)} styles={{ root: { marginBottom: 15 } }}>
-                {addError}
-              </MessageBar>
-            )}
-            <TextField label="Title" required value={addTitle} onChange={(_, val) => setAddTitle(val || '')} styles={{ root: { marginBottom: 15 } }} />
-            <TextField
-              label="Description"
-              multiline
-              rows={2}
-              value={addDescription}
-              onChange={(_, val) => setAddDescription(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            <Dropdown
-              label="Web Template"
-              selectedKey={addWebTemplate}
-              options={webTemplateOptions}
-              onChange={(_, option) => option && setAddWebTemplate(option.key as string)}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            {renderScriptCheckboxes(addSelectedScripts, true)}
-            <TextField
-              label="Preview Image URL"
-              value={addPreviewImageUrl}
-              onChange={(_, val) => setAddPreviewImageUrl(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            <TextField
-              label="Preview Image Alt Text"
-              value={addPreviewImageAltText}
-              onChange={(_, val) => setAddPreviewImageAltText(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
+            <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { height: '100%' } }}>
+              {/* Left column - Form fields */}
+              <Stack tokens={{ childrenGap: 12 }} styles={{ root: { width: 240, flexShrink: 0 } }}>
+                <TextField 
+                  label="Title" 
+                  required 
+                  value={addTitle} 
+                  onChange={(_, val) => setAddTitle(val || '')} 
+                />
+                <TextField
+                  label="Description"
+                  multiline
+                  rows={3}
+                  value={addDescription}
+                  onChange={(_, val) => setAddDescription(val || '')}
+                />
+                <Dropdown
+                  label="Web Template"
+                  selectedKey={addWebTemplate}
+                  options={webTemplateOptions}
+                  onChange={(_, option) => option && setAddWebTemplate(option.key as string)}
+                />
+                <TextField
+                  label="Preview Image URL"
+                  value={addPreviewImageUrl}
+                  onChange={(_, val) => setAddPreviewImageUrl(val || '')}
+                  placeholder="https://..."
+                />
+                <TextField
+                  label="Preview Image Alt Text"
+                  value={addPreviewImageAltText}
+                  onChange={(_, val) => setAddPreviewImageAltText(val || '')}
+                />
+                <Toggle
+                  label="Set as default"
+                  checked={addIsDefault}
+                  onChange={(_, checked) => setAddIsDefault(checked || false)}
+                  onText="Yes"
+                  offText="No"
+                  title="When enabled, this design becomes the default for the selected web template"
+                />
+              </Stack>
+              
+              {/* Middle + Right columns - Script picker (selected + available) */}
+              {renderScriptPicker(addSelectedScripts, true, addScriptFilter, setAddScriptFilter)}
+            </Stack>
           </div>
-          
+
           {/* Sticky footer */}
           <Stack 
             horizontal 
@@ -521,7 +755,7 @@ const SiteDesigns = ({
             <PrimaryButton text="Create" onClick={handleSaveAdd} disabled={addSaving} />
             <DefaultButton text="Cancel" onClick={handleAddPanelDismiss} disabled={addSaving} />
           </Stack>
-        </div>
+        </Stack>
       </Panel>
 
       {/* Edit/View Design Panel */}
@@ -529,7 +763,7 @@ const SiteDesigns = ({
         headerText={selectedDesign?.IsOOTB ? 'View Site Design (Microsoft)' : 'Edit Site Design'}
         isOpen={editPanelOpen}
         onDismiss={handleEditPanelDismiss}
-        type={PanelType.medium}
+        type={PanelType.large}
         closeButtonAriaLabel="Close"
         isLightDismiss={!editSaving}
         styles={{
@@ -537,6 +771,7 @@ const SiteDesigns = ({
             display: 'flex', 
             flexDirection: 'column', 
             height: '100%',
+            overflow: 'hidden',
           },
           content: {
             display: 'flex',
@@ -547,62 +782,81 @@ const SiteDesigns = ({
           },
         }}
       >
-        <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <Stack styles={{ root: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' } }}>
           {editSaving && (
-            <Overlay styles={{ root: { position: 'absolute', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.8)' } }}>
-              <Spinner size={SpinnerSize.large} label="Saving..." />
+            <Overlay styles={{ root: { zIndex: 1 } }}>
+              <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { height: '100%' } }}>
+                <Spinner size={SpinnerSize.large} label="Saving..." />
+              </Stack>
             </Overlay>
           )}
-          
-          {/* Scrollable content area */}
+          {editError && (
+            <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 12 } }}>
+              {editError}
+            </MessageBar>
+          )}
+
+          {/* Scrollable content - 3-column horizontal layout */}
           <div style={{ flex: 1, overflow: 'auto', paddingRight: 4 }}>
-            {editError && (
-              <MessageBar messageBarType={MessageBarType.error} onDismiss={() => setEditError(null)} styles={{ root: { marginBottom: 15 } }}>
-                {editError}
-              </MessageBar>
-            )}
-            <TextField
-              label="Title"
-              required={!selectedDesign?.IsOOTB}
-              readOnly={selectedDesign?.IsOOTB}
-              value={editTitle}
-              onChange={(_, val) => setEditTitle(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            <TextField
-              label="Description"
-              multiline
-              rows={2}
-              readOnly={selectedDesign?.IsOOTB}
-              value={editDescription}
-              onChange={(_, val) => setEditDescription(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            <Dropdown
-              label="Web Template"
-              selectedKey={editWebTemplate}
-              options={webTemplateOptions}
-              disabled={selectedDesign?.IsOOTB}
-              onChange={(_, option) => option && setEditWebTemplate(option.key as string)}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            {renderScriptCheckboxes(editSelectedScripts, false)}
-            <TextField
-              label="Preview Image URL"
-              readOnly={selectedDesign?.IsOOTB}
-              value={editPreviewImageUrl}
-              onChange={(_, val) => setEditPreviewImageUrl(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
-            <TextField
-              label="Preview Image Alt Text"
-              readOnly={selectedDesign?.IsOOTB}
-              value={editPreviewImageAltText}
-              onChange={(_, val) => setEditPreviewImageAltText(val || '')}
-              styles={{ root: { marginBottom: 15 } }}
-            />
+            <Stack horizontal tokens={{ childrenGap: 20 }} styles={{ root: { height: '100%' } }}>
+              {/* Left column - Form fields */}
+              <Stack tokens={{ childrenGap: 12 }} styles={{ root: { width: 240, flexShrink: 0 } }}>
+                <TextField
+                  label="Title"
+                  required={!selectedDesign?.IsOOTB}
+                  readOnly={selectedDesign?.IsOOTB}
+                  value={editTitle}
+                  onChange={(_, val) => setEditTitle(val || '')}
+                />
+                <TextField
+                  label="Description"
+                  multiline
+                  rows={3}
+                  readOnly={selectedDesign?.IsOOTB}
+                  value={editDescription}
+                  onChange={(_, val) => setEditDescription(val || '')}
+                />
+                <Dropdown
+                  label="Web Template"
+                  selectedKey={editWebTemplate}
+                  options={webTemplateOptions}
+                  disabled={selectedDesign?.IsOOTB}
+                  onChange={(_, option) => option && setEditWebTemplate(option.key as string)}
+                />
+                <TextField
+                  label="Preview Image URL"
+                  readOnly={selectedDesign?.IsOOTB}
+                  value={editPreviewImageUrl}
+                  onChange={(_, val) => setEditPreviewImageUrl(val || '')}
+                  placeholder="https://..."
+                />
+                <TextField
+                  label="Preview Image Alt Text"
+                  readOnly={selectedDesign?.IsOOTB}
+                  value={editPreviewImageAltText}
+                  onChange={(_, val) => setEditPreviewImageAltText(val || '')}
+                />
+                <Toggle
+                  label="Set as default"
+                  checked={editIsDefault}
+                  onChange={(_, checked) => setEditIsDefault(checked || false)}
+                  disabled={selectedDesign?.IsOOTB}
+                  onText="Yes"
+                  offText="No"
+                  title="When enabled, this design becomes the default for the selected web template"
+                />
+                {selectedDesign?.IsOOTB && (
+                  <MessageBar messageBarType={MessageBarType.info}>
+                    This is a Microsoft out-of-the-box site design and cannot be edited.
+                  </MessageBar>
+                )}
+              </Stack>
+              
+              {/* Middle + Right columns - Script picker (selected + available) */}
+              {renderScriptPicker(editSelectedScripts, false, editScriptFilter, setEditScriptFilter, selectedDesign?.IsOOTB)}
+            </Stack>
           </div>
-          
+
           {/* Sticky footer - only show for custom designs */}
           {!selectedDesign?.IsOOTB && (
             <Stack 
@@ -621,7 +875,7 @@ const SiteDesigns = ({
               <DefaultButton text="Cancel" onClick={handleEditPanelDismiss} disabled={editSaving} />
             </Stack>
           )}
-        </div>
+        </Stack>
       </Panel>
 
       {/* Preview Dialog - Shows stages/actions after save */}
