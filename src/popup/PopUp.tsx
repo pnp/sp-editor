@@ -62,6 +62,15 @@ const getMode = (): 'popup' | 'panel' => {
   return 'popup';
 };
 
+function checkTeamsContext() {
+  let tabFrame = document.querySelector("iframe[name='embedded-page-container']") as HTMLIFrameElement | null;
+  if (tabFrame) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const PopUp = () => {
   const [tabId, setTabId] = useState<number>();
   const [tabUrl, setTabUrl] = useState<string>('');
@@ -72,15 +81,6 @@ const PopUp = () => {
   const [isTeams, setIsTeams] = useState<any>(null);
   const [mode] = useState<'popup' | 'panel'>(getMode);
   const isPanel = mode === 'panel';
-
-  function checkTeamsContext() {
-    let tabFrame = document.querySelector("iframe[name='embedded-page-container']") as HTMLIFrameElement | null;
-    if (tabFrame) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   const loadContextData = useCallback((currentTabId: number, currentTabUrl: string) => {
     // Reset state when loading new context

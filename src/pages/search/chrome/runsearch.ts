@@ -3,7 +3,11 @@ import * as Logging from '@pnp/logging';
 import * as Queryable from '@pnp/queryable';
 
 export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
+  console.log('[SP Editor Search] Starting search with payload:', payload);
+  console.log('[SP Editor Search] Extension path:', extPath);
+  
   return moduleLoader(extPath).then((modules) => {
+    console.log('[SP Editor Search] Modules loaded successfully');
     /*** map modules ***/
     var pnpsp = modules[0];
     var pnplogging = modules[1];
@@ -15,6 +19,8 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
         (window as any)._spPageContextInfo = e.context._pageContext._legacyPageContext;
       });
     }
+    
+    console.log('[SP Editor Search] _spPageContextInfo:', (window as any)._spPageContextInfo);
 
     const removeEmptyArraysAndWrap = (payload: any) => {
       const isNotSPO = !(window as any)._spPageContextInfo.isSPO;
@@ -57,38 +63,38 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
           pnpqueryable.DefaultParse()
         );
 
-        instance.on.pre.prepend(async (url, init, result) => {
+        instance.on.pre.prepend((url, init, result) => {
           url = props?.baseUrl
             ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
             : url;
 
+          const modifiedUrl = url
+            .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+            .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl(');
+
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
-              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+              const contextUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              return fetch(contextUrl + '_api/contextinfo', {
                 method: 'POST',
                 headers: {
                   accept: 'application/json;odata=verbose',
                   'content-type': 'application/json;odata=verbose',
                 },
+              })
+              .then(function(response) { return response.json(); })
+              .then(function(data) {
+                digest = data.d.GetContextWebInformation.FormDigestValue;
+                init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+                return [modifiedUrl, init, result];
               });
-              const data = await response.json();
-              digest = data.d.GetContextWebInformation.FormDigestValue;
+            } else {
+              init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+              return Promise.resolve([modifiedUrl, init, result]);
             }
-
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
-            };
           }
 
-          return [
-            url
-              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
-              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
-            init,
-            result,
-          ];
+          return Promise.resolve([modifiedUrl, init, result]);
         });
         return instance;
       };
@@ -156,8 +162,10 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
       return results;
   }
 
+    console.log('[SP Editor Search] Executing postquery with payload:', JSON.stringify({request: payload }));
     return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({request: payload }) })
       .then((r) => {
+        console.log('[SP Editor Search] Raw response:', r);
         const parsedResults = formatSearchResults(r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows);
         var result = {
           ElapsedTime: r.postquery.ElapsedTime,
@@ -171,10 +179,13 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
         return result;
       })
       .catch((error) => {
+        console.error('[SP Editor Search] Full error:', error);
+        console.error('[SP Editor Search] Error stack:', error?.stack);
         var errorMessage = error.message;
         if (error !== null && error !== void 0 && error.isHttpRequestError) {
           // we can read the json from the response
           return error.response.json().then((json: any) => {
+            console.error('[SP Editor Search] HTTP Error JSON:', json);
             // if we have a value property we can show it
             errorMessage = typeof json['odata.error'] === 'object' ? json['odata.error'].message.value : error.message;
             return {
@@ -186,14 +197,23 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
             errorMessage: errorMessage,
           };
       });
+  }).catch((err) => {
+    console.error('[SP Editor Search] Top-level error:', err);
+    return {
+      errorMessage: err?.message || String(err),
+    };
   });
 
   function moduleLoader(extPath: string) {
     type libTypes = [typeof SP, typeof Logging, typeof Queryable];
     /*** load systemjs ***/
-    return new Promise<libTypes>((resolve) => {
+    return new Promise<libTypes>((resolve, reject) => {
       const s = document.createElement('script');
       s.src = extPath + 'bundles/system.js';
+      s.onerror = (err) => {
+        console.error('[SP Editor Search] Failed to load system.js:', err);
+        reject(new Error('Failed to load system.js'));
+      };
       (document.head || document.documentElement).appendChild(s);
       s.onload = () =>
         /*** load pnpjs modules ***/
@@ -211,6 +231,9 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
           } else {
             resolve(modules);
           }
+        }).catch((err) => {
+          console.error('[SP Editor Search] Failed to load pnpjs modules:', err);
+          reject(err);
         });
     });
   }

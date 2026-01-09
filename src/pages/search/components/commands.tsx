@@ -79,6 +79,8 @@ const SearchCommands = () => {
                   modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
                   modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
 
+                  console.log('[SP Editor] Executing search with query:', modifiedQuery);
+                  
                   chrome.scripting
                     .executeScript({
                       target: { tabId: chrome.devtools.inspectedWindow.tabId },
@@ -86,7 +88,21 @@ const SearchCommands = () => {
                       args: [modifiedQuery, chrome.runtime.getURL('')],
                       func: runsearch,
                     })
-                    .then((injectionResults) => handleInjectionResults(injectionResults, dispatch));
+                    .then((injectionResults) => {
+                      console.log('[SP Editor] Injection results:', injectionResults);
+                      handleInjectionResults(injectionResults, dispatch);
+                    })
+                    .catch((err) => {
+                      console.error('[SP Editor] Script execution failed:', err);
+                      dispatch(rootActions.setLoading(false));
+                      dispatch(
+                        rootActions.setAppMessage({
+                          showMessage: true,
+                          message: `Script execution failed: ${err.message}`,
+                          color: MessageBarColors.danger,
+                        })
+                      );
+                    });
                 }}
               />
             ),
