@@ -24,36 +24,36 @@ export const updateCacheCustomAction = (values: any, extPath: string) => {
           pnpqueryable.DefaultParse(),
         );
 
-        instance.on.pre.prepend(async (url, init, result) => {
+        instance.on.pre.prepend((url, init, result) => {
           url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+
+          const modifiedUrl = url
+            .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+            .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl(');
 
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
-              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+              const contextUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              return fetch(contextUrl + '_api/contextinfo', {
                 method: 'POST',
                 headers: {
                   accept: 'application/json;odata=verbose',
                   'content-type': 'application/json;odata=verbose',
                 },
+              })
+              .then(function(response) { return response.json(); })
+              .then(function(data) {
+                digest = data.d.GetContextWebInformation.FormDigestValue;
+                init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+                return [modifiedUrl, init, result];
               });
-              const data = await response.json();
-              digest = data.d.GetContextWebInformation.FormDigestValue;
+            } else {
+              init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+              return Promise.resolve([modifiedUrl, init, result]);
             }
-          
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
-            };
           }
 
-          return [
-            url
-              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
-              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
-            init,
-            result,
-          ];
+          return Promise.resolve([modifiedUrl, init, result]);
         });
         return instance;
       };

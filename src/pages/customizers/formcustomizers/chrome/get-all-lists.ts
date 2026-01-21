@@ -51,7 +51,7 @@ export const getAllLists = (extPath: string) => {
           pnpqueryable.BrowserFetchWithRetry(),
           pnpqueryable.DefaultParse()
         )
-        instance.on.pre.prepend(async (url: string, init: any, result: any) => {
+        instance.on.pre.prepend((url: string, init: any, result: any) => {
           url = (window as any)._spPageContextInfo?.webAbsoluteUrl
             ? new URL(
                 url,
@@ -60,7 +60,7 @@ export const getAllLists = (extPath: string) => {
                   : (window as any)._spPageContextInfo.webAbsoluteUrl + '/'
               ).toString()
             : url
-          return [url, init, result]
+          return Promise.resolve([url, init, result])
         })
         return instance
       })

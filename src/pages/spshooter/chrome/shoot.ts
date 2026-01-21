@@ -23,7 +23,7 @@ export const shoot = (payload: any, extPath: string) => {
           pnpqueryable.JSONParse()
         );
 
-        instance.on.pre.prepend(async (url, init, result) => {
+        instance.on.pre.prepend((url, init, result) => {
 
           url = props?.baseUrl
           ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString()
@@ -40,30 +40,32 @@ export const shoot = (payload: any, extPath: string) => {
                 extractedPart = url;
               }
               const modifiedUrl = extractedPart.replace(/_api.*|_vti_.*/g, '');
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+              return fetch(modifiedUrl + '_api/contextinfo', {
                 method: 'POST',
                 headers: {
                   accept: 'application/json;odata=verbose',
                   'content-type': 'application/json;odata=verbose',
                 },
+              })
+              .then(function(response) { return response.json(); })
+              .then(function(data) {
+                digest = data.d.GetContextWebInformation.FormDigestValue;
+                init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+                if (url.indexOf('###') > -1) {
+                  return [url.substring(url.indexOf('###') + 3), init, result];
+                }
+                return [url, init, result];
               });
-              const data = await response.json();
-              digest = data.d.GetContextWebInformation.FormDigestValue;
             }
 
-           // aking HttpClient request in queryable [400] Bad Request ::> {"error":{"code":"-1, Microsoft.Data.OData.ODataException","message":{"lang":"en-US","value":"The specified content type 'application/json;odata=verbose, application/json;charset=utf-8' contains either no media type or more than one media type, which is not allowed. You must specify exactly one media type as the content type."}}}
-
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
-            };
+            init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
           }
 
           if (url.indexOf('###') > -1) {
-            return [url.substring(url.indexOf('###') + 3), init, result];
+            return Promise.resolve([url.substring(url.indexOf('###') + 3), init, result]);
           } 
 
-          return [url, init, result];
+          return Promise.resolve([url, init, result]);
         });
         return instance;
       };

@@ -21,35 +21,36 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
           pnpqueryable.DefaultParse(),
         );
 
-        instance.on.pre.prepend(async (url, init, result) => {
+        instance.on.pre.prepend((url, init, result) => {
           url = props?.baseUrl ? new URL(url, props.baseUrl.endsWith('/') ? props.baseUrl : props.baseUrl + '/').toString() : url;
+
+          const modifiedUrl = url
+            .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
+            .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl(');
+
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
-              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+              const contextUrl = url.toString().replace(/_api.*|_vti_.*/g, '');
+              return fetch(contextUrl + '_api/contextinfo', {
                 method: 'POST',
                 headers: {
                   accept: 'application/json;odata=verbose',
                   'content-type': 'application/json;odata=verbose',
                 },
+              })
+              .then(function(response) { return response.json(); })
+              .then(function(data) {
+                digest = data.d.GetContextWebInformation.FormDigestValue;
+                init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+                return [modifiedUrl, init, result];
               });
-              const data = await response.json();
-              digest = data.d.GetContextWebInformation.FormDigestValue;
+            } else {
+              init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers);
+              return Promise.resolve([modifiedUrl, init, result]);
             }
-          
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
-            };
           }
 
-          return [
-            url
-              .replace('getFileByServerRelativePath(decodedUrl=', 'getFileByServerRelativeUrl(')
-              .replace('getFolderByServerRelativePath(decodedUrl=', 'getFolderByServerRelativeUrl('),
-            init,
-            result,
-          ];
+          return Promise.resolve([modifiedUrl, init, result]);
         });
         return instance;
       };
@@ -122,19 +123,20 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
             .then((r: any) => {
               const joined: any[] = [];
               
-              const createItem = (item: any, type: string, additionalProps: object = {}) => ({
-                id: item.ServerRelativeUrl,
-                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
-                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
-                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
-                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                webId: w.data.Id,
-                webUrl: w.data.Url,
-                name: item.Name,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-                type,
-                ...additionalProps,
-              });
+              var createItem = function(item: any, itemType: string, additionalProps: object) {
+                return Object.assign({}, {
+                  id: item.ServerRelativeUrl,
+                  portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                             (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                             (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                  webId: w.data.Id,
+                  webUrl: w.data.Url,
+                  name: item.Name,
+                  ServerRelativeUrl: item.ServerRelativeUrl,
+                  type: itemType,
+                }, additionalProps || {});
+              };
               
               r.Folders.results.forEach((folder: any) => {
                 joined.push(createItem(folder, 'folder', { expanded: false }));
@@ -161,19 +163,20 @@ export const getFiles = (extPath: string, webId: string, type: string, relativeU
             .then((r: any) => {
               const joined: any[] = [];
               
-              const createItem = (item: any, type: string, additionalProps: object = {}) => ({
-                id: item.ServerRelativeUrl,
-                portalUrl: (window as any)._spPageContextInfo.portalUrl || 
-                           (window as any)._spPageContextInfo.siteAbsoluteUrl + 
-                           (window as any)._spPageContextInfo.siteServerRelativeUrl,
-                webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
-                webId: item.Id || r.Id,
-                webUrl: r.Url,
-                name: item.Name || item.Title,
-                ServerRelativeUrl: item.ServerRelativeUrl,
-                type,
-                ...additionalProps,
-              });
+              var createItem = function(item: any, itemType: string, additionalProps: object) {
+                return Object.assign({}, {
+                  id: item.ServerRelativeUrl,
+                  portalUrl: (window as any)._spPageContextInfo.portalUrl || 
+                             (window as any)._spPageContextInfo.siteAbsoluteUrl + 
+                             (window as any)._spPageContextInfo.siteServerRelativeUrl,
+                  webServerRelativeUrl: (window as any)._spPageContextInfo.webServerRelativeUrl,
+                  webId: item.Id || r.Id,
+                  webUrl: r.Url,
+                  name: item.Name || item.Title,
+                  ServerRelativeUrl: item.ServerRelativeUrl,
+                  type: itemType,
+                }, additionalProps || {});
+              };
               
               r.Folders.results.forEach((folder: any) => {
                 joined.push(createItem(folder, 'folder', { toggled: false, children: [] }));

@@ -59,7 +59,7 @@ export const removeFieldCustomizer = (
           pnpqueryable.BrowserFetchWithRetry(),
           pnpqueryable.DefaultParse()
         )
-        instance.on.pre.prepend(async (url: string, init: any, result: any) => {
+        instance.on.pre.prepend((url: string, init: any, result: any) => {
           url = (window as any)._spPageContextInfo?.webAbsoluteUrl
             ? new URL(
                 url,
@@ -71,24 +71,27 @@ export const removeFieldCustomizer = (
 
           if (['POST', 'PATCH', 'PUT', 'DELETE', 'MERGE'].includes(init.method ?? '')) {
             if (!digest) {
-              const modifiedUrl = url.toString().replace(/_api.*|_vti_.*/g, '')
-              const response = await fetch(`${modifiedUrl}_api/contextinfo`, {
+              const contextUrl = url.toString().replace(/_api.*|_vti_.*/g, '')
+              return fetch(contextUrl + '_api/contextinfo', {
                 method: 'POST',
                 headers: {
                   accept: 'application/json;odata=verbose',
                   'content-type': 'application/json;odata=verbose',
                 },
               })
-              const data = await response.json()
-              digest = data.d.GetContextWebInformation.FormDigestValue
-            }
-            init.headers = {
-              'X-RequestDigest': digest,
-              ...init.headers,
+              .then(function(response) { return response.json() })
+              .then(function(data) {
+                digest = data.d.GetContextWebInformation.FormDigestValue
+                init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers)
+                return [url, init, result]
+              })
+            } else {
+              init.headers = Object.assign({}, { 'X-RequestDigest': digest }, init.headers)
+              return Promise.resolve([url, init, result])
             }
           }
 
-          return [url, init, result]
+          return Promise.resolve([url, init, result])
         })
         return instance
       })
