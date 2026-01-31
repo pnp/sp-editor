@@ -7,6 +7,7 @@ import Actions from './Components/Actions';
 import ContextInfoPropertiesList, { ICtxInfoProperty } from './Components/ContextInfoPropertiesList';
 import QuickLinkList from './Components/QuickLinkList';
 import LoadTeamsDebug from './Components/LoadTeamsDebug';
+import { trackPopupOpen } from '../services/analytics';
 
 //initializeIcons();
 
@@ -168,6 +169,9 @@ const PopUp = () => {
 
   // load initial data
   useEffect(() => {
+    // Track popup opened
+    trackPopupOpen();
+    
     chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
       const currentTabId = tabs[0].id;
       setTabId(currentTabId);

@@ -8,6 +8,7 @@ import { FabricNav } from './components/navigation';
 import HomePage from './pages/home/homePage';
 import ScriptLinks from './pages/scriptlinks';
 import { Route, Routes, HashRouter } from 'react-router-dom';
+import { trackDevToolsOpen } from './services/analytics';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -88,6 +89,9 @@ const App = () => {
       dispatch(setTheme(shouldAdd ? DarkCustomizations : DefaultCustomizations));
       dispatch(setDarkMode(shouldAdd));
     };
+
+    // Track DevTools extension opened
+    trackDevToolsOpen();
 
     // toggleDarkTheme(prefersDark.matches)
     // this will set the theme according the system preferences

@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { IRootState } from '../store';
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions';
+import { trackFeatureNavigation } from '../services/analytics';
 
 export const FabricNav = () => {
   const navigate = useNavigate();
@@ -77,9 +78,9 @@ export const FabricNav = () => {
       },
       { name: 'Query Builder', url: '/queryBuilder', key: 'queryBuilderKey', disabled: false },
       { name: 'Site Templates', url: '/siteprovisioning', key: 'siteprovisioningKey', disabled: false },
-      { name: 'Page editor', url: '/pageeditor', key: 'pageeditorKey', disabled: false },
+     /* { name: 'Page editor', url: '/pageeditor', key: 'pageeditorKey', disabled: false },
       { name: 'Modern properties', url: '/modernproperties', key: 'modernpropertiesKey', disabled: false },
-      { name: 'App catalog', url: '/appcatalog', key: 'appcatalogKey', disabled: false },
+      { name: 'App catalog', url: '/appcatalog', key: 'appcatalogKey', disabled: false },*/
     ],
     [expandedGroups]
   );
@@ -193,6 +194,8 @@ export const FabricNav = () => {
                 menu && menu.close();
                 if (element.key && selectedKey !== element.key) {
                   dispatch(setLoading(false));
+                  // Track feature navigation
+                  trackFeatureNavigation(element.key.replace('Key', ''), element.name);
                   navigate(element.url);
                   setSelectedKey(element.key);
                 }

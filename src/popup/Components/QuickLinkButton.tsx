@@ -1,4 +1,5 @@
 import { CommandBarButton, IButtonStyles } from '@fluentui/react';
+import { trackPopupLinkClick } from '../../services/analytics';
 
 export interface IQuickLinkButtonProps {
   text: string,
@@ -18,6 +19,10 @@ export const buttonStyles: IButtonStyles = {
   },
 };
 
+// Convert text to a snake_case link name for tracking
+const toLinkName = (text: string): string => 
+  text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+
 const QuickLinkButton = ({ text, iconName, disabled, url, newWTab = true }: IQuickLinkButtonProps) => {
   return (
     <CommandBarButton
@@ -25,9 +30,12 @@ const QuickLinkButton = ({ text, iconName, disabled, url, newWTab = true }: IQui
       iconProps={{ iconName: iconName }}
       styles={buttonStyles}
       disabled={disabled}
-      onClick={() => newWTab ?
-        chrome.tabs.create({ url: url }) :
-        chrome.tabs.update({ url: url })}
+      onClick={() => {
+        trackPopupLinkClick(toLinkName(text));
+        newWTab ?
+          chrome.tabs.create({ url: url }) :
+          chrome.tabs.update({ url: url })
+      }}
     />
   )
 }
