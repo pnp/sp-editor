@@ -39,6 +39,8 @@ import { siteProvisioningReducer } from './siteprovisioning/reducers'
 import { IFieldCustomizersState } from './fieldcustomizers/types';
 import { IFormCustomizersState } from './formcustomizers/types';
 import { ISiteProvisioningState } from './siteprovisioning/types';
+import { themeDesignerReducer } from './themedesigner/reducers';
+import { IThemeDesignerState } from './themedesigner/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -59,6 +61,7 @@ const rootReducer = combineReducers({
   fieldCustomizers: fieldCustomizersReducer,
   formCustomizers: formCustomizersReducer,
   siteProvisioning: siteProvisioningReducer,
+  themeDesigner: themeDesignerReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>
