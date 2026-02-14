@@ -5,10 +5,10 @@ export function saveTenantTheme(themeName: string, themePalette: { [key: string]
   console.log('[SP Editor] saveTenantTheme called:', themeName, isUpdate ? '(update)' : '(add)');
   
   return moduleLoader().then(function() {
-    const win = window as any;
+    var win = window as any;
     
     // Get the web URL
-    let webUrl = '';
+    var webUrl = '';
     if (win._spPageContextInfo && win._spPageContextInfo.webAbsoluteUrl) {
       webUrl = win._spPageContextInfo.webAbsoluteUrl;
     } else if (win.g_spfxData && win.g_spfxData.spPageContextInfo && win.g_spfxData.spPageContextInfo.webAbsoluteUrl) {
@@ -19,8 +19,8 @@ export function saveTenantTheme(themeName: string, themePalette: { [key: string]
     
     // Get request digest for POST
     return getRequestDigest(webUrl).then(function(digest) {
-      const endpoint = isUpdate ? 'UpdateTenantTheme' : 'AddTenantTheme';
-      const body = {
+      var endpoint = isUpdate ? 'UpdateTenantTheme' : 'AddTenantTheme';
+      var body = {
         name: themeName,
         themeJson: JSON.stringify({
           palette: themePalette,
@@ -87,7 +87,7 @@ export function saveTenantTheme(themeName: string, themePalette: { [key: string]
 
   function moduleLoader() {
     return new Promise<void>(function(resolve) {
-      const win = window as any;
+      var win = window as any;
       if (!win._spPageContextInfo && win.moduleLoaderPromise) {
         win.moduleLoaderPromise.then(function(e: any) {
           win._spPageContextInfo = e.context._pageContext._legacyPageContext;

@@ -7,17 +7,17 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
   // Helper function to convert hex to RGBA - must be inside for injection
   function hexToRgba(hex: string): { R: number; G: number; B: number; A: number } {
     hex = hex.replace(/^#/, '');
-    const r = Number.parseInt(hex.substring(0, 2), 16);
-    const g = Number.parseInt(hex.substring(2, 4), 16);
-    const b = Number.parseInt(hex.substring(4, 6), 16);
+    var r = Number.parseInt(hex.substring(0, 2), 16);
+    var g = Number.parseInt(hex.substring(2, 4), 16);
+    var b = Number.parseInt(hex.substring(4, 6), 16);
     return { R: r, G: g, B: b, A: 255 };
   }
 
   // Helper function to convert palette - must be inside for injection
   function convertPaletteToRgba(palette: { [key: string]: string }): { [key: string]: { R: number; G: number; B: number; A: number } } {
-    const result: { [key: string]: { R: number; G: number; B: number; A: number } } = {};
-    for (const key in palette) {
-      if (palette[key]?.startsWith('#')) {
+    var result: { [key: string]: { R: number; G: number; B: number; A: number } } = {};
+    for (var key in palette) {
+      if (palette[key] && palette[key].startsWith('#')) {
         result[key] = hexToRgba(palette[key]);
       }
     }
@@ -25,13 +25,13 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
   }
   
   return moduleLoader().then(function() {
-    const win = globalThis as any;
+    var win = globalThis as any;
     
     // Get the web URL
-    let webUrl = '';
-    if (win._spPageContextInfo?.webAbsoluteUrl) {
+    var webUrl = '';
+    if (win._spPageContextInfo && win._spPageContextInfo.webAbsoluteUrl) {
       webUrl = win._spPageContextInfo.webAbsoluteUrl;
-    } else if (win.g_spfxData?.spPageContextInfo?.webAbsoluteUrl) {
+    } else if (win.g_spfxData && win.g_spfxData.spPageContextInfo && win.g_spfxData.spPageContextInfo.webAbsoluteUrl) {
       webUrl = win.g_spfxData.spPageContextInfo.webAbsoluteUrl;
     } else {
       webUrl = globalThis.location.origin + globalThis.location.pathname.split('/').slice(0, 3).join('/');
@@ -40,9 +40,9 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
     // Get request digest for POST
     return getRequestDigest(webUrl).then(function(digest) {
       // Convert hex palette to RGBA format that SharePoint expects
-      const rgbaPalette = convertPaletteToRgba(themePalette);
+      var rgbaPalette = convertPaletteToRgba(themePalette);
       
-      const themeJson = JSON.stringify({
+      var themeJson = JSON.stringify({
         backgroundImageUri: '',
         palette: rgbaPalette,
         cacheToken: '',
@@ -50,7 +50,7 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
         version: '',
       });
       
-      const body = {
+      var body = {
         name: themeName,
         themeJson: themeJson,
       };
@@ -115,7 +115,7 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
 
   function moduleLoader() {
     return new Promise<void>(function(resolve) {
-      const win = globalThis as any;
+      var win = globalThis as any;
       if (!win._spPageContextInfo && win.moduleLoaderPromise) {
         win.moduleLoaderPromise.then(function(e: any) {
           win._spPageContextInfo = e.context._pageContext._legacyPageContext;

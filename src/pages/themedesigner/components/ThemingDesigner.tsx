@@ -33,6 +33,8 @@ import { Dialog, DialogType, DialogFooter } from '@fluentui/react/lib/Dialog';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import { previewThemeOnPage, clearThemePreview, loadTenantThemes, loadCurrentThemeFromPage, saveTheme, deleteTheme, applyThemeToPage, ITenantTheme } from '../chrome/chrome-actions';
+import * as rootActions from '../../../store/home/actions';
+import { MessageBarColors } from '../../../store/home/types';
 
 // Official SharePoint themes from Microsoft documentation
 // https://learn.microsoft.com/en-us/sharepoint/dev/declarative-customization/site-theming/sharepoint-site-theming-json-schema
@@ -596,6 +598,24 @@ export const ThemingDesigner: React.FC = () => {
   // Refs for debounce timeouts
   const colorChangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fabricPaletteColorChangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clipboard helper - uses execCommand for Chrome extension compatibility
+  const copyToClipboard = useCallback((value: string, message: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    dispatch(
+      rootActions.setAppMessage({
+        showMessage: true,
+        message: message,
+        color: MessageBarColors.success,
+      })
+    );
+  }, [dispatch]);
 
   // Initialize themeRules on mount
   useEffect(() => {
@@ -1195,21 +1215,21 @@ export const ThemingDesigner: React.FC = () => {
         <DefaultButton
           text="Copy JSON"
           iconProps={{ iconName: 'Copy' }}
-          onClick={() => navigator.clipboard.writeText(jsonTheme)}
+          onClick={() => copyToClipboard(jsonTheme, 'JSON theme copied to clipboard')}
         />
         <DefaultButton
           text="Copy PowerShell"
           iconProps={{ iconName: 'Copy' }}
-          onClick={() => navigator.clipboard.writeText(powershellTheme)}
+          onClick={() => copyToClipboard(powershellTheme, 'PowerShell theme copied to clipboard')}
         />
         <DefaultButton
           text="Copy Code"
           iconProps={{ iconName: 'Copy' }}
-          onClick={() => navigator.clipboard.writeText(themeAsCode)}
+          onClick={() => copyToClipboard(themeAsCode, 'Code theme copied to clipboard')}
         />
       </Stack>
     ),
-    [jsonTheme, powershellTheme, themeAsCode]
+    [jsonTheme, powershellTheme, themeAsCode, copyToClipboard]
   );
 
   // Show loading while theme is being initialized
@@ -1293,6 +1313,7 @@ export const ThemingDesigner: React.FC = () => {
         closeButtonAriaLabel="Close"
         onRenderFooterContent={onRenderFooterContent}
         isFooterAtBottom={true}
+        isLightDismiss={true}
       >
         <Text>
           This code block creates the theme you have configured using the createTheme utility function.

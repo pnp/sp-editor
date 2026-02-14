@@ -3,19 +3,20 @@
  */
 export function injectTheme(themeJson: { [key: string]: string }) {
   try {
-    const win = window as any;
+    var win = window as any;
 
     console.log('[SP Editor injectTheme] Received themeJson:', themeJson);
     console.log('[SP Editor injectTheme] themePrimary:', themeJson.themePrimary);
 
     // Store original theme for restoration
-    if (!win.__spEditorOriginalTheme__ && win.__themeState__?.theme) {
-      win.__spEditorOriginalTheme__ = { ...win.__themeState__.theme };
+    var themeState = win.__themeState__ && win.__themeState__.theme ? win.__themeState__.theme : null;
+    if (!win.__spEditorOriginalTheme__ && themeState) {
+      win.__spEditorOriginalTheme__ = Object.assign({}, themeState);
     }
 
     // Merge with original to preserve any missing slots
-    const originalTheme = win.__spEditorOriginalTheme__ || win.__themeState__?.theme || {};
-    const palette = { ...originalTheme, ...themeJson };
+    var originalTheme = win.__spEditorOriginalTheme__ || themeState || {};
+    var palette = Object.assign({}, originalTheme, themeJson);
 
     console.log('[SP Editor injectTheme] Final palette themePrimary:', palette.themePrimary);
 
@@ -23,7 +24,7 @@ export function injectTheme(themeJson: { [key: string]: string }) {
     if (win.__loadTheme) {
       console.log('[SP Editor injectTheme] Calling __loadTheme');
       win.__loadTheme({
-        palette,
+        palette: palette,
         semanticColors: {},
         effects: {},
         fonts: {}
@@ -34,9 +35,10 @@ export function injectTheme(themeJson: { [key: string]: string }) {
     }
 
     return { success: true, result: null, errorMessage: '', source: 'chrome-sp-editor' };
-  } catch (error: any) {
-    console.error('[SP Editor injectTheme] Error:', error);
-    return { success: false, result: null, errorMessage: error.message, source: 'chrome-sp-editor' };
+  } catch (error) {
+    var err = error as any;
+    console.error('[SP Editor injectTheme] Error:', err);
+    return { success: false, result: null, errorMessage: err.message, source: 'chrome-sp-editor' };
   }
 }
 
@@ -45,7 +47,7 @@ export function injectTheme(themeJson: { [key: string]: string }) {
  */
 export function removeThemePreview() {
   try {
-    const win = window as any;
+    var win = window as any;
 
     if (win.__spEditorOriginalTheme__ && win.__loadTheme) {
       win.__loadTheme({
@@ -58,7 +60,8 @@ export function removeThemePreview() {
     }
 
     return { success: true, result: null, errorMessage: '', source: 'chrome-sp-editor' };
-  } catch (error: any) {
-    return { success: false, result: null, errorMessage: error.message, source: 'chrome-sp-editor' };
+  } catch (error) {
+    var err = error as any;
+    return { success: false, result: null, errorMessage: err.message, source: 'chrome-sp-editor' };
   }
 }

@@ -5,10 +5,10 @@ export function getTenantThemes(extPath: string) {
   console.log('[SP Editor] getTenantThemes called');
   
   return moduleLoader().then(function() {
-    const win = window as any;
+    var win = window as any;
     
     // Get the web URL
-    let webUrl = '';
+    var webUrl = '';
     if (win._spPageContextInfo && win._spPageContextInfo.webAbsoluteUrl) {
       webUrl = win._spPageContextInfo.webAbsoluteUrl;
     } else if (win.g_spfxData && win.g_spfxData.spPageContextInfo && win.g_spfxData.spPageContextInfo.webAbsoluteUrl) {
@@ -36,8 +36,8 @@ export function getTenantThemes(extPath: string) {
     .then(function(data) {
       console.log('[SP Editor] GetTenantThemingOptions response:', data);
       
-      const result = data.d && data.d.GetTenantThemingOptions ? data.d.GetTenantThemingOptions : (data.d || data);
-      const themePreviews = result.themePreviews && result.themePreviews.results ? result.themePreviews.results : [];
+      var result = data.d && data.d.GetTenantThemingOptions ? data.d.GetTenantThemingOptions : (data.d || data);
+      var themePreviews = result.themePreviews && result.themePreviews.results ? result.themePreviews.results : [];
       
       return {
         success: true,
@@ -62,7 +62,7 @@ export function getTenantThemes(extPath: string) {
 
   function moduleLoader() {
     return new Promise<void>(function(resolve) {
-      const win = window as any;
+      var win = window as any;
       // if we are in a modern page we need to get the _spPageContextInfo from the module loader
       if (!win._spPageContextInfo && win.moduleLoaderPromise) {
         win.moduleLoaderPromise.then(function(e: any) {

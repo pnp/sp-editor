@@ -5,10 +5,10 @@ export function deleteTenantTheme(themeName: string) {
   console.log('[SP Editor] deleteTenantTheme called:', themeName);
   
   return moduleLoader().then(function() {
-    const win = window as any;
+    var win = window as any;
     
     // Get the web URL
-    let webUrl = '';
+    var webUrl = '';
     if (win._spPageContextInfo && win._spPageContextInfo.webAbsoluteUrl) {
       webUrl = win._spPageContextInfo.webAbsoluteUrl;
     } else if (win.g_spfxData && win.g_spfxData.spPageContextInfo && win.g_spfxData.spPageContextInfo.webAbsoluteUrl) {
@@ -19,7 +19,7 @@ export function deleteTenantTheme(themeName: string) {
     
     // Get request digest for POST
     return getRequestDigest(webUrl).then(function(digest) {
-      const body = {
+      var body = {
         name: themeName,
       };
       
@@ -83,7 +83,7 @@ export function deleteTenantTheme(themeName: string) {
 
   function moduleLoader() {
     return new Promise<void>(function(resolve) {
-      const win = window as any;
+      var win = window as any;
       if (!win._spPageContextInfo && win.moduleLoaderPromise) {
         win.moduleLoaderPromise.then(function(e: any) {
           win._spPageContextInfo = e.context._pageContext._legacyPageContext;
