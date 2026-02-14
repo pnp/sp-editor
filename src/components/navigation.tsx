@@ -78,6 +78,7 @@ export const FabricNav = () => {
       },
       { name: 'Query Builder', url: '/queryBuilder', key: 'queryBuilderKey', disabled: false },
       { name: 'Site Templates', url: '/siteprovisioning', key: 'siteprovisioningKey', disabled: false },
+      { name: 'Live Theme Designer', url: '/themedesigner', key: 'themedesignerKey', disabled: false },
      /* { name: 'Page editor', url: '/pageeditor', key: 'pageeditorKey', disabled: false },
       { name: 'Modern properties', url: '/modernproperties', key: 'modernpropertiesKey', disabled: false },
       { name: 'App catalog', url: '/appcatalog', key: 'appcatalogKey', disabled: false },*/

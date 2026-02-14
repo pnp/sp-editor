@@ -1,0 +1,902 @@
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { IonContent, IonPage } from '@ionic/react';
+import {
+  Stack,
+  IStackProps,
+  Text,
+  IconButton,
+  ThemeProvider,
+  CommandBar,
+  ICommandBarItemProps,
+  Panel,
+  PanelType,
+  Pivot,
+  PivotItem,
+  TextField,
+} from '@fluentui/react';
+import {
+  ThemeGenerator,
+  themeRulesStandardCreator,
+  BaseSlots,
+  FabricSlots,
+  IThemeRules,
+} from '@fluentui/react/lib/ThemeGenerator';
+import { isDark, IColor, getColorFromString } from '@fluentui/react/lib/Color';
+import { createTheme, ITheme } from '@fluentui/react/lib/Styling';
+import { ICustomizations, Async } from '@fluentui/react/lib/Utilities';
+import { mergeStyles } from '@fluentui/merge-styles';
+import { useDispatch } from 'react-redux';
+import { setTheme, setDarkMode } from '../../store/home/actions';
+import Header from '../../components/header';
+import { previewThemeOnPage, clearThemePreview, loadCurrentThemeFromPage, loadTenantThemes, ITenantTheme } from './chrome/chrome-actions';
+import { ThemeDesignerColorPicker } from './components/ThemeDesignerColorPicker';
+import { Samples } from './components/Samples';
+import { AccessibilityChecker } from './components/AccessibilityChecker';
+import { ThemeSlots } from './components/ThemeSlots';
+
+const CUSTOM_THEME_KEY = 'sp_editor_custom_theme';
+
+// Official Microsoft SharePoint themes from:
+// https://learn.microsoft.com/en-us/sharepoint/dev/declarative-customization/site-theming/sharepoint-site-theming-json-schema
+const MICROSOFT_THEMES: { name: string; palette: { [key: string]: string } }[] = [
+  {
+    name: 'Teal',
+    palette: {
+      themePrimary: '#03787c',
+      themeLighterAlt: '#f0f9fa',
+      themeLighter: '#c5e9ea',
+      themeLight: '#98d6d8',
+      themeTertiary: '#49aeb1',
+      themeSecondary: '#13898d',
+      themeDarkAlt: '#026d70',
+      themeDark: '#025c5f',
+      themeDarker: '#014446',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#4f6bed',
+    },
+  },
+  {
+    name: 'Blue',
+    palette: {
+      themePrimary: '#0078d7',
+      themeLighterAlt: '#eff6fc',
+      themeLighter: '#deecf9',
+      themeLight: '#c7e0f4',
+      themeTertiary: '#71afe5',
+      themeSecondary: '#2b88d8',
+      themeDarkAlt: '#106ebe',
+      themeDark: '#005a9e',
+      themeDarker: '#004578',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#8764b8',
+    },
+  },
+  {
+    name: 'Orange',
+    palette: {
+      themePrimary: '#ca5010',
+      themeLighterAlt: '#fef6f1',
+      themeLighter: '#fdede4',
+      themeLight: '#fbdac9',
+      themeTertiary: '#f6b28d',
+      themeSecondary: '#e55c12',
+      themeDarkAlt: '#b5490f',
+      themeDark: '#8d390b',
+      themeDarker: '#6f2d09',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#986f0b',
+    },
+  },
+  {
+    name: 'Red',
+    palette: {
+      themePrimary: '#d13438',
+      themeLighterAlt: '#fdf5f5',
+      themeLighter: '#faebeb',
+      themeLight: '#f6d6d8',
+      themeTertiary: '#ecaaac',
+      themeSecondary: '#d6494d',
+      themeDarkAlt: '#c02b30',
+      themeDark: '#952226',
+      themeDarker: '#751b1e',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#ca5010',
+    },
+  },
+  {
+    name: 'Green',
+    palette: {
+      themePrimary: '#498205',
+      themeLighterAlt: '#f6faf0',
+      themeLighter: '#dbebc7',
+      themeLight: '#bdda9b',
+      themeTertiary: '#85b44c',
+      themeSecondary: '#5a9117',
+      themeDarkAlt: '#427505',
+      themeDark: '#386304',
+      themeDarker: '#294903',
+      neutralLighterAlt: '#faf9f8',
+      neutralLighter: '#f3f2f1',
+      neutralLight: '#edebe9',
+      neutralQuaternaryAlt: '#e1dfdd',
+      neutralQuaternary: '#d2d0ce',
+      neutralTertiaryAlt: '#c8c6c4',
+      neutralTertiary: '#a19f9d',
+      neutralSecondaryAlt: '#8a8886',
+      neutralSecondary: '#605e5c',
+      neutralPrimaryAlt: '#3b3a39',
+      neutralPrimary: '#323130',
+      neutralDark: '#201f1e',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#03787c',
+    },
+  },
+  {
+    name: 'Purple',
+    palette: {
+      themePrimary: '#6b69d6',
+      themeLighterAlt: '#f8f7fd',
+      themeLighter: '#f0f0fb',
+      themeLight: '#e1e1f7',
+      themeTertiary: '#c1c0ee',
+      themeSecondary: '#7a78da',
+      themeDarkAlt: '#5250cf',
+      themeDark: '#3230b0',
+      themeDarker: '#27268a',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#038387',
+    },
+  },
+  {
+    name: 'Gray',
+    palette: {
+      themePrimary: '#5d5a58',
+      themeLighterAlt: '#f7f7f7',
+      themeLighter: '#efeeee',
+      themeLight: '#dfdedd',
+      themeTertiary: '#bbb9b8',
+      themeSecondary: '#6d6a67',
+      themeDarkAlt: '#53504e',
+      themeDark: '#403e3d',
+      themeDarker: '#323130',
+      neutralLighterAlt: '#f8f8f8',
+      neutralLighter: '#f4f4f4',
+      neutralLight: '#eaeaea',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c8c8',
+      neutralTertiary: '#a6a6a6',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#666666',
+      neutralPrimaryAlt: '#3c3c3c',
+      neutralPrimary: '#333',
+      neutralDark: '#212121',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#0078d4',
+    },
+  },
+  {
+    name: 'Periwinkle',
+    palette: {
+      themePrimary: '#5B5FC7',
+      themeLighterAlt: '#C5CBFA',
+      themeLighter: '#B6BCFA',
+      themeLight: '#AAB1FA',
+      themeTertiary: '#7F85F5',
+      themeSecondary: '#7579EB',
+      themeDarkAlt: '#444791',
+      themeDark: '#3D3E78',
+      themeDarker: '#383966',
+      neutralLighterAlt: '#faf9f8',
+      neutralLighter: '#f3f2f1',
+      neutralLight: '#edebe9',
+      neutralQuaternaryAlt: '#dadada',
+      neutralQuaternary: '#d0d0d0',
+      neutralTertiaryAlt: '#c8c6c4',
+      neutralTertiary: '#a19f9d',
+      neutralSecondaryAlt: '#767676',
+      neutralSecondary: '#605e5c',
+      neutralPrimaryAlt: '#3b3a39',
+      neutralPrimary: '#323130',
+      neutralDark: '#201f1e',
+      black: '#000000',
+      white: '#fff',
+      primaryBackground: '#fff',
+      primaryText: '#333',
+      accent: '#5B5FC7',
+    },
+  },
+  {
+    name: 'Dark Yellow',
+    palette: {
+      themePrimary: '#fce100',
+      themeLighterAlt: '#0d0b00',
+      themeLighter: '#191700',
+      themeLight: '#322d00',
+      themeTertiary: '#6a5f00',
+      themeSecondary: '#e3cc00',
+      themeDarkAlt: '#ffe817',
+      themeDark: '#ffed4b',
+      themeDarker: '#fff171',
+      neutralLighterAlt: '#282828',
+      neutralLighter: '#313131',
+      neutralLight: '#3f3f3f',
+      neutralQuaternaryAlt: '#484848',
+      neutralQuaternary: '#4f4f4f',
+      neutralTertiaryAlt: '#6d6d6d',
+      neutralTertiary: '#c8c8c8',
+      neutralSecondaryAlt: '#d0d0d0',
+      neutralSecondary: '#dadada',
+      neutralPrimaryAlt: '#eaeaea',
+      neutralPrimary: '#ffffff',
+      neutralDark: '#f4f4f4',
+      black: '#f8f8f8',
+      white: '#1f1f1f',
+      primaryBackground: '#1f1f1f',
+      primaryText: '#ffffff',
+      error: '#ff5f5f',
+      accent: '#ffc83d',
+    },
+  },
+  {
+    name: 'Dark Blue',
+    palette: {
+      themePrimary: '#00bcf2',
+      themeLighterAlt: '#00090c',
+      themeLighter: '#001318',
+      themeLight: '#002630',
+      themeTertiary: '#005066',
+      themeSecondary: '#00abda',
+      themeDarkAlt: '#0ecbff',
+      themeDark: '#44d6ff',
+      themeDarker: '#6cdfff',
+      neutralLighterAlt: '#2e3340',
+      neutralLighter: '#353a49',
+      neutralLight: '#404759',
+      neutralQuaternaryAlt: '#474e62',
+      neutralQuaternary: '#4c546a',
+      neutralTertiaryAlt: '#646e8a',
+      neutralTertiary: '#c8c8c8',
+      neutralSecondaryAlt: '#d0d0d0',
+      neutralSecondary: '#dadada',
+      neutralPrimaryAlt: '#eaeaea',
+      neutralPrimary: '#ffffff',
+      neutralDark: '#f4f4f4',
+      black: '#f8f8f8',
+      white: '#262a35',
+      primaryBackground: '#262a35',
+      primaryText: '#ffffff',
+      error: '#ff5f5f',
+      accent: '#3a96dd',
+    },
+  },
+];
+
+// Layout components matching the official Fluent UI Theme Designer
+const Page = (props: IStackProps): JSX.Element => (
+  <Stack
+    {...props}
+    className={mergeStyles({
+      height: '100vh',
+      overflow: 'hidden',
+      selectors: {
+        ':global(body)': {
+          padding: 0,
+          margin: 0,
+        },
+      },
+    })}
+  />
+);
+
+const Content = (props: IStackProps): JSX.Element => (
+  <Stack
+    horizontal
+    {...props}
+    className={mergeStyles({ overflow: 'hidden', flex: 1 })}
+  />
+);
+
+const Sidebar = (props: IStackProps): JSX.Element => (
+  <Stack
+    disableShrink
+    tokens={{ childrenGap: 20 }}
+    grow={0}
+    {...props}
+    className={mergeStyles({
+      borderRight: '1px solid #ddd',
+      paddingRight: '1rem',
+      paddingLeft: '1rem',
+      paddingTop: '1rem',
+      width: 280,
+      flexShrink: 0,
+    })}
+  />
+);
+
+const Main = (props: IStackProps): JSX.Element => (
+  <Stack
+    grow={1}
+    disableShrink
+    {...props}
+    className={mergeStyles({
+      minWidth: 815,
+      overflow: 'auto',
+    })}
+  />
+);
+
+interface IThemingDesignerState {
+  primaryColor: IColor;
+  textColor: IColor;
+  backgroundColor: IColor;
+  theme?: ITheme;
+  themeRules?: IThemeRules;
+}
+
+const ThemeDesigner: React.FC = () => {
+  const dispatch = useDispatch();
+  const asyncRef = useRef<Async>(new Async());
+  const colorChangeTimeoutRef = useRef<number>(0);
+  const fabricPaletteColorChangeTimeoutRef = useRef<number>(0);
+
+  const buildInitialState = useCallback((): IThemingDesignerState => {
+    const themeRules = themeRulesStandardCreator();
+    const colors = {
+      primaryColor: getColorFromString('#0078d4')!,
+      textColor: getColorFromString('#323130')!,
+      backgroundColor: getColorFromString('#ffffff')!,
+    };
+
+    ThemeGenerator.insureSlots(themeRules, isDark(themeRules[BaseSlots[BaseSlots.backgroundColor]].color!));
+    ThemeGenerator.setSlot(themeRules[BaseSlots[BaseSlots.primaryColor]], colors.primaryColor, undefined, false, false);
+    ThemeGenerator.setSlot(themeRules[BaseSlots[BaseSlots.foregroundColor]], colors.textColor, undefined, false, false);
+    ThemeGenerator.setSlot(themeRules[BaseSlots[BaseSlots.backgroundColor]], colors.backgroundColor, undefined, false, false);
+
+    const themeAsJson: { [key: string]: string } = ThemeGenerator.getThemeAsJson(themeRules);
+    const finalTheme = createTheme({
+      palette: themeAsJson,
+      isInverted: isDark(themeRules[BaseSlots[BaseSlots.backgroundColor]].color!),
+    });
+
+    return {
+      ...colors,
+      theme: finalTheme,
+      themeRules,
+    };
+  }, []);
+
+  const [state, setState] = useState<IThemingDesignerState>(buildInitialState);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [jsonTheme, setJsonTheme] = useState('');
+  const [powershellTheme, setPowershellTheme] = useState('');
+  const [themeAsCode, setThemeAsCode] = useState('');
+  const [tenantThemes, setTenantThemes] = useState<ITenantTheme[]>([]);
+  const exportTheme = useCallback(() => {
+    if (!state.themeRules) return;
+
+    // Get Fluent UI theme json
+    const themeJson = ThemeGenerator.getThemeAsJson(state.themeRules);
+    
+    // Build SharePoint palette format for the JSON export
+    const spPalette: { [key: string]: string } = {
+      themePrimary: themeJson.primaryColor || state.primaryColor.str,
+      themeLighterAlt: themeJson.primaryColorLighterAlt || themeJson.themeLighterAlt,
+      themeLighter: themeJson.primaryColorLighter || themeJson.themeLighter,
+      themeLight: themeJson.primaryColorLight || themeJson.themeLight,
+      themeTertiary: themeJson.primaryColorTertiary || themeJson.themeTertiary,
+      themeSecondary: themeJson.primaryColorSecondary || themeJson.themeSecondary,
+      themeDarkAlt: themeJson.primaryColorDarkAlt || themeJson.themeDarkAlt,
+      themeDark: themeJson.primaryColorDark || themeJson.themeDark,
+      themeDarker: themeJson.primaryColorDarker || themeJson.themeDarker,
+      neutralLighterAlt: themeJson.backgroundColorShade1 || themeJson.neutralLighterAlt,
+      neutralLighter: themeJson.backgroundColorShade2 || themeJson.neutralLighter,
+      neutralLight: themeJson.backgroundColorShade3 || themeJson.neutralLight,
+      neutralQuaternaryAlt: themeJson.backgroundColorShade4 || themeJson.neutralQuaternaryAlt,
+      neutralQuaternary: themeJson.backgroundColorShade5 || themeJson.neutralQuaternary,
+      neutralTertiaryAlt: themeJson.backgroundColorShade6 || themeJson.neutralTertiaryAlt,
+      neutralTertiary: themeJson.foregroundColorShade1 || themeJson.neutralTertiary,
+      neutralSecondary: themeJson.foregroundColorShade2 || themeJson.neutralSecondary,
+      neutralPrimaryAlt: themeJson.foregroundColorShade3 || themeJson.neutralPrimaryAlt,
+      neutralPrimary: themeJson.foregroundColor || state.textColor.str,
+      neutralDark: themeJson.foregroundColorShade4 || themeJson.neutralDark,
+      white: themeJson.backgroundColor || state.backgroundColor.str,
+      black: themeJson.black || '#000000',
+    };
+
+    // Strip out unnecessary shade slots from Fluent theme for code export
+    const abridgedTheme: IThemeRules = {};
+    for (const ruleName in state.themeRules) {
+      if (state.themeRules.hasOwnProperty(ruleName)) {
+        if (
+          !ruleName.includes('ColorShade') &&
+          ruleName !== 'primaryColor' &&
+          ruleName !== 'backgroundColor' &&
+          ruleName !== 'foregroundColor' &&
+          !ruleName.includes('body')
+        ) {
+          abridgedTheme[ruleName] = state.themeRules[ruleName];
+        }
+      }
+    }
+
+    // JSON uses SharePoint palette format
+    setJsonTheme(JSON.stringify({ palette: spPalette }, undefined, 2));
+    setPowershellTheme(ThemeGenerator.getThemeForPowerShell(abridgedTheme));
+    setThemeAsCode(ThemeGenerator.getThemeAsCodeWithCreateTheme(abridgedTheme));
+    setIsPanelOpen(true);
+  }, [state.themeRules, state.primaryColor, state.textColor, state.backgroundColor]);
+
+  const applyLoadedColors = useCallback((primary: string, text: string, background: string) => {
+    const newColors = {
+      primaryColor: getColorFromString(primary)!,
+      textColor: getColorFromString(text)!,
+      backgroundColor: getColorFromString(background)!,
+    };
+
+    const rules = themeRulesStandardCreator();
+    const isInverted = isDark(getColorFromString(background)!);
+
+    ThemeGenerator.insureSlots(rules, isInverted);
+    ThemeGenerator.setSlot(rules[BaseSlots[BaseSlots.primaryColor]], newColors.primaryColor, isInverted, true, true);
+    ThemeGenerator.setSlot(rules[BaseSlots[BaseSlots.foregroundColor]], newColors.textColor, isInverted, true, true);
+    ThemeGenerator.setSlot(rules[BaseSlots[BaseSlots.backgroundColor]], newColors.backgroundColor, isInverted, true, true);
+
+    const themeAsJson: { [key: string]: string } = ThemeGenerator.getThemeAsJson(rules);
+    const finalTheme = createTheme({
+      palette: themeAsJson,
+      isInverted,
+    });
+
+    setState({
+      ...newColors,
+      theme: finalTheme,
+      themeRules: rules,
+    });
+  }, []);
+
+  // Load saved theme on mount
+  useEffect(() => {
+    const currentAsync = asyncRef.current;
+    
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get([CUSTOM_THEME_KEY], (result) => {
+        if (result[CUSTOM_THEME_KEY]) {
+          const saved = result[CUSTOM_THEME_KEY];
+          applyLoadedColors(saved.primaryColor, saved.textColor, saved.backgroundColor);
+        }
+      });
+    } else {
+      const saved = localStorage.getItem(CUSTOM_THEME_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        applyLoadedColors(parsed.primaryColor, parsed.textColor, parsed.backgroundColor);
+      }
+    }
+
+    return () => {
+      currentAsync.dispose();
+    };
+  }, [applyLoadedColors]);
+
+  // Load tenant themes on mount
+  useEffect(() => {
+    if (typeof chrome !== 'undefined' && chrome.scripting) {
+      loadTenantThemes(dispatch, (themes) => {
+        console.log('[SP Editor] Tenant themes received:', themes);
+        setTenantThemes(themes);
+      });
+    }
+  }, [dispatch]);
+
+  const applyTenantTheme = useCallback((theme: ITenantTheme) => {
+    const palette = theme.palette;
+    const primary = palette.themePrimary || '#0078d4';
+    const text = palette.neutralPrimary || palette.bodyText || '#323130';
+    const background = palette.white || palette.bodyBackground || '#ffffff';
+    
+    console.log('[SP Editor] Applying tenant theme:', theme.name, { primary, text, background });
+    applyLoadedColors(primary, text, background);
+  }, [applyLoadedColors]);
+
+  const onFabricPaletteColorChange = useCallback((newColor: IColor, fabricSlot: FabricSlots) => {
+    if (fabricPaletteColorChangeTimeoutRef.current) {
+      asyncRef.current.clearTimeout(fabricPaletteColorChangeTimeoutRef.current);
+    }
+
+    fabricPaletteColorChangeTimeoutRef.current = asyncRef.current.setTimeout(() => {
+      setState((prev) => {
+        if (!prev.themeRules) return prev;
+        const themeRules = { ...prev.themeRules };
+        const currentIsDark = isDark(themeRules[FabricSlots[fabricSlot]].color!);
+        ThemeGenerator.setSlot(themeRules[FabricSlots[fabricSlot]], newColor, currentIsDark, true, true);
+        if (currentIsDark !== isDark(themeRules[FabricSlots[fabricSlot]].color!)) {
+          ThemeGenerator.insureSlots(themeRules, currentIsDark);
+        }
+        const themeAsJson: { [key: string]: string } = ThemeGenerator.getThemeAsJson(themeRules);
+        const finalTheme = createTheme({
+          palette: themeAsJson,
+          isInverted: isDark(themeRules[BaseSlots[BaseSlots.backgroundColor]].color!),
+        });
+        return { ...prev, themeRules, theme: finalTheme };
+      });
+    }, 20);
+  }, []);
+
+  const onColorChange = useCallback((colorType: 'primary' | 'text' | 'background', newColor: IColor | undefined) => {
+    if (colorChangeTimeoutRef.current) {
+      asyncRef.current.clearTimeout(colorChangeTimeoutRef.current);
+    }
+
+    if (!newColor) return;
+
+    // Update color immediately for responsive UI
+    setState((prev) => {
+      const updated = { ...prev };
+      if (colorType === 'primary') updated.primaryColor = newColor;
+      else if (colorType === 'text') updated.textColor = newColor;
+      else updated.backgroundColor = newColor;
+      return updated;
+    });
+
+    colorChangeTimeoutRef.current = asyncRef.current.setTimeout(() => {
+      setState((prev) => {
+        if (!prev.themeRules) return prev;
+
+        const themeRules = themeRulesStandardCreator();
+        const bgColor = colorType === 'background' ? newColor : prev.backgroundColor;
+        const currentIsDark = isDark(bgColor);
+
+        ThemeGenerator.insureSlots(themeRules, currentIsDark);
+
+        ThemeGenerator.setSlot(
+          themeRules[BaseSlots[BaseSlots.primaryColor]],
+          colorType === 'primary' ? newColor : prev.primaryColor,
+          currentIsDark,
+          true,
+          true
+        );
+        ThemeGenerator.setSlot(
+          themeRules[BaseSlots[BaseSlots.foregroundColor]],
+          colorType === 'text' ? newColor : prev.textColor,
+          currentIsDark,
+          true,
+          true
+        );
+        ThemeGenerator.setSlot(
+          themeRules[BaseSlots[BaseSlots.backgroundColor]],
+          bgColor,
+          currentIsDark,
+          true,
+          true
+        );
+
+        const themeAsJson: { [key: string]: string } = ThemeGenerator.getThemeAsJson(themeRules);
+        const finalTheme = createTheme({
+          palette: themeAsJson,
+          isInverted: currentIsDark,
+        });
+
+        return { ...prev, themeRules, theme: finalTheme };
+      });
+    }, 20);
+  }, []);
+
+  const applyThemeToApp = useCallback(() => {
+    if (!state.theme) return;
+
+    const customizations: ICustomizations = {
+      settings: { theme: state.theme },
+      scopedSettings: {},
+    };
+
+    const isInverted = isDark(state.backgroundColor);
+    document.body.classList.toggle('dark', isInverted);
+    dispatch(setTheme(customizations));
+    dispatch(setDarkMode(isInverted));
+
+    // Save to storage
+    const saveData = {
+      primaryColor: state.primaryColor.str,
+      textColor: state.textColor.str,
+      backgroundColor: state.backgroundColor.str,
+    };
+
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.set({ [CUSTOM_THEME_KEY]: saveData });
+    } else {
+      localStorage.setItem(CUSTOM_THEME_KEY, JSON.stringify(saveData));
+    }
+  }, [dispatch, state]);
+
+  const previewOnPage = useCallback(() => {
+    if (!state.themeRules) return;
+    
+    // ThemeGenerator outputs Fluent UI format, but SharePoint __loadTheme needs palette format
+    // Build a proper SharePoint palette from the theme rules
+    const themeJson = ThemeGenerator.getThemeAsJson(state.themeRules);
+    
+    // Map Fluent UI keys to SharePoint palette keys
+    const palette: { [key: string]: string } = {
+      // Primary/Theme colors
+      themePrimary: themeJson.primaryColor || state.primaryColor.str,
+      themeLighterAlt: themeJson.primaryColorLighterAlt || themeJson.themeLighterAlt,
+      themeLighter: themeJson.primaryColorLighter || themeJson.themeLighter,
+      themeLight: themeJson.primaryColorLight || themeJson.themeLight,
+      themeTertiary: themeJson.primaryColorTertiary || themeJson.themeTertiary,
+      themeSecondary: themeJson.primaryColorSecondary || themeJson.themeSecondary,
+      themeDarkAlt: themeJson.primaryColorDarkAlt || themeJson.themeDarkAlt,
+      themeDark: themeJson.primaryColorDark || themeJson.themeDark,
+      themeDarker: themeJson.primaryColorDarker || themeJson.themeDarker,
+      
+      // Neutral colors
+      neutralLighterAlt: themeJson.backgroundColorShade1 || themeJson.neutralLighterAlt,
+      neutralLighter: themeJson.backgroundColorShade2 || themeJson.neutralLighter,
+      neutralLight: themeJson.backgroundColorShade3 || themeJson.neutralLight,
+      neutralQuaternaryAlt: themeJson.backgroundColorShade4 || themeJson.neutralQuaternaryAlt,
+      neutralQuaternary: themeJson.backgroundColorShade5 || themeJson.neutralQuaternary,
+      neutralTertiaryAlt: themeJson.backgroundColorShade6 || themeJson.neutralTertiaryAlt,
+      neutralTertiary: themeJson.foregroundColorShade1 || themeJson.neutralTertiary,
+      neutralSecondary: themeJson.foregroundColorShade2 || themeJson.neutralSecondary,
+      neutralPrimaryAlt: themeJson.foregroundColorShade3 || themeJson.neutralPrimaryAlt,
+      neutralPrimary: themeJson.foregroundColor || state.textColor.str,
+      neutralDark: themeJson.foregroundColorShade4 || themeJson.neutralDark,
+      
+      // Base colors
+      white: themeJson.backgroundColor || state.backgroundColor.str,
+      black: themeJson.black || '#000000',
+    };
+    
+    console.log('[SP Editor] previewOnPage palette:', palette);
+    console.log('[SP Editor] themePrimary being sent:', palette.themePrimary);
+    previewThemeOnPage(dispatch, palette);
+  }, [dispatch, state.themeRules, state.primaryColor, state.textColor, state.backgroundColor]);
+
+  const clearPreview = useCallback(() => {
+    clearThemePreview(dispatch);
+  }, [dispatch]);
+
+  const loadFromPage = useCallback(() => {
+    loadCurrentThemeFromPage(dispatch, (theme) => {
+      // Extract primary, text, and background colors from the loaded theme
+      const primary = theme.themePrimary || '#0078d4';
+      const text = theme.neutralPrimary || theme.bodyText || '#323130';
+      const background = theme.white || theme.bodyBackground || '#ffffff';
+      
+      console.log('[SP Editor] Applying loaded theme colors:', { primary, text, background });
+      applyLoadedColors(primary, text, background);
+    });
+  }, [dispatch, applyLoadedColors]);
+
+  const commandBarItems: ICommandBarItemProps[] = [
+    {
+      key: 'sharepointThemes',
+      text: 'SharePoint themes',
+      iconProps: { iconName: 'Brush' },
+      subMenuProps: {
+        items: MICROSOFT_THEMES.map((theme) => ({
+          key: theme.name,
+          text: theme.name,
+          onClick: () => applyTenantTheme(theme),
+        })),
+      },
+    },
+    {
+      key: 'tenantThemes',
+      text: 'Tenant themes',
+      iconProps: { iconName: 'Color' },
+      subMenuProps: tenantThemes.length > 0 ? {
+        items: tenantThemes.map((theme) => ({
+          key: theme.name,
+          text: theme.name,
+          onClick: () => applyTenantTheme(theme),
+        })),
+      } : {
+        items: [{ key: 'none', text: 'No tenant themes found', disabled: true }],
+      },
+    },
+    {
+      key: 'loadFromPage',
+      text: 'Load from page',
+      iconProps: { iconName: 'Download' },
+      onClick: loadFromPage,
+    },
+    {
+      key: 'preview',
+      text: 'Preview on page',
+      iconProps: { iconName: 'View' },
+      onClick: previewOnPage,
+    },
+    {
+      key: 'clear',
+      text: 'Clear preview',
+      iconProps: { iconName: 'Cancel' },
+      onClick: clearPreview,
+    },
+    {
+      key: 'export',
+      text: 'Export theme',
+      iconProps: { iconName: 'Export' },
+      onClick: exportTheme,
+    },
+  ];
+
+  return (
+    <IonPage>
+      <Header title={'Theme Designer'} showOnLoad={false} headline='' content=''/>
+      <IonContent>
+        <CommandBar items={commandBarItems} />
+        <Page>
+          <Content>
+            <Sidebar>
+              <Text variant="xLarge" styles={{ root: { fontWeight: 600, marginLeft: 20 } }}>
+                <IconButton
+                  disabled={false}
+                  checked={false}
+                  iconProps={{ iconName: 'Color', styles: { root: { fontSize: '20px', marginRight: 12 } } }}
+                  title="Colors"
+                  ariaLabel="Colors"
+                />
+                Color
+              </Text>
+              <ThemeDesignerColorPicker
+                color={state.primaryColor}
+                onColorChange={(color) => onColorChange('primary', color)}
+                label="Primary color"
+              />
+              <ThemeDesignerColorPicker
+                color={state.textColor}
+                onColorChange={(color) => onColorChange('text', color)}
+                label="Text color"
+              />
+              <ThemeDesignerColorPicker
+                color={state.backgroundColor}
+                onColorChange={(color) => onColorChange('background', color)}
+                label="Background color"
+              />
+            </Sidebar>
+            <Main>
+              <ThemeProvider theme={state.theme}>
+                <Samples
+                  backgroundColor={state.backgroundColor.str}
+                  textColor={state.textColor.str}
+                />
+              </ThemeProvider>
+              <AccessibilityChecker themeRules={state.themeRules} />
+              <ThemeSlots
+                theme={state.theme}
+                themeRules={state.themeRules}
+                onFabricPaletteColorChange={onFabricPaletteColorChange}
+              />
+            </Main>
+          </Content>
+        </Page>
+        <Panel
+          isOpen={isPanelOpen}
+          onDismiss={() => setIsPanelOpen(false)}
+          headerText="Export theme"
+          type={PanelType.medium}
+        >
+          <Text block styles={{ root: { marginBottom: 20 } }}>
+            This code block creates the theme you have configured above using the createTheme utility
+            function. Calling loadTheme with this theme will automatically apply the configured
+            theming to any Fabric controls used within the same app. You can also export this example to
+            CodePen with a few component examples below.
+          </Text>
+          <Pivot>
+            <PivotItem headerText="Code">
+              <TextField
+                multiline
+                rows={20}
+                value={themeAsCode}
+                readOnly
+                styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
+              />
+            </PivotItem>
+            <PivotItem headerText="JSON">
+              <TextField
+                multiline
+                rows={20}
+                value={jsonTheme}
+                readOnly
+                styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
+              />
+            </PivotItem>
+            <PivotItem headerText="PowerShell">
+              <TextField
+                multiline
+                rows={20}
+                value={powershellTheme}
+                readOnly
+                styles={{ field: { fontFamily: 'monospace', fontSize: 12 } }}
+              />
+            </PivotItem>
+          </Pivot>
+        </Panel>
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default ThemeDesigner;
