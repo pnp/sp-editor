@@ -2,8 +2,6 @@
  * Applies a theme to the current SharePoint site
  */
 export function applyThemeToSite(themeName: string, themePalette: { [key: string]: string }) {
-  console.log('[SP Editor] applyThemeToSite called:', themeName);
-  
   // Helper function to convert hex to RGBA - must be inside for injection
   function hexToRgba(hex: string): { R: number; G: number; B: number; A: number } {
     hex = hex.replace(/^#/, '');
@@ -55,8 +53,6 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
         themeJson: themeJson,
       };
       
-      console.log('[SP Editor] Calling ApplyTheme with body:', body);
-      
       return fetch(webUrl + '/_api/thememanager/ApplyTheme', {
         method: 'POST',
         headers: {
@@ -77,7 +73,6 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
         return response.json();
       })
       .then(function(data) {
-        console.log('[SP Editor] ApplyTheme response:', data);
         return {
           success: true,
           result: data,

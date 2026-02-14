@@ -2,8 +2,6 @@
  * Deletes a tenant theme from SharePoint
  */
 export function deleteTenantTheme(themeName: string) {
-  console.log('[SP Editor] deleteTenantTheme called:', themeName);
-  
   return moduleLoader().then(function() {
     var win = window as any;
     
@@ -22,8 +20,6 @@ export function deleteTenantTheme(themeName: string) {
       var body = {
         name: themeName,
       };
-      
-      console.log('[SP Editor] Calling DeleteTenantTheme with body:', body);
       
       return fetch(webUrl + '/_api/thememanager/DeleteTenantTheme', {
         method: 'POST',
@@ -45,7 +41,6 @@ export function deleteTenantTheme(themeName: string) {
         return response.json();
       })
       .then(function(data) {
-        console.log('[SP Editor] DeleteTenantTheme response:', data);
         return {
           success: true,
           result: data,

@@ -5,9 +5,6 @@ export function injectTheme(themeJson: { [key: string]: string }) {
   try {
     var win = window as any;
 
-    console.log('[SP Editor injectTheme] Received themeJson:', themeJson);
-    console.log('[SP Editor injectTheme] themePrimary:', themeJson.themePrimary);
-
     // Store original theme for restoration
     var themeState = win.__themeState__ && win.__themeState__.theme ? win.__themeState__.theme : null;
     if (!win.__spEditorOriginalTheme__ && themeState) {
@@ -18,20 +15,14 @@ export function injectTheme(themeJson: { [key: string]: string }) {
     var originalTheme = win.__spEditorOriginalTheme__ || themeState || {};
     var palette = Object.assign({}, originalTheme, themeJson);
 
-    console.log('[SP Editor injectTheme] Final palette themePrimary:', palette.themePrimary);
-
     // Use SharePoint's native __loadTheme
     if (win.__loadTheme) {
-      console.log('[SP Editor injectTheme] Calling __loadTheme');
       win.__loadTheme({
         palette: palette,
         semanticColors: {},
         effects: {},
         fonts: {}
       });
-      console.log('[SP Editor injectTheme] __loadTheme called successfully');
-    } else {
-      console.log('[SP Editor injectTheme] __loadTheme not found!');
     }
 
     return { success: true, result: null, errorMessage: '', source: 'chrome-sp-editor' };

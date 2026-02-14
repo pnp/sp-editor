@@ -2,14 +2,11 @@
  * Gets the current theme from the SharePoint page
  */
 export function getCurrentTheme() {
-  console.log('[SP Editor] getCurrentTheme called');
-  
   return moduleLoader().then(function() {
     var win = window as any;
     
     // Try to get theme from __themeState__
     if (win.__themeState__ && win.__themeState__.theme) {
-      console.log('[SP Editor] Found __themeState__.theme:', win.__themeState__.theme);
       return {
         success: true,
         result: {
@@ -23,7 +20,6 @@ export function getCurrentTheme() {
 
     // Try to get from window.Fabric?.theme
     if (win.Fabric && win.Fabric.theme) {
-      console.log('[SP Editor] Found Fabric.theme:', win.Fabric.theme);
       return {
         success: true,
         result: {
@@ -61,7 +57,6 @@ export function getCurrentTheme() {
     }
 
     if (foundAny) {
-      console.log('[SP Editor] Found CSS variables theme:', themeColors);
       return {
         success: true,
         result: {
@@ -76,7 +71,6 @@ export function getCurrentTheme() {
     // Try spPageContextInfo for theme info
     var ctx = win._spPageContextInfo || (win.g_spfxData && win.g_spfxData.spPageContextInfo);
     if (ctx) {
-      console.log('[SP Editor] Found spPageContextInfo, theme cache token:', ctx.themeCacheToken);
       if (ctx.themeCacheToken) {
         return {
           success: true,

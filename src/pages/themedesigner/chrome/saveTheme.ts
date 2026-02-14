@@ -2,8 +2,6 @@
  * Adds or updates a tenant theme in SharePoint
  */
 export function saveTenantTheme(themeName: string, themePalette: { [key: string]: string }, isUpdate: boolean) {
-  console.log('[SP Editor] saveTenantTheme called:', themeName, isUpdate ? '(update)' : '(add)');
-  
   return moduleLoader().then(function() {
     var win = window as any;
     
@@ -27,8 +25,6 @@ export function saveTenantTheme(themeName: string, themePalette: { [key: string]
         }),
       };
       
-      console.log('[SP Editor] Calling', endpoint, 'with body:', body);
-      
       return fetch(webUrl + '/_api/thememanager/' + endpoint, {
         method: 'POST',
         headers: {
@@ -49,7 +45,6 @@ export function saveTenantTheme(themeName: string, themePalette: { [key: string]
         return response.json();
       })
       .then(function(data) {
-        console.log('[SP Editor] ' + endpoint + ' response:', data);
         return {
           success: true,
           result: data,

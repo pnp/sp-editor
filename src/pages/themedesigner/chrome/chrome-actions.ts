@@ -20,7 +20,6 @@ export function loadTenantThemes(
   dispatch: Dispatch<HomeActions>,
   onThemesLoaded: (themes: ITenantTheme[]) => void
 ) {
-  console.log('[SP Editor] loadTenantThemes called');
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -29,13 +28,11 @@ export function loadTenantThemes(
     args: [chrome.runtime.getURL('')],
     func: getTenantThemes,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] getTenantThemes results:', injectionResults);
     dispatch(rootActions.setLoading(false));
 
     if (injectionResults[0].result) {
       var res = injectionResults[0].result as any;
       if (res.success && res.result && res.result.themes) {
-        console.log('[SP Editor] Tenant themes loaded:', res.result.themes);
         // Transform the theme previews to our format (themeJson is a string)
         var themes: ITenantTheme[] = res.result.themes.map(function(t: any) {
           var palette = {};
@@ -56,7 +53,6 @@ export function loadTenantThemes(
         });
         onThemesLoaded(themes);
       } else {
-        console.log('[SP Editor] No themes or error:', res.errorMessage);
         onThemesLoaded([]);
       }
     }
@@ -71,7 +67,6 @@ export function loadCurrentThemeFromPage(
   dispatch: Dispatch<HomeActions>,
   onThemeLoaded: (theme: { [key: string]: string }) => void
 ) {
-  console.log('[SP Editor] loadCurrentThemeFromPage called');
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -80,13 +75,11 @@ export function loadCurrentThemeFromPage(
     args: [],
     func: getCurrentTheme,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] getCurrentTheme results:', injectionResults);
     dispatch(rootActions.setLoading(false));
 
     if (injectionResults[0].result) {
       var res = injectionResults[0].result as any;
       if (res.success && res.result && res.result.theme) {
-        console.log('[SP Editor] Theme loaded from source:', res.result.source);
         onThemeLoaded(res.result.theme);
         dispatch(rootActions.setAppMessage({
           showMessage: true,
@@ -122,10 +115,6 @@ export function previewThemeOnPage(
   dispatch: Dispatch<HomeActions>,
   themeJson: { [key: string]: string }
 ) {
-  console.log('[SP Editor] previewThemeOnPage called');
-  console.log('[SP Editor] themeJson:', themeJson);
-  console.log('[SP Editor] tabId:', chrome.devtools.inspectedWindow.tabId);
-  
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -134,7 +123,6 @@ export function previewThemeOnPage(
     args: [themeJson],
     func: injectTheme,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] executeScript results:', injectionResults);
     dispatch(rootActions.setLoading(false));
     
     if (injectionResults[0].result) {
@@ -197,7 +185,6 @@ export function saveTheme(
   isUpdate: boolean,
   onSuccess: () => void
 ) {
-  console.log('[SP Editor] saveTheme called:', themeName, isUpdate ? '(update)' : '(add)');
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -206,7 +193,6 @@ export function saveTheme(
     args: [themeName, themePalette, isUpdate],
     func: saveTenantTheme,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] saveTheme results:', injectionResults);
     dispatch(rootActions.setLoading(false));
 
     if (injectionResults[0].result) {
@@ -242,7 +228,6 @@ export function deleteTheme(
   themeName: string,
   onSuccess: () => void
 ) {
-  console.log('[SP Editor] deleteTheme called:', themeName);
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -251,7 +236,6 @@ export function deleteTheme(
     args: [themeName],
     func: deleteTenantTheme,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] deleteTheme results:', injectionResults);
     dispatch(rootActions.setLoading(false));
 
     if (injectionResults[0].result) {
@@ -288,7 +272,6 @@ export function applyThemeToPage(
   themePalette: { [key: string]: string },
   onSuccess: () => void
 ) {
-  console.log('[SP Editor] applyThemeToPage called:', themeName);
   dispatch(rootActions.setLoading(true));
 
   chrome.scripting.executeScript({
@@ -297,7 +280,6 @@ export function applyThemeToPage(
     args: [themeName, themePalette],
     func: applyThemeToSite,
   }).then(function(injectionResults) {
-    console.log('[SP Editor] applyThemeToPage results:', injectionResults);
     dispatch(rootActions.setLoading(false));
 
     if (injectionResults[0].result) {

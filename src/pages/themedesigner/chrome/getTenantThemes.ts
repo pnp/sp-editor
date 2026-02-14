@@ -2,8 +2,6 @@
  * Gets available tenant themes from SharePoint
  */
 export function getTenantThemes(extPath: string) {
-  console.log('[SP Editor] getTenantThemes called');
-  
   return moduleLoader().then(function() {
     var win = window as any;
     
@@ -16,8 +14,6 @@ export function getTenantThemes(extPath: string) {
     } else {
       webUrl = window.location.origin + window.location.pathname.split('/').slice(0, 3).join('/');
     }
-    
-    console.log('[SP Editor] Using webUrl:', webUrl);
     
     // Fetch the tenant theming options
     return fetch(webUrl + '/_api/thememanager/GetTenantThemingOptions', {
@@ -34,8 +30,6 @@ export function getTenantThemes(extPath: string) {
       return response.json();
     })
     .then(function(data) {
-      console.log('[SP Editor] GetTenantThemingOptions response:', data);
-      
       var result = data.d && data.d.GetTenantThemingOptions ? data.d.GetTenantThemingOptions : (data.d || data);
       var themePreviews = result.themePreviews && result.themePreviews.results ? result.themePreviews.results : [];
       

@@ -1065,10 +1065,6 @@ export const ThemingDesigner: React.FC = () => {
 
   // Confirm apply theme to site
   const handleApplyConfirm = useCallback(() => {
-    console.log('[SP Editor] handleApplyConfirm called');
-    console.log('[SP Editor] currentThemeName:', currentThemeName);
-    console.log('[SP Editor] currentPaletteRef.current:', currentPaletteRef.current);
-    
     if (currentPaletteRef.current) {
       // Use current theme name, or a default if not set
       const themeName = currentThemeName || 'Custom Theme';
