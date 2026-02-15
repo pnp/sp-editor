@@ -32,9 +32,131 @@ import { Pivot, PivotItem } from '@fluentui/react/lib/Pivot';
 import { Dialog, DialogType, DialogFooter } from '@fluentui/react/lib/Dialog';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { Toggle } from '@fluentui/react/lib/Toggle';
-import { previewThemeOnPage, clearThemePreview, loadTenantThemes, loadCurrentThemeFromPage, saveTheme, deleteTheme, applyThemeToPage, ITenantTheme } from '../chrome/chrome-actions';
+import { ChoiceGroup, IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
+import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { previewThemeOnPage, clearThemePreview, loadTenantThemes, loadSiteThemes, loadCurrentThemeFromPage, saveTheme, deleteTheme, applyThemeToPage, saveThemeToSite, updateSiteThemeOnSite, ITenantTheme, ISiteTheme } from '../chrome/chrome-actions';
 import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
+
+// Default Fluent UI palette - used as fallback for incomplete themes
+// Based on Fluent UI's DefaultTheme palette
+const DEFAULT_PALETTE: { [key: string]: string } = {
+  themePrimary: '#0078d4',
+  themeLighterAlt: '#eff6fc',
+  themeLighter: '#deecf9',
+  themeLight: '#c7e0f4',
+  themeTertiary: '#71afe5',
+  themeSecondary: '#2b88d8',
+  themeDarkAlt: '#106ebe',
+  themeDark: '#005a9e',
+  themeDarker: '#004578',
+  neutralLighterAlt: '#faf9f8',
+  neutralLighter: '#f3f2f1',
+  neutralLight: '#edebe9',
+  neutralQuaternaryAlt: '#e1dfdd',
+  neutralQuaternary: '#d0d0d0',
+  neutralTertiaryAlt: '#c8c6c4',
+  neutralTertiary: '#a19f9d',
+  neutralSecondary: '#605e5c',
+  neutralSecondaryAlt: '#8a8886',
+  neutralPrimaryAlt: '#3b3a39',
+  neutralPrimary: '#323130',
+  neutralDark: '#201f1e',
+  black: '#000000',
+  white: '#ffffff',
+  primaryBackground: '#ffffff',
+  primaryText: '#323130',
+  bodyBackground: '#ffffff',
+  bodyText: '#323130',
+  bodySubtext: '#605e5c',
+  bodyDivider: '#edebe9',
+  disabledBackground: '#f3f2f1',
+  disabledText: '#a19f9d',
+  disabledBodyText: '#a19f9d',
+  disabledSubtext: '#d2d0ce',
+  disabledBodySubtext: '#c8c6c4',
+  focusBorder: '#605e5c',
+  variantBorder: '#edebe9',
+  variantBorderHovered: '#a19f9d',
+  defaultStateBackground: '#faf9f8',
+  errorText: '#a4262c',
+  warningText: '#323130',
+  errorBackground: '#FDE7E9',
+  blockingBackground: '#FDE7E9',
+  warningBackground: '#FFF4CE',
+  warningHighlight: '#ffb900',
+  successBackground: '#DFF6DD',
+  inputBorder: '#605e5c',
+  inputBorderHovered: '#323130',
+  inputBackground: '#ffffff',
+  inputBackgroundChecked: '#0078d4',
+  inputBackgroundCheckedHovered: '#106ebe',
+  inputForegroundChecked: '#ffffff',
+  inputFocusBorderAlt: '#0078d4',
+  smallInputBorder: '#605e5c',
+  inputText: '#323130',
+  inputTextHovered: '#201f1e',
+  inputPlaceholderText: '#605e5c',
+  buttonBackground: '#ffffff',
+  buttonBackgroundChecked: '#c8c6c4',
+  buttonBackgroundHovered: '#f3f2f1',
+  buttonBackgroundCheckedHovered: '#edebe9',
+  buttonBackgroundPressed: '#edebe9',
+  buttonBackgroundDisabled: '#f3f2f1',
+  buttonBorder: '#8a8886',
+  buttonText: '#323130',
+  buttonTextHovered: '#201f1e',
+  buttonTextChecked: '#201f1e',
+  buttonTextCheckedHovered: '#000000',
+  buttonTextPressed: '#201f1e',
+  buttonTextDisabled: '#a19f9d',
+  buttonBorderDisabled: '#f3f2f1',
+  primaryButtonBackground: '#0078d4',
+  primaryButtonBackgroundHovered: '#106ebe',
+  primaryButtonBackgroundPressed: '#005a9e',
+  primaryButtonBackgroundDisabled: '#f3f2f1',
+  primaryButtonBorder: 'transparent',
+  primaryButtonText: '#ffffff',
+  primaryButtonTextHovered: '#ffffff',
+  primaryButtonTextPressed: '#ffffff',
+  primaryButtonTextDisabled: '#d2d0ce',
+  accentButtonBackground: '#0078d4',
+  accentButtonText: '#ffffff',
+  menuBackground: '#ffffff',
+  menuDivider: '#c8c6c4',
+  menuIcon: '#0078d4',
+  menuHeader: '#0078d4',
+  menuItemBackgroundHovered: '#f3f2f1',
+  menuItemBackgroundPressed: '#edebe9',
+  menuItemText: '#323130',
+  menuItemTextHovered: '#201f1e',
+  listBackground: '#ffffff',
+  listText: '#323130',
+  listItemBackgroundHovered: '#f3f2f1',
+  listItemBackgroundChecked: '#edebe9',
+  listItemBackgroundCheckedHovered: '#e1dfdd',
+  listHeaderBackgroundHovered: '#f3f2f1',
+  listHeaderBackgroundPressed: '#edebe9',
+  actionLink: '#323130',
+  actionLinkHovered: '#201f1e',
+  link: '#0078d4',
+  linkHovered: '#004578',
+  listTextColor: '#323130',
+  menuItemBackgroundChecked: '#edebe9',
+  error: '#a80000',
+  accent: '#0078d4',
+};
+
+/**
+ * Merges a partial palette with the default palette to ensure all slots are defined.
+ * Similar to Fluent UI's convertToV8Theme pattern.
+ */
+const mergeWithDefaultPalette = (partial: { [key: string]: string }): { [key: string]: string } => {
+  return {
+    ...DEFAULT_PALETTE,
+    ...partial,
+  };
+};
 
 // Official SharePoint themes from Microsoft documentation
 // https://learn.microsoft.com/en-us/sharepoint/dev/declarative-customization/site-theming/sharepoint-site-theming-json-schema
@@ -581,19 +703,28 @@ export const ThemingDesigner: React.FC = () => {
   // Tenant themes state
   const [tenantThemes, setTenantThemes] = useState<ITenantTheme[]>([]);
 
+  // Site themes state (from brandcenter API)
+  const [siteThemes, setSiteThemes] = useState<ISiteTheme[]>([]);
+
   // Current theme tracking for save/update/delete
   const [currentThemeName, setCurrentThemeName] = useState<string | null>(null);
-  const [currentThemeType, setCurrentThemeType] = useState<'microsoft' | 'tenant' | 'custom' | 'none'>('none');
+  const [currentThemeType, setCurrentThemeType] = useState<'microsoft' | 'tenant' | 'site' | 'custom' | 'none'>('none');
   const [isThemeActive, setIsThemeActive] = useState(false); // true when user has selected or created a theme
+  const [currentSiteThemeId, setCurrentSiteThemeId] = useState<number | null>(null); // For site theme update operations
 
   // Dialog states
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [isSaveConfirmDialogOpen, setIsSaveConfirmDialogOpen] = useState(false);
+  const [isSaveSiteDialogOpen, setIsSaveSiteDialogOpen] = useState(false);
   const [saveThemeName, setSaveThemeName] = useState('');
   const [isSaveAsMode, setIsSaveAsMode] = useState(false); // true = Save As (new), false = Update
   const [livePreviewEnabled, setLivePreviewEnabled] = useState(true); // Auto-preview on color change
+
+  // Save to Site dialog state
+  const [saveSiteMode, setSaveSiteMode] = useState<'create' | 'update'>('create');
+  const [selectedUpdateThemeId, setSelectedUpdateThemeId] = useState<number | null>(null);
 
   // Refs for debounce timeouts
   const colorChangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -660,13 +791,20 @@ export const ThemingDesigner: React.FC = () => {
     });
   }, [dispatch]);
 
+  // Load site themes on mount
+  useEffect(() => {
+    loadSiteThemes(dispatch, (themes) => {
+      setSiteThemes(themes);
+    });
+  }, [dispatch]);
+
   // Auto-load current page theme on mount
   useEffect(() => {
     if (isInitialized) {
       // Load the current theme from the page
       loadCurrentThemeFromPage(dispatch, (loadedPalette) => {
-        // Apply the loaded theme to the designer
-        const palette = loadedPalette;
+        // Merge with defaults to ensure all slots are defined (convertToV8Theme pattern)
+        const palette = mergeWithDefaultPalette(loadedPalette);
         
         // Track as custom (we don't know if it's from tenant gallery)
         setCurrentThemeName('Current Page Theme');
@@ -706,13 +844,21 @@ export const ThemingDesigner: React.FC = () => {
   }, [isInitialized]); // Only run once after initialization
 
   // Apply a theme from the dropdown
-  const applyTheme = useCallback((selectedTheme: ITenantTheme, themeType: 'microsoft' | 'tenant' | 'custom' = 'custom') => {
-    const palette = selectedTheme.palette;
+  const applyTheme = useCallback((selectedTheme: ITenantTheme | ISiteTheme, themeType: 'microsoft' | 'tenant' | 'site' | 'custom' = 'custom') => {
+    // Merge with defaults to ensure all palette slots are defined (convertToV8Theme pattern)
+    const palette = mergeWithDefaultPalette(selectedTheme.palette);
     
     // Track the current theme
     setCurrentThemeName(selectedTheme.name);
     setCurrentThemeType(themeType);
     setIsThemeActive(true);
+    
+    // Track site theme ID for potential update operations
+    if (themeType === 'site' && 'id' in selectedTheme) {
+      setCurrentSiteThemeId(selectedTheme.id);
+    } else {
+      setCurrentSiteThemeId(null);
+    }
     
     // Get the base colors from the palette
     const newPrimaryColor = getColorFromString(palette.themePrimary || '#0078d4')!;
@@ -913,7 +1059,8 @@ export const ThemingDesigner: React.FC = () => {
     
     // Reload the original page theme into the editor
     loadCurrentThemeFromPage(dispatch, (loadedPalette) => {
-      const palette = loadedPalette;
+      // Merge with defaults to ensure all slots are defined
+      const palette = mergeWithDefaultPalette(loadedPalette);
       
       setCurrentThemeName('Current Page Theme');
       setCurrentThemeType('custom');
@@ -949,6 +1096,13 @@ export const ThemingDesigner: React.FC = () => {
   const refreshTenantThemes = useCallback(() => {
     loadTenantThemes(dispatch, (themes) => {
       setTenantThemes(themes);
+    });
+  }, [dispatch]);
+
+  // Refresh site themes list
+  const refreshSiteThemes = useCallback(() => {
+    loadSiteThemes(dispatch, (themes) => {
+      setSiteThemes(themes);
     });
   }, [dispatch]);
 
@@ -1076,6 +1230,32 @@ export const ThemingDesigner: React.FC = () => {
     }
   }, [dispatch, currentThemeName]);
 
+  // Save theme to site
+  const handleSaveSiteTheme = useCallback(() => {
+    if (!currentPaletteRef.current) {
+      return;
+    }
+    
+    // Close dialog immediately
+    setIsSaveSiteDialogOpen(false);
+    
+    const isInverted = isDark(backgroundColor);
+    
+    if (saveSiteMode === 'create' && saveThemeName.trim()) {
+      // Create new theme
+      saveThemeToSite(dispatch, saveThemeName.trim(), currentPaletteRef.current, isInverted, () => {
+        refreshSiteThemes();
+      });
+    } else if (saveSiteMode === 'update' && selectedUpdateThemeId !== null) {
+      // Update existing theme
+      const existingTheme = siteThemes.find(t => t.id === selectedUpdateThemeId);
+      const themeName = existingTheme?.name || 'Updated Theme';
+      updateSiteThemeOnSite(dispatch, selectedUpdateThemeId, themeName, currentPaletteRef.current, isInverted, () => {
+        refreshSiteThemes();
+      });
+    }
+  }, [dispatch, saveThemeName, backgroundColor, refreshSiteThemes, saveSiteMode, selectedUpdateThemeId, siteThemes]);
+
   // CommandBar items
   const commandBarItems: ICommandBarItemProps[] = useMemo(
     () => [
@@ -1086,15 +1266,18 @@ export const ThemingDesigner: React.FC = () => {
         subMenuProps: {
           items: [
             {
-              key: 'msThemesHeader',
-              text: 'Microsoft Themes',
+              key: 'siteThemesHeader',
+              text: 'Site Themes',
               itemType: 2, // Header (ContextualMenuItemType.Header)
+              style: { fontWeight: 600, fontSize: '13px', backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '4px 12px' },
             },
-            ...MICROSOFT_THEMES.map((t) => ({
-              key: `ms-${t.name}`,
-              text: t.name,
-              onClick: () => applyTheme(t, 'microsoft'),
-            })),
+            ...(siteThemes.length > 0
+              ? siteThemes.map((t) => ({
+                  key: `site-${t.id}-${t.name}`,
+                  text: t.name,
+                  onClick: () => applyTheme(t, 'site'),
+                }))
+              : [{ key: 'noSiteThemes', text: '(No site themes found)', disabled: true }]),
             {
               key: 'divider1',
               itemType: 1, // Divider (ContextualMenuItemType.Divider)
@@ -1103,6 +1286,7 @@ export const ThemingDesigner: React.FC = () => {
               key: 'tenantThemesHeader',
               text: 'Tenant Themes',
               itemType: 2, // Header (ContextualMenuItemType.Header)
+              style: { fontWeight: 600, fontSize: '13px', backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '4px 12px' },
             },
             ...(tenantThemes.length > 0
               ? tenantThemes.map((t) => ({
@@ -1111,6 +1295,21 @@ export const ThemingDesigner: React.FC = () => {
                   onClick: () => applyTheme(t, 'tenant'),
                 }))
               : [{ key: 'noTenantThemes', text: '(No tenant themes found)', disabled: true }]),
+            {
+              key: 'divider2',
+              itemType: 1, // Divider (ContextualMenuItemType.Divider)
+            },
+            {
+              key: 'msThemesHeader',
+              text: 'Microsoft Themes',
+              itemType: 2, // Header (ContextualMenuItemType.Header)
+              style: { fontWeight: 600, fontSize: '13px', backgroundColor: 'rgba(128, 128, 128, 0.2)', padding: '4px 12px' },
+            },
+            ...MICROSOFT_THEMES.map((t) => ({
+              key: `ms-${t.name}`,
+              text: t.name,
+              onClick: () => applyTheme(t, 'microsoft'),
+            })),
           ],
         },
       },
@@ -1161,7 +1360,7 @@ export const ThemingDesigner: React.FC = () => {
       //   disabled: currentThemeType !== 'tenant',
       // },
     ],
-    [handleRestoreOriginal, applyTheme, tenantThemes, handleApplyClick]
+    [handleRestoreOriginal, applyTheme, tenantThemes, siteThemes, handleApplyClick]
   );
 
   // CommandBar far items (right side)
@@ -1195,13 +1394,22 @@ export const ThemingDesigner: React.FC = () => {
         onClick: handleApplyClick,
       },
       {
+        key: 'saveToSite',
+        text: 'Save to Site',
+        iconProps: { iconName: 'SaveAs' },
+        onClick: () => {
+          setSaveThemeName(currentThemeName || 'My Theme');
+          setIsSaveSiteDialogOpen(true);
+        },
+      },
+      {
         key: 'export',
         text: 'Export theme',
         iconProps: { iconName: 'Download' },
         onClick: exportTheme,
       },
     ],
-    [exportTheme, livePreviewEnabled, handlePreviewOnPage],
+    [exportTheme, livePreviewEnabled, handlePreviewOnPage, handleApplyClick, currentThemeName],
   );
 
   // Panel footer
@@ -1416,6 +1624,69 @@ export const ThemingDesigner: React.FC = () => {
         <DialogFooter>
           <PrimaryButton onClick={handleSaveConfirm} text="Update" />
           <DefaultButton onClick={() => setIsSaveConfirmDialogOpen(false)} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
+
+      {/* Save to Site Dialog */}
+      <Dialog
+        hidden={!isSaveSiteDialogOpen}
+        onDismiss={() => setIsSaveSiteDialogOpen(false)}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Save Theme to Site',
+          subText: 'Save the current theme colors to this site. This theme will be available in the site\'s theme picker.',
+        }}
+        modalProps={{ isBlocking: true }}
+      >
+        <ChoiceGroup
+          selectedKey={saveSiteMode}
+          options={[
+            { key: 'create', text: 'Create new theme' },
+            { key: 'update', text: 'Update existing theme', disabled: siteThemes.length === 0 },
+          ] as IChoiceGroupOption[]}
+          onChange={(_, option) => {
+            if (option) {
+              setSaveSiteMode(option.key as 'create' | 'update');
+              // Pre-select current site theme if user loaded one
+              if (option.key === 'update' && currentSiteThemeId && !selectedUpdateThemeId) {
+                setSelectedUpdateThemeId(currentSiteThemeId);
+              }
+            }
+          }}
+          styles={{ root: { marginBottom: 16 } }}
+        />
+        
+        {saveSiteMode === 'create' ? (
+          <TextField
+            label="Theme name"
+            value={saveThemeName}
+            onChange={(_, val) => setSaveThemeName(val || '')}
+            placeholder="Enter theme name"
+          />
+        ) : (
+          <Dropdown
+            label="Select theme to update"
+            placeholder="Select a theme"
+            selectedKey={selectedUpdateThemeId}
+            options={siteThemes.map(t => ({
+              key: t.id,
+              text: t.name,
+            } as IDropdownOption))}
+            onChange={(_, option) => {
+              if (option) {
+                setSelectedUpdateThemeId(option.key as number);
+              }
+            }}
+          />
+        )}
+        
+        <DialogFooter>
+          <PrimaryButton 
+            onClick={handleSaveSiteTheme} 
+            text={saveSiteMode === 'create' ? 'Create' : 'Update'} 
+            disabled={saveSiteMode === 'create' ? !saveThemeName.trim() : selectedUpdateThemeId === null} 
+          />
+          <DefaultButton onClick={() => setIsSaveSiteDialogOpen(false)} text="Cancel" />
         </DialogFooter>
       </Dialog>
     </Page>

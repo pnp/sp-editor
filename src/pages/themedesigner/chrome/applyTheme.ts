@@ -21,6 +21,58 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
     }
     return result;
   }
+
+  // Helper to get theme history
+  function getThemeHistory(webUrl: string): Promise<any[]> {
+    return fetch(webUrl + '/_api/web/ThemeApplicationActionHistory', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json;odata=verbose',
+      },
+      credentials: 'include',
+    })
+    .then(function(response) {
+      if (!response.ok) {
+        return [];
+      }
+      return response.json();
+    })
+    .then(function(data) {
+      if (data && data.d && data.d.ThemeApplicationActionHistory) {
+        try {
+          return JSON.parse(data.d.ThemeApplicationActionHistory);
+        } catch (e) {
+          return [];
+        }
+      }
+      return [];
+    })
+    .catch(function() {
+      return [];
+    });
+  }
+
+  // Helper to update theme history
+  function updateThemeHistory(webUrl: string, digest: string, history: any[]): Promise<void> {
+    return fetch(webUrl + '/_api/web/ThemeApplicationActionHistory', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json;odata=verbose',
+        'Content-Type': 'application/json;odata=verbose',
+        'X-RequestDigest': digest,
+      },
+      body: JSON.stringify({
+        themeApplicationActionHistory: JSON.stringify(history),
+      }),
+      credentials: 'include',
+    })
+    .then(function() {
+      // Ignore response, just fire and forget
+    })
+    .catch(function() {
+      // Ignore errors updating history
+    });
+  }
   
   return moduleLoader().then(function() {
     var win = globalThis as any;
@@ -35,8 +87,16 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
       webUrl = globalThis.location.origin + globalThis.location.pathname.split('/').slice(0, 3).join('/');
     }
     
-    // Get request digest for POST
+    var savedDigest = '';
+    var savedHistory: any[] = [];
+    
+    // Get request digest and current history in parallel-ish fashion
     return getRequestDigest(webUrl).then(function(digest) {
+      savedDigest = digest;
+      return getThemeHistory(webUrl);
+    }).then(function(history) {
+      savedHistory = history;
+      
       // Convert hex palette to RGBA format that SharePoint expects
       var rgbaPalette = convertPaletteToRgba(themePalette);
       
@@ -58,37 +118,50 @@ export function applyThemeToSite(themeName: string, themePalette: { [key: string
         headers: {
           'Accept': 'application/json;odata=verbose',
           'Content-Type': 'application/json;odata=verbose',
-          'X-RequestDigest': digest,
+          'X-RequestDigest': savedDigest,
         },
         body: JSON.stringify(body),
         credentials: 'include',
-      })
-      .then(function(response) {
-        if (!response.ok) {
-          return response.text().then(function(text) {
-            console.error('[SP Editor] Apply theme error response:', text);
-            throw new Error('HTTP ' + response.status + ': ' + (text || response.statusText));
-          });
-        }
-        return response.json();
-      })
-      .then(function(data) {
-        return {
-          success: true,
-          result: data,
-          errorMessage: '',
-          source: 'chrome-sp-editor',
-        };
-      })
-      .catch(function(error) {
-        console.error('[SP Editor] Error applying theme:', error);
-        return {
-          success: false,
-          result: null,
-          errorMessage: error.message || 'Failed to apply theme',
-          source: 'chrome-sp-editor',
-        };
       });
+    })
+    .then(function(response) {
+      if (!response.ok) {
+        return response.text().then(function(text) {
+          throw new Error('HTTP ' + response.status + ': ' + (text || response.statusText));
+        });
+      }
+      return response.json();
+    })
+    .then(function(data) {
+      // Extract themedCssFolderUrl from response: {"d":{"ApplyTheme":"/sites/SPEditor/_catalogs/theme/Themed/393D5459"}}
+      var themedCssFolderUrl = data && data.d && data.d.ApplyTheme ? data.d.ApplyTheme : null;
+      
+      if (themedCssFolderUrl) {
+        // Create new history entry and prepend to existing history
+        var newEntry = {
+          themedCssFolderUrl: themedCssFolderUrl,
+          version: '2.0.0',
+        };
+        var newHistory = [newEntry].concat(savedHistory);
+        
+        // Update the theme history (fire and forget)
+        updateThemeHistory(webUrl, savedDigest, newHistory);
+      }
+      
+      return {
+        success: true,
+        result: data,
+        errorMessage: '',
+        source: 'chrome-sp-editor',
+      };
+    })
+    .catch(function(error) {
+      return {
+        success: false,
+        result: null,
+        errorMessage: error.message || 'Failed to apply theme',
+        source: 'chrome-sp-editor',
+      };
     });
   });
 
