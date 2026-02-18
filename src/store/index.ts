@@ -41,6 +41,8 @@ import { IFormCustomizersState } from './formcustomizers/types';
 import { ISiteProvisioningState } from './siteprovisioning/types';
 import { themeDesignerReducer } from './themedesigner/reducers';
 import { IThemeDesignerState } from './themedesigner/types';
+import { pageWebPartsReducer } from './pagewebparts/reducers';
+import { IPageWebPartsState } from './pagewebparts/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -62,6 +64,7 @@ const rootReducer = combineReducers({
   formCustomizers: formCustomizersReducer,
   siteProvisioning: siteProvisioningReducer,
   themeDesigner: themeDesignerReducer,
+  pageWebParts: pageWebPartsReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>
