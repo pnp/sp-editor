@@ -100,14 +100,7 @@ const WebPartPropertiesPanel = () => {
             </Stack>
           </Stack>
           <Stack>
-            <Stack horizontal horizontalAlign='space-between' verticalAlign='center'>
-              <Label>Properties (JSON)</Label>
-              <DefaultButton
-                iconProps={{ iconName: 'Copy' }}
-                text='Copy'
-                onClick={() => copyToClipboard(selectedItem.properties)}
-              />
-            </Stack>
+            <Label>Properties (JSON)</Label>
             <TextField
               value={selectedItem.properties}
               readOnly
