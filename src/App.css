@@ -282,3 +282,13 @@ ion-content {
   font-family: "Saira Extra Condensed", sans-serif;
   color: rgb(75, 213, 238);
 }
+
+/* AI Assistant side panel: when open, push the Ionic content to the left
+   instead of overlaying it. The drawer itself is fixed to the right edge
+   and is rendered by AiAssistantPanel; we just shrink the main app surface
+   so it occupies the remaining horizontal space. */
+body.ai-panel-open ion-app {
+  width: calc(100vw - var(--ai-panel-width, 380px)) !important;
+  right: auto !important;
+  left: 0 !important;
+}

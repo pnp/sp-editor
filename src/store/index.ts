@@ -43,6 +43,7 @@ import { themeDesignerReducer } from './themedesigner/reducers';
 import { IThemeDesignerState } from './themedesigner/types';
 import { pageWebPartsReducer } from './pagewebparts/reducers';
 import { IPageWebPartsState } from './pagewebparts/types';
+import { aiAssistantReducer } from './ai-assistant/reducers';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -65,6 +66,7 @@ const rootReducer = combineReducers({
   siteProvisioning: siteProvisioningReducer,
   themeDesigner: themeDesignerReducer,
   pageWebParts: pageWebPartsReducer,
+  aiAssistant: aiAssistantReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>

@@ -70,6 +70,7 @@ import FormCustomizersPage from './pages/customizers/formcustomizers';
 import SiteProvisioningPage from './pages/siteprovisioning';
 import ThemeDesigner from './pages/themedesigner';
 import PageWebParts from './pages/pagewebparts';
+import AiAssistantPanel from './components/aiAssistantPanel/aiAssistantPanel';
 
 setupIonicReact();
 
@@ -144,6 +145,7 @@ const App = () => {
               </Routes>
             </IonRouterOutlet>
             <MessageBar />
+            <AiAssistantPanel />
           </HashRouter>
         </Customizer>
       </Fabric>
