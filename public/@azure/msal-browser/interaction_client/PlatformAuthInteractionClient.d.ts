@@ -106,7 +106,7 @@ export declare class PlatformAuthInteractionClient extends BaseInteractionClient
      * cache the account entity in browser storage
      * @param accountEntity
      */
-    cacheAccount(accountEntity: AccountEntity, correlationId: string): Promise<void>;
+    cacheAccount(accountEntity: AccountEntity, correlationId: string, kmsi: boolean): Promise<void>;
     /**
      * Stores the access_token and id_token in inmemory storage
      * @param response

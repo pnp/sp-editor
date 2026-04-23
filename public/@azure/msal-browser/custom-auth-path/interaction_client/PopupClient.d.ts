@@ -51,7 +51,7 @@ export declare class PopupClient extends StandardInteractionClient {
      * Executes EAR flow
      * @param request
      */
-    executeEarFlow(request: CommonAuthorizationUrlRequest, popupParams: PopupParams): Promise<AuthenticationResult>;
+    executeEarFlow(request: CommonAuthorizationUrlRequest, popupParams: PopupParams, pkceCodes?: PkceCodes): Promise<AuthenticationResult>;
     executeCodeFlowWithPost(request: CommonAuthorizationUrlRequest, popupParams: PopupParams, authClient: AuthorizationCodeClient, pkceVerifier: string): Promise<AuthenticationResult>;
     /**
      *

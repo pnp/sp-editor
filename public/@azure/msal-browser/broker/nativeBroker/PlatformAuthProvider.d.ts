@@ -7,14 +7,8 @@ import { IPlatformAuthHandler } from "./IPlatformAuthHandler.js";
  * @param perfClient
  * @returns
  */
-export declare function isPlatformBrokerAvailable(loggerOptions?: LoggerOptions, perfClient?: IPerformanceClient, correlationId?: string): Promise<boolean>;
-export declare function getPlatformAuthProvider(logger: Logger, performanceClient: IPerformanceClient, correlationId: string, nativeBrokerHandshakeTimeout?: number): Promise<IPlatformAuthHandler | undefined>;
-/**
- * Returns true if the DOM API support for platform auth is enabled in session storage
- * @returns boolean
- * @deprecated
- */
-export declare function isDomEnabledForPlatformAuth(): boolean;
+export declare function isPlatformBrokerAvailable(loggerOptions?: LoggerOptions, perfClient?: IPerformanceClient, correlationId?: string, domConfig?: boolean): Promise<boolean>;
+export declare function getPlatformAuthProvider(logger: Logger, performanceClient: IPerformanceClient, correlationId: string, nativeBrokerHandshakeTimeout?: number, enablePlatformBrokerDOMSupport?: boolean): Promise<IPlatformAuthHandler | undefined>;
 /**
  * Returns boolean indicating whether or not the request should attempt to use native broker
  * @param logger

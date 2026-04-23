@@ -15,7 +15,7 @@ export declare class LocalStorage implements IWindowStorage<string> {
     getUserData(key: string): string | null;
     decryptData(key: string, data: EncryptedData, correlationId: string): Promise<object | null>;
     setItem(key: string, value: string): void;
-    setUserData(key: string, value: string, correlationId: string, timestamp: string): Promise<void>;
+    setUserData(key: string, value: string, correlationId: string, timestamp: string, kmsi: boolean): Promise<void>;
     removeItem(key: string): void;
     getKeys(): string[];
     containsKey(key: string): boolean;

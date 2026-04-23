@@ -1,4 +1,4 @@
-import { ServerTelemetryManager, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions, StringDict, CommonAuthorizationUrlRequest } from "@azure/msal-common/browser";
+import { ServerTelemetryManager, AuthorizationCodeClient, ClientConfiguration, CommonEndSessionRequest, AccountInfo, AzureCloudOptions, StringDict, CommonAuthorizationUrlRequest, Authority } from "@azure/msal-common/browser";
 import { BaseInteractionClient } from "./BaseInteractionClient.js";
 import { InteractionType } from "../utils/BrowserConstants.js";
 import { EndSessionRequest } from "../request/EndSessionRequest.js";
@@ -36,6 +36,7 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
         requestAzureCloudOptions?: AzureCloudOptions;
         requestExtraQueryParameters?: StringDict;
         account?: AccountInfo;
+        authority?: Authority;
     }): Promise<AuthorizationCodeClient>;
     /**
      * Creates a Client Configuration object with the given request authority, or the default authority.
@@ -53,6 +54,7 @@ export declare abstract class StandardInteractionClient extends BaseInteractionC
         requestAzureCloudOptions?: AzureCloudOptions;
         requestExtraQueryParameters?: StringDict;
         account?: AccountInfo;
+        authority?: Authority;
     }): Promise<ClientConfiguration>;
     /**
      * Helper to initialize required request parameters for interactive APIs and ssoSilent()

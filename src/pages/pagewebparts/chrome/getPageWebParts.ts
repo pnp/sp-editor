@@ -13,24 +13,58 @@ export const getPageWebParts = (_extPath: string) => {
 
     const webParts: any[] = [];
 
-    // CanvasContent1 is a flat array — each item with controlType 3 is a web part
+    // CanvasContent1 is a flat array:
+    //   controlType 3 = web part (has webPartData)
+    //   controlType 4 = text / RichText control (has innerHTML)
     for (const control of canvas) {
+      const pos = control.position ? control.position : {};
+
       if (control.controlType === 3 && control.webPartData) {
         const wpData = control.webPartData;
-        const pos = control.position ? control.position : {};
+        // Build a clean copy of webPartData without instanceId (gets auto-generated on add)
+        const webPartDataCopy = Object.assign({}, wpData);
+        delete webPartDataCopy.instanceId;
+
         webParts.push({
           id: control.id ? control.id : '',
           webPartId: wpData.id ? wpData.id : '',
           title: wpData.title ? wpData.title : '',
+          controlType: 3,
           properties: JSON.stringify(
             wpData.properties ? wpData.properties : {},
             null,
             2
           ),
+          webPartDataJson: JSON.stringify(webPartDataCopy, null, 2),
           zoneIndex: pos.zoneIndex ? pos.zoneIndex : 0,
           sectionIndex: pos.sectionIndex ? pos.sectionIndex : 0,
           controlIndex: pos.controlIndex ? pos.controlIndex : 0,
-          sectionFactor: pos.sectionFactor ? pos.sectionFactor : 0,
+          sectionFactor: pos.sectionFactor ? pos.sectionFactor : 12,
+        });
+      } else if (control.controlType === 4) {
+        // Text / RichText control
+        const innerHTML = control.innerHTML ? control.innerHTML : '';
+        // Extract a preview from the HTML content (strip tags, trim)
+        const textPreview = innerHTML.replace(/<[^>]*>/g, '').trim();
+        const title = textPreview
+          ? textPreview.substring(0, 80) + (textPreview.length > 80 ? '…' : '')
+          : '(empty text)';
+
+        webParts.push({
+          id: control.id ? control.id : '',
+          webPartId: 'Text',
+          title: title,
+          controlType: 4,
+          properties: JSON.stringify({ innerHTML: innerHTML }, null, 2),
+          webPartDataJson: JSON.stringify({
+            controlType: 4,
+            innerHTML: innerHTML,
+            position: pos,
+          }, null, 2),
+          zoneIndex: pos.zoneIndex ? pos.zoneIndex : 0,
+          sectionIndex: pos.sectionIndex ? pos.sectionIndex : 0,
+          controlIndex: pos.controlIndex ? pos.controlIndex : 0,
+          sectionFactor: pos.sectionFactor ? pos.sectionFactor : 12,
         });
       }
     }

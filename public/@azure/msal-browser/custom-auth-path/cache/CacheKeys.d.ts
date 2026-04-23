@@ -1,7 +1,7 @@
 export declare const PREFIX = "msal";
-export declare const CACHE_KEY_SEPARATOR = "-";
-export declare const CREDENTIAL_SCHEMA_VERSION = 1;
-export declare const ACCOUNT_SCHEMA_VERSION = 1;
+export declare const CACHE_KEY_SEPARATOR = "|";
+export declare const CREDENTIAL_SCHEMA_VERSION = 2;
+export declare const ACCOUNT_SCHEMA_VERSION = 2;
 export declare const LOG_LEVEL_CACHE_KEY: string;
 export declare const LOG_PII_CACHE_KEY: string;
 export declare const BROWSER_PERF_ENABLED_KEY: string;

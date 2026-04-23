@@ -7,7 +7,7 @@ const init: IPageWebPartsState = {
   checkedItems: [],
   propertiesPanel: false,
   searchstring: '',
-  viewMode: 'list',
+  savedControls: [],
 }
 
 export function pageWebPartsReducer(state: IPageWebPartsState = init, action: PageWebPartsActions): IPageWebPartsState {
@@ -20,10 +20,14 @@ export function pageWebPartsReducer(state: IPageWebPartsState = init, action: Pa
       return { ...state, ...action.payload }
     case Constants.PWP_SET_SEARCH_STRING:
       return { ...state, ...action.payload }
-    case Constants.PWP_SET_VIEW_MODE:
-      return { ...state, ...action.payload }
     case Constants.PWP_SET_CHECKED_ITEMS:
       return { ...state, ...action.payload }
+    case Constants.PWP_SAVE_CONTROL:
+      return { ...state, savedControls: [...state.savedControls, action.payload.savedControl] }
+    case Constants.PWP_DELETE_CONTROL:
+      return { ...state, savedControls: state.savedControls.filter((_, i) => i !== action.payload.index) }
+    case Constants.PWP_SET_ALL_SAVED_CONTROLS:
+      return { ...state, savedControls: action.payload.savedControls }
     default:
       return state
   }

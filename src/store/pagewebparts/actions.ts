@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Constants, IPageWebPart } from './types'
+import { Constants, IPageWebPart, ISavedControl } from './types'
 
 export function setAllPageWebParts(items: IPageWebPart[]) {
   return action(Constants.PWP_GET_ITEMS, {
@@ -25,14 +25,20 @@ export function setSearchString(searchstring: string) {
   })
 }
 
-export function setViewMode(viewMode: 'list' | 'layout') {
-  return action(Constants.PWP_SET_VIEW_MODE, {
-    viewMode,
-  })
-}
-
 export function setCheckedItems(checkedItems: IPageWebPart[]) {
   return action(Constants.PWP_SET_CHECKED_ITEMS, {
     checkedItems,
   })
+}
+
+export function saveControl(savedControl: ISavedControl) {
+  return action(Constants.PWP_SAVE_CONTROL, { savedControl })
+}
+
+export function deleteControl(index: number) {
+  return action(Constants.PWP_DELETE_CONTROL, { index })
+}
+
+export function setAllSavedControls(savedControls: ISavedControl[]) {
+  return action(Constants.PWP_SET_ALL_SAVED_CONTROLS, { savedControls })
 }
