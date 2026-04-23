@@ -128,6 +128,7 @@ __webpack_require__.d(__webpack_exports__, {
   Profiles: () => (/* reexport */ Profiles),
   PromotedState: () => (/* reexport */ PromotedState),
   QueryPropertyValueType: () => (/* reexport */ QueryPropertyValueType),
+  RecycleBin: () => (/* reexport */ RecycleBin),
   RegionalSettings: () => (/* reexport */ RegionalSettings),
   RelatedItemManager: () => (/* reexport */ RelatedItemManager),
   RenderListDataOptions: () => (/* reexport */ RenderListDataOptions),
@@ -3643,7 +3644,7 @@ function odataUrlFrom(candidate) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.17.0:";
+            let clientTag = "PnPCoreJS:4.19.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API
@@ -7053,7 +7054,11 @@ const Folder = spInvokableFactory(_Folder);
  * @returns IFolder instance referencing the folder described by the supplied parameters
  */
 function folderFromServerRelativePath(base, serverRelativePath) {
-    return Folder([base, extractWebUrl(base.toUrl())], `_api/web/getFolderByServerRelativePath(decodedUrl='${encodePathNoURIEncode(serverRelativePath)}')`);
+    /**
+     * Replaced `encodePathNoURIEncode` with `encodePath` which was added by PR in #3230 we think mistakenly as it doesn't seem to be part of the fix #3223 the pr references.
+     * New issue #3250 identified this change as a breaking one so this feels like the right adjustment.
+     **/
+    return Folder([base, extractWebUrl(base.toUrl())], `_api/web/getFolderByServerRelativePath(decodedUrl='${encodePath(serverRelativePath)}')`);
 }
 /**
  * Creates an IFolder instance given a base object and an absolute path
@@ -9050,6 +9055,95 @@ Reflect.defineProperty(SPFI.prototype, "publishingSitePageService", {
         return this.create(SitePageService);
     },
 });
+
+;// ./node_modules/@pnp/sp/recycle-bin/types.js
+
+
+
+/**
+ * Describes a recycle bin item
+ *
+ */
+class _RecycleBinItem extends _SPInstance {
+    /**
+     * Delete's the Recycle Bin item
+     *
+     */
+    delete() {
+        return spPost(SPQueryable(this, "DeleteObject"));
+    }
+    /**
+     * Moves Recycle Bin item to the Second-stage Recycle Bin
+     *
+     */
+    moveToSecondStage() {
+        return spPost(SPQueryable(this, "MoveToSecondStage"));
+    }
+    /**
+     * Restore the the Recycle Bin item
+     *
+     */
+    restore() {
+        return spPost(SPQueryable(this, "Restore"));
+    }
+}
+const RecycleBinItem = spInvokableFactory(_RecycleBinItem);
+/**
+ * Describes a collection of recycle bin items
+ *
+ */
+let _RecycleBin = class _RecycleBin extends _SPCollection {
+    /**
+    * Gets a Recycle Bin Item by id
+    *
+    * @param id The string id of the recycle bin item
+    */
+    getById(id) {
+        return RecycleBinItem(this).concat(`('${id}')`);
+    }
+    /**
+     * Delete's all items in the Recycle Bin
+     *
+     */
+    deleteAll() {
+        return spPost(SPQueryable(this, "DeleteAll"));
+    }
+    /**
+     * Delete's all items in the Second-stage Recycle Bin
+     *
+     */
+    deleteAllSecondStageItems() {
+        return spPost(SPQueryable(this, "DeleteAllSecondStageItems"));
+    }
+    /**
+     * Moves all items in the Recycle Bin to the Second-stage Recycle Bin
+     *
+     */
+    moveAllToSecondStage() {
+        return spPost(SPQueryable(this, "MoveAllToSecondStage"));
+    }
+    /**
+     * Restore all items in the Recycle Bin
+     *
+     */
+    restoreAll() {
+        return spPost(SPQueryable(this, "RestoreAll"));
+    }
+};
+_RecycleBin = __decorate([
+    defaultPath("RecycleBin")
+], _RecycleBin);
+
+const RecycleBin = spInvokableFactory(_RecycleBin);
+
+;// ./node_modules/@pnp/sp/recycle-bin/index.js
+
+
+
+
+
+addProp(_Web, "recycleBin", RecycleBin);
+addProp(_Site, "recycleBin", RecycleBin);
 
 ;// ./node_modules/@pnp/sp/regional-settings/types.js
 
@@ -11903,6 +11997,8 @@ function stripInvalidFileFolderChars(input, replacer = "", onPremise = false) {
 }
 
 ;// ./node_modules/@pnp/sp/presets/all.js
+
+
 
 
 

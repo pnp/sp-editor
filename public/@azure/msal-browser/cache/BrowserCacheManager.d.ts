@@ -1,6 +1,6 @@
 import { AccessTokenEntity, AccountEntity, AccountInfo, AppMetadataEntity, AuthorityMetadataEntity, CacheManager, CacheRecord, CommonAuthorizationUrlRequest, ICrypto, IdTokenEntity, IPerformanceClient, Logger, RefreshTokenEntity, ServerTelemetryEntity, StaticAuthorityOptions, StoreInCache, ThrottlingEntity, TokenKeys, CredentialEntity } from "@azure/msal-common/browser";
 import { CacheOptions } from "../config/Configuration.js";
-import { INTERACTION_TYPE } from "../utils/BrowserConstants.js";
+import { ApiId, INTERACTION_TYPE } from "../utils/BrowserConstants.js";
 import { MemoryStorage } from "./MemoryStorage.js";
 import { IWindowStorage } from "./IWindowStorage.js";
 import { PlatformAuthRequest } from "../broker/nativeBroker/PlatformAuthRequest.js";
@@ -11,6 +11,10 @@ import { RedirectRequest } from "../request/RedirectRequest.js";
 import { PopupRequest } from "../request/PopupRequest.js";
 import { CookieStorage } from "./CookieStorage.js";
 import { EventHandler } from "../event/EventHandler.js";
+import { EncryptedData } from "./EncryptedData.js";
+type KmsiMap = {
+    [homeAccountId: string]: boolean;
+};
 /**
  * This class implements the cache storage interface for MSAL through browser local or session storage.
  * Cookies are only used if storeAuthStateInCookie is true, and are only used for
@@ -30,7 +34,58 @@ export declare class BrowserCacheManager extends CacheManager {
      * Migrates any existing cache data from previous versions of MSAL.js into the current cache structure.
      */
     migrateExistingCache(correlationId: string): Promise<void>;
-    updateV0ToCurrent(currentSchema: number, v0Keys: Array<string>, v1Keys: Array<string>, correlationId: string): Promise<void[]>;
+    /**
+     * Parses entry, adds lastUpdatedAt if it doesn't exist, removes entry if expired or invalid
+     * @param key
+     * @param correlationId
+     * @returns
+     */
+    updateOldEntry(key: string, correlationId: string): Promise<CredentialEntity | null>;
+    /**
+     * Remove accounts from the cache for older schema versions if they have not been updated in the last cacheRetentionDays
+     * @param accountSchema
+     * @param credentialSchema
+     * @param correlationId
+     * @returns
+     */
+    removeStaleAccounts(accountSchema: number, credentialSchema: number, correlationId: string): Promise<void>;
+    /**
+     * Remove the given account and all associated tokens from the cache
+     * @param accountKey
+     * @param rawObject
+     * @param credentialSchema
+     * @param correlationId
+     */
+    removeAccountOldSchema(accountKey: string, rawObject: AccountEntity | EncryptedData, credentialSchema: number, correlationId: string): Promise<void>;
+    /**
+     * Gets key value pair mapping homeAccountId to KMSI value
+     * @returns
+     */
+    getKMSIValues(): KmsiMap;
+    /**
+     * Migrates id tokens from the old schema to the new schema, also migrates associated account object if it doesn't already exist in the new schema
+     * @param credentialSchema
+     * @param accountSchema
+     * @param correlationId
+     * @returns
+     */
+    migrateIdTokens(credentialSchema: number, accountSchema: number, correlationId: string): Promise<void>;
+    /**
+     * Migrates access tokens from old cache schema to current schema
+     * @param credentialSchema
+     * @param kmsiMap
+     * @param correlationId
+     * @returns
+     */
+    migrateAccessTokens(credentialSchema: number, kmsiMap: KmsiMap, correlationId: string): Promise<void>;
+    /**
+     * Migrates refresh tokens from old cache schema to current schema
+     * @param credentialSchema
+     * @param kmsiMap
+     * @param correlationId
+     * @returns
+     */
+    migrateRefreshTokens(credentialSchema: number, kmsiMap: KmsiMap, correlationId: string): Promise<void>;
     /**
      * Tracks upgrades and downgrades for telemetry and debugging purposes
      */
@@ -52,7 +107,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param value
      * @param correlationId
      */
-    setUserData(key: string, value: string, correlationId: string, timestamp: string): Promise<void>;
+    setUserData(key: string, value: string, correlationId: string, timestamp: string, kmsi: boolean): Promise<void>;
     /**
      * Reads account from cache, deserializes it into an account entity and returns it.
      * If account is not found from the key, returns null and removes key from map.
@@ -64,12 +119,13 @@ export declare class BrowserCacheManager extends CacheManager {
      * set account entity in the platform cache
      * @param account
      */
-    setAccount(account: AccountEntity, correlationId: string): Promise<void>;
+    setAccount(account: AccountEntity, correlationId: string, kmsi: boolean, apiId: number): Promise<void>;
     /**
      * Returns the array of account keys currently cached
      * @returns
      */
     getAccountKeys(): Array<string>;
+    setAccountKeys(accountKeys: Array<string>, correlationId: string, schemaVersion?: number): void;
     /**
      * Add a new account to the key map
      * @param key
@@ -128,7 +184,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set IdToken credential to the platform cache
      * @param idToken
      */
-    setIdTokenCredential(idToken: IdTokenEntity, correlationId: string): Promise<void>;
+    setIdTokenCredential(idToken: IdTokenEntity, correlationId: string, kmsi: boolean): Promise<void>;
     /**
      * generates accessToken entity from a string
      * @param key
@@ -138,7 +194,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set accessToken credential to the platform cache
      * @param accessToken
      */
-    setAccessTokenCredential(accessToken: AccessTokenEntity, correlationId: string): Promise<void>;
+    setAccessTokenCredential(accessToken: AccessTokenEntity, correlationId: string, kmsi: boolean): Promise<void>;
     /**
      * generates refreshToken entity from a string
      * @param refreshTokenKey
@@ -148,7 +204,7 @@ export declare class BrowserCacheManager extends CacheManager {
      * set refreshToken credential to the platform cache
      * @param refreshToken
      */
-    setRefreshTokenCredential(refreshToken: RefreshTokenEntity, correlationId: string): Promise<void>;
+    setRefreshTokenCredential(refreshToken: RefreshTokenEntity, correlationId: string, kmsi: boolean): Promise<void>;
     /**
      * fetch appMetadata entity from the platform cache
      * @param appMetadataKey
@@ -306,7 +362,8 @@ export declare class BrowserCacheManager extends CacheManager {
      * @param storeInCache {?StoreInCache}
      * @param correlationId {?string} correlation id
      */
-    saveCacheRecord(cacheRecord: CacheRecord, correlationId: string, storeInCache?: StoreInCache): Promise<void>;
+    saveCacheRecord(cacheRecord: CacheRecord, correlationId: string, kmsi: boolean, apiId: ApiId, storeInCache?: StoreInCache): Promise<void>;
 }
 export declare const DEFAULT_BROWSER_CACHE_MANAGER: (clientId: string, logger: Logger, performanceClient: IPerformanceClient, eventHandler: EventHandler) => BrowserCacheManager;
+export {};
 //# sourceMappingURL=BrowserCacheManager.d.ts.map

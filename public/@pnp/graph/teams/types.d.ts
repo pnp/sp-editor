@@ -1,6 +1,6 @@
 import { _GraphInstance, _GraphCollection } from "../graphqueryable.js";
 import { IUpdateable, IGetById, IDeleteable } from "../decorators.js";
-import { Team as ITeamType, TeamsAsyncOperation as ITeamsAsyncOperation, TeamsTab as ITeamsTabType, TeamsAppInstallation as ITeamsAppInstallation, ChatMessage as IChatMessage } from "@microsoft/microsoft-graph-types";
+import { Team as ITeamType, TeamsAsyncOperation as ITeamsAsyncOperation, TeamsTab as ITeamsTabType, TeamsAppInstallation as ITeamsAppInstallation, ChatMessage as IChatMessage, Channel as IChannelType } from "@microsoft/microsoft-graph-types";
 /**
  * Represents a Microsoft Team
  */
@@ -43,7 +43,7 @@ export declare const Teams: import("../graphqueryable.js").IGraphInvokableFactor
 /**
  * Channel
  */
-export declare class _Channel extends _GraphInstance<IChannel> {
+export declare class _Channel extends _GraphInstance<IChannelType> {
     get tabs(): ITabs;
     get messages(): IMessages;
 }
@@ -53,7 +53,7 @@ export declare const Channel: import("../graphqueryable.js").IGraphInvokableFact
 /**
  * Channels
  */
-export declare class _Channels extends _GraphCollection<IChannel[]> {
+export declare class _Channels extends _GraphCollection<IChannelType[]> {
     /**
      * Creates a new Channel in the Team
      * @param displayName The display name of the new channel

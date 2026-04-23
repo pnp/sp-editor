@@ -1,6 +1,7 @@
 import { Middleware } from 'redux';
 import { Constants as proxyConstants, IProxyState, ProxyActions } from './proxy/types';
 import { Constants as searchConstants, ISearchState, SearchActions } from './search/types';
+import { Constants as pwpConstants, IPageWebPartsState, PageWebPartsActions } from './pagewebparts/types';
 
 const localStorageMiddleware: Middleware = store => next => action => {
   const result = next(action);
@@ -28,6 +29,16 @@ const localStorageMiddleware: Middleware = store => next => action => {
     window.localStorage.setItem('searchHistory', JSON.stringify(state.searchHistory));
   }
 
+  const pwpActions = [
+    pwpConstants.PWP_SAVE_CONTROL,
+    pwpConstants.PWP_DELETE_CONTROL,
+  ];
+
+  if (isPwpAction(action) && pwpActions.includes(action.type)) {
+    const state: IPageWebPartsState = store.getState().pageWebParts;
+    window.localStorage.setItem('savedControls', JSON.stringify(state.savedControls));
+  }
+
   return result;
 };
 
@@ -48,6 +59,16 @@ function isSearchAction(action: unknown): action is SearchActions {
     action !== null &&
     'type' in action &&
     typeof (action as SearchActions).type === 'string'
+  );
+}
+
+// Type guard to check if action is a PageWebPartsAction
+function isPwpAction(action: unknown): action is PageWebPartsActions {
+  return (
+    typeof action === 'object' &&
+    action !== null &&
+    'type' in action &&
+    typeof (action as PageWebPartsActions).type === 'string'
   );
 }
 

@@ -16,7 +16,6 @@ export declare class AuthMethodRegistrationSubmitChallengeResult extends AuthFlo
     /**
      * Checks if the result indicates that registration is completed.
      * @returns true if registration is completed, false otherwise.
-     * @warning This API is experimental. It may be changed in the future without notice. Do not use in production applications.
      */
     isCompleted(): this is AuthMethodRegistrationSubmitChallengeResult & {
         state: AuthMethodRegistrationCompletedState;
@@ -24,7 +23,6 @@ export declare class AuthMethodRegistrationSubmitChallengeResult extends AuthFlo
     /**
      * Checks if the result is in a failed state.
      * @returns true if the result is failed, false otherwise.
-     * @warning This API is experimental. It may be changed in the future without notice. Do not use in production applications.
      */
     isFailed(): this is AuthMethodRegistrationSubmitChallengeResult & {
         state: AuthMethodRegistrationFailedState;

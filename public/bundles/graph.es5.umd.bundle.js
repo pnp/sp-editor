@@ -2552,7 +2552,7 @@ function AdvancedQuery() {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.17.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.19.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -3356,7 +3356,7 @@ let _DriveItem = class _DriveItem extends _GraphInstance {
     /**
      * Method for copying a file to a new location and/or name.
      * @param copyOptions - IItemOptions
-     * @returns string, the URL where the new file is located
+     * @returns string, the URL to monitor the progress of the asynchronous copy operation.
      */
     async copyItem(copyOptions) {
         const creator = DriveItem(this, "copy").using((instance) => {

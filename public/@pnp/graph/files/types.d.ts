@@ -125,7 +125,7 @@ export declare class _DriveItem extends _GraphInstance<IDriveItemType> {
     /**
      * Method for copying a file to a new location and/or name.
      * @param copyOptions - IItemOptions
-     * @returns string, the URL where the new file is located
+     * @returns string, the URL to monitor the progress of the asynchronous copy operation.
      */
     copyItem(copyOptions: IItemOptions): Promise<string>;
     /**

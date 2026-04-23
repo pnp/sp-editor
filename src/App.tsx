@@ -69,6 +69,7 @@ import FieldCustomizersPage from './pages/customizers/fieldcustomizers';
 import FormCustomizersPage from './pages/customizers/formcustomizers';
 import SiteProvisioningPage from './pages/siteprovisioning';
 import ThemeDesigner from './pages/themedesigner';
+import PageWebParts from './pages/pagewebparts';
 
 setupIonicReact();
 
@@ -138,6 +139,7 @@ const App = () => {
                 <Route path="/customizers/formcustomizers" element={<FormCustomizersPage />} />
                 <Route path="/siteprovisioning" element={<SiteProvisioningPage />} />
                 <Route path="/themedesigner" element={<ThemeDesigner />} />
+                <Route path="/pagewebparts" element={<PageWebParts />} />
                 <Route path="*" element={<InfoPage />} /> {/* Catch-all route */}
               </Routes>
             </IonRouterOutlet>
