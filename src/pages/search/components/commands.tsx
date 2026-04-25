@@ -7,7 +7,7 @@ import * as rootActions from '../../../store/home/actions';
 import { MessageBarColors } from '../../../store/home/types';
 import { currentpageallprops } from '../chrome/currentpageallprops';
 import { reindexweb } from '../chrome/reindexweb';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ISearchHistory } from '../../../store/search/types';
 import { replaceDateTokens } from './searchqueryform';
 
@@ -19,6 +19,39 @@ const SearchCommands = () => {
   const [showSearchHistoryPanel, setShowSearchHistoryPanel] = useState(false);
   const [queryName, setQueryName] = useState('');
 
+  const executeSearch = useCallback((queryToExecute = searchQuery) => {
+    dispatch(rootActions.setLoading(true));
+
+    const modifiedQuery = { ...queryToExecute };
+    modifiedQuery.Querytext = replaceDateTokens(queryToExecute.Querytext ?? '');
+    modifiedQuery.QueryTemplate = replaceDateTokens(queryToExecute.QueryTemplate ?? '');
+
+    console.log('[SP Editor] Executing search with query:', modifiedQuery);
+
+    chrome.scripting
+      .executeScript({
+        target: { tabId: chrome.devtools.inspectedWindow.tabId },
+        world: 'MAIN',
+        args: [modifiedQuery, chrome.runtime.getURL('')],
+        func: runsearch,
+      })
+      .then((injectionResults) => {
+        console.log('[SP Editor] Injection results:', injectionResults);
+        handleInjectionResults(injectionResults, dispatch);
+      })
+      .catch((err) => {
+        console.error('[SP Editor] Script execution failed:', err);
+        dispatch(rootActions.setLoading(false));
+        dispatch(
+          rootActions.setAppMessage({
+            showMessage: true,
+            message: `Script execution failed: ${err.message}`,
+            color: MessageBarColors.danger,
+          })
+        );
+      });
+  }, [dispatch, searchQuery]);
+
    useEffect(() => {
      const storedQueries = localStorage.getItem('searchHistory');
      if (storedQueries) {
@@ -26,6 +59,22 @@ const SearchCommands = () => {
        dispatch(setAllQueries(parsedQueries));
      }
    }, []);
+
+   useEffect(() => {
+    const onExecuteSearch = (event: Event) => {
+      const customEvent = event as CustomEvent<{ query?: typeof searchQuery }>;
+      if (customEvent.detail?.query) {
+        executeSearch(customEvent.detail.query);
+      } else {
+        executeSearch(searchQuery);
+      }
+    };
+
+    window.addEventListener('sp-editor-execute-search', onExecuteSearch as EventListener);
+    return () => {
+      window.removeEventListener('sp-editor-execute-search', onExecuteSearch as EventListener);
+    };
+  }, [executeSearch, searchQuery]);
  
   const indexWebOnClick = () => {
     dispatch(rootActions.setLoading(true));
@@ -72,38 +121,7 @@ const SearchCommands = () => {
                 text="Search"
                 allowDisabledFocus
                 styles={{ root: { marginTop: 6, marginRight: 6 } }}
-                onClick={() => {
-                  dispatch(rootActions.setLoading(true));
-
-                  const modifiedQuery = { ...searchQuery };
-                  modifiedQuery.Querytext = replaceDateTokens(searchQuery.Querytext ?? '');
-                  modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
-
-                  console.log('[SP Editor] Executing search with query:', modifiedQuery);
-                  
-                  chrome.scripting
-                    .executeScript({
-                      target: { tabId: chrome.devtools.inspectedWindow.tabId },
-                      world: 'MAIN',
-                      args: [modifiedQuery, chrome.runtime.getURL('')],
-                      func: runsearch,
-                    })
-                    .then((injectionResults) => {
-                      console.log('[SP Editor] Injection results:', injectionResults);
-                      handleInjectionResults(injectionResults, dispatch);
-                    })
-                    .catch((err) => {
-                      console.error('[SP Editor] Script execution failed:', err);
-                      dispatch(rootActions.setLoading(false));
-                      dispatch(
-                        rootActions.setAppMessage({
-                          showMessage: true,
-                          message: `Script execution failed: ${err.message}`,
-                          color: MessageBarColors.danger,
-                        })
-                      );
-                    });
-                }}
+                onClick={() => executeSearch(searchQuery)}
               />
             ),
           },

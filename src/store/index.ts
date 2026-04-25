@@ -44,6 +44,8 @@ import { IThemeDesignerState } from './themedesigner/types';
 import { pageWebPartsReducer } from './pagewebparts/reducers';
 import { IPageWebPartsState } from './pagewebparts/types';
 import { aiAssistantReducer } from './ai-assistant/reducers';
+import { aiAssistantAuthReducer } from './ai-assistant-auth/reducers';
+import { IAiAssistantAuthState } from './ai-assistant-auth/types';
 
 const rootReducer = combineReducers({
   home: homeReducer,
@@ -67,6 +69,7 @@ const rootReducer = combineReducers({
   themeDesigner: themeDesignerReducer,
   pageWebParts: pageWebPartsReducer,
   aiAssistant: aiAssistantReducer,
+  aiAssistantAuth: aiAssistantAuthReducer,
 });
 
 export type IRootState = ReturnType<typeof rootReducer>

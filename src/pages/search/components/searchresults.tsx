@@ -22,6 +22,7 @@ import {
 import { Text } from '@fluentui/react';
 import { allprops } from '../chrome/allprops';
 import * as rootActions from '../../../store/home/actions';
+import { setAiError, setAiPanelOpen, setAiPendingInput } from '../../../store/ai-assistant/actions';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../../../store';
@@ -40,6 +41,7 @@ const SearchResults = () => {
     refinemenGroups,
   } = useSelector((state: IRootState) => state.search);
   const [groups, setGroups] = useState(rootGroups);
+  const { isAuthenticated, apiKey } = useSelector((state: IRootState) => state.aiAssistantAuth);
 
   useEffect(() => {
     setGroups(rootGroups);
@@ -68,7 +70,28 @@ const SearchResults = () => {
     );
   };
 
-  const [columns] = useState<IColumn[]>([
+  const addPropertyToAiPrompt = (item: any) => {
+    if (!isAuthenticated || !apiKey) {
+      dispatch(setAiError('Please sign in to AI Assistant first.'));
+      dispatch(setAiPanelOpen(true));
+      return;
+    }
+
+    if (!item || typeof item.property !== 'string') {
+      return;
+    }
+
+    const prefill = `Property: ${item.property}\nValue: ${item.value ?? ''}\n`;
+    dispatch(setAiPanelOpen(true));
+    // Ensure first click always works: open panel, reset pending input,
+    // then set the new prompt on the next frame.
+    dispatch(setAiPendingInput(null));
+    requestAnimationFrame(() => {
+      dispatch(setAiPendingInput(prefill));
+    });
+  };
+
+  const columns: IColumn[] = [
     {
       key: 'row',
       name: 'Row',
@@ -142,7 +165,40 @@ const SearchResults = () => {
         ></ActionButton>
       ),
     },
-  ]);
+    {
+      key: 'aiproperty',
+      name: '',
+      minWidth: 16,
+      maxWidth: 16,
+      isPadded: true,
+      isResizable: false,
+      onRender: (item) => (
+        <ActionButton
+          iconProps={{ iconName: 'Robot', style: { width: '16px', height: '16px' }, title: 'Add to prompt' }}
+          title="Add to prompt"
+          ariaLabel="Add field and value to AI prompt"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addPropertyToAiPrompt(item);
+          }}
+          styles={{
+            root: {
+              marginLeft: 'auto',
+              backgroundColor: 'transparent',
+              height: '6px',
+              verticalAlign: 'middle',
+              minWidth: 'auto',
+            },
+          }}
+        ></ActionButton>
+      ),
+    },
+  ];
 
   // Add this near your other useState declarations
   const [refinementColumns] = useState<IColumn[]>([
@@ -284,6 +340,7 @@ const SearchResults = () => {
     setGroups(newGroups); // Update the local groups state
     //dispatch(rootActions.setSearchQuery({ groups: newGroups })); // Dispatch the updated groups to the root state
   };
+
   return (
     <Stack enableScopedSelectors horizontal styles={stackStyles}>
       <Stack.Item disableShrink styles={queryEditorStackStyles}>
@@ -360,7 +417,7 @@ const SearchResults = () => {
                                         args: [props?.group?.key, searchQuery.SourceId, chrome.runtime.getURL('')],
                                         func: allprops,
                                       })
-                                      .then((injectionResults) => {
+                                      .then((injectionResults: any) => {
                                         if (injectionResults[0].result) {
                                           const res = injectionResults[0].result as any;
 

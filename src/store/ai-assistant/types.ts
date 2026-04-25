@@ -4,6 +4,7 @@ import * as actions from './actions'
 export type AiAssistantActions = ActionType<typeof actions>
 
 export type AiMessageRole = 'user' | 'assistant' | 'system'
+export type AiQueryApplyMode = 'manual' | 'apply' | 'execute'
 
 export interface IAiMessage {
   id: string
@@ -11,6 +12,11 @@ export interface IAiMessage {
   content: string
   timestamp: number
   isStreaming?: boolean
+  // Optional: for search query suggestions from /ai/search
+  queryData?: {
+    query: any // ISearchQuery object or string
+    explanation: string
+  }
 }
 
 export interface IAiAssistantState {
@@ -18,6 +24,9 @@ export interface IAiAssistantState {
   messages: IAiMessage[]
   isSending: boolean
   error: string | null
+  panelWidth: number
+  queryApplyMode: AiQueryApplyMode
+  pendingInput: string | null
 }
 
 export enum Constants {
@@ -27,4 +36,7 @@ export enum Constants {
   AI_CLEAR_MESSAGES = 'AI_CLEAR_MESSAGES',
   AI_SET_SENDING = 'AI_SET_SENDING',
   AI_SET_ERROR = 'AI_SET_ERROR',
+  AI_SET_PANEL_WIDTH = 'AI_SET_PANEL_WIDTH',
+  AI_SET_QUERY_APPLY_MODE = 'AI_SET_QUERY_APPLY_MODE',
+  AI_SET_PENDING_INPUT = 'AI_SET_PENDING_INPUT',
 }

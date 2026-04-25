@@ -9,6 +9,8 @@ import HomePage from './pages/home/homePage';
 import ScriptLinks from './pages/scriptlinks';
 import { Route, Routes, HashRouter } from 'react-router-dom';
 import { trackDevToolsOpen } from './services/analytics';
+import { loadApiKey } from './services/storage/chromeStorageService';
+import { setAuthState } from './store/ai-assistant-auth/actions';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -71,6 +73,7 @@ import SiteProvisioningPage from './pages/siteprovisioning';
 import ThemeDesigner from './pages/themedesigner';
 import PageWebParts from './pages/pagewebparts';
 import AiAssistantPanel from './components/aiAssistantPanel/aiAssistantPanel';
+import { FEATURE_CONTEXTS } from './config/featureContext';
 
 setupIonicReact();
 
@@ -81,6 +84,31 @@ document.body.style.minHeight = 100 + '%';
 
 const App = () => {
   const { theme } = useSelector((state: IRootState) => state.home);
+
+  const featureElementByKey: Record<string, JSX.Element> = {
+    home: <HomePage />,
+    scriptlinks: <ScriptLinks />,
+    pnpjsconsole: <PnPjsConsole />,
+    webproperties: <WebProperties />,
+    listproperties: <ListProperties />,
+    siteproperties: <SiteProperties />,
+    adminfeatures: <AdminFeaturePage />,
+    tenantproperties: <TenantProperties />,
+    webhooks: <Webhooks />,
+    spshooter: <SPShooter />,
+    graphsdkconsole: <GraphSDKConsole />,
+    mgtconsole: <MGTConsole />,
+    search: <Search />,
+    fileexplorer: <FileExplorer />,
+    proxy: <Proxy />,
+    queryBuilder: <QueryBuilder />,
+    customizers: <Customizers />,
+    fieldCustomizers: <FieldCustomizersPage />,
+    formCustomizers: <FormCustomizersPage />,
+    siteprovisioning: <SiteProvisioningPage />,
+    themedesigner: <ThemeDesigner />,
+    pagewebparts: <PageWebParts />,
+  }
 
   if (document.location.hash === '#/') menuController.toggle(); // open menu when extension loads
 
@@ -104,6 +132,23 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    // Initialize AI Assistant auth from Chrome storage
+    const initializeAuth = async () => {
+      const apiKey = await loadApiKey();
+      if (apiKey) {
+        dispatch(
+          setAuthState({
+            isAuthenticated: true,
+            apiKey: apiKey,
+            user: null,
+          })
+        );
+      }
+    };
+    initializeAuth();
+  }, [dispatch]);
+
+  useEffect(() => {
     const menu = document.querySelector('ion-menu') as any;
     if (menu) {
       menu.open();
@@ -118,29 +163,15 @@ const App = () => {
             <FabricNav />
             <IonRouterOutlet id="main">
               <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/index.html" element={<HomePage />} />
-                <Route path="/scriptlinks" element={<ScriptLinks />} />
-                <Route path="/pnpjsconsole" element={<PnPjsConsole />} />
-                <Route path="/webproperties" element={<WebProperties />} />
-                <Route path="/listproperties" element={<ListProperties />} />
-                <Route path="/siteproperties" element={<SiteProperties />} />
-                <Route path="/adminfeatures" element={<AdminFeaturePage />} />
-                <Route path="/tenantproperties" element={<TenantProperties />} />
-                <Route path="/webhooks" element={<Webhooks />} />
-                <Route path="/spshooter" element={<SPShooter />} />
-                <Route path="/graphsdkconsole" element={<GraphSDKConsole />} />
-                <Route path="/mgtconsole" element={<MGTConsole />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/fileexplorer" element={<FileExplorer />} />
-                <Route path="/proxy" element={<Proxy />} />
-                <Route path="/queryBuilder" element={<QueryBuilder />} />
-                <Route path="/customizers" element={<Customizers />} />
-                <Route path="/customizers/fieldcustomizers" element={<FieldCustomizersPage />} />
-                <Route path="/customizers/formcustomizers" element={<FormCustomizersPage />} />
-                <Route path="/siteprovisioning" element={<SiteProvisioningPage />} />
-                <Route path="/themedesigner" element={<ThemeDesigner />} />
-                <Route path="/pagewebparts" element={<PageWebParts />} />
+                {FEATURE_CONTEXTS.flatMap((feature) =>
+                  feature.routes.map((routePath) => (
+                    <Route
+                      key={`${feature.key}:${routePath}`}
+                      path={routePath}
+                      element={featureElementByKey[feature.key] || <InfoPage />}
+                    />
+                  ))
+                )}
                 <Route path="*" element={<InfoPage />} /> {/* Catch-all route */}
               </Routes>
             </IonRouterOutlet>

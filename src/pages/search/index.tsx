@@ -2,6 +2,7 @@ import { IonContent, IonPage, IonHeader, IonToolbar } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../store";
+import { trackFeatureNavigation } from "../../services/analytics";
 import Header from "../../components/header";
 import LoadingSpinner from "../../components/loadingSpinner";
 import SearchCommands from "./components/commands";
@@ -34,7 +35,14 @@ const Search = () => {
         <IonToolbar style={{ '--background': isDark ? '#1e1e1e' : '#ffffff' } as React.CSSProperties}>
           <Pivot
             selectedKey={selectedPivot}
-            onLinkClick={(item) => item && setSelectedPivot(item.props.itemKey || "search")}
+            onLinkClick={(item) => {
+              if (!item) return;
+              const key = item.props.itemKey || "search";
+              setSelectedPivot(key);
+              if (key === "crawllog") {
+                trackFeatureNavigation("search_crawllog", "Search - Crawl Log");
+              }
+            }}
             styles={{ 
               root: { 
                 marginLeft: 16,

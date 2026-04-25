@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Constants, IAiMessage } from './types'
+import { AiQueryApplyMode, Constants, IAiMessage } from './types'
 
 export function setAiPanelOpen(isOpen: boolean) {
   return action(Constants.AI_SET_OPEN, { isOpen })
@@ -23,4 +23,16 @@ export function setAiSending(isSending: boolean) {
 
 export function setAiError(error: string | null) {
   return action(Constants.AI_SET_ERROR, { error })
+}
+
+export function setAiPanelWidth(panelWidth: number) {
+  return action(Constants.AI_SET_PANEL_WIDTH, { panelWidth })
+}
+
+export function setAiQueryApplyMode(mode: AiQueryApplyMode) {
+  return action(Constants.AI_SET_QUERY_APPLY_MODE, { mode })
+}
+
+export function setAiPendingInput(pendingInput: string | null) {
+  return action(Constants.AI_SET_PENDING_INPUT, { pendingInput })
 }

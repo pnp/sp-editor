@@ -5,6 +5,11 @@ import * as Queryable from '@pnp/queryable';
 export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
   console.log('[SP Editor Search] Starting search with payload:', payload);
   console.log('[SP Editor Search] Extension path:', extPath);
+
+  const normalizedPayload =
+    payload && typeof payload === 'object' && (payload as any).request
+      ? (payload as any).request
+      : payload;
   
   return moduleLoader(extPath).then((modules) => {
     console.log('[SP Editor Search] Modules loaded successfully');
@@ -38,19 +43,35 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
     };
     
     const ensureSelectProperties = (payload: any) => {
-      if (Array.isArray(payload.SelectProperties)) {
-        const requiredProperties = ['Title', 'OriginalPath', 'DocId'];
-        requiredProperties.forEach((prop) => {
-          if (!payload.SelectProperties.includes(prop)) {
-            payload.SelectProperties.push(prop);
-          }
-        });
-      }
+      const requiredProperties = ['Title', 'OriginalPath', 'DocId'];
+
+      const rawSelectProperties =
+        payload &&
+        payload.SelectProperties &&
+        typeof payload.SelectProperties === 'object' &&
+        'results' in payload.SelectProperties
+          ? payload.SelectProperties.results
+          : payload?.SelectProperties;
+
+      const normalized = Array.isArray(rawSelectProperties)
+        ? rawSelectProperties
+            .filter((p: any) => typeof p === 'string')
+            .map((p: string) => p.trim())
+            .filter((p: string) => p.length > 0)
+        : [];
+
+      requiredProperties.forEach((prop) => {
+        if (!normalized.some((p: string) => p.toLowerCase() === prop.toLowerCase())) {
+          normalized.push(prop);
+        }
+      });
+
+      payload.SelectProperties = normalized;
       return payload;
     };
     
-    ensureSelectProperties(payload);
-    removeEmptyArraysAndWrap(payload);
+    ensureSelectProperties(normalizedPayload);
+    removeEmptyArraysAndWrap(normalizedPayload);
     
     let digest: string = '';
 
@@ -162,8 +183,8 @@ export const runsearch = (payload: SP.ISearchQuery, extPath: string) => {
       return results;
   }
 
-    console.log('[SP Editor Search] Executing postquery with payload:', JSON.stringify({request: payload }));
-    return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({request: payload }) })
+    console.log('[SP Editor Search] Executing postquery with payload:', JSON.stringify({request: normalizedPayload }));
+    return pnpsp.spPost(pnpsp.Web(sp.web, `/_api/search/postquery`), { body: JSON.stringify({request: normalizedPayload }) })
       .then((r) => {
         console.log('[SP Editor Search] Raw response:', r);
         const parsedResults = formatSearchResults(r.postquery.PrimaryQueryResult?.RelevantResults?.Table?.Rows);

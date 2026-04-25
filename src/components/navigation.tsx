@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { IRootState } from '../store';
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions';
 import { trackFeatureNavigation } from '../services/analytics';
+import { getFeatureContextMeta } from '../config/featureContext';
 
 export const FabricNav = () => {
   const navigate = useNavigate();
@@ -42,44 +43,56 @@ export const FabricNav = () => {
     return null;
   };
 
+  const createFeatureLink = (featureKey: string): INavLink => {
+    const meta = getFeatureContextMeta(featureKey)
+    if (!meta) {
+      throw new Error(`Unknown feature context key: ${featureKey}`)
+    }
+    return {
+      name: meta.title,
+      url: meta.routes[0],
+      key: `${featureKey}Key`,
+    }
+  }
+
   const navLinks: INavLink[] = React.useMemo(
     () => [
-      { name: 'Home', url: '/', key: 'homeKey' },
-      { name: 'Scriptlinks', url: '/scriptlinks', key: 'scriptlinksKey' },
-      { name: 'PnP JS Console', url: '/pnpjsconsole', key: 'pnpjsconsoleKey' },
-      { name: 'Graph SDK Console', url: '/graphsdkconsole', key: 'graphsdkconsoleKey' },
-      { name: 'MGT React Playground', url: '/mgtconsole', key: 'mgtconsoleKey', disabled: false },
-      { name: 'Web Properties', url: '/webproperties', key: 'webpropertiesKey' },
-      { name: 'List Properties', url: '/listproperties', key: 'listpropertiesKey', disabled: false },
-      { name: 'SP Shooter', url: '/spshooter', key: 'spshooterKey', disabled: false },
-      { name: 'Webhooks', url: '/webhooks', key: 'webhooksKey', disabled: false },
-      { name: 'Search', url: '/search', key: 'searchKey', disabled: false },
-      { name: 'File Editor', url: '/fileexplorer', key: 'fileexplorerKey', disabled: false },
+      createFeatureLink('home'),
+      createFeatureLink('scriptlinks'),
+      createFeatureLink('pnpjsconsole'),
+      createFeatureLink('graphsdkconsole'),
+      { ...createFeatureLink('mgtconsole'), disabled: false },
+      createFeatureLink('webproperties'),
+      { ...createFeatureLink('listproperties'), disabled: false },
+      { ...createFeatureLink('spshooter'), disabled: false },
+      { ...createFeatureLink('webhooks'), disabled: false },
+      { ...createFeatureLink('search'), disabled: false },
+      { ...createFeatureLink('fileexplorer'), disabled: false },
       { 
         name: 'Customizers', 
         url: '', 
         key: 'customizersKey',
         isExpanded: expandedGroups.has('customizersKey'),
         links: [
-          { name: 'Field Customizers', url: '/customizers/fieldcustomizers', key: 'fieldCustomizersKey' },
-          { name: 'Form Customizers', url: '/customizers/formcustomizers', key: 'formCustomizersKey' },
+          createFeatureLink('fieldCustomizers'),
+          createFeatureLink('formCustomizers'),
         ],
       },
-      { name: 'Proxy', url: '/proxy', key: 'proxyKey', disabled: false },
-      { name: 'Tenant Properties', url: '/tenantproperties', key: 'tenantpropertiesKey' },
+      { ...createFeatureLink('proxy'), disabled: false },
+      createFeatureLink('tenantproperties'),
       {
         name: 'Admin section',
         key: 'adminSectionKey',
         url: '',
         isExpanded: expandedGroups.has('adminSectionKey'),
         links: [
-          { name: 'Site Properties', url: '/siteproperties', key: 'sitepropertiesKey' },
+          createFeatureLink('siteproperties'),
         ],
       },
-      { name: 'Query Builder', url: '/queryBuilder', key: 'queryBuilderKey', disabled: false },
-      { name: 'Site Templates', url: '/siteprovisioning', key: 'siteprovisioningKey', disabled: false },
-      { name: 'Live Theme Designer', url: '/themedesigner', key: 'themedesignerKey', disabled: false },
-      { name: 'Page Web Parts', url: '/pagewebparts', key: 'pagewebpartsKey', disabled: false },
+      { ...createFeatureLink('queryBuilder'), disabled: false },
+      { ...createFeatureLink('siteprovisioning'), disabled: false },
+      { ...createFeatureLink('themedesigner'), disabled: false },
+      { ...createFeatureLink('pagewebparts'), disabled: false },
      /* { name: 'Page editor', url: '/pageeditor', key: 'pageeditorKey', disabled: false },
       { name: 'Modern properties', url: '/modernproperties', key: 'modernpropertiesKey', disabled: false },
       { name: 'App catalog', url: '/appcatalog', key: 'appcatalogKey', disabled: false },*/
@@ -196,8 +209,10 @@ export const FabricNav = () => {
                 menu && menu.close();
                 if (element.key && selectedKey !== element.key) {
                   dispatch(setLoading(false));
-                  // Track feature navigation
-                  trackFeatureNavigation(element.key.replace('Key', ''), element.name);
+                  // Track feature navigation from shared metadata so analytics and nav stay in sync.
+                  const contextKey = element.key.replace('Key', '')
+                  const featureMeta = getFeatureContextMeta(contextKey)
+                  trackFeatureNavigation(contextKey, featureMeta?.title || element.name)
                   navigate(element.url);
                   setSelectedKey(element.key);
                 }
