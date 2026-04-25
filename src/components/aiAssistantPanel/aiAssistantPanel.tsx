@@ -1,10 +1,14 @@
 import {
   DefaultButton,
+  Dialog,
+  DialogFooter,
+  DialogType,
   Dropdown,
   IconButton,
   IDropdownOption,
   MessageBar,
   MessageBarType,
+  PrimaryButton,
   TextField,
 } from '@fluentui/react'
 import { ISearchQuery } from '@pnp/sp/search/types'
@@ -29,9 +33,10 @@ import {
   setAiQueryApplyMode,
   setAiSending,
 } from '../../store/ai-assistant/actions'
-import { IAiMessage, AiQueryApplyMode } from '../../store/ai-assistant/types'
+import { IAiMessage, AiQueryApplyMode, AiSuggestionData } from '../../store/ai-assistant/types'
 import { logout, setAuthError } from '../../store/ai-assistant-auth/actions'
 import { setSearchQuery } from '../../store/search/actions'
+import { setCode as setPnpjsCode } from '../../store/pnpjsconsole/actions'
 import SignInModal from './SignInModal'
 import './aiAssistantPanel.css'
 
@@ -45,7 +50,17 @@ const QUERY_APPLY_OPTIONS: IDropdownOption[] = [
 
 const LOW_TOKEN_THRESHOLD = 50
 
-const getApplyModeTooltip = (mode: AiQueryApplyMode): string => {
+const getApplyModeTooltip = (mode: AiQueryApplyMode, isPnpjs: boolean): string => {
+  if (isPnpjs) {
+    if (mode === 'apply') {
+      return 'Apply: insert generated code into the editor automatically.'
+    }
+    if (mode === 'execute') {
+      return 'Execute: insert code and run it automatically.'
+    }
+    return 'Manual: review the code and click Apply Code under the response.'
+  }
+
   if (mode === 'apply') {
     return 'Apply: apply generated payload to query editor automatically.'
   }
@@ -98,6 +113,7 @@ const AiAssistantPanel = () => {
     (state: IRootState) => state.aiAssistantAuth
   )
   const { searchQuery } = useSelector((state: IRootState) => state.search)
+  const { code: pnpjsCode } = useSelector((state: IRootState) => state.pnpjsconsole)
 
   const [input, setInput] = useState('')
   const [isDragging, setIsDragging] = useState(false)
@@ -119,6 +135,8 @@ const AiAssistantPanel = () => {
   const pageContext = getContextKeyFromPath(location.pathname)
   const pageContextLabel = getContextDisplayName(pageContext)
   const isSearchContext = pageContext === 'search'
+  const isPnpjsContext = pageContext === 'pnpjsconsole'
+  const supportsApplyMode = isSearchContext || isPnpjsContext
 
   const promptHistory = useMemo(() => {
     const result: string[] = []
@@ -289,8 +307,32 @@ const AiAssistantPanel = () => {
     )
   }, [])
 
-  const handleSend = () => {
-    const trimmed = input.trim()
+  const applyPnpjsSnippet = useCallback((code: string) => {
+    if (typeof code !== 'string' || code.length === 0) {
+      return
+    }
+    dispatch(setPnpjsCode(code))
+    window.dispatchEvent(
+      new CustomEvent('sp-editor-apply-pnpjs', {
+        detail: { code, run: false },
+      })
+    )
+  }, [dispatch])
+
+  const requestExecutePnpjs = useCallback((code: string) => {
+    if (typeof code !== 'string' || code.length === 0) {
+      return
+    }
+    dispatch(setPnpjsCode(code))
+    window.dispatchEvent(
+      new CustomEvent('sp-editor-apply-pnpjs', {
+        detail: { code, run: true },
+      })
+    )
+  }, [dispatch])
+
+  const sendMessage = useCallback((text: string, displayOverride?: string) => {
+    const trimmed = text.trim()
     if (!trimmed || isSending) {
       return
     }
@@ -298,7 +340,7 @@ const AiAssistantPanel = () => {
     const userMessage: IAiMessage = {
       id: generateId(),
       role: 'user',
-      content: trimmed,
+      content: displayOverride ?? trimmed,
       timestamp: Date.now(),
     }
 
@@ -306,12 +348,17 @@ const AiAssistantPanel = () => {
     dispatch(setAiError(null))
     dispatch(setAiSending(true))
 
-    setInput('')
-    setHistoryIndex(null)
-    draftRef.current = ''
-
-    const conversation = [...messages, userMessage]
-    const contextData = isSearchContext ? { searchQuery } : {}
+    // Build the conversation sent to the model using the full prompt text,
+    // not the (possibly shortened) display text — so the AI still sees the
+    // logs even when the chat bubble shows "Analyzing output...".
+    const promptMessage: IAiMessage = { ...userMessage, content: trimmed }
+    const conversation = [...messages, promptMessage]
+    let contextData: Record<string, any> = {}
+    if (isSearchContext) {
+      contextData = { searchQuery }
+    } else if (isPnpjsContext) {
+      contextData = { code: pnpjsCode || '' }
+    }
 
     sendChatMessage({
       messages: conversation,
@@ -338,7 +385,8 @@ const AiAssistantPanel = () => {
           assistantContent = `${res.explanation || 'Generated search payload.'}${payloadMarkdown}`
           assistantMessage.content = assistantContent
 
-          assistantMessage.queryData = {
+          assistantMessage.suggestionData = {
+            kind: 'search',
             query: effectiveQuery,
             explanation: res.explanation || '',
           }
@@ -349,6 +397,22 @@ const AiAssistantPanel = () => {
 
           if (queryApplyMode === 'execute') {
             requestExecuteSearch(effectiveQuery as ISearchQuery)
+          }
+        } else if (isPnpjsContext && typeof res.code === 'string' && res.code.length > 0) {
+          const snippetMarkdown = `\n\n\`\`\`ts\n${res.code}\n\`\`\``
+          assistantContent = `${res.explanation || 'Generated PnPjs snippet.'}${snippetMarkdown}`
+          assistantMessage.content = assistantContent
+
+          assistantMessage.suggestionData = {
+            kind: 'pnpjs',
+            code: res.code,
+            explanation: res.explanation || '',
+          }
+
+          if (queryApplyMode === 'apply') {
+            applyPnpjsSnippet(res.code)
+          } else if (queryApplyMode === 'execute') {
+            requestExecutePnpjs(res.code)
           }
         }
 
@@ -372,7 +436,52 @@ const AiAssistantPanel = () => {
       .then(() => {
         dispatch(setAiSending(false))
       })
+  }, [
+    isSending,
+    messages,
+    isSearchContext,
+    isPnpjsContext,
+    searchQuery,
+    pnpjsCode,
+    pageContext,
+    apiKey,
+    queryApplyMode,
+    applyQuerySuggestion,
+    requestExecuteSearch,
+    applyPnpjsSnippet,
+    requestExecutePnpjs,
+    buildAppliedQuerySuggestion,
+    dispatch,
+  ])
+
+  const handleSend = () => {
+    if (!input.trim() || isSending) {
+      return
+    }
+    sendMessage(input)
+    setInput('')
+    setHistoryIndex(null)
+    draftRef.current = ''
   }
+
+  // Listen for programmatic AI-send requests (e.g. "Analyze with AI" button
+  // in the PnPjs console output). Sends a message silently without polluting
+  // the chat input box.
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent<{ message?: string; display?: string }>).detail
+      const message = detail?.message
+      if (typeof message !== 'string' || !message.trim()) {
+        return
+      }
+      dispatch(setAiPanelOpen(true))
+      sendMessage(message, detail?.display)
+    }
+    window.addEventListener('sp-editor-ai-send', handler as EventListener)
+    return () => {
+      window.removeEventListener('sp-editor-ai-send', handler as EventListener)
+    }
+  }, [sendMessage, dispatch])
 
   const handleSignOut = async () => {
     try {
@@ -381,6 +490,13 @@ const AiAssistantPanel = () => {
     } catch (err) {
       dispatch(setAuthError(err instanceof Error ? err.message : 'Failed to sign out'))
     }
+  }
+
+  const [signOutConfirmOpen, setSignOutConfirmOpen] = useState(false)
+  const requestSignOut = () => setSignOutConfirmOpen(true)
+  const confirmSignOut = async () => {
+    setSignOutConfirmOpen(false)
+    await handleSignOut()
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -527,49 +643,94 @@ const AiAssistantPanel = () => {
             {m.content}
           </ReactMarkdown>
 
-          {isSearchContext && queryApplyMode === 'manual' && m.queryData && (
+          {queryApplyMode === 'manual' && m.suggestionData && (
             <div className="ai-inline-apply-row">
-              <DefaultButton
-                text="Apply Payload"
-                iconProps={{ iconName: 'CheckMark' }}
-                title="Apply this payload to the Search query editor"
-                onClick={() => applyQuerySuggestion(m.queryData?.query)}
-                styles={{
-                  root: {
-                    minHeight: 26,
-                    height: 26,
-                    borderRadius: 999,
-                    border: `1px solid ${isDark ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 120, 212, 0.45)'}`,
-                    background: isDark ? 'rgba(14, 165, 233, 0.08)' : 'rgba(0, 120, 212, 0.08)',
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                  },
-                  rootHovered: {
-                    border: `1px solid ${isDark ? '#38bdf8' : '#0078d4'}`,
-                    background: isDark ? 'rgba(14, 165, 233, 0.18)' : 'rgba(0, 120, 212, 0.16)',
-                  },
-                  rootPressed: {
-                    border: `1px solid ${isDark ? '#0ea5e9' : '#0063b1'}`,
-                    background: isDark ? 'rgba(14, 165, 233, 0.26)' : 'rgba(0, 120, 212, 0.24)',
-                  },
-                  icon: {
-                    fontSize: 10,
-                    color: isDark ? '#38bdf8' : '#0078d4',
-                  },
-                  label: {
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: '0.2px',
-                    color: isDark ? '#e5e7eb' : '#1f2937',
-                  },
-                }}
-              />
+              {m.suggestionData.kind === 'search' && isSearchContext && (
+                <DefaultButton
+                  text="Apply Payload"
+                  iconProps={{ iconName: 'CheckMark' }}
+                  title="Apply this payload to the Search query editor"
+                  onClick={() => {
+                    const sd = m.suggestionData as Extract<AiSuggestionData, { kind: 'search' }>
+                    applyQuerySuggestion(sd.query)
+                  }}
+                  styles={{
+                    root: {
+                      minHeight: 26,
+                      height: 26,
+                      borderRadius: 999,
+                      border: `1px solid ${isDark ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 120, 212, 0.45)'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.08)' : 'rgba(0, 120, 212, 0.08)',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                    },
+                    rootHovered: {
+                      border: `1px solid ${isDark ? '#38bdf8' : '#0078d4'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.18)' : 'rgba(0, 120, 212, 0.16)',
+                    },
+                    rootPressed: {
+                      border: `1px solid ${isDark ? '#0ea5e9' : '#0063b1'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.26)' : 'rgba(0, 120, 212, 0.24)',
+                    },
+                    icon: {
+                      fontSize: 10,
+                      color: isDark ? '#38bdf8' : '#0078d4',
+                    },
+                    label: {
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: '0.2px',
+                      color: isDark ? '#e5e7eb' : '#1f2937',
+                    },
+                  }}
+                />
+              )}
+              {m.suggestionData.kind === 'pnpjs' && isPnpjsContext && (
+                <DefaultButton
+                  text="Apply Code"
+                  iconProps={{ iconName: 'CheckMark' }}
+                  title="Replace PnPjs editor content with this snippet"
+                  onClick={() => {
+                    const sd = m.suggestionData as Extract<AiSuggestionData, { kind: 'pnpjs' }>
+                    applyPnpjsSnippet(sd.code)
+                  }}
+                  styles={{
+                    root: {
+                      minHeight: 26,
+                      height: 26,
+                      borderRadius: 999,
+                      border: `1px solid ${isDark ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 120, 212, 0.45)'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.08)' : 'rgba(0, 120, 212, 0.08)',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                    },
+                    rootHovered: {
+                      border: `1px solid ${isDark ? '#38bdf8' : '#0078d4'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.18)' : 'rgba(0, 120, 212, 0.16)',
+                    },
+                    rootPressed: {
+                      border: `1px solid ${isDark ? '#0ea5e9' : '#0063b1'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.26)' : 'rgba(0, 120, 212, 0.24)',
+                    },
+                    icon: {
+                      fontSize: 10,
+                      color: isDark ? '#38bdf8' : '#0078d4',
+                    },
+                    label: {
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: '0.2px',
+                      color: isDark ? '#e5e7eb' : '#1f2937',
+                    },
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
       </div>
     )
-  }, [applyQuerySuggestion, isDark, isSearchContext, markdownComponents, queryApplyMode, requestExecuteSearch])
+  }, [applyQuerySuggestion, applyPnpjsSnippet, isDark, isSearchContext, isPnpjsContext, markdownComponents, queryApplyMode, requestExecuteSearch])
 
   const renderedMessages = useMemo(() => messages.map(renderMessage), [messages, renderMessage])
 
@@ -583,14 +744,41 @@ const AiAssistantPanel = () => {
     >
       <div className="ai-resize-handle" onMouseDown={handleDragStart} title="Drag to resize panel" />
 
+      <Dialog
+        hidden={!signOutConfirmOpen}
+        onDismiss={() => setSignOutConfirmOpen(false)}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Sign out of AI Assistant?',
+          subText:
+            'This will remove the stored API key from this browser. You will need to paste it again to use AI features.',
+        }}
+        modalProps={{ isBlocking: true }}
+      >
+        <DialogFooter>
+          <PrimaryButton onClick={confirmSignOut} text="Sign out" />
+          <DefaultButton onClick={() => setSignOutConfirmOpen(false)} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
+
       <div className="ai-drawer-header">
         <span>AI Assistant</span>
-        <IconButton
-          iconProps={{ iconName: 'Cancel' }}
-          title="Close"
-          ariaLabel="Close AI Assistant"
-          onClick={() => dispatch(setAiPanelOpen(false))}
-        />
+        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          {isAuthenticated && (
+            <IconButton
+              iconProps={{ iconName: 'SignOut' }}
+              title="Sign out / change API key"
+              ariaLabel="Sign out"
+              onClick={requestSignOut}
+            />
+          )}
+          <IconButton
+            iconProps={{ iconName: 'Cancel' }}
+            title="Close"
+            ariaLabel="Close AI Assistant"
+            onClick={() => dispatch(setAiPanelOpen(false))}
+          />
+        </div>
       </div>
 
       <div className="ai-drawer-content" style={{ position: 'relative' }}>
@@ -670,7 +858,7 @@ const AiAssistantPanel = () => {
                     <span className="ai-context-value">{pageContextLabel}</span>
                   </div>
 
-                  {isSearchContext && (
+                  {supportsApplyMode && (
                     <Dropdown
                       className="ai-apply-mode-dropdown"
                       options={QUERY_APPLY_OPTIONS}
@@ -700,7 +888,7 @@ const AiAssistantPanel = () => {
                           display: 'none',
                         },
                       }}
-                      title={getApplyModeTooltip(queryApplyMode)}
+                      title={getApplyModeTooltip(queryApplyMode, isPnpjsContext)}
                       ariaLabel="Payload apply mode"
                     />
                   )}

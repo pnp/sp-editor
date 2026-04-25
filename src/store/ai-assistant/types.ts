@@ -6,17 +6,28 @@ export type AiAssistantActions = ActionType<typeof actions>
 export type AiMessageRole = 'user' | 'assistant' | 'system'
 export type AiQueryApplyMode = 'manual' | 'apply' | 'execute'
 
+export type AiSuggestionData =
+  | {
+      kind: 'search'
+      query: any // ISearchQuery object or string
+      explanation: string
+    }
+  | {
+      kind: 'pnpjs'
+      code: string
+      explanation: string
+    }
+
 export interface IAiMessage {
   id: string
   role: AiMessageRole
   content: string
   timestamp: number
   isStreaming?: boolean
-  // Optional: for search query suggestions from /ai/search
-  queryData?: {
-    query: any // ISearchQuery object or string
-    explanation: string
-  }
+  // Optional: structured suggestion attached to assistant messages.
+  // - search: payload to apply to the Search query editor
+  // - pnpjs: code snippet to apply to the PnPjs editor
+  suggestionData?: AiSuggestionData
 }
 
 export interface IAiAssistantState {

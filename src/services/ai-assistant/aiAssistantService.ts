@@ -10,7 +10,8 @@ export interface ISendChatMessageArgs {
 export interface ISendChatMessageResult {
   reply: string
   query?: any // For /ai/search responses - can be ISearchQuery object or string
-  explanation?: string // For /ai/search responses
+  code?: string // For /ai/pnpjs responses
+  explanation?: string // For /ai/search and /ai/pnpjs responses
   tokensRemaining?: number
   tokensUsed?: number
   tier?: string
@@ -74,12 +75,14 @@ export async function sendChatMessage(
       currentQuery: contextData?.searchQuery || '',
       searchResults: contextData?.searchResults || [],
     }
+  } else if (pageContext === 'pnpjsconsole') {
+    endpoint = '/ai/pnpjs'
+    requestBody = {
+      prompt: userText,
+      conversationHistory,
+      code: typeof contextData?.code === 'string' ? contextData.code : '',
+    }
   }
-
-  console.log(`[aiAssistantService] Sending message to ${backendUrl}${endpoint}`)
-  console.log('[aiAssistantService] Page context:', pageContext)
-  console.log('[aiAssistantService] Message:', userText)
-  console.log('[aiAssistantService] API Key:', apiKey.substring(0, 10) + '...')
 
   try {
     const response = await fetch(`${backendUrl}${endpoint}`, {
@@ -91,26 +94,34 @@ export async function sendChatMessage(
       body: JSON.stringify(requestBody),
     })
 
-    console.log('[aiAssistantService] Response status:', response.status)
-
     if (response.status === 402) {
       throw new Error('No tokens available. Please purchase more tokens.')
     }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('[aiAssistantService] Error response:', errorData)
       throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`)
     }
 
     const data = await response.json()
-    console.log('[aiAssistantService] Response data:', data)
 
     // Map response shape depending on endpoint
     if (pageContext === 'search') {
       return {
         reply: data.explanation || data.query || '',
         query: data.query,
+        explanation: data.explanation,
+        tokensRemaining:
+          typeof data.tokensRemaining === 'number' ? data.tokensRemaining : undefined,
+        tokensUsed: typeof data.tokensUsed === 'number' ? data.tokensUsed : undefined,
+        tier: typeof data.tier === 'string' ? data.tier : undefined,
+      }
+    }
+
+    if (pageContext === 'pnpjsconsole') {
+      return {
+        reply: data.explanation || '',
+        code: typeof data.code === 'string' ? data.code : undefined,
         explanation: data.explanation,
         tokensRemaining:
           typeof data.tokensRemaining === 'number' ? data.tokensRemaining : undefined,
