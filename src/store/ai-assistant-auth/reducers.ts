@@ -19,6 +19,7 @@ export function aiAssistantAuthReducer(
         isAuthenticated: action.payload.isAuthenticated,
         apiKey: action.payload.apiKey,
         user: action.payload.user,
+        loading: false,
         error: null,
       };
     case Constants.AUTH_SET_LOADING:

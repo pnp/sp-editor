@@ -1,11 +1,9 @@
 import {
   DefaultButton,
-  Dialog,
-  DialogFooter,
-  DialogType,
   Dropdown,
   IconButton,
   IDropdownOption,
+  Link,
   MessageBar,
   MessageBarType,
   PrimaryButton,
@@ -22,7 +20,6 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { getContextDisplayName, getContextKeyFromPath } from '../../config/featureContext'
 import { sendChatMessage } from '../../services/ai-assistant/aiAssistantService'
-import { clearApiKey } from '../../services/storage/chromeStorageService'
 import { IRootState } from '../../store'
 import {
   addAiMessage,
@@ -34,7 +31,6 @@ import {
   setAiSending,
 } from '../../store/ai-assistant/actions'
 import { IAiMessage, AiQueryApplyMode, AiSuggestionData } from '../../store/ai-assistant/types'
-import { logout, setAuthError } from '../../store/ai-assistant-auth/actions'
 import { setSearchQuery } from '../../store/search/actions'
 import { setCode as setPnpjsCode } from '../../store/pnpjsconsole/actions'
 import SignInModal from './SignInModal'
@@ -121,6 +117,7 @@ const AiAssistantPanel = () => {
   const [dragStartWidth, setDragStartWidth] = useState(0)
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
   const [lowTokenWarning, setLowTokenWarning] = useState<string | null>(null)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
 
   const draftRef = useRef<string>('')
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
@@ -483,22 +480,6 @@ const AiAssistantPanel = () => {
     }
   }, [sendMessage, dispatch])
 
-  const handleSignOut = async () => {
-    try {
-      await clearApiKey()
-      dispatch(logout())
-    } catch (err) {
-      dispatch(setAuthError(err instanceof Error ? err.message : 'Failed to sign out'))
-    }
-  }
-
-  const [signOutConfirmOpen, setSignOutConfirmOpen] = useState(false)
-  const requestSignOut = () => setSignOutConfirmOpen(true)
-  const confirmSignOut = async () => {
-    setSignOutConfirmOpen(false)
-    await handleSignOut()
-  }
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault()
@@ -744,32 +725,15 @@ const AiAssistantPanel = () => {
     >
       <div className="ai-resize-handle" onMouseDown={handleDragStart} title="Drag to resize panel" />
 
-      <Dialog
-        hidden={!signOutConfirmOpen}
-        onDismiss={() => setSignOutConfirmOpen(false)}
-        dialogContentProps={{
-          type: DialogType.normal,
-          title: 'Sign out of AI Assistant?',
-          subText:
-            'This will remove the stored API key from this browser. You will need to paste it again to use AI features.',
-        }}
-        modalProps={{ isBlocking: true }}
-      >
-        <DialogFooter>
-          <PrimaryButton onClick={confirmSignOut} text="Sign out" />
-          <DefaultButton onClick={() => setSignOutConfirmOpen(false)} text="Cancel" />
-        </DialogFooter>
-      </Dialog>
-
       <div className="ai-drawer-header">
         <span>AI Assistant</span>
         <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
           {isAuthenticated && (
             <IconButton
-              iconProps={{ iconName: 'SignOut' }}
-              title="Sign out / change API key"
-              ariaLabel="Sign out"
-              onClick={requestSignOut}
+              iconProps={{ iconName: 'Settings' }}
+              title="Manage AI access"
+              ariaLabel="Manage AI access"
+              onClick={() => setAuthModalOpen(true)}
             />
           )}
           <IconButton
@@ -782,13 +746,33 @@ const AiAssistantPanel = () => {
       </div>
 
       <div className="ai-drawer-content" style={{ position: 'relative' }}>
+        <SignInModal
+          isOpen={authModalOpen}
+          error={authError}
+          loading={authLoading}
+          isSignedIn={isAuthenticated}
+          currentApiKey={apiKey}
+          onClose={() => setAuthModalOpen(false)}
+        />
+
         {!isAuthenticated && (
-          <SignInModal
-            error={authError}
-            loading={authLoading}
-            onSignOut={handleSignOut}
-            isSignedIn={isAuthenticated}
-          />
+          <div className="ai-empty-state">
+            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
+              AI assistant is not configured
+            </div>
+            <div style={{ marginBottom: 16, maxWidth: 320 }}>
+              Add your API key to start chatting. You can get one by registering on{' '}
+              <Link
+                href={process.env.REACT_APP_AI_BACKEND_URL || 'http://localhost:5221'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                the account website
+              </Link>{' '}
+              and choosing a plan.
+            </div>
+            <PrimaryButton text="Set up AI access" onClick={() => setAuthModalOpen(true)} />
+          </div>
         )}
 
         {isAuthenticated && (
