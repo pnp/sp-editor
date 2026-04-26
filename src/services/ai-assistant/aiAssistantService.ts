@@ -17,7 +17,10 @@ export interface ISendChatMessageResult {
   tier?: string
 }
 
-const MAX_HISTORY_MESSAGES = 8
+// Conversation history is only used for the general /ai/chat endpoint.
+// /ai/search and /ai/pnpjs already receive canonical state (currentQuery / code),
+// so re-sending recent turns mostly just duplicates that state and burns tokens.
+const MAX_HISTORY_MESSAGES = 4
 const MAX_HISTORY_MESSAGE_LENGTH = 1000
 
 function buildConversationHistory(messages: IAiMessage[]) {
@@ -61,17 +64,15 @@ export async function sendChatMessage(
 
   // Determine which endpoint to use based on pageContext
   let endpoint = '/ai/chat'
-  const conversationHistory = buildConversationHistory(messages)
   let requestBody: any = {
     message: userText,
-    conversationHistory,
+    conversationHistory: buildConversationHistory(messages),
   }
 
   if (pageContext === 'search') {
     endpoint = '/ai/search'
     requestBody = {
       prompt: userText,
-      conversationHistory,
       currentQuery: contextData?.searchQuery || '',
       searchResults: contextData?.searchResults || [],
     }
@@ -79,7 +80,6 @@ export async function sendChatMessage(
     endpoint = '/ai/pnpjs'
     requestBody = {
       prompt: userText,
-      conversationHistory,
       code: typeof contextData?.code === 'string' ? contextData.code : '',
     }
   }

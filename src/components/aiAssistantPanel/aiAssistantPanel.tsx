@@ -44,6 +44,13 @@ const QUERY_APPLY_OPTIONS: IDropdownOption[] = [
   { key: 'execute', text: 'Execute' },
 ]
 
+// PnPjs Console: Execute is intentionally disabled because generated code can
+// perform destructive operations (delete/update items, lists, etc.). The user
+// must explicitly run code from the editor.
+const PNPJS_APPLY_OPTIONS: IDropdownOption[] = QUERY_APPLY_OPTIONS.filter(
+  (o) => o.key !== 'execute'
+)
+
 const LOW_TOKEN_THRESHOLD = 50
 
 const getApplyModeTooltip = (mode: AiQueryApplyMode, isPnpjs: boolean): string => {
@@ -51,10 +58,7 @@ const getApplyModeTooltip = (mode: AiQueryApplyMode, isPnpjs: boolean): string =
     if (mode === 'apply') {
       return 'Apply: insert generated code into the editor automatically.'
     }
-    if (mode === 'execute') {
-      return 'Execute: insert code and run it automatically.'
-    }
-    return 'Manual: review the code and click Apply Code under the response.'
+    return 'Manual: review the code and click Apply Code under the response. Execute is disabled here to prevent unintended changes.'
   }
 
   if (mode === 'apply') {
@@ -134,6 +138,14 @@ const AiAssistantPanel = () => {
   const isSearchContext = pageContext === 'search'
   const isPnpjsContext = pageContext === 'pnpjsconsole'
   const supportsApplyMode = isSearchContext || isPnpjsContext
+
+  // Execute mode is not allowed on the PnPjs console (snippets can be
+  // destructive). Auto-downgrade to 'apply' if the user lands here with it set.
+  useEffect(() => {
+    if (isPnpjsContext && queryApplyMode === 'execute') {
+      dispatch(setAiQueryApplyMode('apply'))
+    }
+  }, [isPnpjsContext, queryApplyMode, dispatch])
 
   const promptHistory = useMemo(() => {
     const result: string[] = []
@@ -408,9 +420,9 @@ const AiAssistantPanel = () => {
 
           if (queryApplyMode === 'apply') {
             applyPnpjsSnippet(res.code)
-          } else if (queryApplyMode === 'execute') {
-            requestExecutePnpjs(res.code)
           }
+          // Note: Execute mode is intentionally not honored in the PnPjs
+          // console because generated snippets can be destructive.
         }
 
         dispatch(addAiMessage(assistantMessage))
@@ -845,7 +857,7 @@ const AiAssistantPanel = () => {
                   {supportsApplyMode && (
                     <Dropdown
                       className="ai-apply-mode-dropdown"
-                      options={QUERY_APPLY_OPTIONS}
+                      options={isPnpjsContext ? PNPJS_APPLY_OPTIONS : QUERY_APPLY_OPTIONS}
                       selectedKey={queryApplyMode}
                       onChange={(_e, option) => {
                         if (option) {
