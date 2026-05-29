@@ -11,35 +11,27 @@ import {
   Checkbox,
   MessageBar,
   MessageBarType,
+  IconButton,
+  TooltipHost,
 } from '@fluentui/react'
 import { IRootState } from '../../../store'
 import { clearConsoleOutput } from '../../../store/pnpjsconsole/actions'
-import { setAiPanelOpen } from '../../../store/ai-assistant/actions'
+import { setAiPanelOpen, setAiPendingInput } from '../../../store/ai-assistant/actions'
 import { IPnPjsConsoleEntry, PnPjsConsoleLevel } from '../../../store/pnpjsconsole/types'
 
-const MAX_PROMPT_ENTRIES = 30
 // Session-scoped consent: cleared when the extension/devtools is restarted,
 // so the user is reminded again at the start of every session.
 const AI_CONSENT_KEY = 'sp-editor.ai.analyzeConsent'
 
-const buildAnalyzePrompt = (entries: IPnPjsConsoleEntry[]): string => {
-  const recent = entries.slice(-MAX_PROMPT_ENTRIES)
-  const errorsOnly = recent.filter((e) => e.level === 'error' || e.level === 'warn')
-  const selected = errorsOnly.length > 0 ? errorsOnly : recent
-
-  const logBlock = selected
-    .map((e) => `[${e.level.toUpperCase()}] ${e.message}`)
-    .join('\n')
-
-  // Code is sent automatically via the AI panel's pnpjs contextData, so we
-  // only need to include the captured console output here.
+const buildAnalyzePrompt = (entry: IPnPjsConsoleEntry): string => {
+  // The current editor code is attached automatically by the AI panel as
+  // pnpjs contextData, so the prompt only needs the selected log line.
   return [
-    'Analyze the console output below from the snippet currently in the editor. ' +
-      'Explain what went wrong and provide a corrected version of the code.',
+    'Please analyze the following console output from my snippet and explain ' +
+      'what it means. If it indicates a problem, suggest a fix.',
     '',
-    'Console output:',
     '```',
-    logBlock || '(no output captured)',
+    `[${entry.level.toUpperCase()}] ${entry.message}`,
     '```',
   ].join('\n')
 }
@@ -84,6 +76,7 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [dontAskAgain, setDontAskAgain] = useState(false)
+  const [pendingEntry, setPendingEntry] = useState<IPnPjsConsoleEntry | null>(null)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -91,32 +84,22 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
     }
   }, [entries])
 
-  const hasErrors = useMemo(
-    () => entries.some((e) => e.level === 'error' || e.level === 'warn'),
-    [entries]
-  )
-
-  const performSend = () => {
-    const message = buildAnalyzePrompt(entries)
-    // Open the panel and dispatch a silent send event. The chat bubble shows
-    // a short "Analyzing output..." label while the full prompt (with logs)
-    // is sent to the model. The current editor code is attached automatically
-    // by the AI panel as pnpjs contextData.
+  const prefillAi = (entry: IPnPjsConsoleEntry) => {
+    const message = buildAnalyzePrompt(entry)
+    // Open the AI panel and prefill the chat textbox. The user reviews the
+    // pasted log + prefix and decides whether to send.
     dispatch(setAiPanelOpen(true))
-    window.dispatchEvent(
-      new CustomEvent('sp-editor-ai-send', {
-        detail: { message, display: 'Analyze output' },
-      })
-    )
+    dispatch(setAiPendingInput(message))
   }
 
-  const sendToAi = () => {
+  const sendToAi = (entry: IPnPjsConsoleEntry) => {
     let consented = false
     try { consented = sessionStorage.getItem(AI_CONSENT_KEY) === '1' } catch { /* ignore */ }
     if (consented) {
-      performSend()
+      prefillAi(entry)
     } else {
       setDontAskAgain(false)
+      setPendingEntry(entry)
       setConfirmOpen(true)
     }
   }
@@ -126,7 +109,10 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
       try { sessionStorage.setItem(AI_CONSENT_KEY, '1') } catch { /* ignore */ }
     }
     setConfirmOpen(false)
-    performSend()
+    if (pendingEntry) {
+      prefillAi(pendingEntry)
+      setPendingEntry(null)
+    }
   }
 
   const items: ICommandBarItemProps[] = useMemo(() => ([
@@ -137,25 +123,11 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
       onClick: () => { dispatch(clearConsoleOutput()); return true },
     },
     {
-      key: 'analyze',
-      text: 'Analyze with AI',
-      iconProps: { iconName: 'Robot' },
-      disabled: entries.length === 0 || !isAuthenticated,
-      title: !isAuthenticated
-        ? 'Sign in to the AI Assistant to use this feature.'
-        : entries.length === 0
-          ? 'Run code to capture output first.'
-          : hasErrors
-            ? 'Send the captured errors and current editor code to the AI Assistant. Output may contain sensitive data — you will be asked to confirm.'
-            : 'Send the captured console output and current editor code to the AI Assistant. Output may contain sensitive data — you will be asked to confirm.',
-      onClick: () => { sendToAi(); return true },
-    },
-    {
       key: 'count',
       text: `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}`,
       disabled: true,
     },
-  ]), [dispatch, entries, isAuthenticated, hasErrors])
+  ]), [dispatch, entries])
 
   const borderColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'
   const headerBg = isDark ? '#1e1e1e' : '#fafafa'
@@ -226,25 +198,45 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
               {e.level}
             </span>
             <span style={{ flex: '1 1 auto', minWidth: 0 }}>{e.message}</span>
+            <TooltipHost
+              content={
+                isAuthenticated
+                  ? 'Copy this entry into the AI Assistant chat box for review before sending.'
+                  : 'Sign in to the AI Assistant to use this feature.'
+              }
+            >
+              <IconButton
+                iconProps={{ iconName: 'Robot' }}
+                ariaLabel="Analyze with AI"
+                disabled={!isAuthenticated}
+                onClick={() => sendToAi(e)}
+                styles={{
+                  root: { height: 20, width: 24, padding: 0, color: 'inherit', opacity: 0.6 },
+                  rootHovered: { opacity: 1, background: 'transparent' },
+                  rootPressed: { background: 'transparent' },
+                  icon: { fontSize: 12 },
+                }}
+              />
+            </TooltipHost>
           </div>
         ))}
       </div>
       <Dialog
         hidden={!confirmOpen}
-        onDismiss={() => setConfirmOpen(false)}
+        onDismiss={() => { setConfirmOpen(false); setPendingEntry(null) }}
         dialogContentProps={{
           type: DialogType.normal,
           title: 'Send console output to AI?',
           subText:
-            'The captured console output and the code in the editor will be sent to the AI Assistant for analysis.',
+            'The selected console entry will be pasted into the AI Assistant chat box, together with the code currently in the editor. Nothing is sent until you press Send in the chat.',
         }}
         modalProps={{ isBlocking: true }}
       >
         <MessageBar messageBarType={MessageBarType.warning} isMultiline>
           Console output may contain sensitive information such as tenant URLs,
           user names or emails, item IDs, GUIDs, list/site data or error
-          stacks. Review the output before sending and do not send anything
-          you would not paste into a third-party chat service.
+          stacks. Review the pasted text before pressing Send and do not send
+          anything you would not paste into a third-party chat service.
         </MessageBar>
         <div style={{ marginTop: 12 }}>
           <Checkbox
@@ -254,8 +246,8 @@ const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
           />
         </div>
         <DialogFooter>
-          <PrimaryButton onClick={onConfirmSend} text="Send to AI" />
-          <DefaultButton onClick={() => setConfirmOpen(false)} text="Cancel" />
+          <PrimaryButton onClick={onConfirmSend} text="Paste into chat" />
+          <DefaultButton onClick={() => { setConfirmOpen(false); setPendingEntry(null) }} text="Cancel" />
         </DialogFooter>
       </Dialog>
     </div>

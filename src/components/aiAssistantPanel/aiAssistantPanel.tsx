@@ -19,7 +19,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { getContextDisplayName, getContextKeyFromPath } from '../../config/featureContext'
-import { sendChatMessage } from '../../services/ai-assistant/aiAssistantService'
+import { sendChatMessage, MAX_PROMPT_CHARS } from '../../services/ai-assistant/aiAssistantService'
+import { AI_BACKEND_URL } from '../../services/ai-assistant/backendUrl'
 import { IRootState } from '../../store'
 import {
   addAiMessage,
@@ -29,6 +30,7 @@ import {
   setAiPendingInput,
   setAiQueryApplyMode,
   setAiSending,
+  setAiTokens,
 } from '../../store/ai-assistant/actions'
 import { IAiMessage, AiQueryApplyMode, AiSuggestionData } from '../../store/ai-assistant/types'
 import { setSearchQuery } from '../../store/search/actions'
@@ -105,7 +107,7 @@ const AiAssistantPanel = () => {
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const { isOpen, messages, isSending, error, panelWidth, queryApplyMode, pendingInput } = useSelector(
+  const { isOpen, messages, isSending, error, panelWidth, queryApplyMode, pendingInput, tokens } = useSelector(
     (state: IRootState) => state.aiAssistant
   )
   const { isDark } = useSelector((state: IRootState) => state.home)
@@ -427,12 +429,24 @@ const AiAssistantPanel = () => {
 
         dispatch(addAiMessage(assistantMessage))
 
+        // Always update tokens so the header pill reflects the latest balance,
+        // not just when the balance is low.
+        if (typeof res.tokensRemaining === 'number' || typeof res.tier === 'string' || typeof res.tokensUsed === 'number') {
+          dispatch(
+            setAiTokens({
+              remaining: typeof res.tokensRemaining === 'number' ? res.tokensRemaining : null,
+              tier: typeof res.tier === 'string' ? res.tier : null,
+              lastUsed: typeof res.tokensUsed === 'number' ? res.tokensUsed : null,
+            })
+          )
+        }
+
         if (typeof res.tokensRemaining === 'number' && res.tokensRemaining <= LOW_TOKEN_THRESHOLD) {
           const tierText = res.tier ? ` (${res.tier})` : ''
+          // Don't expose the per-request raw token count — it's misleading
+          // (cached tokens inflate it) and just worries users.
           setLowTokenWarning(
-            `Low token balance${tierText}: ${res.tokensRemaining} remaining${
-              typeof res.tokensUsed === 'number' ? `, ${res.tokensUsed} used in this request` : ''
-            }.`
+            `Low token balance${tierText}: ${res.tokensRemaining} remaining.`
           )
         } else {
           setLowTokenWarning(null)
@@ -740,6 +754,49 @@ const AiAssistantPanel = () => {
       <div className="ai-drawer-header">
         <span>AI Assistant</span>
         <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          {isAuthenticated && tokens.remaining !== null && (() => {
+            const remaining = tokens.remaining
+            let state: 'ok' | 'warn' | 'danger' = 'ok'
+            if (remaining <= 0) {
+              state = 'danger'
+            } else if (remaining <= LOW_TOKEN_THRESHOLD) {
+              state = 'warn'
+            }
+            const formatted = remaining.toLocaleString()
+            const tierSuffix = tokens.tier ? ` on ${tokens.tier} tier` : ''
+            const tierBadge = tokens.tier ? ` · ${tokens.tier}` : ''
+            const lastUsedText =
+              typeof tokens.lastUsed === 'number'
+                ? ` Last request used ${tokens.lastUsed.toLocaleString()} tokens.`
+                : ''
+            let tooltip: string
+            if (state === 'danger') {
+              tooltip = `No tokens remaining${tierSuffix}. Click to top up.${lastUsedText}`
+            } else {
+              tooltip = `${formatted} tokens remaining${tierSuffix}.${lastUsedText}`
+            }
+            return (
+              <button
+                type="button"
+                className={`ai-token-pill is-${state}`}
+                title={tooltip}
+                aria-label={tooltip}
+                onClick={() => {
+                  if (AI_BACKEND_URL) {
+                    window.open(AI_BACKEND_URL, '_blank', 'noopener,noreferrer')
+                  }
+                }}
+              >
+                <span className="ai-token-pill-icon" aria-hidden="true">⚡</span>
+                <span className="ai-token-pill-value">
+                  {state === 'danger' ? 'Get more' : formatted}
+                </span>
+                {tokens.tier && state !== 'danger' && (
+                  <span className="ai-token-pill-tier">{tierBadge}</span>
+                )}
+              </button>
+            )
+          })()}
           {isAuthenticated && (
             <IconButton
               iconProps={{ iconName: 'Settings' }}
@@ -843,6 +900,11 @@ const AiAssistantPanel = () => {
                 rows={3}
                 resizable={false}
                 disabled={isSending}
+                errorMessage={
+                  input.length > MAX_PROMPT_CHARS
+                    ? `Prompt too long: ${input.length} / ${MAX_PROMPT_CHARS} characters.`
+                    : undefined
+                }
               />
 
               <div className="ai-input-actions">
@@ -853,6 +915,20 @@ const AiAssistantPanel = () => {
                   >
                     <span className="ai-context-value">{pageContextLabel}</span>
                   </div>
+
+                  {input.length > MAX_PROMPT_CHARS * 0.75 && (
+                    <div
+                      className="ai-context-badge"
+                      title="Prompt character count"
+                      style={{
+                        color: input.length > MAX_PROMPT_CHARS ? '#a4262c' : undefined,
+                      }}
+                    >
+                      <span className="ai-context-value">
+                        {input.length} / {MAX_PROMPT_CHARS}
+                      </span>
+                    </div>
+                  )}
 
                   {supportsApplyMode && (
                     <Dropdown
@@ -895,7 +971,7 @@ const AiAssistantPanel = () => {
                   title="Send prompt to AI assistant"
                   ariaLabel="Send prompt to AI assistant"
                   onClick={handleSend}
-                  disabled={isSending || input.trim().length === 0}
+                  disabled={isSending || input.trim().length === 0 || input.length > MAX_PROMPT_CHARS}
                   styles={{
                     root: { height: 32, width: 32 },
                     icon: { fontSize: 16 },

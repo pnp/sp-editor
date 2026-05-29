@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
+  DefaultButton,
+  Dialog,
+  DialogFooter,
+  DialogType,
   IconButton,
   Link,
   MessageBar,
@@ -15,6 +19,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { logout, setAuthState, setAuthLoading, setAuthError } from '../../store/ai-assistant-auth/actions';
 import { clearApiKey, saveApiKey } from '../../services/storage/chromeStorageService';
+import { AI_BACKEND_URL } from '../../services/ai-assistant/backendUrl';
 
 interface SignInModalProps {
   isOpen?: boolean;
@@ -25,8 +30,7 @@ interface SignInModalProps {
   onClose?: () => void;
 }
 
-const PORTAL_BASE_URL =
-  (process.env.REACT_APP_AI_BACKEND_URL || 'http://localhost:5221').replace(/\/+$/, '');
+const PORTAL_BASE_URL = AI_BACKEND_URL;
 
 const SignInModal: React.FC<SignInModalProps> = ({
   isOpen = true,
@@ -38,6 +42,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
 }) => {
   const dispatch = useDispatch();
   const [apiKey, setApiKey] = useState('');
+  const [isConfirmRemoveOpen, setIsConfirmRemoveOpen] = useState(false);
 
   useEffect(() => {
     setApiKey(currentApiKey || '');
@@ -69,6 +74,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
   };
 
   const handleRemoveKey = async () => {
+    setIsConfirmRemoveOpen(false);
     dispatch(setAuthError(null));
     dispatch(setAuthLoading(true));
 
@@ -143,7 +149,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
                       iconProps={{ iconName: 'Delete' }}
                       title="Delete saved API key"
                       ariaLabel="Delete saved API key"
-                      onClick={handleRemoveKey}
+                      onClick={() => setIsConfirmRemoveOpen(true)}
                       styles={{ root: { height: 24, width: 24 } }}
                     />
                   )
@@ -159,6 +165,22 @@ const SignInModal: React.FC<SignInModalProps> = ({
           </Stack>
         </Stack>
       )}
+      <Dialog
+        hidden={!isConfirmRemoveOpen}
+        onDismiss={() => setIsConfirmRemoveOpen(false)}
+        dialogContentProps={{
+          type: DialogType.normal,
+          title: 'Remove API key?',
+          subText:
+            'This will sign you out of the AI assistant and clear the saved API key from this browser. You can paste it again later.',
+        }}
+        modalProps={{ isBlocking: true, layerProps: { styles: { root: { zIndex: 200001 } } } }}
+      >
+        <DialogFooter>
+          <PrimaryButton onClick={handleRemoveKey} text="Remove" />
+          <DefaultButton onClick={() => setIsConfirmRemoveOpen(false)} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
     </Panel>
   );
 };

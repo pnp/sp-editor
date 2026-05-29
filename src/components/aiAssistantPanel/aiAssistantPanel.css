@@ -435,3 +435,64 @@
   gap: 8px;
   padding-top: 4px;
 }
+
+/* Token balance pill in the panel header */
+.ai-token-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  margin-right: 4px;
+  border-radius: 11px;
+  border: 1px solid var(--ai-border);
+  background-color: var(--ai-bubble-bg);
+  color: var(--ai-fg);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.ai-token-pill:hover {
+  opacity: 0.85;
+}
+
+.ai-token-pill:focus-visible {
+  outline: 2px solid #00adef;
+  outline-offset: 1px;
+}
+
+.ai-token-pill-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.ai-token-pill-tier {
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.ai-token-pill.is-warn {
+  border-color: rgba(255, 170, 0, 0.55);
+  background-color: rgba(255, 170, 0, 0.18);
+  color: #ffb84d;
+}
+
+.ai-drawer[data-theme='light'] .ai-token-pill.is-warn {
+  background-color: rgba(255, 170, 0, 0.22);
+  color: #8a5a00;
+}
+
+.ai-token-pill.is-danger {
+  border-color: rgba(232, 17, 35, 0.6);
+  background-color: rgba(232, 17, 35, 0.18);
+  color: #ff8b8b;
+}
+
+.ai-drawer[data-theme='light'] .ai-token-pill.is-danger {
+  background-color: rgba(232, 17, 35, 0.15);
+  color: #a80000;
+}

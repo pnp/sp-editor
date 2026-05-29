@@ -30,6 +30,7 @@ const init: IAiAssistantState = {
   panelWidth: STORED_WIDTH,
   queryApplyMode: normalizeStoredApplyMode(STORED_QUERY_APPLY_MODE),
   pendingInput: null,
+  tokens: { remaining: null, tier: null, lastUsed: null },
 }
 
 export function aiAssistantReducer(
@@ -72,6 +73,26 @@ export function aiAssistantReducer(
       return { ...state, queryApplyMode: action.payload.mode }
     case Constants.AI_SET_PENDING_INPUT:
       return { ...state, pendingInput: action.payload.pendingInput }
+    case Constants.AI_SET_TOKENS:
+      return {
+        ...state,
+        tokens: {
+          // Don't clobber known values when the backend omits a field;
+          // only overwrite what the response actually returned.
+          remaining:
+            typeof action.payload.tokens.remaining === 'number'
+              ? action.payload.tokens.remaining
+              : state.tokens.remaining,
+          tier:
+            typeof action.payload.tokens.tier === 'string'
+              ? action.payload.tokens.tier
+              : state.tokens.tier,
+          lastUsed:
+            typeof action.payload.tokens.lastUsed === 'number'
+              ? action.payload.tokens.lastUsed
+              : state.tokens.lastUsed,
+        },
+      }
     default:
       return state
   }

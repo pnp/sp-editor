@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { AiQueryApplyMode, Constants, IAiMessage } from './types'
+import { AiQueryApplyMode, Constants, IAiMessage, IAiTokenInfo } from './types'
 
 export function setAiPanelOpen(isOpen: boolean) {
   return action(Constants.AI_SET_OPEN, { isOpen })
@@ -35,4 +35,8 @@ export function setAiQueryApplyMode(mode: AiQueryApplyMode) {
 
 export function setAiPendingInput(pendingInput: string | null) {
   return action(Constants.AI_SET_PENDING_INPUT, { pendingInput })
+}
+
+export function setAiTokens(tokens: Partial<IAiTokenInfo>) {
+  return action(Constants.AI_SET_TOKENS, { tokens })
 }

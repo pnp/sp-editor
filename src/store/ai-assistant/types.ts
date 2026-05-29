@@ -30,6 +30,12 @@ export interface IAiMessage {
   suggestionData?: AiSuggestionData
 }
 
+export interface IAiTokenInfo {
+  remaining: number | null
+  tier: string | null
+  lastUsed: number | null
+}
+
 export interface IAiAssistantState {
   isOpen: boolean
   messages: IAiMessage[]
@@ -38,6 +44,7 @@ export interface IAiAssistantState {
   panelWidth: number
   queryApplyMode: AiQueryApplyMode
   pendingInput: string | null
+  tokens: IAiTokenInfo
 }
 
 export enum Constants {
@@ -50,4 +57,5 @@ export enum Constants {
   AI_SET_PANEL_WIDTH = 'AI_SET_PANEL_WIDTH',
   AI_SET_QUERY_APPLY_MODE = 'AI_SET_QUERY_APPLY_MODE',
   AI_SET_PENDING_INPUT = 'AI_SET_PENDING_INPUT',
+  AI_SET_TOKENS = 'AI_SET_TOKENS',
 }
