@@ -1,25 +1,14 @@
-import { ActionType } from 'typesafe-actions';
-import * as actions from './actions';
+import { ActionType } from 'typesafe-actions'
+import * as actions from './actions'
 
-export interface IUser {
-  id?: number;
-  email?: string;
-  name?: string;
-}
+export type AiAuthActions = ActionType<typeof actions>
 
-export interface IAiAssistantAuthState {
-  isAuthenticated: boolean;
-  apiKey: string | null;
-  user: IUser | null;
-  loading: boolean;
-  error: string | null;
+export interface IAiAuthState {
+  selectedModel: string
+  bridgeStatus: 'idle' | 'checking' | 'ready' | 'bridge_missing' | 'cli_missing' | 'not_authenticated'
 }
 
 export enum Constants {
-  AUTH_SET_STATE = 'AI_AUTH_SET_STATE',
-  AUTH_SET_LOADING = 'AI_AUTH_SET_LOADING',
-  AUTH_SET_ERROR = 'AI_AUTH_SET_ERROR',
-  AUTH_LOGOUT = 'AI_AUTH_LOGOUT',
+  AUTH_SET_MODEL         = 'AI_AUTH_SET_MODEL',
+  AUTH_SET_BRIDGE_STATUS = 'AI_AUTH_SET_BRIDGE_STATUS',
 }
-
-export type AiAssistantAuthActions = ActionType<typeof actions>;

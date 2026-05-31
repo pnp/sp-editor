@@ -42,19 +42,22 @@ export function aiAssistantReducer(
       return { ...state, isOpen: action.payload.isOpen }
     case Constants.AI_ADD_MESSAGE:
       return { ...state, messages: [...state.messages, action.payload.message] }
-    case Constants.AI_UPDATE_MESSAGE:
+    case Constants.AI_UPDATE_MESSAGE: {
+      const { id, content, reasoning, isStreaming, suggestionData, tokenUsage } = action.payload
       return {
         ...state,
         messages: state.messages.map((m) =>
-          m.id === action.payload.id
-            ? {
-                ...m,
-                content: action.payload.content,
-                isStreaming: action.payload.isStreaming,
-              }
-            : m
+          m.id !== id ? m : {
+            ...m,
+            ...(content !== undefined && { content }),
+            ...(reasoning !== undefined && { reasoning }),
+            ...(isStreaming !== undefined && { isStreaming }),
+            ...(suggestionData !== undefined && { suggestionData }),
+            ...(tokenUsage !== undefined && { tokenUsage }),
+          }
         ),
       }
+    }
     case Constants.AI_CLEAR_MESSAGES:
       return { ...state, messages: [], error: null }
     case Constants.AI_SET_SENDING:

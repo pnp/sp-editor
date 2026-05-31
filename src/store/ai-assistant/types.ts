@@ -17,6 +17,32 @@ export type AiSuggestionData =
       code: string
       explanation: string
     }
+  | {
+      kind: 'spshooter'
+      restRequest: {
+        method?: string
+        path?: string
+        body?: string | null
+        headers?: any
+      }
+      explanation: string
+    }
+  | {
+      kind: 'graphsdk'
+      code: string
+      explanation: string
+    }
+
+export interface ITokenUsage {
+  /** Prompt tokens sent to the model. */
+  input: number
+  /** Completion tokens returned by the model. */
+  output: number
+  /** Input tokens served from cache (not billed or billed at reduced rate). */
+  cached: number
+  /** Total tokens (input + output). */
+  total: number
+}
 
 export interface IAiMessage {
   id: string
@@ -24,6 +50,10 @@ export interface IAiMessage {
   content: string
   timestamp: number
   isStreaming?: boolean
+  /** Reasoning/thinking content from o-series or DeepSeek models. */
+  reasoning?: string
+  /** Token usage for this message (assistant messages only, from CLI footer). */
+  tokenUsage?: ITokenUsage
   // Optional: structured suggestion attached to assistant messages.
   // - search: payload to apply to the Search query editor
   // - pnpjs: code snippet to apply to the PnPjs editor

@@ -21,9 +21,11 @@ import {
 } from './utils'
 import * as rootActions from '../../../store/home/actions'
 import { loginRequest } from '../../..'
-import { setEditPanel, setScopes, setUser } from '../../../store/graphsdkconsole/actions'
+import { appendConsoleOutput, clearConsoleOutput, setCode, setEditPanel, setScopes, setUser } from '../../../store/graphsdkconsole/actions'
 import { GraphClient } from '../../../services/graph-client/graph-client'
-import { SPEditorUser } from '../../../store/graphsdkconsole/types'
+import { IGraphSDKConsoleEntry, SPEditorUser } from '../../../store/graphsdkconsole/types'
+import { GRAPHSDK_CONSOLE_PROXY_SOURCE } from './graphsdkConsoleProxy'
+import GraphSDKConsoleOutput from './graphsdkConsoleOutput'
 import { CommandBar, Icon, IIconStyles, Persona, PersonaSize } from '@fluentui/react'
 import { AuthenticationResult, BrowserUtils } from '@azure/msal-browser'
 import React from 'react'
@@ -49,6 +51,9 @@ const GraphSDKEditor = () => {
   const { isDark } = useSelector((state: IRootState) => state.home)
 
   const COMMON_CONFIG: monaco.editor.IEditorOptions = GraphSDKConsoleMonacoConfigs()
+
+  const [consoleHeight, setConsoleHeight] = useState<number>(220)
+  const [isResizing, setIsResizing] = useState(false)
 
   useEffect(() => {
     const resizeListener = () => {
@@ -76,7 +81,32 @@ const GraphSDKEditor = () => {
   )
 
 
+  const installGraphSdkConsoleRelay = () => {
+    if (chrome?.scripting) {
+      chrome.scripting.executeScript({
+        target: { tabId: chrome.devtools.inspectedWindow.tabId },
+        world: 'ISOLATED' as any,
+        func: () => {
+          const w = window as any
+          if (w.__spEditorGraphSdkRelayInstalled) return
+          w.__spEditorGraphSdkRelayInstalled = true
+          window.addEventListener('message', (event) => {
+            try {
+              const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+              if (data && data.source === 'sp-editor-graphsdk-console') {
+                chrome.runtime.sendMessage(data)
+              }
+            } catch (_e) { /* swallow */ }
+          })
+        },
+      })
+    }
+  }
+
   async function runCode() {
+    dispatch(clearConsoleOutput())
+    installGraphSdkConsoleRelay()
+
     if (!instance.getActiveAccount()) {
 
       dispatch(rootActions.setAppMessage({
@@ -129,37 +159,56 @@ const GraphSDKEditor = () => {
           '}',
         ].join('\n')
 
+        const ecodeStr = JSON.stringify(ecode.join('\n'))
         const execme = [
           'var execme = function execme() {',
+          '\twindow.__spEditorGraphSdkRunning = true;',
           '\tPromise.all([SystemJS.import(mod_graph_sdk)]).then(function (modules) {',
           '\t\t' + prepnp.join('\n'),
           '\t\t// Your code starts here',
           '\t\t// #####################',
-          '' + ecode.map(function (e) { return '\t\t\t' + e }).join('\n'),
+          '\t\tvar __result;',
+          '\t\ttry {',
+          `\t\t\t__result = eval(${ecodeStr});`,
+          '\t\t} catch(e) {',
+          "\t\t\tconsole.error(e);",
+          "\t\t\twindow.__spEditorGraphSdkRunning = false;",
+          "\t\t\twindow.postMessage(JSON.stringify({ source: 'sp-editor-graphsdk-console', type: 'exec-done' }), '*');",
+          '\t\t\treturn;',
+          '\t\t}',
           '\t\t// #####################',
           '\t\t// Your code ends here',
+          '\t\tPromise.resolve(__result).then(function() {',
+          '\t\t\twindow.__spEditorGraphSdkRunning = false;',
+          "\t\t\twindow.postMessage(JSON.stringify({ source: 'sp-editor-graphsdk-console', type: 'exec-done' }), '*');",
+          '\t\t}, function(e) {',
+          '\t\t\tconsole.error(e);',
+          '\t\t\twindow.__spEditorGraphSdkRunning = false;',
+          "\t\t\twindow.postMessage(JSON.stringify({ source: 'sp-editor-graphsdk-console', type: 'exec-done' }), '*');",
+          '\t\t});',
+          '\t}, function(e) {',
+          '\t\tconsole.error(e);',
+          '\t\twindow.__spEditorGraphSdkRunning = false;',
+          "\t\twindow.postMessage(JSON.stringify({ source: 'sp-editor-graphsdk-console', type: 'exec-done' }), '*');",
           '\t});',
           '};'
         ].join('\n')
 
         // tslint:disable-next-line:prefer-template
-        let script = mod_graph_sdk + '\n' +
+        let script = GRAPHSDK_CONSOLE_PROXY_SOURCE + '\n' +
+          mod_graph_sdk + '\n' +
           sj + '\n\n' +
           exescript + '\n\n' +
           execme + '\n\n'
 
         script += 'exescript(execme);'
 
-        // show loading for a sec to make user know the code is being executed
-        dispatch(setLoading(true))
-        setTimeout(() => { dispatch(setLoading(false)) }, 1200)
         try {
           const response = await instance.acquireTokenSilent({
             ...loginRequest,
             account: accounts[0],
           })
           chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
-
         } catch (e) {
           const response = await instance.acquireTokenPopup({
             ...loginRequest,
@@ -167,6 +216,10 @@ const GraphSDKEditor = () => {
           })
           chrome.devtools.inspectedWindow.eval(script.replace(/TOKENHERE/g, response.accessToken))
         }
+        // spinner stays until exec-done message is received (or 30 s safety cap)
+        dispatch(setLoading(true))
+        const safetyTimer = setTimeout(() => dispatch(setLoading(false)), 30000)
+        ;(window as any).__spEditorGraphSdkSafetyTimer = safetyTimer
       } catch (e) {
         //console.log(e)
       }
@@ -326,6 +379,70 @@ const GraphSDKEditor = () => {
     monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
   }, [isDark])
 
+  // Forward console messages from the inspected page to Redux
+  useEffect(() => {
+    const handler = (msg: any) => {
+      if (!msg || msg.source !== 'sp-editor-graphsdk-console') return
+      if (msg.type === 'exec-done') {
+        clearTimeout((window as any).__spEditorGraphSdkSafetyTimer)
+        dispatch(setLoading(false))
+        return
+      }
+      const level = (msg.level || 'log') as IGraphSDKConsoleEntry['level']
+      const args: string[] = Array.isArray(msg.args) ? msg.args : [String(msg.args)]
+      const entry: IGraphSDKConsoleEntry = {
+        id: `${Date.now()}-${Math.random()}`,
+        level,
+        message: args.join(' '),
+        timestamp: msg.ts || Date.now(),
+      }
+      dispatch(appendConsoleOutput(entry))
+    }
+    chrome.runtime.onMessage.addListener(handler)
+    return () => { chrome.runtime.onMessage.removeListener(handler) }
+  }, [dispatch])
+
+  // Handle drag-to-resize the console panel
+  useEffect(() => {
+    if (!isResizing) return
+    const onMouseMove = (e: MouseEvent) => {
+      const newHeight = window.innerHeight - e.clientY
+      if (newHeight > 60 && newHeight < window.innerHeight - 200) {
+        setConsoleHeight(newHeight)
+        if (grapheditor.current) { grapheditor.current.layout() }
+      }
+    }
+    const onMouseUp = () => { setIsResizing(false) }
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+  }, [isResizing])
+
+  // Listen for AI-generated code snippets from the AI assistant panel
+  useEffect(() => {
+    const handleApplyGraphSdk = (e: Event) => {
+      const ce = e as CustomEvent<{ code?: string }>
+      const newCode = ce.detail?.code
+      if (typeof newCode !== 'string' || !newCode.trim()) return
+
+      if (grapheditor.current) {
+        const model = grapheditor.current.getModel()
+        if (model) {
+          model.setValue(newCode)
+        }
+      }
+      dispatch(setCode(newCode))
+    }
+
+    window.addEventListener('sp-editor-apply-graphsdk', handleApplyGraphSdk as EventListener)
+    return () => {
+      window.removeEventListener('sp-editor-apply-graphsdk', handleApplyGraphSdk as EventListener)
+    }
+  }, [dispatch])
+
   // this will run when the compunent unmounts
   useEffect(() => {
     return () => {
@@ -462,7 +579,17 @@ const GraphSDKEditor = () => {
             />)
           },
         ] : []}
-      />      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: 'calc(100vh - 80px)' }} />
+      />      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: `calc(100vh - 80px - ${consoleHeight}px - 4px)` }} />
+      <div
+        onMouseDown={() => setIsResizing(true)}
+        style={{
+          height: 4,
+          cursor: 'row-resize',
+          background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)',
+          flexShrink: 0,
+        }}
+      />
+      <GraphSDKConsoleOutput height={consoleHeight} />
     </>
   );
 }

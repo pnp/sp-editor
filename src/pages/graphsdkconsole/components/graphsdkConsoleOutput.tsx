@@ -1,26 +1,25 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
-import { clearConsoleOutput } from '../../../store/pnpjsconsole/actions'
+import { clearConsoleOutput } from '../../../store/graphsdkconsole/actions'
 import ConsoleOutput, { IConsoleEntry } from '../../../components/consoleOutput/ConsoleOutput'
 
-interface IPnPjsConsoleOutputProps {
+interface IGraphSDKConsoleOutputProps {
   height: number
 }
 
-const PnPjsConsoleOutput: React.FC<IPnPjsConsoleOutputProps> = ({ height }) => {
+const GraphSDKConsoleOutput: React.FC<IGraphSDKConsoleOutputProps> = ({ height }) => {
   const dispatch = useDispatch()
-  const entries = useSelector((state: IRootState) => state.pnpjsconsole.consoleOutput)
+  const entries = useSelector((state: IRootState) => state.graphsdkconsole.consoleOutput)
 
   return (
     <ConsoleOutput
       entries={entries as IConsoleEntry[]}
       onClear={() => dispatch(clearConsoleOutput())}
       height={height}
-      pageContext="pnpjsconsole"
+      pageContext="graphsdkconsole"
     />
   )
 }
 
-export default PnPjsConsoleOutput
-
+export default GraphSDKConsoleOutput

@@ -1,12 +1,12 @@
 
-# SP Editor for Microsoft Edge
-This is total re-write of SP Editor Extension using React, Office UI Fabric and Ionic. This Extension is installable to Microsoft Edge from [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/affnnhcbfmcbbdlcadgkdbfafigmjdkk). Not all features has been ported yet, but I think feature parity will be set during H1. When that happens, Chrome SP Editor will be updated to the same code base.
+# SP Editor
+SP Editor is a developer tool extension for SharePoint available on [Chrome](https://chrome.google.com/webstore/detail/sp-editor/ecblfcmjnbbgaojblcpmjoamegpbodhd) and [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/sp-editor/affnnhcbfmcbbdlcadgkdbfafigmjdkk).
 
 ![SP Editor](repo-images/edgespeditor.png)
 
-If you want to chip in by porting features or even creating new ones, here is a quide how to get started contributing.
+If you want to chip in by porting features or even creating new ones, here is a guide how to get started contributing.
 
-### running locally with watch mode
+### Running locally with watch mode
 ```powershell
 git clone https://github.com/pnp/sp-editor.git # clone the project
 cd sp-editor # go to the folder
@@ -38,3 +38,19 @@ Now you can open a SharePoint site, open devtools and select SharePoint tab. The
 To inspect the Extension, you can open the extension devtool by right clicking and selecting **Inspect** and you can see the dom/console/sources/etc of the extension.
 
 ![](repo-images/edgeinspect.png)
+
+### AI Assistant (optional)
+
+The AI Assistant feature requires the native messaging bridge and [GitHub Copilot CLI](https://www.npmjs.com/package/@github/copilot) installed locally.
+
+```bash
+# 1. Install and authenticate Copilot CLI
+npm install -g @github/copilot
+copilot login
+
+# 2. Install the SP Editor native bridge
+npm install -g @sp-editor/native-bridge
+sp-editor-bridge install
+```
+
+After running `sp-editor-bridge install`, reload the extension in the browser and the AI Assistant panel will be able to connect.

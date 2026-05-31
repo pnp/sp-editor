@@ -1,0 +1,33 @@
+{
+  "name": "@sp-editor/native-bridge",
+  "version": "1.0.5",
+  "description": "SP Editor native messaging bridge — routes AI prompts through the local GitHub Copilot CLI",
+  "main": "dist/host.js",
+  "bin": {
+    "sp-editor-bridge": "./bin/sp-editor-bridge.js",
+    "sp-editor-bridge-host": "./bin/sp-editor-bridge-host.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "node test/harness.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "keywords": [
+    "sharepoint",
+    "sp-editor",
+    "native-messaging",
+    "github-copilot"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}

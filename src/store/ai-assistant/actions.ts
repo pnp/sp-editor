@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { AiQueryApplyMode, Constants, IAiMessage, IAiTokenInfo } from './types'
+import { AiQueryApplyMode, AiSuggestionData, Constants, IAiMessage, IAiTokenInfo, ITokenUsage } from './types'
 
 export function setAiPanelOpen(isOpen: boolean) {
   return action(Constants.AI_SET_OPEN, { isOpen })
@@ -9,8 +9,14 @@ export function addAiMessage(message: IAiMessage) {
   return action(Constants.AI_ADD_MESSAGE, { message })
 }
 
-export function updateAiMessage(id: string, content: string, isStreaming?: boolean) {
-  return action(Constants.AI_UPDATE_MESSAGE, { id, content, isStreaming })
+export function updateAiMessage(id: string, updates: {
+  content?: string
+  reasoning?: string
+  isStreaming?: boolean
+  suggestionData?: AiSuggestionData
+  tokenUsage?: ITokenUsage
+}) {
+  return action(Constants.AI_UPDATE_MESSAGE, { id, ...updates })
 }
 
 export function clearAiMessages() {

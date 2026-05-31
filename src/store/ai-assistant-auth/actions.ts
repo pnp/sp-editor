@@ -1,16 +1,34 @@
-import { action } from 'typesafe-actions';
-import { Constants, IUser } from './types';
+import { action } from 'typesafe-actions'
+import { Constants } from './types'
+import { checkBridgeStatus as bridgeCheckStatus } from '../../services/ai-assistant/nativeBridgeClient'
 
-export const setAuthState = (state: {
-  isAuthenticated: boolean;
-  apiKey: string | null;
-  user: IUser | null;
-}) => action(Constants.AUTH_SET_STATE, state);
+export const setSelectedModel = (model: string) =>
+  action(Constants.AUTH_SET_MODEL, { model })
 
-export const setAuthLoading = (loading: boolean) =>
-  action(Constants.AUTH_SET_LOADING, { loading });
+export const setBridgeStatus = (bridgeStatus: 'idle' | 'checking' | 'ready' | 'bridge_missing' | 'cli_missing' | 'not_authenticated') =>
+  action(Constants.AUTH_SET_BRIDGE_STATUS, { bridgeStatus })
 
-export const setAuthError = (error: string | null) =>
-  action(Constants.AUTH_SET_ERROR, { error });
+// ── Thunk ─────────────────────────────────────────────────────────────────────
 
-export const logout = () => action(Constants.AUTH_LOGOUT);
+/**
+ * Check the native bridge and Copilot CLI status.
+ * Updates bridgeStatus to 'ready', 'cli_missing', or 'not_authenticated'.
+ */
+export function checkBridgeStatus() {
+  return async (dispatch: (a: any) => void): Promise<void> => {
+    dispatch(setBridgeStatus('checking'))
+    try {
+      const { copilotCliInstalled, copilotCliAuthenticated } = await bridgeCheckStatus()
+      if (!copilotCliInstalled) {
+        dispatch(setBridgeStatus('cli_missing'))
+      } else if (!copilotCliAuthenticated) {
+        dispatch(setBridgeStatus('not_authenticated'))
+      } else {
+        dispatch(setBridgeStatus('ready'))
+      }
+    } catch {
+      // Native messaging host not installed or not reachable
+      dispatch(setBridgeStatus('bridge_missing'))
+    }
+  }
+}

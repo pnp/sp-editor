@@ -17,6 +17,15 @@ export interface IScope {
   scope: string
 }
 
+export type GraphSDKConsoleLevel = 'log' | 'info' | 'warn' | 'error' | 'debug'
+
+export interface IGraphSDKConsoleEntry {
+  id: string
+  level: GraphSDKConsoleLevel
+  message: string
+  timestamp: number
+}
+
 export interface IGraphSDKConsoleState {
   code: string,
   result: string,
@@ -25,6 +34,7 @@ export interface IGraphSDKConsoleState {
   scopes: string[],
   authData?: AuthenticationResult
   spuoser?: SPEditorUser;
+  consoleOutput: IGraphSDKConsoleEntry[]
 }
 
 export enum Constants {
@@ -35,4 +45,6 @@ export enum Constants {
   GC_SET_SCOPES = 'GC_SET_SCOPES',
   GC_SET_AUTHDATA = 'GC_SET_AUTHDATA',
   GC_SET_USER = 'GC_SET_USER',
+  GC_APPEND_CONSOLE = 'GC_APPEND_CONSOLE',
+  GC_CLEAR_CONSOLE = 'GC_CLEAR_CONSOLE',
 }

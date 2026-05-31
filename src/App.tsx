@@ -9,8 +9,6 @@ import HomePage from './pages/home/homePage';
 import ScriptLinks from './pages/scriptlinks';
 import { Route, Routes, HashRouter } from 'react-router-dom';
 import { trackDevToolsOpen } from './services/analytics';
-import { loadApiKey } from './services/storage/chromeStorageService';
-import { setAuthState } from './store/ai-assistant-auth/actions';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -131,22 +129,6 @@ const App = () => {
     prefersDark.addListener((mediaQuery) => toggleDarkTheme(mediaQuery.matches));
   }, [dispatch]);
 
-  useEffect(() => {
-    // Initialize AI Assistant auth from Chrome storage
-    const initializeAuth = async () => {
-      const apiKey = await loadApiKey();
-      if (apiKey) {
-        dispatch(
-          setAuthState({
-            isAuthenticated: true,
-            apiKey: apiKey,
-            user: null,
-          })
-        );
-      }
-    };
-    initializeAuth();
-  }, [dispatch]);
 
   useEffect(() => {
     const menu = document.querySelector('ion-menu') as any;

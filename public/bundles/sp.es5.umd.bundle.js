@@ -3644,7 +3644,7 @@ function odataUrlFrom(candidate) {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.19.0:";
+            let clientTag = "PnPCoreJS:4.20.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API

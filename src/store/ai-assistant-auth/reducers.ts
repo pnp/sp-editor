@@ -1,34 +1,21 @@
-import { Constants, IAiAssistantAuthState, AiAssistantAuthActions } from './types';
+import { IAiAuthState, AiAuthActions, Constants } from './types'
+import { DEFAULT_CLI_MODEL } from '../../services/ai-assistant/copilotApiClient'
 
-const init: IAiAssistantAuthState = {
-  isAuthenticated: false,
-  apiKey: null,
-  user: null,
-  loading: false,
-  error: null,
-};
+const init: IAiAuthState = {
+  selectedModel: DEFAULT_CLI_MODEL,
+  bridgeStatus: 'idle',
+}
 
-export function aiAssistantAuthReducer(
-  state: IAiAssistantAuthState = init,
-  action: AiAssistantAuthActions
-): IAiAssistantAuthState {
+export function aiAuthReducer(
+  state: IAiAuthState = init,
+  action: AiAuthActions,
+): IAiAuthState {
   switch (action.type) {
-    case Constants.AUTH_SET_STATE:
-      return {
-        ...state,
-        isAuthenticated: action.payload.isAuthenticated,
-        apiKey: action.payload.apiKey,
-        user: action.payload.user,
-        loading: false,
-        error: null,
-      };
-    case Constants.AUTH_SET_LOADING:
-      return { ...state, loading: action.payload.loading };
-    case Constants.AUTH_SET_ERROR:
-      return { ...state, error: action.payload.error, loading: false };
-    case Constants.AUTH_LOGOUT:
-      return init;
+    case Constants.AUTH_SET_MODEL:
+      return { ...state, selectedModel: action.payload.model }
+    case Constants.AUTH_SET_BRIDGE_STATUS:
+      return { ...state, bridgeStatus: action.payload.bridgeStatus }
     default:
-      return state;
+      return state
   }
 }

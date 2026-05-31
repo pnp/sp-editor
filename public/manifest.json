@@ -1,11 +1,11 @@
 {
   "name": "SP Editor",
   "homepage_url": "https://microsoftedge.microsoft.com/addons/detail/affnnhcbfmcbbdlcadgkdbfafigmjdkk",
-  "version": "7.14.0",
-  "description": "Create and update SharePoint Online/SP2013/SP2016/SP2019 css/js files, inject files to web, manage web/list properties, list Webhook",
+  "version": "8.0.0",
+  "description": "SharePoint Online developer toolbox: PnP JS & Graph SDK consoles, REST client, search, file editor, webhooks, properties & AI assistant",
   "manifest_version": 3,
   "devtools_page": "devtools.html",
-  "permissions": ["activeTab", "scripting", "downloads", "sidePanel", "storage"],
+  "permissions": ["activeTab", "scripting", "downloads", "sidePanel", "storage", "nativeMessaging"],
   "host_permissions": [
     "<all_urls>"
   ],

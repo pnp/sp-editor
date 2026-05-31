@@ -3,10 +3,8 @@ import {
   Dropdown,
   IconButton,
   IDropdownOption,
-  Link,
   MessageBar,
   MessageBarType,
-  PrimaryButton,
   TextField,
 } from '@fluentui/react'
 import { ISearchQuery } from '@pnp/sp/search/types'
@@ -15,12 +13,12 @@ import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { getContextDisplayName, getContextKeyFromPath } from '../../config/featureContext'
 import { sendChatMessage, MAX_PROMPT_CHARS } from '../../services/ai-assistant/aiAssistantService'
-import { AI_BACKEND_URL } from '../../services/ai-assistant/backendUrl'
 import { IRootState } from '../../store'
 import {
   addAiMessage,
@@ -30,20 +28,41 @@ import {
   setAiPendingInput,
   setAiQueryApplyMode,
   setAiSending,
-  setAiTokens,
+  updateAiMessage,
 } from '../../store/ai-assistant/actions'
 import { IAiMessage, AiQueryApplyMode, AiSuggestionData } from '../../store/ai-assistant/types'
+import { checkBridgeStatus, setSelectedModel } from '../../store/ai-assistant-auth/actions'
+import { setPath as setSpShooterPath, setMethod as setSpShooterMethod, setBody as setSpShooterBody, setHeaders as setSpShooterHeaders } from '../../store/spshoot/actions'
+import { COPILOT_CLI_MODELS } from '../../services/ai-assistant/copilotApiClient'
 import { setSearchQuery } from '../../store/search/actions'
 import { setCode as setPnpjsCode } from '../../store/pnpjsconsole/actions'
-import SignInModal from './SignInModal'
+import { setCode as setGraphSdkCode } from '../../store/graphsdkconsole/actions'
 import './aiAssistantPanel.css'
 
 const BODY_OPEN_CLASS = 'ai-panel-open'
 
+const BRIDGE_STATUS_COLOR: Record<string, string> = {
+  idle: '#888',
+  checking: '#888',
+  ready: '#107c10',
+  bridge_missing: '#d13438',
+  cli_missing: '#d13438',
+  not_authenticated: '#c8960c',
+}
+
+const BRIDGE_STATUS_LABEL: Record<string, string> = {
+  idle: 'Not checked',
+  checking: 'Checking…',
+  ready: 'Ready',
+  bridge_missing: 'Bridge not installed',
+  cli_missing: 'Copilot CLI not found',
+  not_authenticated: 'Not signed in',
+}
+
 const QUERY_APPLY_OPTIONS: IDropdownOption[] = [
-  { key: 'manual', text: 'Manual' },
-  { key: 'apply', text: 'Apply' },
-  { key: 'execute', text: 'Execute' },
+  { key: 'manual', text: 'Manual', title: 'Review the result, then click Apply under the response' },
+  { key: 'apply', text: 'Apply', title: 'AI result is applied to the editor automatically' },
+  { key: 'execute', text: 'Execute', title: 'Apply and run / search automatically' },
 ]
 
 // PnPjs Console: Execute is intentionally disabled because generated code can
@@ -52,8 +71,6 @@ const QUERY_APPLY_OPTIONS: IDropdownOption[] = [
 const PNPJS_APPLY_OPTIONS: IDropdownOption[] = QUERY_APPLY_OPTIONS.filter(
   (o) => o.key !== 'execute'
 )
-
-const LOW_TOKEN_THRESHOLD = 50
 
 const getApplyModeTooltip = (mode: AiQueryApplyMode, isPnpjs: boolean): string => {
   if (isPnpjs) {
@@ -103,30 +120,54 @@ const normalizeDirection = (value: unknown): number | undefined => {
   return undefined
 }
 
+/**
+ * If the markdown text has an unclosed code fence (odd number of ``` markers),
+ * append a closing fence so SyntaxHighlighter renders the partial block
+ * correctly during streaming instead of falling back to inline code.
+ */
+function closeOpenFence(text: string): string {
+  const fences = text.match(/^```/gm)
+  if (fences && fences.length % 2 !== 0) {
+    return text + '\n```'
+  }
+  return text
+}
+
 const AiAssistantPanel = () => {
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const { isOpen, messages, isSending, error, panelWidth, queryApplyMode, pendingInput, tokens } = useSelector(
+  const { isOpen, messages, isSending, error, panelWidth, queryApplyMode, pendingInput } = useSelector(
     (state: IRootState) => state.aiAssistant
   )
   const { isDark } = useSelector((state: IRootState) => state.home)
-  const { isAuthenticated, apiKey, error: authError, loading: authLoading } = useSelector(
-    (state: IRootState) => state.aiAssistantAuth
+  const { selectedModel, bridgeStatus } = useSelector(
+    (state: IRootState) => state.aiAuth
   )
+  // Panel is ready when the Copilot CLI bridge is connected
+  const isReady = bridgeStatus === 'ready'
   const { searchQuery } = useSelector((state: IRootState) => state.search)
   const { code: pnpjsCode } = useSelector((state: IRootState) => state.pnpjsconsole)
+  const { code: graphSdkCode } = useSelector((state: IRootState) => state.graphsdkconsole)
+  const { path: spShooterPath, method: spShooterMethod, body: spShooterBody, headers: spShooterHeaders, results: spShooterResults, context: spShooterContext } = useSelector((state: IRootState) => state.spshoot)
 
   const [input, setInput] = useState('')
   const [isDragging, setIsDragging] = useState(false)
   const [dragStartX, setDragStartX] = useState(0)
   const [dragStartWidth, setDragStartWidth] = useState(0)
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
-  const [lowTokenWarning, setLowTokenWarning] = useState<string | null>(null)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
+
+  // Per-context session IDs so switching between PnPjs / Search / SP Shooter
+  // always uses a fresh copilot session with the correct system prompt.
+  // Sessions are created lazily on first use and persist for the extension lifetime.
+  const sessionsByContextRef = useRef<Map<string, string>>(new Map())
+  // Tracks which contexts have already had their system prompt sent (first message).
+  const sentFirstForContextRef = useRef<Set<string>>(new Set())
 
   const draftRef = useRef<string>('')
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const messageListRef = useRef<HTMLDivElement | null>(null)
+  const userScrolledUpRef = useRef(false)
 
   useEffect(() => {
     if (pendingInput) {
@@ -135,19 +176,25 @@ const AiAssistantPanel = () => {
     }
   }, [pendingInput, dispatch])
 
+  useEffect(() => {
+    dispatch(checkBridgeStatus() as any)
+  }, [dispatch])
+
   const pageContext = getContextKeyFromPath(location.pathname)
   const pageContextLabel = getContextDisplayName(pageContext)
   const isSearchContext = pageContext === 'search'
   const isPnpjsContext = pageContext === 'pnpjsconsole'
-  const supportsApplyMode = isSearchContext || isPnpjsContext
+  const isSpShooterContext = pageContext === 'spshooter'
+  const isGraphSdkContext = pageContext === 'graphsdkconsole'
+  const supportsApplyMode = isSearchContext || isPnpjsContext || isGraphSdkContext
 
-  // Execute mode is not allowed on the PnPjs console (snippets can be
+  // Execute mode is not allowed on the PnPjs or Graph SDK consoles (snippets can be
   // destructive). Auto-downgrade to 'apply' if the user lands here with it set.
   useEffect(() => {
-    if (isPnpjsContext && queryApplyMode === 'execute') {
+    if ((isPnpjsContext || isGraphSdkContext) && queryApplyMode === 'execute') {
       dispatch(setAiQueryApplyMode('apply'))
     }
-  }, [isPnpjsContext, queryApplyMode, dispatch])
+  }, [isPnpjsContext, isGraphSdkContext, queryApplyMode, dispatch])
 
   const promptHistory = useMemo(() => {
     const result: string[] = []
@@ -177,8 +224,20 @@ const AiAssistantPanel = () => {
   }, [isOpen, panelWidth])
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    const el = messageListRef.current
+    const end = messagesEndRef.current
+    if (!el || !end) return
+
+    const isCurrentlyStreaming = messages.some((m) => m.isStreaming)
+    if (isCurrentlyStreaming) {
+      // Instant scroll during streaming to avoid smooth-animation fighting
+      if (!userScrolledUpRef.current) {
+        el.scrollTop = el.scrollHeight
+      }
+    } else {
+      // Smooth scroll when new message lands or streaming ends
+      end.scrollIntoView({ behavior: 'smooth' })
+      userScrolledUpRef.current = false
     }
   }, [messages, isSending])
 
@@ -330,6 +389,18 @@ const AiAssistantPanel = () => {
     )
   }, [dispatch])
 
+  const applyGraphSdkSnippet = useCallback((code: string) => {
+    if (typeof code !== 'string' || code.length === 0) {
+      return
+    }
+    dispatch(setGraphSdkCode(code))
+    window.dispatchEvent(
+      new CustomEvent('sp-editor-apply-graphsdk', {
+        detail: { code },
+      })
+    )
+  }, [dispatch])
+
   const requestExecutePnpjs = useCallback((code: string) => {
     if (typeof code !== 'string' || code.length === 0) {
       return
@@ -369,38 +440,65 @@ const AiAssistantPanel = () => {
       contextData = { searchQuery }
     } else if (isPnpjsContext) {
       contextData = { code: pnpjsCode || '' }
+    } else if (isGraphSdkContext) {
+      contextData = { code: graphSdkCode || '' }
+    } else if (isSpShooterContext) {
+      const siteUrl = spShooterContext?.webAbsoluteUrl || spShooterContext?.siteAbsoluteUrl || ''
+      contextData = {
+        path: spShooterPath || '',
+        method: spShooterMethod || 'GET',
+        headers: spShooterHeaders || '',
+        body: spShooterBody || '',
+        results: spShooterResults,
+        siteUrl,
+      }
     }
+
+    // Add a streaming placeholder so text appears immediately
+    const assistantId = generateId()
+    const streamingPlaceholder: IAiMessage = {
+      id: assistantId,
+      role: 'assistant',
+      content: '',
+      timestamp: Date.now(),
+      isStreaming: true,
+    }
+    dispatch(addAiMessage(streamingPlaceholder))
+
+    // Get or create the session UUID for this context, then mark it as initialised
+    // before the async call so rapid follow-up messages are not treated as first.
+    if (!sessionsByContextRef.current.has(pageContext)) {
+      sessionsByContextRef.current.set(pageContext, generateId())
+    }
+    const contextSessionId = sessionsByContextRef.current.get(pageContext)!
+    const isFirstMessage = !sentFirstForContextRef.current.has(pageContext)
+    sentFirstForContextRef.current.add(pageContext)
 
     sendChatMessage({
       messages: conversation,
       pageContext,
-      apiKey: apiKey || '',
       contextData,
+      model: selectedModel,
+      sessionId: contextSessionId,
+      isFirstMessage,
+      onChunk: ({ content, reasoning }) =>
+        dispatch(updateAiMessage(assistantId, { content, reasoning, isStreaming: true })),
     })
       .then((res) => {
-        let assistantContent = res.explanation || res.reply
-        const assistantMessage: IAiMessage = {
-          id: generateId(),
-          role: 'assistant',
-          content: assistantContent,
-          timestamp: Date.now(),
-        }
+        const assistantContent = res.reply
 
         if (isSearchContext && res.query) {
           const effectiveQuery = buildAppliedQuerySuggestion(res.query) ?? res.query
-          const payloadMarkdown = `\n\nPayload:\n\`\`\`json\n${JSON.stringify(
-            effectiveQuery,
-            null,
-            2
-          )}\n\`\`\``
-          assistantContent = `${res.explanation || 'Generated search payload.'}${payloadMarkdown}`
-          assistantMessage.content = assistantContent
-
-          assistantMessage.suggestionData = {
-            kind: 'search',
-            query: effectiveQuery,
-            explanation: res.explanation || '',
-          }
+          dispatch(updateAiMessage(assistantId, {
+            content: assistantContent,
+            isStreaming: false,
+            tokenUsage: res.tokenUsage,
+            suggestionData: {
+              kind: 'search',
+              query: effectiveQuery,
+              explanation: res.explanation || '',
+            },
+          }))
 
           if (queryApplyMode === 'apply' || queryApplyMode === 'execute') {
             applyQuerySuggestion(effectiveQuery)
@@ -410,50 +508,80 @@ const AiAssistantPanel = () => {
             requestExecuteSearch(effectiveQuery as ISearchQuery)
           }
         } else if (isPnpjsContext && typeof res.code === 'string' && res.code.length > 0) {
-          const snippetMarkdown = `\n\n\`\`\`ts\n${res.code}\n\`\`\``
-          assistantContent = `${res.explanation || 'Generated PnPjs snippet.'}${snippetMarkdown}`
-          assistantMessage.content = assistantContent
-
-          assistantMessage.suggestionData = {
-            kind: 'pnpjs',
-            code: res.code,
-            explanation: res.explanation || '',
-          }
+          dispatch(updateAiMessage(assistantId, {
+            content: assistantContent,
+            isStreaming: false,
+            tokenUsage: res.tokenUsage,
+            suggestionData: {
+              kind: 'pnpjs',
+              code: res.code,
+              explanation: res.explanation || '',
+            },
+          }))
 
           if (queryApplyMode === 'apply') {
             applyPnpjsSnippet(res.code)
           }
           // Note: Execute mode is intentionally not honored in the PnPjs
           // console because generated snippets can be destructive.
-        }
+        } else if (isGraphSdkContext && typeof res.code === 'string' && res.code.length > 0) {
+          dispatch(updateAiMessage(assistantId, {
+            content: assistantContent,
+            isStreaming: false,
+            tokenUsage: res.tokenUsage,
+            suggestionData: {
+              kind: 'graphsdk',
+              code: res.code,
+              explanation: res.explanation || '',
+            },
+          }))
 
-        dispatch(addAiMessage(assistantMessage))
+          if (queryApplyMode === 'apply') {
+            applyGraphSdkSnippet(res.code)
+          }
+          // Execute mode is intentionally not honored — same reason as PnPjs.
+        } else if (isSpShooterContext && res.restRequest) {
+          // Replace {{SITE_URL}} placeholder with the real site URL if available
+          const siteUrl = spShooterContext?.webAbsoluteUrl || spShooterContext?.siteAbsoluteUrl || ''
+          const substituteSiteUrl = (s: string) =>
+            siteUrl ? s.replaceAll('{{SITE_URL}}', siteUrl) : s
+
+          const resolvedRequest = {
+            ...res.restRequest,
+            path: res.restRequest.path ? substituteSiteUrl(res.restRequest.path) : res.restRequest.path,
+            body: typeof res.restRequest.body === 'string' ? substituteSiteUrl(res.restRequest.body) : res.restRequest.body,
+          }
+          const resolvedReply = siteUrl ? res.reply.replaceAll('{{SITE_URL}}', siteUrl) : res.reply
+
+          dispatch(updateAiMessage(assistantId, {
+            content: resolvedReply,
+            isStreaming: false,
+            tokenUsage: res.tokenUsage,
+            suggestionData: {
+              kind: 'spshooter',
+              restRequest: resolvedRequest,
+              explanation: res.explanation || '',
+            },
+          }))
+
+          if (queryApplyMode === 'apply') {
+            if (resolvedRequest.path) dispatch(setSpShooterPath(resolvedRequest.path))
+            if (resolvedRequest.method) dispatch(setSpShooterMethod(resolvedRequest.method))
+            if (typeof resolvedRequest.body === 'string') dispatch(setSpShooterBody(resolvedRequest.body))
+            if (resolvedRequest.headers) dispatch(setSpShooterHeaders(JSON.stringify(resolvedRequest.headers, null, 2)))
+          }
+        } else {
+          dispatch(updateAiMessage(assistantId, { content: assistantContent, isStreaming: false, tokenUsage: res.tokenUsage }))
+        }
 
         // Always update tokens so the header pill reflects the latest balance,
         // not just when the balance is low.
-        if (typeof res.tokensRemaining === 'number' || typeof res.tier === 'string' || typeof res.tokensUsed === 'number') {
-          dispatch(
-            setAiTokens({
-              remaining: typeof res.tokensRemaining === 'number' ? res.tokensRemaining : null,
-              tier: typeof res.tier === 'string' ? res.tier : null,
-              lastUsed: typeof res.tokensUsed === 'number' ? res.tokensUsed : null,
-            })
-          )
-        }
 
-        if (typeof res.tokensRemaining === 'number' && res.tokensRemaining <= LOW_TOKEN_THRESHOLD) {
-          const tierText = res.tier ? ` (${res.tier})` : ''
-          // Don't expose the per-request raw token count — it's misleading
-          // (cached tokens inflate it) and just worries users.
-          setLowTokenWarning(
-            `Low token balance${tierText}: ${res.tokensRemaining} remaining.`
-          )
-        } else {
-          setLowTokenWarning(null)
-        }
       })
       .catch((err: any) => {
         const msg = err?.message ?? 'Failed to get response from AI assistant.'
+        // Remove the streaming placeholder on error
+        dispatch(updateAiMessage(assistantId, { content: '', isStreaming: false }))
         dispatch(setAiError(msg))
       })
       .then(() => {
@@ -464,14 +592,24 @@ const AiAssistantPanel = () => {
     messages,
     isSearchContext,
     isPnpjsContext,
+    isSpShooterContext,
+    isGraphSdkContext,
     searchQuery,
     pnpjsCode,
+    graphSdkCode,
+    spShooterPath,
+    spShooterMethod,
+    spShooterBody,
+    spShooterHeaders,
+    spShooterResults,
+    spShooterContext,
     pageContext,
-    apiKey,
     queryApplyMode,
+    selectedModel,
     applyQuerySuggestion,
     requestExecuteSearch,
     applyPnpjsSnippet,
+    applyGraphSdkSnippet,
     requestExecutePnpjs,
     buildAppliedQuerySuggestion,
     dispatch,
@@ -643,14 +781,50 @@ const AiAssistantPanel = () => {
       )
     }
 
+    const hasReasoning = !!m.reasoning
+
     return (
       <div key={m.id} className="ai-assistant-row">
         <div className="ai-assistant-body">
-          <ReactMarkdown components={markdownComponents}>
-            {m.content}
-          </ReactMarkdown>
+          {/* Collapsible reasoning / thinking block */}
+          {hasReasoning && (
+            <details className="ai-thinking-block" open={m.isStreaming || undefined}>
+              <summary className="ai-thinking-summary">
+                {m.isStreaming && !m.content ? 'Thinking\u2026' : 'Reasoning'}
+              </summary>
+              <div className="ai-thinking-content">{m.reasoning}</div>
+            </details>
+          )}
 
-          {queryApplyMode === 'manual' && m.suggestionData && (
+          {/* Status label before first token arrives */}
+          {m.isStreaming && !m.content && !m.reasoning && (
+            <div className="ai-connecting-status">
+              <span className="ai-thinking-text">Thinking</span>
+            </div>
+          )}
+
+          {/* Message content — close any open code fence while streaming so
+              SyntaxHighlighter renders partial blocks correctly */}
+          {(() => {
+            const TOKEN_MARKER = '\n\n%%SP_TOKENS%%'
+            const markerIdx = m.isStreaming ? -1 : m.content.lastIndexOf(TOKEN_MARKER)
+            const mainContent = markerIdx >= 0 ? m.content.slice(0, markerIdx) : m.content
+            const tokenLine = markerIdx >= 0 ? m.content.slice(markerIdx + TOKEN_MARKER.length) : null
+            return (
+              <>
+                {mainContent ? (
+                  <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
+                    {m.isStreaming ? closeOpenFence(mainContent) : mainContent}
+                  </ReactMarkdown>
+                ) : null}
+                {!m.isStreaming && tokenLine && (
+                  <div className="ai-token-usage-footer">{tokenLine}</div>
+                )}
+              </>
+            )
+          })()}
+
+          {!m.isStreaming && queryApplyMode === 'manual' && m.suggestionData && (
             <div className="ai-inline-apply-row">
               {m.suggestionData.kind === 'search' && isSearchContext && (
                 <DefaultButton
@@ -732,12 +906,98 @@ const AiAssistantPanel = () => {
                   }}
                 />
               )}
+              {m.suggestionData.kind === 'graphsdk' && isGraphSdkContext && (
+                <DefaultButton
+                  text="Apply Code"
+                  iconProps={{ iconName: 'CheckMark' }}
+                  title="Replace Graph SDK editor content with this snippet"
+                  onClick={() => {
+                    const sd = m.suggestionData as Extract<AiSuggestionData, { kind: 'graphsdk' }>
+                    applyGraphSdkSnippet(sd.code)
+                  }}
+                  styles={{
+                    root: {
+                      minHeight: 26,
+                      height: 26,
+                      borderRadius: 999,
+                      border: `1px solid ${isDark ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 120, 212, 0.45)'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.08)' : 'rgba(0, 120, 212, 0.08)',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                    },
+                    rootHovered: {
+                      border: `1px solid ${isDark ? '#38bdf8' : '#0078d4'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.18)' : 'rgba(0, 120, 212, 0.16)',
+                    },
+                    rootPressed: {
+                      border: `1px solid ${isDark ? '#0ea5e9' : '#0063b1'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.26)' : 'rgba(0, 120, 212, 0.24)',
+                    },
+                    icon: {
+                      fontSize: 10,
+                      color: isDark ? '#38bdf8' : '#0078d4',
+                    },
+                    label: {
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: '0.2px',
+                      color: isDark ? '#e5e7eb' : '#1f2937',
+                    },
+                  }}
+                />
+              )}
+              {m.suggestionData.kind === 'spshooter' && isSpShooterContext && (
+                <DefaultButton
+                  text="Apply to SP Shooter"
+                  iconProps={{ iconName: 'CheckMark' }}
+                  title="Apply this request to the SP Shooter fields"
+                  onClick={() => {
+                    const sd = m.suggestionData as Extract<AiSuggestionData, { kind: 'spshooter' }>
+                    const r = sd.restRequest
+                    const siteUrl = spShooterContext?.webAbsoluteUrl || spShooterContext?.siteAbsoluteUrl || ''
+                    const sub = (s: string) => siteUrl ? s.replaceAll('{{SITE_URL}}', siteUrl) : s
+                    if (r.path) dispatch(setSpShooterPath(sub(r.path)))
+                    if (r.method) dispatch(setSpShooterMethod(r.method))
+                    if (typeof r.body === 'string') dispatch(setSpShooterBody(sub(r.body)))
+                    if (r.headers) dispatch(setSpShooterHeaders(JSON.stringify(r.headers, null, 2)))
+                  }}
+                  styles={{
+                    root: {
+                      minHeight: 26,
+                      height: 26,
+                      borderRadius: 999,
+                      border: `1px solid ${isDark ? 'rgba(14, 165, 233, 0.45)' : 'rgba(0, 120, 212, 0.45)'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.08)' : 'rgba(0, 120, 212, 0.08)',
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                    },
+                    rootHovered: {
+                      border: `1px solid ${isDark ? '#38bdf8' : '#0078d4'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.18)' : 'rgba(0, 120, 212, 0.16)',
+                    },
+                    rootPressed: {
+                      border: `1px solid ${isDark ? '#0ea5e9' : '#0063b1'}`,
+                      background: isDark ? 'rgba(14, 165, 233, 0.26)' : 'rgba(0, 120, 212, 0.24)',
+                    },
+                    icon: {
+                      fontSize: 10,
+                      color: isDark ? '#38bdf8' : '#0078d4',
+                    },
+                    label: {
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: '0.2px',
+                      color: isDark ? '#e5e7eb' : '#1f2937',
+                    },
+                  }}
+                />
+              )}
             </div>
           )}
         </div>
       </div>
     )
-  }, [applyQuerySuggestion, applyPnpjsSnippet, isDark, isSearchContext, isPnpjsContext, markdownComponents, queryApplyMode, requestExecuteSearch])
+  }, [applyQuerySuggestion, applyPnpjsSnippet, applyGraphSdkSnippet, dispatch, isDark, isSearchContext, isPnpjsContext, isGraphSdkContext, isSpShooterContext, spShooterContext, markdownComponents, queryApplyMode, requestExecuteSearch, setSpShooterBody, setSpShooterHeaders, setSpShooterMethod, setSpShooterPath])
 
   const renderedMessages = useMemo(() => messages.map(renderMessage), [messages, renderMessage])
 
@@ -754,55 +1014,15 @@ const AiAssistantPanel = () => {
       <div className="ai-drawer-header">
         <span>AI Assistant</span>
         <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-          {isAuthenticated && tokens.remaining !== null && (() => {
-            const remaining = tokens.remaining
-            let state: 'ok' | 'warn' | 'danger' = 'ok'
-            if (remaining <= 0) {
-              state = 'danger'
-            } else if (remaining <= LOW_TOKEN_THRESHOLD) {
-              state = 'warn'
-            }
-            const formatted = remaining.toLocaleString()
-            const tierSuffix = tokens.tier ? ` on ${tokens.tier} tier` : ''
-            const tierBadge = tokens.tier ? ` · ${tokens.tier}` : ''
-            const lastUsedText =
-              typeof tokens.lastUsed === 'number'
-                ? ` Last request used ${tokens.lastUsed.toLocaleString()} tokens.`
-                : ''
-            let tooltip: string
-            if (state === 'danger') {
-              tooltip = `No tokens remaining${tierSuffix}. Click to top up.${lastUsedText}`
-            } else {
-              tooltip = `${formatted} tokens remaining${tierSuffix}.${lastUsedText}`
-            }
-            return (
-              <button
-                type="button"
-                className={`ai-token-pill is-${state}`}
-                title={tooltip}
-                aria-label={tooltip}
-                onClick={() => {
-                  if (AI_BACKEND_URL) {
-                    window.open(AI_BACKEND_URL, '_blank', 'noopener,noreferrer')
-                  }
-                }}
-              >
-                <span className="ai-token-pill-icon" aria-hidden="true">⚡</span>
-                <span className="ai-token-pill-value">
-                  {state === 'danger' ? 'Get more' : formatted}
-                </span>
-                {tokens.tier && state !== 'danger' && (
-                  <span className="ai-token-pill-tier">{tierBadge}</span>
-                )}
-              </button>
-            )
-          })()}
-          {isAuthenticated && (
-            <IconButton
-              iconProps={{ iconName: 'Settings' }}
-              title="Manage AI access"
-              ariaLabel="Manage AI access"
-              onClick={() => setAuthModalOpen(true)}
+          {!isReady && (
+            <button
+              type="button"
+              className={`ai-status-dot-btn${bridgeStatus === 'checking' ? ' is-pulsing' : ''}`}
+              style={{ background: BRIDGE_STATUS_COLOR[bridgeStatus] ?? '#888' }}
+              onClick={() => dispatch(checkBridgeStatus() as any)}
+              disabled={bridgeStatus === 'checking'}
+              title={`Copilot: ${BRIDGE_STATUS_LABEL[bridgeStatus] ?? bridgeStatus} — click to recheck`}
+              aria-label="Recheck Copilot status"
             />
           )}
           <IconButton
@@ -815,38 +1035,73 @@ const AiAssistantPanel = () => {
       </div>
 
       <div className="ai-drawer-content" style={{ position: 'relative' }}>
-        <SignInModal
-          isOpen={authModalOpen}
-          error={authError}
-          loading={authLoading}
-          isSignedIn={isAuthenticated}
-          currentApiKey={apiKey}
-          onClose={() => setAuthModalOpen(false)}
-        />
 
-        {!isAuthenticated && (
-          <div className="ai-empty-state">
-            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>
-              AI assistant is not configured
+        {!isReady && (
+          <div className="ai-setup-state">
+            <div className="ai-setup-title">GitHub Copilot</div>
+
+            <div className="ai-setup-status-row">
+              <span
+                className={`ai-setup-dot${bridgeStatus === 'checking' ? ' is-pulsing' : ''}`}
+                style={{ background: BRIDGE_STATUS_COLOR[bridgeStatus] ?? '#888' }}
+              />
+              <span className="ai-setup-status-text">
+                {BRIDGE_STATUS_LABEL[bridgeStatus] ?? bridgeStatus}
+              </span>
+              {bridgeStatus !== 'checking' && (
+                <button
+                  type="button"
+                  className="ai-setup-retry-btn"
+                  onClick={() => dispatch(checkBridgeStatus() as any)}
+                  title="Recheck status"
+                  aria-label="Recheck Copilot status"
+                >
+                  ↻
+                </button>
+              )}
             </div>
-            <div style={{ marginBottom: 16, maxWidth: 320 }}>
-              Add your API key to start chatting. You can get one by registering on{' '}
-              <Link
-                href={process.env.REACT_APP_AI_BACKEND_URL || 'http://localhost:5221'}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                the account website
-              </Link>{' '}
-              and choosing a plan.
-            </div>
-            <PrimaryButton text="Set up AI access" onClick={() => setAuthModalOpen(true)} />
+
+            {bridgeStatus === 'bridge_missing' && (
+              <div className="ai-setup-instruction">
+                <span className="ai-setup-instruction-label">1. Install bridge</span>
+                <code className="ai-setup-code">npm install -g @sp-editor/native-bridge</code>
+              </div>
+            )}
+
+            {bridgeStatus === 'bridge_missing' && (
+              <div className="ai-setup-instruction">
+                <span className="ai-setup-instruction-label">2. Register bridge</span>
+                <code className="ai-setup-code">sp-editor-bridge install</code>
+              </div>
+            )}
+
+            {(bridgeStatus === 'bridge_missing' || bridgeStatus === 'cli_missing') && (
+              <div className="ai-setup-instruction">
+                <span className="ai-setup-instruction-label">{bridgeStatus === 'bridge_missing' ? '3. Install CLI' : 'Install'}</span>
+                <code className="ai-setup-code">npm install -g @github/copilot</code>
+              </div>
+            )}
+
+            {bridgeStatus === 'not_authenticated' && (
+              <div className="ai-setup-instruction">
+                <span className="ai-setup-instruction-label">Sign in</span>
+                <code className="ai-setup-code">copilot login</code>
+              </div>
+            )}
           </div>
         )}
 
-        {isAuthenticated && (
+        {isReady && (
           <>
-            <div className="ai-message-list">
+            <div
+              className="ai-message-list"
+              ref={messageListRef}
+              onScroll={() => {
+                const el = messageListRef.current
+                if (!el) return
+                userScrolledUpRef.current = el.scrollHeight - el.scrollTop - el.clientHeight > 60
+              }}
+            >
               {messages.length === 0 && !isSending ? (
                 <div className="ai-empty-state">
                   <div>
@@ -863,10 +1118,9 @@ const AiAssistantPanel = () => {
                 renderedMessages
               )}
 
-              {isSending && (
+              {isSending && !messages.some((m) => m.isStreaming) && (
                 <div className="ai-thinking">
-                  <span className="ai-thinking-text">Assistant is thinking</span>
-                  <span className="ai-thinking-dots"></span>
+                  <span className="ai-thinking-text">Thinking</span>
                 </div>
               )}
 
@@ -884,6 +1138,7 @@ const AiAssistantPanel = () => {
             )}
 
             <div className="ai-input-row">
+              <div className={`ai-input-box-wrapper${isSending ? ' ai-input-box-wrapper--sending' : ''}`}>
               <TextField
                 placeholder="Ask anything... (Shift+Enter for new line, ↑/↓ for history)"
                 value={input}
@@ -900,12 +1155,17 @@ const AiAssistantPanel = () => {
                 rows={3}
                 resizable={false}
                 disabled={isSending}
+                styles={isSending
+                  ? { fieldGroup: { borderColor: 'transparent', '::after': { border: 'none' } } }
+                  : undefined
+                }
                 errorMessage={
                   input.length > MAX_PROMPT_CHARS
                     ? `Prompt too long: ${input.length} / ${MAX_PROMPT_CHARS} characters.`
                     : undefined
                 }
               />
+              </div>
 
               <div className="ai-input-actions">
                 <div className="ai-input-meta">
@@ -915,6 +1175,47 @@ const AiAssistantPanel = () => {
                   >
                     <span className="ai-context-value">{pageContextLabel}</span>
                   </div>
+
+                  <Dropdown
+                    className="ai-model-picker"
+                    options={COPILOT_CLI_MODELS.map((m) => ({ key: m.key, text: m.text }))}
+                    selectedKey={selectedModel}
+                    onChange={(_e, option) => {
+                      if (option) dispatch(setSelectedModel(String(option.key)))
+                    }}
+                    onRenderTitle={(options) => {
+                      const opt = options?.[0]
+                      if (!opt) return null
+                      const short = String(opt.text)
+                        .replace(/\s*\([^)]*\)/g, '')
+                        .replace(/^Claude\s+/i, '')
+                        .trim()
+                      return <span>{short}</span>
+                    }}
+                    disabled={false}
+                    calloutProps={{ calloutWidth: 260 }}
+                    styles={{
+                      root: { width: 110, flexShrink: 0 },
+                      dropdown: {
+                        minHeight: 28,
+                        border: 'none',
+                        background: 'transparent',
+                      },
+                      title: {
+                        border: 'none',
+                        background: 'transparent',
+                        fontSize: 12,
+                        lineHeight: 28,
+                        minHeight: 28,
+                        paddingLeft: 6,
+                        paddingRight: 18,
+                      },
+                      caretDownWrapper: { lineHeight: 28, height: 28 },
+                      caretDown: { fontSize: 10 },
+                    }}
+                    title={`Model: ${selectedModel}`}
+                    ariaLabel="AI model"
+                  />
 
                   {input.length > MAX_PROMPT_CHARS * 0.75 && (
                     <div
@@ -933,7 +1234,7 @@ const AiAssistantPanel = () => {
                   {supportsApplyMode && (
                     <Dropdown
                       className="ai-apply-mode-dropdown"
-                      options={isPnpjsContext ? PNPJS_APPLY_OPTIONS : QUERY_APPLY_OPTIONS}
+                      options={(isPnpjsContext || isGraphSdkContext) ? PNPJS_APPLY_OPTIONS : QUERY_APPLY_OPTIONS}
                       selectedKey={queryApplyMode}
                       onChange={(_e, option) => {
                         if (option) {
@@ -960,7 +1261,7 @@ const AiAssistantPanel = () => {
                           display: 'none',
                         },
                       }}
-                      title={getApplyModeTooltip(queryApplyMode, isPnpjsContext)}
+                      title={getApplyModeTooltip(queryApplyMode, isPnpjsContext || isGraphSdkContext)}
                       ariaLabel="Payload apply mode"
                     />
                   )}
@@ -978,17 +1279,6 @@ const AiAssistantPanel = () => {
                   }}
                 />
               </div>
-
-              {lowTokenWarning && (
-                <MessageBar
-                  messageBarType={MessageBarType.warning}
-                  onDismiss={() => setLowTokenWarning(null)}
-                  dismissButtonAriaLabel="Dismiss token warning"
-                  styles={{ root: { marginTop: 6 } }}
-                >
-                  {lowTokenWarning}
-                </MessageBar>
-              )}
             </div>
           </>
         )}

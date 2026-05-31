@@ -46,26 +46,32 @@ const PnPjsEditor = () => {
 
   const COMMON_CONFIG: monaco.editor.IEditorOptions = pnpjsMonacoConfigs()
 
+  // ResizeObserver on the Monaco container catches every size change: window
+  // resize, AI panel open/close/drag, console splitter drag — all in one.
   useEffect(() => {
-    const resizeListener = () => {
-      if (editor && editor.current) {
+    const el = outputDiv.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      if (editor.current) {
         editor.current.layout()
       }
-    }
-    window.addEventListener('resize', resizeListener)
-    return () => {
-      window.removeEventListener('resize', resizeListener)
-    }
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
   }, [])
 
   const initEditor = useCallback(() => {
     if (outputDiv.current) {
+      const modelUri = monaco.Uri.file('index.ts')
+      const existingModel = monaco.editor.getModel(modelUri)
+      if (existingModel) existingModel.dispose()
+
       editor.current = monaco.editor.create(outputDiv.current, {
         model: monaco.editor.createModel(
           stateCode,
           'typescript',
           // @ts-ignore: this is the only way to make it work
-          monaco.Uri.file('index.ts'),
+          modelUri,
         ),
         ...COMMON_CONFIG,
       })
@@ -204,11 +210,11 @@ const PnPjsEditor = () => {
       // console.log(script)
       // execute the code
       chrome.devtools.inspectedWindow.eval(script);
-      // show loading for a sec to make user know the code is being executed
+      // spinner stays until exec-done message is received (or 30 s safety cap)
       dispatch(setLoading(true));
-      setTimeout(() => {
-        dispatch(setLoading(false));
-      }, 1200);
+      const safetyTimer = setTimeout(() => dispatch(setLoading(false)), 30000);
+      // store timer so the message listener can cancel it
+      ;(window as any).__spEditorSafetyTimer = safetyTimer;
     } catch (e) {
       //console.log(e)
     }
@@ -225,6 +231,12 @@ const PnPjsEditor = () => {
   useEffect(() => {
     const listener = (msg: any) => {
       if (!msg || msg.source !== 'sp-editor-pnpjs-console') {
+        return
+      }
+      // Execution-done signal sent by execme() when the user code Promise settles
+      if (msg.type === 'exec-done') {
+        clearTimeout((window as any).__spEditorSafetyTimer)
+        dispatch(setLoading(false))
         return
       }
       const args: any[] = Array.isArray(msg.args) ? msg.args : []

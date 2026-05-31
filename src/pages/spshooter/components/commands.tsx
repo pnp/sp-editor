@@ -1,9 +1,9 @@
 import { ActionButton, DefaultButton, Dialog, DialogFooter, DialogType, Dropdown, IStackStyles, PrimaryButton, Stack, TextField } from '@fluentui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setMethod, setPath } from '../../../store/spshoot/actions'
-import { runRestCall } from '../chrome/chrome-actions'
+import { getContextInfo, runRestCall } from '../chrome/chrome-actions'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const SPShooterCommands = () => {
@@ -12,6 +12,12 @@ const SPShooterCommands = () => {
   const { path, method, headers, body, context } = useSelector((state: IRootState) => state.spshoot)
   const { isDark } = useSelector((state: IRootState) => state.home)
   const [ warning, setWarning] = useState(true)
+
+  useEffect(() => {
+    if (!context) {
+      getContextInfo(dispatch)
+    }
+  }, [])
   
   let navigate = useNavigate();
   const location = useLocation();

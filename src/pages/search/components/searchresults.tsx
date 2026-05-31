@@ -41,7 +41,8 @@ const SearchResults = () => {
     refinemenGroups,
   } = useSelector((state: IRootState) => state.search);
   const [groups, setGroups] = useState(rootGroups);
-  const { isAuthenticated, apiKey } = useSelector((state: IRootState) => state.aiAssistantAuth);
+  const { bridgeStatus } = useSelector((state: IRootState) => state.aiAuth);
+  const isAuthenticated = bridgeStatus === 'ready';
 
   useEffect(() => {
     setGroups(rootGroups);
@@ -71,8 +72,8 @@ const SearchResults = () => {
   };
 
   const addPropertyToAiPrompt = (item: any) => {
-    if (!isAuthenticated || !apiKey) {
-      dispatch(setAiError('Please sign in to AI Assistant first.'));
+    if (!isAuthenticated) {
+      dispatch(setAiError('Please set up the AI Assistant first (GitHub Copilot bridge required).'));
       dispatch(setAiPanelOpen(true));
       return;
     }
