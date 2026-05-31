@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# sub-package artifacts (packages/*)
+packages/**/node_modules
+packages/**/dist
+
 # testing
 /coverage
 

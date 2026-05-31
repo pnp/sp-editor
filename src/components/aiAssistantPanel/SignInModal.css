@@ -1,0 +1,114 @@
+.signin-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 8px 8px 0 0;
+  overflow-y: auto;
+}
+
+.signin-modal-content {
+  background: var(--ai-bg, #1f1f1f);
+  color: var(--ai-fg, #f3f3f3);
+  padding: 14px;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+/* Light theme */
+[data-theme='light'] .signin-modal-content {
+  background: var(--ai-bg, #ffffff);
+  color: var(--ai-fg, #1f1f1f);
+}
+
+.signin-modal-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 8px 0 18px 0;
+}
+
+.signin-modal-title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  line-height: 1.1;
+  font-weight: 600;
+  color: inherit;
+}
+
+.signin-modal-subtitle {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.78;
+}
+
+.signin-card {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ai-border, rgba(255, 255, 255, 0.12));
+  background: var(--ai-bubble-bg, #2d2d2d);
+}
+
+.signin-card-compact {
+  max-width: 100%;
+}
+
+.signin-card-header {
+  margin-bottom: 8px;
+}
+
+.signin-card-header h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.signin-compact-intro {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.78;
+}
+
+.signin-portal-actions,
+.signin-button-group,
+.signin-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.signin-portal-actions {
+  margin-top: 10px;
+}
+
+.signin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.signin-inline-actions {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 720px) {
+  .signin-modal-content {
+    padding: 12px;
+  }
+
+  .signin-modal-title {
+    font-size: 15px;
+  }
+}

@@ -1,7 +1,7 @@
 import { AuthenticationResult } from '@azure/msal-browser'
 import { action } from 'typesafe-actions'
 import { IDefinitions } from '../home/types'
-import { Constants, SPEditorUser } from './types'
+import { Constants, IGraphSDKConsoleEntry, SPEditorUser } from './types'
 
 export function setCode(code: string) {
   return action(Constants.GC_SET_CODE, {
@@ -43,4 +43,12 @@ export function setUser(spuoser: SPEditorUser | undefined) {
   return action(Constants.GC_SET_USER, {
     spuoser,
   })
+}
+
+export function appendConsoleOutput(entry: IGraphSDKConsoleEntry) {
+  return action(Constants.GC_APPEND_CONSOLE, { entry })
+}
+
+export function clearConsoleOutput() {
+  return action(Constants.GC_CLEAR_CONSOLE)
 }

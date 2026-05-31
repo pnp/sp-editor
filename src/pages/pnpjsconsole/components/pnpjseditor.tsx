@@ -10,9 +10,11 @@ import {
 import { IRootState } from '../../../store'
 import { setLoading } from '../../../store/home/actions'
 import { IDefinitions } from '../../../store/home/types'
-import { setCode } from '../../../store/pnpjsconsole/actions'
+import { appendConsoleOutput, clearConsoleOutput, setCode } from '../../../store/pnpjsconsole/actions'
 import { exescript } from '../../../utilities/chromecommon'
 import { fetchDefinitions } from '../utils/util'
+import { PNPJS_CONSOLE_PROXY_SOURCE } from './consoleProxy'
+import PnPjsConsoleOutput from './pnpjsConsoleOutput'
 import {
   execme,
   fixImports,
@@ -32,6 +34,8 @@ import { CommandBar } from '@fluentui/react'
 const PnPjsEditor = () => {
   const dispatch = useDispatch()
   const [ initialized, setInitialized ] = useState(false)
+  const [ consoleHeight, setConsoleHeight ] = useState<number>(220)
+  const [ isResizing, setIsResizing ] = useState(false)
   const { definitions, code } = useSelector((state: IRootState) => state.pnpjsconsole)
   const stateCode = code
   const editor = useRef<null | monaco.editor.IStandaloneCodeEditor>(null)
@@ -42,26 +46,32 @@ const PnPjsEditor = () => {
 
   const COMMON_CONFIG: monaco.editor.IEditorOptions = pnpjsMonacoConfigs()
 
+  // ResizeObserver on the Monaco container catches every size change: window
+  // resize, AI panel open/close/drag, console splitter drag — all in one.
   useEffect(() => {
-    const resizeListener = () => {
-      if (editor && editor.current) {
+    const el = outputDiv.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      if (editor.current) {
         editor.current.layout()
       }
-    }
-    window.addEventListener('resize', resizeListener)
-    return () => {
-      window.removeEventListener('resize', resizeListener)
-    }
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
   }, [])
 
   const initEditor = useCallback(() => {
     if (outputDiv.current) {
+      const modelUri = monaco.Uri.file('index.ts')
+      const existingModel = monaco.editor.getModel(modelUri)
+      if (existingModel) existingModel.dispose()
+
       editor.current = monaco.editor.create(outputDiv.current, {
         model: monaco.editor.createModel(
           stateCode,
           'typescript',
           // @ts-ignore: this is the only way to make it work
-          monaco.Uri.file('index.ts'),
+          modelUri,
         ),
         ...COMMON_CONFIG,
       })
@@ -139,8 +149,37 @@ const PnPjsEditor = () => {
     }
   }, [COMMON_CONFIG, definitions, dispatch, stateCode])
 
+  function installConsoleRelay() {
+    // The MAIN-world console proxy posts window messages with
+    // `source === 'sp-editor-pnpjs-console'`. We need an ISOLATED-world
+    // listener (where chrome.runtime is available) to forward them back
+    // to the devtools panel via chrome.runtime.sendMessage.
+    try {
+      chrome.scripting.executeScript({
+        target: { tabId: chrome.devtools.inspectedWindow.tabId },
+        world: 'ISOLATED',
+        func: () => {
+          const w = window as any
+          if (w.__spEditorPnpjsRelayInstalled) return
+          w.__spEditorPnpjsRelayInstalled = true
+          window.addEventListener('message', (event: MessageEvent) => {
+            if (event.source !== window) return
+            try {
+              const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+              if (!data || data.source !== 'sp-editor-pnpjs-console') return
+              chrome.runtime.sendMessage(data)
+            } catch (_e) { /* swallow */ }
+          })
+        },
+      }).catch(() => { /* swallow */ })
+    } catch (_e) { /* swallow */ }
+  }
+
   function runCode() {
     try {
+      dispatch(clearConsoleOutput())
+      installConsoleRelay()
+
       const model = editor.current!.getModel()!.getValue();
       const compilerOptions: CompilerOptions = getDefaultCompilerOptions();
       const js = transpileModule(model, {
@@ -154,6 +193,7 @@ const PnPjsEditor = () => {
       ecode.pop(); // remove the last empty line
 
       const script = `
+    ${PNPJS_CONSOLE_PROXY_SOURCE}
     ${mod_graph}
     ${mod_logging}
     ${mod_sp}
@@ -170,11 +210,11 @@ const PnPjsEditor = () => {
       // console.log(script)
       // execute the code
       chrome.devtools.inspectedWindow.eval(script);
-      // show loading for a sec to make user know the code is being executed
+      // spinner stays until exec-done message is received (or 30 s safety cap)
       dispatch(setLoading(true));
-      setTimeout(() => {
-        dispatch(setLoading(false));
-      }, 1200);
+      const safetyTimer = setTimeout(() => dispatch(setLoading(false)), 30000);
+      // store timer so the message listener can cancel it
+      ;(window as any).__spEditorSafetyTimer = safetyTimer;
     } catch (e) {
       //console.log(e)
     }
@@ -184,6 +224,113 @@ const PnPjsEditor = () => {
   useEffect(() => {
     monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs')
   }, [isDark])
+
+  // Receive forwarded console.* / errors from the inspected page (via
+  // public/chrome/content.js -> chrome.runtime.sendMessage) and append to
+  // the in-panel console output.
+  useEffect(() => {
+    const listener = (msg: any) => {
+      if (!msg || msg.source !== 'sp-editor-pnpjs-console') {
+        return
+      }
+      // Execution-done signal sent by execme() when the user code Promise settles
+      if (msg.type === 'exec-done') {
+        clearTimeout((window as any).__spEditorSafetyTimer)
+        dispatch(setLoading(false))
+        return
+      }
+      const args: any[] = Array.isArray(msg.args) ? msg.args : []
+      const ts: number = typeof msg.ts === 'number' ? msg.ts : Date.now()
+      const text: string = args
+        .map((a) =>
+          a === null || a === undefined
+            ? String(a)
+            : typeof a === 'string'
+              ? a
+              : (() => {
+                  try { return JSON.stringify(a) } catch { return String(a) }
+                })(),
+        )
+        .join(' ')
+      dispatch(appendConsoleOutput({
+        id: `${ts}-${Math.random().toString(36).slice(2, 8)}`,
+        level: msg.level || 'log',
+        message: text,
+        timestamp: ts,
+      }))
+    }
+    chrome.runtime.onMessage.addListener(listener)
+    return () => {
+      chrome.runtime.onMessage.removeListener(listener)
+    }
+  }, [dispatch])
+
+  // Resizable splitter between the editor and the console output pane.
+  useEffect(() => {
+    if (!isResizing) {
+      return
+    }
+    const onMove = (e: MouseEvent) => {
+      const containerHeight = window.innerHeight
+      // Cap to keep at least ~80px for the editor and 60px for the console.
+      const next = Math.min(Math.max(containerHeight - e.clientY, 60), containerHeight - 200)
+      setConsoleHeight(next)
+      // Make sure Monaco re-layouts as we drag.
+      if (editor.current) {
+        try { editor.current.layout() } catch (_e) { /* noop */ }
+      }
+    }
+    const onUp = () => {
+      setIsResizing(false)
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
+      if (editor.current) {
+        try { editor.current.layout() } catch (_e) { /* noop */ }
+      }
+    }
+    document.body.style.userSelect = 'none'
+    document.body.style.cursor = 'row-resize'
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+    return () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+  }, [isResizing])
+
+  // Listen for AI assistant apply/execute requests and update the editor
+  // (and optionally run the snippet) without waiting for redux state to flow
+  // back into the editor (which only happens at unmount).
+  useEffect(() => {
+    const handleApplyPnpjs = (event: Event) => {
+      const ce = event as CustomEvent<{ code?: string; run?: boolean }>
+      const newCode = ce.detail?.code
+      if (typeof newCode !== 'string' || newCode.length === 0) {
+        return
+      }
+      const run = ce.detail?.run === true
+
+      // Update the live Monaco model so the user sees the change immediately.
+      if (editor.current) {
+        const model = editor.current.getModel()
+        if (model) {
+          model.setValue(newCode)
+        }
+      }
+      // Keep redux in sync so it survives navigation/unmount.
+      dispatch(setCode(newCode))
+
+      if (run) {
+        // Defer slightly so Monaco model + redux state propagate before run.
+        setTimeout(() => runCode(), 0)
+      }
+    }
+
+    window.addEventListener('sp-editor-apply-pnpjs', handleApplyPnpjs as EventListener)
+    return () => {
+      window.removeEventListener('sp-editor-apply-pnpjs', handleApplyPnpjs as EventListener)
+    }
+  }, [dispatch])
 
   // this will run when the compunent unmounts
   useEffect(() => {
@@ -218,7 +365,20 @@ const PnPjsEditor = () => {
           },
         ]}
       />
-      <div ref={outputDiv} style={{ width: '100%', height: 'calc(100% - 44px)' }} />
+      <div
+        ref={outputDiv}
+        style={{ width: '100%', height: `calc(100% - 44px - ${consoleHeight}px - 4px)` }}
+      />
+      <div
+        onMouseDown={() => setIsResizing(true)}
+        title="Drag to resize console output"
+        style={{
+          height: 4,
+          cursor: 'row-resize',
+          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+        }}
+      />
+      <PnPjsConsoleOutput height={consoleHeight} />
     </>
   );
 }

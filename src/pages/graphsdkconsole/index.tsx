@@ -1,7 +1,5 @@
 import { IonContent, IonPage } from '@ionic/react'
-import React from 'react'
 import Header from '../../components/header'
-import GraphSDKCommands from './components/commands'
 import LoadingSpinner from '../../components/loadingSpinner'
 import GraphSDKEditor from './components/graphsdkeditor'
 import GraphMSALPanel from './components/graphmsalpanel'

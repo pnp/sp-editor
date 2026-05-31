@@ -1,14 +1,16 @@
-import { DirectionalHint, FontIcon, Label, mergeStyles, Stack, TeachingBubble } from '@fluentui/react';
+import { DirectionalHint, FontIcon, IconButton, Label, mergeStyles, Stack, TeachingBubble, TooltipHost } from '@fluentui/react';
 import { IonButtons, IonHeader, IonMenuButton, IonMenuToggle, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import React, { useEffect } from 'react';
 import coffee from './default-yellow.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { setLiveReload } from '../store/home/actions';
+import { setAiPanelOpen } from '../store/ai-assistant/actions';
 
 const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
   const [showInfo, setShowInfo] = React.useState(showOnLoad);
   const { livereload } = useSelector((state: IRootState) => state.home)
+  const { isOpen: aiPanelOpen } = useSelector((state: IRootState) => state.aiAssistant)
   const dispatch = useDispatch()
 
   const iconClass = mergeStyles({
@@ -116,6 +118,16 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
           <a href="https://buymeacoffee.com/speditor" target="_blank" rel="noopener noreferrer">
             <img src={coffee} alt="coffee" style={{ marginRight: '10px', height: '40px' }} />
           </a>{' '}
+          {!aiPanelOpen && (
+            <TooltipHost content="AI Assistant">
+              <IconButton
+                iconProps={{ iconName: 'Robot' }}
+                ariaLabel="Open AI Assistant"
+                onClick={() => dispatch(setAiPanelOpen(true))}
+                styles={{ root: { marginRight: 10, height: 40, width: 40, fontSize: 20 } }}
+              />
+            </TooltipHost>
+          )}
           {headline && content && (
             <div style={{ marginRight: '20px', display: 'flex', alignItems: 'center' }}>
               <FontIcon

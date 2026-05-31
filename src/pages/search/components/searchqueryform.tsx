@@ -74,6 +74,7 @@ const SearchQueryForm = () => {
   const { searchQuery, optionsPanel } = useSelector((state: IRootState) => state.search);
   const { isDark } = useSelector((state: IRootState) => state.home);
   const [localQuery, setLocalQuery] = useState(searchQuery);
+  const [sortListInput, setSortListInput] = useState('');
 
    useEffect(() => {
       // modify the searchQuery object to replace date tokens
@@ -82,6 +83,14 @@ const SearchQueryForm = () => {
       modifiedQuery.QueryTemplate = replaceDateTokens(searchQuery.QueryTemplate ?? '');
      setLocalQuery(modifiedQuery);
    }, [searchQuery]);
+
+  useEffect(() => {
+    setSortListInput(
+      searchQuery.SortList
+        ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
+        : ''
+    );
+  }, [searchQuery.SortList]);
 
 
   const sourceIds = [
@@ -170,13 +179,29 @@ const SearchQueryForm = () => {
 
   function convertToSortList(sortListStr: string): ISort[] | null {
     try {
-      const newSortList: ISort[] = sortListStr.split(',').map((sortItem) => {
-        const [property, direction] = sortItem.split(':');
-        return {
-          Property: property,
-          Direction: direction === '0' ? SortDirection.Ascending : SortDirection.Descending,
-        };
-      });
+      const normalized = sortListStr.trim();
+
+      if (!normalized) {
+        return [];
+      }
+
+      const newSortList: ISort[] = normalized
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .map((sortItem) => {
+          const [propertyRaw, directionRaw] = sortItem.split(':').map((part) => part.trim());
+
+          if (!propertyRaw || (directionRaw !== '0' && directionRaw !== '1')) {
+            throw new Error(`Invalid sort format: ${sortItem}`);
+          }
+
+          return {
+            Property: propertyRaw,
+            Direction: directionRaw === '0' ? SortDirection.Ascending : SortDirection.Descending,
+          };
+        });
+
       return newSortList;
     } catch (error) {
       console.error('Error converting to sort list:', error);
@@ -237,7 +262,7 @@ const SearchQueryForm = () => {
           <TextField
             spellCheck={false}
             label="RowLimit"
-            value={searchQuery.RowLimit ? searchQuery.RowLimit.toString() : ''}
+            value={searchQuery.RowLimit !== undefined ? searchQuery.RowLimit.toString() : ''}
             onChange={(event, newValue?: string) => {
               const parsedValue = parseInt(newValue || '');
               const rowLimit = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
@@ -247,7 +272,7 @@ const SearchQueryForm = () => {
           <TextField
             spellCheck={false}
             label="StartRow"
-            value={searchQuery.StartRow ? searchQuery.StartRow.toString() : ''}
+            value={searchQuery.StartRow !== undefined ? searchQuery.StartRow.toString() : ''}
             onChange={(event, newValue?: string) => {
               const parsedValue = parseInt(newValue || '');
               const startRow = isNaN(parsedValue) ? undefined : parsedValue; // Check if parsedValue is NaN and set rowLimit to null if it is
@@ -275,17 +300,23 @@ const SearchQueryForm = () => {
             multiline
             spellCheck={false}
             label="SortList"
-            defaultValue={
-              searchQuery.SortList
-                ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
-                : undefined
-            }
+            value={sortListInput}
             placeholder="eg. firstName:0,LastName:1"
             onChange={(event, newValue?: string) => {
-              const newSortList = convertToSortList(newValue || ''); // fix this not to allow empty strings
-              if (newValue && newSortList && newSortList.length > 0)
+              setSortListInput(newValue || '');
+            }}
+            onBlur={() => {
+              const newSortList = convertToSortList(sortListInput);
+              if (newSortList !== null) {
                 dispatch(setSearchQuery({ ...searchQuery, SortList: newSortList }));
-              else dispatch(setSearchQuery({ ...searchQuery, SortList: [] }));
+                return;
+              }
+
+              setSortListInput(
+                searchQuery.SortList
+                  ? searchQuery.SortList.map((sortItem) => `${sortItem.Property}:${sortItem.Direction}`).join(',')
+                  : ''
+              );
             }}
           />
           <TextField

@@ -81,15 +81,42 @@ const sp = spfi().using(SPBrowser({ baseUrl: (window as any)._spPageContextInfo.
 }
 
 export const execme = (prepnp: string[], ecode: string[]) => {
+  // JSON.stringify produces a safe JS string literal from the user code.
+  // (0, eval)(str) executes it and returns the completion value of the last
+  // expression, which for an async IIFE is the Promise — so Promise.resolve()
+  // on it will only settle when the real async work is done.
+  const ecodeStr = JSON.stringify(ecode.join('\n'))
   return `
 var execme = function execme() {
+  window.__spEditorRunning = true;
   Promise.all([SystemJS.import(mod_graph),SystemJS.import(mod_logging),SystemJS.import(mod_queryable),SystemJS.import(mod_core),SystemJS.import(mod_msaljsclient),SystemJS.import(mod_spadmin),SystemJS.import(mod_sp)]).then(function (modules) {
     ${prepnp.join('\n')}
     // Your code starts here
     // #####################
-    ${ecode.map(e => '\t\t\t' + e).join('\n')}
+    var __result;
+    try {
+      // Direct eval so it runs in this scope and can see all_1, sp_1 etc. from prepnp
+      __result = eval(${ecodeStr});
+    } catch(e) {
+      console.error(e);
+      window.__spEditorRunning = false;
+      window.postMessage({ source: 'sp-editor-pnpjs-console', type: 'exec-done' }, '*');
+      return;
+    }
     // #####################
     // Your code ends here
+    Promise.resolve(__result).then(function() {
+      window.__spEditorRunning = false;
+      window.postMessage({ source: 'sp-editor-pnpjs-console', type: 'exec-done' }, '*');
+    }, function(e) {
+      console.error(e);
+      window.__spEditorRunning = false;
+      window.postMessage({ source: 'sp-editor-pnpjs-console', type: 'exec-done' }, '*');
+    });
+  }, function(e) {
+    console.error(e);
+    window.__spEditorRunning = false;
+    window.postMessage({ source: 'sp-editor-pnpjs-console', type: 'exec-done' }, '*');
   });
 };`
 }

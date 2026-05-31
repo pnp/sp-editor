@@ -108,12 +108,41 @@ export const shoot = (payload: any, extPath: string) => {
 
     const headers = JSON.parse(payload.headers);
 
-    // Capitalize the first letter of each header key
+    // Normalize to HTTP Title-Case so keys match PnPjs defaults and Object.assign
+    // properly overwrites them instead of creating duplicate headers.
+    // e.g. "content-type" → "Content-Type", "x-http-method" → "X-Http-Method"
     const capitalizedHeaders = Object.keys(headers).reduce((acc, key) => {
-      const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-      acc[capitalizedKey] = headers[key];
+      const normalizedKey = key.split('-').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('-')
+      acc[normalizedKey] = headers[key];
       return acc;
     }, {} as { [key: string]: string });
+
+    /*** $batch requests — PnPjs JSONParse() can't handle multipart responses; use raw fetch ***/
+    if (payload.path.toLowerCase().includes('$batch')) {
+      const ctx = (window as any)._spPageContextInfo || {}
+      const siteUrl = (ctx.webAbsoluteUrl || payload.path.replace(/_api\/.*$/i, '')).replace(/\/$/, '')
+      return fetch(siteUrl + '/_api/contextinfo', {
+        method: 'POST',
+        headers: { accept: 'application/json;odata=verbose', 'content-type': 'application/json;odata=verbose' },
+      })
+        .then((r: Response) => r.json())
+        .then((digestData: any) => {
+          const batchDigest = digestData.d.GetContextWebInformation.FormDigestValue
+          return fetch(payload.path, {
+            method: 'POST',
+            headers: Object.assign({}, capitalizedHeaders, { 'X-RequestDigest': batchDigest }),
+            body: payload.body,
+          })
+        })
+        .then((r: Response) => r.text())
+        .then((text: string) => text)
+        .catch((err: any) => ({
+          success: false,
+          result: null,
+          errorMessage: err.message,
+          source: 'chrome-sp-editor',
+        }))
+    }
 
     /*** execute request, add ### to trigger custom httpHandler ***/
     return pnpsp.spPost(pnpsp.Web(sp.web, "###" + payload.path), {
