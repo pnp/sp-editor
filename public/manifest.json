@@ -2,7 +2,7 @@
   "name": "SP Editor",
   "homepage_url": "https://microsoftedge.microsoft.com/addons/detail/affnnhcbfmcbbdlcadgkdbfafigmjdkk",
   "version": "8.0.0",
-  "description": "SharePoint Online developer toolbox: PnP JS & Graph SDK consoles, REST client, search, file editor, webhooks, properties & AI assistant",
+  "description": "SharePoint Online dev toolbox: PnP JS & Graph SDK consoles, REST client, search, file editor, webhooks, properties & AI assistant",
   "manifest_version": 3,
   "devtools_page": "devtools.html",
   "permissions": ["activeTab", "scripting", "downloads", "sidePanel", "storage", "nativeMessaging"],
