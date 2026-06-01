@@ -39,6 +39,14 @@ switch (cmd) {
       console.error('Status check failed:', err.message)
       process.exit(1)
     }
+    // Also check copilot CLI availability and auth
+    const { isCopilotCliInstalled, isCopilotAuthenticated } = require('../dist/copilot')
+    Promise.all([isCopilotCliInstalled(), isCopilotAuthenticated()]).then(([installed, authenticated]) => {
+      console.log('')
+      console.log('Copilot CLI:')
+      console.log(`  Installed:     ${installed ? '✓' : '✗ (run: npm install -g @github/copilot)'}`)
+      console.log(`  Authenticated: ${authenticated ? '✓' : '✗ (run: copilot login)'}`)
+    })
     break
 
   default:
@@ -52,7 +60,7 @@ switch (cmd) {
     console.log('  sp-editor-bridge status                Show installation status')
     console.log('')
     console.log('Prerequisites:')
-    console.log('  gh auth login          Authenticate with GitHub')
-    console.log('  gh copilot             First-time Copilot CLI setup')
+    console.log('  npm install -g @github/copilot   Install the Copilot CLI')
+    console.log('  copilot login                    Authenticate with GitHub')
     break
 }

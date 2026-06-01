@@ -105,6 +105,80 @@
   height: 100%;
 }
 
+.ai-empty-state-intro {
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.ai-empty-state-hints {
+  text-align: left;
+  font-size: 12px;
+  opacity: 0.75;
+  padding-left: 18px;
+  margin: 0 0 16px 0;
+  line-height: 1.8;
+}
+
+.ai-empty-state-context {
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+.ai-setup-description {
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: 0.7;
+  margin: 0 0 12px 0;
+}
+
+.ai-setup-step-hint {
+  font-size: 11px;
+  opacity: 0.5;
+  margin: 3px 0 10px 0;
+  line-height: 1.5;
+}
+
+.ai-setup-faq {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ai-setup-faq-item {
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: rgba(128, 128, 128, 0.07);
+  cursor: pointer;
+  color: inherit;
+}
+
+.ai-setup-faq-item summary {
+  font-weight: 600;
+  opacity: 0.75;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  color: inherit;
+}
+
+.ai-setup-faq-item summary::before {
+  content: '+ ';
+  opacity: 0.5;
+}
+
+.ai-setup-faq-item[open] summary::before {
+  content: '− ';
+}
+
+.ai-setup-faq-item p {
+  margin: 6px 0 2px 0;
+  opacity: 0.65;
+  line-height: 1.5;
+  color: inherit;
+}
+
 /* User message: small rounded pill, right-aligned */
 .ai-user-row {
   display: flex;
@@ -728,10 +802,9 @@ details[open] > .ai-thinking-summary::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 18px;
-  padding: 32px 24px;
+  overflow-y: auto;
+  gap: 10px;
+  padding: 24px 20px;
 }
 
 .ai-setup-title {
@@ -815,6 +888,34 @@ details[open] > .ai-thinking-summary::before {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 12px;
   word-break: break-all;
+}
+
+/* ── Settings panel ────────────────────────────────────────────────────────── */
+.ai-settings-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.ai-settings-title {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.ai-settings-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ai-settings-label {
+  font-size: 11px;
+  opacity: 0.5;
 }
 
 /* ── Context token bar ─────────────────────────────────────────────────────── */

@@ -16,6 +16,7 @@ import {
 } from '@fluentui/react'
 import { IRootState } from '../../store'
 import { setAiPanelOpen, setAiPendingInput } from '../../store/ai-assistant/actions'
+import { trackAiAnalyzeClick } from '../../services/analytics'
 
 export type ConsoleLevel = 'log' | 'info' | 'warn' | 'error' | 'debug'
 
@@ -87,6 +88,7 @@ const ConsoleOutput: React.FC<IConsoleOutputProps> = ({ entries, onClear, height
 
   const prefillAi = (entry: IConsoleEntry) => {
     const message = buildAnalyzePrompt(entry, pageContext)
+    trackAiAnalyzeClick(pageContext)
     dispatch(setAiPanelOpen(true))
     dispatch(setAiPendingInput(message))
   }

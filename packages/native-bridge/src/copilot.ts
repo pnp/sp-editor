@@ -6,7 +6,7 @@ import { PROMPT_SIZE_LIMIT } from './protocol'
 /** Timeout for a single copilot call (ms). */
 const COPILOT_TIMEOUT_MS = 180_000  // 3 minutes — first messages with large system prompts can take longer
 
-/** Timeout for fast health-check spawns (copilot --version, gh auth token). */
+/** Timeout for fast health-check spawns (copilot --version, copilot login). */
 const CHECK_TIMEOUT_MS = 5_000
 
 // ANSI escape code pattern
@@ -82,52 +82,74 @@ function stripAnsi(text: string): string {
 
 /**
  * Builds an environment that augments PATH with common binary locations that
- * Chrome's restricted launch environment omits (Homebrew, nvm, etc.).
+ * Chrome's restricted launch environment omits (Homebrew, nvm, npm global, etc.).
  */
 function buildEnv(extra?: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-  const extraPaths = [
+  const isWindows = os.platform() === 'win32'
+  const pathSep = isWindows ? ';' : ':'
+
+  const unixPaths = [
     '/opt/homebrew/bin',
     '/opt/homebrew/sbin',
     '/usr/local/bin',
     '/usr/local/sbin',
     '/usr/bin',
     '/bin',
-    // Include the directory of the current node executable so that globally
-    // installed npm binaries (e.g. @github/copilot) are always findable even
-    // when Chrome launches the host with a stripped-down PATH.
+  ]
+
+  // Windows: npm global installs land in %APPDATA%\npm or the Node.js install dir.
+  const windowsPaths = [
+    process.env.APPDATA ? path.join(process.env.APPDATA, 'npm') : '',
+    process.env.ProgramFiles ? path.join(process.env.ProgramFiles, 'nodejs') : '',
+    process.env['ProgramFiles(x86)'] ? path.join(process.env['ProgramFiles(x86)'], 'nodejs') : '',
+  ].filter(Boolean)
+
+  const extraPaths = [
+    ...(isWindows ? windowsPaths : unixPaths),
+    // Always include the directory of the current node executable — globally
+    // installed npm binaries live alongside it regardless of platform.
     path.dirname(process.execPath),
   ]
-  const current = process.env.PATH ?? ''
-  const parts = current.split(':').filter(Boolean)
+
+  const current = process.env.PATH ?? (isWindows ? process.env.Path ?? '' : '')
+  const parts = current.split(pathSep).filter(Boolean)
   for (const p of extraPaths.reverse()) {
-    if (!parts.includes(p)) parts.unshift(p)
+    if (p && !parts.includes(p)) parts.unshift(p)
   }
-  return { ...process.env, PATH: parts.join(':'), ...extra }
+  return { ...process.env, PATH: parts.join(pathSep), ...extra }
 }
 
 /**
  * Runs a command and returns { exitCode, stdout, stderr }.
  * Never uses a shell — args are passed as an array to prevent injection.
+ * On Windows, npm global binaries are .cmd wrappers; shell: true is required
+ * to execute them, but we keep args as a discrete array to prevent injection.
  */
 function runCommand(
   cmd: string,
   args: string[],
   timeoutMs: number,
   env?: NodeJS.ProcessEnv,
+  stdinData?: string,
 ): Promise<{ exitCode: number; stdout: string; stderr: string }> {
+  const isWindows = os.platform() === 'win32'
   return new Promise((resolve) => {
     const proc = spawn(cmd, args, {
-      shell: false,
+      // Windows npm binaries are .cmd files and require shell: true to execute.
+      // On Unix we keep shell: false for security. Args are always a discrete
+      // array (never interpolated) so injection is not possible either way.
+      shell: isWindows,
       cwd: os.tmpdir(),
       env: buildEnv(env),
       timeout: timeoutMs,
+      stdio: ['pipe', 'pipe', 'pipe'],
     })
 
     let stdout = ''
     let stderr = ''
 
-    proc.stdout.on('data', (chunk: Buffer) => { stdout += chunk.toString() })
-    proc.stderr.on('data', (chunk: Buffer) => { stderr += chunk.toString() })
+    proc.stdout!.on('data', (chunk: Buffer) => { stdout += chunk.toString() })
+    proc.stderr!.on('data', (chunk: Buffer) => { stderr += chunk.toString() })
 
     proc.on('close', (code) => {
       resolve({ exitCode: code ?? 1, stdout, stderr })
@@ -136,6 +158,13 @@ function runCommand(
     proc.on('error', () => {
       resolve({ exitCode: 1, stdout, stderr })
     })
+
+    if (proc.stdin) {
+      if (stdinData !== undefined) {
+        proc.stdin.write(stdinData)
+      }
+      proc.stdin.end()
+    }
   })
 }
 
@@ -150,25 +179,33 @@ export async function isCopilotCliInstalled(): Promise<boolean> {
  *
  * Detection strategy (in order):
  *  1. macOS keychain — `security find-generic-password -s copilot-cli`
- *  2. Token file — `~/.copilot/token` (copilot fallback when no keychain)
+ *  2. data.db presence — ~/.copilot/data.db exists (Windows / Linux session store)
+ *  3. Token file — `~/.copilot/token` (legacy fallback)
  */
 export async function isCopilotAuthenticated(): Promise<boolean> {
   // 1. macOS Keychain
-  const keychainResult = await runCommand(
-    'security',
-    ['find-generic-password', '-s', 'copilot-cli'],
-    CHECK_TIMEOUT_MS,
-  )
-  if (keychainResult.exitCode === 0) return true
-
-  // 2. Plain-text token file (copilot fallback on Linux / headless macOS)
-  const tokenFile = path.join(os.homedir(), '.copilot', 'token')
-  try {
-    const fs = await import('fs')
-    return fs.existsSync(tokenFile)
-  } catch {
-    return false
+  if (os.platform() === 'darwin') {
+    const keychainResult = await runCommand(
+      'security',
+      ['find-generic-password', '-s', 'copilot-cli'],
+      CHECK_TIMEOUT_MS,
+    )
+    if (keychainResult.exitCode === 0) return true
   }
+
+  const fs = await import('fs')
+
+  // 2. Session database (Windows and Linux store auth here)
+  const dbFile = path.join(os.homedir(), '.copilot', 'data.db')
+  if (fs.existsSync(dbFile)) return true
+
+  // 3a. session-store.db (newer copilot CLI versions on Windows)
+  const sessionStoreFile = path.join(os.homedir(), '.copilot', 'session-store.db')
+  if (fs.existsSync(sessionStoreFile)) return true
+
+  // 3. Plain-text token file (legacy fallback)
+  const tokenFile = path.join(os.homedir(), '.copilot', 'token')
+  return fs.existsSync(tokenFile)
 }
 
 /**
@@ -214,9 +251,10 @@ export async function runCopilotPrompt(
       args.push(`--allow-url=${url}`)
     }
   }
-  args.push('-p', prompt)
+  // Pass the prompt via stdin to avoid shell quoting issues on Windows
+  // (shell: true on Windows does not reliably quote multi-word argv elements).
 
-  const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env)
+  const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, prompt)
 
   if (result.exitCode !== 0) {
     // Try to recover a response from stdout even on non-zero exit —

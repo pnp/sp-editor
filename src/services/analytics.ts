@@ -133,3 +133,30 @@ export function trackPopupLinkClick(linkName: string): void {
     link_name: linkName,
   });
 }
+
+/**
+ * Track when the AI Assistant panel is opened via the header button
+ */
+export function trackAiPanelOpen(): void {
+  sendEvent('ai_panel_open');
+}
+
+/**
+ * Track when a prompt is submitted in the AI Assistant
+ * @param pageContext - The active page context (e.g., 'pnpjsconsole', 'graphsdkconsole', 'search')
+ */
+export function trackAiPromptSubmit(pageContext: string): void {
+  sendEvent('ai_prompt_submit', {
+    page_context: pageContext,
+  });
+}
+
+/**
+ * Track when the "Analyze with AI" button is clicked on a console entry
+ * @param pageContext - The console page context (e.g., 'pnpjsconsole', 'graphsdkconsole')
+ */
+export function trackAiAnalyzeClick(pageContext: string): void {
+  sendEvent('ai_analyze_click', {
+    page_context: pageContext,
+  });
+}

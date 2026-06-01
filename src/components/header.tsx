@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { setLiveReload } from '../store/home/actions';
 import { setAiPanelOpen } from '../store/ai-assistant/actions';
+import { trackAiPanelOpen } from '../services/analytics';
 
 const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
   const [showInfo, setShowInfo] = React.useState(showOnLoad);
@@ -123,7 +124,7 @@ const Header = ({ title, showOnLoad, headline, content }: HeaderProps) => {
               <IconButton
                 iconProps={{ iconName: 'Robot' }}
                 ariaLabel="Open AI Assistant"
-                onClick={() => dispatch(setAiPanelOpen(true))}
+                onClick={() => { dispatch(setAiPanelOpen(true)); trackAiPanelOpen(); }}
                 styles={{ root: { marginRight: 10, height: 40, width: 40, fontSize: 20 } }}
               />
             </TooltipHost>

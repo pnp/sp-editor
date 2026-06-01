@@ -5,6 +5,10 @@ import {
   IDropdownOption,
   MessageBar,
   MessageBarType,
+  Panel,
+  PanelType,
+  Stack,
+  Text,
   TextField,
 } from '@fluentui/react'
 import { ISearchQuery } from '@pnp/sp/search/types'
@@ -19,6 +23,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { getContextDisplayName, getContextKeyFromPath } from '../../config/featureContext'
 import { sendChatMessage, MAX_PROMPT_CHARS } from '../../services/ai-assistant/aiAssistantService'
+import { trackAiPromptSubmit } from '../../services/analytics'
 import { IRootState } from '../../store'
 import {
   addAiMessage,
@@ -152,6 +157,8 @@ const AiAssistantPanel = () => {
   const { path: spShooterPath, method: spShooterMethod, body: spShooterBody, headers: spShooterHeaders, results: spShooterResults, context: spShooterContext } = useSelector((state: IRootState) => state.spshoot)
 
   const [input, setInput] = useState('')
+  const [showSettings, setShowSettings] = useState(false)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [dragStartX, setDragStartX] = useState(0)
   const [dragStartWidth, setDragStartWidth] = useState(0)
@@ -619,6 +626,7 @@ const AiAssistantPanel = () => {
     if (!input.trim() || isSending) {
       return
     }
+    trackAiPromptSubmit(pageContext ?? 'unknown')
     sendMessage(input)
     setInput('')
     setHistoryIndex(null)
@@ -1025,6 +1033,14 @@ const AiAssistantPanel = () => {
               aria-label="Recheck Copilot status"
             />
           )}
+          {isReady && (
+            <IconButton
+              iconProps={{ iconName: 'Settings' }}
+              title="Bridge settings"
+              ariaLabel="Bridge settings"
+              onClick={() => setShowSettings(s => !s)}
+            />
+          )}
           <IconButton
             iconProps={{ iconName: 'Cancel' }}
             title="Close"
@@ -1034,11 +1050,76 @@ const AiAssistantPanel = () => {
         </div>
       </div>
 
+      <Panel
+        isOpen={showSettings}
+        onDismiss={() => setShowSettings(false)}
+        type={PanelType.smallFixedFar}
+        headerText="AI Assistant settings"
+        isLightDismiss
+      >
+        <Stack tokens={{ childrenGap: 24 }}>
+
+          <Stack tokens={{ childrenGap: 8 }}>
+            <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>About</Text>
+            <Text variant="small">The AI Assistant uses GitHub Copilot to answer questions, generate code, and help you work with SharePoint — directly in context of the current page.</Text>
+            <Text variant="small">A small local bridge connects the extension to the Copilot CLI on your machine. A GitHub account with an active Copilot subscription is required.</Text>
+          </Stack>
+
+          <Stack tokens={{ childrenGap: 6 }}>
+            <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>FAQ</Text>
+            {[
+              { q: 'Do I need a paid GitHub plan?', a: 'Yes — GitHub Copilot requires an active Copilot subscription (Individual, Business, or Enterprise).' },
+              { q: 'Is my data sent to the cloud?', a: 'Prompts are sent to GitHub Copilot\'s servers for processing, the same as using Copilot in VS Code. No data is stored by SP Editor itself.' },
+              { q: 'What can the assistant see?', a: 'Only the content of the current page context — your code, query, or API request — is included in the prompt. Nothing else from your browser or SharePoint tenant is sent.' },
+              { q: 'Why is a bridge needed?', a: 'Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the Copilot CLI installed on your machine.' },
+            ].map(({ q, a }, i) => (
+              <Stack
+                key={q}
+                tokens={{ childrenGap: 4 }}
+                styles={{ root: { borderRadius: 6, padding: '6px 10px', background: 'rgba(128,128,128,0.07)', cursor: 'pointer' } }}
+                onClick={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
+              >
+                <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 6 }}>
+                  <Text variant="small" styles={{ root: { fontWeight: 600, flexGrow: 1 } }}>{q}</Text>
+                  <Text variant="small" styles={{ root: { opacity: 0.5 } }}>{openFaqIndex === i ? '−' : '+'}</Text>
+                </Stack>
+                {openFaqIndex === i && (
+                  <Text variant="small" styles={{ root: { opacity: 0.75, lineHeight: '1.5' } }}>{a}</Text>
+                )}
+              </Stack>
+            ))}
+          </Stack>
+
+          <Stack tokens={{ childrenGap: 8 }}>
+            <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>Bridge management</Text>
+            {[
+              { label: 'Update', cmd: 'npm install -g @sp-editor/native-bridge@latest' },
+              { label: 'Uninstall bridge', cmd: 'sp-editor-bridge uninstall' },
+              { label: 'Remove package', cmd: 'npm uninstall -g @sp-editor/native-bridge' },
+            ].map(({ label, cmd }) => (
+              <Stack key={label} tokens={{ childrenGap: 4 }}>
+                <Text variant="smallPlus" styles={{ root: { fontWeight: 600, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.05em' } }}>{label}</Text>
+                <Text variant="small" styles={{ root: { fontFamily: 'SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace', background: 'rgba(128,128,128,0.12)', padding: '6px 10px', borderRadius: 4, wordBreak: 'break-all' } }}>{cmd}</Text>
+              </Stack>
+            ))}
+          </Stack>
+
+        </Stack>
+      </Panel>
+
       <div className="ai-drawer-content" style={{ position: 'relative' }}>
 
         {!isReady && (
           <div className="ai-setup-state">
             <div className="ai-setup-title">GitHub Copilot</div>
+
+            <p className="ai-setup-description">
+              The AI Assistant uses GitHub Copilot to answer questions, generate code, and help you work with SharePoint — directly in context of the current page.
+            </p>
+
+            <p className="ai-setup-description">
+              A small local bridge connects the extension to the Copilot CLI on your machine. A GitHub account with Copilot access is required.
+            </p>
 
             <div className="ai-setup-status-row">
               <span
@@ -1062,32 +1143,71 @@ const AiAssistantPanel = () => {
             </div>
 
             {bridgeStatus === 'bridge_missing' && (
-              <div className="ai-setup-instruction">
-                <span className="ai-setup-instruction-label">1. Install bridge</span>
-                <code className="ai-setup-code">npm install -g @sp-editor/native-bridge</code>
-              </div>
+              <>
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">1. Install bridge</span>
+                  <code className="ai-setup-code">npm install -g @sp-editor/native-bridge</code>
+                </div>
+                <p className="ai-setup-step-hint">Run in a terminal. Requires Node.js and npm.</p>
+
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">2. Register bridge</span>
+                  <code className="ai-setup-code">sp-editor-bridge install</code>
+                </div>
+                <p className="ai-setup-step-hint">Registers the bridge with Chrome and Edge so the extension can connect to it.</p>
+
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">3. Install CLI</span>
+                  <code className="ai-setup-code">npm install -g @github/copilot</code>
+                </div>
+                <p className="ai-setup-step-hint">Installs the standalone GitHub Copilot CLI used to send prompts.</p>
+
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">4. Sign in</span>
+                  <code className="ai-setup-code">copilot login</code>
+                </div>
+                <p className="ai-setup-step-hint">Opens a browser to authenticate with your GitHub account. Come back here and click ↻ when done.</p>
+              </>
             )}
 
-            {bridgeStatus === 'bridge_missing' && (
-              <div className="ai-setup-instruction">
-                <span className="ai-setup-instruction-label">2. Register bridge</span>
-                <code className="ai-setup-code">sp-editor-bridge install</code>
-              </div>
-            )}
-
-            {(bridgeStatus === 'bridge_missing' || bridgeStatus === 'cli_missing') && (
-              <div className="ai-setup-instruction">
-                <span className="ai-setup-instruction-label">{bridgeStatus === 'bridge_missing' ? '3. Install CLI' : 'Install'}</span>
-                <code className="ai-setup-code">npm install -g @github/copilot</code>
-              </div>
+            {bridgeStatus === 'cli_missing' && (
+              <>
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">Install CLI</span>
+                  <code className="ai-setup-code">npm install -g @github/copilot</code>
+                </div>
+                <p className="ai-setup-step-hint">Installs the standalone GitHub Copilot CLI. Then click ↻ to recheck.</p>
+              </>
             )}
 
             {bridgeStatus === 'not_authenticated' && (
-              <div className="ai-setup-instruction">
-                <span className="ai-setup-instruction-label">Sign in</span>
-                <code className="ai-setup-code">copilot login</code>
-              </div>
+              <>
+                <div className="ai-setup-instruction">
+                  <span className="ai-setup-instruction-label">Sign in</span>
+                  <code className="ai-setup-code">copilot login</code>
+                </div>
+                <p className="ai-setup-step-hint">Opens a browser to authenticate with GitHub. Once signed in, click ↻ to recheck.</p>
+              </>
             )}
+
+            <div className="ai-setup-faq">
+              <details className="ai-setup-faq-item">
+                <summary>Do I need a paid GitHub plan?</summary>
+                <p>Yes — GitHub Copilot requires an active Copilot subscription (Individual, Business, or Enterprise).</p>
+              </details>
+              <details className="ai-setup-faq-item">
+                <summary>Is my data sent to the cloud?</summary>
+                <p>Prompts are sent to GitHub Copilot's servers for processing, the same as using Copilot in VS Code. No data is stored by SP Editor itself.</p>
+              </details>
+              <details className="ai-setup-faq-item">
+                <summary>What can the assistant see?</summary>
+                <p>Only the content of the current page context — your code, query, or API request — is included in the prompt. Nothing else from your browser or SharePoint tenant is sent.</p>
+              </details>
+              <details className="ai-setup-faq-item">
+                <summary>Why is a bridge needed?</summary>
+                <p>Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the Copilot CLI installed on your machine.</p>
+              </details>
+            </div>
           </div>
         )}
 
@@ -1104,14 +1224,17 @@ const AiAssistantPanel = () => {
             >
               {messages.length === 0 && !isSending ? (
                 <div className="ai-empty-state">
-                  <div>
-                    Ask the assistant to help build a search query, explain a feature, or generate code snippets for
-                    the current page.
+                  <div className="ai-empty-state-intro">
+                    Ask anything about the current page. The assistant has full context of what you see.
                   </div>
-                  <div style={{ marginTop: 12 }}>
-                    <em>
-                      Current page context: <strong>{pageContext}</strong>
-                    </em>
+                  <ul className="ai-empty-state-hints">
+                    <li>Generate or explain PnP JS / Graph SDK code</li>
+                    <li>Build and refine search queries</li>
+                    <li>Troubleshoot REST API calls</li>
+                    <li>Explain SharePoint features or permissions</li>
+                  </ul>
+                  <div className="ai-empty-state-context">
+                    Current page context: <strong>{pageContext}</strong>
                   </div>
                 </div>
               ) : (
