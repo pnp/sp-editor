@@ -56,6 +56,12 @@ export interface AiCompleteResponse {
     cached: number
     total: number
   }
+  responseMeta?: {
+    aiCredits?: number
+    elapsedSeconds?: number
+    modelLabel?: string
+    modelId?: string
+  }
 }
 
 export interface ErrorResponse {

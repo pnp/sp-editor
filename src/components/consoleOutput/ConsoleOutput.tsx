@@ -37,13 +37,34 @@ export interface IConsoleOutputProps {
 
 const AI_CONSENT_KEY = 'sp-editor.ai.analyzeConsent'
 
+const compressConsoleMessage = (message: string): string => {
+  const lines = message
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .filter((line) => !line.startsWith('at '))
+    .filter((line) => !line.includes('chrome-extension://'))
+
+  if (lines.length === 0) {
+    return message.trim()
+  }
+
+  const condensed = lines.join('\n')
+  return condensed.length > 1600 ? `${condensed.slice(0, 1600)}…` : condensed
+}
+
 const buildAnalyzePrompt = (entry: IConsoleEntry, pageContext: string): string => {
   const label = pageContext === 'graphsdkconsole' ? 'Graph SDK snippet' : 'snippet'
+  const message = compressConsoleMessage(entry.message)
   return [
-    `Please analyze the following console output from my ${label} and explain what it means. If it indicates a problem, suggest a fix.`,
+    `Please analyze the following console output from my ${label}.`,
+    'If it indicates a problem, return a complete corrected code snippet that updates my existing editor code (not just a one-line suggestion).',
+    'Output format:',
+    '1) A full ```typescript``` code block ready to paste into the editor.',
+    '2) A short explanation of what was wrong and why the fix works.',
     '',
     '```',
-    `[${entry.level.toUpperCase()}] ${entry.message}`,
+    `[${entry.level.toUpperCase()}] ${message}`,
     '```',
   ].join('\n')
 }

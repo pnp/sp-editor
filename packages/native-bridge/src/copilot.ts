@@ -25,6 +25,19 @@ interface TokenUsage {
   total: number
 }
 
+interface ResponseMeta {
+  aiCredits?: number
+  elapsedSeconds?: number
+  modelLabel?: string
+  modelId?: string
+}
+
+interface ExtractedModelMarker {
+  content: string
+  modelLabel?: string
+  modelId?: string
+}
+
 /** Unique marker appended to response content so the UI can render token stats
  *  without relying on a separate Redux field surviving the full message chain. */
 export const TOKEN_LINE_MARKER = '\n\n%%SP_TOKENS%%'
@@ -42,11 +55,108 @@ function formatTokenUsage(t: TokenUsage): string {
   return line
 }
 
+function parseResponseMeta(text: string): ResponseMeta {
+  const meta: ResponseMeta = {}
+
+  const modelMatches = Array.from(
+    text.matchAll(/^\*?\s*Powered by\s+(.+?)(?:\s+\(([^)]+)\))?\*?\s*$/gim)
+  )
+  const modelMatch = modelMatches.length > 0 ? modelMatches[modelMatches.length - 1] : null
+  if (modelMatch) {
+    const modelLabel = (modelMatch[1] ?? '').trim()
+    const modelId = (modelMatch[2] ?? '').trim()
+    if (modelLabel) meta.modelLabel = modelLabel
+    if (modelId) meta.modelId = modelId
+  }
+
+  const creditsMatch = text.match(/^\s*AI Credits\s+([\d.]+)(?:\s+\((\d+(?:\.\d+)?)s\))?/im)
+  if (creditsMatch) {
+    const aiCredits = parseFloat(creditsMatch[1])
+    if (!isNaN(aiCredits)) {
+      meta.aiCredits = aiCredits
+    }
+
+    if (creditsMatch[2]) {
+      const elapsedSeconds = parseFloat(creditsMatch[2])
+      if (!isNaN(elapsedSeconds)) {
+        meta.elapsedSeconds = elapsedSeconds
+      }
+    }
+  }
+
+  if (meta.elapsedSeconds === undefined) {
+    const elapsedMatch = text.match(/^\s*(?:AI Credits|Requests)\s+.*\((\d+(?:\.\d+)?)s\)/im)
+    if (elapsedMatch) {
+      const elapsedSeconds = parseFloat(elapsedMatch[1])
+      if (!isNaN(elapsedSeconds)) {
+        meta.elapsedSeconds = elapsedSeconds
+      }
+    }
+  }
+
+  return meta
+}
+
+function extractCachedFromTokenDetails(details: string): number {
+  const cachedMatch = details.match(/([\d.]+k?)\s*cached/i)
+  if (!cachedMatch) return 0
+  return parseTokenNum(cachedMatch[1])
+}
+
+function hasResponseMeta(meta: ResponseMeta): boolean {
+  return !!(meta.modelLabel || meta.modelId || typeof meta.aiCredits === 'number' || typeof meta.elapsedSeconds === 'number')
+}
+
+function parseModelFromValue(value: string): { modelLabel?: string; modelId?: string } {
+  const trimmed = value.trim()
+  if (!trimmed) return {}
+
+  const withId = trimmed.match(/^(.*?)\s*\(([^)]+)\)\s*$/)
+  if (withId) {
+    const modelLabel = withId[1].trim()
+    const modelId = withId[2].trim()
+    return {
+      ...(modelLabel ? { modelLabel } : {}),
+      ...(modelId ? { modelId } : {}),
+    }
+  }
+
+  return { modelLabel: trimmed }
+}
+
+function extractModelMarker(content: string): ExtractedModelMarker {
+  const markerMatch = content.match(/\n?\s*\[\[SP_MODEL:([^\]]+)\]\]\s*$/i)
+  if (!markerMatch) {
+    return { content }
+  }
+
+  const stripped = content.slice(0, markerMatch.index).trimEnd()
+  return {
+    content: stripped,
+    ...parseModelFromValue(markerMatch[1] ?? ''),
+  }
+}
+
+function mergeModelMeta(base: ResponseMeta | undefined, marker: ExtractedModelMarker): ResponseMeta | undefined {
+  const merged: ResponseMeta = { ...(base ?? {}) }
+
+  if (!merged.modelLabel && marker.modelLabel) {
+    merged.modelLabel = marker.modelLabel
+  }
+  if (!merged.modelId && marker.modelId) {
+    merged.modelId = marker.modelId
+  }
+
+  return hasResponseMeta(merged) ? merged : undefined
+}
+
 /** Strips the CLI stats footer from text and extracts token usage if present.
  *  Returns { content } = text before the footer (plain, no marker embedded).
  *  Callers that need the TOKEN_LINE_MARKER append it themselves.
  */
-function parseFooter(text: string): { content: string; tokenUsage?: TokenUsage } {
+function parseFooter(text: string): { content: string; tokenUsage?: TokenUsage; responseMeta?: ResponseMeta } {
+  const responseMeta = parseResponseMeta(text)
+
   // Find the LAST occurrence of the footer start — fetched web content may
   // contain "Changes +0 -0" in git diff examples, so we must not split there.
   const re = /\n+Changes\s+\+\d+\s+-\d+/g
@@ -56,24 +166,40 @@ function parseFooter(text: string): { content: string; tokenUsage?: TokenUsage }
     lastMatch = m
   }
   if (!lastMatch) {
-    return { content: text.trim() }
+    return {
+      content: text.trim(),
+      ...(hasResponseMeta(responseMeta) ? { responseMeta } : {}),
+    }
   }
-  const content = text.slice(0, lastMatch.index).trim()
+  const content = text
+    .slice(0, lastMatch.index)
+    .replace(/\n*\*?\s*Powered by\s+[^\n]*\*?\s*$/i, '')
+    .trim()
   const footer = text.slice(lastMatch.index)
   // Handle two footer variants:
   //   New: Tokens     ↑ 23.9k (21.0k cached) • ↓ 50 (7 reasoning)
   //   Old: Tokens     ↑ 20.9k • ↓ 1.2k = 22.1k (↑ cached: 18.0k)
-  const tokMatch = footer.match(/Tokens\s+\u2191\s*([\d.]+k?)(?:\s*\(([\d.]+k?)\s*cached\))?\s*[\u2022\u00b7\-]?\s*\u2193\s*([\d.]+k?)(?:\s*=\s*([\d.]+k?))?(?:[^(]*\(\u2191\s*cached:\s*([\d.]+k?)\))?/)
+  const tokMatch = footer.match(/Tokens\s+\u2191\s*([\d.]+k?)(?:\s*\(([^)]*)\))?\s*[\u2022\u00b7\-]?\s*\u2193\s*([\d.]+k?)(?:\s*\(([^)]*)\))?(?:\s*=\s*([\d.]+k?))?(?:[^\n]*\(\u2191\s*cached:\s*([\d.]+k?)\))?/) 
   if (!tokMatch) {
-    return { content }
+    return {
+      content,
+      ...(hasResponseMeta(responseMeta) ? { responseMeta } : {}),
+    }
   }
   const input = parseTokenNum(tokMatch[1] ?? '0')
   const output = parseTokenNum(tokMatch[3] ?? '0')
-  const total = tokMatch[4] ? parseTokenNum(tokMatch[4]) : input + output
-  // Group 2 = new "inline" cached format; group 5 = old end-of-line cached format
-  const cached = tokMatch[2] ? parseTokenNum(tokMatch[2]) : (tokMatch[5] ? parseTokenNum(tokMatch[5]) : 0)
+  const total = tokMatch[5] ? parseTokenNum(tokMatch[5]) : input + output
+  // Cached can appear inline after input/output or in legacy "(↑ cached: ...)" tail.
+  const cached =
+    extractCachedFromTokenDetails(tokMatch[2] ?? '') ||
+    extractCachedFromTokenDetails(tokMatch[4] ?? '') ||
+    (tokMatch[6] ? parseTokenNum(tokMatch[6]) : 0)
   const tokenUsage: TokenUsage = { input, output, cached, total }
-  return { content, tokenUsage }
+  return {
+    content,
+    tokenUsage,
+    ...(hasResponseMeta(responseMeta) ? { responseMeta } : {}),
+  }
 }
 
 function stripAnsi(text: string): string {
@@ -174,38 +300,34 @@ export async function isCopilotCliInstalled(): Promise<boolean> {
   return result.exitCode === 0
 }
 
+/** Timeout for the auth probe — needs one network round-trip to validate the token. */
+const AUTH_CHECK_TIMEOUT_MS = 20_000
+
 /**
- * Returns true if the Copilot CLI has a stored authentication token.
+ * Returns true if the Copilot CLI is authenticated.
  *
- * Detection strategy (in order):
- *  1. macOS keychain — `security find-generic-password -s copilot-cli`
- *  2. data.db presence — ~/.copilot/data.db exists (Windows / Linux session store)
- *  3. Token file — `~/.copilot/token` (legacy fallback)
+ * Functional probe instead of credential-store heuristics: `copilot login`
+ * stores the token in the OS credential store (keychain / Credential Manager /
+ * secret-service) and creates NO files, so checking ~/.copilot/*.db both
+ * false-negatives (fresh login, no session run yet) and false-positives
+ * (stale files after logout).
+ *
+ * A prompt with a bogus --model fails AFTER token validation but BEFORE any
+ * LLM call — free, fast, and leaves nothing in the user's session history:
+ *   Authenticated     → 'Model "..." from --model flag is not available.'
+ *   Not authenticated → an auth error suggesting `copilot login`
  */
 export async function isCopilotAuthenticated(): Promise<boolean> {
-  // 1. macOS Keychain
-  if (os.platform() === 'darwin') {
-    const keychainResult = await runCommand(
-      'security',
-      ['find-generic-password', '-s', 'copilot-cli'],
-      CHECK_TIMEOUT_MS,
-    )
-    if (keychainResult.exitCode === 0) return true
-  }
-
-  const fs = await import('fs')
-
-  // 2. Session database (Windows and Linux store auth here)
-  const dbFile = path.join(os.homedir(), '.copilot', 'data.db')
-  if (fs.existsSync(dbFile)) return true
-
-  // 3a. session-store.db (newer copilot CLI versions on Windows)
-  const sessionStoreFile = path.join(os.homedir(), '.copilot', 'session-store.db')
-  if (fs.existsSync(sessionStoreFile)) return true
-
-  // 3. Plain-text token file (legacy fallback)
-  const tokenFile = path.join(os.homedir(), '.copilot', 'token')
-  return fs.existsSync(tokenFile)
+  const result = await runCommand(
+    'copilot',
+    ['-p', 'ping', '--model', 'sp-editor-auth-probe'],
+    AUTH_CHECK_TIMEOUT_MS,
+  )
+  const output = `${result.stdout}\n${result.stderr}`.replace(ANSI_PATTERN, '')
+  if (/from --model flag is not available/i.test(output)) return true
+  // Token exists but validation failed due to network issues — treat as
+  // authenticated so we don't tell an offline (or proxied) user to re-login.
+  return /Authentication token found/i.test(output) && /network|fetch failed|request failed/i.test(output)
 }
 
 /**
@@ -227,7 +349,7 @@ export async function runCopilotPrompt(
   sessionId?: string,
   model?: string,
   allowedUrls?: string[],
-): Promise<{ ok: true; response: string; tokenUsage?: TokenUsage } | { ok: false; error: string }> {
+): Promise<{ ok: true; response: string; tokenUsage?: TokenUsage; responseMeta?: ResponseMeta } | { ok: false; error: string }> {
   if (prompt.length > PROMPT_SIZE_LIMIT) {
     return { ok: false, error: `Prompt exceeds ${PROMPT_SIZE_LIMIT} character limit.` }
   }
@@ -251,22 +373,31 @@ export async function runCopilotPrompt(
       args.push(`--allow-url=${url}`)
     }
   }
-  // Pass the prompt via stdin to avoid shell quoting issues on Windows
-  // (shell: true on Windows does not reliably quote multi-word argv elements).
+  // Pass the prompt via stdin to avoid shell quoting issues on Windows where
+  // shell: true does not reliably quote multi-word argv elements.
 
   const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, prompt)
 
   if (result.exitCode !== 0) {
     // Try to recover a response from stdout even on non-zero exit —
     // copilot sometimes exits with code 1 on warnings while still producing output.
-    const recoveredContent = stripAnsi(result.stdout).trim()
-    if (recoveredContent) {
+    const recoveredContentRaw = stripAnsi(result.stdout).trim()
+    if (recoveredContentRaw) {
+      const marker = extractModelMarker(recoveredContentRaw)
+      const recoveredContent = marker.content
       const recStderr = (result.stderr || '').replace(ANSI_PATTERN, '')
-      const recFooter = parseFooter(recStderr || recoveredContent)
+      const recCombined = [recoveredContent, recStderr].filter(Boolean).join('\n')
+      const recFooter = parseFooter(recCombined)
+      const recResponseMeta = mergeModelMeta(recFooter.responseMeta, marker)
       const recFinal = recFooter.tokenUsage
         ? recoveredContent + TOKEN_LINE_MARKER + formatTokenUsage(recFooter.tokenUsage)
         : recoveredContent
-      return { ok: true, response: recFinal, tokenUsage: recFooter.tokenUsage }
+      return {
+        ok: true,
+        response: recFinal,
+        tokenUsage: recFooter.tokenUsage,
+        responseMeta: recResponseMeta,
+      }
     }
     // No recoverable content — report a clean error without leaking the raw footer.
     const rawErr = parseFooter(stripAnsi(result.stderr || result.stdout || '')).content.trim()
@@ -277,17 +408,27 @@ export async function runCopilotPrompt(
   // When stdout is a pipe (non-TTY) copilot writes the stats footer to stderr.
   // Use stdout for the response content; parse stderr for token usage.
   // Note: do NOT trim stderr — parseFooter needs the leading \n before "Changes".
-  const stdoutContent = stripAnsi(result.stdout).trim()
-  if (!stdoutContent) {
+  const stdoutContentRaw = stripAnsi(result.stdout).trim()
+  if (!stdoutContentRaw) {
     return { ok: false, error: 'copilot returned an empty response' }
   }
 
+  const marker = extractModelMarker(stdoutContentRaw)
+  const stdoutContent = marker.content
+
   const stderrClean = (result.stderr || '').replace(ANSI_PATTERN, '')
-  const footerParsed = parseFooter(stderrClean || stdoutContent)
+  const combinedStreams = [stdoutContent, stderrClean].filter(Boolean).join('\n')
+  const footerParsed = parseFooter(combinedStreams)
   const tokenUsage = footerParsed.tokenUsage
+  const responseMeta = mergeModelMeta(footerParsed.responseMeta, marker)
 
   const finalContent = tokenUsage
     ? stdoutContent + TOKEN_LINE_MARKER + formatTokenUsage(tokenUsage)
     : stdoutContent
-  return { ok: true, response: finalContent, tokenUsage }
+  return {
+    ok: true,
+    response: finalContent,
+    tokenUsage,
+    responseMeta,
+  }
 }

@@ -8,7 +8,7 @@
  * All argv construction happens inside the host binary, which uses spawn() with no shell.
  */
 
-import { ITokenUsage } from '../../store/ai-assistant/types'
+import { IAiResponseMeta, ITokenUsage } from '../../store/ai-assistant/types'
 
 const BRIDGE_HOST = 'fi.fireit.sp_editor_native_bridge'
 
@@ -44,7 +44,7 @@ export async function sendViaBridge(
   sessionId: string,
   model?: string,
   allowedUrls?: string[],
-): Promise<{ response: string; tokenUsage?: ITokenUsage }> {
+): Promise<{ response: string; tokenUsage?: ITokenUsage; responseMeta?: IAiResponseMeta }> {
   const res = await sendBridgeMessage({
     type: 'ai.complete',
     provider: 'github-copilot',
@@ -56,6 +56,7 @@ export async function sendViaBridge(
   return {
     response: res.response as string,
     tokenUsage: res.tokenUsage as ITokenUsage | undefined,
+    responseMeta: res.responseMeta as IAiResponseMeta | undefined,
   }
 }
 

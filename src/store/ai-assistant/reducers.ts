@@ -43,7 +43,7 @@ export function aiAssistantReducer(
     case Constants.AI_ADD_MESSAGE:
       return { ...state, messages: [...state.messages, action.payload.message] }
     case Constants.AI_UPDATE_MESSAGE: {
-      const { id, content, reasoning, isStreaming, suggestionData, tokenUsage } = action.payload
+      const { id, content, reasoning, isStreaming, suggestionData, tokenUsage, responseMeta } = action.payload
       return {
         ...state,
         messages: state.messages.map((m) =>
@@ -54,6 +54,7 @@ export function aiAssistantReducer(
             ...(isStreaming !== undefined && { isStreaming }),
             ...(suggestionData !== undefined && { suggestionData }),
             ...(tokenUsage !== undefined && { tokenUsage }),
+            ...(responseMeta !== undefined && { responseMeta }),
           }
         ),
       }

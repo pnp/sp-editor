@@ -1,4 +1,4 @@
-import { IAiMessage, ITokenUsage } from '../../store/ai-assistant/types'
+import { IAiMessage, IAiResponseMeta, ITokenUsage } from '../../store/ai-assistant/types'
 import { DEFAULT_CLI_MODEL } from './copilotApiClient'
 import { sendViaBridge } from './nativeBridgeClient'
 
@@ -18,6 +18,7 @@ export interface ISendChatMessageArgs {
 export interface ISendChatMessageResult {
   reply: string
   tokenUsage?: ITokenUsage
+  responseMeta?: IAiResponseMeta
   query?: any                   // For search context — parsed JSON query object
   code?: string                 // For pnpjsconsole context — TypeScript snippet
   restRequest?: {               // For spshooter context — parsed REST request
@@ -321,6 +322,13 @@ You are a helpful SharePoint expert assistant inside SP Editor DevTools, a Chrom
 Help the user with SharePoint Online, PnP.js, REST APIs, Microsoft Graph, site configuration, and related technologies.
 Be concise and practical. Use markdown code blocks for any code samples.`
 
+const SYSTEM_PROMPT_MODEL_FOOTER = `\
+MODEL FOOTER (REQUIRED):
+- The last line of every response must be exactly this format:
+  Model used: <model name>
+- If the exact model name is unknown, use:
+  Model used: unknown`
+
 const SYSTEM_PROMPT_SPSHOOTER = `\
 You are a SharePoint REST API expert inside SP Editor DevTools — a tool for making raw HTTP requests to SharePoint REST endpoints.
 Help users construct, debug, and understand SharePoint REST API calls.
@@ -435,11 +443,18 @@ EXAMPLES:
 - "Current user groups" → GET _api/web/currentuser/groups`
 
 function getSystemPrompt(pageContext?: string): string {
-  if (pageContext === 'search') return SYSTEM_PROMPT_SEARCH
-  if (pageContext === 'pnpjsconsole') return SYSTEM_PROMPT_PNPJS
-  if (pageContext === 'spshooter') return SYSTEM_PROMPT_SPSHOOTER
-  if (pageContext === 'graphsdkconsole') return SYSTEM_PROMPT_GRAPHSDK
-  return SYSTEM_PROMPT_DEFAULT
+  const base =
+    pageContext === 'search'
+      ? SYSTEM_PROMPT_SEARCH
+      : pageContext === 'pnpjsconsole'
+        ? SYSTEM_PROMPT_PNPJS
+        : pageContext === 'spshooter'
+          ? SYSTEM_PROMPT_SPSHOOTER
+          : pageContext === 'graphsdkconsole'
+            ? SYSTEM_PROMPT_GRAPHSDK
+            : SYSTEM_PROMPT_DEFAULT
+
+  return `${base}\n\n${SYSTEM_PROMPT_MODEL_FOOTER}`
 }
 
 // ── Prompt assembly ──────────────────────────────────────────────────────────
@@ -644,17 +659,17 @@ export async function sendChatMessage(
     'https://pnp.github.io/*',
   ]
 
-  const { response: raw, tokenUsage } = await sendViaBridge(cliPrompt, sessionId, model, allowedUrls)
+  const { response: raw, tokenUsage, responseMeta } = await sendViaBridge(cliPrompt, sessionId, model, allowedUrls)
 
   // Notify streaming placeholder with the complete result
   if (args.onChunk) {
     args.onChunk({ content: raw, reasoning: '' })
   }
 
-  if (pageContext === 'search') return { ...parseSearchResponse(raw), tokenUsage }
-  if (pageContext === 'pnpjsconsole') return { ...parsePnpjsResponse(raw), tokenUsage }
-  if (pageContext === 'spshooter') return { ...parseSpShooterResponse(raw), tokenUsage }
-  if (pageContext === 'graphsdkconsole') return { ...parseGraphSdkResponse(raw), tokenUsage }
-  return { reply: raw, tokenUsage }
+  if (pageContext === 'search') return { ...parseSearchResponse(raw), tokenUsage, responseMeta }
+  if (pageContext === 'pnpjsconsole') return { ...parsePnpjsResponse(raw), tokenUsage, responseMeta }
+  if (pageContext === 'spshooter') return { ...parseSpShooterResponse(raw), tokenUsage, responseMeta }
+  if (pageContext === 'graphsdkconsole') return { ...parseGraphSdkResponse(raw), tokenUsage, responseMeta }
+  return { reply: raw, tokenUsage, responseMeta }
 }
 

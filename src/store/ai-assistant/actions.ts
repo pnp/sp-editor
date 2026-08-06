@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { AiQueryApplyMode, AiSuggestionData, Constants, IAiMessage, IAiTokenInfo, ITokenUsage } from './types'
+import { AiQueryApplyMode, AiSuggestionData, Constants, IAiMessage, IAiResponseMeta, IAiTokenInfo, ITokenUsage } from './types'
 
 export function setAiPanelOpen(isOpen: boolean) {
   return action(Constants.AI_SET_OPEN, { isOpen })
@@ -15,6 +15,7 @@ export function updateAiMessage(id: string, updates: {
   isStreaming?: boolean
   suggestionData?: AiSuggestionData
   tokenUsage?: ITokenUsage
+  responseMeta?: IAiResponseMeta
 }) {
   return action(Constants.AI_UPDATE_MESSAGE, { id, ...updates })
 }

@@ -35,7 +35,7 @@ import {
   setAiSending,
   updateAiMessage,
 } from '../../store/ai-assistant/actions'
-import { IAiMessage, AiQueryApplyMode, AiSuggestionData } from '../../store/ai-assistant/types'
+import { IAiMessage, AiQueryApplyMode, AiSuggestionData, ITokenUsage } from '../../store/ai-assistant/types'
 import { checkBridgeStatus, setSelectedModel } from '../../store/ai-assistant-auth/actions'
 import { setPath as setSpShooterPath, setMethod as setSpShooterMethod, setBody as setSpShooterBody, setHeaders as setSpShooterHeaders } from '../../store/spshoot/actions'
 import { COPILOT_CLI_MODELS } from '../../services/ai-assistant/copilotApiClient'
@@ -138,6 +138,70 @@ function closeOpenFence(text: string): string {
   return text
 }
 
+function splitModelFooter(text: string): { body: string; footer: string | null } {
+  const footerMatch = text.match(/(?:\n+)?(?:Model used:\s*[^\n]+|\[\[SP_MODEL:[^\]]+\]\])\s*$/i)
+  if (!footerMatch || footerMatch.index === undefined) {
+    return { body: text, footer: null }
+  }
+
+  const body = text.slice(0, footerMatch.index).trimEnd()
+  const footer = text.slice(footerMatch.index).trim()
+  return { body, footer: footer || null }
+}
+
+const formatUsageNum = (n: number): string => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n))
+
+const formatCredits = (n: number): string => {
+  const fixed = n.toFixed(2)
+  return fixed.replace(/\.00$/, '').replace(/(\.\d)0$/, '$1')
+}
+
+const modelFromFooter = (footer: string | null): string | undefined => {
+  if (!footer) return undefined
+  const value = footer.replace(/^Model used:\s*/i, '').replace(/^\[\[SP_MODEL:([^\]]+)\]\]$/i, '$1').trim()
+  if (!value || /^unknown$/i.test(value)) return undefined
+  // Models often self-report as "Label (model-id)" — prefer the id for the name lookup.
+  const withId = /^.*?\(([^)]+)\)\s*$/.exec(value)
+  return withId ? withId[1].trim() : value
+}
+
+/** Maps a model id to its picker display name (without suffixes like "(premium)"). */
+const modelDisplayName = (model: string): string => {
+  const option = COPILOT_CLI_MODELS.find((m) => m.key.toLowerCase() === model.toLowerCase())
+  return option ? option.text.replace(/\s*\([^)]*\)\s*$/, '') : model
+}
+
+const formatMessageUsage = (
+  tokenUsage?: ITokenUsage,
+  responseMeta?: IAiMessage['responseMeta'],
+  fallbackModel?: string
+): string => {
+  const parts: string[] = []
+
+  const model = responseMeta?.modelLabel ?? fallbackModel
+  if (model) {
+    parts.push(modelDisplayName(model))
+  }
+
+  if (typeof responseMeta?.aiCredits === 'number') {
+    parts.push(`${formatCredits(responseMeta.aiCredits)} credits`)
+  }
+
+  if (typeof tokenUsage?.input === 'number' && typeof tokenUsage?.output === 'number') {
+    parts.push(`↑${formatUsageNum(tokenUsage.input)} in`)
+    parts.push(`↓${formatUsageNum(tokenUsage.output)} out`)
+    if (tokenUsage.cached > 0) {
+      parts.push(`~${formatUsageNum(tokenUsage.cached)} cached`)
+    }
+  }
+
+  if (typeof responseMeta?.elapsedSeconds === 'number') {
+    parts.push(`${responseMeta.elapsedSeconds}s`)
+  }
+
+  return parts.filter(Boolean).join(' · ')
+}
+
 const AiAssistantPanel = () => {
   const dispatch = useDispatch()
   const location = useLocation()
@@ -170,6 +234,9 @@ const AiAssistantPanel = () => {
   const sessionsByContextRef = useRef<Map<string, string>>(new Map())
   // Tracks which contexts have already had their system prompt sent (first message).
   const sentFirstForContextRef = useRef<Set<string>>(new Set())
+  // Model each context session was started with — a resumed copilot session keeps
+  // its original model, so a model change requires a fresh session.
+  const sessionModelByContextRef = useRef<Map<string, string>>(new Map())
 
   const draftRef = useRef<string>('')
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
@@ -474,8 +541,13 @@ const AiAssistantPanel = () => {
 
     // Get or create the session UUID for this context, then mark it as initialised
     // before the async call so rapid follow-up messages are not treated as first.
+    if (sessionModelByContextRef.current.get(pageContext) !== selectedModel) {
+      sessionsByContextRef.current.delete(pageContext)
+      sentFirstForContextRef.current.delete(pageContext)
+    }
     if (!sessionsByContextRef.current.has(pageContext)) {
       sessionsByContextRef.current.set(pageContext, generateId())
+      sessionModelByContextRef.current.set(pageContext, selectedModel)
     }
     const contextSessionId = sessionsByContextRef.current.get(pageContext)!
     const isFirstMessage = !sentFirstForContextRef.current.has(pageContext)
@@ -500,6 +572,7 @@ const AiAssistantPanel = () => {
             content: assistantContent,
             isStreaming: false,
             tokenUsage: res.tokenUsage,
+            responseMeta: res.responseMeta,
             suggestionData: {
               kind: 'search',
               query: effectiveQuery,
@@ -519,6 +592,7 @@ const AiAssistantPanel = () => {
             content: assistantContent,
             isStreaming: false,
             tokenUsage: res.tokenUsage,
+            responseMeta: res.responseMeta,
             suggestionData: {
               kind: 'pnpjs',
               code: res.code,
@@ -536,6 +610,7 @@ const AiAssistantPanel = () => {
             content: assistantContent,
             isStreaming: false,
             tokenUsage: res.tokenUsage,
+            responseMeta: res.responseMeta,
             suggestionData: {
               kind: 'graphsdk',
               code: res.code,
@@ -564,6 +639,7 @@ const AiAssistantPanel = () => {
             content: resolvedReply,
             isStreaming: false,
             tokenUsage: res.tokenUsage,
+            responseMeta: res.responseMeta,
             suggestionData: {
               kind: 'spshooter',
               restRequest: resolvedRequest,
@@ -578,7 +654,12 @@ const AiAssistantPanel = () => {
             if (resolvedRequest.headers) dispatch(setSpShooterHeaders(JSON.stringify(resolvedRequest.headers, null, 2)))
           }
         } else {
-          dispatch(updateAiMessage(assistantId, { content: assistantContent, isStreaming: false, tokenUsage: res.tokenUsage }))
+          dispatch(updateAiMessage(assistantId, {
+            content: assistantContent,
+            isStreaming: false,
+            tokenUsage: res.tokenUsage,
+            responseMeta: res.responseMeta,
+          }))
         }
 
         // Always update tokens so the header pill reflects the latest balance,
@@ -816,17 +897,19 @@ const AiAssistantPanel = () => {
           {(() => {
             const TOKEN_MARKER = '\n\n%%SP_TOKENS%%'
             const markerIdx = m.isStreaming ? -1 : m.content.lastIndexOf(TOKEN_MARKER)
-            const mainContent = markerIdx >= 0 ? m.content.slice(0, markerIdx) : m.content
-            const tokenLine = markerIdx >= 0 ? m.content.slice(markerIdx + TOKEN_MARKER.length) : null
+            const contentWithoutTokenLine = markerIdx >= 0 ? m.content.slice(0, markerIdx) : m.content
+            const legacyTokenLine = markerIdx >= 0 ? m.content.slice(markerIdx + TOKEN_MARKER.length) : null
+            const modelSplit = m.isStreaming ? { body: contentWithoutTokenLine, footer: null } : splitModelFooter(contentWithoutTokenLine)
+            const usageLine = formatMessageUsage(m.tokenUsage, m.responseMeta, modelFromFooter(modelSplit.footer)) || legacyTokenLine
             return (
               <>
-                {mainContent ? (
+                {modelSplit.body ? (
                   <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
-                    {m.isStreaming ? closeOpenFence(mainContent) : mainContent}
+                    {m.isStreaming ? closeOpenFence(modelSplit.body) : modelSplit.body}
                   </ReactMarkdown>
                 ) : null}
-                {!m.isStreaming && tokenLine && (
-                  <div className="ai-token-usage-footer">{tokenLine}</div>
+                {!m.isStreaming && usageLine && (
+                  <div className="ai-token-usage-footer">{usageLine}</div>
                 )}
               </>
             )

@@ -44,6 +44,17 @@ export interface ITokenUsage {
   total: number
 }
 
+export interface IAiResponseMeta {
+  /** Billed AI credits reported by the Copilot CLI footer. */
+  aiCredits?: number
+  /** End-to-end request duration in seconds when reported by CLI. */
+  elapsedSeconds?: number
+  /** Human-readable model label (e.g. "Claude Sonnet 4.6"). */
+  modelLabel?: string
+  /** Canonical model identifier (e.g. "claude-sonnet-4.6"). */
+  modelId?: string
+}
+
 export interface IAiMessage {
   id: string
   role: AiMessageRole
@@ -54,6 +65,8 @@ export interface IAiMessage {
   reasoning?: string
   /** Token usage for this message (assistant messages only, from CLI footer). */
   tokenUsage?: ITokenUsage
+  /** Non-token response metadata parsed from CLI footer (model, AI credits). */
+  responseMeta?: IAiResponseMeta
   // Optional: structured suggestion attached to assistant messages.
   // - search: payload to apply to the Search query editor
   // - pnpjs: code snippet to apply to the PnPjs editor

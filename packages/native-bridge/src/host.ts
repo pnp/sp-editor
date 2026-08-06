@@ -90,7 +90,7 @@ async function handleMessage(raw: unknown): Promise<void> {
       Array.isArray(allowedUrls) ? (allowedUrls as string[]).filter(u => typeof u === 'string') : undefined,
     )
     sendMessage(result.ok
-      ? { ok: true, response: result.response, tokenUsage: result.tokenUsage }
+      ? { ok: true, response: result.response, tokenUsage: result.tokenUsage, responseMeta: result.responseMeta }
       : errorResponse(result.error))
     return
   }
