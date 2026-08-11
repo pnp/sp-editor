@@ -331,10 +331,33 @@ export async function isCopilotAuthenticated(): Promise<boolean> {
 }
 
 /**
+ * The only tools the model may use. Everything else — bash, create, edit, view,
+ * grep, glob, sql, session_store_sql, skill, task, *_agent — is withheld, so
+ * prompt-injected page content cannot execute commands, touch the filesystem or
+ * read local Copilot session history. `web_fetch` is kept for documentation
+ * lookups and is itself constrained by the --allow-url list.
+ */
+const AVAILABLE_TOOLS = ['web_fetch']
+
+/**
+ * Tells the model that reading the pre-approved docs is permitted.
+ * Without this, role-scoped system prompts ("you only generate PnPjs snippets")
+ * make the model refuse to fetch anything as out of scope, even though
+ * --allow-url permits it. Kept in the bridge so it always matches the
+ * allowlist actually passed to the CLI.
+ */
+function toolPolicyNote(urls: string[]): string {
+  return `\n\n---\nTOOL POLICY (SP Editor bridge): you may use the web_fetch tool on these pre-approved documentation URLs when you need to confirm current API details: ${urls.join(', ')}. Reading them is IN SCOPE for your role, and you should do so when unsure or when the user asks you to. No other tools or URLs are available.`
+}
+
+/**
  * Sends a prompt to the standalone `copilot` CLI and returns the plain-text response.
  *
  * Security notes:
  *  - The prompt is passed as a discrete argv element, never through a shell.
+ *  - --available-tools withholds every tool except AVAILABLE_TOOLS.
+ *  - --disable-builtin-mcps drops the GitHub MCP server (repo/issue/PR access).
+ *  - --allow-all-tools is never passed, so nothing is auto-approved.
  *  - NO_COLOR=1 / TERM=dumb suppress ANSI / interactive output.
  *  - A 3-minute hard timeout (180 s) prevents the host from hanging.
  *  - Prompt size is validated by the host before this is called.
@@ -361,22 +384,27 @@ export async function runCopilotPrompt(
     GH_PROMPT_DISABLED: '1',
   }
 
-  const args: string[] = []
+  const args: string[] = ['--disable-builtin-mcps']
+  for (const tool of AVAILABLE_TOOLS) {
+    args.push(`--available-tools=${tool}`)
+  }
   if (sessionId) {
     args.push('--session-id', sessionId)
   }
   if (model && model !== 'auto') {
     args.push('--model', model)
   }
+  let effectivePrompt = prompt
   if (allowedUrls && allowedUrls.length > 0) {
     for (const url of allowedUrls) {
       args.push(`--allow-url=${url}`)
     }
+    effectivePrompt += toolPolicyNote(allowedUrls)
   }
   // Pass the prompt via stdin to avoid shell quoting issues on Windows where
   // shell: true does not reliably quote multi-word argv elements.
 
-  const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, prompt)
+  const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, effectivePrompt)
 
   if (result.exitCode !== 0) {
     // Try to recover a response from stdout even on non-zero exit —
