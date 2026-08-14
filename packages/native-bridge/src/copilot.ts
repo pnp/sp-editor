@@ -206,6 +206,28 @@ function stripAnsi(text: string): string {
   return text.replace(ANSI_PATTERN, '').trim()
 }
 
+// Bullet notices the CLI prints about our own sandbox flags, e.g.
+// "● Disabled tools: bash, create, ...\n  list_bash, ...". They are diagnostics,
+// not answer content, and must not reach the chat panel.
+const CLI_NOTICE_PATTERN = /^[●•]\s*(?:Disabled tools|Unknown tool name)\b/i
+
+/** Drops sandbox notice blocks (the bullet line plus its indented continuations). */
+function stripCliNotices(text: string): string {
+  const out: string[] = []
+  let skipping = false
+  for (const line of text.split('\n')) {
+    if (CLI_NOTICE_PATTERN.test(line.trim())) {
+      skipping = true
+      continue
+    }
+    // Continuation lines of a notice are indented; a non-indented line ends the block.
+    if (skipping && /^\s+\S/.test(line)) continue
+    skipping = false
+    out.push(line)
+  }
+  return out.join('\n').trim()
+}
+
 /**
  * Builds an environment that augments PATH with common binary locations that
  * Chrome's restricted launch environment omits (Homebrew, nvm, npm global, etc.).
@@ -409,7 +431,7 @@ export async function runCopilotPrompt(
   if (result.exitCode !== 0) {
     // Try to recover a response from stdout even on non-zero exit —
     // copilot sometimes exits with code 1 on warnings while still producing output.
-    const recoveredContentRaw = stripAnsi(result.stdout).trim()
+    const recoveredContentRaw = stripCliNotices(stripAnsi(result.stdout))
     if (recoveredContentRaw) {
       const marker = extractModelMarker(recoveredContentRaw)
       const recoveredContent = marker.content
@@ -436,7 +458,7 @@ export async function runCopilotPrompt(
   // When stdout is a pipe (non-TTY) copilot writes the stats footer to stderr.
   // Use stdout for the response content; parse stderr for token usage.
   // Note: do NOT trim stderr — parseFooter needs the leading \n before "Changes".
-  const stdoutContentRaw = stripAnsi(result.stdout).trim()
+  const stdoutContentRaw = stripCliNotices(stripAnsi(result.stdout))
   if (!stdoutContentRaw) {
     return { ok: false, error: 'copilot returned an empty response' }
   }
