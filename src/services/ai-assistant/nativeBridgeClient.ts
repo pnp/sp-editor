@@ -9,12 +9,25 @@
  */
 
 import { IAiResponseMeta, ITokenUsage } from '../../store/ai-assistant/types'
+import { AiProviderId } from './models'
 
 const BRIDGE_HOST = 'fi.fireit.sp_editor_native_bridge'
 
+export interface CliStatus {
+  installed: boolean
+  authenticated: boolean
+  /** Installed but too old for the options the bridge uses (bridge >= 1.3.0). */
+  outdated: boolean
+  /** Model ids reported by the CLI (github-copilot, bridge >= 1.3.0). */
+  models?: string[]
+}
+
 export interface BridgeStatus {
-  copilotCliInstalled: boolean
-  copilotCliAuthenticated: boolean
+  /** Bridge package version; undefined for bridges older than 1.3.0. */
+  bridgeVersion?: string
+  /** Per-provider CLI status. A provider is undefined when the installed bridge
+   *  predates it (the bridge needs updating to use that provider). */
+  providers: Record<AiProviderId, CliStatus | undefined>
 }
 
 function sendBridgeMessage(message: object): Promise<any> {
@@ -33,25 +46,33 @@ function sendBridgeMessage(message: object): Promise<any> {
 }
 
 /**
- * Send a prompt to the Copilot CLI via the native bridge.
+ * Send a prompt to a provider CLI via the native bridge.
  *
+ * @param provider   Which CLI to use ('github-copilot' or 'claude-code').
  * @param prompt     The prompt text (system+user for first message, bare user text for continuations).
- * @param sessionId  Session UUID that ties this call to a running copilot session.
- * @param model      Optional model key (e.g. 'gpt-5.2'). Pass 'auto' or omit for the default.
+ * @param sessionId  Session UUID that ties this call to a running CLI session.
+ * @param model      Optional CLI model id (e.g. 'gpt-5.5', 'sonnet'). 'auto' / 'default' or omit for the default.
+ * @param resume     True when the session already exists (not the first message).
  */
 export async function sendViaBridge(
+  provider: AiProviderId,
   prompt: string,
   sessionId: string,
   model?: string,
   allowedUrls?: string[],
+  resume?: boolean,
 ): Promise<{ response: string; tokenUsage?: ITokenUsage; responseMeta?: IAiResponseMeta }> {
   const res = await sendBridgeMessage({
     type: 'ai.complete',
-    provider: 'github-copilot',
-    payload: { prompt, sessionId, model, allowedUrls },
+    provider,
+    payload: { prompt, sessionId, model, allowedUrls, resume },
   })
   if (!res?.ok) {
-    throw new Error(res?.error ?? 'bridge_error')
+    const error: string = res?.error ?? 'bridge_error'
+    if (error.startsWith('unknown_provider')) {
+      throw new Error('Your SP Editor bridge is too old for this provider. Update it with: npm install -g @sp-editor/native-bridge@latest')
+    }
+    throw new Error(error)
   }
   return {
     response: res.response as string,
@@ -61,16 +82,29 @@ export async function sendViaBridge(
 }
 
 /**
- * Query the native bridge for Copilot CLI install / auth status.
+ * Query the native bridge for its version and the install / auth status of each provider CLI.
  */
 export async function checkBridgeStatus(): Promise<BridgeStatus> {
   const response = await sendBridgeMessage({ type: 'providers.status' })
   if (!response?.ok) {
     throw new Error(response?.error ?? 'bridge_error')
   }
-  const status = response.providers?.['github-copilot']
+  const read = (s: any): CliStatus | undefined =>
+    s
+      ? {
+          installed: !!s.installed,
+          authenticated: !!s.authenticated,
+          outdated: !!s.outdated,
+          models: Array.isArray(s.models)
+            ? s.models.filter((m: unknown): m is string => typeof m === 'string' && m.length > 0)
+            : undefined,
+        }
+      : undefined
   return {
-    copilotCliInstalled: status?.installed ?? false,
-    copilotCliAuthenticated: status?.authenticated ?? false,
+    bridgeVersion: typeof response.bridgeVersion === 'string' ? response.bridgeVersion : undefined,
+    providers: {
+      'github-copilot': read(response.providers?.['github-copilot']),
+      'claude-code': read(response.providers?.['claude-code']),
+    },
   }
 }

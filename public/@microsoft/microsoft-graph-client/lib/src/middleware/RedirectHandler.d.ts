@@ -44,6 +44,12 @@ export declare class RedirectHandler implements Middleware {
     /**
      * @private
      * @static
+     * A member representing the cookie header name
+     */
+    private static COOKIE_HEADER;
+    /**
+     * @private
+     * @static
      * A member holding the manual redirect value
      */
     private static MANUAL_REDIRECT;
@@ -95,10 +101,10 @@ export declare class RedirectHandler implements Middleware {
     private isRelativeURL;
     /**
      * @private
-     * To check whether the authorization header in the request should be dropped for consequent redirected requests
+     * To check whether the sensitive headers (Authorization, Cookie) in the request should be dropped for consequent redirected requests
      * @param {string} requestUrl - The request url value
      * @param {string} redirectUrl - The redirect url value
-     * @returns A boolean representing whether the authorization header in the request should be dropped for consequent redirected requests
+     * @returns A boolean representing whether the sensitive headers in the request should be dropped for consequent redirected requests
      */
     private shouldDropAuthorizationHeader;
     /**

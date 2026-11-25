@@ -1,9 +1,10 @@
-import { Pivot, PivotItem } from '@fluentui/react'
+import { ActionButton, Pivot, PivotItem, Stack } from '@fluentui/react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IRootState } from '../../../store'
 import { setBody, setHeaders } from '../../../store/spshoot/actions'
 import { getContextInfo } from '../chrome/chrome-actions'
+import { useSavedRequests } from './useSavedRequests'
 
 const SPShooterResults = () => {
 
@@ -21,6 +22,7 @@ const SPShooterResults = () => {
   const { results, body, headers } = useSelector((state: IRootState) => state.spshoot)
 
   const [selectedKey, setSelectedKey] = useState('0')
+  const savedRequests = useSavedRequests()
 
   const COMMON_CONFIG: monaco.editor.IEditorOptions = useMemo(() => {
     const config: monaco.editor.IEditorOptions = {
@@ -200,7 +202,8 @@ const SPShooterResults = () => {
     if (initializedBody) {
       const model = editorBody.current?.getModel()
 
-      if (body && (body !== editorBody.current!.getValue())) {
+      // Also apply empty values, so loading a request without a body clears the editor.
+      if (body !== editorBody.current!.getValue()) {
         if (model) {
           monaco.editor.setModelLanguage(model, 'text')
           editorBody.current?.setValue(body)
@@ -213,7 +216,7 @@ const SPShooterResults = () => {
     if (initializedHeaders) {
       const model = editorHeaders.current?.getModel()
 
-      if (headers && (headers !== editorHeaders.current!.getValue())) {
+      if (headers !== editorHeaders.current!.getValue()) {
         if (model) {
           monaco.editor.setModelLanguage(model, 'json')
           let test = headers
@@ -233,6 +236,26 @@ const SPShooterResults = () => {
   }
 
   return (
+    <div style={{ position: 'relative' }}>
+    {/* Save buttons sit over the right end of the tab row (the Pivot link bar is 44px high). */}
+    <Stack
+      horizontal
+      verticalAlign="center"
+      style={{ position: 'absolute', top: 0, right: 30, height: 44, zIndex: 1 }}
+    >
+      <ActionButton
+        iconProps={{ iconName: 'Save' }}
+        text="Save request"
+        onClick={savedRequests.openSaveDialog}
+        disabled={!savedRequests.canSave}
+      />
+      <ActionButton
+        iconProps={{ iconName: 'BookmarkReport' }}
+        text="Saved requests"
+        onClick={savedRequests.openSavedPanel}
+      />
+    </Stack>
+    {savedRequests.ui}
     <Pivot
       selectedKey={selectedKey}
       onLinkClick={handleLinkClick}
@@ -277,6 +300,7 @@ const SPShooterResults = () => {
         <div ref={outputBodyDiv} style={{ width: '100%', height: 'calc(100vh - 185px)', border: '1px solid grey' }} />
       </PivotItem>
     </Pivot>
+    </div>
   )
 }
 

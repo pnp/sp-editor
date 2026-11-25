@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="react" />
 import { IDynamicPerson, AvatarSize, AvatarType, PersonCardInteraction, ViewType } from '@microsoft/mgt-components';
 import { TemplateContext, TemplateRenderedData } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';

@@ -634,9 +634,8 @@ class BatchRequestContent {
             const requestData = {
                 url: "",
             };
-            const hasHttpRegex = new RegExp("^https?://");
             // Stripping off hostname, port and url scheme
-            requestData.url = hasHttpRegex.test(request.url) ? "/" + request.url.split(/.*?\/\/.*?\//)[1] : request.url;
+            requestData.url = request.url.replace(/^(?:http)?s?:?(?:\/\/)?[^/]+\/(?:v1.0|beta)?/i, ""); // replaces <scheme>?<?>?<//><hostname:port>+</>?<version>+ by an empty string
             requestData.method = request.method;
             const headers = {};
             request.headers.forEach((value, key) => {
@@ -1178,26 +1177,21 @@ const isCustomHost = (url, customHosts) => {
  * @returns {boolean} - Returns true is for one of the provided endpoints.
  */
 const isValidEndpoint = (url, allowedHosts = GRAPH_URLS) => {
-    // Valid Graph URL pattern - https://graph.microsoft.com/{version}/{resource}?{query-parameters}
-    // Valid Graph URL example - https://graph.microsoft.com/v1.0/
-    url = url.toLowerCase();
-    if (url.indexOf("https://") !== -1) {
-        url = url.replace("https://", "");
-        // Find where the host ends
-        const startofPortNoPos = url.indexOf(":");
-        const endOfHostStrPos = url.indexOf("/");
-        let hostName = "";
-        if (endOfHostStrPos !== -1) {
-            if (startofPortNoPos !== -1 && startofPortNoPos < endOfHostStrPos) {
-                hostName = url.substring(0, startofPortNoPos);
-                return allowedHosts.has(hostName);
-            }
-            // Parse out the host
-            hostName = url.substring(0, endOfHostStrPos);
-            return allowedHosts.has(hostName);
-        }
+    let parsedUrl;
+    try {
+        parsedUrl = new URL(url);
     }
-    return false;
+    catch (_a) {
+        return false;
+    }
+    if (parsedUrl.protocol !== "https:") {
+        return false;
+    }
+    // Reject URLs with userinfo to prevent host-confusion attacks
+    if (parsedUrl.username !== "" || parsedUrl.password !== "") {
+        return false;
+    }
+    return allowedHosts.has(parsedUrl.hostname.toLowerCase());
 };
 /**
  * Throws error if the string is not a valid host/hostname and contains other url parts.
@@ -1392,6 +1386,41 @@ const appendRequestHeader = (request, options, key, value) => {
             }
             else {
                 options.headers[key] += `, ${value}`;
+            }
+        }
+    }
+};
+/**
+ * @constant
+ * To remove a header from the given request
+ * @param {RequestInfo} request - The request object or the url string
+ * @param {FetchOptions|undefined} options - The request options object
+ * @param {string} key - The header key string
+ * @returns Nothing
+ */
+const removeRequestHeader = (request, options, key) => {
+    if (typeof Request !== "undefined" && request instanceof Request) {
+        request.headers.delete(key);
+    }
+    if (typeof options !== "undefined" && options.headers !== undefined) {
+        if (typeof Headers !== "undefined" && options.headers instanceof Headers) {
+            options.headers.delete(key);
+        }
+        else if (options.headers instanceof Array) {
+            const headers = options.headers;
+            const lowerKey = key.toLowerCase();
+            for (let i = headers.length - 1; i >= 0; i--) {
+                if (headers[i][0].toLowerCase() === lowerKey) {
+                    headers.splice(i, 1);
+                }
+            }
+        }
+        else {
+            const headers = options.headers;
+            for (const headerKey of Object.keys(headers)) {
+                if (headerKey.toLowerCase() === key.toLowerCase()) {
+                    delete headers[headerKey];
+                }
             }
         }
     }
@@ -2031,10 +2060,10 @@ class RedirectHandler {
     }
     /**
      * @private
-     * To check whether the authorization header in the request should be dropped for consequent redirected requests
+     * To check whether the sensitive headers (Authorization, Cookie) in the request should be dropped for consequent redirected requests
      * @param {string} requestUrl - The request url value
      * @param {string} redirectUrl - The redirect url value
-     * @returns A boolean representing whether the authorization header in the request should be dropped for consequent redirected requests
+     * @returns A boolean representing whether the sensitive headers in the request should be dropped for consequent redirected requests
      */
     shouldDropAuthorizationHeader(requestUrl, redirectUrl) {
         const schemeHostRegex = /^[A-Za-z].+?:\/\/.+?(?=\/|$)/;
@@ -2101,7 +2130,8 @@ class RedirectHandler {
                 else {
                     const redirectUrl = this.getLocationHeader(response);
                     if (!this.isRelativeURL(redirectUrl) && this.shouldDropAuthorizationHeader(response.url, redirectUrl)) {
-                        delete context.options.headers[RedirectHandler.AUTHORIZATION_HEADER];
+                        removeRequestHeader(context.request, context.options, RedirectHandler.AUTHORIZATION_HEADER);
+                        removeRequestHeader(context.request, context.options, RedirectHandler.COOKIE_HEADER);
                     }
                     yield this.updateRequestUrl(redirectUrl, context);
                 }
@@ -2171,6 +2201,12 @@ RedirectHandler.AUTHORIZATION_HEADER = "Authorization";
 /**
  * @private
  * @static
+ * A member representing the cookie header name
+ */
+RedirectHandler.COOKIE_HEADER = "Cookie";
+/**
+ * @private
+ * @static
  * A member holding the manual redirect value
  */
 RedirectHandler.MANUAL_REDIRECT = "manual";
@@ -2187,7 +2223,7 @@ RedirectHandler.MANUAL_REDIRECT = "manual";
 /**
  * @module Version
  */
-const PACKAGE_VERSION = "3.0.7";
+const PACKAGE_VERSION = "3.1.0";
 
 ;// ./node_modules/@microsoft/microsoft-graph-client/lib/es/src/middleware/TelemetryHandler.js
 /**
@@ -4059,14 +4095,25 @@ class GraphRequest {
         this.parsePath = (path) => {
             // Strips out the base of the url if they passed in
             if (path.indexOf("https://") !== -1) {
-                path = path.replace("https://", "");
-                // Find where the host ends
-                const endOfHostStrPos = path.indexOf("/");
+                // Use structured URL parsing to validate the URL and reject userinfo
+                let parsedUrl;
+                try {
+                    parsedUrl = new URL(path);
+                }
+                catch (_a) {
+                    throw new GraphClientError("Unable to parse the URL: " + path);
+                }
+                // Reject URLs with userinfo to prevent host-confusion attacks
+                if (parsedUrl.username !== "" || parsedUrl.password !== "") {
+                    throw new GraphClientError("URL cannot contain user credentials: " + path);
+                }
+                // Extract host from the original string using the first "/" after "https://"
+                const withoutScheme = path.substring("https://".length);
+                const endOfHostStrPos = withoutScheme.indexOf("/");
                 if (endOfHostStrPos !== -1) {
-                    // Parse out the host
-                    this.urlComponents.host = "https://" + path.substring(0, endOfHostStrPos);
+                    this.urlComponents.host = "https://" + withoutScheme.substring(0, endOfHostStrPos);
                     // Strip the host from path
-                    path = path.substring(endOfHostStrPos + 1, path.length);
+                    path = withoutScheme.substring(endOfHostStrPos + 1, withoutScheme.length);
                 }
                 // Remove the following version
                 const endOfVersionStrPos = path.indexOf("/");
@@ -4414,7 +4461,7 @@ class GraphRequest {
     }
     /**
      * @public
-     * Sets the api endpoint version for a request
+     * Sets the response type for a request
      * @param {ResponseType} responseType - The response type value
      * @returns The same GraphRequest instance that is being called with
      */

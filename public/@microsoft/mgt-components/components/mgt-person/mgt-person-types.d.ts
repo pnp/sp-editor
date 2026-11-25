@@ -6,7 +6,7 @@
  */
 declare const avatarTypes: readonly ["photo", "initials"];
 export type AvatarType = (typeof avatarTypes)[number];
-export declare const isAvatarType: (value: unknown) => value is "initials" | "photo";
+export declare const isAvatarType: (value: unknown) => value is AvatarType;
 export declare const avatarTypeConverter: (value: string, defaultValue?: AvatarType) => AvatarType;
 /**
  * Configuration object for the Person component

@@ -37,5 +37,5 @@ export declare const createChat: (graph: IGraph, person: string, user: string) =
  * @param {{ body: {"content": string}  }} messageData
  * @return {*}  {Promise<ChatMessage>}
  */
-export declare const sendMessage: (graph: IGraph, chatId: string, messageData: Pick<ChatMessage, 'body'>) => Promise<ChatMessage>;
+export declare const sendMessage: (graph: IGraph, chatId: string, messageData: Pick<ChatMessage, "body">) => Promise<ChatMessage>;
 //# sourceMappingURL=mgt-person-card.graph.d.ts.map

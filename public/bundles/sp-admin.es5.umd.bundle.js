@@ -1781,7 +1781,7 @@ function CachingPessimisticRefresh(props) {
                 // set our result
                 result = cached;
                 setTimeout(async () => {
-                    const q = new Queryable(this);
+                    const q = new Queryable([this, url]);
                     const a = q.on.pre.toArray();
                     q.on.pre.clear();
                     // filter out this pre handler from the original queryable as we don't want to re-run it
@@ -2714,7 +2714,7 @@ function encodePathNoURIEncode(value) {
 function telemetry_Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            let clientTag = "PnPCoreJS:4.20.0:";
+            let clientTag = "PnPCoreJS:4.23.0:";
             // make our best guess based on url to the method called
             const { pathname } = new URL(url);
             // remove anything before the _api as that is potentially PII and we don't care, just want to get the called path to the REST API

@@ -25,6 +25,6 @@ export declare class MgtSpinner extends MgtBaseTaskComponent {
      * @returns
      * @memberof MgtSpinner
      */
-    render(): import("lit").TemplateResult<1>;
+    render(): import("lit-html").TemplateResult<1>;
 }
 //# sourceMappingURL=mgt-spinner.d.ts.map

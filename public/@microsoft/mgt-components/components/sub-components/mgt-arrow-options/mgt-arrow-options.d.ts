@@ -68,7 +68,7 @@ export declare class MgtArrowOptions extends MgtBaseTaskComponent {
      * a lit-html TemplateResult. Setting properties inside this method will *not*
      * trigger the element to update.
      */
-    renderContent: () => import("lit").TemplateResult<1>;
+    renderContent: () => import("lit-html").TemplateResult<1>;
     private getMenuOptions;
 }
 //# sourceMappingURL=mgt-arrow-options.d.ts.map

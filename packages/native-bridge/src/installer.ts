@@ -17,7 +17,7 @@ interface ManifestJson {
 function buildManifest(hostExecutablePath: string): ManifestJson {
   return {
     name: BRIDGE_NAME,
-    description: 'SP Editor native messaging bridge for GitHub Copilot CLI',
+    description: 'SP Editor native messaging bridge for GitHub Copilot CLI and Claude Code',
     path: hostExecutablePath,
     type: 'stdio',
     allowed_origins: DEFAULT_EXTENSION_IDS.map(id => `chrome-extension://${id}/`),

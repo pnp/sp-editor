@@ -15,7 +15,7 @@ declare const personTypes: readonly ["any", "person", "group"];
  * @enum {string}
  */
 export type PersonType = (typeof personTypes)[number];
-export declare const isPersonType: (value: unknown) => value is "any" | "person" | "group";
+export declare const isPersonType: (value: unknown) => value is PersonType;
 export declare const personTypeConverter: (value: string, defaultValue?: PersonType) => PersonType;
 declare const userTypes: readonly ["any", "user", "contact"];
 /**
@@ -25,7 +25,7 @@ declare const userTypes: readonly ["any", "user", "contact"];
  * @enum {string}
  */
 export type UserType = (typeof userTypes)[number];
-export declare const isUserType: (value: unknown) => value is "any" | "user" | "contact";
+export declare const isUserType: (value: unknown) => value is UserType;
 export declare const userTypeConverter: (value: string, defaultValue?: UserType) => UserType;
 /**
  * async promise, returns all Graph people who are most relevant contacts to the signed in user.

@@ -12,9 +12,11 @@ export interface ProviderStatusRequest {
   type: 'providers.status'
 }
 
+export type ProviderId = 'github-copilot' | 'claude-code'
+
 export interface AiCompleteRequest {
   type: 'ai.complete'
-  provider: 'github-copilot'
+  provider: ProviderId
   payload: {
     /** The prompt text to send (system+user for first message, user-only for continuations). */
     prompt: string
@@ -24,6 +26,8 @@ export interface AiCompleteRequest {
     model?: string
     /** URL patterns pre-approved for copilot CLI web fetching (e.g. 'https://pnp.github.io/*'). */
     allowedUrls?: string[]
+    /** True when sessionId refers to an existing conversation (claude-code: --resume instead of --session-id). */
+    resume?: boolean
   }
 }
 
@@ -35,15 +39,25 @@ export interface PingResponse {
   ok: true
 }
 
-export interface GithubCopilotStatus {
+export interface CliProviderStatus {
   installed: boolean
   authenticated: boolean
+  /** True when the CLI is installed but too old for the options the bridge uses. */
+  outdated?: boolean
+  /** Model ids the CLI accepts (github-copilot only). Missing when they cannot be read. */
+  models?: string[]
 }
+
+/** @deprecated use CliProviderStatus */
+export type GithubCopilotStatus = CliProviderStatus
 
 export interface ProviderStatusResponse {
   ok: true
+  /** Bridge package version (since 1.3.0; missing in older bridges). */
+  bridgeVersion?: string
   providers: {
-    'github-copilot': GithubCopilotStatus
+    'github-copilot': CliProviderStatus
+    'claude-code': CliProviderStatus
   }
 }
 

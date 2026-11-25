@@ -5,7 +5,7 @@ export declare class _Comments extends _SPCollection<ICommentInfo[]> {
      *
      * @param info Comment information to add
      */
-    add(info: string | ICommentInfo): Promise<IComment & ICommentInfo>;
+    add(info: string | Partial<ICommentInfo>): Promise<IComment & ICommentInfo>;
     /**
      * Gets a comment by id
      *
@@ -78,13 +78,11 @@ export interface ICommentInfo {
     itemId: number;
     likeCount: number;
     listId: string;
-    mentions: [
-        {
-            loginName: string;
-            email: string;
-            name: string;
-        }
-    ] | null;
+    mentions?: {
+        loginName: string;
+        email: string;
+        name: string;
+    }[] | null;
     parentId: string;
     replyCount: number;
     text: string;

@@ -1944,7 +1944,7 @@ function CachingPessimisticRefresh(props) {
                 // set our result
                 result = cached;
                 setTimeout(async () => {
-                    const q = new Queryable(this);
+                    const q = new Queryable([this, url]);
                     const a = q.on.pre.toArray();
                     q.on.pre.clear();
                     // filter out this pre handler from the original queryable as we don't want to re-run it
@@ -2552,7 +2552,7 @@ function AdvancedQuery() {
 function Telemetry() {
     return (instance) => {
         instance.on.pre(async function (url, init, result) {
-            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.20.0" };
+            init.headers = { ...init.headers, SdkVersion: "PnPCoreJS/4.23.0" };
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/dot-notation
             this.log(`Request Tag: ${init.headers["SdkVersion"]}`, 0);
             return [url, init, result];
@@ -3194,6 +3194,7 @@ let _Drive = class _Drive extends _GraphInstance {
     /**
      * Method for retrieving recently accessed drive items by the user.
      * @returns IDriveItems
+     * @deprecated The recent API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
      */
     get recent() {
         return DriveItems(this, "recent");
@@ -3202,6 +3203,7 @@ let _Drive = class _Drive extends _GraphInstance {
      * Method for retrieving drive items shared with the user.
      * @param options - ISharingWithMeOptions (Optional)
      * @returns IDriveItems
+     * @deprecated The sharedWithMe API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
      */
     async sharedWithMe(options = null) {
         const q = DriveItems(this, "sharedWithMe");
@@ -5806,9 +5808,15 @@ let _Insights = class _Insights extends _GraphInstance {
     get trending() {
         return TrendingInsights(this);
     }
+    /**
+     *  @deprecated The insights used API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
+     */
     get used() {
         return UsedInsights(this);
     }
+    /**
+     * @deprecated The insights shared API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
+     */
     get shared() {
         return SharedInsights(this);
     }

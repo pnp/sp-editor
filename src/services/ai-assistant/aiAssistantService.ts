@@ -1,5 +1,6 @@
 import { IAiMessage, IAiResponseMeta, ITokenUsage } from '../../store/ai-assistant/types'
 import { DEFAULT_CLI_MODEL } from './copilotApiClient'
+import { getModelProvider, toCliModel } from './models'
 import { sendViaBridge } from './nativeBridgeClient'
 
 export interface ISendChatMessageArgs {
@@ -9,7 +10,7 @@ export interface ISendChatMessageArgs {
   model?: string
   /** Called with accumulated content+reasoning as the response arrives. */
   onChunk?: (accumulated: { content: string; reasoning: string }) => void
-  /** Session UUID — ties calls to the same copilot session. */
+  /** Session UUID — ties calls to the same CLI session. */
   sessionId?: string
   /** True when there are no prior messages; the system prompt is prepended to the prompt. */
   isFirstMessage?: boolean
@@ -620,7 +621,8 @@ function parseSpShooterResponse(raw: string): ISendChatMessageResult {
 // ── Public API ───────────────────────────────────────────────────────────────
 
 /**
- * Send a chat message to the GitHub Copilot API.
+ * Send a chat message through the native bridge to the selected model's provider CLI
+ * (GitHub Copilot CLI or Claude Code).
  * Builds a proper multi-turn message array (system + history + user).
  */
 export async function sendChatMessage(
@@ -647,19 +649,26 @@ export async function sendChatMessage(
   const systemPrompt = getSystemPrompt(pageContext)
   const contextPrefix = buildContextPrefix(pageContext, contextData)
 
-  // First message: include system prompt so copilot session has the full context.
-  // Subsequent messages: send bare user text (copilot retains history in its session).
+  // First message: include system prompt so the CLI session has the full context.
+  // Subsequent messages: send bare user text (the CLI retains history in its session).
   const cliPrompt = isFirstMessage
     ? `${systemPrompt}\n\n${contextPrefix}${userText}`
     : `${contextPrefix}${userText}`
 
-  // Pre-approve URL patterns for copilot web fetching — always allowed regardless of context
+  // Pre-approve URL patterns for CLI web fetching — always allowed regardless of context
   const allowedUrls: string[] = [
     'https://learn.microsoft.com/*',
     'https://pnp.github.io/*',
   ]
 
-  const { response: raw, tokenUsage, responseMeta } = await sendViaBridge(cliPrompt, sessionId, model, allowedUrls)
+  const { response: raw, tokenUsage, responseMeta } = await sendViaBridge(
+    getModelProvider(model),
+    cliPrompt,
+    sessionId,
+    toCliModel(model),
+    allowedUrls,
+    !isFirstMessage,
+  )
 
   // Notify streaming placeholder with the complete result
   if (args.onChunk) {

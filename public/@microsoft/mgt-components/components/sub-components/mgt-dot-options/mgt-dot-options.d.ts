@@ -53,7 +53,7 @@ export declare class MgtDotOptions extends MgtBaseTaskComponent {
     /**
      * Invoked from the base class render method when the _task is in a completed state.
      */
-    readonly renderContent: () => import("lit").TemplateResult<1>;
+    readonly renderContent: () => import("lit-html").TemplateResult<1>;
     private readonly handleItemClick;
     private readonly handleItemKeydown;
     /**
@@ -64,7 +64,7 @@ export declare class MgtDotOptions extends MgtBaseTaskComponent {
      * @returns
      * @memberof MgtDotOptions
      */
-    getMenuOption(name: string, clickFn: (e: Event) => void): import("lit").TemplateResult<1>;
+    getMenuOption(name: string, clickFn: (e: Event) => void): import("lit-html").TemplateResult<1>;
     private readonly onDotClick;
     private readonly onDotKeydown;
     private handleKeydownMenuOption;

@@ -1,7 +1,7 @@
-import { spawn } from 'child_process'
-import os from 'os'
-import path from 'path'
 import { PROMPT_SIZE_LIMIT } from './protocol'
+import { ResponseMeta, TOKEN_LINE_MARKER, TokenUsage, formatTokenUsage, runCommand } from './cli'
+
+export { TOKEN_LINE_MARKER }
 
 /** Timeout for a single copilot call (ms). */
 const COPILOT_TIMEOUT_MS = 180_000  // 3 minutes — first messages with large system prompts can take longer
@@ -18,41 +18,16 @@ const ANSI_PATTERN = /\x1B\[[0-9;]*[A-Za-z]|\x1B\][^\x07]*\x07|\x1B[()][AB0-9]/g
 //   Old: "\n\nChanges    +0 -0\nRequests   1 Premium (5s)\nTokens     ↑ 20.9k • ↓ 1.2k = 22.1k (↑ cached: 18.0k)"
 // We search for the LAST occurrence since fetched web content may contain "Changes +0 -0" in git diff examples.
 
-interface TokenUsage {
-  input: number
-  output: number
-  cached: number
-  total: number
-}
-
-interface ResponseMeta {
-  aiCredits?: number
-  elapsedSeconds?: number
-  modelLabel?: string
-  modelId?: string
-}
-
 interface ExtractedModelMarker {
   content: string
   modelLabel?: string
   modelId?: string
 }
 
-/** Unique marker appended to response content so the UI can render token stats
- *  without relying on a separate Redux field surviving the full message chain. */
-export const TOKEN_LINE_MARKER = '\n\n%%SP_TOKENS%%'
-
 function parseTokenNum(s: string): number {
   const n = parseFloat(s)
   if (isNaN(n)) return 0
   return s.toLowerCase().endsWith('k') ? Math.round(n * 1000) : Math.round(n)
-}
-
-function formatTokenUsage(t: TokenUsage): string {
-  const fmt = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n)
-  let line = `↑${fmt(t.input)} in · ↓${fmt(t.output)} out`
-  if (t.cached > 0) line += ` · ~${fmt(t.cached)} cached`
-  return line
 }
 
 function parseResponseMeta(text: string): ResponseMeta {
@@ -228,98 +203,46 @@ function stripCliNotices(text: string): string {
   return out.join('\n').trim()
 }
 
-/**
- * Builds an environment that augments PATH with common binary locations that
- * Chrome's restricted launch environment omits (Homebrew, nvm, npm global, etc.).
- */
-function buildEnv(extra?: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-  const isWindows = os.platform() === 'win32'
-  const pathSep = isWindows ? ';' : ':'
-
-  const unixPaths = [
-    '/opt/homebrew/bin',
-    '/opt/homebrew/sbin',
-    '/usr/local/bin',
-    '/usr/local/sbin',
-    '/usr/bin',
-    '/bin',
-  ]
-
-  // Windows: npm global installs land in %APPDATA%\npm or the Node.js install dir.
-  const windowsPaths = [
-    process.env.APPDATA ? path.join(process.env.APPDATA, 'npm') : '',
-    process.env.ProgramFiles ? path.join(process.env.ProgramFiles, 'nodejs') : '',
-    process.env['ProgramFiles(x86)'] ? path.join(process.env['ProgramFiles(x86)'], 'nodejs') : '',
-  ].filter(Boolean)
-
-  const extraPaths = [
-    ...(isWindows ? windowsPaths : unixPaths),
-    // Always include the directory of the current node executable — globally
-    // installed npm binaries live alongside it regardless of platform.
-    path.dirname(process.execPath),
-  ]
-
-  const current = process.env.PATH ?? (isWindows ? process.env.Path ?? '' : '')
-  const parts = current.split(pathSep).filter(Boolean)
-  for (const p of extraPaths.reverse()) {
-    if (p && !parts.includes(p)) parts.unshift(p)
-  }
-  return { ...process.env, PATH: parts.join(pathSep), ...extra }
-}
-
-/**
- * Runs a command and returns { exitCode, stdout, stderr }.
- * Never uses a shell — args are passed as an array to prevent injection.
- * On Windows, npm global binaries are .cmd wrappers; shell: true is required
- * to execute them, but we keep args as a discrete array to prevent injection.
- */
-function runCommand(
-  cmd: string,
-  args: string[],
-  timeoutMs: number,
-  env?: NodeJS.ProcessEnv,
-  stdinData?: string,
-): Promise<{ exitCode: number; stdout: string; stderr: string }> {
-  const isWindows = os.platform() === 'win32'
-  return new Promise((resolve) => {
-    const proc = spawn(cmd, args, {
-      // Windows npm binaries are .cmd files and require shell: true to execute.
-      // On Unix we keep shell: false for security. Args are always a discrete
-      // array (never interpolated) so injection is not possible either way.
-      shell: isWindows,
-      cwd: os.tmpdir(),
-      env: buildEnv(env),
-      timeout: timeoutMs,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    })
-
-    let stdout = ''
-    let stderr = ''
-
-    proc.stdout!.on('data', (chunk: Buffer) => { stdout += chunk.toString() })
-    proc.stderr!.on('data', (chunk: Buffer) => { stderr += chunk.toString() })
-
-    proc.on('close', (code) => {
-      resolve({ exitCode: code ?? 1, stdout, stderr })
-    })
-
-    proc.on('error', () => {
-      resolve({ exitCode: 1, stdout, stderr })
-    })
-
-    if (proc.stdin) {
-      if (stdinData !== undefined) {
-        proc.stdin.write(stdinData)
-      }
-      proc.stdin.end()
-    }
-  })
-}
-
 /** Returns true if the standalone `copilot` CLI is available in PATH. */
 export async function isCopilotCliInstalled(): Promise<boolean> {
   const result = await runCommand('copilot', ['--version'], CHECK_TIMEOUT_MS)
   return result.exitCode === 0
+}
+
+/** Timeout for `copilot help config` (local, no network). */
+const MODELS_TIMEOUT_MS = 10_000
+
+/**
+ * Parses the model ids from `copilot help config` output. The `model` setting
+ * lists every id the CLI accepts as `- "id"` lines, e.g.:
+ *
+ *   `model`: AI model to use for Copilot CLI ...
+ *     - "claude-sonnet-5.5"
+ *     - "gpt-6.2-sol"
+ *
+ *   `logLevel`: ...
+ *
+ * Returns undefined when the section is missing (older CLI or changed format),
+ * so the extension can fall back to "Auto" instead of guessing.
+ */
+export function parseCopilotModels(text: string): string[] | undefined {
+  const lines = text.replace(ANSI_PATTERN, '').split('\n')
+  const start = lines.findIndex((l) => /^\s*`model`\s*:/.test(l))
+  if (start === -1) return undefined
+  const ids: string[] = []
+  for (const line of lines.slice(start + 1)) {
+    if (/^\s*`[^`]+`\s*:/.test(line)) break // next setting
+    const m = /^\s*-\s*"([A-Za-z0-9][A-Za-z0-9._:-]*)"\s*$/.exec(line)
+    if (m) ids.push(m[1])
+  }
+  return ids.length > 0 ? Array.from(new Set(ids)) : undefined
+}
+
+/** Model ids the installed Copilot CLI accepts, or undefined if they cannot be read. */
+export async function listCopilotModels(): Promise<string[] | undefined> {
+  const result = await runCommand('copilot', ['help', 'config'], MODELS_TIMEOUT_MS, { NO_COLOR: '1', TERM: 'dumb' })
+  if (result.exitCode !== 0) return undefined
+  return parseCopilotModels(result.stdout)
 }
 
 /** Timeout for the auth probe — needs one network round-trip to validate the token. */
@@ -335,7 +258,7 @@ const AUTH_CHECK_TIMEOUT_MS = 20_000
  * (stale files after logout).
  *
  * A prompt with a bogus --model fails AFTER token validation but BEFORE any
- * LLM call — free, fast, and leaves nothing in the user's session history:
+ * LLM call — free and fast (newer CLIs do record an empty session for it):
  *   Authenticated     → 'Model "..." from --model flag is not available.'
  *   Not authenticated → an auth error suggesting `copilot login`
  */
@@ -346,7 +269,9 @@ export async function isCopilotAuthenticated(): Promise<boolean> {
     AUTH_CHECK_TIMEOUT_MS,
   )
   const output = `${result.stdout}\n${result.stderr}`.replace(ANSI_PATTERN, '')
-  if (/from --model flag is not available/i.test(output)) return true
+  // CLI <= 1.0.8x: 'Model "x" from --model flag is not available.'
+  // CLI 1.0.114:  'Model "x" is not available.'
+  if (/Model\s+"[^"]*"\s+(?:from --model flag\s+)?is not available/i.test(output)) return true
   // Token exists but validation failed due to network issues — treat as
   // authenticated so we don't tell an offline (or proxied) user to re-login.
   return /Authentication token found/i.test(output) && /network|fetch failed|request failed/i.test(output)

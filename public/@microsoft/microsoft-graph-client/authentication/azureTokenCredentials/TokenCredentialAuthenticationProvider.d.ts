@@ -15,7 +15,7 @@ import { TokenCredentialAuthenticationProviderOptions } from "./ITokenCredential
  * Class representing TokenCredentialAuthenticationProvider
  * This feature is introduced in Version 3.0.0
  * @extends AuthenticationProvider
- * Reference - https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
+ * Reference - https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
  */
 export declare class TokenCredentialAuthenticationProvider implements AuthenticationProvider {
     /**

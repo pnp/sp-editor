@@ -45,6 +45,15 @@ export declare const setRequestHeader: (request: RequestInfo, options: FetchOpti
 export declare const appendRequestHeader: (request: RequestInfo, options: FetchOptions | undefined, key: string, value: string) => void;
 /**
  * @constant
+ * To remove a header from the given request
+ * @param {RequestInfo} request - The request object or the url string
+ * @param {FetchOptions|undefined} options - The request options object
+ * @param {string} key - The header key string
+ * @returns Nothing
+ */
+export declare const removeRequestHeader: (request: RequestInfo, options: FetchOptions | undefined, key: string) => void;
+/**
+ * @constant
  * To clone the request with the new url
  * @param {string} url - The new url string
  * @param {Request} request - The request object

@@ -41,16 +41,27 @@ To inspect the Extension, you can open the extension devtool by right clicking a
 
 ### AI Assistant (optional)
 
-The AI Assistant feature requires the native messaging bridge and [GitHub Copilot CLI](https://www.npmjs.com/package/@github/copilot) installed locally.
+The AI Assistant runs through an AI CLI on your machine, connected to the extension by a small native messaging bridge. You need **one** of these CLIs:
 
 ```bash
-# 1. Install and authenticate Copilot CLI
+# GitHub Copilot CLI (requires a Copilot subscription)
 npm install -g @github/copilot
 copilot login
 
-# 2. Install the SP Editor native bridge
+# or Claude Code (requires a Claude subscription or an Anthropic API key)
+npm install -g @anthropic-ai/claude-code
+claude auth login
+```
+
+Then install and register the bridge:
+
+```bash
 npm install -g @sp-editor/native-bridge
 sp-editor-bridge install
 ```
 
-After running `sp-editor-bridge install`, reload the extension in the browser and the AI Assistant panel will be able to connect.
+After running `sp-editor-bridge install`, reload the extension in the browser and the AI Assistant panel will be able to connect. Choose the provider by picking a model in the panel's model picker.
+
+When developing with an unpacked build, register the bridge for your local extension ID instead: `sp-editor-bridge install --extension-id <your-unpacked-id>`. Run plain `sp-editor-bridge install` again to switch back to the store extension.
+
+For what the bridge and the AI can and cannot do, and where your data goes, see [Security & privacy](packages/native-bridge/README.md#security--privacy).

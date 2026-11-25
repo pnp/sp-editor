@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="react" />
 import { DataChangedDetail } from '@microsoft/mgt-components';
 import { TemplateContext, TemplateRenderedData } from '@microsoft/mgt-element';
 export type SearchResultsProps = {

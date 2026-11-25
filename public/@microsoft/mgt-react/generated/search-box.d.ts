@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="react" />
 export type SearchBoxProps = {
     placeholder?: string;
     searchTerm?: string;

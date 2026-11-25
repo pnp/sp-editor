@@ -1,5 +1,5 @@
 import { Client } from '@microsoft/microsoft-graph-client';
-import { loginRequest } from '../..';
+import { loginRequest } from '../../msal';
 
 export class GraphClient {
     private static client: Client;

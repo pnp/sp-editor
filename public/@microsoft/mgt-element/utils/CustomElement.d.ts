@@ -11,5 +11,5 @@
  *
  * @param tagName the base name for the custom element tag
  */
-export declare const customElement: (tagName: string) => (classOrDescriptor: unknown) => any;
+export declare const customElement: (tagName: string) => ((classOrDescriptor: unknown) => any);
 //# sourceMappingURL=CustomElement.d.ts.map

@@ -144,10 +144,12 @@ export function trackAiPanelOpen(): void {
 /**
  * Track when a prompt is submitted in the AI Assistant
  * @param pageContext - The active page context (e.g., 'pnpjsconsole', 'graphsdkconsole', 'search')
+ * @param provider - The AI provider used (e.g., 'github-copilot', 'claude-code')
  */
-export function trackAiPromptSubmit(pageContext: string): void {
+export function trackAiPromptSubmit(pageContext: string, provider?: string): void {
   sendEvent('ai_prompt_submit', {
     page_context: pageContext,
+    ...(provider ? { ai_provider: provider } : {}),
   });
 }
 

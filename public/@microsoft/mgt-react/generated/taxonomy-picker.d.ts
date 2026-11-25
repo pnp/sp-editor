@@ -4,7 +4,6 @@
  * See License in the project root for license information.
  * -------------------------------------------------------------------------------------------
  */
-/// <reference types="react" />
 import { TemplateContext, TemplateRenderedData } from '@microsoft/mgt-element';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 export type TaxonomyPickerProps = {

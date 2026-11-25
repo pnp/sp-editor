@@ -20,13 +20,14 @@ import {
   sj,
 } from './utils'
 import * as rootActions from '../../../store/home/actions'
-import { loginRequest } from '../../..'
+import { loginRequest } from '../../../msal'
 import { appendConsoleOutput, clearConsoleOutput, setCode, setEditPanel, setScopes, setUser } from '../../../store/graphsdkconsole/actions'
 import { GraphClient } from '../../../services/graph-client/graph-client'
 import { IGraphSDKConsoleEntry, SPEditorUser } from '../../../store/graphsdkconsole/types'
 import { GRAPHSDK_CONSOLE_PROXY_SOURCE } from './graphsdkConsoleProxy'
 import GraphSDKConsoleOutput from './graphsdkConsoleOutput'
 import { CommandBar, Icon, IIconStyles, Persona, PersonaSize } from '@fluentui/react'
+import { useSavedSnippets } from '../../../components/savedSnippets/useSavedSnippets'
 import { AuthenticationResult, BrowserUtils } from '@azure/msal-browser'
 import React from 'react'
 
@@ -47,6 +48,16 @@ const GraphSDKEditor = () => {
   const grapgsdkEditorDiv = useRef<null | HTMLDivElement>(null)
 
   const completionItems = useRef<null | monaco.IDisposable>(null)
+
+  const savedSnippets = useSavedSnippets({
+    storageKey: 'graphSdkSnippets',
+    panelTitle: 'Saved Graph SDK snippets',
+    getCode: () => grapheditor.current?.getModel()?.getValue() ?? '',
+    loadCode: (snippetCode) => {
+      grapheditor.current?.getModel()?.setValue(snippetCode)
+      dispatch(setCode(snippetCode))
+    },
+  })
 
   const { isDark } = useSelector((state: IRootState) => state.home)
 
@@ -557,7 +568,8 @@ const GraphSDKEditor = () => {
               dispatch(setEditPanel(true))
             },
             disabled: !isAuthenticated,
-          }
+          },
+          ...savedSnippets.commandItems,
         ]}
         farItems={isAuthenticated ? [
           {
@@ -579,7 +591,9 @@ const GraphSDKEditor = () => {
             />)
           },
         ] : []}
-      />      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: `calc(100vh - 80px - ${consoleHeight}px - 4px)` }} />
+      />
+      {savedSnippets.ui}
+      <div ref={grapgsdkEditorDiv} style={{ width: '100%', height: `calc(100vh - 80px - ${consoleHeight}px - 4px)` }} />
       <div
         onMouseDown={() => setIsResizing(true)}
         style={{

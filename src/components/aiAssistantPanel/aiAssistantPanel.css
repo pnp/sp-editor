@@ -369,6 +369,20 @@
   min-width: 0;
 }
 
+.ai-model-picker-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: 100%;
+}
+
+.ai-model-picker-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .ai-model-picker .ms-Dropdown:focus:after {
   border: none !important;
 }
@@ -805,6 +819,16 @@ details[open] > .ai-thinking-summary::before {
   overflow-y: auto;
   gap: 10px;
   padding: 24px 20px;
+}
+
+.ai-setup-provider {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  max-width: 520px;
+  margin-top: 6px;
 }
 
 .ai-setup-title {

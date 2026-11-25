@@ -1,6 +1,7 @@
 import {
   DefaultButton,
   Dropdown,
+  DropdownMenuItemType,
   IconButton,
   IDropdownOption,
   MessageBar,
@@ -38,10 +39,20 @@ import {
 import { IAiMessage, AiQueryApplyMode, AiSuggestionData, ITokenUsage } from '../../store/ai-assistant/types'
 import { checkBridgeStatus, setSelectedModel } from '../../store/ai-assistant-auth/actions'
 import { setPath as setSpShooterPath, setMethod as setSpShooterMethod, setBody as setSpShooterBody, setHeaders as setSpShooterHeaders } from '../../store/spshoot/actions'
-import { COPILOT_CLI_MODELS } from '../../services/ai-assistant/copilotApiClient'
+import {
+  AI_PROVIDERS,
+  AiProviderId,
+  CLAUDE_CODE_MODELS,
+  copilotModelOptions,
+  getModelProvider,
+  isBridgeOutdated,
+  modelDisplayName,
+} from '../../services/ai-assistant/models'
+import { ProviderStatusValue } from '../../store/ai-assistant-auth/types'
 import { setSearchQuery } from '../../store/search/actions'
 import { setCode as setPnpjsCode } from '../../store/pnpjsconsole/actions'
 import { setCode as setGraphSdkCode } from '../../store/graphsdkconsole/actions'
+import { ProviderIcon } from './providerIcon'
 import './aiAssistantPanel.css'
 
 const BODY_OPEN_CLASS = 'ai-panel-open'
@@ -51,8 +62,7 @@ const BRIDGE_STATUS_COLOR: Record<string, string> = {
   checking: '#888',
   ready: '#107c10',
   bridge_missing: '#d13438',
-  cli_missing: '#d13438',
-  not_authenticated: '#c8960c',
+  no_provider: '#c8960c',
 }
 
 const BRIDGE_STATUS_LABEL: Record<string, string> = {
@@ -60,9 +70,81 @@ const BRIDGE_STATUS_LABEL: Record<string, string> = {
   checking: 'Checking…',
   ready: 'Ready',
   bridge_missing: 'Bridge not installed',
-  cli_missing: 'Copilot CLI not found',
-  not_authenticated: 'Not signed in',
+  no_provider: 'No AI CLI ready',
 }
+
+const PROVIDER_STATUS_COLOR: Record<ProviderStatusValue, string> = {
+  unknown: '#888',
+  ready: '#107c10',
+  cli_missing: '#888',
+  not_authenticated: '#c8960c',
+  bridge_outdated: '#c8960c',
+  cli_outdated: '#c8960c',
+}
+
+const PROVIDER_STATUS_LABEL: Record<ProviderStatusValue, string> = {
+  unknown: 'Not checked',
+  ready: 'Ready',
+  cli_missing: 'Not installed',
+  not_authenticated: 'Not signed in',
+  bridge_outdated: 'Bridge update needed',
+  cli_outdated: 'Update needed',
+}
+
+const BRIDGE_UPDATE_CMD = 'npm install -g @sp-editor/native-bridge@latest'
+
+const PROVIDER_SETUP: Record<AiProviderId, { install: string; installHint: string; login: string; loginHint: string; update: string }> = {
+  'github-copilot': {
+    update: 'copilot update',
+    install: 'npm install -g @github/copilot',
+    installHint: 'Installs the standalone GitHub Copilot CLI. Requires a GitHub account with Copilot access.',
+    login: 'copilot login',
+    loginHint: 'Opens a browser to authenticate with GitHub.',
+  },
+  'claude-code': {
+    update: 'claude update',
+    install: 'npm install -g @anthropic-ai/claude-code',
+    installHint: 'Installs Claude Code. Requires a Claude subscription (Pro, Max, Team or Enterprise) or an Anthropic API key.',
+    login: 'claude auth login',
+    loginHint: 'Opens a browser to sign in to your Claude account.',
+  },
+}
+
+/**
+ * Model picker options grouped by provider; providers that are not ready show only their header.
+ * Copilot models come from the CLI (via the bridge). When they are unknown, only
+ * "Auto" is offered, with a note on what to update to get the full list.
+ */
+const buildModelOptions = (
+  providerStatus: Record<AiProviderId, ProviderStatusValue>,
+  copilotModels: string[] | null,
+  bridgeOutdated: boolean,
+): IDropdownOption[] =>
+  AI_PROVIDERS.flatMap((p) => {
+    const ready = providerStatus[p.id] === 'ready'
+    const models = p.id === 'github-copilot' ? copilotModelOptions(copilotModels) : CLAUDE_CODE_MODELS
+    const options: IDropdownOption[] = [
+      {
+        key: `__header_${p.id}`,
+        text: ready ? p.name : `${p.name} — ${PROVIDER_STATUS_LABEL[providerStatus[p.id]].toLowerCase()}`,
+        itemType: DropdownMenuItemType.Header,
+        data: { provider: p.id },
+      },
+      // A provider that is not ready shows only its header (with the reason);
+      // its models are hidden rather than listed as disabled.
+      ...(ready ? models.map((m) => ({ key: m.key, text: m.text })) : []),
+    ]
+    if (p.id === 'github-copilot' && ready && !copilotModels) {
+      options.push({
+        key: '__copilot_models_unavailable',
+        text: bridgeOutdated
+          ? 'Update the bridge to choose a model'
+          : 'Run "copilot update" to choose a model',
+        disabled: true,
+      })
+    }
+    return options
+  })
 
 const QUERY_APPLY_OPTIONS: IDropdownOption[] = [
   { key: 'manual', text: 'Manual', title: 'Review the result, then click Apply under the response' },
@@ -165,12 +247,6 @@ const modelFromFooter = (footer: string | null): string | undefined => {
   return withId ? withId[1].trim() : value
 }
 
-/** Maps a model id to its picker display name (without suffixes like "(premium)"). */
-const modelDisplayName = (model: string): string => {
-  const option = COPILOT_CLI_MODELS.find((m) => m.key.toLowerCase() === model.toLowerCase())
-  return option ? option.text.replace(/\s*\([^)]*\)\s*$/, '') : model
-}
-
 const formatMessageUsage = (
   tokenUsage?: ITokenUsage,
   responseMeta?: IAiMessage['responseMeta'],
@@ -210,11 +286,16 @@ const AiAssistantPanel = () => {
     (state: IRootState) => state.aiAssistant
   )
   const { isDark } = useSelector((state: IRootState) => state.home)
-  const { selectedModel, bridgeStatus } = useSelector(
+  const { selectedModel, bridgeStatus, providerStatus, bridgeVersion, copilotModels } = useSelector(
     (state: IRootState) => state.aiAuth
   )
-  // Panel is ready when the Copilot CLI bridge is connected
+  // Panel is ready when the bridge is connected and at least one provider CLI is signed in
   const isReady = bridgeStatus === 'ready'
+  const bridgeOutdated = (bridgeStatus === 'ready' || bridgeStatus === 'no_provider') && isBridgeOutdated(bridgeVersion)
+  const modelOptions = useMemo(
+    () => buildModelOptions(providerStatus, copilotModels, bridgeOutdated),
+    [providerStatus, copilotModels, bridgeOutdated],
+  )
   const { searchQuery } = useSelector((state: IRootState) => state.search)
   const { code: pnpjsCode } = useSelector((state: IRootState) => state.pnpjsconsole)
   const { code: graphSdkCode } = useSelector((state: IRootState) => state.graphsdkconsole)
@@ -229,12 +310,12 @@ const AiAssistantPanel = () => {
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
 
   // Per-context session IDs so switching between PnPjs / Search / SP Shooter
-  // always uses a fresh copilot session with the correct system prompt.
+  // always uses a fresh CLI session with the correct system prompt.
   // Sessions are created lazily on first use and persist for the extension lifetime.
   const sessionsByContextRef = useRef<Map<string, string>>(new Map())
   // Tracks which contexts have already had their system prompt sent (first message).
   const sentFirstForContextRef = useRef<Set<string>>(new Set())
-  // Model each context session was started with — a resumed copilot session keeps
+  // Model each context session was started with — a resumed CLI session keeps
   // its original model, so a model change requires a fresh session.
   const sessionModelByContextRef = useRef<Map<string, string>>(new Map())
 
@@ -667,6 +748,13 @@ const AiAssistantPanel = () => {
 
       })
       .catch((err: any) => {
+        // A failed first message may never have created the CLI session — start
+        // fresh next time so the system prompt is sent again (and Claude Code is
+        // not asked to --resume a session that does not exist).
+        if (isFirstMessage && sessionsByContextRef.current.get(pageContext) === contextSessionId) {
+          sessionsByContextRef.current.delete(pageContext)
+          sentFirstForContextRef.current.delete(pageContext)
+        }
         const msg = err?.message ?? 'Failed to get response from AI assistant.'
         // Remove the streaming placeholder on error
         dispatch(updateAiMessage(assistantId, { content: '', isStreaming: false }))
@@ -707,7 +795,7 @@ const AiAssistantPanel = () => {
     if (!input.trim() || isSending) {
       return
     }
-    trackAiPromptSubmit(pageContext ?? 'unknown')
+    trackAiPromptSubmit(pageContext ?? 'unknown', getModelProvider(selectedModel))
     sendMessage(input)
     setInput('')
     setHistoryIndex(null)
@@ -1112,8 +1200,8 @@ const AiAssistantPanel = () => {
               style={{ background: BRIDGE_STATUS_COLOR[bridgeStatus] ?? '#888' }}
               onClick={() => dispatch(checkBridgeStatus() as any)}
               disabled={bridgeStatus === 'checking'}
-              title={`Copilot: ${BRIDGE_STATUS_LABEL[bridgeStatus] ?? bridgeStatus} — click to recheck`}
-              aria-label="Recheck Copilot status"
+              title={`AI bridge: ${BRIDGE_STATUS_LABEL[bridgeStatus] ?? bridgeStatus} — click to recheck`}
+              aria-label="Recheck AI bridge status"
             />
           )}
           {isReady && (
@@ -1144,17 +1232,37 @@ const AiAssistantPanel = () => {
 
           <Stack tokens={{ childrenGap: 8 }}>
             <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>About</Text>
-            <Text variant="small">The AI Assistant uses GitHub Copilot to answer questions, generate code, and help you work with SharePoint — directly in context of the current page.</Text>
-            <Text variant="small">A small local bridge connects the extension to the Copilot CLI on your machine. A GitHub account with an active Copilot subscription is required.</Text>
+            <Text variant="small">The AI Assistant uses GitHub Copilot or Claude Code to answer questions, generate code, and help you work with SharePoint — directly in context of the current page.</Text>
+            <Text variant="small">A small local bridge connects the extension to the CLI on your machine. Pick the model, and with it the provider, in the model picker under the input box.</Text>
+          </Stack>
+
+          <Stack tokens={{ childrenGap: 6 }}>
+            <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>Providers</Text>
+            {AI_PROVIDERS.map((p) => (
+              <Stack key={p.id} horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+                <span className="ai-setup-dot" style={{ background: PROVIDER_STATUS_COLOR[providerStatus[p.id]] }} />
+                <Text variant="small" styles={{ root: { display: 'flex' } }}><ProviderIcon provider={p.id} /></Text>
+                <Text variant="small" styles={{ root: { fontWeight: 600, flexGrow: 1 } }}>{p.name}</Text>
+                <Text variant="small" styles={{ root: { opacity: 0.7 } }}>{PROVIDER_STATUS_LABEL[providerStatus[p.id]]}</Text>
+              </Stack>
+            ))}
+            {bridgeOutdated && (
+              <Text variant="small" styles={{ root: { color: '#c8960c', marginTop: 4 } }}>
+                Bridge update available{bridgeVersion ? ` (you have ${bridgeVersion})` : ''}. Update it with the command under Bridge management below.
+              </Text>
+            )}
+            <DefaultButton text="Recheck" onClick={() => dispatch(checkBridgeStatus() as any)} disabled={bridgeStatus === 'checking'} styles={{ root: { alignSelf: 'flex-start', marginTop: 4 } }} />
           </Stack>
 
           <Stack tokens={{ childrenGap: 6 }}>
             <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>FAQ</Text>
             {[
-              { q: 'Do I need a paid GitHub plan?', a: 'Yes — GitHub Copilot requires an active Copilot subscription (Individual, Business, or Enterprise).' },
-              { q: 'Is my data sent to the cloud?', a: 'Prompts are sent to GitHub Copilot\'s servers for processing, the same as using Copilot in VS Code. No data is stored by SP Editor itself.' },
+              { q: 'Do I need a paid plan?', a: 'Yes — either a GitHub Copilot subscription (for the Copilot CLI) or a Claude subscription (Pro, Max, Team or Enterprise) or Anthropic API key (for Claude Code).' },
+              { q: 'Is my data sent to the cloud?', a: 'Prompts are sent to the selected provider (GitHub Copilot or Anthropic) for processing, the same as using that CLI yourself. No data is stored by SP Editor itself.' },
               { q: 'What can the assistant see?', a: 'Only the content of the current page context — your code, query, or API request — is included in the prompt. Nothing else from your browser or SharePoint tenant is sent.' },
-              { q: 'Why is a bridge needed?', a: 'Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the Copilot CLI installed on your machine.' },
+              { q: 'Why is a bridge needed?', a: 'Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the AI CLI installed on your machine.' },
+              { q: 'Can the AI access my computer or run code?', a: 'No. The CLIs run without shell, file or edit tools, and can only read the Microsoft Learn and PnP documentation sites. AI-generated code is never run automatically — it is placed in the editor and you decide whether to run it.' },
+              { q: 'Where are my conversations stored?', a: 'Prompts go to the provider you selected. The CLI also keeps conversation history on your computer (Copilot CLI in ~/.copilot, Claude Code in ~/.claude), which can include SharePoint data from your prompts. SP Editor itself stores nothing.' },
             ].map(({ q, a }, i) => (
               <Stack
                 key={q}
@@ -1176,7 +1284,7 @@ const AiAssistantPanel = () => {
           <Stack tokens={{ childrenGap: 8 }}>
             <Text variant="mediumPlus" styles={{ root: { fontWeight: 600 } }}>Bridge management</Text>
             {[
-              { label: 'Update', cmd: 'npm install -g @sp-editor/native-bridge@latest' },
+              { label: 'Update', cmd: BRIDGE_UPDATE_CMD },
               { label: 'Uninstall bridge', cmd: 'sp-editor-bridge uninstall' },
               { label: 'Remove package', cmd: 'npm uninstall -g @sp-editor/native-bridge' },
             ].map(({ label, cmd }) => (
@@ -1194,14 +1302,14 @@ const AiAssistantPanel = () => {
 
         {!isReady && (
           <div className="ai-setup-state">
-            <div className="ai-setup-title">GitHub Copilot</div>
+            <div className="ai-setup-title">AI Assistant</div>
 
             <p className="ai-setup-description">
-              The AI Assistant uses GitHub Copilot to answer questions, generate code, and help you work with SharePoint — directly in context of the current page.
+              The AI Assistant answers questions, generates code, and helps you work with SharePoint — directly in context of the current page.
             </p>
 
             <p className="ai-setup-description">
-              A small local bridge connects the extension to the Copilot CLI on your machine. A GitHub account with Copilot access is required.
+              It runs through an AI CLI on your machine — GitHub Copilot CLI or Claude Code — connected to the extension by a small local bridge. You only need one of them.
             </p>
 
             <div className="ai-setup-status-row">
@@ -1218,7 +1326,7 @@ const AiAssistantPanel = () => {
                   className="ai-setup-retry-btn"
                   onClick={() => dispatch(checkBridgeStatus() as any)}
                   title="Recheck status"
-                  aria-label="Recheck Copilot status"
+                  aria-label="Recheck AI bridge status"
                 >
                   ↻
                 </button>
@@ -1239,48 +1347,89 @@ const AiAssistantPanel = () => {
                 </div>
                 <p className="ai-setup-step-hint">Registers the bridge with Chrome and Edge so the extension can connect to it.</p>
 
-                <div className="ai-setup-instruction">
-                  <span className="ai-setup-instruction-label">3. Install CLI</span>
-                  <code className="ai-setup-code">npm install -g @github/copilot</code>
-                </div>
-                <p className="ai-setup-step-hint">Installs the standalone GitHub Copilot CLI used to send prompts.</p>
-
-                <div className="ai-setup-instruction">
-                  <span className="ai-setup-instruction-label">4. Sign in</span>
-                  <code className="ai-setup-code">copilot login</code>
-                </div>
-                <p className="ai-setup-step-hint">Opens a browser to authenticate with your GitHub account. Come back here and click ↻ when done.</p>
+                <p className="ai-setup-step-hint">3. Install and sign in to one of the CLIs below, then click ↻.</p>
               </>
             )}
 
-            {bridgeStatus === 'cli_missing' && (
+            {bridgeOutdated && (
               <>
                 <div className="ai-setup-instruction">
-                  <span className="ai-setup-instruction-label">Install CLI</span>
-                  <code className="ai-setup-code">npm install -g @github/copilot</code>
+                  <span className="ai-setup-instruction-label">Update bridge</span>
+                  <code className="ai-setup-code">{BRIDGE_UPDATE_CMD}</code>
                 </div>
-                <p className="ai-setup-step-hint">Installs the standalone GitHub Copilot CLI. Then click ↻ to recheck.</p>
+                <p className="ai-setup-step-hint">
+                  Your bridge is out of date. Newer CLI versions and Claude Code need the latest bridge. Update it, then click ↻.
+                </p>
               </>
             )}
 
-            {bridgeStatus === 'not_authenticated' && (
-              <>
-                <div className="ai-setup-instruction">
-                  <span className="ai-setup-instruction-label">Sign in</span>
-                  <code className="ai-setup-code">copilot login</code>
-                </div>
-                <p className="ai-setup-step-hint">Opens a browser to authenticate with GitHub. Once signed in, click ↻ to recheck.</p>
-              </>
-            )}
+            {(bridgeStatus === 'bridge_missing' || bridgeStatus === 'no_provider') &&
+              AI_PROVIDERS.map((p) => {
+                const status: ProviderStatusValue = bridgeStatus === 'bridge_missing' ? 'cli_missing' : providerStatus[p.id]
+                const setup = PROVIDER_SETUP[p.id]
+                return (
+                  <div key={p.id} className="ai-setup-provider">
+                    <div className="ai-setup-status-row">
+                      <span className="ai-setup-dot" style={{ background: PROVIDER_STATUS_COLOR[status] }} />
+                      <ProviderIcon provider={p.id} />
+                      <span className="ai-setup-status-text">
+                        <strong>{p.name}</strong>
+                        {bridgeStatus === 'no_provider' && ` — ${PROVIDER_STATUS_LABEL[status]}`}
+                      </span>
+                    </div>
+                    {status === 'bridge_outdated' && !bridgeOutdated && (
+                      <>
+                        <div className="ai-setup-instruction">
+                          <span className="ai-setup-instruction-label">Update bridge</span>
+                          <code className="ai-setup-code">{BRIDGE_UPDATE_CMD}</code>
+                        </div>
+                        <p className="ai-setup-step-hint">Your bridge is older than {p.name} support. Update it, then click ↻.</p>
+                      </>
+                    )}
+                    {status === 'cli_outdated' && (
+                      <>
+                        <div className="ai-setup-instruction">
+                          <span className="ai-setup-instruction-label">Update CLI</span>
+                          <code className="ai-setup-code">{setup.update}</code>
+                        </div>
+                        <p className="ai-setup-step-hint">Your {p.name} version is too old for SP Editor. Update it, then click ↻.</p>
+                      </>
+                    )}
+                    {(status === 'cli_missing' || status === 'unknown') && (
+                      <>
+                        <div className="ai-setup-instruction">
+                          <span className="ai-setup-instruction-label">Install CLI</span>
+                          <code className="ai-setup-code">{setup.install}</code>
+                        </div>
+                        <p className="ai-setup-step-hint">{setup.installHint}</p>
+                      </>
+                    )}
+                    {(status === 'cli_missing' || status === 'unknown' || status === 'not_authenticated') && (
+                      <>
+                        <div className="ai-setup-instruction">
+                          <span className="ai-setup-instruction-label">Sign in</span>
+                          <code className="ai-setup-code">{setup.login}</code>
+                        </div>
+                        <p className="ai-setup-step-hint">{setup.loginHint} Come back here and click ↻ when done.</p>
+                        {status === 'not_authenticated' && bridgeOutdated && (
+                          <p className="ai-setup-step-hint">
+                            Already signed in? Older bridges do not recognise newer {p.name} versions — update the bridge (above) first.
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )
+              })}
 
             <div className="ai-setup-faq">
               <details className="ai-setup-faq-item">
-                <summary>Do I need a paid GitHub plan?</summary>
-                <p>Yes — GitHub Copilot requires an active Copilot subscription (Individual, Business, or Enterprise).</p>
+                <summary>Do I need a paid plan?</summary>
+                <p>Yes — either a GitHub Copilot subscription (for the Copilot CLI) or a Claude subscription (Pro, Max, Team or Enterprise) or Anthropic API key (for Claude Code).</p>
               </details>
               <details className="ai-setup-faq-item">
                 <summary>Is my data sent to the cloud?</summary>
-                <p>Prompts are sent to GitHub Copilot's servers for processing, the same as using Copilot in VS Code. No data is stored by SP Editor itself.</p>
+                <p>Prompts are sent to the selected provider (GitHub Copilot or Anthropic) for processing, the same as using that CLI yourself. No data is stored by SP Editor itself.</p>
               </details>
               <details className="ai-setup-faq-item">
                 <summary>What can the assistant see?</summary>
@@ -1288,7 +1437,15 @@ const AiAssistantPanel = () => {
               </details>
               <details className="ai-setup-faq-item">
                 <summary>Why is a bridge needed?</summary>
-                <p>Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the Copilot CLI installed on your machine.</p>
+                <p>Browser extensions cannot run local processes directly. The bridge is a small background helper that connects the extension to the AI CLI installed on your machine.</p>
+              </details>
+              <details className="ai-setup-faq-item">
+                <summary>Can the AI access my computer or run code?</summary>
+                <p>No. The CLIs run without shell, file or edit tools, and can only read the Microsoft Learn and PnP documentation sites. AI-generated code is never run automatically — it is placed in the editor and you decide whether to run it.</p>
+              </details>
+              <details className="ai-setup-faq-item">
+                <summary>Where are my conversations stored?</summary>
+                <p>Prompts go to the provider you selected. The CLI also keeps conversation history on your computer (Copilot CLI in ~/.copilot, Claude Code in ~/.claude), which can include SharePoint data from your prompts. SP Editor itself stores nothing.</p>
               </details>
             </div>
           </div>
@@ -1384,7 +1541,7 @@ const AiAssistantPanel = () => {
 
                   <Dropdown
                     className="ai-model-picker"
-                    options={COPILOT_CLI_MODELS.map((m) => ({ key: m.key, text: m.text }))}
+                    options={modelOptions}
                     selectedKey={selectedModel}
                     onChange={(_e, option) => {
                       if (option) dispatch(setSelectedModel(String(option.key)))
@@ -1396,12 +1553,27 @@ const AiAssistantPanel = () => {
                         .replace(/\s*\([^)]*\)/g, '')
                         .replace(/^Claude\s+/i, '')
                         .trim()
-                      return <span>{short}</span>
+                      return (
+                        <span className="ai-model-picker-label">
+                          <ProviderIcon provider={getModelProvider(String(opt.key))} size={14} />
+                          <span className="ai-model-picker-text">{short}</span>
+                        </span>
+                      )
+                    }}
+                    onRenderOption={(option, defaultRender) => {
+                      const provider: AiProviderId | undefined = option?.data?.provider
+                      if (!option || !provider) return defaultRender?.(option) ?? null
+                      return (
+                        <span className="ai-model-picker-label">
+                          <ProviderIcon provider={provider} />
+                          <span className="ai-model-picker-text">{option.text}</span>
+                        </span>
+                      )
                     }}
                     disabled={false}
-                    calloutProps={{ calloutWidth: 260 }}
+                    calloutProps={{ calloutWidth: 260, calloutMaxHeight: 420 }}
                     styles={{
-                      root: { width: 110, flexShrink: 0 },
+                      root: { width: 130, flexShrink: 0 },
                       dropdown: {
                         minHeight: 28,
                         border: 'none',
@@ -1419,7 +1591,7 @@ const AiAssistantPanel = () => {
                       caretDownWrapper: { lineHeight: 28, height: 28 },
                       caretDown: { fontSize: 10 },
                     }}
-                    title={`Model: ${selectedModel}`}
+                    title={`Model: ${modelDisplayName(selectedModel)} (${AI_PROVIDERS.find((p) => p.id === getModelProvider(selectedModel))?.name})`}
                     ariaLabel="AI model"
                   />
 

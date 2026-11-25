@@ -1,17 +1,17 @@
 import { IAiAuthState, AiAuthActions, Constants } from './types'
-import { COPILOT_CLI_MODELS, DEFAULT_CLI_MODEL } from '../../services/ai-assistant/copilotApiClient'
+import { DEFAULT_CLI_MODEL } from '../../services/ai-assistant/copilotApiClient'
 
 const MODEL_STORAGE_KEY = 'ai_selected_model'
-
-const AVAILABLE_MODEL_KEYS = new Set(COPILOT_CLI_MODELS.map((m) => m.key))
 
 const getStoredModel = (): string => {
   if (typeof localStorage === 'undefined') {
     return DEFAULT_CLI_MODEL
   }
 
+  // Any stored id is accepted here; checkBridgeStatus() switches to a default
+  // once it knows which models the CLIs actually offer.
   const stored = localStorage.getItem(MODEL_STORAGE_KEY)
-  if (stored && AVAILABLE_MODEL_KEYS.has(stored)) {
+  if (stored && stored.trim()) {
     return stored
   }
 
@@ -21,6 +21,12 @@ const getStoredModel = (): string => {
 const init: IAiAuthState = {
   selectedModel: getStoredModel(),
   bridgeStatus: 'idle',
+  providerStatus: {
+    'github-copilot': 'unknown',
+    'claude-code': 'unknown',
+  },
+  bridgeVersion: null,
+  copilotModels: null,
 }
 
 export function aiAuthReducer(
@@ -28,18 +34,21 @@ export function aiAuthReducer(
   action: AiAuthActions,
 ): IAiAuthState {
   switch (action.type) {
-    case Constants.AUTH_SET_MODEL:
-      if (typeof localStorage !== 'undefined' && AVAILABLE_MODEL_KEYS.has(action.payload.model)) {
-        localStorage.setItem(MODEL_STORAGE_KEY, action.payload.model)
+    case Constants.AUTH_SET_MODEL: {
+      const model = action.payload.model?.trim() ? action.payload.model : DEFAULT_CLI_MODEL
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(MODEL_STORAGE_KEY, model)
       }
+      return { ...state, selectedModel: model }
+    }
+    case Constants.AUTH_SET_BRIDGE_STATUS:
       return {
         ...state,
-        selectedModel: AVAILABLE_MODEL_KEYS.has(action.payload.model)
-          ? action.payload.model
-          : DEFAULT_CLI_MODEL,
+        bridgeStatus: action.payload.bridgeStatus,
+        providerStatus: action.payload.details?.providerStatus ?? state.providerStatus,
+        bridgeVersion: action.payload.details ? action.payload.details.bridgeVersion : state.bridgeVersion,
+        copilotModels: action.payload.details ? action.payload.details.copilotModels : state.copilotModels,
       }
-    case Constants.AUTH_SET_BRIDGE_STATUS:
-      return { ...state, bridgeStatus: action.payload.bridgeStatus }
     default:
       return state
   }

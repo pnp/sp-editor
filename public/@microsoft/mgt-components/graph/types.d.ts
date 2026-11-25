@@ -41,7 +41,7 @@ declare const viewTypes: readonly ["image", "oneline", "twolines", "threelines",
  * @enum {string}
  */
 export type ViewType = (typeof viewTypes)[number];
-export declare const isViewType: (value: unknown) => value is "image" | "oneline" | "twolines" | "threelines" | "fourlines";
+export declare const isViewType: (value: unknown) => value is ViewType;
 export declare const viewTypeConverter: (value: string, defaultValue?: ViewType) => ViewType;
 /**
  * Postion describes the position of the dropdown

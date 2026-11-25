@@ -16,7 +16,7 @@ export type IconSize = 16 | 20 | 24 | 32 | 40 | 48 | 64 | 96;
  * @param extension
  * @returns
  */
-export declare const getFileTypeIconUri: (type: string, size: IconSize, extension: 'png' | 'svg') => string;
+export declare const getFileTypeIconUri: (type: string, size: IconSize, extension: "png" | "svg") => string;
 /**
  * Helper to provide fluent icon image urls with the correct size
  *
@@ -25,5 +25,5 @@ export declare const getFileTypeIconUri: (type: string, size: IconSize, extensio
  * @param extension
  * @returns
  */
-export declare const getFileTypeIconUriByExtension: (type: string, size: IconSize, extension: 'png' | 'svg') => string;
+export declare const getFileTypeIconUriByExtension: (type: string, size: IconSize, extension: "png" | "svg") => string;
 //# sourceMappingURL=fluent-icons.d.ts.map

@@ -14,7 +14,7 @@ declare const groupTypeValues: readonly ["any", "unified", "security", "mailenab
  * @enum {string}
  */
 export type GroupType = (typeof groupTypeValues)[number];
-export declare const isGroupType: (groupType: string) => groupType is "any" | "unified" | "security" | "mailenabledsecurity" | "distribution";
+export declare const isGroupType: (groupType: string) => groupType is (typeof groupTypeValues)[number];
 export declare const groupTypeConverter: (value: string, defaultValue?: GroupType) => GroupType;
 /**
  * Object to be stored in cache

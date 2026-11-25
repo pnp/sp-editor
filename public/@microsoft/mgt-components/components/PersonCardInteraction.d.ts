@@ -11,7 +11,7 @@ declare const interactions: readonly ["none", "hover", "click"];
  *
  */
 export type PersonCardInteraction = (typeof interactions)[number];
-export declare const isPersonCardInteraction: (value: unknown) => value is "click" | "none" | "hover";
+export declare const isPersonCardInteraction: (value: unknown) => value is PersonCardInteraction;
 export declare const personCardConverter: (value: string, defaultValue?: PersonCardInteraction) => PersonCardInteraction;
 export {};
 //# sourceMappingURL=PersonCardInteraction.d.ts.map

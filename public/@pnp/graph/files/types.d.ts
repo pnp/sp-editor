@@ -15,12 +15,14 @@ export declare class _Drive extends _GraphInstance<IDriveType> {
     /**
      * Method for retrieving recently accessed drive items by the user.
      * @returns IDriveItems
+     * @deprecated The recent API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
      */
     get recent(): IDriveItems;
     /**
      * Method for retrieving drive items shared with the user.
      * @param options - ISharingWithMeOptions (Optional)
      * @returns IDriveItems
+     * @deprecated The sharedWithMe API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
      */
     sharedWithMe(options?: ISharingWithMeOptions): Promise<IDriveItems>;
     /**

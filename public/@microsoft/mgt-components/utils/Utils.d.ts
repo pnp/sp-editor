@@ -94,7 +94,7 @@ export declare const isValidEmail: (emailString: string) => boolean;
  */
 export declare const formatBytes: (bytes: number, decimals?: number) => string;
 /**
- * Formats the a provided summary to valid html
+ * Formats a provided summary to valid html, sanitizing any potentially dangerous content.
  *
  * @param summary
  * @returns string

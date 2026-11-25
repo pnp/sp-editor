@@ -6,7 +6,13 @@ import { IGetById } from "../decorators.js";
  */
 export declare class _Insights extends _GraphInstance<IOfficeGraphInsightsType> {
     get trending(): ITrendingInsights;
+    /**
+     *  @deprecated The insights used API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
+     */
     get used(): IUsedInsights;
+    /**
+     * @deprecated The insights shared API is deprecated and will operate in a degraded state until November, 2026, after which it stops returning data.
+     */
     get shared(): ISharedInsights;
 }
 export interface IInsights extends _Insights {

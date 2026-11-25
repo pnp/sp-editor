@@ -30,6 +30,7 @@ import {
   sj,
 } from './utils'
 import { CommandBar } from '@fluentui/react'
+import { useSavedSnippets } from '../../../components/savedSnippets/useSavedSnippets'
 
 const PnPjsEditor = () => {
   const dispatch = useDispatch()
@@ -41,6 +42,16 @@ const PnPjsEditor = () => {
   const editor = useRef<null | monaco.editor.IStandaloneCodeEditor>(null)
   const outputDiv = useRef<null | HTMLDivElement>(null)
   const completionItems = useRef<null | monaco.IDisposable>(null)
+
+  const savedSnippets = useSavedSnippets({
+    storageKey: 'pnpjsSnippets',
+    panelTitle: 'Saved PnPjs snippets',
+    getCode: () => editor.current?.getModel()?.getValue() ?? '',
+    loadCode: (snippetCode) => {
+      editor.current?.getModel()?.setValue(snippetCode)
+      dispatch(setCode(snippetCode))
+    },
+  })
 
   const { isDark } = useSelector((state: IRootState) => state.home)
 
@@ -363,8 +374,10 @@ const PnPjsEditor = () => {
             iconProps: { iconName: 'SetAction' },
             onClick: () => runCode(),
           },
+          ...savedSnippets.commandItems,
         ]}
       />
+      {savedSnippets.ui}
       <div
         ref={outputDiv}
         style={{ width: '100%', height: `calc(100% - 44px - ${consoleHeight}px - 4px)` }}
