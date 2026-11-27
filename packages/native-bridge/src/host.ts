@@ -21,7 +21,7 @@
 import fs from 'fs'
 import path from 'path'
 import { isClaudeAuthenticated, isClaudeCliInstalled, isClaudeCliSupported, runClaudePrompt } from './claude'
-import { isCopilotAuthenticated, isCopilotCliInstalled, listCopilotModels, runCopilotPrompt } from './copilot'
+import { isCopilotAuthenticated, isCopilotCliInstalled, listCopilotAccountModels, listCopilotModels, runCopilotPrompt } from './copilot'
 import {
   AiCompleteRequest,
   BridgeResponse,
@@ -61,6 +61,12 @@ const ALLOWED_DOC_URLS = new Set(['https://learn.microsoft.com/*', 'https://pnp.
 
 async function copilotStatus(): Promise<CliProviderStatus> {
   if (!(await isCopilotCliInstalled())) return { installed: false, authenticated: false }
+  // Preferred: the account's own models (also proves the sign-in).
+  const accountModels = await listCopilotAccountModels()
+  if (accountModels) {
+    return { installed: true, authenticated: true, models: accountModels.map((m) => m.id), modelDetails: accountModels }
+  }
+  // Fallback for CLIs without ACP, or when not signed in: every model the CLI knows.
   const [authenticated, models] = await Promise.all([isCopilotAuthenticated(), listCopilotModels()])
   return { installed: true, authenticated, ...(models ? { models } : {}) }
 }

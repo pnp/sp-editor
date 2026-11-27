@@ -39,6 +39,15 @@ export interface PingResponse {
   ok: true
 }
 
+/** A Copilot model the signed-in account can use (from `copilot --acp`). */
+export interface CopilotModelInfo {
+  id: string
+  /** Display name from Copilot, e.g. "GPT-5.3-Codex". */
+  name: string
+  /** Premium request multiplier, e.g. "1x", "0.33x", "14x". */
+  usage?: string
+}
+
 export interface CliProviderStatus {
   installed: boolean
   authenticated: boolean
@@ -46,6 +55,9 @@ export interface CliProviderStatus {
   outdated?: boolean
   /** Model ids the CLI accepts (github-copilot only). Missing when they cannot be read. */
   models?: string[]
+  /** Copilot only, since 1.4.0: the models the account can use, with names and
+   *  cost. When present, `models` holds the same ids. */
+  modelDetails?: CopilotModelInfo[]
 }
 
 /** @deprecated use CliProviderStatus */

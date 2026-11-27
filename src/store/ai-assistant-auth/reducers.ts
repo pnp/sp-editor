@@ -27,6 +27,7 @@ const init: IAiAuthState = {
   },
   bridgeVersion: null,
   copilotModels: null,
+  copilotModelInfo: {},
 }
 
 export function aiAuthReducer(
@@ -48,6 +49,7 @@ export function aiAuthReducer(
         providerStatus: action.payload.details?.providerStatus ?? state.providerStatus,
         bridgeVersion: action.payload.details ? action.payload.details.bridgeVersion : state.bridgeVersion,
         copilotModels: action.payload.details ? action.payload.details.copilotModels : state.copilotModels,
+        copilotModelInfo: action.payload.details ? action.payload.details.copilotModelInfo : state.copilotModelInfo,
       }
     default:
       return state

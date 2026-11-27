@@ -13,6 +13,13 @@ const verbose = args.includes('--verbose')
 const idIndex = args.indexOf('--extension-id')
 const extensionId = idIndex !== -1 ? args[idIndex + 1] : undefined
 
+// Chrome/Edge extension IDs are 32 letters a-p. Anything else could never
+// connect, so it is rejected instead of silently writing a useless manifest.
+if (cmd === 'install' && idIndex !== -1 && !/^[a-p]{32}$/.test(extensionId || '')) {
+  console.error('Install failed: --extension-id must be a 32-letter extension ID (a-p), as shown on chrome://extensions.')
+  process.exit(1)
+}
+
 switch (cmd) {
   case 'install':
     try {

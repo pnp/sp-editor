@@ -1,6 +1,7 @@
 import { ActionType } from 'typesafe-actions'
 import * as actions from './actions'
 import { AiProviderId } from '../../services/ai-assistant/models'
+import { CopilotModelInfoMap } from '../../services/ai-assistant/nativeBridgeClient'
 
 export type AiAuthActions = ActionType<typeof actions>
 
@@ -25,6 +26,8 @@ export interface IAiAuthState {
   bridgeVersion: string | null
   /** Copilot model ids read from the CLI; null when unknown (only "Auto" is offered then). */
   copilotModels: string[] | null
+  /** Names and cost of the Copilot models (bridge >= 1.4.0); empty when unknown. */
+  copilotModelInfo: CopilotModelInfoMap
 }
 
 export enum Constants {

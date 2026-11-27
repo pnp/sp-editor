@@ -20,6 +20,21 @@ export interface CliStatus {
   outdated: boolean
   /** Model ids reported by the CLI (github-copilot, bridge >= 1.3.0). */
   models?: string[]
+  /** Names and cost of the models the account can use (github-copilot, bridge >= 1.4.0). */
+  modelInfo?: CopilotModelInfoMap
+}
+
+/** Copilot model id → display name and premium request multiplier ("0.33x"). */
+export type CopilotModelInfoMap = Record<string, { name: string; usage?: string }>
+
+function readModelInfo(details: unknown): CopilotModelInfoMap | undefined {
+  if (!Array.isArray(details)) return undefined
+  const info: CopilotModelInfoMap = {}
+  for (const d of details) {
+    if (!d || typeof d.id !== 'string' || typeof d.name !== 'string') continue
+    info[d.id] = { name: d.name, ...(typeof d.usage === 'string' ? { usage: d.usage } : {}) }
+  }
+  return Object.keys(info).length > 0 ? info : undefined
 }
 
 export interface BridgeStatus {
@@ -98,6 +113,7 @@ export async function checkBridgeStatus(): Promise<BridgeStatus> {
           models: Array.isArray(s.models)
             ? s.models.filter((m: unknown): m is string => typeof m === 'string' && m.length > 0)
             : undefined,
+          modelInfo: readModelInfo(s.modelDetails),
         }
       : undefined
   return {

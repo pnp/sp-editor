@@ -1,4 +1,5 @@
-import { PROMPT_SIZE_LIMIT } from './protocol'
+import os from 'os'
+import { CopilotModelInfo, PROMPT_SIZE_LIMIT } from './protocol'
 import { ResponseMeta, TOKEN_LINE_MARKER, TokenUsage, formatTokenUsage, runCommand } from './cli'
 
 export { TOKEN_LINE_MARKER }
@@ -181,10 +182,14 @@ function stripAnsi(text: string): string {
   return text.replace(ANSI_PATTERN, '').trim()
 }
 
-// Bullet notices the CLI prints about our own sandbox flags, e.g.
-// "● Disabled tools: bash, create, ...\n  list_bash, ...". They are diagnostics,
-// not answer content, and must not reach the chat panel.
-const CLI_NOTICE_PATTERN = /^[●•]\s*(?:Disabled tools|Unknown tool name)\b/i
+// Notices the CLI prints to stdout. They are diagnostics, not answer content,
+// and must not reach the chat panel:
+//  - about our own sandbox flags: "● Disabled tools: bash, create, ...\n  list_bash, ..."
+//  - web_fetch tool calls: "● Fetching web content https://pnp.github.io/... · ..." and, for a
+//    URL outside the allow list, "✗ Fetching web content  Permission denied ..." followed by
+//    indented "Approval check / └ ✗ Denied, no one to approve URL ..." lines.
+// Matched by the exact labels, so answer lines such as "✓ Use select()" are kept.
+const CLI_NOTICE_PATTERN = /^[●•✗✓]\s*(?:Disabled tools|Unknown tool name|Fetching web content)\b/i
 
 /** Drops sandbox notice blocks (the bullet line plus its indented continuations). */
 function stripCliNotices(text: string): string {
@@ -245,6 +250,88 @@ export async function listCopilotModels(): Promise<string[] | undefined> {
   return parseCopilotModels(result.stdout)
 }
 
+/** Timeout for the ACP probe: starts the CLI and asks GitHub for the account's models. */
+const ACP_PROBE_TIMEOUT_MS = 20_000
+
+/** Model ids the bridge accepts from the extension (same rule as host.ts). */
+const MODEL_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$/
+
+/**
+ * Parses the `session/new` result of `copilot --acp`: the models the signed-in
+ * account can use (its Copilot plan and organisation policy), e.g.
+ *   { modelId: "claude-haiku-4.5", name: "Claude Haiku 4.5",
+ *     _meta: { copilotUsage: "0.33x", copilotEnablement: "enabled" } }
+ * Returns undefined when the output has no model list.
+ */
+export function parseAcpModels(stdout: string): CopilotModelInfo[] | undefined {
+  for (const line of stdout.split('\n')) {
+    if (!line.trim().startsWith('{')) continue
+    let msg: any
+    try {
+      msg = JSON.parse(line)
+    } catch {
+      continue
+    }
+    if (msg?.id !== 2) continue
+    const available = msg.result?.models?.availableModels
+    if (!Array.isArray(available)) return undefined
+    const models: CopilotModelInfo[] = []
+    for (const m of available) {
+      const id = m?.modelId
+      if (typeof id !== 'string' || !MODEL_ID_PATTERN.test(id)) continue
+      const meta = m._meta ?? {}
+      if (typeof meta.copilotEnablement === 'string' && meta.copilotEnablement !== 'enabled') continue
+      if (models.some((x) => x.id === id)) continue
+      models.push({
+        id,
+        name: typeof m.name === 'string' && m.name.trim() ? m.name.trim().slice(0, 64) : id,
+        ...(typeof meta.copilotUsage === 'string' && /^[\d.]+x$/.test(meta.copilotUsage) ? { usage: meta.copilotUsage } : {}),
+      })
+    }
+    return models.length > 0 ? models : undefined
+  }
+  return undefined
+}
+
+/**
+ * Reads the models the signed-in account can use, the same list as `/model` in
+ * the interactive CLI. `copilot help config` lists every model the CLI knows,
+ * including ones the user's plan does not include.
+ *
+ * Runs `copilot --acp` (Agent Client Protocol) and sends `initialize` and
+ * `session/new`; no prompt is sent, so it costs nothing. The CLI exits when
+ * stdin closes. ACP refuses to open a session without a sign-in, so a model list
+ * also means the user is signed in. The empty session it creates is hidden from
+ * the CLI's session picker (unnamed, no messages) and not synced.
+ *
+ * Returns undefined when the list cannot be read (not signed in, offline, or a
+ * CLI without ACP); callers then fall back to the older checks.
+ */
+export async function listCopilotAccountModels(): Promise<CopilotModelInfo[] | undefined> {
+  const requests = [
+    {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'initialize',
+      params: {
+        protocolVersion: 1,
+        clientInfo: { name: 'sp-editor-bridge' },
+        // A script, not a person, is driving this session.
+        clientCapabilities: { _meta: { 'github.com/copilot': { interactive: false } } },
+      },
+    },
+    { jsonrpc: '2.0', id: 2, method: 'session/new', params: { cwd: os.tmpdir(), mcpServers: [] } },
+  ]
+  const result = await runCommand(
+    'copilot',
+    ['--acp', '--stdio', '--sync-session=off'],
+    ACP_PROBE_TIMEOUT_MS,
+    { NO_COLOR: '1' },
+    requests.map((r) => JSON.stringify(r)).join('\n') + '\n',
+  )
+  return parseAcpModels(result.stdout)
+}
+
 /** Timeout for the auth probe — needs one network round-trip to validate the token. */
 const AUTH_CHECK_TIMEOUT_MS = 20_000
 
@@ -298,14 +385,28 @@ function toolPolicyNote(urls: string[]): string {
 }
 
 /**
+ * Privacy hardening, passed when the installed CLI supports it:
+ *  - --sync-session=off: prompts contain SharePoint data (site URL, editor code,
+ *    REST responses), so the session is not synced to the user's GitHub account.
+ *  - --no-custom-instructions: no AGENTS.md or similar files are read from the
+ *    working directory (the system temp folder, shared between users on Linux).
+ */
+const HARDENING_FLAGS = ['--sync-session=off', '--no-custom-instructions']
+
+/** An older CLI rejecting one of HARDENING_FLAGS (before any model call). */
+const UNSUPPORTED_HARDENING_PATTERN =
+  /(?:unexpected argument|unknown option)\s+'?(?:--sync-session|--no-custom-instructions)/i
+
+/**
  * Sends a prompt to the standalone `copilot` CLI and returns the plain-text response.
  *
  * Security notes:
- *  - The prompt is passed as a discrete argv element, never through a shell.
+ *  - The prompt is passed via stdin, never on the command line or through a shell.
  *  - --available-tools withholds every tool except AVAILABLE_TOOLS.
  *  - --disable-builtin-mcps drops the GitHub MCP server (repo/issue/PR access).
  *  - --allow-all-tools is never passed, so nothing is auto-approved.
  *  - NO_COLOR=1 / TERM=dumb suppress ANSI / interactive output.
+ *  - HARDENING_FLAGS keep the session off GitHub and ignore instruction files.
  *  - A 3-minute hard timeout (180 s) prevents the host from hanging.
  *  - Prompt size is validated by the host before this is called.
  *
@@ -351,7 +452,12 @@ export async function runCopilotPrompt(
   // Pass the prompt via stdin to avoid shell quoting issues on Windows where
   // shell: true does not reliably quote multi-word argv elements.
 
-  const result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, effectivePrompt)
+  let result = await runCommand('copilot', [...HARDENING_FLAGS, ...args], COPILOT_TIMEOUT_MS, env, effectivePrompt)
+  // Older CLIs without these options fail at argument parsing, before any model
+  // call, so retrying without them costs nothing and keeps those CLIs working.
+  if (result.exitCode !== 0 && UNSUPPORTED_HARDENING_PATTERN.test(stripAnsi(`${result.stderr}\n${result.stdout}`))) {
+    result = await runCommand('copilot', args, COPILOT_TIMEOUT_MS, env, effectivePrompt)
+  }
 
   if (result.exitCode !== 0) {
     // Try to recover a response from stdout even on non-zero exit —

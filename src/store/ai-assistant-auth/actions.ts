@@ -10,6 +10,7 @@ export interface IBridgeStatusDetails {
   providerStatus: Record<AiProviderId, ProviderStatusValue>
   bridgeVersion: string | null
   copilotModels: string[] | null
+  copilotModelInfo: IAiAuthState['copilotModelInfo']
 }
 
 export const setBridgeStatus = (bridgeStatus: BridgeStatusValue, details?: IBridgeStatusDetails) =>
@@ -84,12 +85,14 @@ export function checkBridgeStatus() {
         ...simulation,
       }
       const copilotModels = status.providers['github-copilot']?.models ?? null
+      const copilotModelInfo = status.providers['github-copilot']?.modelInfo ?? {}
       const readyProviders = AI_PROVIDERS.filter((p) => providerStatus[p.id] === 'ready')
       dispatch(
         setBridgeStatus(readyProviders.length > 0 ? 'ready' : 'no_provider', {
           providerStatus,
           bridgeVersion: status.bridgeVersion ?? null,
           copilotModels,
+          copilotModelInfo,
         }),
       )
 

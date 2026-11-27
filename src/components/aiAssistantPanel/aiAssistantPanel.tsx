@@ -47,7 +47,10 @@ import {
   getModelProvider,
   isBridgeOutdated,
   modelDisplayName,
+  parseUnavailableModel,
 } from '../../services/ai-assistant/models'
+import { DEFAULT_CLI_MODEL } from '../../services/ai-assistant/copilotApiClient'
+import { CopilotModelInfoMap } from '../../services/ai-assistant/nativeBridgeClient'
 import { ProviderStatusValue } from '../../store/ai-assistant-auth/types'
 import { setSearchQuery } from '../../store/search/actions'
 import { setCode as setPnpjsCode } from '../../store/pnpjsconsole/actions'
@@ -118,11 +121,12 @@ const PROVIDER_SETUP: Record<AiProviderId, { install: string; installHint: strin
 const buildModelOptions = (
   providerStatus: Record<AiProviderId, ProviderStatusValue>,
   copilotModels: string[] | null,
+  copilotModelInfo: CopilotModelInfoMap,
   bridgeOutdated: boolean,
 ): IDropdownOption[] =>
   AI_PROVIDERS.flatMap((p) => {
     const ready = providerStatus[p.id] === 'ready'
-    const models = p.id === 'github-copilot' ? copilotModelOptions(copilotModels) : CLAUDE_CODE_MODELS
+    const models = p.id === 'github-copilot' ? copilotModelOptions(copilotModels, copilotModelInfo) : CLAUDE_CODE_MODELS
     const options: IDropdownOption[] = [
       {
         key: `__header_${p.id}`,
@@ -286,15 +290,15 @@ const AiAssistantPanel = () => {
     (state: IRootState) => state.aiAssistant
   )
   const { isDark } = useSelector((state: IRootState) => state.home)
-  const { selectedModel, bridgeStatus, providerStatus, bridgeVersion, copilotModels } = useSelector(
+  const { selectedModel, bridgeStatus, providerStatus, bridgeVersion, copilotModels, copilotModelInfo } = useSelector(
     (state: IRootState) => state.aiAuth
   )
   // Panel is ready when the bridge is connected and at least one provider CLI is signed in
   const isReady = bridgeStatus === 'ready'
   const bridgeOutdated = (bridgeStatus === 'ready' || bridgeStatus === 'no_provider') && isBridgeOutdated(bridgeVersion)
   const modelOptions = useMemo(
-    () => buildModelOptions(providerStatus, copilotModels, bridgeOutdated),
-    [providerStatus, copilotModels, bridgeOutdated],
+    () => buildModelOptions(providerStatus, copilotModels, copilotModelInfo, bridgeOutdated),
+    [providerStatus, copilotModels, copilotModelInfo, bridgeOutdated],
   )
   const { searchQuery } = useSelector((state: IRootState) => state.search)
   const { code: pnpjsCode } = useSelector((state: IRootState) => state.pnpjsconsole)
@@ -755,7 +759,14 @@ const AiAssistantPanel = () => {
           sessionsByContextRef.current.delete(pageContext)
           sentFirstForContextRef.current.delete(pageContext)
         }
-        const msg = err?.message ?? 'Failed to get response from AI assistant.'
+        let msg = err?.message ?? 'Failed to get response from AI assistant.'
+        // Safety net: the model list is read when the panel opens, so a plan or
+        // policy change since then can still make Copilot refuse a model.
+        const refused = getModelProvider(selectedModel) === 'github-copilot' ? parseUnavailableModel(msg) : undefined
+        if (refused && refused === selectedModel && selectedModel !== DEFAULT_CLI_MODEL) {
+          dispatch(setSelectedModel(DEFAULT_CLI_MODEL))
+          msg = `${modelDisplayName(selectedModel)} is not available with your GitHub Copilot plan. Switched to Auto, send your message again or pick another model.`
+        }
         // Remove the streaming placeholder on error
         dispatch(updateAiMessage(assistantId, { content: '', isStreaming: false }))
         dispatch(setAiError(msg))
@@ -944,6 +955,27 @@ const AiAssistantPanel = () => {
       },
       em({ children }: any) {
         return <em style={{ fontStyle: 'italic' }}>{children}</em>
+      },
+      // Links open in a new tab, without access to this page or its URL.
+      a({ href, children }: any) {
+        return (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {children}
+          </a>
+        )
+      },
+      // Images are never loaded automatically: page content can prompt-inject the
+      // AI into "showing an image" whose URL carries SharePoint data to another
+      // server. Shown as a link the user can choose to open instead.
+      img({ src, alt }: any) {
+        const label = `🖼 ${alt || 'image'}`
+        return typeof src === 'string' && /^https?:\/\//i.test(src) ? (
+          <a href={src} target="_blank" rel="noopener noreferrer" title={src}>
+            {label}
+          </a>
+        ) : (
+          <span>{label}</span>
+        )
       },
     }),
     [isDark]
@@ -1551,6 +1583,7 @@ const AiAssistantPanel = () => {
                       if (!opt) return null
                       const short = String(opt.text)
                         .replace(/\s*\([^)]*\)/g, '')
+                        .replace(/\s*·.*$/, '')
                         .replace(/^Claude\s+/i, '')
                         .trim()
                       return (

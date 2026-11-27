@@ -7,6 +7,7 @@
 //   resolves to the newest model, so this short list does not go stale.
 
 import { DEFAULT_CLI_MODEL, ModelOption } from './copilotApiClient'
+import { CopilotModelInfoMap } from './nativeBridgeClient'
 
 export type AiProviderId = 'github-copilot' | 'claude-code'
 
@@ -68,13 +69,30 @@ export function copilotModelLabel(id: string): string {
   return [familyLabel, ...rest.map(capitalize)].join(' ')
 }
 
-/** Copilot picker options: "Auto" plus the ids reported by the CLI (null = unknown). */
-export function copilotModelOptions(copilotModels: string[] | null): ModelOption[] {
+/**
+ * Copilot picker options: "Auto" plus the ids reported by the CLI (null = unknown).
+ * With bridge 1.4.0+ the ids are the models the user's account can use, with
+ * Copilot's own names and cost; a cost other than 1x is shown, e.g. "· 0.33x".
+ */
+export function copilotModelOptions(copilotModels: string[] | null, info: CopilotModelInfoMap = {}): ModelOption[] {
   const ids = (copilotModels ?? []).filter((id) => id !== DEFAULT_CLI_MODEL)
   return [
     { key: DEFAULT_CLI_MODEL, text: copilotModelLabel(DEFAULT_CLI_MODEL) },
-    ...ids.map((id) => ({ key: id, text: copilotModelLabel(id) })),
+    ...ids.map((id) => {
+      const usage = info[id]?.usage
+      const name = info[id]?.name ?? copilotModelLabel(id)
+      return { key: id, text: usage && usage !== '1x' ? `${name} · ${usage}` : name }
+    }),
   ]
+}
+
+/**
+ * The model id from a Copilot CLI "model not available" error, e.g.
+ * 'Execution failed: Model "claude-opus-5.5" is not available.' The CLI lists
+ * every model it knows, but the user's Copilot plan may not include them all.
+ */
+export function parseUnavailableModel(error: string): string | undefined {
+  return /Model\s+"([^"]+)"\s+(?:from --model flag\s+)?is not available/i.exec(error)?.[1]
 }
 
 export const getModelProvider = (modelKey: string): AiProviderId =>

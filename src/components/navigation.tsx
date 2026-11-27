@@ -1,5 +1,5 @@
-import { FontIcon, Nav, ScrollablePane, TooltipDelay, TooltipHost, Text, INavLink, INavLinkGroup } from '@fluentui/react';
-import { IonButton, IonButtons, IonContent, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
+import { FontIcon, Nav, ScrollablePane, Stack, Toggle, TooltipDelay, TooltipHost, Text, INavLink, INavLinkGroup } from '@fluentui/react';
+import { IonButton, IonButtons, IonContent, IonFooter, IonHeader, IonMenu, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import { DarkCustomizations, DefaultCustomizations } from '@fluentui/theme-samples';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { IRootState } from '../store';
 import { setDarkMode, setLoading, setTheme } from '../store/home/actions';
-import { trackFeatureNavigation } from '../services/analytics';
+import { isAnalyticsEnabled, setAnalyticsEnabled, trackFeatureNavigation } from '../services/analytics';
 import { getFeatureContextMeta } from '../config/featureContext';
 
 export const FabricNav = () => {
@@ -17,6 +17,12 @@ export const FabricNav = () => {
 
   // Track expanded state for groups - start empty, will auto-expand based on selection
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+
+  // Usage statistics opt-out (stored in chrome.storage.local, shared with the popup)
+  const [statsEnabled, setStatsEnabled] = useState(true);
+  useEffect(() => {
+    isAnalyticsEnabled().then(setStatsEnabled).catch(() => undefined);
+  }, []);
 
   const toggleGroup = (key: string) => {
     setExpandedGroups((prev) => {
@@ -226,6 +232,29 @@ export const FabricNav = () => {
           />
         </ScrollablePane>
       </IonContent>
+      <IonFooter>
+        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 6 }} styles={{ root: { padding: '6px 12px' } }}>
+          <Toggle
+            checked={statsEnabled}
+            onChange={(_e, checked) => {
+              const enabled = !!checked;
+              setStatsEnabled(enabled);
+              setAnalyticsEnabled(enabled).catch(() => undefined);
+            }}
+            ariaLabel="Send anonymous usage statistics"
+            styles={{ root: { marginBottom: 0 } }}
+          />
+          <Text variant="small" styles={{ root: { flexGrow: 1 } }}>Send anonymous usage statistics</Text>
+          <TooltipHost
+            delay={TooltipDelay.zero}
+            content="Which SP Editor features are used, with browser, OS, language and country (from your time zone). Never your name, SharePoint URLs, code, queries or AI prompts."
+          >
+            <Text variant="medium" styles={{ root: { display: 'flex', opacity: 0.75, cursor: 'default' } }}>
+              <FontIcon iconName="Info" />
+            </Text>
+          </TooltipHost>
+        </Stack>
+      </IonFooter>
     </IonMenu>
   );
 };

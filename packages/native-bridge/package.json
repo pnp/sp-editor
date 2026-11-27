@@ -1,6 +1,6 @@
 {
   "name": "@sp-editor/native-bridge",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "SP Editor native messaging bridge — routes AI prompts through the local GitHub Copilot CLI or Claude Code",
   "main": "dist/host.js",
   "bin": {
